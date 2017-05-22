@@ -24,5 +24,3 @@ TODO
 
 - pictureparkWidgets.processScriptTag(): 
   - Requires a polyfill for [window.fetch](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) and [Promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) (bundled)
-- pictureparkWidgets.showContentPicker(): 
-  - Uses [window.postMessage()](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to send messages from the popup to the opener window ([caniuse.com](http://caniuse.com/#feat=x-doc-messaging))
