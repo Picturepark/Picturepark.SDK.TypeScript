@@ -3,7 +3,7 @@
     "link": "call \"build/01_LinkNpmPackages.bat\"",
     "nswag": "nswag run \"src/picturepark-sdk-v1-ng2/nswag.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\"",
     
-    "tests": "PowerShell -File \"build/02_RunTests.ps1\"", 
+    "test": "PowerShell -File \"build/02_RunTests.ps1\"", 
     
     "build:fetch": "call \"build/03_RebuildFetchBundle.bat\"",
     "build:pickers": "call \"build/04_RebuildPickersBundle.bat\"",
@@ -22,6 +22,6 @@
     "nswag": "^10.5.0",
     "typedoc": "^0.5.10",
     "typescript-bundle": "^0.7.8",
-    "uglifyjs": "^2.4.10"
+    "uglify-js": "^3.0.10"
   }
 }
