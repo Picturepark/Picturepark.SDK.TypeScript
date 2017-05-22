@@ -1,0 +1,26 @@
+<div *ngIf="!authService.isLoggedIn">
+  <div class="form">
+    <div class="form-group">
+      <label for="username">{{'Login.LabelUsername' | pptranslate}}</label>
+      <input type="text" class="form-control" id="username" placeholder="Username" [(ngModel)]="username">
+    </div>
+    <div class="form-group">
+      <label for="password">{{'Login.LabelPassword' | pptranslate}}</label>
+      <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password">
+    </div>
+    <div class="form-group">
+      <div class="checkbox">
+        <label class="checkbox-inline" [class.selected]="rememberPassword === true">
+          <input type="checkbox" [(ngModel)]="rememberPassword"> 
+              {{'Login.LabelRememberPassword' | pptranslate}}
+          </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="btn btn-default" (click)="login()">{{'Login.ButtonLogin' | pptranslate}}</div>
+    </div>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+</div>

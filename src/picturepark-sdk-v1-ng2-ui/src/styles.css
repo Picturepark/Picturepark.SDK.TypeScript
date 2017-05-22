@@ -1,0 +1,25 @@
+/* content-browser */
+
+.picturepark-content-browser {
+    
+}
+
+.picturepark-content-browser-item {
+    height: 250px; 
+    padding: 5px;
+}
+
+.picturepark-content-browser-item-thumbnail {
+    height: 200px;
+    background: lightgray;
+}
+
+.picturepark-content-browser-item-thumbnail img {
+    object-fit: contain; 
+    height: 200px; 
+    width: 100%;
+}
+
+.picturepark-content-browser-item-selected {
+    background-color: gray;
+}

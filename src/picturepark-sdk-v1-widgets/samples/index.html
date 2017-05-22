@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>picturepark-sdk-v1-widgets</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <h1>Picturepark Content Platform</h1>
+    <h3>picturepark-sdk-v1-widgets</h3>
+    
+    <h2>Embedded Share Sample</h2>
+    <script>
+      // var token = prompt('Embed Token: ', 'YacSP0ok');
+      // var allElements = document.getElementsByTagName('script');
+      // for (var i = 0, n = allElements.length; i < n; i++)
+      // {
+      //   if (allElements[i].getAttribute('data-picturepark-token'))
+      //     allElements[i].setAttribute('data-picturepark-token', token);
+      // }
+    </script>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <strong>With card template: </strong>
+        <script src="../dist/bundle.js" async
+                data-picturepark-server="https://qanext04.preview-picturepark.com" 
+                data-picturepark-token="D2bhe7Mx"
+                data-width="350"
+                data-height="350"
+                data-template="card"></script>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <strong>With default template: </strong>
+        <script src="../dist/bundle.js" async
+                data-picturepark-server="https://qanext04.preview-picturepark.com" 
+                data-picturepark-token="D2bhe7Mx"
+                data-width="350"
+                data-height="350"
+                data-template="basic"></script>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <strong>With custom template:</strong> 
+        <script type="text/template"
+                data-picturepark-server="https://qanext04.preview-picturepark.com" 
+                data-picturepark-token="D2bhe7Mx">
+          <template id="load">
+            Custom loading template.
+          </template>
+          <template id="content">
+            <div class="picturepark-widget-share-inner" style="width: 250px">
+              <div class="picturepark-widget-share-legend">
+                <div class="picturepark-widget-share-title">{{ Name }}</div>
+                <div class="picturepark-widget-share-description">{{ Description }}</div>
+              </div>
+              {% for selection in ContentSelections %}
+                <div class="picturepark-widget-share-media">
+                  <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ CacheToken }}', '{{ selection.Id }}')">
+                    <img src="{% resizeById selection.Id 'Preview' 250 250 %}" />
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </template>
+          <template id="error">
+            Custom error template.
+          </template>
+        </script>
+        <script src="../dist/bundle.js" async></script>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

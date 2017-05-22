@@ -1,0 +1,13 @@
+{
+  "name": "picturepark-sdk-v1-ng2-ui",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0"
+  },
+  "dependencies": {
+    "angular2-virtual-scroll": "^0.1.5"
+  }
+}

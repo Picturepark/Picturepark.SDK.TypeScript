@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "link": "call \"build/01_LinkNpmPackages.bat\"",
+    "nswag": "nswag run \"src/picturepark-sdk-v1-ng2/nswag.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\"",
+    
+    "tests": "PowerShell -File \"build/02_RunTests.ps1\"", 
+    
+    "build:fetch": "call \"build/03_RebuildFetchBundle.bat\"",
+    "build:pickers": "call \"build/04_RebuildPickersBundle.bat\"",
+    "build:widgets": "call \"build/05_RebuildWidgetsBundle.bat\"",
+    "build:ng": "call \"build/06_BuildProduction.bat\"",
+    
+    "docs": "call \"build/07_BuildDocs.bat\"",
+    "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng && npm run docs",
+
+    "start:fetch": "start \"\" http://localhost:8080/samples && http-server \"src/picturepark-sdk-v1-fetch/\"",
+    "start:pickers": "start \"\" http://localhost:8080/samples && http-server \"src/picturepark-sdk-v1-pickers/\"",
+    "start:widgets": "start \"\" http://localhost:8080/samples && http-server \"src/picturepark-sdk-v1-widgets/\""
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "nswag": "^10.5.0",
+    "typedoc": "^0.5.10",
+    "typescript-bundle": "^0.7.8",
+    "uglifyjs": "^2.4.10"
+  }
+}

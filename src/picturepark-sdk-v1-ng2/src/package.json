@@ -1,0 +1,10 @@
+{
+  "name": "picturepark-sdk-v1-ng2",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0"
+  }
+}

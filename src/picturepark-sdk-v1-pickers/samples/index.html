@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>picturepark-sdk-v1-pickers</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <script src="../dist/bundle.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Picturepark Content Platform</h1>
+    <h3>picturepark-sdk-v1-pickers</h3>
+    
+    <h2>Content Picker Sample</h2>
+    <p>
+      <button class="btn btn-default" id="openContentPicker">Open content picker</button>
+      <button class="btn btn-default" id="openContentPickerLocalhost">Open content picker (localhost)</button>
+    </p>
+    <p>
+      Opens the content picker from <strong>http://localhost4200</strong><br />
+      Just <strong>cd picturepark-sdk-v1-ng2-app</strong> and <strong>npm start</strong> before clicking on the button.
+    </p>
+
+    <strong>Received object (JSON): </strong>
+    <pre id="receivedJson">n/a</pre>
+  </div>
+
+  <script>
+  function openContentPicker(pickerUrl, dataUrl) {
+      pictureparkPickers.showContentPicker(pickerUrl).then(function (share) {
+        if (share)
+          document.getElementById('receivedJson').innerHTML = JSON.stringify(share, null, 2);
+        else
+          document.getElementById('receivedJson').innerHTML = "No content items selected.";
+      });
+    };
+
+    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://qanext04.preview-picturepark.com", "https://qanext04.preview-picturepark.com");
+    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4200", "https://devnext.preview-picturepark.com");
+  </script>
+</body>
+</html>
