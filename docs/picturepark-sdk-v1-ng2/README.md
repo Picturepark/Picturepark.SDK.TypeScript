@@ -2,7 +2,7 @@
 
 ## picturepark-sdk-v1-ng2-ui
 
-- [API Documentation](api/index.html)
+- [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-ng2/api/index.html)
 
 ### Usage
 
