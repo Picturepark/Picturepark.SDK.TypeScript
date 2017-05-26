@@ -22,7 +22,6 @@
     "@angular/router": "^4.1.0",
     "angular2-virtual-scroll": "^0.1.5",
     "core-js": "^2.4.1",
-    "mdn-polyfills": "^2.2.0",
     "picturepark-sdk-v1-ng2": "*",
     "picturepark-sdk-v1-ng2-ui": "*",
     "rxjs": "^5.3.0",

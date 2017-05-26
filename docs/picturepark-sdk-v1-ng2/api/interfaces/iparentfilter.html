@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>OpenOptions | picturepark-sdk-v1-pickers API</title>
+	<title>IParentFilter | picturepark-sdk-v1-ng2 API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">picturepark-sdk-v1-pickers API</a>
+					<a href="../index.html" class="title">picturepark-sdk-v1-ng2 API</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,59 +56,87 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="openoptions.html">OpenOptions</a>
+					<a href="iparentfilter.html">IParentFilter</a>
 				</li>
 			</ul>
-			<h1>Interface OpenOptions</h1>
+			<h1>Interface IParentFilter</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The ParentFilter allows to apply filters on parent documents and returns documents that match the specified filter on the parent document.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">OpenOptions</span>
+						<a href="ifilterbase.html" class="tsd-signature-type">IFilterBase</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">IParentFilter</span>
+							</li>
+						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/parentfilter.html" class="tsd-signature-type">ParentFilter</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-external">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="openoptions.html#encoding" class="tsd-kind-icon">encoding</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="openoptions.html#flag" class="tsd-kind-icon">flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparentfilter.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparentfilter.html#parenttype" class="tsd-kind-icon">parent<wbr>Type</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="encoding" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> encoding</h3>
-					<div class="tsd-signature tsd-kind-icon">encoding<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="filter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
+					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../classes/filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:96</li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L5464">picturepark.services.ts:5464</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The filter to apply on the child entity. It accepts all filters.</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="flag" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> flag</h3>
-					<div class="tsd-signature tsd-kind-icon">flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="parenttype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parent<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:97</li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L5462">picturepark.services.ts:5462</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The elastic search index type to filter as a parent.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -124,14 +152,14 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="openoptions.html" class="tsd-kind-icon">Open<wbr>Options</a>
+					<li class="current tsd-kind-interface">
+						<a href="iparentfilter.html" class="tsd-kind-icon">IParent<wbr>Filter</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="openoptions.html#encoding" class="tsd-kind-icon">encoding</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iparentfilter.html#filter" class="tsd-kind-icon">filter</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="openoptions.html#flag" class="tsd-kind-icon">flag</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iparentfilter.html#parenttype" class="tsd-kind-icon">parent<wbr>Type</a>
 							</li>
 						</ul>
 					</li>

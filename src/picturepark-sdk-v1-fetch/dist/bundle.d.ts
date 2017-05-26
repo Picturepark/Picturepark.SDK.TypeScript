@@ -587,6 +587,20 @@ declare module "picturepark" {
         Filter?: FilterBase | undefined;
         TemporaryAggregatorRequestId?: string | undefined;
     }
+    /** The ChildFilter allows to apply filters on child documents and returns documents that match the specified filter on the child document. */
+    export interface ChildFilter extends FilterBase {
+        /** The elastic search index type to filter as a child. */
+        ChildType?: string | undefined;
+        /** The filter to apply on the child entity. It accepts all filters. */
+        Filter?: FilterBase | undefined;
+    }
+    /** The ParentFilter allows to apply filters on parent documents and returns documents that match the specified filter on the parent document. */
+    export interface ParentFilter extends FilterBase {
+        /** The elastic search index type to filter as a parent. */
+        ParentType?: string | undefined;
+        /** The filter to apply on the child entity. It accepts all filters. */
+        Filter?: FilterBase | undefined;
+    }
     /** The AggregatorBase is the base class for all aggregators. */
     export interface AggregatorBase {
         /** The slug name of the aggregation. Must be unique per aggregation request. */
@@ -876,7 +890,7 @@ declare module "picturepark" {
         /** An optional id list of content permission sets.  */
         ContentPermissionSetIds?: string[] | undefined;
     }
-    /** A custom implementation of Dictionary<string, object>. */
+    /** A custom implementation of Dictionary{string, object} */
     export interface DataDictionary {
         [key: string]: any;
     }
@@ -991,6 +1005,8 @@ declare module "picturepark" {
     export interface OutputDetailDocument extends OutputDetailBase {
         PageCount: number;
     }
+    export interface OutputDetailDefault extends OutputDetailBase {
+    }
     export enum ThumbnailSize {
         Small,
         Medium,
@@ -1067,9 +1083,11 @@ declare module "picturepark" {
         Id?: string | undefined;
         ProcessDefinitionId?: string | undefined;
         ReferenceId?: string | undefined;
+        ReferenceDocType?: string | undefined;
         StartDate: Date;
         EndDate: Date;
         StateHistory?: BusinessProcessStateItem[] | undefined;
+        ProcessDefinitionName?: string | undefined;
     }
     export interface BusinessProcessStateItem {
         State?: string | undefined;
@@ -1403,7 +1421,7 @@ declare module "picturepark" {
     }
     export interface FieldGeoPoint extends FieldBase {
     }
-    export interface FieldInteger extends FieldBase {
+    export interface FieldLong extends FieldBase {
         Pattern?: string | undefined;
         /** Defines the lowest possible value. */
         Minimum?: number | undefined;
@@ -1411,7 +1429,7 @@ declare module "picturepark" {
         Maximum?: number | undefined;
     }
     /** For internal use only (system schemas) */
-    export interface FieldIntegerArray extends FieldInteger {
+    export interface FieldLongArray extends FieldLong {
         UniqueItems: boolean;
         MaximumItems?: number | undefined;
         MinimumItems?: number | undefined;
@@ -1671,7 +1689,6 @@ declare module "picturepark" {
         Start: number;
         Limit: number;
         Filter?: FilterBase | undefined;
-        FilterState?: FilterBase | undefined;
     }
     export interface BaseResultOfPermissionSetViewItem {
         TotalResults: number;
@@ -1929,6 +1946,7 @@ declare module "picturepark" {
         Deleted,
         TransferReady,
         FileDeleteInProgress,
+        TransferCleanup,
     }
     export interface TransferDetailViewItem {
         Id?: string | undefined;
@@ -3516,7 +3534,6 @@ declare module "picturepark" {
         Start: number;
         Limit: number;
         Filter?: FilterBase | undefined;
-        FilterState?: FilterBase | undefined;
     }
     export interface BaseResultOfTransferViewItem {
         TotalResults: number;
@@ -3532,7 +3549,6 @@ declare module "picturepark" {
         Start: number;
         Limit: number;
         Filter?: FilterBase | undefined;
-        FilterState?: FilterBase | undefined;
     }
     export interface BaseResultOfFileTransferViewItem {
         TotalResults: number;

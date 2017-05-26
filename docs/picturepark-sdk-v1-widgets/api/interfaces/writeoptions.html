@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MkdirOptions | picturepark-sdk-v1-fetch API</title>
+	<title>WriteOptions | picturepark-sdk-v1-widgets API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">picturepark-sdk-v1-fetch API</a>
+					<a href="../index.html" class="title">picturepark-sdk-v1-widgets API</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="mkdiroptions.html">MkdirOptions</a>
+					<a href="writeoptions.html">WriteOptions</a>
 				</li>
 			</ul>
-			<h1>Interface MkdirOptions</h1>
+			<h1>Interface WriteOptions</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MkdirOptions</span>
+						<span class="target">WriteOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -81,8 +81,12 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="mkdiroptions.html#fs" class="tsd-kind-icon">fs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="mkdiroptions.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="writeoptions.html#encoding" class="tsd-kind-icon">encoding</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="writeoptions.html#flag" class="tsd-kind-icon">flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="writeoptions.html#fs" class="tsd-kind-icon">fs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="writeoptions.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="writeoptions.html#replacer" class="tsd-kind-icon">replacer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="writeoptions.html#spaces" class="tsd-kind-icon">spaces</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,12 +95,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="fs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fs</h3>
-					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="encoding" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> encoding</h3>
+					<div class="tsd-signature tsd-kind-icon">encoding<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:101</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:290</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="flag" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> flag</h3>
+					<div class="tsd-signature tsd-kind-icon">flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:291</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="fs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fs</h3>
+					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:287</li>
 						</ul>
 					</aside>
 				</section>
@@ -106,7 +130,27 @@
 					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:102</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:292</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="replacer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> replacer</h3>
+					<div class="tsd-signature tsd-kind-icon">replacer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:288</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="spaces" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> spaces</h3>
+					<div class="tsd-signature tsd-kind-icon">spaces<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:289</li>
 						</ul>
 					</aside>
 				</section>
@@ -125,13 +169,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="mkdiroptions.html" class="tsd-kind-icon">Mkdir<wbr>Options</a>
+						<a href="writeoptions.html" class="tsd-kind-icon">Write<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="mkdiroptions.html#fs" class="tsd-kind-icon">fs</a>
+								<a href="writeoptions.html#encoding" class="tsd-kind-icon">encoding</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="mkdiroptions.html#mode" class="tsd-kind-icon">mode</a>
+								<a href="writeoptions.html#flag" class="tsd-kind-icon">flag</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="writeoptions.html#fs" class="tsd-kind-icon">fs</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="writeoptions.html#mode" class="tsd-kind-icon">mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="writeoptions.html#replacer" class="tsd-kind-icon">replacer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="writeoptions.html#spaces" class="tsd-kind-icon">spaces</a>
 							</li>
 						</ul>
 					</li>

@@ -81,9 +81,10 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#clobber" class="tsd-kind-icon">clobber</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#dereference" class="tsd-kind-icon">dereference</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#erroronexist" class="tsd-kind-icon">error<wbr>OnExist</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#overwrite" class="tsd-kind-icon">overwrite</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#preservetimestamps" class="tsd-kind-icon">preserve<wbr>Timestamps</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="copyoptions.html#recursive" class="tsd-kind-icon">recursive</a></li>
 							</ul>
@@ -94,22 +95,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="clobber" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> clobber</h3>
-					<div class="tsd-signature tsd-kind-icon">clobber<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:84</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="dereference" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> dereference</h3>
 					<div class="tsd-signature tsd-kind-icon">dereference<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:86</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:265</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="erroronexist" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> error<wbr>OnExist</h3>
+					<div class="tsd-signature tsd-kind-icon">error<wbr>OnExist<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:268</li>
 						</ul>
 					</aside>
 				</section>
@@ -119,7 +120,17 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../globals.html#copyfilter" class="tsd-signature-type">CopyFilter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:87</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:269</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="overwrite" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> overwrite</h3>
+					<div class="tsd-signature tsd-kind-icon">overwrite<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:266</li>
 						</ul>
 					</aside>
 				</section>
@@ -129,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">preserve<wbr>Timestamps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:85</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:267</li>
 						</ul>
 					</aside>
 				</section>
@@ -139,7 +150,7 @@
 					<div class="tsd-signature tsd-kind-icon">recursive<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:88</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:270</li>
 						</ul>
 					</aside>
 				</section>
@@ -161,13 +172,16 @@
 						<a href="copyoptions.html" class="tsd-kind-icon">Copy<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="copyoptions.html#clobber" class="tsd-kind-icon">clobber</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="copyoptions.html#dereference" class="tsd-kind-icon">dereference</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="copyoptions.html#erroronexist" class="tsd-kind-icon">error<wbr>OnExist</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="copyoptions.html#filter" class="tsd-kind-icon">filter</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="copyoptions.html#overwrite" class="tsd-kind-icon">overwrite</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="copyoptions.html#preservetimestamps" class="tsd-kind-icon">preserve<wbr>Timestamps</a>

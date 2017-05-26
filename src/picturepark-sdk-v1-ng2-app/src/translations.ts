@@ -38,7 +38,7 @@ export var TRANSLATIONS = {
 var fallbackLanguage = 'en';
 
 export function translate(key: any, locale: string) {
-  let language = locale.split("-")[0].toLowerCase();
+  let language = locale ? locale.split("-")[0].toLowerCase() : "";
   let translations: any = TRANSLATIONS;
 
   if (typeof key === 'string') {
