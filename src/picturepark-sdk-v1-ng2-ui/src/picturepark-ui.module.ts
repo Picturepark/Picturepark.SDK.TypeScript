@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-import { VirtualScrollModule } from 'angular2-virtual-scroll'
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 import { PictureparkModule } from 'picturepark-sdk-v1-ng2'; 
 import { LoginComponent } from './components/login/login.component'; 

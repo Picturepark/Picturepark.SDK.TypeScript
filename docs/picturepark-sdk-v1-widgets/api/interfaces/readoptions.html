@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MkdirOptions | picturepark-sdk-v1-widgets API</title>
+	<title>ReadOptions | picturepark-sdk-v1-widgets API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="mkdiroptions.html">MkdirOptions</a>
+					<a href="readoptions.html">ReadOptions</a>
 				</li>
 			</ul>
-			<h1>Interface MkdirOptions</h1>
+			<h1>Interface ReadOptions</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MkdirOptions</span>
+						<span class="target">ReadOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -81,8 +81,11 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="mkdiroptions.html#fs" class="tsd-kind-icon">fs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="mkdiroptions.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="readoptions.html#encoding" class="tsd-kind-icon">encoding</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="readoptions.html#flag" class="tsd-kind-icon">flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="readoptions.html#fs" class="tsd-kind-icon">fs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="readoptions.html#reviver" class="tsd-kind-icon">reviver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="readoptions.html#throws" class="tsd-kind-icon">throws</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,22 +94,52 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="fs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fs</h3>
-					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="encoding" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> encoding</h3>
+					<div class="tsd-signature tsd-kind-icon">encoding<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:101</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:282</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="mode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mode</h3>
-					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="flag" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> flag</h3>
+					<div class="tsd-signature tsd-kind-icon">flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:102</li>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:283</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="fs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fs</h3>
+					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:280</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="reviver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reviver</h3>
+					<div class="tsd-signature tsd-kind-icon">reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:281</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="throws" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> throws</h3>
+					<div class="tsd-signature tsd-kind-icon">throws<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/fs-extra/index.d.ts:279</li>
 						</ul>
 					</aside>
 				</section>
@@ -125,13 +158,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="mkdiroptions.html" class="tsd-kind-icon">Mkdir<wbr>Options</a>
+						<a href="readoptions.html" class="tsd-kind-icon">Read<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="mkdiroptions.html#fs" class="tsd-kind-icon">fs</a>
+								<a href="readoptions.html#encoding" class="tsd-kind-icon">encoding</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="mkdiroptions.html#mode" class="tsd-kind-icon">mode</a>
+								<a href="readoptions.html#flag" class="tsd-kind-icon">flag</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="readoptions.html#fs" class="tsd-kind-icon">fs</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="readoptions.html#reviver" class="tsd-kind-icon">reviver</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="readoptions.html#throws" class="tsd-kind-icon">throws</a>
 							</li>
 						</ul>
 					</li>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MkdirOptions | picturepark-sdk-v1-pickers API</title>
+	<title>IOutputDetailDefault | picturepark-sdk-v1-ng2 API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">picturepark-sdk-v1-pickers API</a>
+					<a href="../index.html" class="title">picturepark-sdk-v1-ng2 API</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="mkdiroptions.html">MkdirOptions</a>
+					<a href="ioutputdetaildefault.html">IOutputDetailDefault</a>
 				</li>
 			</ul>
-			<h1>Interface MkdirOptions</h1>
+			<h1>Interface IOutputDetailDefault</h1>
 		</div>
 	</div>
 </header>
@@ -70,43 +70,92 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MkdirOptions</span>
+						<a href="ioutputdetailbase.html" class="tsd-signature-type">IOutputDetailBase</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">IOutputDetailDefault</span>
+							</li>
+						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/outputdetaildefault.html" class="tsd-signature-type">OutputDetailDefault</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-external">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="mkdiroptions.html#fs" class="tsd-kind-icon">fs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="mkdiroptions.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ioutputdetaildefault.html#fileextension" class="tsd-kind-icon">file<wbr>Extension</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ioutputdetaildefault.html#filename" class="tsd-kind-icon">file<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ioutputdetaildefault.html#filepath" class="tsd-kind-icon">file<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ioutputdetaildefault.html#filesizeinbytes" class="tsd-kind-icon">file<wbr>Size<wbr>InBytes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ioutputdetaildefault.html#sha1hash" class="tsd-kind-icon">sha1<wbr>Hash</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="fs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fs</h3>
-					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="fileextension" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Extension</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Extension<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="ioutputdetailbase.html">IOutputDetailBase</a>.<a href="ioutputdetailbase.html#fileextension">fileExtension</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:101</li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L8915">picturepark.services.ts:8915</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="mode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mode</h3>
-					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="filename" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="ioutputdetailbase.html">IOutputDetailBase</a>.<a href="ioutputdetailbase.html#filename">fileName</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/fs-extra/index.d.ts:102</li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L8916">picturepark.services.ts:8916</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="filepath" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="ioutputdetailbase.html">IOutputDetailBase</a>.<a href="ioutputdetailbase.html#filepath">filePath</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L8917">picturepark.services.ts:8917</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="filesizeinbytes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Size<wbr>InBytes</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Size<wbr>InBytes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="ioutputdetailbase.html">IOutputDetailBase</a>.<a href="ioutputdetailbase.html#filesizeinbytes">fileSizeInBytes</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L8918">picturepark.services.ts:8918</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="sha1hash" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sha1<wbr>Hash</h3>
+					<div class="tsd-signature tsd-kind-icon">sha1<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="ioutputdetailbase.html">IOutputDetailBase</a>.<a href="ioutputdetailbase.html#sha1hash">sha1Hash</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5d7afa4/src/picturepark-sdk-v1-ng2/src/picturepark.services.ts#L8919">picturepark.services.ts:8919</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,14 +173,23 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="mkdiroptions.html" class="tsd-kind-icon">Mkdir<wbr>Options</a>
+					<li class="current tsd-kind-interface">
+						<a href="ioutputdetaildefault.html" class="tsd-kind-icon">IOutput<wbr>Detail<wbr>Default</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="mkdiroptions.html#fs" class="tsd-kind-icon">fs</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="ioutputdetaildefault.html#fileextension" class="tsd-kind-icon">file<wbr>Extension</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="mkdiroptions.html#mode" class="tsd-kind-icon">mode</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="ioutputdetaildefault.html#filename" class="tsd-kind-icon">file<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="ioutputdetaildefault.html#filepath" class="tsd-kind-icon">file<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="ioutputdetaildefault.html#filesizeinbytes" class="tsd-kind-icon">file<wbr>Size<wbr>InBytes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="ioutputdetaildefault.html#sha1hash" class="tsd-kind-icon">sha1<wbr>Hash</a>
 							</li>
 						</ul>
 					</li>

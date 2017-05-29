@@ -1,3 +1,5 @@
+... back to the [SDK Documentation (GitHub)](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/docs/picturepark-sdk-v1-ng2/README.md).
+
 **Module:**
 
 - [picturepark-sdk-v1-ng2](globals.html)

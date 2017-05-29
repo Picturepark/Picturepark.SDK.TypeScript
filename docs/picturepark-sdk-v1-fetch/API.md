@@ -1,3 +1,5 @@
+... back to the [SDK Documentation (GitHub)](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/docs/picturepark-sdk-v1-fetch/README.md).
+
 **Module:**
 
 - [picturepark](modules/_picturepark_.html)
@@ -15,5 +17,3 @@
 - [ShareClient](classes/_picturepark_.shareclient.html)
 - [TransferClient](classes/_picturepark_.transferclient.html)
 - [UserClient](classes/_picturepark_.userclient.html)
-
-All clients inherit from [PictureparkServiceBase](classes/_picturepark_.pictureparkservicebase.html). 
