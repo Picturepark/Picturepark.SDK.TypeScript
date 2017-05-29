@@ -1,18 +1,20 @@
+/// <reference path="../src/pdfjs.d.ts" />
 // Picturepark Widgets SDK declarations
 declare module "templates" {
     export class PictureparkTemplates {
-        static getTemplate(templateId: string, width: number, height: number): string;
+        static getTemplate(templateId: string, width: number, height: number, token: string, serverUrl: string): string;
         private static getBasic(width, height);
         private static getCard(width, height);
+        private static getList(width, height, token, serverUrl);
     }
 }
 declare module "players" {
     export class PictureparkPlayers {
-        static showDetail(cacheToken: string, contentId: string): void;
-        static showItem(element: any, embedItem: any, selection: any): void;
-        static loadScript(url: string, loaded: any): void;
-        static loadCss(url: any): void;
-        static loadImagePlayer(loaded: any): void;
+        static showDetail(token: string, contentId: string): void;
+        static showItem(element: any, embedItem: any, selection: any, selections: any): void;
+        static loadScript(url: string): Promise<void>;
+        static loadCss(url: any): Promise<void>;
+        static loadImagePlayer(): Promise<void>;
     }
 }
 declare module "pictureparkWidgets" {

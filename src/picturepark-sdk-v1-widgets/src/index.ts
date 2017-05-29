@@ -19,7 +19,7 @@ let engine = Liquid();
 engine.registerTag('resize', {
   parse: function (token) {
     this.token = token;
-  }, 
+  },
   render: function (scope, hash) {
     let args = this.token.args.split(' ');
 
@@ -89,7 +89,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   var contentTemplate = '';
 
   var token = scriptTag.getAttribute('data-picturepark-token');
-  var server = scriptTag.getAttribute('data-picturepark-server');
+  var serverUrl = scriptTag.getAttribute('data-picturepark-server');
 
   var elementId = 'picturepark_widget_' + Math.random().toString(36).substr(2, 10);
 
@@ -124,19 +124,31 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       height = parseInt(heightAttribute);
 
     var templateAttribute = scriptTag.getAttribute('data-template');
-
-    contentTemplate = PictureparkTemplates.getTemplate(templateAttribute || "basic", width, height);
+    contentTemplate = PictureparkTemplates.getTemplate(templateAttribute || "basic", width, height, token, serverUrl);
   }
 
   // Apply loading template
   scriptTag.outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-loading" id=' +
     elementId + '>' + loadTemplate + '</div>';
 
-  return window.fetch(server + '/Service/PublicAccess/GetShare?token=' + token).then(function (response) {
+  return window.fetch(serverUrl + '/Service/PublicAccess/GetShare?token=' + token).then(function (response) {
     return response.json();
   }).then((json) => {
     json['CacheToken'] = token;
-    
+
+    // Add download urls to content selections and outputs
+    for (let s of json.ContentSelections) {
+      for (let o of s.Outputs) {
+        let embedItems = json.EmbedContentItems.filter(e => e.ContentId === o.ContentId && e.OutputFormatId === o.OutputFormatId);
+        if (embedItems && embedItems.length > 0)
+          o.Url = embedItems[0].Url;
+      }
+
+      let embedItems = s.Outputs.filter(e => e.OutputFormatId === "Original");
+      if (embedItems && embedItems.length > 0)
+        s.Url = embedItems[0].Url;
+    }
+
     if (!(<any>document).pictureparkShareCache)
       (<any>document).pictureparkShareCache = {};
     (<any>document).pictureparkShareCache[token] = json;
