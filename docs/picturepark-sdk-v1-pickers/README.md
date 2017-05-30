@@ -21,13 +21,17 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
 Load the required JavaScript library: 
 
-    <script src="picturepark-pickers.js"></script>
+```Html
+<script src="picturepark-pickers.js"></script>
+```
 
 Open the picker and handle the response: 
 
-    pictureparkPickers.showContentPicker("https://your-picturepark-server.com").then(function (result) {
-        // TODO: Handle response
-    });
+```JavaScript
+pictureparkPickers.showContentPicker("https://your-picturepark-server.com").then(function (result) {
+    // TODO: Handle response
+});
+```
 
 ### Browser support
 
