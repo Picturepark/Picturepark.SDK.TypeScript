@@ -25,3 +25,5 @@ The available classes are now available in the global namespace `picturepark`:
 		}).catch(function(error) {
 			  // TODO: Handle exception
     });
+
+[Samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-fetch/samples)
