@@ -19,6 +19,12 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
 ### Usage
 
+Load the script in your website: 
+
+```Html
+<script src="picturepark-widgets.js"></script>
+```
+
 **Embed a shared content**
 
 To embed a shared content item, insert the following HTML snippet into your website: 
