@@ -19,9 +19,13 @@ Links:
 
 Contains client classes to access the Picturepark API with `window.fetch`. 
 
+**[picturepark-sdk-v1-pickers](docs/picturepark-sdk-v1-pickers/README.md)**
+
+Provides functions to show a content picker to select existing assets in 3rd party applications.
+
 **[picturepark-sdk-v1-widgets](docs/picturepark-sdk-v1-widgets/README.md)**
 
-Contains widgets to integrate the Picturepark Content Platform in other websites.
+Contains widgets to embed Picturepark content into other websites.
 
 ### Angular
 
