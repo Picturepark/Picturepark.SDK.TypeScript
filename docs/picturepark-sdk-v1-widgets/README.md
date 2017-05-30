@@ -24,7 +24,7 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 To embed a shared content item, insert the following HTML snippet into your website: 
 
 ```JavaScript
-<script src="https://cdnjs.cloudflare.com/ajax/libs/picturepark-sdk-v1-widgets/0.0.1/picturepark-sdk-v1-widgets.js"
+<script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
         data-picturepark-server="YOUR_SERVER_URL" 
         data-picturepark-token="YOUR_TOKEN"></script>
 ```
