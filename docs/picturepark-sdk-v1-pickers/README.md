@@ -11,6 +11,12 @@ Latest version from master branch (use for development only):
 - [picturepark-pickers.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js)
 - [picturepark-pickers.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts)
 
+### Samples
+
+To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-pickers/samples) navigate to the root of the repository and run: 
+
+    npm run start:pickers
+
 ### Usage
 
 Load the required JavaScript library: 
@@ -22,10 +28,6 @@ Open the picker and handle the response:
     pictureparkPickers.showContentPicker("https://your-picturepark-server.com").then(function (result) {
         // TODO: Handle response
     });
-
-To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-pickers/samples) navigate to the root of the repository and run: 
-
-    npm run start:pickers
 
 ### Browser support
 
