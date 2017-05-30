@@ -11,6 +11,12 @@ Latest version from master branch (use for development only):
 - [picturepark-widgets.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js)
 - [picturepark-widgets.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.d.ts)
 
+### Samples
+
+To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-widgets/samples) navigate to the root of the repository and run: 
+
+    npm run start:widgets
+
 ### Usage
 
 **Embed a shared content**
