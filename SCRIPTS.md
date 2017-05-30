@@ -25,11 +25,15 @@ Runs all unit tests.
 
     npm run build:fetch
 
-Rebuilds and minimizes the Fetch "bundle.js" in "src/picturepark-sdk-v1-fetch/dist"
+Rebuilds and minimizes the Fetch "picturepark.js" bundle in "src/picturepark-sdk-v1-fetch/dist"
+
+    npm run build:pickers
+
+Rebuilds and minimizes the pickers "picturepark-pickers.js" bundle in "src/picturepark-sdk-v1-pickers/dist"
 
     npm run build:widgets
 
-Rebuilds and minimizes the widgets "bundle.js" in "src/picturepark-sdk-v1-widgets/dist"
+Rebuilds and minimizes the widgets "picturepark-widgets.js" bundle in "src/picturepark-sdk-v1-widgets/dist"
 
     npm run build:ng
 
