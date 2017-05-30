@@ -25,5 +25,7 @@ The available classes are now available in the global namespace `picturepark`:
 		}).catch(function(error) {
 			  // TODO: Handle exception
     });
+    
+To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-fetch/samples) navigate to the root of the repository and run: 
 
-[Samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-fetch/samples)
+    npm run start:fetch
