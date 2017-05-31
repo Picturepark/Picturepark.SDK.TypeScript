@@ -38,33 +38,39 @@ export class PictureparkPlayers {
     }
   }
 
-  static showPdfJsItem(embedItem: any) {
-    this.loadScript("//mozilla.github.io/pdf.js/build/pdf.js").then(() => {
-      PDFJS.getDocument(embedItem.Url).then(pdf => {
-        return pdf.getPage(1).then(page => {
-          var viewport = page.getViewport(1.0);
+  static getScriptsPath() {
+    let scriptFile = 'picturepark-widgets.js';
+    for (let tag of document.getElementsByTagName('script')) {
+      if (tag.src.indexOf(scriptFile) !== -1)
+        return tag.src.substring(0, tag.src.length - scriptFile.length)
+    }
+    return undefined;
+  }
 
-          let canvasElement = document.createElement("canvas");
-          canvasElement.style.position = 'fixed';
-          canvasElement.style.left = '0';
-          canvasElement.style.top = '0';
-          canvasElement.style.width = '100%';
-          canvasElement.style.height = '100%';
-          document.body.appendChild(canvasElement);
+  static showPdfJsItem(embedItem: picturepark.EmbedContentViewItem) {
+    let iframeElement = document.createElement("iframe");
+    iframeElement.style.position = 'fixed';
+    iframeElement.style.left = '0';
+    iframeElement.style.top = '0';
+    iframeElement.style.width = '100%';
+    iframeElement.style.height = '100%';
+    iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + embedItem.Url;
 
-          var context = canvasElement.getContext('2d');
-          canvasElement.height = viewport.height;
-          canvasElement.width = viewport.width;
+    let prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
-          var renderContext = {
-            canvasContext: context,
-            viewport: viewport
-          };
+    let keydownCallback = function (evt: KeyboardEvent) {
+      evt = evt || <KeyboardEvent>window.event;
+      let isEscape = "key" in evt ? (evt.key == "Escape" || evt.key == "Esc") : (evt.keyCode == 27);
+      if (isEscape) {
+        document.body.removeChild(iframeElement);
+        document.body.style.overflow = prevOverflow;
+        document.removeEventListener('keydown', keydownCallback);
+      }
+    };
 
-          page.render(renderContext);
-        });
-      })
-    });
+    document.addEventListener('keydown', keydownCallback);
+    document.body.appendChild(iframeElement);
   }
 
   static showPhotoSwipeItem(embedItem, selection, selections) {
