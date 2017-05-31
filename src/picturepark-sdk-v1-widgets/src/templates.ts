@@ -1,30 +1,29 @@
 export class PictureparkTemplates {
   // TODO: Create template factory with css injection outside of template
 
-  static getTemplate(templateId: string, width: number, height: number, token: string, serverUrl: string): string {
+  static getTemplate(templateId: string): string {
     if (templateId === "basic") {
-      return this.getBasic(width, height);
+      return this.getBasic();
     } else if (templateId === "card") {
-      return this.getCard(width, height);
+      return this.getCard();
     } else if (templateId === "list") {
-      return this.getList(width, height, token, serverUrl);
+      return this.getList();
     } else {
       return "Template '" + templateId + "' not found.";
     }
   }
 
-  private static getBasic(width: number, height: number): string {
-    width = width || 400;
-    height = height || 400;
-    var embedMarkup = `
+  private static getBasic(): string {
+    return `
+      {% if config.renderStyles %}
       <style>
-        .picturepark-widget-share-inner {
+        .picturepark-widget-share-inner-{{id}} {
           float: left;
           position: relative;
           border: 1px solid gray;
           border-radius: 1px;
         }
-        .picturepark-widget-share-legend {
+        .picturepark-widget-share-legend-{{id}} {
           opacity: 0;
           position: absolute;
           width: 100%;
@@ -32,39 +31,40 @@ export class PictureparkTemplates {
           background: gray;
           padding: 4px;
         }
-        .picturepark-widget-share:hover .picturepark-widget-share-legend {
+        .picturepark-widget-share-{{id}}:hover
+        .picturepark-widget-share-legend-{{id}} {
           opacity: 0.8;
         }
-        .picturepark-widget-share-title {
+        .picturepark-widget-share-title-{{id}} {
           font-weight: bold;
           color: white;
         }
-        .picturepark-widget-share-description {
+        .picturepark-widget-share-description-{{id}} {
           color: white;
         }
       </style>
+      {% endif %}
 
-      <div class="picturepark-widget-share-inner" style="width: ${width}px">
-        <div class="picturepark-widget-share-legend">
-          <div class="picturepark-widget-share-title">{{ Name }}</div>
-          <div class="picturepark-widget-share-description">{{ Description }}</div>
+      <div class="picturepark-widget-share-inner picturepark-widget-share-inner-{{id}}" style="width: {{ config.width }}px">
+        <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
+          <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.Name }}</div>
+          {% if share.Description.size > 0 %}
+            <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.Description }}</div>
+          {% endif %}
         </div>
-        {% for selection in ContentSelections %}
-          <div class="picturepark-widget-share-media">
-            <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ CacheToken }}', '{{ selection.Id }}')">
-              <img src="{% resizeById selection.Id 'Preview' ${width} ${height} %}" />
-            </a>
-          </div>
-        {% endfor %}
+        {% assign selection = share.ContentSelections[0] %}
+        <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}">
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
+            {% assign width = config.width | plus: -2 %}
+            <img src="{% resizeById selection.Id 'Preview' width config.height %}" />
+          </a>
+        </div>
       </div>`;
-    return embedMarkup;
   }
 
-  private static getCard(width: number, height: number): string {
-    width = width || 400;
-    height = height || 400;
-
-    var embedMarkup = `
+  private static getCard(): string {
+    return `
+      {% if config.renderStyles %}
       <style>
         .picturepark-widget-share {
           float: left;
@@ -104,12 +104,14 @@ export class PictureparkTemplates {
           vertical-align: middle;
         }
       </style>
+      {% endif %}
 
-      <div class="picturepark-widget-card-inner" style="width: ${width}px">
-        {% for selection in ContentSelections %}
+      <div class="picturepark-widget-card-inner" style="width: {{ config.width }}px">
+        {% assign selection = share.ContentSelections[0] %}
         <div class="picturepark-widget-card-media">
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ CacheToken }}', '{{ selection.Id }}')">
-            <img class="picturepark-widget-card-img" src="{% resizeById selection.Id 'Preview' ${width - 2} ${height} %}" />
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
+            {% assign width = config.width | plus: -2 %}
+            <img class="picturepark-widget-card-img" src="{% resizeById selection.Id 'Preview' width config.height %}" />
           </a>
           <div style="position: absolute; bottom: 4px; right: 8px;">
             <svg style="width: 120px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 690.93 75.96">
@@ -129,25 +131,23 @@ export class PictureparkTemplates {
             </svg>
           </div>
         </div>
-        {% endfor %}
         <div class="picturepark-widget-card-content">
-          <div class="picturepark-widget-card-title">{{ Name }}</div>
-          <div class="picturepark-widget-card-description">{{ Description }}</div>
+          <div class="picturepark-widget-card-title">{{ share.Name }}</div>
+          {% if share.Description.size > 0 %}
+            <div class="picturepark-widget-card-description">{{ share.Description }}</div>
+          {% endif %}
           <hr class="picturepark-widget-card-hr">
           <div class="picturepark-widget-card-sharedby">
-            <img src="//www.gravatar.com/avatar/{{ Audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-gravatar" />
-            Shared by: {{ Audit.CreatedByUser.FirstName }} {{ Audit.CreatedByUser.LastName }}
+            <img src="//www.gravatar.com/avatar/{{ share.Audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-gravatar" />
+            Shared by: {{ share.Audit.CreatedByUser.FirstName }} {{ share.Audit.CreatedByUser.LastName }}
             </div>
         </div>
       </div>`;
-    return embedMarkup;
   }
 
-  private static getList(width: number, height: number, token: string, serverUrl: string): string {
-    width = width || 400;
-    height = height || 400;
-
-    var embedMarkup = `
+  private static getList(): string {
+    return `
+      {% if config.renderStyles %}
       <style>
         .picturepark-widget-share {
           float: left;
@@ -180,16 +180,17 @@ export class PictureparkTemplates {
           margin-bottom: 8px;
         }
       </style>
+      {% endif %}
 
-      <div class="picturepark-widget-list" style="width: ${width}px">
+      <div class="picturepark-widget-list" style="width: {{ config.width }}px">
         <h1 class="picturepark-widget-list-header">
-          Downloads
+          {% translate 'List.HeaderDownloads' %}
           <span style="float:right" class="picturepark-widget-list-header-download">
-            <a href="${serverUrl}/Embed/${token}">Download all</a>
+            <a href="{{ config.server }}/Embed/{{ config.token }}">{% translate 'List.ButtonDownloadAll' %}</a>
           </span>
         </h1>
         <ul class="picturepark-widget-list-body">
-        {% for selection in ContentSelections %}
+        {% for selection in share.ContentSelections %}
           <li>
             <span style="float:right">
               <a href="{{selection.Url}}">
@@ -214,6 +215,5 @@ export class PictureparkTemplates {
         {% endfor %}
         </ul>
       </div>`;
-    return embedMarkup;
   }
 }

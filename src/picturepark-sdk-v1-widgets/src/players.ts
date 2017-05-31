@@ -1,11 +1,14 @@
-/// <reference path="./pdfjs.d.ts" />
+/// <reference path="./typings/pdfjs.d.ts" />
+/// <reference path="../../picturepark-sdk-v1-fetch/dist/picturepark.d.ts" />
+
+import * as picturepark from 'picturepark';
 
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
 export class PictureparkPlayers {
   static showDetail(token: string, contentId: string) {
-    let share = (<any>document).pictureparkShareCache[token];
+    let share: picturepark.ShareEmbedDetailViewItem = (<any>document).pictureparkShareCache[token];
 
     let embedItem: any = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Preview")[0];
     let originalEmbedItem = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
@@ -13,7 +16,7 @@ export class PictureparkPlayers {
     if (!embedItem)
       embedItem = originalEmbedItem;
 
-    let outputs = share.ContentSelections
+    let outputs: picturepark.OutputViewItem[] = share.ContentSelections
       .reduce((c, s) => c.concat(s.Outputs), []);
 
     let selections: any = outputs
@@ -29,83 +32,61 @@ export class PictureparkPlayers {
     let originalSelection = outputs.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
 
     if (originalSelection.Detail.FileExtension === ".pdf") {
-      this.loadScript("//mozilla.github.io/pdf.js/build/pdf.js").then(() => {
-        PDFJS.getDocument(originalEmbedItem.Url).then(pdf => {
-          return pdf.getPage(1).then(page => {
-            var viewport = page.getViewport(1.0);
-
-            let canvasElement = document.createElement("canvas");
-            canvasElement.style.position = 'absolute';
-            canvasElement.style.top = '0'; 
-            canvasElement.style.left = '0'; 
-            canvasElement.style.right = '0'; 
-            canvasElement.style.bottom = '0'; 
-            document.body.appendChild(canvasElement);
-
-            var context = canvasElement.getContext('2d');
-            canvasElement.height = viewport.height;
-            canvasElement.width = viewport.width;
-
-            var renderContext = {
-              canvasContext: context,
-              viewport: viewport
-            };
-            page.render(renderContext);
-          });
-        })
-      });
+      this.showPdfJsItem(originalEmbedItem);
     } else {
-      // PhotoSwipe
-
-      // TODO: Support more players
-      let element = document.querySelectorAll('.pswp')[0];
-      if (element) {
-        this.showItem(element, embedItem, selection, selections);
-      } else {
-        this.loadImagePlayer().then(() => {
-          element = document.querySelectorAll('.pswp')[0];
-          this.showItem(element, embedItem, selection, selections);
-        });
-      }
+      this.showPhotoSwipeItem(embedItem, selection, selections);
     }
   }
 
-  static showItem(element, embedItem, selection, selections) {
-    let items = selections.map(s => {
-      return {
-        src: s.Url,
-        w: s.Detail.Width,
-        h: s.Detail.Height
-      };
-    });
+  static showPdfJsItem(embedItem: any) {
+    this.loadScript("//mozilla.github.io/pdf.js/build/pdf.js").then(() => {
+      PDFJS.getDocument(embedItem.Url).then(pdf => {
+        return pdf.getPage(1).then(page => {
+          var viewport = page.getViewport(1.0);
 
-    var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, items, { index: selections.indexOf(selection) })
-    gallery.init();
-  }
+          let canvasElement = document.createElement("canvas");
+          canvasElement.style.position = 'fixed';
+          canvasElement.style.left = '0';
+          canvasElement.style.top = '0';
+          canvasElement.style.width = '100%';
+          canvasElement.style.height = '100%';
+          document.body.appendChild(canvasElement);
 
-  static loadScript(url: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-      var scriptTag = document.createElement('script');
-      scriptTag.src = url;
-      scriptTag.async = true;
-      scriptTag.onload = () => resolve();
-      document.head.appendChild(scriptTag);
-    });
-  }
+          var context = canvasElement.getContext('2d');
+          canvasElement.height = viewport.height;
+          canvasElement.width = viewport.width;
 
-  static loadCss(url): Promise<void> {
-    return new Promise<void>((resolve) => {
-      var linkElement = document.createElement("link");
-      linkElement.type = "text/css";
-      linkElement.rel = "stylesheet";
-      linkElement.href = url;
-      linkElement.onload = () => resolve();
+          var renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
 
-      document.getElementsByTagName("head")[0].appendChild(linkElement);
+          page.render(renderContext);
+        });
+      })
     });
   }
 
-  static loadImagePlayer(): Promise<void> {
+  static showPhotoSwipeItem(embedItem, selection, selections) {
+    this.loadPhotoSwipe().then(element => {
+      let items = selections.map(s => {
+        return {
+          src: s.Url,
+          w: s.Detail.Width,
+          h: s.Detail.Height
+        };
+      });
+
+      var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, items, { index: selections.indexOf(selection) })
+      gallery.init();
+    });
+  }
+
+  static loadPhotoSwipe(): Promise<Element> {
+    let element = document.querySelectorAll('.pswp')[0];
+    if (element)
+      return Promise.resolve(element);
+
     return Promise.all([
       this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css"),
       this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css"),
@@ -179,6 +160,29 @@ export class PictureparkPlayers {
       divElement.innerHTML = markup;
 
       document.body.appendChild(divElement);
+      return document.querySelectorAll('.pswp')[0];
+    });
+  }
+
+  static loadScript(url: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      var scriptTag = document.createElement('script');
+      scriptTag.src = url;
+      scriptTag.async = true;
+      scriptTag.onload = () => resolve();
+      document.head.appendChild(scriptTag);
+    });
+  }
+
+  static loadCss(url): Promise<void> {
+    return new Promise<void>((resolve) => {
+      var linkElement = document.createElement("link");
+      linkElement.type = "text/css";
+      linkElement.rel = "stylesheet";
+      linkElement.href = url;
+      linkElement.onload = () => resolve();
+
+      document.getElementsByTagName("head")[0].appendChild(linkElement);
     });
   }
 }

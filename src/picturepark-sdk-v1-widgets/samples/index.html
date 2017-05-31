@@ -31,7 +31,7 @@
         <h3>With "card" template (PDF): </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="ArRd6Br9"
+                data-picturepark-token="I9isgsDc"
                 data-width="350" 
                 data-height="350" 
                 data-template="card"></script>
@@ -42,7 +42,7 @@
         <h3>With "basic" template: </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="tiPoqGE5"
+                data-picturepark-token="JAfyzQSz"
                 data-width="350" 
                 data-height="350" 
                 data-template="basic"></script>
@@ -53,7 +53,7 @@
         <h3>With "card" template: </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="tiPoqGE5"
+                data-picturepark-token="JAfyzQSz"
                 data-width="350" 
                 data-height="350" 
                 data-template="card"></script>
@@ -65,19 +65,19 @@
 
         <script type="text/template" 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="tiPoqGE5">
-          <template id="load">
+                data-picturepark-token="JAfyzQSz">
+          <template id="loading">
             Custom loading template.
           </template>
           <template id="content">
             <div class="picturepark-widget-share-inner" style="width: 250px">
               <div class="picturepark-widget-share-legend">
-                <div class="picturepark-widget-share-title">{{ Name }}</div>
-                <div class="picturepark-widget-share-description">{{ Description }}</div>
+                <div class="picturepark-widget-share-title">{{ share.Name }}</div>
+                <div class="picturepark-widget-share-description">{{ share.Description }}</div>
               </div>
-              {% for selection in ContentSelections %}
+              {% for selection in share.ContentSelections %}
               <div class="picturepark-widget-share-media">
-                <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ CacheToken }}', '{{ selection.Id }}')">
+                <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
                     <img src="{% resizeById selection.Id 'Preview' 250 250 %}" />
                   </a>
               </div>
@@ -96,7 +96,7 @@
         <h3>With "list" template: </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="tiPoqGE5"
+                data-picturepark-token="JAfyzQSz"
                 data-width="350" 
                 data-height="350" 
                 data-template="list"></script>
