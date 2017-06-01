@@ -9618,6 +9618,20 @@ function getViewerConfiguration() {
   };
 }
 function webViewerLoad() {
+  // CUSTOMIZATIONS
+  document.getElementById('closeButton').addEventListener('click', function () {
+    window.location = 'about:blank';
+  });
+
+  document.addEventListener('keyup', function (e) {
+    let event = e || window.event;
+    let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : (event.keyCode == 27);
+    if (isEscape) {
+      window.location = 'about:blank';
+    }
+  }, true);
+  // CUSTOMIZATIONS
+
   var config = getViewerConfiguration();
   window.PDFViewerApplication = pdfjsWebApp.PDFViewerApplication;
   pdfjsWebApp.PDFViewerApplication.run(config);

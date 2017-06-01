@@ -57,19 +57,27 @@ export class PictureparkPlayers {
     iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + embedItem.Url;
 
     let prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    let keydownCallback = function (evt: KeyboardEvent) {
-      evt = evt || <KeyboardEvent>window.event;
-      let isEscape = "key" in evt ? (evt.key == "Escape" || evt.key == "Esc") : (evt.keyCode == 27);
+    let keydownCallback = (e: KeyboardEvent) => {
+      let event = e || <KeyboardEvent>window.event;
+      let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : (event.keyCode == 27);
       if (isEscape) {
-        document.body.removeChild(iframeElement);
-        document.body.style.overflow = prevOverflow;
-        document.removeEventListener('keydown', keydownCallback);
+        closeCallback();
       }
     };
 
-    document.addEventListener('keydown', keydownCallback);
+    let closeCallback = () => {
+      document.body.removeChild(iframeElement);
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', keydownCallback, true);
+    };
+
+    iframeElement.onload = (e) => {
+      document.body.style.overflow = 'hidden';
+      if (iframeElement.contentWindow.location.href === 'about:blank')
+        closeCallback();
+    };
+
+    document.addEventListener('keydown', keydownCallback, true);
     document.body.appendChild(iframeElement);
   }
 
