@@ -1,11 +1,11 @@
 /// <reference path="typings/es6-promise.d.ts" />
 /// <reference path="../../picturepark-sdk-v1-fetch/dist/picturepark.d.ts" />
 
-import * as picturepark from 'picturepark';
-
-import './libraries/liquid.min.js';
 import './libraries/promise.min.js';
+import './libraries/liquid.min.js';
 import './libraries/fetch.min.js';
+
+import * as picturepark from 'picturepark';
 
 import { PictureparkTemplates } from './templates';
 import { PictureparkPlayers } from './players';
@@ -85,7 +85,8 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   }).then(html => {
     document.getElementById(elementId).outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-' + id + ' picturepark-widget-share-loaded">' + html + '</div>';
     return true;
-  }).catch(() => {
+  }).catch((e) => {
+    console.error(e);
     document.getElementById(elementId).outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-error">' + errorTemplate + '</div>';
     return false;
   });

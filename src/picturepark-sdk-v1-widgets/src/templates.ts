@@ -48,7 +48,7 @@ export class PictureparkTemplates {
       <div class="picturepark-widget-share-inner picturepark-widget-share-inner-{{id}}" style="width: {{ config.width }}px">
         <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
           <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.Name }}</div>
-          {% if share.Description.size > 0 %}
+          {% if share.Description %}
             <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.Description }}</div>
           {% endif %}
         </div>
@@ -133,7 +133,7 @@ export class PictureparkTemplates {
         </div>
         <div class="picturepark-widget-card-content">
           <div class="picturepark-widget-card-title">{{ share.Name }}</div>
-          {% if share.Description.size > 0 %}
+          {% if share.Description %}
             <div class="picturepark-widget-card-description">{{ share.Description }}</div>
           {% endif %}
           <hr class="picturepark-widget-card-hr">

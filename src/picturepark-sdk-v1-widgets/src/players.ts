@@ -5,6 +5,7 @@ import * as picturepark from 'picturepark';
 
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
+declare var jwplayer;
 
 export class PictureparkPlayers {
   static showDetail(token: string, contentId: string) {
@@ -31,8 +32,27 @@ export class PictureparkPlayers {
     let selection: any = selections.filter(i => i.ContentId == contentId)[0];
     let originalSelection = outputs.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
 
-    if (originalSelection.Detail.FileExtension === ".pdf") {
+    if (originalSelection.Detail.FileExtension === '.pdf') {
       this.showPdfJsItem(originalEmbedItem);
+    } else if (originalSelection.Detail.FileExtension === '.mov') {
+      // TODO
+      this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js").then(() => {
+        let divElement = document.createElement('div');
+        divElement.id = "foobar";
+        divElement.style.position = 'fixed';
+        divElement.style.left = '0';
+        divElement.style.top = '0';
+        divElement.style.width = '100%';
+        divElement.style.height = '100%';
+        document.body.insertBefore(divElement, document.body.firstChild);
+        // document.body.appendChild(divElement);
+
+        const player = jwplayer('foobar').setup({
+          file: originalEmbedItem.Url,
+          volume: 10, 
+          type: originalSelection.Detail.FileExtension.substr(1)
+        });
+      });
     } else {
       this.showPhotoSwipeItem(embedItem, selection, selections);
     }

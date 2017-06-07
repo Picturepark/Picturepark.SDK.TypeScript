@@ -22,7 +22,7 @@ export class PictureparkConfig {
         configuration['width'] = parseInt(attribute.value);
       else if (attribute.name === 'data-height')
         configuration['height'] = parseInt(attribute.value);
-      else if (attribute.name.startsWith('data-'))
+      else if (attribute.name.indexOf('data-') === 0)
         configuration[attribute.name.substr(5).replace(/-([a-z])/g, g => g[1].toUpperCase())] = attribute.value;
     }
     return configuration;
