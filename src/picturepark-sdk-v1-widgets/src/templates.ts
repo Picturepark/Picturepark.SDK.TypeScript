@@ -45,19 +45,43 @@ export class PictureparkTemplates {
       </style>
       {% endif %}
 
-      <div class="picturepark-widget-share-inner picturepark-widget-share-inner-{{id}}" style="width: {{ config.width }}px">
+      <div class="picturepark-widget-share-inner picturepark-widget-share-inner-{{id}}" style="width: {{ config.width }}px; position: relative">
         <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
           <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.Name }}</div>
           {% if share.Description %}
             <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.Description }}</div>
           {% endif %}
         </div>
-        {% assign selection = share.ContentSelections[0] %}
-        <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}">
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
-            {% assign width = config.width | plus: -2 %}
-            <img src="{% resizeById selection.Id 'Preview' width config.height %}" />
+
+        <div style="position: relative">
+          <div id="gallery_{{ id }}">
+            {% for selection in share.ContentSelections %}
+              <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}" 
+                  {% if forloop.first == false %}style="display: none"{% endif %}>
+                {% if selection.IsMovie %}
+                <div id="player_0_{{ id }}">
+                </div>
+                {% else %}
+                <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
+                  {% assign width = config.width | plus: -2 %}
+                  <img class="picturepark-widget-card-img" src="{% resizeById selection.Id 'Preview' width config.height %}" 
+                      style="height: {{ config.height }}px; width: {{ width }}px" />
+                </a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+
+          {% if share.ContentSelections.length > 1 %}
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
+            style="position: absolute; left: 0; top: 50%; bottom: 50%; width: 30px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
           </a>
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('gallery_{{ id }}')"
+            style="position: absolute; right: 0; top: 50%; bottom: 50%; width: 30px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
+          </a>
+          {% endif %}
         </div>
       </div>`;
   }
@@ -107,30 +131,54 @@ export class PictureparkTemplates {
       {% endif %}
 
       <div class="picturepark-widget-card-inner" style="width: {{ config.width }}px">
-        {% assign selection = share.ContentSelections[0] %}
-        <div class="picturepark-widget-card-media">
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
-            {% assign width = config.width | plus: -2 %}
-            <img class="picturepark-widget-card-img" src="{% resizeById selection.Id 'Preview' width config.height %}" />
-          </a>
-          <div style="position: absolute; bottom: 4px; right: 8px;">
-            <svg style="width: 120px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 690.93 75.96">
-              <defs>
-                <style>.cls-1{fill:#5b7d89;}.cls-2{fill:#818181;}.cls-3,.cls-4,.cls-5{fill:#fff;}.cls-4,.cls-5{filter:url(#AI_Shadow_1);}.cls-4{font-size:67.44px;font-family:Roboto-Regular, Roboto;}.cls-5{font-size:46.07px;font-family:Roboto-Light, Roboto;letter-spacing:-0.01em;}.cls-6{letter-spacing:0em;}</style>
-                <filter id="AI_Shadow_1" name="AI_Shadow_1"><feGaussianBlur result="blur" stdDeviation="2" in="SourceAlpha"/>
-                  <feOffset result="offsetBlurredAlpha" dx="4" dy="4" in="blur"/><feMerge><feMergeNode in="offsetBlurredAlpha"/>
-                  <feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-              <title>powered-by-pp</title>
-              <path class="cls-1" d="M344.17,152.27V117.83a4.58,4.58,0,0,0-4.28-4.83h-53.6a4.58,4.58,0,0,0-4.29,4.83v34.44Z" transform="translate(-19.07 -110.92)"/>
-              <path class="cls-2" d="M282,161.87v11.31a4.58,4.58,0,0,0,4.28,4.82h53.6a4.57,4.57,0,0,0,4.28-4.82V161.87Z" transform="translate(-19.07 -110.92)"/>
-              <polygon class="cls-3" points="325.09 50.95 262.93 50.95 262.93 41.35 325.09 41.35 325.09 50.95 325.09 50.95"/>
-              <text class="cls-4" transform="translate(347.46 57.69)">Picturepark</text>
-              <text class="cls-5" transform="translate(0 57.66)">P<tspan class="cls-6" x="28.07" y="0">owered by</tspan></text>
-            </svg>
+        <div style="position: relative">
+          <div id="gallery_{{ id }}">
+            {% for selection in share.ContentSelections %}
+            <div class="picturepark-widget-card-media"
+                {% if forloop.first == false %}style="display: none"{% endif %}>
+              {% if selection.IsMovie %}
+              <div id="player_0_{{ id }}">
+              </div>
+              {% else %}
+              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
+                {% assign width = config.width | plus: -2 %}
+                <img class="picturepark-widget-card-img" src="{% resizeById selection.Id 'Preview' width config.height %}" 
+                    style="height: {{ config.height }}px; width: {{ width }}px" />
+              </a>
+              {% endif %}
+              <div style="position: absolute; bottom: 4px; right: 8px;">
+                <svg style="width: 120px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 690.93 75.96">
+                  <defs>
+                    <style>.cls-1{fill:#5b7d89;}.cls-2{fill:#818181;}.cls-3,.cls-4,.cls-5{fill:#fff;}.cls-4,.cls-5{filter:url(#AI_Shadow_1);}.cls-4{font-size:67.44px;font-family:Roboto-Regular, Roboto;}.cls-5{font-size:46.07px;font-family:Roboto-Light, Roboto;letter-spacing:-0.01em;}.cls-6{letter-spacing:0em;}</style>
+                    <filter id="AI_Shadow_1" name="AI_Shadow_1"><feGaussianBlur result="blur" stdDeviation="2" in="SourceAlpha"/>
+                      <feOffset result="offsetBlurredAlpha" dx="4" dy="4" in="blur"/><feMerge><feMergeNode in="offsetBlurredAlpha"/>
+                      <feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <title>powered-by-pp</title>
+                  <path class="cls-1" d="M344.17,152.27V117.83a4.58,4.58,0,0,0-4.28-4.83h-53.6a4.58,4.58,0,0,0-4.29,4.83v34.44Z" transform="translate(-19.07 -110.92)"/>
+                  <path class="cls-2" d="M282,161.87v11.31a4.58,4.58,0,0,0,4.28,4.82h53.6a4.57,4.57,0,0,0,4.28-4.82V161.87Z" transform="translate(-19.07 -110.92)"/>
+                  <polygon class="cls-3" points="325.09 50.95 262.93 50.95 262.93 41.35 325.09 41.35 325.09 50.95 325.09 50.95"/>
+                  <text class="cls-4" transform="translate(347.46 57.69)">Picturepark</text>
+                  <text class="cls-5" transform="translate(0 57.66)">P<tspan class="cls-6" x="28.07" y="0">owered by</tspan></text>
+                </svg>
+              </div>
+            </div>
+            {% endfor %}
           </div>
+
+          {% if share.ContentSelections.length > 1 %}
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
+            style="position: absolute; left: 0; top: 50%; bottom: 50%; width: 30px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
+          </a>
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('gallery_{{ id }}')"
+            style="position: absolute; right: 0; top: 50%; bottom: 50%; width: 30px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
+          </a>
+          {% endif %}
         </div>
+
         <div class="picturepark-widget-card-content">
           <div class="picturepark-widget-card-title">{{ share.Name }}</div>
           {% if share.Description %}

@@ -53,7 +53,8 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   }
 
   // Apply loading template
-  scriptTag.outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-loading" id=' + elementId + '>' + loadingTemplate + '</div>';
+  scriptTag.outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-loading" id=' +
+    elementId + '>' + loadingTemplate + '</div>';
 
   return window.fetch(config.server + '/Service/PublicAccess/GetShare?token=' + config.token).then(function (response) {
     return response.json();
@@ -61,14 +62,21 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     // Add download urls to content selections and outputs
     for (let s of share.ContentSelections) {
       for (let o of s.Outputs) {
-        let embedItems = share.EmbedContentItems.filter(e => e.ContentId === o.ContentId && e.OutputFormatId === o.OutputFormatId);
+        let embedItems = share.EmbedContentItems.filter(e =>
+          e.ContentId === o.ContentId && e.OutputFormatId === o.OutputFormatId);
+
         if (embedItems && embedItems.length > 0)
           (<any>o).Url = embedItems[0].Url;
       }
 
       let embedItems = s.Outputs.filter(e => e.OutputFormatId === "Original");
-      if (embedItems && embedItems.length > 0)
+      if (embedItems && embedItems.length > 0) {
+        let fileExtension = embedItems[0].Detail.FileExtension;
         (<any>s).Url = (<any>embedItems[0]).Url;
+        (<any>s).IsMovie = fileExtension === '.mov' || fileExtension === '.mp4' || fileExtension === '.mp3';
+      }
+      else
+        (<any>s).IsMovie = false;
     }
 
     if (!(<any>document).pictureparkShareCache)
@@ -78,16 +86,33 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     let engine = PictureparkRenderEngine.create();
     return engine.parseAndRender(contentTemplate, {
       id: id,
-      elementId: elementId, 
+      elementId: elementId,
       share: share,
       config: config
+    }).then(html => {
+      document.getElementById(elementId).outerHTML =
+        '<div class="picturepark-widget-share picturepark-widget-share-' + id +
+        ' picturepark-widget-share-loaded">' + html + '</div>';
+
+      // Load movie players
+      for (var i = 0; i < share.ContentSelections.length; i++) {
+        var selection: any = share.ContentSelections[i];
+        if (selection.IsMovie) {
+          let elementId = 'player_' + i + "_" + id;
+          setTimeout(() => {
+            if (document.getElementById(elementId)) {
+              players.renderVideoPlayer(config, share.ContentSelections[0].Id, elementId);
+            }
+          });
+        }
+      }
+      return true;
     });
-  }).then(html => {
-    document.getElementById(elementId).outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-' + id + ' picturepark-widget-share-loaded">' + html + '</div>';
-    return true;
   }).catch((e) => {
     console.error(e);
-    document.getElementById(elementId).outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-error">' + errorTemplate + '</div>';
+    document.getElementById(elementId).outerHTML =
+      '<div class="picturepark-widget-share picturepark-widget-share-error">' +
+      errorTemplate + '</div>';
     return false;
   });
 };
