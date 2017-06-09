@@ -45,7 +45,12 @@ export class PictureparkTemplates {
           color: white;
         }
         .picturepark-widget-share-image-{{id}} {
-          object-fit: contain;
+          position: absolute;
+          margin: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
         }
 
         .picturepark-widget-share-navigate-previous-{{id}} {
@@ -70,16 +75,9 @@ export class PictureparkTemplates {
       {% endif %}
 
       <div class="picturepark-widget-share-inner picturepark-widget-share-inner-{{id}}" style="width: {{ config.width }}px">
-        {% if config.showLegend != 'false' and config.showLegend != 'no' %}
-          <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
-            <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.Name }}</div>
-            {% if share.Description %}
-              <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.Description }}</div>
-            {% endif %}
-          </div>
-        {% endif %}
-
-        <div id="gallery_{{ id }}">
+        {% assign width = config.width | plus: -2 %}
+        {% assign height = config.height | plus: -1 %}
+        <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
           {% for selection in share.ContentSelections %}
             <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}" 
                 {% if forloop.first == false %}style="display: none"{% endif %}>
@@ -88,14 +86,21 @@ export class PictureparkTemplates {
               </div>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
-                {% assign width = config.width | plus: -2 %}
-                <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.Id 'Preview' width config.height %}" 
-                     style="height: {{ config.height }}px; width: {{ width }}px" />
+                <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.Id 'Preview' width height %}" />
               </a>
               {% endif %}
             </div>
           {% endfor %}
         </div>
+
+        {% if config.showLegend != 'false' and config.showLegend != 'no' %}
+          <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
+            <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.Name }}</div>
+            {% if share.Description %}
+              <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.Description }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
 
         {% if config.showGallery != 'false' and config.showGallery != 'no' and share.ContentSelections.length > 1 %}
           <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
@@ -132,11 +137,15 @@ export class PictureparkTemplates {
         .picturepark-widget-card-description-{{id}} {
         }
         .picturepark-widget-card-media-{{id}} {
-          position: relative;
           line-height: 0;
         }
         .picturepark-widget-card-image-{{id}} {
-          object-fit: contain;
+          position: absolute;
+          margin: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
         }
 
         .picturepark-widget-card-hr-{{id}} {
@@ -175,7 +184,9 @@ export class PictureparkTemplates {
 
       <div class="picturepark-widget-card-inner picturepark-widget-card-inner-{{id}}" style="width: {{ config.width }}px">
         <div style="position: relative">
-          <div id="gallery_{{ id }}">
+          {% assign width = config.width | plus: -2 %}
+          {% assign height = config.height | plus: -1 %}
+          <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
             {% for selection in share.ContentSelections %}
             <div class="picturepark-widget-card-media picturepark-widget-card-media-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
@@ -184,11 +195,10 @@ export class PictureparkTemplates {
               </div>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
-                {% assign width = config.width | plus: -2 %}
-                <img class="picturepark-widget-card-image picturepark-widget-card-image-{{id}}" src="{% resizeById selection.Id 'Preview' width config.height %}" 
-                     style="height: {{ config.height }}px; width: {{ width }}px" />
+                <img class="picturepark-widget-card-image picturepark-widget-card-image-{{id}}" src="{% resizeById selection.Id 'Preview' width height %}" />
               </a>
               {% endif %}
+              
               <div style="position: absolute; bottom: 4px; right: 8px;">
                 <svg style="width: 120px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 690.93 75.96">
                   <defs>
