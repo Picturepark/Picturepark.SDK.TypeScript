@@ -97,7 +97,7 @@ export class PictureparkTemplates {
           {% endfor %}
         </div>
 
-        {% if share.ContentSelections.length > 1 %}
+        {% if config.showGallery != 'false' and config.showGallery != 'no' and share.ContentSelections.length > 1 %}
           <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
             class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
             <svg style="position: absolute; top: 50%; bottom: 50%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
@@ -210,7 +210,7 @@ export class PictureparkTemplates {
             {% endfor %}
           </div>
 
-          {% if share.ContentSelections.length > 1 %}
+          {% if config.showGallery != 'false' and config.showGallery != 'no' and share.ContentSelections.length > 1 %}
             <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
               class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
               <svg style="position: absolute; top: 50%; bottom: 50%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>

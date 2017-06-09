@@ -50,7 +50,12 @@ TODO
 
 **"basic" template**
 
+- data-show-gallery: true (default) | false
 - data-show-legend: true (default) | false
+
+**"card" template**
+
+- data-show-gallery: true (default) | false
 
 ### Browser support
 

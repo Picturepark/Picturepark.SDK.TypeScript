@@ -7,8 +7,10 @@ declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 declare var jwplayer;
 
+const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+
 export class PictureparkPlayers {
-  static loading = false; 
+  static loading = false;
 
   static showPrevious(elementId: string) {
     let gallery = PictureparkPlayers.getGallery(elementId);
@@ -50,7 +52,7 @@ export class PictureparkPlayers {
   static showDetail(token: string, contentId: string) {
     if (PictureparkPlayers.loading) return;
     PictureparkPlayers.loading = true;
-    
+
     let share: picturepark.ShareEmbedDetailViewItem = (<any>document).pictureparkShareCache[token];
 
     let embedItem: any = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Preview")[0];
@@ -77,10 +79,16 @@ export class PictureparkPlayers {
     if (originalSelection.Detail.FileExtension === '.pdf') {
       this.showPdfJsItem(originalEmbedItem);
       PictureparkPlayers.loading = false;
-    } else {
+    } else if (imageExtensions.indexOf(originalSelection.Detail.FileExtension) !== -1) {
       this.showPhotoSwipeItem(originalSelection, selections, outputs).then(() => {
         PictureparkPlayers.loading = false;
       });
+    } else {
+      var link = document.createElement("a");
+      link.href = originalEmbedItem.Url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   }
 
@@ -98,7 +106,7 @@ export class PictureparkPlayers {
         image: embedItem.Url,
         file: originalEmbedItem.Url,
         type: originalSelection.Detail.FileExtension.substr(1),
-        volume: 10, 
+        volume: 10,
         width: parseInt(config.width),
         height: parseInt(config.height)
       });
@@ -153,7 +161,7 @@ export class PictureparkPlayers {
       let originalOutputs = outputs.filter(o => o.OutputFormatId === 'Original');
       let hasOnlyImages = originalOutputs
         .map(s => s.Detail.FileExtension)
-        .filter(e => e === '.jpg' || e === 'jpeg' || e === 'png' || e === 'gif')
+        .filter(e => imageExtensions.indexOf(e) !== -1)
         .length === originalOutputs.length;
 
       let items = hasOnlyImages ? selections.map(s => {
@@ -163,9 +171,9 @@ export class PictureparkPlayers {
           h: s.Detail.Height
         };
       }) : [{
-          src: selection.Url,
-          w: selection.Detail.Width,
-          h: selection.Detail.Height
+        src: selection.Url,
+        w: selection.Detail.Width,
+        h: selection.Detail.Height
       }];
 
       var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, items, { index: selections.indexOf(selection) })
