@@ -71,14 +71,14 @@ export class PictureparkPlayers {
         }
       });
 
-    let selection: any = selections.filter(i => i.ContentId == contentId)[0];
+    let selection: any = selections.filter(i => i.ContentId === contentId)[0];
     let originalSelection = outputs.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
 
     if (originalSelection.Detail.FileExtension === '.pdf') {
       this.showPdfJsItem(originalEmbedItem);
       PictureparkPlayers.loading = false;
     } else {
-      this.showPhotoSwipeItem(selection, selections, outputs).then(() => {
+      this.showPhotoSwipeItem(originalSelection, selections, outputs).then(() => {
         PictureparkPlayers.loading = false;
       });
     }

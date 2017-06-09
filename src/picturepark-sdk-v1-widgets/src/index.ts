@@ -73,7 +73,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       if (embedItems && embedItems.length > 0) {
         let fileExtension = embedItems[0].Detail.FileExtension;
         (<any>s).Url = (<any>embedItems[0]).Url;
-        (<any>s).IsMovie = fileExtension === '.mov' || fileExtension === '.mp4' || fileExtension === '.mp3';
+        (<any>s).IsMovie = fileExtension === '.mov' || fileExtension === '.mp4' || fileExtension === '.mp3' || fileExtension === '.swf';
       }
       else
         (<any>s).IsMovie = false;
@@ -99,9 +99,10 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
         var selection: any = share.ContentSelections[i];
         if (selection.IsMovie) {
           let elementId = 'player_' + i + "_" + id;
+          let selectionId = share.ContentSelections[i].Id;
           setTimeout(() => {
             if (document.getElementById(elementId)) {
-              players.renderVideoPlayer(config, share.ContentSelections[0].Id, elementId);
+              players.renderVideoPlayer(config, selectionId, elementId);
             }
           });
         }

@@ -16,69 +16,54 @@
     <h3>picturepark-sdk-v1-widgets</h3>
 
     <h2>Embedded Share Sample</h2>
-    <script>
-      // var token = prompt('Embed Token: ', 'YacSP0ok');
-      // var allElements = document.getElementsByTagName('script');
-      // for (var i = 0, n = allElements.length; i < n; i++)
-      // {
-      //   if (allElements[i].getAttribute('data-picturepark-token'))
-      //     allElements[i].setAttribute('data-picturepark-token', token);
-      // }
-    </script>
 
+    <!-- "basic" template -->
     <div class="row">
       <div class="col-sm-4 col-md-4">
-        <h3>With "card" template (video): </h3>
+        <h3>"basic" template: </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="gdLjEY9g"
-                data-width="640"
-                data-height="480" 
-                data-template="card"></script>
+                data-picturepark-token="LzJO9KpP"
+                data-template="basic"
+                data-show-legend="true"
+                data-width="640"></script>
       </div>
     </div>
 
+    <!-- "card" template -->
     <div class="row">
       <div class="col-sm-4 col-md-4">
-        <h3>With "card" template (PDF): </h3>
+        <h3>"card" template: </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="cfzvs61z"
+                data-picturepark-token="LzJO9KpP"
+                data-template="card"
                 data-width="350" 
-                data-height="350" 
-                data-template="card"></script>
+                data-height="350"></script>
       </div>
     </div>
 
+    <!-- "list" template -->
     <div class="row">
       <div class="col-sm-4 col-md-4">
-        <h3>With "basic" template: </h3>
+        <h3>"list" template: </h3>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="4gf1hmB8"
+                data-picturepark-token="LzJO9KpP"
+                data-template="list"
                 data-width="350" 
-                data-height="350" 
-                data-template="basic"></script>
+                data-height="350"></script>
       </div>
     </div>
+
+    <!-- Custom template -->
     <div class="row">
       <div class="col-sm-4 col-md-4">
-        <h3>With "card" template: </h3>
-        <script src="../dist/picturepark-widgets.js" async 
-                data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="4gf1hmB8"
-                data-width="350" 
-                data-height="350" 
-                data-template="card"></script>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <h3>With custom template:</h3>
+        <h3>Custom template:</h3>
 
         <script type="text/template" 
                 data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="4gf1hmB8">
+                data-picturepark-token="LzJO9KpP">
           <template id="loading">
             Custom loading template.
           </template>
@@ -102,17 +87,6 @@
           </template>
         </script>
         <script src="../dist/picturepark-widgets.js" async></script>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <h3>With "list" template: </h3>
-        <script src="../dist/picturepark-widgets.js" async 
-                data-picturepark-server="https://qanext04.preview-picturepark.com" 
-                data-picturepark-token="4gf1hmB8"
-                data-width="350" 
-                data-height="350" 
-                data-template="list"></script>
       </div>
     </div>
   </div>

@@ -39,6 +39,19 @@ If you'd like to customize the template, you can provide own templates:
 
 TODO
 
+### Options
+
+- data-picturepark-server
+- data-picturepark-token
+- data-template: basic | card | list
+- data-width: number
+- data-height: number
+- data-render-styles: true (default) | false
+
+**"basic" template**
+
+- data-show-legend: true (default) | false
+
 ### Browser support
 
 - pictureparkWidgets.processScriptTag(): 
