@@ -12,7 +12,7 @@ import { PictureparkPlayers } from './players';
 import { PictureparkRenderEngine } from './rendering';
 import { PictureparkConfig } from './config';
 
-export let players = PictureparkPlayers;
+export { PictureparkPlayers as players } from './players';
 
 /**
  * Processes a script tag.
@@ -58,25 +58,48 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
   return window.fetch(config.server + '/Service/PublicAccess/GetShare?token=' + config.token).then(function (response) {
     return response.json();
-  }).then((share: picturepark.ShareEmbedDetailViewItem) => {
-    // Add download urls to content selections and outputs
-    for (let s of share.ContentSelections) {
-      for (let o of s.Outputs) {
-        let embedItems = share.EmbedContentItems.filter(e =>
-          e.ContentId === o.ContentId && e.OutputFormatId === o.OutputFormatId);
+  }).then((rawShare: picturepark.ShareEmbedDetailViewItem) => {
+    let index = 0;
+    let share = {
+      id: rawShare.Id,
+      url: rawShare.Url,
+      name: rawShare.Name,
+      audit: rawShare.Audit,
+      description: rawShare.Description,
+      items: rawShare.ContentSelections.map(s => {
+        let outputs = s.Outputs.map(o => {
+          let embedItem = rawShare.EmbedContentItems.filter(e => e.ContentId === o.ContentId && e.OutputFormatId === o.OutputFormatId)[0];
+          return {
+            contentId: embedItem ? embedItem.ContentId : null,
+            outputFormatId: o.OutputFormatId,
+            fileExtension: o.Detail.FileExtension,
+            url: embedItem ? embedItem.Url : null,
+            detail: o.Detail
+          }
+        });
 
-        if (embedItems && embedItems.length > 0)
-          (<any>o).Url = embedItems[0].Url;
-      }
+        let previewOutput = outputs.filter(o => o.outputFormatId === 'Preview')[0];
+        let originalOutput = outputs.filter(o => o.outputFormatId === 'Original')[0];
 
-      let embedItems = s.Outputs.filter(e => e.OutputFormatId === "Original");
-      if (embedItems && embedItems.length > 0) {
-        let fileExtension = embedItems[0].Detail.FileExtension;
-        (<any>s).Url = (<any>embedItems[0]).Url;
-        (<any>s).IsMovie = fileExtension === '.mov' || fileExtension === '.mp4' || fileExtension === '.mp3' || fileExtension === '.swf';
-      }
-      else
-        (<any>s).IsMovie = false;
+        return {
+          id: s.Id,
+          index: index++,
+          displayValues: s.DisplayValues,
+          detail: originalOutput.detail,
+
+          isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : null,
+          isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : null,
+
+          previewUrl: previewOutput ? previewOutput.url : null,
+          previewContentId: previewOutput ? previewOutput.contentId : null,
+          previewOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
+
+          originalUrl: originalOutput ? originalOutput.url : null,
+          originalContentId: previewOutput ? previewOutput.contentId : null,
+          originalOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
+          originalFileExtension: originalOutput ? originalOutput.fileExtension : null,
+        };
+      })
     }
 
     if (!(<any>document).pictureparkShareCache)
@@ -95,14 +118,13 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
         ' picturepark-widget-share-loaded">' + html + '</div>';
 
       // Load movie players
-      for (var i = 0; i < share.ContentSelections.length; i++) {
-        var selection: any = share.ContentSelections[i];
-        if (selection.IsMovie) {
-          let elementId = 'player_' + i + "_" + id;
-          let selectionId = share.ContentSelections[i].Id;
+      for (let item of share.items) {
+        if (item.isMovie) {
+          let itemId = item.id;
+          let elementId = 'player_' + item.index + "_" + id;
           setTimeout(() => {
             if (document.getElementById(elementId)) {
-              players.renderVideoPlayer(config, selectionId, elementId);
+              PictureparkPlayers.renderVideoPlayer(config, itemId, elementId);
             }
           });
         }
