@@ -1,6 +1,6 @@
 # Picturepark Content Platform Widgets
 
-## picturepark-sdk-v1-ng2-pickers
+## picturepark-sdk-v1-pickers
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-pickers/api/index.html)
 
@@ -27,11 +27,38 @@ Load the required JavaScript library:
 
 Open the picker and handle the response: 
 
-```JavaScript
+```js
 pictureparkPickers.showContentPicker("https://your-picturepark-server.com").then(function (result) {
-    // TODO: Handle response
+    if (result) {
+        // TODO: The user selected some content items and an embedded share has been created
+    } else {
+        // TODO: The user clicked cancel
+    }
 });
 ```
+
+The `result` is undefined if the user clicked cancel or looks like: 
+
+```json
+{
+  "token": "nGmmbMyX",
+  "shareId": "114bddcf617f4becbc4da981b457ba22",
+  "items": [
+    {
+      "token": "JQTe0hgT",
+      "url": "https://devnext.preview-picturepark.com/Embed/JQTe0hgT"
+    },
+    {
+      "token": "7EEpblZt",
+      "url": "https://devnext.preview-picturepark.com/Embed/7EEpblZt"
+    },
+    {
+      "token": "bnNGJUUp",
+      "url": "https://devnext.preview-picturepark.com/Embed/bnNGJUUp"
+    }
+  ]
+}
+``` 
 
 ### Browser support
 
