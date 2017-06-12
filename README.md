@@ -44,19 +44,19 @@ In the project directory (e.g. in `src/picturepark-sdk-v1-angular-app`):
 
 **[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
 
-(NPM: `@picturepark/sdk-v1-angular`)
+NPM package: `@picturepark/sdk-v1-angular`
 
 Contains Angular service components to access the public Picturepark API.
 
 **[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular-ui/README.md)** 
 
-(NPM: `@picturepark/sdk-v1-angular-ui`)
+NPM package: `@picturepark/sdk-v1-angular-ui`
 
 Contains reusable Angular UI components
 
 **[picturepark-sdk-v1-angular-app](docs/picturepark-sdk-v1-angular-app/README.md)** 
 
-(NPM: `@picturepark/sdk-v1-angular-app`)
+NPM package: `@picturepark/sdk-v1-angular-app`
 
 Contains embeddable UI components. This app is usually distributed alongside a Picturepark server instance.
 
