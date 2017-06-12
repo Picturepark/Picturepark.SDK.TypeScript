@@ -13,6 +13,6 @@ cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-pickers.
 
 cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-widgets.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-widgets\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-widgets\API.md" --theme default --name "picturepark-sdk-v1-widgets API"
 
-cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-ng2\src" --out "%~dp0\..\docs\picturepark-sdk-v1-ng2\api" --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-ng2\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-ng2\src\tsconfig.app.json" --excludePrivate --name "picturepark-sdk-v1-ng2 API"
+cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-angular\src" --out "%~dp0\..\docs\picturepark-sdk-v1-angular\api" --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-angular\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-angular\src\tsconfig.app.json" --excludePrivate --name "@picturepark/sdk-v1-angular API"
 
 rmdir "%~dp0\..\docs\temp\" /s /q

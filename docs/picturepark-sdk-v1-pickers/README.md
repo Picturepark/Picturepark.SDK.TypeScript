@@ -1,6 +1,6 @@
 # Picturepark Content Platform Widgets
 
-## picturepark-sdk-v1-ng2-pickers
+## picturepark-sdk-v1-pickers
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-pickers/api/index.html)
 

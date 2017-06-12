@@ -1,6 +1,6 @@
 # Picturepark Content Platform Widgets
 
-## picturepark-sdk-v1-ng2-widgets
+## picturepark-sdk-v1-widgets
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-widgets/api/index.html)
 

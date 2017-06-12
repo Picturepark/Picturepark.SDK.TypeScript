@@ -1,6 +1,6 @@
 # pp-share-card
 
-**NPM Package:** picturepark-sdk-v1-ng2-ui
+**NPM Package:** @picturepark/sdk-v1-angular-ui
 
 Renders the contents of a share in a card.
 

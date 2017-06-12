@@ -1,6 +1,6 @@
 # AuthService
 
-**NPM Package:** picturepark-sdk-v1-ng2
+**NPM Package:** @picturepark/sdk-v1-angular
 
 A client which provides methods to authenticate/login and logout a user from the Picturepark server.
 
