@@ -8,7 +8,6 @@
 Links:
 
 - [Picturepark Website](https://picturepark.com/)
-- [SDK Documentation](docs/README.md)
 - [Sources](src/)
 
 ## Projects
