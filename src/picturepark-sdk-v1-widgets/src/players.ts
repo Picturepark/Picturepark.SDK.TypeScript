@@ -13,8 +13,12 @@ export class PictureparkPlayers {
   static imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
   static videoExtensions = ['.mov', '.mp4', '.mp3'];
 
-  static showPrevious(elementId: string) {
+  static showPrevious(token: string, elementId: string) {
+    let share = (<any>document).pictureparkShareCache[token];
     let gallery = PictureparkPlayers.getGallery(elementId);
+
+    if (share.player)
+      share.player.pause();
 
     let newIndex = gallery.index - 1;
     if (newIndex < 0)
@@ -24,8 +28,12 @@ export class PictureparkPlayers {
     gallery.children[newIndex].element.style.display = '';
   }
 
-  static showNext(elementId: string) {
+  static showNext(token: string, elementId: string) {
+    let share = (<any>document).pictureparkShareCache[token];
     let gallery = PictureparkPlayers.getGallery(elementId);
+
+    if (share.player)
+      share.player.pause();
 
     let newIndex = gallery.index + 1;
     if (newIndex === gallery.children.length)
@@ -79,7 +87,7 @@ export class PictureparkPlayers {
     let item = share.items.filter(i => i.id === id)[0];
 
     this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js").then(() => {
-      const player = jwplayer(elementId).setup({
+      share.player = jwplayer(elementId).setup({
         autostart: false,
         image: item.previewUrl,
         file: item.originalUrl,
