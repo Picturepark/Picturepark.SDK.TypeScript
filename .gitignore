@@ -1,2 +1,3 @@
 node_modules
 /src/picturepark-sdk-v1-angular/src/tests/config.ts
+/samples/picturepark-sdk-v1-sample-reactredux/build
