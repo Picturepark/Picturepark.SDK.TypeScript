@@ -20,30 +20,6 @@ export class PictureparkRenderEngine {
       }
     });
 
-    engine.registerTag('resize', {
-      parse: function (token) {
-        this.token = token;
-      },
-      render: function (scope, hash) {
-        let args = this.token.args.split(' ');
-
-        let embedItem = Liquid.evalExp(args[0], scope);
-        let width = Liquid.evalExp(args[1], scope);
-        let height = Liquid.evalExp(args[2], scope);
-
-        try {
-          let out: string = embedItem.Url;
-          out = out.replace("/Embed/", "/Go/");
-          out += `/V/${embedItem.ContentId}/${embedItem.OutputFormatId}/${width}/${height}`;
-          return out;
-        }
-        catch (ex) {
-          console.log(ex);
-          return "";
-        }
-      }
-    });
-
     engine.registerTag('resizeById', {
       parse: function (token) {
         this.token = token;
@@ -52,22 +28,18 @@ export class PictureparkRenderEngine {
         let args = this.token.args.split(' ');
 
         let share = scope.scopes[0].share;
-        let contentId = Liquid.evalExp(args[0], scope);
+        let id = Liquid.evalExp(args[0], scope);
         let outputFormatId = Liquid.evalExp(args[1], scope);
         let width = Liquid.evalExp(args[2], scope);
         let height = Liquid.evalExp(args[3], scope);
 
         try {
-          let embedItem: any = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === outputFormatId)[0];
-          if (!embedItem) {
-            // Fallback to original
-            embedItem = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === 'Original')[0];
+          let item = share.items.filter(i => i.id === id)[0];
+          if (outputFormatId === "Preview" && item.previewUrl) {
+            return item.previewUrl.replace("/Embed/", "/Go/") + `/V/${item.previewContentId}/Preview/${width}/${height}`;
+          } else {
+            return item.originalUrl.replace("/Embed/", "/Go/") + `/V/${item.originalContentId}/Original/${width}/${height}`;
           }
-
-          let out: string = embedItem.Url;
-          out = out.replace("/Embed/", "/Go/");
-          out += `/V/${embedItem.ContentId}/${embedItem.OutputFormatId}/${width}/${height}`;
-          return out;
         } catch (ex) {
           console.log(ex);
           return "";

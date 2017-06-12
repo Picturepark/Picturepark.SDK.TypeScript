@@ -78,15 +78,15 @@ export class PictureparkTemplates {
         {% assign width = config.width | plus: -2 %}
         {% assign height = config.height | plus: -1 %}
         <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
-          {% for selection in share.ContentSelections %}
+          {% for selection in share.items %}
             <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}" 
                 {% if forloop.first == false %}style="display: none"{% endif %}>
-              {% if selection.IsMovie %}
+              {% if selection.isMovie %}
               <div id="player_{{ forloop.index0 }}_{{ id }}">
               </div>
               {% else %}
-              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
-                <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.Id 'Preview' width height %}" />
+              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}')">
+                <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
               </a>
               {% endif %}
             </div>
@@ -95,21 +95,21 @@ export class PictureparkTemplates {
 
         {% if config.showLegend != 'false' and config.showLegend != 'no' %}
           <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
-            <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.Name }}</div>
-            {% if share.Description %}
-              <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.Description }}</div>
+            <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.name }}</div>
+            {% if share.description %}
+              <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.description }}</div>
             {% endif %}
           </div>
         {% endif %}
 
-        {% if config.showGallery != 'false' and config.showGallery != 'no' and share.ContentSelections.length > 1 %}
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
+        {% if config.showGallery != 'false' and config.showGallery != 'no' and share.items.length > 1 %}
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('{{ config.token }}', 'gallery_{{ id }}')"
             class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
-            <svg style="position: absolute; top: 50%; bottom: 50%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
+            <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
           </a>
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('gallery_{{ id }}')"
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('{{ config.token }}', 'gallery_{{ id }}')"
             class="picturepark-widget-share-navigate-next picturepark-widget-share-navigate-next-{{id}}">
-            <svg style="position: absolute; top: 50%; bottom: 50%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
+            <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
           </a>
         {% endif %}
       </div>`;
@@ -187,15 +187,15 @@ export class PictureparkTemplates {
           {% assign width = config.width | plus: -2 %}
           {% assign height = config.height | plus: -1 %}
           <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
-            {% for selection in share.ContentSelections %}
+            {% for selection in share.items %}
             <div class="picturepark-widget-card-media picturepark-widget-card-media-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
-              {% if selection.IsMovie %}
+              {% if selection.isMovie %}
               <div id="player_{{ forloop.index0 }}_{{ id }}">
               </div>
               {% else %}
-              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.Id }}')">
-                <img class="picturepark-widget-card-image picturepark-widget-card-image-{{id}}" src="{% resizeById selection.Id 'Preview' width height %}" />
+              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}')">
+                <img class="picturepark-widget-card-image picturepark-widget-card-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
               </a>
               {% endif %}
               
@@ -220,27 +220,27 @@ export class PictureparkTemplates {
             {% endfor %}
           </div>
 
-          {% if config.showGallery != 'false' and config.showGallery != 'no' and share.ContentSelections.length > 1 %}
-            <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('gallery_{{ id }}')"
-              class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
-              <svg style="position: absolute; top: 50%; bottom: 50%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
-            </a>
-            <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('gallery_{{ id }}')"
-              class="picturepark-widget-share-navigate-next picturepark-widget-share-navigate-next-{{id}}">
-              <svg style="position: absolute; top: 50%; bottom: 50%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
-            </a>
+          {% if config.showGallery != 'false' and config.showGallery != 'no' and share.items.length > 1 %}
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('{{ config.token }}', 'gallery_{{ id }}')"
+            class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
+            <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
+          </a>
+          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('{{ config.token }}', 'gallery_{{ id }}')"
+            class="picturepark-widget-share-navigate-next picturepark-widget-share-navigate-next-{{id}}">
+            <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
+          </a>
           {% endif %}
         </div>
 
         <div class="picturepark-widget-card-content picturepark-widget-card-content-{{id}}">
-          <div class="picturepark-widget-card-title picturepark-widget-card-title-{{id}}">{{ share.Name }}</div>
-          {% if share.Description %}
-            <div class="picturepark-widget-card-description picturepark-widget-card-description-{{id}}">{{ share.Description }}</div>
+          <div class="picturepark-widget-card-title picturepark-widget-card-title-{{id}}">{{ share.name }}</div>
+          {% if share.description %}
+            <div class="picturepark-widget-card-description picturepark-widget-card-description-{{id}}">{{ share.description }}</div>
           {% endif %}
           <hr class="picturepark-widget-card-hr picturepark-widget-card-hr-{{id}}">
           <div class="picturepark-widget-card-sharedby picturepark-widget-card-sharedby-{{id}}">
-            <img src="//www.gravatar.com/avatar/{{ share.Audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-gravatar picturepark-widget-card-gravatar-{{id}}" />
-            Shared by: {{ share.Audit.CreatedByUser.FirstName }} {{ share.Audit.CreatedByUser.LastName }}
+            <img src="//www.gravatar.com/avatar/{{ share.audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-gravatar picturepark-widget-card-gravatar-{{id}}" />
+            Shared by: {{ share.audit.CreatedByUser.FirstName }} {{ share.audit.CreatedByUser.LastName }}
             </div>
         </div>
       </div>`;
@@ -291,10 +291,10 @@ export class PictureparkTemplates {
           </span>
         </h1>
         <ul class="picturepark-widget-list-body picturepark-widget-list-body-{{id}}">
-        {% for selection in share.ContentSelections %}
+        {% for selection in share.items %}
           <li>
             <span style="float:right">
-              <a href="{{selection.Url}}">
+              <a href="{{selection.originalUrl}}">
                 <svg height="19px" version="1.1" viewBox="0 0 14 19" width="14px" xmlns="http://www.w3.org/2000/svg" 
                      xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title/><desc/><defs/>
@@ -309,7 +309,7 @@ export class PictureparkTemplates {
               </a>
             </span>
             <span>
-              <strong>{{ selection.DisplayValues.List }}</strong><br />
+              <strong>{{ selection.displayValues.List }}</strong><br />
               TBD
             </span>
           </li>

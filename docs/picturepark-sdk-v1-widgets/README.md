@@ -1,6 +1,6 @@
 # Picturepark Content Platform Widgets
 
-## picturepark-sdk-v1-ng2-widgets
+## picturepark-sdk-v1-widgets
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-widgets/api/index.html)
 
@@ -29,7 +29,7 @@ Load the script in your website:
 
 To embed a shared content item, insert the following HTML snippet into your website: 
 
-```JavaScript
+```js
 <script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
         data-picturepark-server="YOUR_SERVER_URL" 
         data-picturepark-token="YOUR_TOKEN"></script>

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "link": "call \"build/01_LinkNpmPackages.bat\"",
-    "nswag": "nswag run \"src/picturepark-sdk-v1-ng2/nswag.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\"",
+    "nswag": "nswag run \"src/picturepark-sdk-v1-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\"",
     
     "test": "PowerShell -File \"build/02_RunTests.ps1\"", 
     

@@ -10,8 +10,8 @@ Then, run one of the following scripts:
 
 Creates local node_modules directory links so that
 
-- picturepark-sdk-v1-ng2
-- picturepark-sdk-v1-ng2-ui
+- picturepark-sdk-v1-angular
+- picturepark-sdk-v1-angular-ui
 
 are locally linked and all projects can be built.
 

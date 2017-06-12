@@ -1,0 +1,95 @@
+<div class="container">
+  <h1>picturepark-sdk-v1-angular-ui</h1>
+  <div class="panel panel-default">
+    <div class="panel-heading">pp-login</div>
+    <div class="panel-body">
+      <pp-login username=""
+                password="" 
+                rememberPassword="true"
+                (loggedIn)="onLoggedIn()"></pp-login>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">pp-logout</div>
+        <div class="panel-body">
+          <pp-logout></pp-logout>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">pp-share-card</div>
+        <div class="panel-body">
+          <div class="alert alert-success">
+            Share Token:
+            <input type="text" [(ngModel)]="shareToken" />
+          </div>
+          <pp-share-card [token]="shareToken"></pp-share-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="authService.isLoggedIn">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">pp-channel-picker</div>
+              <div class="panel-body">
+                <pp-channel-picker label="Choose Channel" 
+                                   [(channel)]="selectedChannel"></pp-channel-picker>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">pp-search-box</div>
+              <div class="panel-body">
+                <pp-search-box [(query)]="searchText"></pp-search-box>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">pp-content-browser</div>
+          <div class="panel-body">
+            <div class="alert alert-success">
+              <div>
+                Selected Items: {{selectedItems.length}}, Selection Mode:
+                <select [(ngModel)]="selectionMode">
+                  <option value="none">none</option>
+                  <option value="single">single</option>
+                  <option value="multiple">multiple</option>
+                </select>
+                <div class="btn btn-default" (click)="embed()">Embed</div>
+              </div>
+            </div>
+
+            <pp-content-browser [selectionMode]="selectionMode" 
+                                [channel]="selectedChannel" 
+                                [filters]="filters" 
+                                [query]="searchText"
+                                [(selectedItems)]="selectedItems" 
+                                columns="3">
+            </pp-content-browser>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">pp-aggregation-filter</div>
+          <div class="panel-body">
+            <div style="padding: 0 10px 0 10px">
+              <pp-aggregation-filter [channel]="selectedChannel" 
+                                     [query]="searchText" 
+                                     [(filters)]="filters"></pp-aggregation-filter>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
