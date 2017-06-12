@@ -1,6 +1,6 @@
 # Picturepark Content Platform Angular Components
 
-## @picturepark/sdk-v1-angular-ui
+## @picturepark/sdk-v1-angular
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-angular/api/index.html)
 
