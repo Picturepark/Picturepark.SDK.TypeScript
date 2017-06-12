@@ -42,17 +42,23 @@ In the project directory (e.g. in `src/picturepark-sdk-v1-angular-app`):
 - Run `npm start` to start the Angular project
 - Open the URL `http://localhost:4200` in the browser
 
-**[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)**
+**[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
 
 Contains Angular service components to access the public Picturepark API.
 
-**[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular-ui/README.md)**
+NPM package: `@picturepark/sdk-v1-angular`
+
+**[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular-ui/README.md)** 
 
 Contains reusable Angular UI components
 
-**[picturepark-sdk-v1-angular-app](docs/picturepark-sdk-v1-angular-app/README.md)**
+NPM package: `@picturepark/sdk-v1-angular-ui`
+
+**[picturepark-sdk-v1-angular-app](docs/picturepark-sdk-v1-angular-app/README.md)** 
 
 Contains embeddable UI components. This app is usually distributed alongside a Picturepark server instance.
+
+NPM package: `@picturepark/sdk-v1-angular-app`
 
 ## SDK Development
 
@@ -72,5 +78,5 @@ Branch: master
 
 Branch: release
 
-- NPM Feed: tbd
+- NPM Feed: https://www.npmjs.com/~picturepark
 - AppVeyor Build: https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript
