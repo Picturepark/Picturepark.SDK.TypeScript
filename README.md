@@ -72,5 +72,5 @@ Branch: master
 
 Branch: release
 
-- NPM Feed: tbd
+- NPM Feed: https://www.npmjs.com/~picturepark
 - AppVeyor Build: https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript
