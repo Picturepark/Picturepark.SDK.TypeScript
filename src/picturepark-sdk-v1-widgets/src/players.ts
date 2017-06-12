@@ -18,7 +18,7 @@ export class PictureparkPlayers {
     let gallery = PictureparkPlayers.getGallery(elementId);
 
     if (share.player)
-      share.player.pause();
+      share.player.stop();
 
     let newIndex = gallery.index - 1;
     if (newIndex < 0)
@@ -33,7 +33,7 @@ export class PictureparkPlayers {
     let gallery = PictureparkPlayers.getGallery(elementId);
 
     if (share.player)
-      share.player.pause();
+      share.player.stop();
 
     let newIndex = gallery.index + 1;
     if (newIndex === gallery.children.length)
