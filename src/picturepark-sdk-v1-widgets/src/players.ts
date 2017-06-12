@@ -7,13 +7,18 @@ declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 declare var jwplayer;
 
-const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-
 export class PictureparkPlayers {
   static loading = false;
 
-  static showPrevious(elementId: string) {
+  static imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+  static videoExtensions = ['.mov', '.mp4', '.mp3'];
+
+  static showPrevious(token: string, elementId: string) {
+    let share = (<any>document).pictureparkShareCache[token];
     let gallery = PictureparkPlayers.getGallery(elementId);
+
+    if (share.player)
+      share.player.stop();
 
     let newIndex = gallery.index - 1;
     if (newIndex < 0)
@@ -23,8 +28,12 @@ export class PictureparkPlayers {
     gallery.children[newIndex].element.style.display = '';
   }
 
-  static showNext(elementId: string) {
+  static showNext(token: string, elementId: string) {
+    let share = (<any>document).pictureparkShareCache[token];
     let gallery = PictureparkPlayers.getGallery(elementId);
+
+    if (share.player)
+      share.player.stop();
 
     let newIndex = gallery.index + 1;
     if (newIndex === gallery.children.length)
@@ -49,64 +58,40 @@ export class PictureparkPlayers {
     return { children: children, index: visibleIndex };
   }
 
-  static showDetail(token: string, contentId: string) {
+  static showDetail(token: string, id: string) {
     if (PictureparkPlayers.loading) return;
     PictureparkPlayers.loading = true;
 
-    let share: picturepark.ShareEmbedDetailViewItem = (<any>document).pictureparkShareCache[token];
+    let share = (<any>document).pictureparkShareCache[token];
+    let item = share.items.filter(i => i.id === id)[0];
 
-    let embedItem: any = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Preview")[0];
-    let originalEmbedItem = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
-
-    if (!embedItem)
-      embedItem = originalEmbedItem;
-
-    let outputs: picturepark.OutputViewItem[] = share.ContentSelections
-      .reduce((c, s) => c.concat(s.Outputs), []);
-
-    let selections: any = outputs
-      .filter(i => i.OutputFormatId === embedItem.OutputFormatId)
-      .map(s => {
-        return {
-          Url: share.EmbedContentItems.filter(e => e.ContentId === s.ContentId && e.OutputFormatId === s.OutputFormatId)[0].Url,
-          ...s
-        }
-      });
-
-    let selection: any = selections.filter(i => i.ContentId === contentId)[0];
-    let originalSelection = outputs.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
-
-    if (originalSelection.Detail.FileExtension === '.pdf') {
-      this.showPdfJsItem(originalEmbedItem);
+    if (item.originalFileExtension === '.pdf') {
+      this.showPdfJsItem(item);
       PictureparkPlayers.loading = false;
-    } else if (imageExtensions.indexOf(originalSelection.Detail.FileExtension) !== -1) {
-      this.showPhotoSwipeItem(originalSelection, selections, outputs).then(() => {
+    } else if (item.isImage) {
+      this.showPhotoSwipeItem(item, share.items).then(() => {
         PictureparkPlayers.loading = false;
       });
     } else {
       var link = document.createElement("a");
-      link.href = originalEmbedItem.Url;
+      link.href = item.originalUrl;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      PictureparkPlayers.loading = false;
     }
   }
 
-  static renderVideoPlayer(config: any, contentId: string, elementId: string) {
-    let share: picturepark.ShareEmbedDetailViewItem = (<any>document).pictureparkShareCache[config.token];
-    let embedItem: any = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Preview")[0];
-    let originalEmbedItem = share.EmbedContentItems.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
-    let outputs: picturepark.OutputViewItem[] = share.ContentSelections
-      .reduce((c, s) => c.concat(s.Outputs), []);
-    let originalSelection = outputs.filter(i => i.ContentId === contentId && i.OutputFormatId === "Original")[0];
+  static renderVideoPlayer(config: any, id: string, elementId: string) {
+    let share = (<any>document).pictureparkShareCache[config.token];
+    let item = share.items.filter(i => i.id === id)[0];
 
     this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js").then(() => {
-      const player = jwplayer(elementId).setup({
+      share.player = jwplayer(elementId).setup({
         autostart: false,
-        image: embedItem.Url,
-        file: originalEmbedItem.Url,
-        type: originalSelection.Detail.FileExtension.substr(1),
-        volume: 10,
+        image: item.previewUrl,
+        file: item.originalUrl,
+        type: item.originalFileExtension.substr(1),
         width: parseInt(config.width),
         height: parseInt(config.height)
       });
@@ -115,21 +100,23 @@ export class PictureparkPlayers {
 
   static getScriptsPath() {
     let scriptFile = 'picturepark-widgets.js';
-    for (let tag of document.getElementsByTagName('script')) {
-      if (tag.src.indexOf(scriptFile) !== -1)
-        return tag.src.substring(0, tag.src.length - scriptFile.length)
+    let elements = document.getElementsByTagName('script');
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      if (element.src.indexOf(scriptFile) !== -1)
+        return element.src.substring(0, element.src.length - scriptFile.length)
     }
     return undefined;
   }
 
-  static showPdfJsItem(embedItem: picturepark.EmbedContentViewItem) {
+  static showPdfJsItem(item) {
     let iframeElement = document.createElement("iframe");
     iframeElement.style.position = 'fixed';
     iframeElement.style.left = '0';
     iframeElement.style.top = '0';
     iframeElement.style.width = '100%';
     iframeElement.style.height = '100%';
-    iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + embedItem.Url;
+    iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + item.originalUrl;
 
     let prevOverflow = document.body.style.overflow;
     let keydownCallback = (e: KeyboardEvent) => {
@@ -156,27 +143,23 @@ export class PictureparkPlayers {
     document.body.appendChild(iframeElement);
   }
 
-  static showPhotoSwipeItem(selection, selections, outputs: picturepark.OutputViewItem[]) {
+  static showPhotoSwipeItem(item, items: any[]) {
     return this.loadPhotoSwipe().then(element => {
-      let originalOutputs = outputs.filter(o => o.OutputFormatId === 'Original');
-      let hasOnlyImages = originalOutputs
-        .map(s => s.Detail.FileExtension)
-        .filter(e => imageExtensions.indexOf(e) !== -1)
-        .length === originalOutputs.length;
+      let hasOnlyImages = items.filter(i => i.isImage).length === items.length;
 
-      let items = hasOnlyImages ? selections.map(s => {
+      let photoSwipeItems = hasOnlyImages ? items.map(i => {
         return {
-          src: s.Url,
-          w: s.Detail.Width,
-          h: s.Detail.Height
+          src: i.originalUrl,
+          w: i.detail.Width,
+          h: i.detail.Height
         };
       }) : [{
-        src: selection.Url,
-        w: selection.Detail.Width,
-        h: selection.Detail.Height
+        src: item.originalUrl,
+        w: item.detail.Width,
+        h: item.detail.Height
       }];
 
-      var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, items, { index: selections.indexOf(selection) })
+      var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, photoSwipeItems, { index: items.indexOf(item) })
       gallery.init();
     });
   }
