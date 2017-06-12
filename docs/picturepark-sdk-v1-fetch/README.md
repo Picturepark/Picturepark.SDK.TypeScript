@@ -17,21 +17,35 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
     npm run start:fetch
 
-### Usage
+### Usage of the global module
 
 Load the script in your website: 
 
-```Html
+```html
 <script src="picturepark.js"></script>
 ```
 
 The available classes are now available in the global namespace `picturepark`: 
 
-```JavaScript
+```js
 var client = new picturepark.PublicAccessClient('https://my-picturepark-server.com');
 client.getShare('4rgTsG52').then(function(result) {
     // TODO: Process result
 }).catch(function(error) {
     // TODO: Handle exception
 });
+```
+
+### Usage of the AMD module
+
+Install the NPM package: 
+
+    npm i @picturepark/sdk-v1-fetch
+
+Import and instantiate the client:
+
+```js
+import { PublicAccessClient } from '@picturepark/sdk-v1-fetch';
+ 
+let publicAccessClient = new PublicAccessClient('https://qanext04.preview-picturepark.com');
 ```

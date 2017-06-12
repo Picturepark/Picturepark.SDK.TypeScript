@@ -35,7 +35,7 @@
       "importRequiredTypes": true,
       "baseUrlTokenName": "API_BASE_URL",
       "serviceHost": ".",
-      "output": "src/picturepark.services.ts"
+      "output": "src/index.ts"
     }
   }
 }

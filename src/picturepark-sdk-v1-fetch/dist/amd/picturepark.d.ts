@@ -1,4 +1,4 @@
-declare module "picturepark" {
+
     export class ContentClient {
         private http;
         private baseUrl;
@@ -3595,4 +3595,4 @@ declare module "picturepark" {
         result: any;
         constructor(message: string, status: number, response: string, result: any);
     }
-}
+
