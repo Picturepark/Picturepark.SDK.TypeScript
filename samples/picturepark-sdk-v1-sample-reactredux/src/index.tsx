@@ -10,10 +10,8 @@ import { StoreState } from './types/index';
 
 import './index.css';
 
-const store = createStore<StoreState>(enthusiasm, {
-  loading: false,
-  share: null,
-}, applyMiddleware(thunk));
+let initialState = { loading: false, share: null };
+const store = createStore<StoreState>(enthusiasm, initialState, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>

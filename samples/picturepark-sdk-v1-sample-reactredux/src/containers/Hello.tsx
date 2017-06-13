@@ -12,7 +12,7 @@ export function mapStateToProps({ loading, share }: StoreState) {
 
 export function mapDispatchToProps(dispatch: Dispatch<actions.KnownActions>) {
   return {
-    requestShare: () => dispatch(actions.requestShare("dBTaEFAF")),
+    requestShare: () => dispatch(actions.requestShare('oIS3Axu1')),
   };
 }
 
