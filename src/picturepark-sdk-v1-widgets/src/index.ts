@@ -154,8 +154,9 @@ function getScriptsPath() {
   let elements = document.getElementsByTagName('script');
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
-    if (element.src.indexOf(scriptFile) !== -1)
-      return element.src.substring(0, element.src.length - scriptFile.length)
+    var index = element.src.indexOf(scriptFile);
+    if (index !== -1)
+      return element.src.substring(0, index);
   }
   return undefined;
 }
