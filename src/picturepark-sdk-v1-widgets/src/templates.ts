@@ -85,7 +85,7 @@ export class PictureparkTemplates {
               <div id="player_{{ forloop.index0 }}_{{ id }}">
               </div>
               {% else %}
-              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}')">
+              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
                 <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
               </a>
               {% endif %}
@@ -194,7 +194,7 @@ export class PictureparkTemplates {
               <div id="player_{{ forloop.index0 }}_{{ id }}">
               </div>
               {% else %}
-              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}')">
+              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
                 <img class="picturepark-widget-card-image picturepark-widget-card-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
               </a>
               {% endif %}

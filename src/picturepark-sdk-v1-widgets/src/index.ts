@@ -149,6 +149,20 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   });
 };
 
+function getScriptsPath() {
+  let scriptFile = 'picturepark-widgets.js';
+  let elements = document.getElementsByTagName('script');
+  for (var i = 0; i < elements.length; i++) {
+    var element = elements[i];
+    if (element.src.indexOf(scriptFile) !== -1)
+      return element.src.substring(0, element.src.length - scriptFile.length)
+  }
+  return undefined;
+}
+
+if (PictureparkPlayers.scriptsPath === undefined)
+  PictureparkPlayers.scriptsPath = getScriptsPath();
+
 // Scan all script tags
 (function () {
   var scriptTags = document.getElementsByTagName('script');

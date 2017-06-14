@@ -3,12 +3,9 @@
 
 import * as picturepark from 'picturepark';
 
-declare var PhotoSwipe;
-declare var PhotoSwipeUI_Default;
-declare var jwplayer;
-
 export class PictureparkPlayers {
     static loading = false;
+    static scriptsPath = undefined;
 
     static imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
     static videoExtensions = ['.mov', '.mp4', '.mp3'];
@@ -24,8 +21,7 @@ export class PictureparkPlayers {
         if (newIndex < 0)
             newIndex = gallery.children.length - 1;
 
-        gallery.children[gallery.index].element.style.display = 'none';
-        gallery.children[newIndex].element.style.display = '';
+        PictureparkPlayers.showGalleryItem(gallery, newIndex);
     }
 
     static showNext(token: string, elementId: string) {
@@ -39,8 +35,14 @@ export class PictureparkPlayers {
         if (newIndex === gallery.children.length)
             newIndex = 0;
 
-        gallery.children[gallery.index].element.style.display = 'none';
-        gallery.children[newIndex].element.style.display = '';
+        PictureparkPlayers.showGalleryItem(gallery, newIndex);
+    }
+
+    private static showGalleryItem(gallery: any, newIndex: number) {
+        if (gallery.index !== newIndex) {
+            gallery.children[gallery.index].element.style.display = 'none';
+            gallery.children[newIndex].element.style.display = '';
+        }
     }
 
     private static getGallery(elementId: string) {
@@ -58,12 +60,12 @@ export class PictureparkPlayers {
         return { children: children, index: visibleIndex };
     }
 
-    static showDetail(token: string, id: string) {
+    static showDetail(token: string, itemId: string, widgetId: string) {
         if (PictureparkPlayers.loading) return;
         PictureparkPlayers.loading = true;
 
         let share = (<any>document).pictureparkShareCache[token];
-        let item = share.items.filter(i => i.id === id)[0];
+        let item = share.items.filter(i => i.id === itemId)[0];
 
         if (item.isPdf && share.items.length === 1) {
             this.showPdfJsItem(item);
@@ -71,7 +73,7 @@ export class PictureparkPlayers {
         } else if (item.isImage || item.isPdf) {
             let savedOverflow = document.body.style.overflow;
             document.body.style.overflow = 'hidden';
-            this.showPhotoSwipeItem(token, item, share.items).then(() => {
+            this.showPhotoSwipeItem(token, item, share.items, 'gallery_' + widgetId).then(() => {
                 PictureparkPlayers.loading = false;
                 document.body.style.overflow = savedOverflow;
             });
@@ -90,7 +92,7 @@ export class PictureparkPlayers {
         let share = (<any>document).pictureparkShareCache[token];
         let item = share.items.filter(i => i.id === id)[0];
 
-        this.loadVideoPlayer().then(() => {
+        this.loadVideoPlayer().then((jwplayer) => {
             let player = jwplayer(elementId);
             if (player.setup) {
                 share.player = jwplayer(elementId).setup({
@@ -107,19 +109,8 @@ export class PictureparkPlayers {
 
     static loadVideoPlayer() {
         if ((<any>window).jwplayer)
-            return Promise.resolve();
-        return this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js");
-    }
-
-    static getScriptsPath() {
-        let scriptFile = 'picturepark-widgets.js';
-        let elements = document.getElementsByTagName('script');
-        for (var i = 0; i < elements.length; i++) {
-            var element = elements[i];
-            if (element.src.indexOf(scriptFile) !== -1)
-                return element.src.substring(0, element.src.length - scriptFile.length)
-        }
-        return undefined;
+            return Promise.resolve((<any>window).jwplayer);
+        return this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js", false, 'jwplayer');
     }
 
     static showPdfJsItem(item) {
@@ -129,7 +120,7 @@ export class PictureparkPlayers {
         iframeElement.style.top = '0';
         iframeElement.style.width = '100%';
         iframeElement.style.height = '100%';
-        iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + item.originalUrl;
+        iframeElement.src = PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + item.originalUrl;
 
         let savedOverflow = document.body.style.overflow;
         let keydownCallback = (e: KeyboardEvent) => {
@@ -159,8 +150,8 @@ export class PictureparkPlayers {
         document.body.appendChild(iframeElement);
     }
 
-    static showPhotoSwipeItem(token: string, item: any, items: any[]) {
-        return this.loadPhotoSwipe().then(element => {
+    static showPhotoSwipeItem(token: string, item: any, items: any[], galleryElementId: string) {
+        return this.loadPhotoSwipe().then(result => {
             let photoSwipeItems = items.map(i => {
                 if (i.isImage) {
                     return {
@@ -171,7 +162,7 @@ export class PictureparkPlayers {
                 } else if (i.isPdf) {
                     return {
                         html: '<iframe style="position: fixed; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-                        'src="http://localhost:8080/dist/pdfjs/viewer.html?file=' + i.originalUrl + '"></iframe>'
+                        'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '"></iframe>'
                     };
                 } else if (i.isMovie) {
                     return {
@@ -184,8 +175,14 @@ export class PictureparkPlayers {
                 }
             });
 
-            var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, photoSwipeItems, { index: items.indexOf(item) })
+            var gallery = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: items.indexOf(item) });
+            gallery.options.history = false;
             gallery.init();
+
+            gallery.listen('afterChange', function () {
+                let g = PictureparkPlayers.getGallery(galleryElementId);
+                PictureparkPlayers.showGalleryItem(g, gallery.getCurrentIndex());
+            });
 
             if (items.filter(i => i.isMovie).length > 0) {
                 gallery.listen('beforeChange', () => {
@@ -202,17 +199,25 @@ export class PictureparkPlayers {
         });
     }
 
-    static loadPhotoSwipe(): Promise<Element> {
+    static loadPhotoSwipe(): Promise<{ element: Element, photoSwipe: any, photoSwipeDefault: any }> {
         if ((<any>window).PhotoSwipe)
-            return Promise.resolve(PictureparkPlayers.getPhotoSwipeElement());
+            return Promise.resolve({
+                element: PictureparkPlayers.getPhotoSwipeElement(),
+                photoSwipe: (<any>window).PhotoSwipe,
+                photoSwipeDefault: (<any>window).PhotoSwipeUI_Default
+            });
         else {
             return Promise.all([
                 this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css"),
                 this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css"),
-                this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js"),
-                this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js")
-            ]).then(() => {
-                return PictureparkPlayers.getPhotoSwipeElement();
+                this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js", true, "PhotoSwipe"),
+                this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js", true, "PhotoSwipeUI_Default")
+            ]).then(([css1, css2, photoSwipe, photoSwipeDefault]) => {
+                return {
+                    element: PictureparkPlayers.getPhotoSwipeElement(),
+                    photoSwipe: photoSwipe,
+                    photoSwipeDefault: photoSwipeDefault
+                };
             });
         }
     }
@@ -293,14 +298,22 @@ export class PictureparkPlayers {
         }
     }
 
-    static loadScript(url: string): Promise<void> {
-        return new Promise<void>((resolve) => {
-            var scriptTag = document.createElement('script');
-            scriptTag.src = url;
-            scriptTag.async = true;
-            scriptTag.onload = () => resolve();
-            document.head.appendChild(scriptTag);
-        });
+    static loadScript(url: string, useRequire: boolean, globalName: string): Promise<any> {
+        if (useRequire && (<any>window).require) {
+            return new Promise(resolve => {
+                (<any>window).require([url], (module) => {
+                    resolve(module);
+                });
+            });
+        } else {
+            return new Promise<any>((resolve) => {
+                var scriptTag = document.createElement('script');
+                scriptTag.src = url;
+                scriptTag.async = true;
+                scriptTag.onload = () => resolve((<any>window)[globalName]);
+                document.head.appendChild(scriptTag);
+            });
+        }
     }
 
     static loadCss(url): Promise<void> {
