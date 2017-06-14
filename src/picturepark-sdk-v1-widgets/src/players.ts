@@ -8,174 +8,221 @@ declare var PhotoSwipeUI_Default;
 declare var jwplayer;
 
 export class PictureparkPlayers {
-  static loading = false;
+    static loading = false;
 
-  static imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-  static videoExtensions = ['.mov', '.mp4', '.mp3'];
+    static imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+    static videoExtensions = ['.mov', '.mp4', '.mp3'];
 
-  static showPrevious(token: string, elementId: string) {
-    let share = (<any>document).pictureparkShareCache[token];
-    let gallery = PictureparkPlayers.getGallery(elementId);
+    static showPrevious(token: string, elementId: string) {
+        let share = (<any>document).pictureparkShareCache[token];
+        let gallery = PictureparkPlayers.getGallery(elementId);
 
-    if (share.player)
-      share.player.stop();
+        if (share.player)
+            share.player.stop();
 
-    let newIndex = gallery.index - 1;
-    if (newIndex < 0)
-      newIndex = gallery.children.length - 1;
+        let newIndex = gallery.index - 1;
+        if (newIndex < 0)
+            newIndex = gallery.children.length - 1;
 
-    gallery.children[gallery.index].element.style.display = 'none';
-    gallery.children[newIndex].element.style.display = '';
-  }
-
-  static showNext(token: string, elementId: string) {
-    let share = (<any>document).pictureparkShareCache[token];
-    let gallery = PictureparkPlayers.getGallery(elementId);
-
-    if (share.player)
-      share.player.stop();
-
-    let newIndex = gallery.index + 1;
-    if (newIndex === gallery.children.length)
-      newIndex = 0;
-
-    gallery.children[gallery.index].element.style.display = 'none';
-    gallery.children[newIndex].element.style.display = '';
-  }
-
-  private static getGallery(elementId: string) {
-    let element = document.getElementById(elementId);
-    let children = [];
-    let visibleIndex = -1;
-    for (var i = 0; i < element.children.length; i++) {
-      let child = element.children[i] as HTMLDivElement;
-      let isVisible = child.style.display !== "none";
-      children.push({ index: i, visible: isVisible, element: child });
-      if (isVisible) {
-        visibleIndex = i;
-      }
+        gallery.children[gallery.index].element.style.display = 'none';
+        gallery.children[newIndex].element.style.display = '';
     }
-    return { children: children, index: visibleIndex };
-  }
 
-  static showDetail(token: string, id: string) {
-    if (PictureparkPlayers.loading) return;
-    PictureparkPlayers.loading = true;
+    static showNext(token: string, elementId: string) {
+        let share = (<any>document).pictureparkShareCache[token];
+        let gallery = PictureparkPlayers.getGallery(elementId);
 
-    let share = (<any>document).pictureparkShareCache[token];
-    let item = share.items.filter(i => i.id === id)[0];
+        if (share.player)
+            share.player.stop();
 
-    if (item.originalFileExtension === '.pdf') {
-      this.showPdfJsItem(item);
-      PictureparkPlayers.loading = false;
-    } else if (item.isImage) {
-      this.showPhotoSwipeItem(item, share.items).then(() => {
-        PictureparkPlayers.loading = false;
-      });
-    } else {
-      var link = document.createElement("a");
-      link.href = item.originalUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      PictureparkPlayers.loading = false;
+        let newIndex = gallery.index + 1;
+        if (newIndex === gallery.children.length)
+            newIndex = 0;
+
+        gallery.children[gallery.index].element.style.display = 'none';
+        gallery.children[newIndex].element.style.display = '';
     }
-  }
 
-  static renderVideoPlayer(config: any, id: string, elementId: string) {
-    let share = (<any>document).pictureparkShareCache[config.token];
-    let item = share.items.filter(i => i.id === id)[0];
-
-    this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js").then(() => {
-      share.player = jwplayer(elementId).setup({
-        autostart: false,
-        image: item.previewUrl,
-        file: item.originalUrl,
-        type: item.originalFileExtension.substr(1),
-        width: parseInt(config.width),
-        height: parseInt(config.height)
-      });
-    });
-  }
-
-  static getScriptsPath() {
-    let scriptFile = 'picturepark-widgets.js';
-    let elements = document.getElementsByTagName('script');
-    for (var i = 0; i < elements.length; i++) {
-      var element = elements[i];
-      if (element.src.indexOf(scriptFile) !== -1)
-        return element.src.substring(0, element.src.length - scriptFile.length)
+    private static getGallery(elementId: string) {
+        let element = document.getElementById(elementId);
+        let children = [];
+        let visibleIndex = -1;
+        for (var i = 0; i < element.children.length; i++) {
+            let child = element.children[i] as HTMLDivElement;
+            let isVisible = child.style.display !== "none";
+            children.push({ index: i, visible: isVisible, element: child });
+            if (isVisible) {
+                visibleIndex = i;
+            }
+        }
+        return { children: children, index: visibleIndex };
     }
-    return undefined;
-  }
 
-  static showPdfJsItem(item) {
-    let iframeElement = document.createElement("iframe");
-    iframeElement.style.position = 'fixed';
-    iframeElement.style.left = '0';
-    iframeElement.style.top = '0';
-    iframeElement.style.width = '100%';
-    iframeElement.style.height = '100%';
-    iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + item.originalUrl;
+    static showDetail(token: string, id: string) {
+        if (PictureparkPlayers.loading) return;
+        PictureparkPlayers.loading = true;
 
-    let prevOverflow = document.body.style.overflow;
-    let keydownCallback = (e: KeyboardEvent) => {
-      let event = e || <KeyboardEvent>window.event;
-      let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : (event.keyCode == 27);
-      if (isEscape) {
-        closeCallback();
-      }
-    };
+        let share = (<any>document).pictureparkShareCache[token];
+        let item = share.items.filter(i => i.id === id)[0];
 
-    let closeCallback = () => {
-      document.body.removeChild(iframeElement);
-      document.body.style.overflow = prevOverflow;
-      document.removeEventListener('keydown', keydownCallback, true);
-    };
+        if (item.isPdf && share.items.length === 1) {
+            this.showPdfJsItem(item);
+            PictureparkPlayers.loading = false;
+        } else if (item.isImage || item.isPdf) {
+            let savedOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            this.showPhotoSwipeItem(token, item, share.items).then(() => {
+                PictureparkPlayers.loading = false;
+                document.body.style.overflow = savedOverflow;
+            });
+        } else {
+            // download file
+            var link = document.createElement("a");
+            link.href = item.originalUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            PictureparkPlayers.loading = false;
+        }
+    }
 
-    iframeElement.onload = (e) => {
-      document.body.style.overflow = 'hidden';
-      if (iframeElement.contentWindow.location.href === 'about:blank')
-        closeCallback();
-    };
+    static renderVideoPlayer(token: string, id: string, elementId: string, width: any, height: any) {
+        let share = (<any>document).pictureparkShareCache[token];
+        let item = share.items.filter(i => i.id === id)[0];
 
-    document.addEventListener('keydown', keydownCallback, true);
-    document.body.appendChild(iframeElement);
-  }
+        this.loadVideoPlayer().then(() => {
+            let player = jwplayer(elementId);
+            if (player.setup) {
+                share.player = jwplayer(elementId).setup({
+                    autostart: false,
+                    image: item.previewUrl,
+                    file: item.originalUrl,
+                    type: item.originalFileExtension.substr(1),
+                    width: width,
+                    height: height
+                });
+            }
+        });
+    }
 
-  static showPhotoSwipeItem(item, items: any[]) {
-    return this.loadPhotoSwipe().then(element => {
-      let hasOnlyImages = items.filter(i => i.isImage).length === items.length;
+    static loadVideoPlayer() {
+        if ((<any>window).jwplayer)
+            return Promise.resolve();
+        return this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js");
+    }
 
-      let photoSwipeItems = hasOnlyImages ? items.map(i => {
-        return {
-          src: i.originalUrl,
-          w: i.detail.Width,
-          h: i.detail.Height
+    static getScriptsPath() {
+        let scriptFile = 'picturepark-widgets.js';
+        let elements = document.getElementsByTagName('script');
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            if (element.src.indexOf(scriptFile) !== -1)
+                return element.src.substring(0, element.src.length - scriptFile.length)
+        }
+        return undefined;
+    }
+
+    static showPdfJsItem(item) {
+        let iframeElement = document.createElement("iframe");
+        iframeElement.style.position = 'fixed';
+        iframeElement.style.left = '0';
+        iframeElement.style.top = '0';
+        iframeElement.style.width = '100%';
+        iframeElement.style.height = '100%';
+        iframeElement.src = this.getScriptsPath() + '/pdfjs/viewer.html?file=' + item.originalUrl;
+
+        let savedOverflow = document.body.style.overflow;
+        let keydownCallback = (e: KeyboardEvent) => {
+            let event = e || <KeyboardEvent>window.event;
+            let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : (event.keyCode == 27);
+            if (isEscape) {
+                closeCallback();
+            }
         };
-      }) : [{
-        src: item.originalUrl,
-        w: item.detail.Width,
-        h: item.detail.Height
-      }];
 
-      var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, photoSwipeItems, { index: items.indexOf(item) })
-      gallery.init();
-    });
-  }
+        let closeCallback = () => {
+            document.body.removeChild(iframeElement);
+            document.body.style.overflow = savedOverflow;
+            document.removeEventListener('keydown', keydownCallback, true);
+        };
 
-  static loadPhotoSwipe(): Promise<Element> {
-    let element = document.querySelectorAll('.pswp')[0];
-    if (element)
-      return Promise.resolve(element);
+        let pdfLoaded = false;
+        iframeElement.onload = (e) => {
+            document.body.style.overflow = 'hidden';
+            if (pdfLoaded)
+                closeCallback();
+            else
+                pdfLoaded = true;
+        };
 
-    return Promise.all([
-      this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css"),
-      this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css"),
-      this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js"),
-      this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js")
-    ]).then(() => {
-      var markup = `
+        document.addEventListener('keydown', keydownCallback, true);
+        document.body.appendChild(iframeElement);
+    }
+
+    static showPhotoSwipeItem(token: string, item: any, items: any[]) {
+        return this.loadPhotoSwipe().then(element => {
+            let photoSwipeItems = items.map(i => {
+                if (i.isImage) {
+                    return {
+                        src: i.originalUrl,
+                        w: i.detail.Width,
+                        h: i.detail.Height
+                    };
+                } else if (i.isPdf) {
+                    return {
+                        html: '<iframe style="position: fixed; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
+                        'src="http://localhost:8080/dist/pdfjs/viewer.html?file=' + i.originalUrl + '"></iframe>'
+                    };
+                } else if (i.isMovie) {
+                    return {
+                        html: '<div id="foobar_' + i.id + '"></div>'
+                    };
+                } else {
+                    return {
+                        html: '<br /><br /><br /><br />Not supported.'
+                    };
+                }
+            });
+
+            var gallery = new PhotoSwipe(element, PhotoSwipeUI_Default, photoSwipeItems, { index: items.indexOf(item) })
+            gallery.init();
+
+            if (items.filter(i => i.isMovie).length > 0) {
+                gallery.listen('beforeChange', () => {
+                    PictureparkPlayers.loadVideoPlayer().then(() => {
+                        for (let i of items)
+                            PictureparkPlayers.renderVideoPlayer(token, i.id, "foobar_" + i.id, '100%', '100%');
+                    });
+                });
+            }
+
+            return new Promise((resolve) => {
+                gallery.listen('close', resolve);
+            });
+        });
+    }
+
+    static loadPhotoSwipe(): Promise<Element> {
+        if ((<any>window).PhotoSwipe)
+            return Promise.resolve(PictureparkPlayers.getPhotoSwipeElement());
+        else {
+            return Promise.all([
+                this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css"),
+                this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css"),
+                this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js"),
+                this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js")
+            ]).then(() => {
+                return PictureparkPlayers.getPhotoSwipeElement();
+            });
+        }
+    }
+
+    static getPhotoSwipeElement() {
+        let element = document.querySelectorAll('.pswp')[0];
+        if (element)
+            return element;
+        else {
+            var markup = `
         <!-- Root element of PhotoSwipe. Must have class pswp. -->
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -237,34 +284,34 @@ export class PictureparkPlayers {
             </div>
         </div>`;
 
-      var divElement = document.createElement("div");
-      divElement.id = "photoswipe";
-      divElement.innerHTML = markup;
+            var divElement = document.createElement("div");
+            divElement.id = "photoswipe";
+            divElement.innerHTML = markup;
 
-      document.body.appendChild(divElement);
-      return document.querySelectorAll('.pswp')[0];
-    });
-  }
+            document.body.appendChild(divElement);
+            return document.querySelectorAll('.pswp')[0];
+        }
+    }
 
-  static loadScript(url: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-      var scriptTag = document.createElement('script');
-      scriptTag.src = url;
-      scriptTag.async = true;
-      scriptTag.onload = () => resolve();
-      document.head.appendChild(scriptTag);
-    });
-  }
+    static loadScript(url: string): Promise<void> {
+        return new Promise<void>((resolve) => {
+            var scriptTag = document.createElement('script');
+            scriptTag.src = url;
+            scriptTag.async = true;
+            scriptTag.onload = () => resolve();
+            document.head.appendChild(scriptTag);
+        });
+    }
 
-  static loadCss(url): Promise<void> {
-    return new Promise<void>((resolve) => {
-      var linkElement = document.createElement("link");
-      linkElement.type = "text/css";
-      linkElement.rel = "stylesheet";
-      linkElement.href = url;
-      linkElement.onload = () => resolve();
+    static loadCss(url): Promise<void> {
+        return new Promise<void>((resolve) => {
+            var linkElement = document.createElement("link");
+            linkElement.type = "text/css";
+            linkElement.rel = "stylesheet";
+            linkElement.href = url;
+            linkElement.onload = () => resolve();
 
-      document.getElementsByTagName("head")[0].appendChild(linkElement);
-    });
-  }
+            document.getElementsByTagName("head")[0].appendChild(linkElement);
+        });
+    }
 }

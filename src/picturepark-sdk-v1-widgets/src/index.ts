@@ -79,7 +79,15 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
         });
 
         let previewOutput = outputs.filter(o => o.outputFormatId === 'Preview')[0];
-        let originalOutput = outputs.filter(o => o.outputFormatId === 'Original')[0];
+
+        // find best original output
+        let originalOutput: any;
+        for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original"]) {
+          originalOutput = outputs.filter(o => o.outputFormatId === ofi)[0];
+          if (originalOutput)
+            break;
+        }
+        // TODO: Use VideoLarge AND VideoMedium
 
         return {
           id: s.Id,
@@ -89,14 +97,15 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
           isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : null,
           isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : null,
+          isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : null,
 
           previewUrl: previewOutput ? previewOutput.url : null,
           previewContentId: previewOutput ? previewOutput.contentId : null,
           previewOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
 
           originalUrl: originalOutput ? originalOutput.url : null,
-          originalContentId: previewOutput ? previewOutput.contentId : null,
-          originalOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
+          originalContentId: originalOutput ? originalOutput.contentId : null,
+          originalOutputFormatId: originalOutput ? originalOutput.outputFormatId : null,
           originalFileExtension: originalOutput ? originalOutput.fileExtension : null,
         };
       })
@@ -124,7 +133,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           let elementId = 'player_' + item.index + "_" + id;
           setTimeout(() => {
             if (document.getElementById(elementId)) {
-              PictureparkPlayers.renderVideoPlayer(config, itemId, elementId);
+              PictureparkPlayers.renderVideoPlayer(config.token, itemId, elementId, config.width, config.height);
             }
           });
         }
