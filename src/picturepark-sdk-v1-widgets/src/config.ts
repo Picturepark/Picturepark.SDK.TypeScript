@@ -15,7 +15,7 @@ export class PictureparkConfig {
     let configuration: any = { renderStyles: true };
     for (var i = 0; i < element.attributes.length; i++) {
       var attribute = element.attributes[i];
-      if (attribute.name === 'data-picturepark-token')
+      if (attribute.name === 'data-token')
         configuration['token'] = attribute.value;
       else if (attribute.name === 'data-picturepark-server')
         configuration['server'] = attribute.value;

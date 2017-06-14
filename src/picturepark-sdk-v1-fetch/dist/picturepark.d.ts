@@ -440,6 +440,21 @@ declare module "picturepark" {
         getChannels(): Promise<ChannelViewItem[] | null>;
         protected processGetChannels(response: Response): Promise<ChannelViewItem[] | null>;
     }
+    export class OutputClient {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get Single
+         * @outputId The output id.
+         * @return OutputDetail
+         */
+        get(outputId: string): Promise<OutputDetailViewItem | null>;
+        protected processGet(response: Response): Promise<OutputDetailViewItem | null>;
+    }
     export interface ContentAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         SearchString?: string | undefined;
@@ -1005,6 +1020,8 @@ declare module "picturepark" {
     }
     export interface OutputDetailDefault extends OutputDetailBase {
     }
+    export interface OutputDetailViewItem extends OutputViewItem {
+    }
     export enum ThumbnailSize {
         Small,
         Medium,
@@ -1082,10 +1099,22 @@ declare module "picturepark" {
         ProcessDefinitionId?: string | undefined;
         ReferenceId?: string | undefined;
         ReferenceDocType?: string | undefined;
+        BusinessProcessScope: BusinessProcessScope;
+        LifeCycle: BusinessProcessLifeCylce;
         StartDate: Date;
         EndDate: Date;
         StateHistory?: BusinessProcessStateItem[] | undefined;
         ProcessDefinitionName?: string | undefined;
+        CurrentState?: string | undefined;
+    }
+    export enum BusinessProcessScope {
+        System,
+        User,
+    }
+    export enum BusinessProcessLifeCylce {
+        Draft,
+        Started,
+        Ended,
     }
     export interface BusinessProcessStateItem {
         State?: string | undefined;
@@ -1929,6 +1958,7 @@ declare module "picturepark" {
         State: TransferState;
         TransferType: TransferType;
         BusinessProcessId?: string | undefined;
+        FileTransferCount: number;
     }
     export enum TransferState {
         Draft,
@@ -1959,6 +1989,7 @@ declare module "picturepark" {
         ItemsFailed: number;
         ItemsCancelled: number;
         LastProgressStamp: number;
+        FileTransferCount: number;
     }
     export interface FileTransferDetailViewItem {
         Id?: string | undefined;

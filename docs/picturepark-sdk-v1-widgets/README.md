@@ -32,7 +32,7 @@ To embed a shared content item, insert the following HTML snippet into your webs
 ```js
 <script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
         data-picturepark-server="YOUR_SERVER_URL" 
-        data-picturepark-token="YOUR_TOKEN"></script>
+        data-token="YOUR_TOKEN"></script>
 ```
 
 If you'd like to customize the template, you can provide own templates: 
@@ -42,7 +42,7 @@ TODO
 ### Options
 
 - data-picturepark-server
-- data-picturepark-token
+- data-token
 - data-template: basic | card | list
 - data-width: number
 - data-height: number

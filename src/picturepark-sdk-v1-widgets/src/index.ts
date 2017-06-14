@@ -145,7 +145,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   var scriptTags = document.getElementsByTagName('script');
   for (var i = 0; i < scriptTags.length; ++i) {
     var scriptTag = scriptTags[i];
-    if (scriptTag.hasAttribute('data-picturepark-token'))
+    if (scriptTag.hasAttribute('data-picturepark-server'))
       processScriptTag(scriptTag);
   }
 })();
