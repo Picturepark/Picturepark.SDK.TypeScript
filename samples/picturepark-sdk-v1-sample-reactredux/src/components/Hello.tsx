@@ -1,28 +1,59 @@
 import * as React from 'react';
 import './Hello.css';
 import { ShareEmbedDetailViewItem } from '@picturepark/sdk-v1-fetch';
+import { StoreState } from "../types/index";
 
 export interface Props {
   loading?: boolean;
   share?: ShareEmbedDetailViewItem | null;
-  requestShare?: () => void;
+  requestShare?: (server: string, token: string) => void;
 }
 
-function Hello({ loading, share, requestShare }: Props) {
-  return (
-    <div className="hello">
-      <div>
-        <button onClick={requestShare}>Load share</button>
+class Hello extends React.Component<Props, StoreState> {
+  constructor() {
+    super();
+    this.state = {
+      server: 'https://qanext04.preview-picturepark.com',
+      token: ''
+    };
+  }
+
+  requestShare() {
+    if (this.props.requestShare && this.state.server && this.state.token)
+      this.props.requestShare(this.state.server, this.state.token);
+  }
+
+  handleChange(event: any) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  render() {
+    return (
+      <div className="hello">
+        <div>
+          <label>Server:</label><br />
+          <input name="server" value={this.state.server} onChange={this.handleChange.bind(this)} style={{"width": "100%"}}></input>
+        </div>
+        <div>
+          <label>Token:</label><br />
+          <input name="token" value={this.state.token} onChange={this.handleChange.bind(this)} style={{"width": "100%"}}></input>
+          <br />
+        </div>
+        <div>
+          <button onClick={this.requestShare.bind(this)}>Load share</button>
+        </div>
+        <div className="greeting">
+          Loading: {this.props.loading ? 'true' : 'false'}<br />
+          JSON: <br />
+        </div>
+        <pre>
+          {this.props.share !== undefined ? JSON.stringify(this.props.share, null, 2) : 'n/a'}
+        </pre>
       </div>
-      <div className="greeting">
-        Loading: {loading ? 'true' : 'false'}<br />
-        JSON: <br />
-      </div>
-      <pre>
-        {share ? JSON.stringify(share, null, 2) : 'n/a'}
-      </pre>
-    </div>
-  );
+    );
+  }
 }
 
 export default Hello;
