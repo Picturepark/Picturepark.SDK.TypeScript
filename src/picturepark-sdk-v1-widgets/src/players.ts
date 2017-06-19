@@ -163,7 +163,7 @@ export class PictureparkPlayers {
           };
         } else if (i.isPdf) {
           return {
-            html: '<iframe style="position: fixed; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
+            html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
             'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '&closeButton=false"></iframe>'
           };
         } else if (i.isMovie) {

@@ -166,10 +166,13 @@ if (PictureparkPlayers.scriptsPath === undefined)
 
 // Scan all script tags
 (function () {
-  var scriptTags = document.getElementsByTagName('script');
-  for (var i = 0; i < scriptTags.length; ++i) {
-    var scriptTag = scriptTags[i];
-    if (scriptTag.hasAttribute('data-picturepark-server'))
-      processScriptTag(scriptTag);
-  }
+  setTimeout(() => {
+    var scriptTags = document.getElementsByTagName('script');
+    for (var i = 0; i < scriptTags.length; ++i) {
+      var scriptTag = scriptTags[i];
+      if (scriptTag.hasAttribute('data-picturepark-server')) {
+        processScriptTag(scriptTag);
+      }
+    }
+  });
 })();

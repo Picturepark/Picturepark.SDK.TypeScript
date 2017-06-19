@@ -1,7 +1,7 @@
 export var TRANSLATIONS = {
   List: {
     HeaderDownloads: {
-      en: "Downloads", 
+      en: "Downloads",
       de: "Downloads"
     },
     ButtonDownloadAll: {
