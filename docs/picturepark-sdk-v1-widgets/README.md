@@ -21,7 +21,7 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
 Load the script in your website: 
 
-```Html
+```html
 <script src="picturepark-widgets.js"></script>
 ```
 
@@ -29,7 +29,7 @@ Load the script in your website:
 
 To embed a shared content item, insert the following HTML snippet into your website: 
 
-```js
+```html
 <script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
         data-picturepark-server="YOUR_SERVER_URL" 
         data-token="YOUR_TOKEN"></script>
@@ -37,25 +37,38 @@ To embed a shared content item, insert the following HTML snippet into your webs
 
 If you'd like to customize the template, you can provide own templates: 
 
-TODO
+```html
+<script type="text/template" 
+        data-picturepark-server="YOUR_SERVER_URL" 
+        data-token="YOUR_TOKEN">
+  <template id="loading">
+    My loading template.
+  </template>
+  <template id="content">
+    My content template.
+  </template>
+  <template id="error">
+    My error template.
+  </template>
+</script>
+<script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js" async></script>
+```
 
 ### Options
 
 - data-picturepark-server
 - data-token
-- data-template: basic | card | list
+- data-template: card (default) | gallery | list
 - data-width: number
 - data-height: number
 - data-render-styles: true (default) | false
 
-**"basic" template**
-
-- data-show-gallery: true (default) | false
-- data-show-legend: true (default) | false
-
 **"card" template**
 
-- data-show-gallery: true (default) | false
+- data-show-legend: true (default) | false
+- data-show-logo: true (default) | false
+- data-show-navigation: true (default) | false
+- data-show-overlay: true | false (default)
 
 ### Browser support
 
