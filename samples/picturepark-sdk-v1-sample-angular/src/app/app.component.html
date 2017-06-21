@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>picturepark-sdk-v1-sample-angular</h1>
+  <p>
+    <pp-login rememberPassword="true"></pp-login>
+    <pp-logout></pp-logout>
+  </p>
+
+  <div *ngIf="authService.isLoggedIn">
+      <p>
+          <input type="text" [(ngModel)]="searchText" />
+          <button class="btn btn-default" (click)="search()">Search</button>
+      </p>
+      <pre>
+          {{output}}
+      </pre>
+  </div>
+</div>
