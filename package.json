@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "http-server": "^0.10.0",
-    "nswag": "^10.6.0",
+    "nswag": "^11.1.2",
     "typedoc": "^0.7.1",
     "typescript-bundle": "^0.8.2",
     "uglify-js": "^3.0.11"
