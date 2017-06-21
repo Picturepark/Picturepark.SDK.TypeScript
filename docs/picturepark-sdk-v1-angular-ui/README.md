@@ -43,3 +43,7 @@ The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you 
 - [pp-logout](pp-logout.md)
 - [pp-search-box](pp-search-box.md)
 - [pp-share-card](pp-share-card.md)
+
+### Sample
+
+- [picturepark-sdk-v1-sample-angular](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular)
