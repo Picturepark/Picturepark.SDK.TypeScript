@@ -37,7 +37,7 @@ To embed a shared content item, insert the following HTML snippet into your webs
 
 If you'd like to customize the template, you can provide own templates: 
 
-```js
+```html
 <script type="text/template" 
         data-picturepark-server="YOUR_SERVER_URL" 
         data-token="YOUR_TOKEN">
