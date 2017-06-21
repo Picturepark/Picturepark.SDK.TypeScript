@@ -11,12 +11,6 @@ Latest version from master branch (use for development only):
 - [picturepark-widgets.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js)
 - [picturepark-widgets.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.d.ts)
 
-### Samples
-
-To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-widgets/samples) navigate to the root of the repository and run: 
-
-    npm run start:widgets
-
 ### Usage
 
 Load the script in your website: 
@@ -70,7 +64,22 @@ If you'd like to customize the template, you can provide own templates:
 - data-show-navigation: true (default) | false
 - data-show-overlay: true | false (default)
 
+### Styling
+
+To change the styling and behavior of the widgets, you have the following options: 
+
+- Use the basic styling options which can be set via attributes
+- Extend existing CSS classes with own classes
+- Completely disable the generation of CSS classes and provide own classes (using the `data-render-styles` option)
+- Provide own Liquid templates for full control over the styling
+
 ### Browser support
 
 - pictureparkWidgets.processScriptTag(): 
   - Requires a polyfill for [window.fetch](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) and [Promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) (bundled)
+  
+### Samples
+
+To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-widgets/samples) navigate to the root of the repository and run: 
+
+    npm run start:widgets
