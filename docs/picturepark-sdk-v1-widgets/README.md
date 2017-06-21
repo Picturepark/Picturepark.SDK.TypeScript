@@ -21,7 +21,7 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
 Load the script in your website: 
 
-```Html
+```html
 <script src="picturepark-widgets.js"></script>
 ```
 
@@ -29,7 +29,7 @@ Load the script in your website:
 
 To embed a shared content item, insert the following HTML snippet into your website: 
 
-```js
+```html
 <script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
         data-picturepark-server="YOUR_SERVER_URL" 
         data-token="YOUR_TOKEN"></script>
