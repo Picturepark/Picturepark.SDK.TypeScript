@@ -49,3 +49,7 @@ import { PublicAccessClient } from '@picturepark/sdk-v1-fetch';
  
 let publicAccessClient = new PublicAccessClient('https://qanext04.preview-picturepark.com');
 ```
+
+### Sample application
+
+- [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)
