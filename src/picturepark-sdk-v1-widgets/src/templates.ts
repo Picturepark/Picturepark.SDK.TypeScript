@@ -2,10 +2,10 @@ export class PictureparkTemplates {
   // TODO: Create template factory with css injection outside of template
 
   static getTemplate(templateId: string): string {
-    if (templateId === "basic") {
-      return this.getBasic();
-    } else if (templateId === "card") {
+    if (templateId === "card") {
       return this.getCard();
+    } else if (templateId === "gallery") {
+      return this.getGallery();
     } else if (templateId === "list") {
       return this.getList();
     } else {
@@ -13,18 +13,18 @@ export class PictureparkTemplates {
     }
   }
 
-  private static getBasic(): string {
+  private static getGallery(): string {
     return `
       {% if config.renderStyles %}
       <style>
-        .picturepark-widget-share-inner-{{id}} {
+        .picturepark-widget-gallery-{{id}} {
           float: left;
           position: relative;
           border: 1px solid gray;
           border-radius: 1px;
         }
 
-        .picturepark-widget-share-legend-{{id}} {
+        .picturepark-widget-card-overlay-{{id}} {
           opacity: 0;
           position: absolute;
           width: 100%;
@@ -33,19 +33,19 @@ export class PictureparkTemplates {
           padding: 4px;
         }
         .picturepark-widget-share-{{id}}:hover
-        .picturepark-widget-share-legend-{{id}} {
+        .picturepark-widget-card-overlay-{{id}} {
           opacity: 0.8;
         }
 
-        .picturepark-widget-share-title-{{id}} {
+        .picturepark-widget-card-overlay-title-{{id}} {
           font-weight: bold;
           color: white;
         }
-        .picturepark-widget-share-description-{{id}} {
+        .picturepark-widget-card-overlay-description-{{id}} {
           color: white;
         }
         .picturepark-widget-share-image-{{id}} {
-          position: absolute;
+          /*position: absolute;*/
           margin: auto;
           top: 0;
           left: 0;
@@ -53,7 +53,7 @@ export class PictureparkTemplates {
           bottom: 0;
         }
 
-        .picturepark-widget-share-navigate-previous-{{id}} {
+        .picturepark-widget-card-navigation-previous-{{id}} {
           position: absolute; 
           left: 0; 
           top: 0; 
@@ -62,7 +62,7 @@ export class PictureparkTemplates {
           margin-top: 50px; 
           margin-bottom: 50px
         }
-        .picturepark-widget-share-navigate-next-{{id}} {
+        .picturepark-widget-card-navigation-next-{{id}} {
           position: absolute; 
           right: 0; 
           top: 0; 
@@ -74,72 +74,65 @@ export class PictureparkTemplates {
       </style>
       {% endif %}
 
-      <div class="picturepark-widget-share-inner picturepark-widget-share-inner-{{id}}" style="width: {{ config.width }}px">
+      <div class="picturepark-widget-gallery picturepark-widget-gallery-{{id}}" style="width: {{ config.width }}px">
         {% assign width = config.width | plus: -2 %}
         {% assign height = config.height | plus: -1 %}
-        <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
-          {% for selection in share.items %}
-            <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}" 
-                {% if forloop.first == false %}style="display: none"{% endif %}>
-              {% if selection.isMovie %}
-              <div id="player_{{ forloop.index0 }}_{{ id }}">
-              </div>
-              {% else %}
-              <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
-                <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
-              </a>
-              {% endif %}
+        {% for selection in share.items %}
+          <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}">
+            {% if selection.isMovie %}
+            <div id="player_{{ forloop.index0 }}_{{ id }}">
             </div>
-          {% endfor %}
-        </div>
-
-        {% if config.showLegend != 'false' and config.showLegend != 'no' %}
-          <div class="picturepark-widget-share-legend picturepark-widget-share-legend-{{id}}">
-            <div class="picturepark-widget-share-title picturepark-widget-share-title-{{id}}">{{ share.name }}</div>
-            {% if share.description %}
-              <div class="picturepark-widget-share-description picturepark-widget-share-description-{{id}}">{{ share.description }}</div>
+            {% else %}
+            <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
+              <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+            </a>
             {% endif %}
           </div>
-        {% endif %}
-
-        {% if config.showGallery != 'false' and config.showGallery != 'no' and share.items.length > 1 %}
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('{{ config.token }}', 'gallery_{{ id }}')"
-            class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
-            <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
-          </a>
-          <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('{{ config.token }}', 'gallery_{{ id }}')"
-            class="picturepark-widget-share-navigate-next picturepark-widget-share-navigate-next-{{id}}">
-            <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
-          </a>
-        {% endif %}
-      </div>`;
+        {% endfor %}
+    </div>`;
   }
 
   private static getCard(): string {
     return `
       {% if config.renderStyles %}
       <style>
-        .picturepark-widget-share-{{id}} {
+        .picturepark-widget-{{id}} {
           float: left;
           margin-right: 4px;
           margin-bottom: 4px;
         }
-        .picturepark-widget-card-inner-{{id}} {
+        .picturepark-widget-card-{{id}} {
           border: 1px solid lightgray;
           border-radius: 0 0 4px 4px;
         }
-        .picturepark-widget-card-content-{{id}} {
+
+        /** Footer */
+        .picturepark-widget-card-footer-content-{{id}} {
           padding: 10px;
         }
-        .picturepark-widget-card-title-{{id}} {
+        .picturepark-widget-card-footer-title-{{id}} {
           font-weight: bold;
         }
-        .picturepark-widget-card-description-{{id}} {
+        .picturepark-widget-card-footer-description-{{id}} {
         }
-        .picturepark-widget-card-media-{{id}} {
+        .picturepark-widget-card-footer-gravatar-{{id}} {
+          border-radius: 50%;
+          margin-top: 0px;
+        }
+        .picturepark-widget-card-footer-gravatar-{{id}} {
+          vertical-align: middle;
+        }
+        .picturepark-widget-card-footer-hr-{{id}} {
+          color: lightgray;
+          margin-top: 8px;
+          margin-bottom: 8px;
+        }
+
+        /** Gallery */
+        .picturepark-widget-card-gallery-{{id}} {
           line-height: 0;
         }
-        .picturepark-widget-card-image-{{id}} {
+        .picturepark-widget-card-gallery-image-{{id}} {
           position: absolute;
           margin: auto;
           top: 0;
@@ -148,20 +141,29 @@ export class PictureparkTemplates {
           bottom: 0;
         }
 
-        .picturepark-widget-card-hr-{{id}} {
-          color:lightgray;
-          margin-top: 8px;
-          margin-bottom: 8px;
+        /** Overlay */
+        .picturepark-widget-card-overlay-{{id}} {
+          opacity: 0;
+          position: absolute;
+          width: 100%;
+          bottom: 0px;
+          background: gray;
+          padding: 4px;
         }
-        .picturepark-widget-card-gravatar-{{id}} {
-          border-radius: 50%;
-          margin-top: 0px;
+        .picturepark-widget-{{id}}:hover
+        .picturepark-widget-card-overlay-{{id}} {
+          opacity: 0.8;
         }
-        .picturepark-widget-card-sharedby-{{id}} {
-          vertical-align: middle;
+        .picturepark-widget-card-overlay-title-{{id}} {
+          font-weight: bold;
+          color: white;
+        }
+        .picturepark-widget-card-overlay-description-{{id}} {
+          color: white;
         }
 
-        .picturepark-widget-share-navigate-previous-{{id}} {
+        /** Navigation */
+        .picturepark-widget-card-navigation-previous-{{id}} {
           position: absolute; 
           left: 0; 
           top: 0; 
@@ -170,7 +172,7 @@ export class PictureparkTemplates {
           margin-top: 50px; 
           margin-bottom: 50px
         }
-        .picturepark-widget-share-navigate-next-{{id}} {
+        .picturepark-widget-card-navigation-next-{{id}} {
           position: absolute; 
           right: 0; 
           top: 0; 
@@ -182,23 +184,24 @@ export class PictureparkTemplates {
       </style>
       {% endif %}
 
-      <div class="picturepark-widget-card-inner picturepark-widget-card-inner-{{id}}" style="width: {{ config.width }}px">
+      <div class="picturepark-widget-card picturepark-widget-card-{{id}}" style="width: {{ config.width }}px">
         <div style="position: relative">
           {% assign width = config.width | plus: -2 %}
           {% assign height = config.height | plus: -1 %}
           <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
             {% for selection in share.items %}
-            <div class="picturepark-widget-card-media picturepark-widget-card-media-{{id}}"
+            <div class="picturepark-widget-card-gallery picturepark-widget-card-gallery-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
               {% if selection.isMovie %}
               <div id="player_{{ forloop.index0 }}_{{ id }}">
               </div>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
-                <img class="picturepark-widget-card-image picturepark-widget-card-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+                <img class="picturepark-widget-card-gallery-image picturepark-widget-card-gallery-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
               </a>
               {% endif %}
               
+              {% if config.showLogo != 'false' and config.showLogo != 'no' %}
               <div style="position: absolute; bottom: 4px; right: 8px;">
                 <svg style="width: 120px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 690.93 75.96">
                   <defs>
@@ -216,33 +219,45 @@ export class PictureparkTemplates {
                   <text class="cls-5" transform="translate(0 57.66)">P<tspan class="cls-6" x="28.07" y="0">owered by</tspan></text>
                 </svg>
               </div>
+              {% endif %}
             </div>
             {% endfor %}
           </div>
 
-          {% if config.showGallery != 'false' and config.showGallery != 'no' and share.items.length > 1 %}
+          {% if config.showOverlay == 'true' or config.showOverlay == 'yes' %}
+            <div class="picturepark-widget-card-overlay picturepark-widget-card-overlay-{{id}}">
+              <div class="picturepark-widget-card-overlay-title picturepark-widget-card-overlay-title-{{id}}">{{ share.name }}</div>
+              {% if share.description %}
+                <div class="picturepark-widget-card-overlay-description picturepark-widget-card-overlay-description-{{id}}">{{ share.description }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if config.showNavigation != 'false' and config.showNavigation != 'no' and share.items.length > 1 %}
           <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('{{ config.token }}', 'gallery_{{ id }}')"
-            class="picturepark-widget-share-navigate-previous picturepark-widget-share-navigate-previous-{{id}}">
+            class="picturepark-widget-card-navigation-previous picturepark-widget-card-navigation-previous-{{id}}">
             <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
           </a>
           <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showNext('{{ config.token }}', 'gallery_{{ id }}')"
-            class="picturepark-widget-share-navigate-next picturepark-widget-share-navigate-next-{{id}}">
+            class="picturepark-widget-card-navigation-next picturepark-widget-card-navigation-next-{{id}}">
             <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M32.7 21l-18-20c-0.1-0.1-0.2-0.2-0.4-0.2 -0.1 0-0.3 0-0.4 0.1L11 3.9c-0.2 0.2-0.2 0.5 0 0.7l14.8 16.7L11 38.1c-0.2 0.2-0.2 0.5 0 0.7l2.9 2.9c0.1 0.1 0.2 0.1 0.4 0.1h0c0.1 0 0.3-0.1 0.4-0.2l18-20c0.1-0.1 0.1-0.2 0.1-0.3C32.8 21.3 32.8 21.1 32.7 21z" fill="#CCCCCC"/></svg>
           </a>
           {% endif %}
         </div>
 
-        <div class="picturepark-widget-card-content picturepark-widget-card-content-{{id}}">
-          <div class="picturepark-widget-card-title picturepark-widget-card-title-{{id}}">{{ share.name }}</div>
+        {% if config.showFooter != 'false' and config.showFooter != 'no' %}
+        <div class="picturepark-widget-card-footer-content picturepark-widget-card-footer-content-{{id}}">
+          <div class="picturepark-widget-card-footer-title picturepark-widget-card-footer-title-{{id}}">{{ share.name }}</div>
           {% if share.description %}
-            <div class="picturepark-widget-card-description picturepark-widget-card-description-{{id}}">{{ share.description }}</div>
+            <div class="picturepark-widget-card-footer-description picturepark-widget-card-footer-description-{{id}}">{{ share.description }}</div>
           {% endif %}
-          <hr class="picturepark-widget-card-hr picturepark-widget-card-hr-{{id}}">
-          <div class="picturepark-widget-card-sharedby picturepark-widget-card-sharedby-{{id}}">
-            <img src="//www.gravatar.com/avatar/{{ share.audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-gravatar picturepark-widget-card-gravatar-{{id}}" />
+          <hr class="picturepark-widget-card-footer-hr picturepark-widget-card-footer-hr-{{id}}">
+          <div class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}">
+            <img src="//www.gravatar.com/avatar/{{ share.audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}" />
             Shared by: {{ share.audit.CreatedByUser.FirstName }} {{ share.audit.CreatedByUser.LastName }}
             </div>
         </div>
+        {% endif %}
       </div>`;
   }
 
@@ -250,7 +265,7 @@ export class PictureparkTemplates {
     return `
       {% if config.renderStyles %}
       <style>
-        .picturepark-widget-share-{{id}} {
+        .picturepark-widget-{{id}} {
           float: left;
           margin-right: 4px;
           margin-bottom: 4px;

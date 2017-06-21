@@ -4,8 +4,11 @@ export interface Configuration {
   width: number;
   height: number;
 
-  // "basic" template
-  showLegend?: boolean;
+  // "card" template
+  showNavigation?: boolean;
+  showOverlay?: boolean;
+  showLogo?: boolean;
+  showFooter?: boolean;
 
   [name: string]: any;
 }

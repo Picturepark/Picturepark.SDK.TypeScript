@@ -47,13 +47,13 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       contentTemplate = scriptTag.innerHTML;
   }
 
-  // Fallback to basic templates
+  // Fallback to card templates
   if (contentTemplate === '') {
-    contentTemplate = PictureparkTemplates.getTemplate(config.template || "basic");
+    contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
   }
 
   // Apply loading template
-  scriptTag.outerHTML = '<div class="picturepark-widget-share picturepark-widget-share-loading" id=' +
+  scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
     elementId + '>' + loadingTemplate + '</div>';
 
   return window.fetch(config.server + '/Service/PublicAccess/GetShare?token=' + config.token).then(function (response) {
@@ -123,8 +123,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       config: config
     }).then(html => {
       document.getElementById(elementId).outerHTML =
-        '<div class="picturepark-widget-share picturepark-widget-share-' + id +
-        ' picturepark-widget-share-loaded">' + html + '</div>';
+        '<div class="picturepark-widget picturepark-widget-' + id + ' picturepark-widget-loaded">' + html + '</div>';
 
       // Load movie players
       for (let item of share.items) {
@@ -143,8 +142,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   }).catch((e) => {
     console.error(e);
     document.getElementById(elementId).outerHTML =
-      '<div class="picturepark-widget-share picturepark-widget-share-error">' +
-      errorTemplate + '</div>';
+      '<div class="picturepark-widget picturepark-widget-error">' + errorTemplate + '</div>';
     return false;
   });
 };
