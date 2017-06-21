@@ -20,71 +20,37 @@ export class PictureparkTemplates {
         .picturepark-widget-gallery-{{id}} {
           float: left;
           position: relative;
-          border: 1px solid gray;
-          border-radius: 1px;
+          margin-right: -4px;
+          margin-bottom: -4px;
         }
-
-        .picturepark-widget-card-overlay-{{id}} {
-          opacity: 0;
+        .picturepark-widget-gallery-item-{{id}} {
+          background: #cecece;
+          margin-right: 4px;
+          margin-bottom: 4px;
+          position: relative;
+        }
+        .picturepark-widget-gallery-item-image-{{id}} {
           position: absolute;
-          width: 100%;
-          bottom: 0px;
-          background: gray;
-          padding: 4px;
-        }
-        .picturepark-widget-share-{{id}}:hover
-        .picturepark-widget-card-overlay-{{id}} {
-          opacity: 0.8;
-        }
-
-        .picturepark-widget-card-overlay-title-{{id}} {
-          font-weight: bold;
-          color: white;
-        }
-        .picturepark-widget-card-overlay-description-{{id}} {
-          color: white;
-        }
-        .picturepark-widget-share-image-{{id}} {
-          /*position: absolute;*/
           margin: auto;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
         }
-
-        .picturepark-widget-card-navigation-previous-{{id}} {
-          position: absolute; 
-          left: 0; 
-          top: 0; 
-          bottom: 0; 
-          width: 30px; 
-          margin-top: 50px; 
-          margin-bottom: 50px
-        }
-        .picturepark-widget-card-navigation-next-{{id}} {
-          position: absolute; 
-          right: 0; 
-          top: 0; 
-          bottom: 0; 
-          width: 30px; 
-          margin-top: 50px; 
-          margin-bottom: 50px
-        }
       </style>
       {% endif %}
 
-      <div class="picturepark-widget-gallery picturepark-widget-gallery-{{id}}" style="width: {{ config.width }}px">
+      <div class="picturepark-widget-gallery picturepark-widget-gallery-{{id}}">
         {% assign width = config.width | plus: -2 %}
         {% assign height = config.height | plus: -1 %}
         {% for selection in share.items %}
-          <div class="picturepark-widget-share-media picturepark-widget-share-media-{{id}}">
+          <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
             {% if selection.isMovie %}
             <div id="player_{{ forloop.index0 }}_{{ id }}">
             </div>
             {% else %}
             <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
-              <img class="picturepark-widget-share-image picturepark-widget-share-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+              <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
             </a>
             {% endif %}
           </div>
