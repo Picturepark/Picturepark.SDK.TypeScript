@@ -43,19 +43,17 @@ TODO
 
 - data-picturepark-server
 - data-token
-- data-template: basic | card | list
+- data-template: card (default) | gallery | list
 - data-width: number
 - data-height: number
 - data-render-styles: true (default) | false
 
-**"basic" template**
-
-- data-show-gallery: true (default) | false
-- data-show-legend: true (default) | false
-
 **"card" template**
 
-- data-show-gallery: true (default) | false
+- data-show-legend: true (default) | false
+- data-show-logo: true (default) | false
+- data-show-navigation: true (default) | false
+- data-show-overlay: true | false (default)
 
 ### Browser support
 
