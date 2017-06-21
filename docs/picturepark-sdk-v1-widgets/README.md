@@ -37,7 +37,22 @@ To embed a shared content item, insert the following HTML snippet into your webs
 
 If you'd like to customize the template, you can provide own templates: 
 
-TODO
+```js
+<script type="text/template" 
+        data-picturepark-server="YOUR_SERVER_URL" 
+        data-token="YOUR_TOKEN">
+  <template id="loading">
+    My loading template.
+  </template>
+  <template id="content">
+    My content template.
+  </template>
+  <template id="error">
+    My error template.
+  </template>
+</script>
+<script src="https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js" async></script>
+```
 
 ### Options
 
