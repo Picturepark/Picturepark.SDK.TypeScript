@@ -6,9 +6,13 @@
 
 ### Usage
 
+**1. Installation**
+
 Install the following NPM package:
 
 - [@picturepark/sdk-v1-angular](https://www.npmjs.com/package/@picturepark/sdk-v1-angular): The client proxies to access the Picturepark API
+
+**2. Module registration**
 
 Register the Picturepark SDK module in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_URL` token:
 
@@ -30,6 +34,8 @@ import { PICTUREPARK_URL, PictureparkModule } from '@picturepark/sdk-v1-angular'
 })
 export class AppModule { }
 ```
+
+**3. Inject services**
 
 Now, all required services are registered in the dependency injection container and can be used via constructor injection: 
 
