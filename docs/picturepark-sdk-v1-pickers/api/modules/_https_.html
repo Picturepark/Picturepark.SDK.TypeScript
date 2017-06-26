@@ -75,12 +75,9 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.agent.html" class="tsd-kind-icon">Agent</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.agentoptions.html" class="tsd-kind-icon">Agent<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.clientrequest.html" class="tsd-kind-icon">Client<wbr>Request</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.incomingmessage.html" class="tsd-kind-icon">Incoming<wbr>Message</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.requestoptions.html" class="tsd-kind-icon">Request<wbr>Options</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.server.html" class="tsd-kind-icon">Server</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.serveroptions.html" class="tsd-kind-icon">Server<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/_https_.serverresponse.html" class="tsd-kind-icon">Server<wbr>Response</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
@@ -108,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">global<wbr>Agent<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_https_.agent.html" class="tsd-signature-type">Agent</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1496</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:1398</li>
 						</ul>
 					</aside>
 				</section>
@@ -119,13 +116,13 @@
 					<a name="createserver" class="tsd-anchor"></a>
 					<h3>create<wbr>Server</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Server<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.serveroptions.html" class="tsd-signature-type">ServerOptions</a>, requestListener<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.server.html" class="tsd-signature-type">Server</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Server<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.serveroptions.html" class="tsd-signature-type">ServerOptions</a>, requestListener<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.server.html" class="tsd-signature-type">Server</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1493</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1395</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -134,28 +131,7 @@
 									<h5>options: <a href="../interfaces/_https_.serveroptions.html" class="tsd-signature-type">ServerOptions</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> requestListener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a>, res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.serverresponse.html" class="tsd-signature-type">ServerResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>req: <a href="../interfaces/_https_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a></h5>
-														</li>
-														<li>
-															<h5>res: <a href="../interfaces/_https_.serverresponse.html" class="tsd-signature-type">ServerResponse</a></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> requestListener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_https_.server.html" class="tsd-signature-type">Server</a></h4>
@@ -166,13 +142,13 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.requestoptions.html" class="tsd-signature-type">RequestOptions</a>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.requestoptions.html" class="tsd-signature-type">RequestOptions</a>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_http_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1495</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1397</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,14 +161,14 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_http_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>res: <a href="../interfaces/_https_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a></h5>
+															<h5>res: <a href="../interfaces/_http_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -202,7 +178,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_https_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_http_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -210,13 +186,13 @@
 					<a name="request" class="tsd-anchor"></a>
 					<h3>request</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.requestoptions.html" class="tsd-signature-type">RequestOptions</a>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.requestoptions.html" class="tsd-signature-type">RequestOptions</a>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_http_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1494</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1396</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -229,14 +205,14 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_https_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_http_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>res: <a href="../interfaces/_https_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a></h5>
+															<h5>res: <a href="../interfaces/_http_.incomingmessage.html" class="tsd-signature-type">IncomingMessage</a></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -246,7 +222,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_https_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_http_.clientrequest.html" class="tsd-signature-type">ClientRequest</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -272,12 +248,6 @@
 						<a href="../interfaces/_https_.agentoptions.html" class="tsd-kind-icon">Agent<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
-						<a href="../interfaces/_https_.clientrequest.html" class="tsd-kind-icon">Client<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
-						<a href="../interfaces/_https_.incomingmessage.html" class="tsd-kind-icon">Incoming<wbr>Message</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="../interfaces/_https_.requestoptions.html" class="tsd-kind-icon">Request<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
@@ -285,9 +255,6 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="../interfaces/_https_.serveroptions.html" class="tsd-kind-icon">Server<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
-						<a href="../interfaces/_https_.serverresponse.html" class="tsd-kind-icon">Server<wbr>Response</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
 						<a href="_https_.html#globalagent" class="tsd-kind-icon">global<wbr>Agent</a>
