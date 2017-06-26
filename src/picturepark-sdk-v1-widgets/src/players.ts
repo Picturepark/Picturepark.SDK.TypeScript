@@ -70,7 +70,7 @@ export class PictureparkPlayers {
     if (item.isPdf && share.items.length === 1) {
       this.showPdfJsItem(item);
       PictureparkPlayers.loading = false;
-    } else if (item.isImage || item.isPdf) {
+    } else if (item.isImage || item.isMovie || item.isPdf) {
       let savedOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       this.showPhotoSwipeItem(token, item, share.items, 'gallery_' + widgetId).then(() => {
@@ -164,7 +164,7 @@ export class PictureparkPlayers {
         } else if (i.isPdf) {
           return {
             html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-            'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '&closeButton=false"></iframe>'
+            'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>'
           };
         } else if (i.isMovie) {
           return {
@@ -186,25 +186,49 @@ export class PictureparkPlayers {
         PictureparkPlayers.showGalleryItem(g, gallery.getCurrentIndex());
       });
 
+      var players = [];
       var resizeCallbacks = [];
-      if (items.filter(i => i.isMovie).length > 0) {
-        gallery.listen('beforeChange', () => {
-          PictureparkPlayers.loadVideoPlayer().then(() => {
-            for (let i of items) {
-              PictureparkPlayers.renderVideoPlayer(token, i.id, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
-                if (player) {
-                  let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
-                  resizeCallbacks.push(resizeCallback);
-                  window.addEventListener('resize', resizeCallback, false);
-                }
-              });
+      if (items.filter(i => i.isMovie || i.isPdf).length > 0) {
+        var updatePlayers = () => {
+          if (items.filter(i => i.isMovie).length > 0) {
+            // TODO: Only update if not already initialized
+            PictureparkPlayers.loadVideoPlayer().then(() => {
+              for (let i of items.filter(i => i.isMovie)) {
+                PictureparkPlayers.renderVideoPlayer(token, i.id, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
+                  if (player) {
+                    players.push(player);
+                    let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
+                    resizeCallbacks.push(resizeCallback);
+                    window.addEventListener('resize', resizeCallback, false);
+                  }
+                });
+              }
+            });
+          }
+
+          // Handle pdfjs iframe close event
+          for (let i of items.filter(i => i.isPdf)) {
+            let elementId = 'pdfjs_' + i.id;
+            let element: any = document.getElementById(elementId);
+            if (element) {
+              element.onload = () => {
+                if (!element.ppJwpLoaded)
+                  element.ppJwpLoaded = true;
+                else
+                  gallery.close();
+              }
             }
-          });
-        });
+          }
+        };
+
+        gallery.listen('beforeChange', updatePlayers);
+        setTimeout(updatePlayers);
       }
 
       return new Promise((resolve) => {
         gallery.listen('close', () => {
+          for (let player of players)
+            player.remove();
           for (let resizeCallback of resizeCallbacks)
             window.removeEventListener('resize', resizeCallback, false);
           resolve();
