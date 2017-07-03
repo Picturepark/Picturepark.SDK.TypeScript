@@ -212,9 +212,7 @@ export class PictureparkPlayers {
             let element: any = document.getElementById(elementId);
             if (element) {
               element.onload = () => {
-                if (!element.ppJwpLoaded)
-                  element.ppJwpLoaded = true;
-                else
+                if (element.contentWindow.location.href == 'about:blank')
                   gallery.close();
               }
             }
