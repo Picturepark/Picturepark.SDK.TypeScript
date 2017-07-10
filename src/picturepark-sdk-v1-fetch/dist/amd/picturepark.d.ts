@@ -7,11 +7,31 @@
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
+         * Update Single - OwnershipTransfer
+         * @contentId The content id.
+         * @updateRequest The content ownership transfer request update request.
+         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         * @return ContentDoc
+         */
+        updateTransferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | undefined, timeout: number | undefined): Promise<ContentDoc | null>;
+        protected processUpdateTransferOwnership(response: Response): Promise<ContentDoc | null>;
+        /**
+         * Get Many
+         * @contentIds Comma-separated list of contentIds
+         * @resolve Resolves the data of referenced list items into the contents's content.
+         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         */
+        getMany(contentIds: string[] | undefined, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ContentDetail[] | null>;
+        protected processGetMany(response: Response): Promise<ContentDetail[] | null>;
+        transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | undefined): Promise<BusinessProcessViewItem | null>;
+        protected processTransferOwnershipMany(response: Response): Promise<BusinessProcessViewItem | null>;
+        /**
          * Aggregate
          * @contentAggregationRequest The aggregation request.
          * @return ObjectAggregationResult
          */
-        aggregate(contentAggregationRequest: ContentAggregationRequest): Promise<ObjectAggregationResult | null>;
+        aggregate(contentAggregationRequest: ContentAggregationRequest | undefined): Promise<ObjectAggregationResult | null>;
         protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
         /**
          * Aggregate By Channel
@@ -19,9 +39,9 @@
          * @contentAggregationRequest The content aggregation request.
          * @return ObjectAggregationResult
          */
-        aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest): Promise<ObjectAggregationResult | null>;
+        aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest | undefined): Promise<ObjectAggregationResult | null>;
         protected processAggregateByChannel(response: Response): Promise<ObjectAggregationResult | null>;
-        createDownloadLink(request: ContentBatchDownloadRequest): Promise<ContentBatchDownloadItem | null>;
+        createDownloadLink(request: ContentBatchDownloadRequest | undefined): Promise<ContentBatchDownloadItem | null>;
         protected processCreateDownloadLink(response: Response): Promise<ContentBatchDownloadItem | null>;
         /**
          * Create Single
@@ -30,20 +50,20 @@
          * @timeout Maximum time in milliseconds to wait for the business process completed state.
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
-        createContent(createRequest: CreateContentRequest, resolve: boolean, timeout: number, patterns: string[]): Promise<ContentDetail | null>;
+        createContent(createRequest: CreateContentRequest | undefined, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ContentDetail | null>;
         protected processCreateContent(response: Response): Promise<ContentDetail | null>;
-        download(contentId: string, outputFormatId: string, range: string): Promise<Blob | null>;
-        protected processDownload(response: Response): Promise<Blob | null>;
+        download(contentId: string, outputFormatId: string, range: string | undefined): Promise<FileResponse | null>;
+        protected processDownload(response: Response): Promise<FileResponse | null>;
         /**
          * Get Thumbnail
          * @contentId The Content id
          * @size Thumbnail size. Either small, medium or large
          * @return HttpResponseMessage
          */
-        downloadThumbnail(contentId: string, size: ThumbnailSize): Promise<Blob | null>;
-        protected processDownloadThumbnail(response: Response): Promise<Blob | null>;
-        downloadResized(contentId: string, outputFormatId: string, width: number, height: number): Promise<Blob | null>;
-        protected processDownloadResized(response: Response): Promise<Blob | null>;
+        downloadThumbnail(contentId: string, size: ThumbnailSize): Promise<FileResponse | null>;
+        protected processDownloadThumbnail(response: Response): Promise<FileResponse | null>;
+        downloadResized(contentId: string, outputFormatId: string, width: number, height: number): Promise<FileResponse | null>;
+        protected processDownloadResized(response: Response): Promise<FileResponse | null>;
         /**
          * Get Single
          * @contentId The content id.
@@ -51,7 +71,7 @@
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
-        get(contentId: string, resolve: boolean, patterns: string[]): Promise<ContentDetail | null>;
+        get(contentId: string, resolve: boolean, patterns: string[] | undefined): Promise<ContentDetail | null>;
         protected processGet(response: Response): Promise<ContentDetail | null>;
         /**
          * Update Single - Metadata
@@ -62,7 +82,7 @@
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
-        updateMetadata(contentId: string, updateRequest: UpdateContentMetadataRequest, resolve: boolean, timeout: number, patterns: string[]): Promise<ContentDetail | null>;
+        updateMetadata(contentId: string, updateRequest: UpdateContentMetadataRequest | undefined, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ContentDetail | null>;
         protected processUpdateMetadata(response: Response): Promise<ContentDetail | null>;
         /**
          * Update Single - Permissions
@@ -73,14 +93,14 @@
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
-        updatePermissions(contentId: string, updateRequest: UpdateContentPermissionsRequest, resolve: boolean, timeout: number, patterns: string[]): Promise<ContentDetail | null>;
+        updatePermissions(contentId: string, updateRequest: UpdateContentPermissionsRequest | undefined, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ContentDetail | null>;
         protected processUpdatePermissions(response: Response): Promise<ContentDetail | null>;
         /**
          * Search
          * @contentSearchRequest The content search request.
          * @return ContentSearchResult
          */
-        search(contentSearchRequest: ContentSearchRequest): Promise<ContentSearchResult | null>;
+        search(contentSearchRequest: ContentSearchRequest | undefined): Promise<ContentSearchResult | null>;
         protected processSearch(response: Response): Promise<ContentSearchResult | null>;
         /**
          * Search By Channel
@@ -88,7 +108,7 @@
          * @contentSearchRequest The content search request.
          * @return ContentSearchResult
          */
-        searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest): Promise<ContentSearchResult | null>;
+        searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest | undefined): Promise<ContentSearchResult | null>;
         protected processSearchByChannel(response: Response): Promise<ContentSearchResult | null>;
         deactivate(contentId: string, timeout: number): Promise<void>;
         protected processDeactivate(response: Response): Promise<void>;
@@ -97,27 +117,27 @@
          * @contentId The id of the content to replace
          * @updateRequest Update request
          */
-        updateFile(contentId: string, updateRequest: ContentFileUpdateRequest): Promise<BusinessProcessViewItem | null>;
+        updateFile(contentId: string, updateRequest: ContentFileUpdateRequest | undefined): Promise<BusinessProcessViewItem | null>;
         protected processUpdateFile(response: Response): Promise<BusinessProcessViewItem | null>;
-        reactivate(contentId: string, resolve: boolean, timeout: number, patterns: string[]): Promise<ContentDetail | null>;
+        reactivate(contentId: string, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ContentDetail | null>;
         protected processReactivate(response: Response): Promise<ContentDetail | null>;
-        deactivateMany(deactivationRequest: ContentDeactivationRequest): Promise<BusinessProcessViewItem | null>;
+        deactivateMany(deactivationRequest: ContentDeactivationRequest | undefined): Promise<BusinessProcessViewItem | null>;
         protected processDeactivateMany(response: Response): Promise<BusinessProcessViewItem | null>;
-        reactivateMany(reactivationRequest: ContentReactivationRequest): Promise<BusinessProcessViewItem | null>;
+        reactivateMany(reactivationRequest: ContentReactivationRequest | undefined): Promise<BusinessProcessViewItem | null>;
         protected processReactivateMany(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Update Many - Metadata
          * @updateRequest The metadata update request.
          * @return BusinessProcessViewItem
          */
-        updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest): Promise<BusinessProcessViewItem | null>;
+        updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | undefined): Promise<BusinessProcessViewItem | null>;
         protected processUpdateMetadataMany(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Update Many - Permissions
          * @updateRequest The permissions update request.
          * @return BusinessProcessViewItem
          */
-        updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[]): Promise<BusinessProcessViewItem | null>;
+        updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[] | undefined): Promise<BusinessProcessViewItem | null>;
         protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcessViewItem | null>;
     }
     export class BusinessProcessClient {
@@ -127,15 +147,15 @@
         constructor(baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
-        start(processDefinitionId: string, request: StartProcessRequest): Promise<BusinessProcessViewItem | null>;
+        search(businessProcessSearchRequest: BusinessProcessSearchResult | undefined): Promise<BusinessProcessSearchResult | null>;
+        protected processSearch(response: Response): Promise<BusinessProcessSearchResult | null>;
+        start(processDefinitionId: string, request: StartProcessRequest | undefined): Promise<BusinessProcessViewItem | null>;
         protected processStart(response: Response): Promise<BusinessProcessViewItem | null>;
         markAsEnded(processId: string): Promise<void>;
         protected processMarkAsEnded(response: Response): Promise<void>;
-        markAsStarted(processId: string): Promise<void>;
-        protected processMarkAsStarted(response: Response): Promise<void>;
-        sendMessage(processId: string, request: SendMessageRequest): Promise<void>;
+        sendMessage(processId: string, request: SendMessageRequest | undefined): Promise<void>;
         protected processSendMessage(response: Response): Promise<void>;
-        waitForStates(processId: string, states: string, timeout: number): Promise<BusinessProcessWaitResult | null>;
+        waitForStates(processId: string, states: string | undefined, timeout: number): Promise<BusinessProcessWaitResult | null>;
         protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
     }
     export class DocumentHistoryClient {
@@ -145,6 +165,8 @@
         constructor(baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        search(documentHistorySearchRequest: DocumentHistorySearchRequest | undefined): Promise<DocumentHistorySearchResult | null>;
+        protected processSearch(response: Response): Promise<DocumentHistorySearchResult | null>;
         get(id: string): Promise<DocumentHistoryViewItem | null>;
         protected processGet(response: Response): Promise<DocumentHistoryViewItem | null>;
         getVersion(id: string, version: string): Promise<DocumentHistoryViewItem | null>;
@@ -184,42 +206,42 @@
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItem: ListItemCreateRequest, resolve: boolean, timeout: number, patterns: string[]): Promise<ListItemDetail | null>;
+        create(listItem: ListItemCreateRequest | undefined, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ListItemDetail | null>;
         protected processCreate(response: Response): Promise<ListItemDetail | null>;
         /**
          * Create Many
          * @objects A list of ListItemCreateRequests.
          * @return BusinessProcessViewItem
          */
-        createMany(objects: ListItemCreateRequest[]): Promise<BusinessProcessViewItem | null>;
+        createMany(objects: ListItemCreateRequest[] | undefined): Promise<BusinessProcessViewItem | null>;
         protected processCreateMany(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Delete Many
          * @ids The list item id list.
          * @return BusinessProcessViewItem
          */
-        deleteMany(ids: string[]): Promise<BusinessProcessViewItem | null>;
+        deleteMany(ids: string[] | undefined): Promise<BusinessProcessViewItem | null>;
         protected processDeleteMany(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Update Many
          * @objects A list of ListItemUpdateRequests.
          * @return BusinessProcessViewItem
          */
-        updateMany(objects: ListItemUpdateRequest[]): Promise<BusinessProcessViewItem | null>;
+        updateMany(objects: ListItemUpdateRequest[] | undefined): Promise<BusinessProcessViewItem | null>;
         protected processUpdateMany(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Aggregate
          * @listItemAggregationRequest The list item aggregation request.
          * @return ObjectAggregationResult
          */
-        aggregate(listItemAggregationRequest: ListItemAggregationRequest): Promise<ObjectAggregationResult | null>;
+        aggregate(listItemAggregationRequest: ListItemAggregationRequest | undefined): Promise<ObjectAggregationResult | null>;
         protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
         /**
          * Search
          * @listItemSearchRequest The list item search request.
          * @return List item result set.
          */
-        search(listItemSearchRequest: ListItemSearchRequest): Promise<BaseResultOfListItem | null>;
+        search(listItemSearchRequest: ListItemSearchRequest | undefined): Promise<BaseResultOfListItem | null>;
         protected processSearch(response: Response): Promise<BaseResultOfListItem | null>;
         /**
          * Delete Single
@@ -234,7 +256,7 @@
          * @resolve Resolves the data of referenced list items into the list item's content.
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
-        get(listItemId: string, resolve: boolean, patterns: string[]): Promise<ListItemDetail | null>;
+        get(listItemId: string, resolve: boolean, patterns: string[] | undefined): Promise<ListItemDetail | null>;
         protected processGet(response: Response): Promise<ListItemDetail | null>;
         /**
          * Update Single
@@ -245,7 +267,7 @@
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest, resolve: boolean, timeout: number, patterns: string[]): Promise<ListItemDetail | null>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest | undefined, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ListItemDetail | null>;
         protected processUpdate(response: Response): Promise<ListItemDetail | null>;
         /**
          * Wait For States
@@ -254,7 +276,7 @@
          * @timeout Maximum time in milliseconds to wait for the business process completed state.
          * @return BusinessProcessWaitResult
          */
-        waitForStates(processId: string, states: string[], timeout: number): Promise<BusinessProcessWaitResult | null>;
+        waitForStates(processId: string, states: string[] | undefined, timeout: number): Promise<BusinessProcessWaitResult | null>;
         protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
         /**
          * Import
@@ -262,8 +284,18 @@
          * @fileTransferId The file transfer id.
          * @includeObjects Imports list items defined in the json import file.
          */
-        import(contentId: string, fileTransferId: string, includeObjects: boolean): Promise<void>;
+        import(contentId: string | undefined, fileTransferId: string | undefined, includeObjects: boolean): Promise<void>;
         protected processImport(response: Response): Promise<void>;
+    }
+    export class LiveStreamClient {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        search(liveStreamSearchRequest: LiveStreamSearchRequest | undefined): Promise<ObjectSearchResult | null>;
+        protected processSearch(response: Response): Promise<ObjectSearchResult | null>;
     }
     export class SchemaClient {
         private http;
@@ -272,6 +304,20 @@
         constructor(baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        /**
+         * Get Many
+         * @ids Comma separated list of schema ids
+         * @return SchemaDetailViewItem
+         */
+        getAll(ids: string[] | undefined): Promise<SchemaDetailViewItem[] | null>;
+        protected processGetAll(response: Response): Promise<SchemaDetailViewItem[] | null>;
+        /**
+         * Create Single
+         * @schema The schema create request.
+         * @return BusinessProcessViewItem
+         */
+        create(schema: SchemaCreateRequest | undefined): Promise<BusinessProcessViewItem | null>;
+        protected processCreate(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Get Single
          * @schemaId The schema id.
@@ -285,7 +331,7 @@
          * @schema The schema update request.
          * @return BusinessProcessViewItem
          */
-        update(schemaId: string, schema: SchemaUpdateRequest): Promise<BusinessProcessViewItem | null>;
+        update(schemaId: string, schema: SchemaUpdateRequest | undefined): Promise<BusinessProcessViewItem | null>;
         protected processUpdate(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Delete Single
@@ -300,21 +346,14 @@
          * @fieldId The optional field id.
          * @return ExistsResponse
          */
-        exists(schemaId: string, fieldId: string): Promise<ExistsResponse | null>;
+        exists(schemaId: string, fieldId: string | undefined): Promise<ExistsResponse | null>;
         protected processExists(response: Response): Promise<ExistsResponse | null>;
-        /**
-         * Create Single
-         * @schema The schema create request.
-         * @return BusinessProcessViewItem
-         */
-        create(schema: SchemaCreateRequest): Promise<BusinessProcessViewItem | null>;
-        protected processCreate(response: Response): Promise<BusinessProcessViewItem | null>;
         /**
          * Search
          * @schemaSearchRequest The schema search request.
          * @return Schema result set.
          */
-        search(schemaSearchRequest: SchemaSearchRequest): Promise<BaseResultOfSchemaViewItem | null>;
+        search(schemaSearchRequest: SchemaSearchRequest | undefined): Promise<BaseResultOfSchemaViewItem | null>;
         protected processSearch(response: Response): Promise<BaseResultOfSchemaViewItem | null>;
     }
     export class PermissionClient {
@@ -325,11 +364,18 @@
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
+         * Get UserRight validation result
+         * @permission The UserRight to validate
+         * @return Boolean - user has permission
+         */
+        getUserPermissions(permission: UserRight): Promise<boolean | null>;
+        protected processGetUserPermissions(response: Response): Promise<boolean | null>;
+        /**
          * Search Content Permissions
          * @request The permission search request.
          * @return PermissionSetSearchResult
          */
-        searchContentPermissions(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult | null>;
+        searchContentPermissions(request: PermissionSetSearchRequest | undefined): Promise<PermissionSetSearchResult | null>;
         protected processSearchContentPermissions(response: Response): Promise<PermissionSetSearchResult | null>;
         /**
          * Get Content Permission Single
@@ -343,7 +389,7 @@
          * @request The permission search request.
          * @return PermissionSetSearchResult
          */
-        searchSchemaPermissions(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult | null>;
+        searchSchemaPermissions(request: PermissionSetSearchRequest | undefined): Promise<PermissionSetSearchResult | null>;
         protected processSearchSchemaPermissions(response: Response): Promise<PermissionSetSearchResult | null>;
         /**
          * Get Schema Permission Single
@@ -360,7 +406,9 @@
         constructor(baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
-        getShare(token: string): Promise<ShareBaseDetailViewItem | null>;
+        getVersion(): Promise<VersionInfoViewItem | null>;
+        protected processGetVersion(response: Response): Promise<VersionInfoViewItem | null>;
+        getShare(token: string | undefined): Promise<ShareBaseDetailViewItem | null>;
         protected processGetShare(response: Response): Promise<ShareBaseDetailViewItem | null>;
     }
     export class ShareClient {
@@ -371,12 +419,15 @@
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Aggregates own shares
-         * @request Aggregation request
-         * @return AggregationResult
+         * Update Single - Share
+         * @id The share id.
+         * @updateRequest The share update request.
+         * @resolve Resolves the data of referenced list items into the shares content.
+         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         * @return ShareViewItem
          */
-        aggregate(request: ShareAggregationRequest): Promise<ObjectAggregationResult | null>;
-        protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
+        update(id: string, updateRequest: ShareBaseUpdateRequest | undefined, resolve: boolean, timeout: number | undefined): Promise<BaseResultOfShareBaseViewItem | null>;
+        protected processUpdate(response: Response): Promise<BaseResultOfShareBaseViewItem | null>;
         /**
          * Get share by id (basic or embed)
          * @id Share Id (not token, use PublicAccess to get share by token)
@@ -385,18 +436,32 @@
         get(id: string): Promise<ShareBaseDetailViewItem | null>;
         protected processGet(response: Response): Promise<ShareBaseDetailViewItem | null>;
         /**
+         * Delete Many
+         * @shareIds A list of ListItemCreateRequests.
+         * @return BusinessProcessViewItem
+         */
+        deleteMany(shareIds: string[] | undefined): Promise<BusinessProcessViewItem | null>;
+        protected processDeleteMany(response: Response): Promise<BusinessProcessViewItem | null>;
+        /**
+         * Aggregates own shares
+         * @request Aggregation request
+         * @return AggregationResult
+         */
+        aggregate(request: ShareAggregationRequest | undefined): Promise<ObjectAggregationResult | null>;
+        protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
+        /**
          * Create a new share (basic or embed).
          * @request Polymorph create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
          * @return Create result
          */
-        create(request: ShareBaseCreateRequest): Promise<CreateShareResult | null>;
+        create(request: ShareBaseCreateRequest | undefined): Promise<CreateShareResult | null>;
         protected processCreate(response: Response): Promise<CreateShareResult | null>;
         /**
          * Search shares
          * @request Search request
          * @return Share search result
          */
-        search(request: ContentSearchRequest): Promise<BaseResultOfShareBaseViewItem | null>;
+        search(request: ContentSearchRequest | undefined): Promise<BaseResultOfShareBaseViewItem | null>;
         protected processSearch(response: Response): Promise<BaseResultOfShareBaseViewItem | null>;
     }
     export class TransferClient {
@@ -406,12 +471,16 @@
         constructor(baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        deleteFiles(request: FileTransferDeleteRequest | undefined): Promise<void>;
+        protected processDeleteFiles(response: Response): Promise<void>;
+        getBlacklist(): Promise<Blacklist | null>;
+        protected processGetBlacklist(response: Response): Promise<Blacklist | null>;
         /**
          * Cancels an active batch. Valid states: TODO
          */
         cancelBatch(transferId: string): Promise<void>;
         protected processCancelBatch(response: Response): Promise<void>;
-        create(request: CreateTransferRequest): Promise<TransferViewItem | null>;
+        create(request: CreateTransferRequest | undefined): Promise<TransferViewItem | null>;
         protected processCreate(response: Response): Promise<TransferViewItem | null>;
         delete(transferId: string): Promise<void>;
         protected processDelete(response: Response): Promise<void>;
@@ -419,15 +488,15 @@
         protected processGet(response: Response): Promise<TransferDetailViewItem | null>;
         getFile(fileTransferId: string): Promise<FileTransferDetailViewItem | null>;
         protected processGetFile(response: Response): Promise<FileTransferDetailViewItem | null>;
-        importBatch(transferId: string, request: FileTransfer2ContentCreateRequest): Promise<TransferViewItem | null>;
+        importBatch(transferId: string, request: FileTransfer2ContentCreateRequest | undefined): Promise<TransferViewItem | null>;
         protected processImportBatch(response: Response): Promise<TransferViewItem | null>;
-        partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest): Promise<TransferViewItem | null>;
+        partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | undefined): Promise<TransferViewItem | null>;
         protected processPartialImport(response: Response): Promise<TransferViewItem | null>;
-        search(request: TransferSearchRequest): Promise<TransferSearchResult | null>;
+        search(request: TransferSearchRequest | undefined): Promise<TransferSearchResult | null>;
         protected processSearch(response: Response): Promise<TransferSearchResult | null>;
-        searchFiles(request: FileTransferSearchRequest): Promise<FileTransferSearchResult | null>;
+        searchFiles(request: FileTransferSearchRequest | undefined): Promise<FileTransferSearchResult | null>;
         protected processSearchFiles(response: Response): Promise<FileTransferSearchResult | null>;
-        uploadFile(formFile: FileParameter, flowRelativePath: string, flowChunkNumber: number, flowCurrentChunkSize: number, flowTotalSize: number, flowTotalChunks: number, transferId: string, identifier: string): Promise<void>;
+        uploadFile(formFile: FileParameter | undefined, flowRelativePath: string | undefined, flowChunkNumber: number, flowCurrentChunkSize: number, flowTotalSize: number, flowTotalChunks: number, transferId: string, identifier: string): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
     }
     export class UserClient {
@@ -437,6 +506,14 @@
         constructor(baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        search(searchRequest: UserSearchRequest | undefined): Promise<UserSearchResult | null>;
+        protected processSearch(response: Response): Promise<UserSearchResult | null>;
+        getUser(userId: string): Promise<UserDetailViewItem | null>;
+        protected processGetUser(response: Response): Promise<UserDetailViewItem | null>;
+        getProfile(): Promise<UserProfileViewItem | null>;
+        protected processGetProfile(response: Response): Promise<UserProfileViewItem | null>;
+        getByOwnerToken(tokenId: string): Promise<UserDetailViewItem | null>;
+        protected processGetByOwnerToken(response: Response): Promise<UserDetailViewItem | null>;
         getChannels(): Promise<ChannelViewItem[] | null>;
         protected processGetChannels(response: Response): Promise<ChannelViewItem[] | null>;
     }
@@ -448,12 +525,404 @@
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
+         * Get outputs by contentIds
+         * @contentsByIdsRequest Contains the list of contentIds for which the outputs are requested
+         * @return The Result containing a list of OutputDetailViewItem's
+         */
+        getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | undefined): Promise<BaseResultOfOutputDetailViewItem | null>;
+        protected processGetByContentIds(response: Response): Promise<BaseResultOfOutputDetailViewItem | null>;
+        /**
          * Get Single
          * @outputId The output id.
          * @return OutputDetail
          */
         get(outputId: string): Promise<OutputDetailViewItem | null>;
         protected processGet(response: Response): Promise<OutputDetailViewItem | null>;
+    }
+    export interface ContentOwnershipTransferRequest {
+        /** The content id. */
+        ContentId?: string | undefined;
+        /** The id of the user to whom the content document has to be transfered to. */
+        TransferUserId?: string | undefined;
+    }
+    export interface BaseDoc {
+        Id?: string | undefined;
+        Audit?: StoreAudit | undefined;
+    }
+    /** The MetadataBaseDoc is the base class for ContentDoc and ListItemDoc. */
+    export interface MetadataBaseDoc extends BaseDoc {
+        /** The id of the schema with schema type content/list. */
+        ContentSchemaId?: string | undefined;
+        /** An optional id list of schemas with type layer. */
+        LayerSchemaIds?: string[] | undefined;
+        /** Contains metadata values of the content schema and all applied layer schemas. */
+        Data?: DataDictionary | undefined;
+        /** Contains language specific display values, rendered according to the list/content schema's display pattern configuration. */
+        DisplayValues?: DisplayValue[] | undefined;
+    }
+    export interface ContentDoc extends MetadataBaseDoc {
+        FileTransferId?: string | undefined;
+        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
+        ContentPermissionSetIds?: string[] | undefined;
+        OwnerTokenId?: string | undefined;
+        /** The entity type of a content document is content. */
+        EntityType: EntityType;
+        ContentType: ContentType;
+        LifeCycle: LifeCycle;
+    }
+    export enum EntityType {
+        Content,
+        BasicShare,
+        EmbedShare,
+        Metadata,
+        FileTransfer,
+    }
+    export enum ContentType {
+        Unknown,
+        Bitmap,
+        VectorGraphic,
+        RawImage,
+        InterchangeDocument,
+        WordProcessingDocument,
+        TextDocument,
+        DesktopPublishingDocument,
+        Presentation,
+        Spreadsheet,
+        Archive,
+        Audio,
+        Video,
+        Font,
+        Multimedia,
+        Application,
+        SourceCode,
+        Database,
+        Cad,
+        Model3d,
+    }
+    export enum LifeCycle {
+        Draft,
+        Active,
+        Inactive,
+        Deleted,
+    }
+    /** A custom implementation of Dictionary{string, object} */
+    export interface DataDictionary {
+        [key: string]: any;
+    }
+    export interface DisplayValue {
+        Id?: string | undefined;
+        Values?: TranslatedStringDictionary | undefined;
+    }
+    /** A custom dictionary type to distinguish language specific class properties. */
+    export interface TranslatedStringDictionary {
+        [key: string]: string | any;
+    }
+    export interface StoreAudit {
+        CreationDate: Date;
+        CreatedByUser?: UserItem | undefined;
+        ModificationDate: Date;
+        ModifiedByUser?: UserItem | undefined;
+    }
+    export interface UserItem {
+        Id?: string | undefined;
+        FirstName?: string | undefined;
+        LastName?: string | undefined;
+        EmailAddress?: string | undefined;
+    }
+    export interface Exception {
+        Message?: string | undefined;
+        InnerException?: Exception | undefined;
+        StackTrace?: string | undefined;
+        Source?: string | undefined;
+    }
+    export interface PictureparkException extends Exception {
+        TraceLevel: TraceLevel;
+        TraceId?: string | undefined;
+        TraceJobId?: string | undefined;
+        HttpStatusCode: number;
+    }
+    export enum TraceLevel {
+        Critical,
+        Error,
+        Warning,
+        Information,
+        Verbose,
+    }
+    export interface PictureparkBusinessException extends PictureparkException {
+        CustomerId?: string | undefined;
+        CustomerAlias?: string | undefined;
+        UserId?: string | undefined;
+    }
+    export interface PictureparkApplicationException extends PictureparkBusinessException {
+    }
+    export interface PictureparkArgumentNullException extends PictureparkBusinessException {
+        ArgumentName?: string | undefined;
+    }
+    export interface ContentNotFoundException extends PictureparkBusinessException {
+        ContentId?: string | undefined;
+    }
+    export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
+        ProcessDefinitionIds?: string[] | undefined;
+    }
+    export interface BusinessProcessDefinitionNotFoundException extends PictureparkBusinessException {
+        ProcessDefinitionId?: string | undefined;
+    }
+    export interface BusinessProcessNotFoundException extends PictureparkBusinessException {
+        BusinessProcessId?: string | undefined;
+    }
+    export interface CustomerHostNotFoundException extends PictureparkException {
+        HostName?: string | undefined;
+    }
+    export interface CustomerNotFoundException extends PictureparkException {
+        CustomerId?: string | undefined;
+    }
+    export interface DocumentNotFoundException extends PictureparkBusinessException {
+        DocumentId?: string | undefined;
+    }
+    export interface DocumentVersionNotFoundException extends PictureparkBusinessException {
+        DocumentId?: string | undefined;
+        DocumentVersion?: string | undefined;
+    }
+    export interface DriveRequestException extends PictureparkBusinessException {
+    }
+    export interface DuplicateRightException extends PictureparkBusinessException {
+        PermissionSetId?: string | undefined;
+    }
+    export interface DuplicateDocumentException extends PictureparkBusinessException {
+        DocumentId?: string | undefined;
+        DocumentType?: string | undefined;
+    }
+    export interface DuplicateAggregatorException extends PictureparkBusinessException {
+        AggregatorName?: string | undefined;
+    }
+    export interface FailedToLockException extends PictureparkBusinessException {
+        ResourceId?: string | undefined;
+    }
+    export interface IndexException extends PictureparkBusinessException {
+        IndexName?: string | undefined;
+        DebugInformation?: string | undefined;
+    }
+    export interface InvalidArgumentException extends PictureparkBusinessException {
+        ArgumentName?: string | undefined;
+        ArgumentValue?: string | undefined;
+    }
+    export interface InvalidCustomerException extends PictureparkException {
+        CustomerId?: string | undefined;
+    }
+    export interface PictureparkInvalidMetadataException extends PictureparkBusinessException {
+        MetadataErrors?: MetadataError[] | undefined;
+    }
+    export interface MetadataError {
+        ErrorType?: string | undefined;
+        LineNumber: number;
+        LinePosition: number;
+        Path?: string | undefined;
+        Message?: string | undefined;
+        SchemaId?: string | undefined;
+    }
+    export interface InvalidStateException extends PictureparkBusinessException {
+        ResourceId?: string | undefined;
+        State?: string | undefined;
+    }
+    export interface InvalidStateTransitionException extends InvalidStateException {
+        Transition?: string | undefined;
+    }
+    export interface InvalidUserOrPasswordException extends PictureparkException {
+        CustomerId?: string | undefined;
+    }
+    export interface PictureparkMappingException extends PictureparkBusinessException {
+        IndexName?: string | undefined;
+        DebugInformation?: string | undefined;
+    }
+    export interface MessagePerformerTaskCanceledException extends PictureparkException {
+        MessageId?: string | undefined;
+        CustomerId?: string | undefined;
+    }
+    export interface NotFoundException extends PictureparkBusinessException {
+        Reference?: string | undefined;
+    }
+    export interface ObjectStoreException extends PictureparkBusinessException {
+        RowErrorMessages?: string | undefined;
+        ErrorMessage?: string | undefined;
+    }
+    export interface ObjectStoreResponseException extends PictureparkBusinessException {
+        RowErrorMessages?: string | undefined;
+        Message?: string | undefined;
+    }
+    export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
+    }
+    export interface OperationTimeoutException extends PictureparkBusinessException {
+    }
+    export interface OutputNotFoundException extends PictureparkBusinessException {
+        ContentId?: string | undefined;
+        OutputFormatId?: string | undefined;
+    }
+    export interface PermissionException extends PictureparkBusinessException {
+        Permission?: string | undefined;
+        Operation?: string | undefined;
+    }
+    export interface QueryException extends PictureparkBusinessException {
+        DebugInformation?: string | undefined;
+    }
+    export interface RenderingException extends PictureparkBusinessException {
+    }
+    export interface RenderingJobItemNotSetException extends PictureparkBusinessException {
+    }
+    export interface ServiceProviderCreateException extends PictureparkException {
+        UserId?: string | undefined;
+        ExternalId?: string | undefined;
+        VirtualHost?: string | undefined;
+        DetailErrorMessage?: string | undefined;
+    }
+    export interface ServiceProviderDeleteException extends PictureparkException {
+        ServiceProviderId?: string | undefined;
+        DetailedErrorMessage?: string | undefined;
+    }
+    export interface ServiceProviderNotFoundException extends PictureparkException {
+        MissingServiceProviderId?: string | undefined;
+    }
+    export interface TokenValidationException extends PictureparkBusinessException {
+    }
+    export interface UnknownException extends PictureparkBusinessException {
+        ExceptionDetail?: string | undefined;
+    }
+    export interface UserNotFoundException extends PictureparkBusinessException {
+        MissingUserId?: string | undefined;
+    }
+    export interface UserPermanentlyRemovedException extends PictureparkBusinessException {
+        RemovedUserId?: string | undefined;
+    }
+    export interface UserRoleAssignedException extends PictureparkBusinessException {
+        UserRoleId?: string | undefined;
+    }
+    export interface UserRolesRightsAssignedException extends PictureparkBusinessException {
+        ContentPermissionSetId?: string | undefined;
+    }
+    export interface ContentDetail {
+        /** Document audit information with information regarding document creation and modification. */
+        Audit?: StoreAudit | undefined;
+        /** The content data of the content document. */
+        Content?: any | undefined;
+        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
+        ContentPermissionSetIds?: string[] | undefined;
+        /** The id of the schema with schema type content. */
+        ContentSchemaId?: string | undefined;
+        /** The content type of a content document. */
+        ContentType: ContentType;
+        /** The content type of a content document. */
+        ContentTypeId: number;
+        /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
+        DisplayValues?: DisplayValueViewItem | undefined;
+        /** The entity type of a content document is content. */
+        EntityType: EntityType;
+        /** The content id. */
+        Id?: string | undefined;
+        /** An optional id list of schemas with schema type layer. */
+        LayerSchemaIds?: string[] | undefined;
+        /** The layer metadata of the content document. */
+        Metadata?: DataDictionary | undefined;
+        /** A list of rendering ouputs for contents with an underlying digital file. */
+        Outputs?: OutputViewItem[] | undefined;
+        /** The id of a owner token. Defines the content owner. */
+        OwnerTokenId?: string | undefined;
+        /** The trashed flag. */
+        Trashed: boolean;
+    }
+    export interface DisplayValueViewItem {
+        [key: string]: string | any;
+    }
+    export interface OutputViewItem {
+        Id?: string | undefined;
+        OutputFormatId?: string | undefined;
+        ContentId?: string | undefined;
+        Detail?: OutputDetailBase | undefined;
+    }
+    export interface OutputDetailBase {
+        FileExtension?: string | undefined;
+        FileName?: string | undefined;
+        FilePath?: string | undefined;
+        FileSizeInBytes?: number | undefined;
+        Sha1Hash?: string | undefined;
+    }
+    export interface OutputDetailImage extends OutputDetailBase {
+        Width: number;
+        Height: number;
+    }
+    export interface OutputDetailAudio extends OutputDetailBase {
+        DurationInSeconds?: number | undefined;
+    }
+    export interface OutputDetailVideo extends OutputDetailBase {
+        DurationInSeconds: number;
+        Width: number;
+        Height: number;
+        Sprites?: Sprite[] | undefined;
+    }
+    export interface Sprite {
+        Width: number;
+        Height: number;
+        Y: number;
+        X: number;
+        Start: string;
+        End: string;
+    }
+    export interface OutputDetailDocument extends OutputDetailBase {
+        PageCount: number;
+    }
+    export interface OutputDetailDefault extends OutputDetailBase {
+    }
+    export interface OutputDetailViewItem extends OutputViewItem {
+    }
+    export interface ContentsOwnershipTransferRequest {
+        /** The content ids. */
+        ContentIds?: string[] | undefined;
+        /** The id of user to whom the content documents have to be transfered to. */
+        TransferUserId?: string | undefined;
+    }
+    export interface BusinessProcessViewItem {
+        Id?: string | undefined;
+        ProcessDefinitionId?: string | undefined;
+        ReferenceId?: string | undefined;
+        ReferenceDocType?: string | undefined;
+        BusinessProcessScope: BusinessProcessScope;
+        LifeCycle: BusinessProcessLifeCylce;
+        StartDate: Date;
+        EndDate: Date;
+        StateHistory?: BusinessProcessStateItem[] | undefined;
+        ProcessDefinitionName?: string | undefined;
+        CurrentState?: string | undefined;
+    }
+    export enum BusinessProcessScope {
+        System,
+        User,
+    }
+    export enum BusinessProcessLifeCylce {
+        Draft,
+        Started,
+        Ended,
+        Cancelled,
+    }
+    export interface BusinessProcessStateItem {
+        State?: string | undefined;
+        Timestamp: Date;
+        Error?: ErrorResponse | undefined;
+    }
+    export interface ErrorResponse {
+        Exception?: string | undefined;
+        TraceId?: string | undefined;
+        TraceJobId?: string | undefined;
+    }
+    export interface BusinessProcessBulkResponseViewItem extends BusinessProcessViewItem {
+        Response?: BulkResponseViewItem | undefined;
+    }
+    export interface BulkResponseViewItem {
+        Rows?: BulkResponseRowViewItem[] | undefined;
+    }
+    export interface BulkResponseRowViewItem {
+        Id?: string | undefined;
+        Version: number;
+        Error?: string | undefined;
+        Reason?: string | undefined;
+        Succeeded: boolean;
     }
     export interface ContentAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
@@ -508,10 +977,6 @@
         From?: string | undefined;
         /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
         To?: string | undefined;
-    }
-    /** A custom dictionary type to distinguish language specific class properties. */
-    export interface TranslatedStringDictionary {
-        [key: string]: string | any;
     }
     /** The ExistsFilter returns documents that have at least one non-null value in the original field. */
     export interface ExistsFilter extends FilterBase {
@@ -705,175 +1170,6 @@
         Active: boolean;
         AggregationResults?: AggregationResult[] | undefined;
     }
-    export interface Exception {
-        Message?: string | undefined;
-        InnerException?: Exception | undefined;
-        StackTrace?: string | undefined;
-        Source?: string | undefined;
-    }
-    export interface PictureparkException extends Exception {
-        TraceLevel: TraceLevel;
-        TraceId?: string | undefined;
-        TraceJobId?: string | undefined;
-        HttpStatusCode: number;
-    }
-    export enum TraceLevel {
-        Critical,
-        Error,
-        Warning,
-        Information,
-        Verbose,
-    }
-    export interface PictureparkBusinessException extends PictureparkException {
-        CustomerId?: string | undefined;
-        CustomerAlias?: string | undefined;
-        UserId?: string | undefined;
-    }
-    export interface PictureparkApplicationException extends PictureparkBusinessException {
-    }
-    export interface PictureparkArgumentNullException extends PictureparkBusinessException {
-        ArgumentName?: string | undefined;
-    }
-    export interface ContentNotFoundException extends PictureparkBusinessException {
-        ContentId?: string | undefined;
-    }
-    export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
-        ProcessDefinitionIds?: string[] | undefined;
-    }
-    export interface BusinessProcessDefinitionNotFoundException extends PictureparkBusinessException {
-        ProcessDefinitionId?: string | undefined;
-    }
-    export interface BusinessProcessNotFoundException extends PictureparkBusinessException {
-        BusinessProcessId?: string | undefined;
-    }
-    export interface CustomerHostNotFoundException extends PictureparkException {
-        HostName?: string | undefined;
-    }
-    export interface CustomerNotFoundException extends PictureparkException {
-        CustomerId?: string | undefined;
-    }
-    export interface DocumentNotFoundException extends PictureparkBusinessException {
-        DocumentId?: string | undefined;
-    }
-    export interface DocumentVersionNotFoundException extends PictureparkBusinessException {
-        DocumentId?: string | undefined;
-        DocumentVersion?: string | undefined;
-    }
-    export interface DriveRequestException extends PictureparkBusinessException {
-    }
-    export interface DuplicateRightException extends PictureparkBusinessException {
-        PermissionSetId?: string | undefined;
-    }
-    export interface DuplicateDocumentException extends PictureparkBusinessException {
-        DocumentId?: string | undefined;
-        DocumentType?: string | undefined;
-    }
-    export interface DuplicateAggregatorException extends PictureparkBusinessException {
-        AggregatorName?: string | undefined;
-    }
-    export interface FailedToLockException extends PictureparkBusinessException {
-        ResourceId?: string | undefined;
-    }
-    export interface IndexException extends PictureparkBusinessException {
-        IndexName?: string | undefined;
-        DebugInformation?: string | undefined;
-    }
-    export interface InvalidArgumentException extends PictureparkBusinessException {
-        ArgumentName?: string | undefined;
-        ArgumentValue?: string | undefined;
-    }
-    export interface InvalidCustomerException extends PictureparkException {
-        CustomerId?: string | undefined;
-    }
-    export interface PictureparkInvalidMetadataException extends PictureparkBusinessException {
-        MetadataErrors?: MetadataError[] | undefined;
-    }
-    export interface MetadataError {
-        ErrorType?: string | undefined;
-        LineNumber: number;
-        LinePosition: number;
-        Path?: string | undefined;
-        Message?: string | undefined;
-        SchemaId?: string | undefined;
-    }
-    export interface InvalidStateException extends PictureparkBusinessException {
-        ResourceId?: string | undefined;
-        State?: string | undefined;
-    }
-    export interface InvalidStateTransitionException extends InvalidStateException {
-        Transition?: string | undefined;
-    }
-    export interface InvalidUserOrPasswordException extends PictureparkException {
-        CustomerId?: string | undefined;
-    }
-    export interface PictureparkMappingException extends PictureparkBusinessException {
-        IndexName?: string | undefined;
-        DebugInformation?: string | undefined;
-    }
-    export interface MessagePerformerTaskCanceledException extends PictureparkException {
-        MessageId?: string | undefined;
-        CustomerId?: string | undefined;
-    }
-    export interface NotFoundException extends PictureparkBusinessException {
-        Reference?: string | undefined;
-    }
-    export interface ObjectStoreException extends PictureparkBusinessException {
-        RowErrorMessages?: string | undefined;
-        ErrorMessage?: string | undefined;
-    }
-    export interface ObjectStoreResponseException extends PictureparkBusinessException {
-        RowErrorMessages?: string | undefined;
-        Message?: string | undefined;
-    }
-    export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
-    }
-    export interface OperationTimeoutException extends PictureparkBusinessException {
-    }
-    export interface OutputNotFoundException extends PictureparkBusinessException {
-        ContentId?: string | undefined;
-        OutputFormatId?: string | undefined;
-    }
-    export interface PermissionException extends PictureparkBusinessException {
-        Permission?: string | undefined;
-        Operation?: string | undefined;
-    }
-    export interface QueryException extends PictureparkBusinessException {
-        DebugInformation?: string | undefined;
-    }
-    export interface RenderingException extends PictureparkBusinessException {
-    }
-    export interface RenderingJobItemNotSetException extends PictureparkBusinessException {
-    }
-    export interface ServiceProviderCreateException extends PictureparkException {
-        UserId?: string | undefined;
-        ExternalId?: string | undefined;
-        VirtualHost?: string | undefined;
-        DetailErrorMessage?: string | undefined;
-    }
-    export interface ServiceProviderDeleteException extends PictureparkException {
-        ServiceProviderId?: string | undefined;
-        DetailedErrorMessage?: string | undefined;
-    }
-    export interface ServiceProviderNotFoundException extends PictureparkException {
-        MissingServiceProviderId?: string | undefined;
-    }
-    export interface TokenValidationException extends PictureparkBusinessException {
-    }
-    export interface UnknownException extends PictureparkBusinessException {
-        ExceptionDetail?: string | undefined;
-    }
-    export interface UserNotFoundException extends PictureparkBusinessException {
-        MissingUserId?: string | undefined;
-    }
-    export interface UserPermanentlyRemovedException extends PictureparkBusinessException {
-        RemovedUserId?: string | undefined;
-    }
-    export interface UserRoleAssignedException extends PictureparkBusinessException {
-        UserRoleId?: string | undefined;
-    }
-    export interface UserRolesRightsAssignedException extends PictureparkBusinessException {
-        ContentPermissionSetId?: string | undefined;
-    }
     export interface ContentBatchDownloadRequest {
         Contents?: Content[] | undefined;
     }
@@ -899,125 +1195,6 @@
         Metadata?: DataDictionary | undefined;
         /** An optional id list of content permission sets.  */
         ContentPermissionSetIds?: string[] | undefined;
-    }
-    /** A custom implementation of Dictionary{string, object} */
-    export interface DataDictionary {
-        [key: string]: any;
-    }
-    export interface ContentDetail {
-        /** Document audit information with information regarding document creation and modification. */
-        Audit?: StoreAudit | undefined;
-        /** The content data of the content document. */
-        Content?: any | undefined;
-        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-        ContentPermissionSetIds?: string[] | undefined;
-        /** The id of the schema with schema type content. */
-        ContentSchemaId?: string | undefined;
-        /** The content type of a content document. */
-        ContentType: ContentType;
-        /** The content type of a content document. */
-        ContentTypeId: number;
-        /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
-        DisplayValues?: DisplayValueViewItem | undefined;
-        /** The entity type of a content document is content. */
-        EntityType: EntityType;
-        /** The content id. */
-        Id?: string | undefined;
-        /** An optional id list of schemas with schema type layer. */
-        LayerSchemaIds?: string[] | undefined;
-        /** The layer metadata of the content document. */
-        Metadata?: DataDictionary | undefined;
-        /** A list of rendering ouputs for contents with an underlying digital file. */
-        Outputs?: OutputViewItem[] | undefined;
-        /** The id of a owner token. Defines the content owner. */
-        OwnerTokenId?: string | undefined;
-        /** The trashed flag. */
-        Trashed: boolean;
-    }
-    export interface StoreAudit {
-        CreationDate: Date;
-        CreatedByUser?: UserItem | undefined;
-        ModificationDate: Date;
-        ModifiedByUser?: UserItem | undefined;
-    }
-    export interface UserItem {
-        Id?: string | undefined;
-        FirstName?: string | undefined;
-        LastName?: string | undefined;
-        EmailAddress?: string | undefined;
-    }
-    export enum ContentType {
-        Unknown,
-        Bitmap,
-        VectorGraphic,
-        RawImage,
-        InterchangeDocument,
-        WordProcessingDocument,
-        TextDocument,
-        DesktopPublishingDocument,
-        Presentation,
-        Spreadsheet,
-        Archive,
-        Audio,
-        Video,
-        Font,
-        Multimedia,
-        Application,
-        SourceCode,
-        Database,
-        Cad,
-        Model3d,
-    }
-    export interface DisplayValueViewItem {
-        [key: string]: string | any;
-    }
-    export enum EntityType {
-        Content,
-        BasicShare,
-        EmbedShare,
-        Metadata,
-        FileTransfer,
-    }
-    export interface OutputViewItem {
-        Id?: string | undefined;
-        OutputFormatId?: string | undefined;
-        ContentId?: string | undefined;
-        Detail?: OutputDetailBase | undefined;
-    }
-    export interface OutputDetailBase {
-        FileExtension?: string | undefined;
-        FileName?: string | undefined;
-        FilePath?: string | undefined;
-        FileSizeInBytes?: number | undefined;
-        Sha1Hash?: string | undefined;
-    }
-    export interface OutputDetailImage extends OutputDetailBase {
-        Width: number;
-        Height: number;
-    }
-    export interface OutputDetailAudio extends OutputDetailBase {
-        DurationInSeconds?: number | undefined;
-    }
-    export interface OutputDetailVideo extends OutputDetailBase {
-        DurationInSeconds: number;
-        Width: number;
-        Height: number;
-        Sprites?: Sprite[] | undefined;
-    }
-    export interface Sprite {
-        Width: number;
-        Height: number;
-        Y: number;
-        X: number;
-        Start: string;
-        End: string;
-    }
-    export interface OutputDetailDocument extends OutputDetailBase {
-        PageCount: number;
-    }
-    export interface OutputDetailDefault extends OutputDetailBase {
-    }
-    export interface OutputDetailViewItem extends OutputViewItem {
     }
     export enum ThumbnailSize {
         Small,
@@ -1091,52 +1268,6 @@
         ContentId?: string | undefined;
         FileTransferId?: string | undefined;
     }
-    export interface BusinessProcessViewItem {
-        Id?: string | undefined;
-        ProcessDefinitionId?: string | undefined;
-        ReferenceId?: string | undefined;
-        ReferenceDocType?: string | undefined;
-        BusinessProcessScope: BusinessProcessScope;
-        LifeCycle: BusinessProcessLifeCylce;
-        StartDate: Date;
-        EndDate: Date;
-        StateHistory?: BusinessProcessStateItem[] | undefined;
-        ProcessDefinitionName?: string | undefined;
-        CurrentState?: string | undefined;
-    }
-    export enum BusinessProcessScope {
-        System,
-        User,
-    }
-    export enum BusinessProcessLifeCylce {
-        Draft,
-        Started,
-        Ended,
-        Cancelled,
-    }
-    export interface BusinessProcessStateItem {
-        State?: string | undefined;
-        Timestamp: Date;
-        Error?: ErrorResponse | undefined;
-    }
-    export interface ErrorResponse {
-        Exception?: string | undefined;
-        TraceId?: string | undefined;
-        TraceJobId?: string | undefined;
-    }
-    export interface BusinessProcessBulkResponseViewItem extends BusinessProcessViewItem {
-        Response?: BulkResponseViewItem | undefined;
-    }
-    export interface BulkResponseViewItem {
-        Rows?: BulkResponseRowViewItem[] | undefined;
-    }
-    export interface BulkResponseRowViewItem {
-        Id?: string | undefined;
-        Version: number;
-        Error?: string | undefined;
-        Reason?: string | undefined;
-        Succeeded: boolean;
-    }
     export interface UpdateContentMetadataRequest {
         /** The content id. */
         Id?: string | undefined;
@@ -1204,6 +1335,14 @@
         ContentSearchRequest?: ContentSearchRequest | undefined;
         TotalItemsCount: number;
     }
+    export interface BaseResultOfBusinessProcessViewItem {
+        TotalResults: number;
+        Results?: BusinessProcessViewItem[] | undefined;
+        PageToken?: string | undefined;
+    }
+    export interface BusinessProcessSearchResult extends BaseResultOfBusinessProcessViewItem {
+        ElapsedMilliseconds: number;
+    }
     export interface StartProcessRequest {
         Variables?: any | undefined;
     }
@@ -1216,6 +1355,22 @@
         ProcessEnded: boolean;
         StateHit?: string | undefined;
         BusinessProcess?: BusinessProcessViewItem | undefined;
+    }
+    export interface DocumentHistorySearchRequest {
+        From: Date;
+        To: Date;
+        Start: number;
+        Limit: number;
+        PageToken?: string | undefined;
+        Id?: string | undefined;
+        DocumentId?: string | undefined;
+        DocumentVersion: number;
+    }
+    export interface DocumentHistorySearchResult {
+        TotalResults: number;
+        Results?: DocumentHistoryViewItem[] | undefined;
+        PageToken?: string | undefined;
+        ElapsedMilliseconds: number;
     }
     export interface DocumentHistoryViewItem {
         Id?: string | undefined;
@@ -1327,6 +1482,21 @@
         Content?: any | undefined;
         /** The list item id. */
         Id?: string | undefined;
+    }
+    export interface LiveStreamSearchRequest {
+        From: Date;
+        To: Date;
+        Start: number;
+        Limit: number;
+        PageToken?: string | undefined;
+    }
+    export interface BaseResultOfObject {
+        TotalResults: number;
+        Results?: any[] | undefined;
+        PageToken?: string | undefined;
+    }
+    export interface ObjectSearchResult extends BaseResultOfObject {
+        ElapsedMilliseconds: number;
     }
     export interface SchemaDetailViewItem {
         /** The schema id. */
@@ -1721,6 +1891,24 @@
         /** Is true when schema is system provided. */
         System: boolean;
     }
+    export enum UserRight {
+        ManageContent,
+        ManageSharings,
+        ManageDrives,
+        ManageTransfer,
+        ManageAnalytics,
+        ManageChannels,
+        ManageSchemas,
+        ManageUsers,
+        ManageUserRoles,
+        ManagePermissions,
+        ManageSearchIndexes,
+        ManageRecipients,
+        ManageCollections,
+        ManageComments,
+        ManageListItems,
+        ManageServiceProviders,
+    }
     export interface PermissionSetSearchRequest {
         SearchString?: string | undefined;
         Sort?: SortInfo[] | undefined;
@@ -1794,6 +1982,17 @@
         Edit,
         Manage,
     }
+    /** The version view item for the environment. */
+    export interface VersionInfoViewItem {
+        /** The manual file version of Picturepark.Contract.dll. */
+        FileVersion?: string | undefined;
+        /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+        FileProductVersion?: string | undefined;
+        /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+        ContractVersion?: string | undefined;
+        /** The bamboo release version. Only provided on bamboo deployments. */
+        Release?: string | undefined;
+    }
     export interface ShareBaseDetailViewItem {
         Id?: string | undefined;
         Name?: string | undefined;
@@ -1856,63 +2055,20 @@
         Token?: string | undefined;
         Url?: string | undefined;
     }
-    export interface ShareAggregationRequest {
-        SearchString?: string | undefined;
-        Sort?: SortInfo[] | undefined;
-        /** An optional search filter. Limits the content document result set. */
-        Filter?: FilterBase | undefined;
-        AggregationFilters?: AggregationFilter[] | undefined;
-        Aggregators?: AggregatorBase[] | undefined;
-        DisplayLanguage?: string | undefined;
-    }
-    export interface ShareBaseCreateRequest {
+    export interface ShareBaseUpdateRequest {
+        Id?: string | undefined;
         Name?: string | undefined;
-        Description?: string | undefined;
         ExpirationDate?: Date | undefined;
-        Contents?: ShareContent[] | undefined;
+        Description?: string | undefined;
+        ShareContentItems?: ShareContent[] | undefined;
     }
     export interface ShareContent {
         ContentId?: string | undefined;
         OutputFormatIds?: string[] | undefined;
     }
-    export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
-        RecipientsEmail?: UserEmail[] | undefined;
-        RecipientsUser?: UserItem[] | undefined;
-        RecipientsGroup?: UserRoleViewItem[] | undefined;
-        LanguageCode?: string | undefined;
-        TemplateId?: string | undefined;
+    export interface ShareBasicUpdateRequest extends ShareBaseUpdateRequest {
     }
-    export interface UserRoleViewItem {
-        /** The user role id. */
-        Id?: string | undefined;
-        Trashed: boolean;
-        /** Language specific user role names. */
-        Names?: TranslatedStringDictionary | undefined;
-        /** All user rights for this user role. */
-        UserRights?: UserRight[] | undefined;
-    }
-    export enum UserRight {
-        ManageContent,
-        ManageSharings,
-        ManageDrives,
-        ManageTransfer,
-        ManageAnalytics,
-        ManageChannels,
-        ManageSchemas,
-        ManageUsers,
-        ManageUserRoles,
-        ManagePermissions,
-        ManageSearchIndexes,
-        ManageRecipients,
-        ManageCollections,
-        ManageComments,
-        ManageListItems,
-        ManageServiceProviders,
-    }
-    export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
-    }
-    export interface CreateShareResult {
-        ShareId?: string | undefined;
+    export interface ShareEmbedUpdateRequest extends ShareBaseUpdateRequest {
     }
     export interface BaseResultOfShareBaseViewItem {
         TotalResults: number;
@@ -1933,6 +2089,53 @@
         Description?: string | undefined;
     }
     export interface ShareEmbedViewItem extends ShareBaseViewItem {
+    }
+    export interface ShareAggregationRequest {
+        SearchString?: string | undefined;
+        Sort?: SortInfo[] | undefined;
+        /** An optional search filter. Limits the content document result set. */
+        Filter?: FilterBase | undefined;
+        AggregationFilters?: AggregationFilter[] | undefined;
+        Aggregators?: AggregatorBase[] | undefined;
+        DisplayLanguage?: string | undefined;
+    }
+    export interface ShareBaseCreateRequest {
+        Name?: string | undefined;
+        Description?: string | undefined;
+        ExpirationDate?: Date | undefined;
+        Contents?: ShareContent[] | undefined;
+    }
+    export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
+        RecipientsEmail?: UserEmail[] | undefined;
+        RecipientsUser?: UserItem[] | undefined;
+        RecipientsGroup?: UserRoleViewItem[] | undefined;
+        LanguageCode?: string | undefined;
+        TemplateId?: string | undefined;
+    }
+    export interface UserRoleViewItem {
+        /** The user role id. */
+        Id?: string | undefined;
+        Trashed: boolean;
+        /** Language specific user role names. */
+        Names?: TranslatedStringDictionary | undefined;
+        /** All user rights for this user role. */
+        UserRights?: UserRight[] | undefined;
+    }
+    export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
+    }
+    export interface CreateShareResult {
+        ShareId?: string | undefined;
+    }
+    export interface FileTransferDeleteRequest {
+        TransferId?: string | undefined;
+        FileTransferIds?: string[] | undefined;
+    }
+    export interface Blacklist {
+        Items?: BlacklistItem[] | undefined;
+    }
+    export interface BlacklistItem {
+        Name?: string | undefined;
+        Match?: string | undefined;
     }
     export interface CreateTransferRequest {
         Name?: string | undefined;
@@ -3609,6 +3812,72 @@
         EntityType: EntityType;
         ContentId?: string | undefined;
     }
+    export interface UserSearchRequest {
+        SearchString?: string | undefined;
+        Sort?: SortInfo[] | undefined;
+        Start: number;
+        Limit: number;
+        Filter?: FilterBase | undefined;
+        LifeCycleFilter: LifeCycleFilter;
+    }
+    export interface BaseResultOfUserViewItem {
+        TotalResults: number;
+        Results?: UserViewItem[] | undefined;
+        PageToken?: string | undefined;
+    }
+    export interface UserSearchResult extends BaseResultOfUserViewItem {
+        ElapsedMilliseconds: number;
+    }
+    export interface UserViewItem extends UserItem {
+        UserRoleIds?: string[] | undefined;
+    }
+    export interface UserDetailViewItem extends UserItem {
+        Password?: string | undefined;
+        UserRoles?: UserRoleViewItem[] | undefined;
+        Comment?: string | undefined;
+        LanguageCode?: string | undefined;
+        Address?: UserAddress | undefined;
+        Privilege?: UserPrivilege | undefined;
+        Drives?: DriveViewItem[] | undefined;
+        OwnerTokens?: OwnerTokenViewItem[] | undefined;
+    }
+    export interface UserAddress {
+        Company?: string | undefined;
+        Address?: string | undefined;
+        AlternativeAddress?: string | undefined;
+        Department?: string | undefined;
+        Zip?: string | undefined;
+        City?: string | undefined;
+        Phone?: string | undefined;
+        CountryCode?: string | undefined;
+    }
+    export interface UserPrivilege {
+        CanBeInternalContact: boolean;
+        CanChangeOwnProfile: boolean;
+    }
+    export interface DriveViewItem {
+        Id?: string | undefined;
+        Name?: string | undefined;
+    }
+    export interface OwnerTokenViewItem {
+        /** The ownertoken id. */
+        Id?: string | undefined;
+        /** The id of the user to whom this ownertoken currently belongs to. */
+        UserId?: string | undefined;
+    }
+    export interface UserProfileViewItem {
+        Id?: string | undefined;
+        EmailAddress?: string | undefined;
+        FirstName?: string | undefined;
+        LastName?: string | undefined;
+        Company?: string | undefined;
+        Address?: string | undefined;
+        AlternativeAddress?: string | undefined;
+        Department?: string | undefined;
+        Zip?: string | undefined;
+        City?: string | undefined;
+        Phone?: string | undefined;
+    }
     export interface ChannelViewItem {
         Id?: string | undefined;
         SortOrder: number;
@@ -3628,9 +3897,25 @@
         /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
         ExtendedSimpleSearchFields?: string[] | undefined;
     }
+    export interface ContentsByIdsRequest {
+        ContentIds?: string[] | undefined;
+    }
+    export interface BaseResultOfOutputDetailViewItem {
+        TotalResults: number;
+        Results?: OutputDetailViewItem[] | undefined;
+        PageToken?: string | undefined;
+    }
     export interface FileParameter {
         data: any;
         fileName: string;
+    }
+    export interface FileResponse {
+        data: Blob;
+        status: number;
+        fileName?: string;
+        headers?: {
+            [name: string]: any;
+        };
     }
     export class SwaggerException extends Error {
         message: string;

@@ -33,10 +33,10 @@ describe('ContentService', () => {
     request.searchString = 'm';
     
     let response = await contentService.search(request).toPromise();
-    let blob = await contentService.downloadThumbnail(response!.results![0].id!, ThumbnailSize.Medium, false).toPromise();
+    let result = await contentService.downloadThumbnail(response!.results![0].id!, ThumbnailSize.Medium, false).toPromise();
 
     // assert
-    expect(blob.size).toBeGreaterThan(0);
+    expect(result.data.size).toBeGreaterThan(0);
   })));
 
   it('should download resized content', async(inject([AuthService, ContentService], 
@@ -49,10 +49,10 @@ describe('ContentService', () => {
     request.searchString = 'm';
     
     let response = await contentService.search(request).toPromise();
-    let blob = await contentService.downloadResized(response!.results![0].id!, "Original", 100, 100).toPromise();
+    let result = await contentService.downloadResized(response!.results![0].id!, "Original", 100, 100).toPromise();
 
     // assert
-    expect(blob!.size).toBeGreaterThan(0);
+    expect(result!.data.size).toBeGreaterThan(0);
   })));
 
   it('should download content', async(inject([AuthService, ContentService], 
@@ -65,10 +65,10 @@ describe('ContentService', () => {
     request.searchString = 'm';
     
     let response = await contentService.search(request).toPromise();
-    let blob = await contentService.download(response!.results![0].id!, 'Original', 'bytes=500-999').toPromise();
+    let result = await contentService.download(response!.results![0].id!, 'Original', 'bytes=500-999').toPromise();
 
     // assert
-    expect(blob!.size).toBeGreaterThan(0);
+    expect(result!.data.size).toBeGreaterThan(0);
   })));
 
   it('should return some aggregations', async(inject([AuthService, ContentService], 

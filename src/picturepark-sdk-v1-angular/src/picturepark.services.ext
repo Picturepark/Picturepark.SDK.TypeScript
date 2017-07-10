@@ -34,7 +34,7 @@ class AggregationResultItem extends generated.AggregationResultItem {
 }
 
 class ContentService extends generated.ContentService {
-    private thumbnailCache: { [key: string]: Blob | null; } = {};
+    private thumbnailCache: { [key: string]: FileResponse | null; } = {};
 
     /**
      * Get Thumbnail
@@ -42,7 +42,7 @@ class ContentService extends generated.ContentService {
      * @size Thumbnail size. Either small, medium or large
      * @return HttpResponseMessage
      */
-    downloadThumbnail(contentId: string, size: generated.ThumbnailSize, cache?: boolean): Observable<Blob> {
+    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse> {
         let key = contentId + ":" + size;
         if (cache !== false && this.thumbnailCache[key] !== undefined)
             return Observable.of(this.thumbnailCache[key]);
