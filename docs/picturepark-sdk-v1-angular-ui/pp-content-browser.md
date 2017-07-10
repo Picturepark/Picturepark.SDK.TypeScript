@@ -2,7 +2,7 @@
 
 **NPM Package:** @picturepark/sdk-v1-angular-ui
 
-Usage:
+Renders a list of content items for the given channel, filters and search query.
 
 ```
 <pp-content-browser selectionMode="single" 
