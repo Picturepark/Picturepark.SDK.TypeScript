@@ -37,6 +37,7 @@ The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you 
 
 **NPM Package:** @picturepark/sdk-v1-angular-ui
 
+- [pp-aggregation-filter](pp-aggregation-filter.md)
 - [pp-channel-picker](pp-channel-picker.md)
 - [pp-content-browser](pp-content-browser.md)
 - [pp-login](pp-login.md)
