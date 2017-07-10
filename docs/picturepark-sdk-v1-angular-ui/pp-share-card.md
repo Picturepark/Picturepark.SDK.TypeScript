@@ -4,8 +4,6 @@
 
 Renders the contents of a share in a card.
 
-TODO: Add image
-
 Usage:
 
     <pp-share-card token="ifG28Fsd"></pp-share-card>

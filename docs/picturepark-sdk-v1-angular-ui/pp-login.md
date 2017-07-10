@@ -20,6 +20,5 @@ Properties:
 Events:
 
 - loggedIn: Event which is emitted when the user successfully logged in
-- loggedOut: Event which is emitted when the user logged out
 
 See also: [pp-logout](pp-logout.md)
