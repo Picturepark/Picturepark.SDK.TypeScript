@@ -6,7 +6,7 @@ Renders a select where the user can select a channel.
 
 ```
 <pp-channel-picker label="Choose Channel" 
-                    [(channel)]="selectedChannel">
+                   [(channel)]="selectedChannel">
 </pp-channel-picker>
 ```
 
