@@ -2,6 +2,8 @@
 
 ## picturepark-sdk-v1-widgets
 
+The `picturepark-widgets.js` library provides the functionality to embed Picturepark content items in third party websites. 
+
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-widgets/api/index.html)
 
 ### Downloads
@@ -12,12 +14,6 @@ Latest version from master branch (use for development only):
 - [picturepark-widgets.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.d.ts)
 
 ### Usage
-
-Load the script in your website: 
-
-```html
-<script src="picturepark-widgets.js"></script>
-```
 
 **Embed a shared content**
 

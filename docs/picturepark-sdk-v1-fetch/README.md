@@ -2,18 +2,31 @@
 
 ## picturepark-sdk-v1-fetch
 
+The `@picturepark/sdk-v1-fetch` package / `picturepark.js` library provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers (use polyfills for older browsers). The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
+
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-fetch/api/index.html)
 
 ### Downloads
+
+NPM Package: 
+
+- [@picturepark/sdk-v1-fetch](https://www.npmjs.com/package/@picturepark/sdk-v1-fetch)
 
 Latest version from master branch (use for development only): 
 
 - [picturepark.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-fetch/dist/picturepark.js)
 - [picturepark.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts)
 
-NPM Package: 
+### Polyfills
 
-- [@picturepark/sdk-v1-fetch](https://www.npmjs.com/package/@picturepark/sdk-v1-fetch)
+In order to use the library in older browsers you need the polyfills for `window.fetch` and `Promise`: 
+
+- Polyfills: 
+    - [window.fetch polyfill](https://github.com/github/fetch) ([CDN](https://cdnjs.com/libraries/fetch))
+    - [ES6 Promise polyfill](https://github.com/es-shims/es6-shim/) ([CDN](https://cdnjs.com/libraries/es6-shim))
+- Typings: 
+    - [whatwg-fetch.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/whatwg-fetch/index.d.ts)
+    - [es6-promise.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/es6-promise/index.d.ts)
 
 ### Samples
 

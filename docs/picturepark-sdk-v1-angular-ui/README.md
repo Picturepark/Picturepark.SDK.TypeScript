@@ -1,6 +1,8 @@
 # Picturepark Content Platform Angular Components
 
-## @picturepark/sdk-v1-angular-ui
+## picturepark-sdk-v1-angular-ui
+
+The `@picturepark/sdk-v1-angular-ui` package provides common UI components to work with the Picturepark API. 
 
 ### Usage
 

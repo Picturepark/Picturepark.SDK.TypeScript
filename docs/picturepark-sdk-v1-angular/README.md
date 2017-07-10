@@ -1,6 +1,8 @@
 # Picturepark Content Platform Angular Components
 
-## @picturepark/sdk-v1-angular
+## picturepark-sdk-v1-angular
+
+The `@picturepark/sdk-v1-angular` package provides Angular (2+) service classes to access the Picturepark API. 
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-angular/api/index.html)
 
