@@ -4,10 +4,6 @@
 
 Renders a login screen to authenticate with the Picturepark server. The component is only rendered if the user is not logged in.
 
-TODO: Add image
-
-Usage:
-
     <pp-login rememberPassword="true" (loggedIn)="onLoggedIn()"></pp-login>
 
 Properties:
