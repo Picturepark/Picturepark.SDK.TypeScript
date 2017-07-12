@@ -1,4 +1,4 @@
-<div *ngIf="!authService.isLoggedIn">
+<div *ngIf="!authService.isAuthorized">
   <div class="form">
     <div class="form-group">
       <label for="username">{{'Login.LabelUsername' | pptranslate}}</label>

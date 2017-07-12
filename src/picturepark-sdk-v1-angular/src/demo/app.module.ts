@@ -16,6 +16,7 @@ import { PICTUREPARK_API_URL, PICTUREPARK_CONFIGURATION, PictureparkConfiguratio
     PictureparkOidcModule,
     RouterModule.forRoot([
       { path: '', component: AppComponent },
+      { path: 'pcpToken/:type', redirectTo: '' },
     ])
   ],
   providers: [

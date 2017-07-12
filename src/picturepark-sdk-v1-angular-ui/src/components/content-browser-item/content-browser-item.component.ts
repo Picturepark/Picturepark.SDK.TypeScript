@@ -27,8 +27,10 @@ export class ContentBrowserItemComponent implements OnChanges {
   async refresh() {
     if (this.itemModel) {
       try {
-        var blob = await this.contentService.downloadThumbnail(this.itemModel.item.id!, ThumbnailSize.Medium).toPromise();
-        this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        var response = await this.contentService.downloadThumbnail(this.itemModel.item.id!, ThumbnailSize.Medium).toPromise();
+        if (response) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
+        }
       } catch (error) {
         this.thumbnailUrl = null;
       }

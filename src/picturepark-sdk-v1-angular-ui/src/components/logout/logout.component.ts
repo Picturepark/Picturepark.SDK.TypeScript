@@ -19,12 +19,12 @@ export class LogoutComponent {
   }
 
   async logout() {
-    // try {
-    //   await this.authService.logout();
-    //   this.errorMessage = '';
-    //   this.loggedOut.emit();
-    // } catch (error) {
-    //   this.errorMessage = translate(TRANSLATIONS.Logout.TextLogoutFailed, this.locale);
-    // }
+    try {
+      await this.authService.logout();
+      this.errorMessage = '';
+      this.loggedOut.emit();
+    } catch (error) {
+      this.errorMessage = translate(TRANSLATIONS.Logout.TextLogoutFailed, this.locale);
+    }
   }
 }

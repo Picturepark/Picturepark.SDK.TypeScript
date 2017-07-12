@@ -6,7 +6,4 @@ export interface PictureparkConfiguration {
     apiServer: string;
     stsServer: string;
     customerAlias: string;
-
-    redirectUrl?: string;
-    redirectRoute?: string;
 }

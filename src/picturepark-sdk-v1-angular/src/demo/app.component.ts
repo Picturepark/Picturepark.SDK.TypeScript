@@ -8,7 +8,6 @@ import { OidcSecurityService } from "angular-auth-oidc-client";
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  token = 'n/a';
   data = 'n/a';
 
   constructor(
@@ -16,17 +15,15 @@ export class AppComponent {
     public contentService: ContentService) {
   }
 
-  ngOnInit() {
-    this.token = this.authService.token;
-  }
-
   login() {
     this.authService.login();
   }
 
-  search() {
-    this.token = this.authService.token;
+  logout() {
+    this.authService.logout();
+  }
 
+  search() {
     const request = new ContentSearchRequest();
     request.searchString = 'm';
 

@@ -1,9 +1,9 @@
 <div class="container-fluid">
-  <div *ngIf="!isLoggedIn">
+  <div *ngIf="!authService.isAuthorized">
     Authorization...
   </div>
   
-  <div *ngIf="isLoggedIn">
+  <div *ngIf="authService.isAuthorized">
     <div class="row" style="padding-top: 10px">
       <!-- Channel Picker -->
       <div class="col-md-3">
@@ -56,7 +56,7 @@
         </ng-container>
       </div>
       <div class="col-md-6" style="text-align: right">
-        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed()" *ngIf="authService.isLoggedIn">
+        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed()">
           <ng-container *ngIf="!loading">  
             {{'ContentPicker.ButtonChoose' | pptranslate}}
           </ng-container>

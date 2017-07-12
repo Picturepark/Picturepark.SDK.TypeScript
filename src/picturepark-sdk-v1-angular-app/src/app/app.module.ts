@@ -38,6 +38,7 @@ let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : 
     PictureparkOidcModule,
     RouterModule.forRoot([
       { path: '', component: AppComponent },
+      { path: 'pcpToken/:type', redirectTo: 'content-picker' }
     ])
   ],
   providers: [
@@ -46,9 +47,7 @@ let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : 
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
         apiServer: appRootTag.getAttribute('picturepark-api-server'),
         stsServer: appRootTag.getAttribute('picturepark-sts-server'),
-        customerAlias: appRootTag.getAttribute('customer-alias'),
-        redirectRoute: "/content-picker",
-        redirectUrl: "http://localhost:4200"
+        customerAlias: appRootTag.getAttribute('customer-alias')
       }
     }
   ],

@@ -51,19 +51,19 @@ export class PictureparkOidcModule {
     @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
     @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkConfiguration) {
 
-    let redirectRoute = pictureparkConfiguration.redirectRoute ? pictureparkConfiguration.redirectRoute : "/";
-
+    let redirectRoute = "/pcpToken";
     let configuration = new OpenIDImplicitFlowConfiguration();
-    configuration.stsServer = pictureparkConfiguration.stsServer;
-    configuration.redirect_url = pictureparkConfiguration.redirectUrl ?
-      pictureparkConfiguration.redirectUrl + redirectRoute : window.location.origin + redirectRoute;
     configuration.client_id = 'picturepark_frontend';
     configuration.response_type = 'id_token token';
     configuration.scope = 'offline_access profile picturepark_api picturepark_account openid';
-    configuration.post_logout_redirect_uri = 'http://localhost:56980/login';
-    configuration.startup_route = redirectRoute;
-    configuration.forbidden_route = '/Forbidden';
-    configuration.unauthorized_route = '/Unauthorized';
+
+    configuration.stsServer = pictureparkConfiguration.stsServer;
+    configuration.redirect_url = window.location.origin + redirectRoute + '/Success';
+    configuration.post_logout_redirect_uri = window.location.origin + redirectRoute + '/Logout';
+    configuration.startup_route = redirectRoute + '/Success';
+    configuration.forbidden_route = redirectRoute + '/Forbidden';
+    configuration.unauthorized_route = redirectRoute + '/Unauthorized';
+
     configuration.log_console_warning_active = true;
     configuration.log_console_debug_active = false;
     configuration.max_id_token_iat_offset_allowed_in_seconds = 10;
@@ -74,9 +74,6 @@ export class PictureparkOidcModule {
 
     if (typeof location !== "undefined" && window.location.hash && window.location.hash.startsWith("#id_token=")) {
       authService.processAuthorizationRedirect();
-      if (window.history.replaceState) {
-        window.history.replaceState("", "", window.location.pathname);
-      }
     }
   }
 }

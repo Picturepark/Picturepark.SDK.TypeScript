@@ -27,21 +27,35 @@ export const PICTUREPARK_API_URL = new OpaqueToken('PICTUREPARK_API_URL');
 
 @Injectable()
 export class AuthService {
-    private _processingRedirect = false;
+    private _isAuthorizing = false;
+    private _isAuthorized = false;
+    private _token: string | undefined = undefined;
+    private _username: string | undefined = undefined;
 
     constructor(
         @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
+        this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
     }
 
+    @Output()
+    isAuthorizedChanged = new EventEmitter<boolean>();
 
     login() {
         this.oidcSecurityService.authorize();
     }
 
+    logout() {
+        this.oidcSecurityService.logoff();
+    }
+
+    get username() {
+        return this._username;
+    }
+
     get token() {
-        return this.oidcSecurityService.getToken();
+        return this._token;
     }
 
     get apiServer() {
@@ -52,13 +66,32 @@ export class AuthService {
         return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
-    get processingRedirect() {
-        return this._processingRedirect;
+    get isAuthorizing() {
+        return this._isAuthorizing;
+    }
+
+    get isAuthorized() {
+        return this._isAuthorized;
     }
 
     processAuthorizationRedirect() {
-        this._processingRedirect = true;
+        this._isAuthorizing = true;
         this.oidcSecurityService.authorizedCallback();
+    }
+
+    private userDataChanged() {
+        let userData = this.oidcSecurityService.isAuthorized ? this.oidcSecurityService.getUserData() : undefined;
+        this._username = userData && userData.name ? <string>userData.name : undefined;
+        this._token = this.oidcSecurityService.getToken();
+
+        if (!this._isAuthorized && this._token) {
+            this._isAuthorizing = false;
+            this._isAuthorized = true;
+            this.isAuthorizedChanged.emit(this._isAuthorized);
+        } else if (this._isAuthorized) {
+            this._isAuthorized = false;
+            this.isAuthorizedChanged.emit(this._isAuthorized);
+        }
     }
 
     updateTokenIfRequired() {
