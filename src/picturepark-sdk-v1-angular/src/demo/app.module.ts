@@ -13,16 +13,16 @@ import { PICTUREPARK_URL, PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig, Pictu
   imports: [
     BrowserModule,
     HttpModule,
-    PictureparkOidcModule, 
+    PictureparkOidcModule,
     RouterModule.forRoot([
-      { path: '', component: AppComponent }, 
+      { path: '', component: AppComponent },
     ])
   ],
   providers: [
-    { provide: PICTUREPARK_URL, useValue: "https://devnext-api.preview-picturepark.com/" },
     {
       provide: PICTUREPARK_AUTH_CONFIG, useValue: <IPictureparkAuthConfig>{
-        stsServer: "https://devnext-identity.preview-picturepark.com", 
+        apiServer: "https://devnext-api.preview-picturepark.com/",
+        stsServer: "https://devnext-identity.preview-picturepark.com",
         redirectUrl: "http://localhost:4200"
       }
     }

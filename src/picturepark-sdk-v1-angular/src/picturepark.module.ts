@@ -3,13 +3,7 @@ import { NgModule, Inject, Optional } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 
-export const PICTUREPARK_AUTH_CONFIG = new OpaqueToken('PICTUREPARK_AUTH_CONFIG');
-
-export interface IPictureparkAuthConfig {
-  stsServer: string;
-  redirectUrl?: string;
-}
-
+import { PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig } from "picturepark.servicebase";
 import {
   JsonSchemaService,
   ContentService,

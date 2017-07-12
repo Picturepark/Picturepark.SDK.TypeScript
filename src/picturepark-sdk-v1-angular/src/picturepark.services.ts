@@ -7,7 +7,7 @@
 // ReSharper disable InconsistentNaming
 
 import { Output, EventEmitter } from '@angular/core';
-import { PictureparkServiceBase, PICTUREPARK_REFRESH_TOKEN } from './picturepark.servicebase';
+import { PictureparkServiceBase, PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig } from './picturepark.servicebase';
 import { OidcSecurityService } from "angular-auth-oidc-client";
 
 import 'rxjs/add/observable/fromPromise';
@@ -26,26 +26,18 @@ export const PICTUREPARK_URL = new OpaqueToken('PICTUREPARK_URL');
 
 @Injectable()
 export class AuthService {
-    private baseUrl: string; 
-    private oidcSecurityService: OidcSecurityService;
-
     constructor(
-        @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
-        @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string, 
-        @Optional() @Inject(PICTUREPARK_REFRESH_TOKEN) refreshToken?: boolean) {
-        
-        this.baseUrl = baseUrl ? baseUrl : ""; 
-        this.oidcSecurityService = oidcSecurityService; 
+        @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
+        @Optional() @Inject(PICTUREPARK_URL) private pictureparkUrl?: string,
+        @Optional() @Inject(PICTUREPARK_AUTH_CONFIG) private authConfig?: IPictureparkAuthConfig) {
     }
 
     get token() {
         return this.oidcSecurityService.getToken();
     }
 
-    init() {
-        this.oidcSecurityService.authorizedCallback();
-        let x = this.oidcSecurityService.getToken();
-        debugger;
+    get apiServer() {
+        return this.authConfig ? this.authConfig.apiServer : this.pictureparkUrl!;
     }
 
     updateTokenIfRequired() {
@@ -66,7 +58,7 @@ export class ContentService extends PictureparkServiceBase {
     constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
     
     private thumbnailCache: { [key: string]: FileResponse | null; } = {};
@@ -77,7 +69,7 @@ export class ContentService extends PictureparkServiceBase {
      * @size Thumbnail size. Either small, medium or large
      * @return HttpResponseMessage
      */
-    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse> {
+    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
         let key = contentId + ":" + size;
         if (cache !== false && this.thumbnailCache[key] !== undefined)
             return Observable.of(this.thumbnailCache[key]);
