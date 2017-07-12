@@ -70,6 +70,10 @@ export class PictureparkOidcModule {
     configuration.override_well_known_configuration = false;
     configuration.storage = localStorage;
 
+    console.log("OidcSecurityService configuration:");
+    console.log(configuration);
+    debugger;
+
     oidcSecurityService.setupModule(configuration);
 
     if (typeof location !== "undefined" && window.location.hash && window.location.hash.startsWith("#id_token=")) {

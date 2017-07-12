@@ -34,9 +34,17 @@ export class AuthService {
 
     constructor(
         @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
-        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
+        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
         this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
+    }
+
+    get apiServer() {
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkApiUrl!;
+    }
+
+    get customerAlias() {
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
     @Output()
@@ -56,14 +64,6 @@ export class AuthService {
 
     get token() {
         return this._token;
-    }
-
-    get apiServer() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkUrl!;
-    }
-
-    get customerAlias() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
     get isAuthorizing() {
