@@ -6,7 +6,7 @@ import { AuthService } from "@picturepark/sdk-v1-angular";
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  constructor(@Inject(AuthService) private authService: AuthService) {
+  constructor(@Inject(AuthService) public authService: AuthService) {
   }
 
   login() {
