@@ -1,7 +1,7 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { PICTUREPARK_URL, PictureparkModule, AuthService, 
+import { PICTUREPARK_API_URL, PictureparkModule, AuthService, 
   ContentService, ContentSearchRequest,
   ShareContent, ShareBasicCreateRequest, ShareService } from '../index';
 import { testUrl, testUsername, testPassword, configureTest } from './config';

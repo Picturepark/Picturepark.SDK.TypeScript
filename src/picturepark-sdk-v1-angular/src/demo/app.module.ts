@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { PICTUREPARK_URL, PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig, PictureparkOidcModule } from '../index';
+import { PICTUREPARK_API_URL, PICTUREPARK_CONFIGURATION, PictureparkConfiguration, PictureparkOidcModule } from '../index';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { PICTUREPARK_URL, PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig, Pictu
   ],
   providers: [
     {
-      provide: PICTUREPARK_AUTH_CONFIG, useValue: <IPictureparkAuthConfig>{
+      provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
         apiServer: "https://devnext-api.preview-picturepark.com/",
         stsServer: "https://devnext-identity.preview-picturepark.com",
         redirectUrl: "http://localhost:4200"

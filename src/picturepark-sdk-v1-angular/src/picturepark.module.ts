@@ -3,7 +3,7 @@ import { NgModule, Inject, Optional } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 
-import { PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig } from "picturepark.servicebase";
+import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from "picturepark.config";
 import {
   JsonSchemaService,
   ContentService,
@@ -48,16 +48,16 @@ export class PictureparkModule {
 export class PictureparkOidcModule {
   constructor(
     @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
-    @Inject(PICTUREPARK_AUTH_CONFIG) pictureparkAuthConfig: IPictureparkAuthConfig) {
+    @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkConfiguration) {
 
     let configuration = new OpenIDImplicitFlowConfiguration();
-    configuration.stsServer = pictureparkAuthConfig.stsServer;
-    configuration.redirect_url = pictureparkAuthConfig.redirectUrl ? pictureparkAuthConfig.redirectUrl : window.location.origin;
+    configuration.stsServer = pictureparkConfiguration.stsServer;
+    configuration.redirect_url = pictureparkConfiguration.redirectUrl ? pictureparkConfiguration.redirectUrl : window.location.origin;
     configuration.client_id = 'picturepark_frontend';
     configuration.response_type = 'id_token token';
     configuration.scope = 'offline_access profile picturepark_api picturepark_account openid';
     configuration.post_logout_redirect_uri = 'http://localhost:56980/login';
-    configuration.startup_route = '/login';
+    configuration.startup_route = '/';
     configuration.forbidden_route = '/Forbidden';
     configuration.unauthorized_route = '/Unauthorized';
     configuration.log_console_warning_active = true;
@@ -68,9 +68,8 @@ export class PictureparkOidcModule {
 
     oidcSecurityService.setupModule(configuration);
 
-    if (typeof location !== "undefined" && window.location.hash) {
+    if (typeof location !== "undefined" && window.location.hash && window.location.hash.startsWith("#id_token=")) {
       oidcSecurityService.authorizedCallback();
-
       if (window.history.replaceState) {
         window.history.replaceState("", "", "/");
       }

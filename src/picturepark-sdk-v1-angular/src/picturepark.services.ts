@@ -7,7 +7,8 @@
 // ReSharper disable InconsistentNaming
 
 import { Output, EventEmitter } from '@angular/core';
-import { PictureparkServiceBase, PICTUREPARK_AUTH_CONFIG, IPictureparkAuthConfig } from './picturepark.servicebase';
+import { PictureparkServiceBase } from './picturepark.servicebase';
+import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService } from "angular-auth-oidc-client";
 
 import 'rxjs/add/observable/fromPromise';
@@ -22,14 +23,14 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response, RequestOptionsArgs } from '@angular/http';
 
-export const PICTUREPARK_URL = new OpaqueToken('PICTUREPARK_URL');
+export const PICTUREPARK_API_URL = new OpaqueToken('PICTUREPARK_API_URL');
 
 @Injectable()
 export class AuthService {
     constructor(
         @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
-        @Optional() @Inject(PICTUREPARK_URL) private pictureparkUrl?: string,
-        @Optional() @Inject(PICTUREPARK_AUTH_CONFIG) private authConfig?: IPictureparkAuthConfig) {
+        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
+        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private authConfig?: PictureparkConfiguration) {
     }
 
     get token() {
@@ -55,7 +56,7 @@ export class ContentService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -1459,10 +1460,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     search(businessProcessSearchRequest: BusinessProcessSearchResult | undefined): Observable<BusinessProcessSearchResult | null> {
@@ -1743,10 +1744,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     search(documentHistorySearchRequest: DocumentHistorySearchRequest | undefined): Observable<DocumentHistorySearchResult | null> {
@@ -2033,10 +2034,10 @@ export class JsonSchemaService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     /**
@@ -2104,10 +2105,10 @@ export class ListItemService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     /**
@@ -2804,10 +2805,10 @@ export class LiveStreamService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     search(liveStreamSearchRequest: LiveStreamSearchRequest | undefined): Observable<ObjectSearchResult | null> {
@@ -2870,10 +2871,10 @@ export class SchemaService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     /**
@@ -3301,10 +3302,10 @@ export class PermissionService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     /**
@@ -3604,10 +3605,10 @@ export class PublicAccessService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     getVersion(): Observable<VersionInfoViewItem | null> {
@@ -3715,10 +3716,10 @@ export class ShareService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     /**
@@ -4112,10 +4113,10 @@ export class TransferService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     deleteFiles(request: FileTransferDeleteRequest | undefined): Observable<void> {
@@ -4779,10 +4780,10 @@ export class UserService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     search(searchRequest: UserSearchRequest | undefined): Observable<UserSearchResult | null> {
@@ -5043,10 +5044,10 @@ export class OutputService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_URL) baseUrl?: string) {
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
     /**

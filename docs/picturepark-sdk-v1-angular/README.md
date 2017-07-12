@@ -16,10 +16,10 @@ Install the following NPM package:
 
 **2. Module registration**
 
-Register the Picturepark SDK module in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_URL` token:
+Register the Picturepark SDK module in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
 
 ```ts
-import { PICTUREPARK_URL, PictureparkModule } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { PICTUREPARK_URL, PictureparkModule } from '@picturepark/sdk-v1-angular'
     PictureparkModule
   ],
   providers: [
-    { provide: PICTUREPARK_URL, useValue: "https://devnext.preview-picturepark.com" }
+    { provide: PICTUREPARK_API_URL, useValue: "https://devnext.preview-picturepark.com" }
   ],
   bootstrap: [ AppComponent ]
 })

@@ -11,7 +11,7 @@ import { ContentPickerComponent } from './content-picker/content-picker.componen
 
 import { TranslatePipe } from "pipes/translate.pipe";
 
-import { PICTUREPARK_URL, PICTUREPARK_REFRESH_TOKEN } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_API_URL, PICTUREPARK_REFRESH_TOKEN } from '@picturepark/sdk-v1-angular';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 
 // Load configuration
@@ -39,7 +39,7 @@ let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : 
   ],
   providers: [
     { provide: LOCALE_ID, useValue: userLanguage },
-    { provide: PICTUREPARK_URL, useValue: pictureparkUrl }, 
+    { provide: PICTUREPARK_API_URL, useValue: pictureparkUrl }, 
     { provide: PICTUREPARK_REFRESH_TOKEN, useValue: pictureparkRefreshToken }     
   ],
   bootstrap: [AppComponent]
