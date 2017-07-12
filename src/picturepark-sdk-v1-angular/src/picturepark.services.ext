@@ -6,7 +6,7 @@ import { PICTUREPARK_API_URL } from "./picturepark.services"; // ignore
 import { Output, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase } from './picturepark.servicebase';
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from './picturepark.config';
-import { OidcSecurityService } from "angular-auth-oidc-client";
+import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 import * as generated from "./picturepark.services";
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
@@ -59,10 +59,17 @@ class ContentService extends generated.ContentService {
 
 @Injectable()
 export class AuthService {
+    private _processingRedirect = false;
+
     constructor(
         @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
-        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private authConfig?: PictureparkConfiguration) {
+        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
+    }
+
+
+    login() {
+        this.oidcSecurityService.authorize();
     }
 
     get token() {
@@ -70,14 +77,23 @@ export class AuthService {
     }
 
     get apiServer() {
-        return this.authConfig ? this.authConfig.apiServer : this.pictureparkUrl!;
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkUrl!;
+    }
+
+    get customerAlias() {
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
+    }
+
+    get processingRedirect() {
+        return this._processingRedirect;
+    }
+
+    processAuthorizationRedirect() {
+        this._processingRedirect = true;
+        this.oidcSecurityService.authorizedCallback();
     }
 
     updateTokenIfRequired() {
         return Promise.resolve();
-    }
-
-    login() {
-        this.oidcSecurityService.authorize();
     }
 }

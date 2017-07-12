@@ -8,7 +8,7 @@ import {
   ShareService,
   ShareContent,
   ShareEmbedCreateRequest,
-  ShareEmbedDetailViewItem, 
+  ShareEmbedDetailViewItem,
   AggregationResult
 } from '@picturepark/sdk-v1-angular';
 
@@ -35,17 +35,12 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     public authService: AuthService) {
   }
 
-  @ViewChild('contentBrowserContainer')
-  contentBrowserContainer: ElementRef;
-
-  @ViewChild('aggregationFilterContainer')
-  aggregationFilterContainer: ElementRef;
-
   @ViewChild('contentBrowser')
   private contentBrowser: ContentBrowserComponent;
 
   contentBrowserColumns = 3;
   contentBrowserHeight = '500px';
+  aggregationFilterHeight = '0px';
 
   onWindowUnload = () => {
     if (!this.messagePosted && window.opener)
@@ -56,12 +51,27 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     this.recalculateSizes();
   };
 
-  ngOnInit(): void {
+  isLoggedIn = false;
+
+  ngOnInit() {
+    if (this.authService.processingRedirect) {
+      let timer = setInterval(() => {
+        if (this.authService.token) {
+          this.isLoggedIn = true;
+          clearInterval(timer);
+        }
+      }, 100);
+    } else {
+      this.authService.login();
+    }
+
     if (this.route.snapshot.queryParams["postUrl"])
       this.postUrl = this.route.snapshot.queryParams["postUrl"];
 
     window.addEventListener("unload", this.onWindowUnload, false);
     window.addEventListener("resize", this.onWindowResized, false);
+
+    this.recalculateSizes();
   }
 
   ngAfterViewInit() {
@@ -111,19 +121,15 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   recalculateSizes() {
-    if (this.contentBrowserContainer && this.aggregationFilterContainer) {
-      let windowHeight = window.innerHeight;
-      let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    let windowWidth = window.innerWidth;
 
-      this.contentBrowserHeight = (windowHeight - 160 + 22) + 'px';
-      this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
-      
-      (<HTMLElement>this.contentBrowserContainer.nativeElement).style.height = this.contentBrowserHeight;
-      (<HTMLElement>this.aggregationFilterContainer.nativeElement).style.height = (windowHeight - 190 + 22) + 'px';
+    this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
+    this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
+    this.aggregationFilterHeight = (windowHeight - 190 + 20) + 'px';
 
-      if (this.contentBrowser)
-        this.contentBrowser.refresh();
-    }
+    if (this.contentBrowser)
+      this.contentBrowser.refresh();
   }
 
   cancel() {

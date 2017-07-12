@@ -9,7 +9,7 @@
 import { Output, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase } from './picturepark.servicebase';
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from './picturepark.config';
-import { OidcSecurityService } from "angular-auth-oidc-client";
+import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
@@ -27,10 +27,17 @@ export const PICTUREPARK_API_URL = new OpaqueToken('PICTUREPARK_API_URL');
 
 @Injectable()
 export class AuthService {
+    private _processingRedirect = false;
+
     constructor(
         @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
-        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private authConfig?: PictureparkConfiguration) {
+        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
+    }
+
+
+    login() {
+        this.oidcSecurityService.authorize();
     }
 
     get token() {
@@ -38,15 +45,24 @@ export class AuthService {
     }
 
     get apiServer() {
-        return this.authConfig ? this.authConfig.apiServer : this.pictureparkUrl!;
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkUrl!;
+    }
+
+    get customerAlias() {
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
+    }
+
+    get processingRedirect() {
+        return this._processingRedirect;
+    }
+
+    processAuthorizationRedirect() {
+        this._processingRedirect = true;
+        this.oidcSecurityService.authorizedCallback();
     }
 
     updateTokenIfRequired() {
         return Promise.resolve();
-    }
-
-    login() {
-        this.oidcSecurityService.authorize();
     }
 }
 
@@ -56,12 +72,12 @@ export class ContentService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
-    
+
     private thumbnailCache: { [key: string]: FileResponse | null; } = {};
 
     /**
@@ -82,7 +98,7 @@ export class ContentService extends PictureparkServiceBase {
         return response;
     }
 
-    
+
 
     /**
      * Update Single - OwnershipTransfer
@@ -95,18 +111,18 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/Ownership/Transfer?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -128,7 +144,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processUpdateTransferOwnership(response: Response): Observable<ContentDoc | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -163,9 +179,9 @@ export class ContentService extends PictureparkServiceBase {
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -173,7 +189,7 @@ export class ContentService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -195,7 +211,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processGetMany(response: Response): Observable<ContentDetail[] | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -225,12 +241,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentsOwnershipTransferRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -252,7 +268,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processTransferOwnershipMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -283,12 +299,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentAggregationRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -310,7 +326,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processAggregate(response: Response): Observable<ObjectAggregationResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -341,16 +357,16 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ChannelId}/Aggregate";
         if (channelId === undefined || channelId === null)
             throw new Error("The parameter 'channelId' must be defined.");
-        url_ = url_.replace("{ChannelId}", encodeURIComponent("" + channelId)); 
+        url_ = url_.replace("{ChannelId}", encodeURIComponent("" + channelId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentAggregationRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -372,7 +388,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processAggregateByChannel(response: Response): Observable<ObjectAggregationResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -398,12 +414,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -425,7 +441,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processCreateDownloadLink(response: Response): Observable<ContentBatchDownloadItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -458,20 +474,20 @@ export class ContentService extends PictureparkServiceBase {
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(createRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -493,7 +509,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processCreateContent(response: Response): Observable<ContentDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -518,18 +534,18 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/Downloads/{ContentId}/{OutputFormatId}";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (outputFormatId === undefined || outputFormatId === null)
             throw new Error("The parameter 'outputFormatId' must be defined.");
-        url_ = url_.replace("{OutputFormatId}", encodeURIComponent("" + outputFormatId)); 
+        url_ = url_.replace("{OutputFormatId}", encodeURIComponent("" + outputFormatId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             responseType: ResponseContentType.Blob,
             headers: new Headers({
-                "Range": range, 
-                "Content-Type": "application/json", 
+                "Range": range,
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -551,7 +567,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processDownload(response: Response): Observable<FileResponse | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200 || status === 206) {
             const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
@@ -565,18 +581,18 @@ export class ContentService extends PictureparkServiceBase {
             return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: response.headers ? response.headers.toJSON() : {} });
         } else if (status === 404) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText);
+                return throwException("A server error occurred.", status, _responseText);
             });
         } else if (status === 500) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            let result500: PictureparkException | null = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, result500);
+                let result500: PictureparkException | null = null;
+                let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+                return throwException("A server error occurred.", status, _responseText, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText);
+                return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
         return Observable.of<FileResponse | null>(<any>null);
@@ -592,17 +608,17 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/Thumbnails/{ContentId}/{Size}";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (size === undefined || size === null)
             throw new Error("The parameter 'size' must be defined.");
-        url_ = url_.replace("{Size}", encodeURIComponent("" + size)); 
+        url_ = url_.replace("{Size}", encodeURIComponent("" + size));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             responseType: ResponseContentType.Blob,
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -624,7 +640,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processDownloadThumbnail(response: Response): Observable<FileResponse | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200 || status === 206) {
             const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
@@ -633,18 +649,18 @@ export class ContentService extends PictureparkServiceBase {
             return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: response.headers ? response.headers.toJSON() : {} });
         } else if (status === 404) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText);
+                return throwException("A server error occurred.", status, _responseText);
             });
         } else if (status === 500) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            let result500: PictureparkException | null = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, result500);
+                let result500: PictureparkException | null = null;
+                let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+                return throwException("A server error occurred.", status, _responseText, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText);
+                return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
         return Observable.of<FileResponse | null>(<any>null);
@@ -654,23 +670,23 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/Downloads/{ContentId}/{OutputFormatId}/{Width}/{Height}";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (outputFormatId === undefined || outputFormatId === null)
             throw new Error("The parameter 'outputFormatId' must be defined.");
-        url_ = url_.replace("{OutputFormatId}", encodeURIComponent("" + outputFormatId)); 
+        url_ = url_.replace("{OutputFormatId}", encodeURIComponent("" + outputFormatId));
         if (width === undefined || width === null)
             throw new Error("The parameter 'width' must be defined.");
-        url_ = url_.replace("{Width}", encodeURIComponent("" + width)); 
+        url_ = url_.replace("{Width}", encodeURIComponent("" + width));
         if (height === undefined || height === null)
             throw new Error("The parameter 'height' must be defined.");
-        url_ = url_.replace("{Height}", encodeURIComponent("" + height)); 
+        url_ = url_.replace("{Height}", encodeURIComponent("" + height));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             responseType: ResponseContentType.Blob,
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -692,7 +708,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processDownloadResized(response: Response): Observable<FileResponse | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200 || status === 206) {
             const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
@@ -701,18 +717,18 @@ export class ContentService extends PictureparkServiceBase {
             return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: response.headers ? response.headers.toJSON() : {} });
         } else if (status === 404) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText);
+                return throwException("A server error occurred.", status, _responseText);
             });
         } else if (status === 500) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            let result500: PictureparkException | null = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, result500);
+                let result500: PictureparkException | null = null;
+                let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+                return throwException("A server error occurred.", status, _responseText, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(response.blob()).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText);
+                return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
         return Observable.of<FileResponse | null>(<any>null);
@@ -729,11 +745,11 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -741,7 +757,7 @@ export class ContentService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -763,7 +779,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<ContentDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 404) {
             const _responseText = response.text();
@@ -803,24 +819,24 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -842,7 +858,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processUpdateMetadata(response: Response): Observable<ContentDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -876,24 +892,24 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/Permissions?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -915,7 +931,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processUpdatePermissions(response: Response): Observable<ContentDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -946,12 +962,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentSearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -973,7 +989,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<ContentSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1004,16 +1020,16 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ChannelId}/Search";
         if (channelId === undefined || channelId === null)
             throw new Error("The parameter 'channelId' must be defined.");
-        url_ = url_.replace("{ChannelId}", encodeURIComponent("" + channelId)); 
+        url_ = url_.replace("{ChannelId}", encodeURIComponent("" + channelId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentSearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1035,7 +1051,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processSearchByChannel(response: Response): Observable<ContentSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1060,17 +1076,17 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/Deactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (timeout === undefined || timeout === null)
             throw new Error("The parameter 'timeout' must be defined and cannot be null.");
         else
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -1091,7 +1107,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processDeactivate(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1118,16 +1134,16 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/File";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1149,7 +1165,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processUpdateFile(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1174,13 +1190,13 @@ export class ContentService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/Reactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId)); 
+        url_ = url_.replace("{ContentId}", encodeURIComponent("" + contentId));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -1188,7 +1204,7 @@ export class ContentService extends PictureparkServiceBase {
         let options_ = {
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1210,7 +1226,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processReactivate(response: Response): Observable<ContentDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1236,12 +1252,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(deactivationRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1263,7 +1279,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processDeactivateMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1289,12 +1305,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(reactivationRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1316,7 +1332,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processReactivateMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1347,12 +1363,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1374,7 +1390,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processUpdateMetadataMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1405,12 +1421,12 @@ export class ContentService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1432,7 +1448,7 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processUpdatePermissionsMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1460,7 +1476,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -1471,12 +1487,12 @@ export class BusinessProcessService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(businessProcessSearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1498,7 +1514,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<BusinessProcessSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -1523,16 +1539,16 @@ export class BusinessProcessService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/BusinessProcesses/ProcessDefinitions/{ProcessDefinitionId}/Start";
         if (processDefinitionId === undefined || processDefinitionId === null)
             throw new Error("The parameter 'processDefinitionId' must be defined.");
-        url_ = url_.replace("{ProcessDefinitionId}", encodeURIComponent("" + processDefinitionId)); 
+        url_ = url_.replace("{ProcessDefinitionId}", encodeURIComponent("" + processDefinitionId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1554,7 +1570,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     protected processStart(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1579,13 +1595,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/BusinessProcesses/Processes/{ProcessId}/MarkAsEnded";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -1606,7 +1622,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     protected processMarkAsEnded(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1628,16 +1644,16 @@ export class BusinessProcessService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/BusinessProcesses/Processes/{ProcessId}/Message";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -1658,7 +1674,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     protected processSendMessage(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1680,21 +1696,21 @@ export class BusinessProcessService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/BusinessProcesses/{ProcessId}/Wait?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId));
         if (states === undefined)
             throw new Error("The parameter 'states' must be defined.");
         else
-            url_ += "states=" + encodeURIComponent("" + states) + "&"; 
+            url_ += "states=" + encodeURIComponent("" + states) + "&";
         if (timeout === undefined || timeout === null)
             throw new Error("The parameter 'timeout' must be defined and cannot be null.");
         else
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1716,7 +1732,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     protected processWaitForStates(response: Response): Observable<BusinessProcessWaitResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1744,7 +1760,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -1755,12 +1771,12 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(documentHistorySearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1782,7 +1798,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<DocumentHistorySearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1807,13 +1823,13 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/History/{Id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{Id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace("{Id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1835,7 +1851,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<DocumentHistoryViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1860,16 +1876,16 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/History/{Id}/{Version}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{Id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace("{Id}", encodeURIComponent("" + id));
         if (version === undefined || version === null)
             throw new Error("The parameter 'version' must be defined.");
-        url_ = url_.replace("{Version}", encodeURIComponent("" + version)); 
+        url_ = url_.replace("{Version}", encodeURIComponent("" + version));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1891,7 +1907,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     protected processGetVersion(response: Response): Observable<DocumentHistoryViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1916,16 +1932,16 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/History/{Id}/Difference/{OldVersion}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{Id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace("{Id}", encodeURIComponent("" + id));
         if (oldVersion === undefined || oldVersion === null)
             throw new Error("The parameter 'oldVersion' must be defined.");
-        url_ = url_.replace("{OldVersion}", encodeURIComponent("" + oldVersion)); 
+        url_ = url_.replace("{OldVersion}", encodeURIComponent("" + oldVersion));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1947,7 +1963,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     protected processGetDifferenceLatest(response: Response): Observable<DocumentHistoryDifferenceViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -1972,19 +1988,19 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/History/{Id}/Difference/{OldVersion}/{NewVersion}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{Id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace("{Id}", encodeURIComponent("" + id));
         if (oldVersion === undefined || oldVersion === null)
             throw new Error("The parameter 'oldVersion' must be defined.");
-        url_ = url_.replace("{OldVersion}", encodeURIComponent("" + oldVersion)); 
+        url_ = url_.replace("{OldVersion}", encodeURIComponent("" + oldVersion));
         if (newVersion === undefined || newVersion === null)
             throw new Error("The parameter 'newVersion' must be defined.");
-        url_ = url_.replace("{NewVersion}", encodeURIComponent("" + newVersion)); 
+        url_ = url_.replace("{NewVersion}", encodeURIComponent("" + newVersion));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2006,7 +2022,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     protected processGetDifference(response: Response): Observable<DocumentHistoryDifferenceViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2034,7 +2050,7 @@ export class JsonSchemaService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -2049,13 +2065,13 @@ export class JsonSchemaService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/JsonSchemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
-        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2077,7 +2093,7 @@ export class JsonSchemaService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<any | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2105,7 +2121,7 @@ export class ListItemService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -2124,20 +2140,20 @@ export class ListItemService extends PictureparkServiceBase {
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(listItem);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2159,7 +2175,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processCreate(response: Response): Observable<ListItemDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2190,12 +2206,12 @@ export class ListItemService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(objects);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2217,7 +2233,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processCreateMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2252,7 +2268,7 @@ export class ListItemService extends PictureparkServiceBase {
         let options_ = {
             method: "delete",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2274,7 +2290,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processDeleteMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2305,12 +2321,12 @@ export class ListItemService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(objects);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2332,7 +2348,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processUpdateMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2363,12 +2379,12 @@ export class ListItemService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(listItemAggregationRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2390,7 +2406,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processAggregate(response: Response): Observable<ObjectAggregationResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2421,12 +2437,12 @@ export class ListItemService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(listItemSearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2448,7 +2464,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<BaseResultOfListItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2478,17 +2494,17 @@ export class ListItemService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/ListItems/{ObjectId}?";
         if (objectId === undefined || objectId === null)
             throw new Error("The parameter 'objectId' must be defined.");
-        url_ = url_.replace("{ObjectId}", encodeURIComponent("" + objectId)); 
+        url_ = url_.replace("{ObjectId}", encodeURIComponent("" + objectId));
         if (timeout === undefined || timeout === null)
             throw new Error("The parameter 'timeout' must be defined and cannot be null.");
         else
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "delete",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -2509,7 +2525,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processDelete(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2537,11 +2553,11 @@ export class ListItemService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/ListItems/{ListItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
-        url_ = url_.replace("{ListItemId}", encodeURIComponent("" + listItemId)); 
+        url_ = url_.replace("{ListItemId}", encodeURIComponent("" + listItemId));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -2549,7 +2565,7 @@ export class ListItemService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2571,7 +2587,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<ListItemDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2608,24 +2624,24 @@ export class ListItemService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/ListItems/{ListItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
-        url_ = url_.replace("{ListItemId}", encodeURIComponent("" + listItemId)); 
+        url_ = url_.replace("{ListItemId}", encodeURIComponent("" + listItemId));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         if (patterns !== undefined)
             patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2647,7 +2663,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processUpdate(response: Response): Observable<ListItemDetail | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2679,19 +2695,19 @@ export class ListItemService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/ListItems/{ProcessId}/Wait?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId));
         if (states !== undefined)
             states.forEach(item => { url_ += "States=" + encodeURIComponent("" + item) + "&"; });
         if (timeout === undefined || timeout === null)
             throw new Error("The parameter 'timeout' must be defined and cannot be null.");
         else
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2713,7 +2729,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processWaitForStates(response: Response): Observable<BusinessProcessWaitResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2745,21 +2761,21 @@ export class ListItemService extends PictureparkServiceBase {
         if (contentId === undefined)
             throw new Error("The parameter 'contentId' must be defined.");
         else
-            url_ += "contentId=" + encodeURIComponent("" + contentId) + "&"; 
+            url_ += "contentId=" + encodeURIComponent("" + contentId) + "&";
         if (fileTransferId === undefined)
             throw new Error("The parameter 'fileTransferId' must be defined.");
         else
-            url_ += "fileTransferId=" + encodeURIComponent("" + fileTransferId) + "&"; 
+            url_ += "fileTransferId=" + encodeURIComponent("" + fileTransferId) + "&";
         if (includeObjects === undefined || includeObjects === null)
             throw new Error("The parameter 'includeObjects' must be defined and cannot be null.");
         else
-            url_ += "includeObjects=" + encodeURIComponent("" + includeObjects) + "&"; 
+            url_ += "includeObjects=" + encodeURIComponent("" + includeObjects) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -2780,7 +2796,7 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processImport(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2805,7 +2821,7 @@ export class LiveStreamService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -2816,12 +2832,12 @@ export class LiveStreamService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(liveStreamSearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2843,7 +2859,7 @@ export class LiveStreamService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<ObjectSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2871,7 +2887,7 @@ export class SchemaService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -2891,7 +2907,7 @@ export class SchemaService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2913,7 +2929,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processGetAll(response: Response): Observable<SchemaDetailViewItem[] | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -2948,12 +2964,12 @@ export class SchemaService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(schema);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -2975,7 +2991,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processCreate(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3005,13 +3021,13 @@ export class SchemaService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
-        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3033,7 +3049,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<SchemaDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3064,16 +3080,16 @@ export class SchemaService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
-        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(schema);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3095,7 +3111,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processUpdate(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3125,13 +3141,13 @@ export class SchemaService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
-        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "delete",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3153,7 +3169,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processDelete(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3184,17 +3200,17 @@ export class SchemaService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}/Exists?";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
-        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace("{SchemaId}", encodeURIComponent("" + schemaId));
         if (fieldId === undefined)
             throw new Error("The parameter 'fieldId' must be defined.");
         else
-            url_ += "fieldId=" + encodeURIComponent("" + fieldId) + "&"; 
+            url_ += "fieldId=" + encodeURIComponent("" + fieldId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3216,7 +3232,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processExists(response: Response): Observable<ExistsResponse | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3247,12 +3263,12 @@ export class SchemaService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(schemaSearchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3274,7 +3290,7 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<BaseResultOfSchemaViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3302,7 +3318,7 @@ export class PermissionService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -3317,13 +3333,13 @@ export class PermissionService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Permission/UserPermissions/{Permission}";
         if (permission === undefined || permission === null)
             throw new Error("The parameter 'permission' must be defined.");
-        url_ = url_.replace("{Permission}", encodeURIComponent("" + permission)); 
+        url_ = url_.replace("{Permission}", encodeURIComponent("" + permission));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3345,7 +3361,7 @@ export class PermissionService extends PictureparkServiceBase {
     }
 
     protected processGetUserPermissions(response: Response): Observable<boolean | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3376,12 +3392,12 @@ export class PermissionService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3403,7 +3419,7 @@ export class PermissionService extends PictureparkServiceBase {
     }
 
     protected processSearchContentPermissions(response: Response): Observable<PermissionSetSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3433,13 +3449,13 @@ export class PermissionService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Permission/ContentPermissionSets/{PermissionSetId}";
         if (permissionSetId === undefined || permissionSetId === null)
             throw new Error("The parameter 'permissionSetId' must be defined.");
-        url_ = url_.replace("{PermissionSetId}", encodeURIComponent("" + permissionSetId)); 
+        url_ = url_.replace("{PermissionSetId}", encodeURIComponent("" + permissionSetId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3461,7 +3477,7 @@ export class PermissionService extends PictureparkServiceBase {
     }
 
     protected processGetContentPermissions(response: Response): Observable<ContentPermissionSetDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3492,12 +3508,12 @@ export class PermissionService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3519,7 +3535,7 @@ export class PermissionService extends PictureparkServiceBase {
     }
 
     protected processSearchSchemaPermissions(response: Response): Observable<PermissionSetSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3549,13 +3565,13 @@ export class PermissionService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Permission/SchemaPermissionSets/{PermissionSetId}";
         if (permissionSetId === undefined || permissionSetId === null)
             throw new Error("The parameter 'permissionSetId' must be defined.");
-        url_ = url_.replace("{PermissionSetId}", encodeURIComponent("" + permissionSetId)); 
+        url_ = url_.replace("{PermissionSetId}", encodeURIComponent("" + permissionSetId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3577,7 +3593,7 @@ export class PermissionService extends PictureparkServiceBase {
     }
 
     protected processGetSchemaPermissions(response: Response): Observable<SchemaPermissionSetDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3605,7 +3621,7 @@ export class PublicAccessService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -3618,7 +3634,7 @@ export class PublicAccessService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3640,7 +3656,7 @@ export class PublicAccessService extends PictureparkServiceBase {
     }
 
     protected processGetVersion(response: Response): Observable<VersionInfoViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -3660,13 +3676,13 @@ export class PublicAccessService extends PictureparkServiceBase {
         if (token === undefined)
             throw new Error("The parameter 'token' must be defined.");
         else
-            url_ += "token=" + encodeURIComponent("" + token) + "&"; 
+            url_ += "token=" + encodeURIComponent("" + token) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3688,7 +3704,7 @@ export class PublicAccessService extends PictureparkServiceBase {
     }
 
     protected processGetShare(response: Response): Observable<ShareBaseDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3716,7 +3732,7 @@ export class ShareService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -3734,22 +3750,22 @@ export class ShareService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Shares/{Id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{Id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace("{Id}", encodeURIComponent("" + id));
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
         else
-            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&"; 
+            url_ += "resolve=" + encodeURIComponent("" + resolve) + "&";
         if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
-        
+
         let options_ = {
             body: content_,
             method: "put",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3771,7 +3787,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     protected processUpdate(response: Response): Observable<BaseResultOfShareBaseViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3804,13 +3820,13 @@ export class ShareService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Shares/{Id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{Id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace("{Id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3832,7 +3848,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<ShareBaseDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -3866,12 +3882,12 @@ export class ShareService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(shareIds);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3893,7 +3909,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     protected processDeleteMany(response: Response): Observable<BusinessProcessViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -3927,12 +3943,12 @@ export class ShareService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -3954,7 +3970,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     protected processAggregate(response: Response): Observable<ObjectAggregationResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -3988,12 +4004,12 @@ export class ShareService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4015,7 +4031,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     protected processCreate(response: Response): Observable<CreateShareResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 404) {
             const _responseText = response.text();
@@ -4055,12 +4071,12 @@ export class ShareService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4082,7 +4098,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<BaseResultOfShareBaseViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -4113,7 +4129,7 @@ export class TransferService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -4124,12 +4140,12 @@ export class TransferService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -4150,7 +4166,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processDeleteFiles(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4178,7 +4194,7 @@ export class TransferService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4200,7 +4216,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processGetBlacklist(response: Response): Observable<Blacklist | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -4228,13 +4244,13 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Cancel";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
-        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId)); 
+        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -4255,7 +4271,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processCancelBatch(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4278,12 +4294,12 @@ export class TransferService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4305,7 +4321,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processCreate(response: Response): Observable<TransferViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4330,13 +4346,13 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
-        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId)); 
+        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "delete",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
@@ -4357,7 +4373,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processDelete(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4379,13 +4395,13 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
-        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId)); 
+        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4407,7 +4423,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<TransferDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4432,13 +4448,13 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/Files/{FileTransferId}";
         if (fileTransferId === undefined || fileTransferId === null)
             throw new Error("The parameter 'fileTransferId' must be defined.");
-        url_ = url_.replace("{FileTransferId}", encodeURIComponent("" + fileTransferId)); 
+        url_ = url_.replace("{FileTransferId}", encodeURIComponent("" + fileTransferId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4460,7 +4476,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processGetFile(response: Response): Observable<FileTransferDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4485,16 +4501,16 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Import";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
-        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId)); 
+        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4516,7 +4532,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processImportBatch(response: Response): Observable<TransferViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4541,16 +4557,16 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/PartialImport";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
-        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId)); 
+        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4572,7 +4588,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processPartialImport(response: Response): Observable<TransferViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4598,12 +4614,12 @@ export class TransferService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4625,7 +4641,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<TransferSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4651,12 +4667,12 @@ export class TransferService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4678,7 +4694,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processSearchFiles(response: Response): Observable<FileTransferSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4703,34 +4719,34 @@ export class TransferService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Files/{Identifier}/Upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
-        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId)); 
+        url_ = url_.replace("{TransferId}", encodeURIComponent("" + transferId));
         if (identifier === undefined || identifier === null)
             throw new Error("The parameter 'identifier' must be defined.");
-        url_ = url_.replace("{Identifier}", encodeURIComponent("" + identifier)); 
+        url_ = url_.replace("{Identifier}", encodeURIComponent("" + identifier));
         if (flowRelativePath !== undefined)
-            url_ += "FlowRelativePath=" + encodeURIComponent("" + flowRelativePath) + "&"; 
+            url_ += "FlowRelativePath=" + encodeURIComponent("" + flowRelativePath) + "&";
         if (flowChunkNumber === null)
             throw new Error("The parameter 'flowChunkNumber' cannot be null.");
         else if (flowChunkNumber !== undefined)
-            url_ += "FlowChunkNumber=" + encodeURIComponent("" + flowChunkNumber) + "&"; 
+            url_ += "FlowChunkNumber=" + encodeURIComponent("" + flowChunkNumber) + "&";
         if (flowCurrentChunkSize === null)
             throw new Error("The parameter 'flowCurrentChunkSize' cannot be null.");
         else if (flowCurrentChunkSize !== undefined)
-            url_ += "FlowCurrentChunkSize=" + encodeURIComponent("" + flowCurrentChunkSize) + "&"; 
+            url_ += "FlowCurrentChunkSize=" + encodeURIComponent("" + flowCurrentChunkSize) + "&";
         if (flowTotalSize === null)
             throw new Error("The parameter 'flowTotalSize' cannot be null.");
         else if (flowTotalSize !== undefined)
-            url_ += "FlowTotalSize=" + encodeURIComponent("" + flowTotalSize) + "&"; 
+            url_ += "FlowTotalSize=" + encodeURIComponent("" + flowTotalSize) + "&";
         if (flowTotalChunks === null)
             throw new Error("The parameter 'flowTotalChunks' cannot be null.");
         else if (flowTotalChunks !== undefined)
-            url_ += "FlowTotalChunks=" + encodeURIComponent("" + flowTotalChunks) + "&"; 
+            url_ += "FlowTotalChunks=" + encodeURIComponent("" + flowTotalChunks) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = new FormData();
         if (formFile !== null && formFile !== undefined)
             content_.append("FormFile", formFile.data, formFile.fileName ? formFile.fileName : "FormFile");
-        
+
         let options_ = {
             body: content_,
             method: "post",
@@ -4755,7 +4771,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     protected processUploadFile(response: Response): Observable<void> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -4780,7 +4796,7 @@ export class UserService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -4791,12 +4807,12 @@ export class UserService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(searchRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4818,7 +4834,7 @@ export class UserService extends PictureparkServiceBase {
     }
 
     protected processSearch(response: Response): Observable<UserSearchResult | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -4837,13 +4853,13 @@ export class UserService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Users/GetUser/{UserId}";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
-        url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4865,7 +4881,7 @@ export class UserService extends PictureparkServiceBase {
     }
 
     protected processGetUser(response: Response): Observable<UserDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -4887,7 +4903,7 @@ export class UserService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4909,7 +4925,7 @@ export class UserService extends PictureparkServiceBase {
     }
 
     protected processGetProfile(response: Response): Observable<UserProfileViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4934,13 +4950,13 @@ export class UserService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Users/Owner/{TokenId}";
         if (tokenId === undefined || tokenId === null)
             throw new Error("The parameter 'tokenId' must be defined.");
-        url_ = url_.replace("{TokenId}", encodeURIComponent("" + tokenId)); 
+        url_ = url_.replace("{TokenId}", encodeURIComponent("" + tokenId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -4962,7 +4978,7 @@ export class UserService extends PictureparkServiceBase {
     }
 
     protected processGetByOwnerToken(response: Response): Observable<UserDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -4990,7 +5006,7 @@ export class UserService extends PictureparkServiceBase {
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -5012,7 +5028,7 @@ export class UserService extends PictureparkServiceBase {
     }
 
     protected processGetChannels(response: Response): Observable<ChannelViewItem[] | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 500) {
             const _responseText = response.text();
@@ -5044,7 +5060,7 @@ export class OutputService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    constructor( @Inject(AuthService) configuration: AuthService, @Inject(Http) http: Http, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
@@ -5060,12 +5076,12 @@ export class OutputService extends PictureparkServiceBase {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentsByIdsRequest);
-        
+
         let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -5087,7 +5103,7 @@ export class OutputService extends PictureparkServiceBase {
     }
 
     protected processGetByContentIds(response: Response): Observable<BaseResultOfOutputDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 200) {
             const _responseText = response.text();
@@ -5117,13 +5133,13 @@ export class OutputService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/V1/Outputs/{OutputId}";
         if (outputId === undefined || outputId === null)
             throw new Error("The parameter 'outputId' must be defined.");
-        url_ = url_.replace("{OutputId}", encodeURIComponent("" + outputId)); 
+        url_ = url_.replace("{OutputId}", encodeURIComponent("" + outputId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -5145,7 +5161,7 @@ export class OutputService extends PictureparkServiceBase {
     }
 
     protected processGet(response: Response): Observable<OutputDetailViewItem | null> {
-        const status = response.status; 
+        const status = response.status;
 
         if (status === 404) {
             const _responseText = response.text();
@@ -5205,7 +5221,7 @@ export class ContentOwnershipTransferRequest implements IContentOwnershipTransfe
         data = typeof data === 'object' ? data : {};
         data["ContentId"] = this.contentId;
         data["TransferUserId"] = this.transferUserId;
-        return data; 
+        return data;
     }
 }
 
@@ -5246,7 +5262,7 @@ export class BaseDoc implements IBaseDoc {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["Audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -5309,7 +5325,7 @@ export class MetadataBaseDoc extends BaseDoc implements IMetadataBaseDoc {
                 data["DisplayValues"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -5374,7 +5390,7 @@ export class ContentDoc extends MetadataBaseDoc implements IContentDoc {
         data["ContentType"] = this.contentType;
         data["LifeCycle"] = this.lifeCycle;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -5390,47 +5406,47 @@ export interface IContentDoc extends IMetadataBaseDoc {
 }
 
 export enum EntityType {
-    Content = <any>"Content", 
-    BasicShare = <any>"BasicShare", 
-    EmbedShare = <any>"EmbedShare", 
-    Metadata = <any>"Metadata", 
-    FileTransfer = <any>"FileTransfer", 
+    Content = <any>"Content",
+    BasicShare = <any>"BasicShare",
+    EmbedShare = <any>"EmbedShare",
+    Metadata = <any>"Metadata",
+    FileTransfer = <any>"FileTransfer",
 }
 
 export enum ContentType {
-    Unknown = <any>"Unknown", 
-    Bitmap = <any>"Bitmap", 
-    VectorGraphic = <any>"VectorGraphic", 
-    RawImage = <any>"RawImage", 
-    InterchangeDocument = <any>"InterchangeDocument", 
-    WordProcessingDocument = <any>"WordProcessingDocument", 
-    TextDocument = <any>"TextDocument", 
-    DesktopPublishingDocument = <any>"DesktopPublishingDocument", 
-    Presentation = <any>"Presentation", 
-    Spreadsheet = <any>"Spreadsheet", 
-    Archive = <any>"Archive", 
-    Audio = <any>"Audio", 
-    Video = <any>"Video", 
-    Font = <any>"Font", 
-    Multimedia = <any>"Multimedia", 
-    Application = <any>"Application", 
-    SourceCode = <any>"SourceCode", 
-    Database = <any>"Database", 
-    Cad = <any>"Cad", 
-    Model3d = <any>"Model3d", 
+    Unknown = <any>"Unknown",
+    Bitmap = <any>"Bitmap",
+    VectorGraphic = <any>"VectorGraphic",
+    RawImage = <any>"RawImage",
+    InterchangeDocument = <any>"InterchangeDocument",
+    WordProcessingDocument = <any>"WordProcessingDocument",
+    TextDocument = <any>"TextDocument",
+    DesktopPublishingDocument = <any>"DesktopPublishingDocument",
+    Presentation = <any>"Presentation",
+    Spreadsheet = <any>"Spreadsheet",
+    Archive = <any>"Archive",
+    Audio = <any>"Audio",
+    Video = <any>"Video",
+    Font = <any>"Font",
+    Multimedia = <any>"Multimedia",
+    Application = <any>"Application",
+    SourceCode = <any>"SourceCode",
+    Database = <any>"Database",
+    Cad = <any>"Cad",
+    Model3d = <any>"Model3d",
 }
 
 export enum LifeCycle {
-    Draft = <any>"Draft", 
-    Active = <any>"Active", 
-    Inactive = <any>"Inactive", 
-    Deleted = <any>"Deleted", 
+    Draft = <any>"Draft",
+    Active = <any>"Active",
+    Inactive = <any>"Inactive",
+    Deleted = <any>"Deleted",
 }
 
 /** A custom implementation of Dictionary{string, object} */
 export class DataDictionary implements IDataDictionary {
 
-    [key: string]: any; 
+    [key: string]: any;
 
     constructor(data?: IDataDictionary) {
         if (data) {
@@ -5462,14 +5478,14 @@ export class DataDictionary implements IDataDictionary {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
-        return data; 
+        return data;
     }
 }
 
 /** A custom implementation of Dictionary{string, object} */
 export interface IDataDictionary {
 
-    [key: string]: any; 
+    [key: string]: any;
 }
 
 export class DisplayValue implements IDisplayValue {
@@ -5502,7 +5518,7 @@ export class DisplayValue implements IDisplayValue {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["Values"] = this.values ? this.values.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -5514,7 +5530,7 @@ export interface IDisplayValue {
 /** A custom dictionary type to distinguish language specific class properties. */
 export class TranslatedStringDictionary implements ITranslatedStringDictionary {
 
-    [key: string]: string | any; 
+    [key: string]: string | any;
 
     translate(locale: string) {
         let language = locale.split("-")[0];
@@ -5551,14 +5567,14 @@ export class TranslatedStringDictionary implements ITranslatedStringDictionary {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
-        return data; 
+        return data;
     }
 }
 
 /** A custom dictionary type to distinguish language specific class properties. */
 export interface ITranslatedStringDictionary {
 
-    [key: string]: string | any; 
+    [key: string]: string | any;
 }
 
 export class StoreAudit implements IStoreAudit {
@@ -5597,7 +5613,7 @@ export class StoreAudit implements IStoreAudit {
         data["CreatedByUser"] = this.createdByUser ? this.createdByUser.toJSON() : <any>undefined;
         data["ModificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
         data["ModifiedByUser"] = this.modifiedByUser ? this.modifiedByUser.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -5644,7 +5660,7 @@ export class UserItem implements IUserItem {
         data["FirstName"] = this.firstName;
         data["LastName"] = this.lastName;
         data["EmailAddress"] = this.emailAddress;
-        return data; 
+        return data;
     }
 }
 
@@ -5691,7 +5707,7 @@ export class Exception implements IException {
         data["InnerException"] = this.innerException ? this.innerException.toJSON() : <any>undefined;
         data["StackTrace"] = this.stackTrace;
         data["Source"] = this.source;
-        return data; 
+        return data;
     }
 }
 
@@ -5953,13 +5969,13 @@ export class PictureparkException extends Exception implements IPictureparkExcep
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["TraceLevel"] = this.traceLevel;
         data["TraceId"] = this.traceId;
         data["TraceJobId"] = this.traceJobId;
         data["HttpStatusCode"] = this.httpStatusCode;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -5971,11 +5987,11 @@ export interface IPictureparkException extends IException {
 }
 
 export enum TraceLevel {
-    Critical = <any>"Critical", 
-    Error = <any>"Error", 
-    Warning = <any>"Warning", 
-    Information = <any>"Information", 
-    Verbose = <any>"Verbose", 
+    Critical = <any>"Critical",
+    Error = <any>"Error",
+    Warning = <any>"Warning",
+    Information = <any>"Information",
+    Verbose = <any>"Verbose",
 }
 
 export class PictureparkBusinessException extends PictureparkException implements IPictureparkBusinessException {
@@ -6184,7 +6200,7 @@ export class PictureparkBusinessException extends PictureparkException implement
         data["CustomerAlias"] = this.customerAlias;
         data["UserId"] = this.userId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6216,7 +6232,7 @@ export class PictureparkApplicationException extends PictureparkBusinessExceptio
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6248,7 +6264,7 @@ export class PictureparkArgumentNullException extends PictureparkBusinessExcepti
         data = typeof data === 'object' ? data : {};
         data["ArgumentName"] = this.argumentName;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6281,7 +6297,7 @@ export class ContentNotFoundException extends PictureparkBusinessException imple
         data = typeof data === 'object' ? data : {};
         data["ContentId"] = this.contentId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6322,7 +6338,7 @@ export class BusinessProcessDefinitionCreateException extends PictureparkBusines
                 data["ProcessDefinitionIds"].push(item);
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6355,7 +6371,7 @@ export class BusinessProcessDefinitionNotFoundException extends PictureparkBusin
         data = typeof data === 'object' ? data : {};
         data["ProcessDefinitionId"] = this.processDefinitionId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6388,7 +6404,7 @@ export class BusinessProcessNotFoundException extends PictureparkBusinessExcepti
         data = typeof data === 'object' ? data : {};
         data["BusinessProcessId"] = this.businessProcessId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6421,7 +6437,7 @@ export class CustomerHostNotFoundException extends PictureparkException implemen
         data = typeof data === 'object' ? data : {};
         data["HostName"] = this.hostName;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6454,7 +6470,7 @@ export class CustomerNotFoundException extends PictureparkException implements I
         data = typeof data === 'object' ? data : {};
         data["CustomerId"] = this.customerId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6487,7 +6503,7 @@ export class DocumentNotFoundException extends PictureparkBusinessException impl
         data = typeof data === 'object' ? data : {};
         data["DocumentId"] = this.documentId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6523,7 +6539,7 @@ export class DocumentVersionNotFoundException extends PictureparkBusinessExcepti
         data["DocumentId"] = this.documentId;
         data["DocumentVersion"] = this.documentVersion;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6554,7 +6570,7 @@ export class DriveRequestException extends PictureparkBusinessException implemen
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6586,7 +6602,7 @@ export class DuplicateRightException extends PictureparkBusinessException implem
         data = typeof data === 'object' ? data : {};
         data["PermissionSetId"] = this.permissionSetId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6622,7 +6638,7 @@ export class DuplicateDocumentException extends PictureparkBusinessException imp
         data["DocumentId"] = this.documentId;
         data["DocumentType"] = this.documentType;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6656,7 +6672,7 @@ export class DuplicateAggregatorException extends PictureparkBusinessException i
         data = typeof data === 'object' ? data : {};
         data["AggregatorName"] = this.aggregatorName;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6689,7 +6705,7 @@ export class FailedToLockException extends PictureparkBusinessException implemen
         data = typeof data === 'object' ? data : {};
         data["ResourceId"] = this.resourceId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6725,7 +6741,7 @@ export class IndexException extends PictureparkBusinessException implements IInd
         data["IndexName"] = this.indexName;
         data["DebugInformation"] = this.debugInformation;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6762,7 +6778,7 @@ export class InvalidArgumentException extends PictureparkBusinessException imple
         data["ArgumentName"] = this.argumentName;
         data["ArgumentValue"] = this.argumentValue;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6796,7 +6812,7 @@ export class InvalidCustomerException extends PictureparkException implements II
         data = typeof data === 'object' ? data : {};
         data["CustomerId"] = this.customerId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6837,7 +6853,7 @@ export class PictureparkInvalidMetadataException extends PictureparkBusinessExce
                 data["MetadataErrors"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6887,7 +6903,7 @@ export class MetadataError implements IMetadataError {
         data["Path"] = this.path;
         data["Message"] = this.message;
         data["SchemaId"] = this.schemaId;
-        return data; 
+        return data;
     }
 }
 
@@ -6933,7 +6949,7 @@ export class InvalidStateException extends PictureparkBusinessException implemen
         data["ResourceId"] = this.resourceId;
         data["State"] = this.state;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -6967,7 +6983,7 @@ export class InvalidStateTransitionException extends InvalidStateException imple
         data = typeof data === 'object' ? data : {};
         data["Transition"] = this.transition;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7000,7 +7016,7 @@ export class InvalidUserOrPasswordException extends PictureparkException impleme
         data = typeof data === 'object' ? data : {};
         data["CustomerId"] = this.customerId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7036,7 +7052,7 @@ export class PictureparkMappingException extends PictureparkBusinessException im
         data["IndexName"] = this.indexName;
         data["DebugInformation"] = this.debugInformation;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7073,7 +7089,7 @@ export class MessagePerformerTaskCanceledException extends PictureparkException 
         data["MessageId"] = this.messageId;
         data["CustomerId"] = this.customerId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7107,7 +7123,7 @@ export class NotFoundException extends PictureparkBusinessException implements I
         data = typeof data === 'object' ? data : {};
         data["Reference"] = this.reference;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7143,7 +7159,7 @@ export class ObjectStoreException extends PictureparkBusinessException implement
         data["RowErrorMessages"] = this.rowErrorMessages;
         data["ErrorMessage"] = this.errorMessage;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7180,7 +7196,7 @@ export class ObjectStoreResponseException extends PictureparkBusinessException i
         data["RowErrorMessages"] = this.rowErrorMessages;
         data["Message"] = this.message;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7211,7 +7227,7 @@ export class PictureparkOperationCanceledException extends PictureparkBusinessEx
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7240,7 +7256,7 @@ export class OperationTimeoutException extends PictureparkBusinessException impl
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7275,7 +7291,7 @@ export class OutputNotFoundException extends PictureparkBusinessException implem
         data["ContentId"] = this.contentId;
         data["OutputFormatId"] = this.outputFormatId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7312,7 +7328,7 @@ export class PermissionException extends PictureparkBusinessException implements
         data["Permission"] = this.permission;
         data["Operation"] = this.operation;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7346,7 +7362,7 @@ export class QueryException extends PictureparkBusinessException implements IQue
         data = typeof data === 'object' ? data : {};
         data["DebugInformation"] = this.debugInformation;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7376,7 +7392,7 @@ export class RenderingException extends PictureparkBusinessException implements 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7405,7 +7421,7 @@ export class RenderingJobItemNotSetException extends PictureparkBusinessExceptio
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7446,7 +7462,7 @@ export class ServiceProviderCreateException extends PictureparkException impleme
         data["VirtualHost"] = this.virtualHost;
         data["DetailErrorMessage"] = this.detailErrorMessage;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7485,7 +7501,7 @@ export class ServiceProviderDeleteException extends PictureparkException impleme
         data["ServiceProviderId"] = this.serviceProviderId;
         data["DetailedErrorMessage"] = this.detailedErrorMessage;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7519,7 +7535,7 @@ export class ServiceProviderNotFoundException extends PictureparkException imple
         data = typeof data === 'object' ? data : {};
         data["MissingServiceProviderId"] = this.missingServiceProviderId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7549,7 +7565,7 @@ export class TokenValidationException extends PictureparkBusinessException imple
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7581,7 +7597,7 @@ export class UnknownException extends PictureparkBusinessException implements IU
         data = typeof data === 'object' ? data : {};
         data["ExceptionDetail"] = this.exceptionDetail;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7614,7 +7630,7 @@ export class UserNotFoundException extends PictureparkBusinessException implemen
         data = typeof data === 'object' ? data : {};
         data["MissingUserId"] = this.missingUserId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7647,7 +7663,7 @@ export class UserPermanentlyRemovedException extends PictureparkBusinessExceptio
         data = typeof data === 'object' ? data : {};
         data["RemovedUserId"] = this.removedUserId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7680,7 +7696,7 @@ export class UserRoleAssignedException extends PictureparkBusinessException impl
         data = typeof data === 'object' ? data : {};
         data["UserRoleId"] = this.userRoleId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7713,7 +7729,7 @@ export class UserRolesRightsAssignedException extends PictureparkBusinessExcepti
         data = typeof data === 'object' ? data : {};
         data["ContentPermissionSetId"] = this.contentPermissionSetId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -7825,7 +7841,7 @@ export class ContentDetail implements IContentDetail {
         }
         data["OwnerTokenId"] = this.ownerTokenId;
         data["Trashed"] = this.trashed;
-        return data; 
+        return data;
     }
 }
 
@@ -7862,7 +7878,7 @@ export interface IContentDetail {
 
 export class DisplayValueViewItem implements IDisplayValueViewItem {
 
-    [key: string]: string | any; 
+    [key: string]: string | any;
 
     constructor(data?: IDisplayValueViewItem) {
         if (data) {
@@ -7894,13 +7910,13 @@ export class DisplayValueViewItem implements IDisplayValueViewItem {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
-        return data; 
+        return data;
     }
 }
 
 export interface IDisplayValueViewItem {
 
-    [key: string]: string | any; 
+    [key: string]: string | any;
 }
 
 export class OutputViewItem implements IOutputViewItem {
@@ -7943,12 +7959,12 @@ export class OutputViewItem implements IOutputViewItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Id"] = this.id;
         data["OutputFormatId"] = this.outputFormatId;
         data["ContentId"] = this.contentId;
         data["Detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -8021,13 +8037,13 @@ export class OutputDetailBase implements IOutputDetailBase {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["FileExtension"] = this.fileExtension;
         data["FileName"] = this.fileName;
         data["FilePath"] = this.filePath;
         data["FileSizeInBytes"] = this.fileSizeInBytes;
         data["Sha1Hash"] = this.sha1Hash;
-        return data; 
+        return data;
     }
 }
 
@@ -8067,7 +8083,7 @@ export class OutputDetailImage extends OutputDetailBase implements IOutputDetail
         data["Width"] = this.width;
         data["Height"] = this.height;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8101,7 +8117,7 @@ export class OutputDetailAudio extends OutputDetailBase implements IOutputDetail
         data = typeof data === 'object' ? data : {};
         data["DurationInSeconds"] = this.durationInSeconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8151,7 +8167,7 @@ export class OutputDetailVideo extends OutputDetailBase implements IOutputDetail
                 data["Sprites"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8204,7 +8220,7 @@ export class Sprite implements ISprite {
         data["X"] = this.x;
         data["Start"] = this.start;
         data["End"] = this.end;
-        return data; 
+        return data;
     }
 }
 
@@ -8242,7 +8258,7 @@ export class OutputDetailDocument extends OutputDetailBase implements IOutputDet
         data = typeof data === 'object' ? data : {};
         data["PageCount"] = this.pageCount;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8272,7 +8288,7 @@ export class OutputDetailDefault extends OutputDetailBase implements IOutputDeta
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8301,7 +8317,7 @@ export class OutputDetailViewItem extends OutputViewItem implements IOutputDetai
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8348,7 +8364,7 @@ export class ContentsOwnershipTransferRequest implements IContentsOwnershipTrans
                 data["ContentIds"].push(item);
         }
         data["TransferUserId"] = this.transferUserId;
-        return data; 
+        return data;
     }
 }
 
@@ -8417,7 +8433,7 @@ export class BusinessProcessViewItem implements IBusinessProcessViewItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Id"] = this.id;
         data["ProcessDefinitionId"] = this.processDefinitionId;
         data["ReferenceId"] = this.referenceId;
@@ -8433,7 +8449,7 @@ export class BusinessProcessViewItem implements IBusinessProcessViewItem {
         }
         data["ProcessDefinitionName"] = this.processDefinitionName;
         data["CurrentState"] = this.currentState;
-        return data; 
+        return data;
     }
 }
 
@@ -8452,15 +8468,15 @@ export interface IBusinessProcessViewItem {
 }
 
 export enum BusinessProcessScope {
-    System = <any>"System", 
-    User = <any>"User", 
+    System = <any>"System",
+    User = <any>"User",
 }
 
 export enum BusinessProcessLifeCylce {
-    Draft = <any>"Draft", 
-    Started = <any>"Started", 
-    Ended = <any>"Ended", 
-    Cancelled = <any>"Cancelled", 
+    Draft = <any>"Draft",
+    Started = <any>"Started",
+    Ended = <any>"Ended",
+    Cancelled = <any>"Cancelled",
 }
 
 export class BusinessProcessStateItem implements IBusinessProcessStateItem {
@@ -8496,7 +8512,7 @@ export class BusinessProcessStateItem implements IBusinessProcessStateItem {
         data["State"] = this.state;
         data["Timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
         data["Error"] = this.error ? this.error.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -8539,7 +8555,7 @@ export class ErrorResponse implements IErrorResponse {
         data["Exception"] = this.exception;
         data["TraceId"] = this.traceId;
         data["TraceJobId"] = this.traceJobId;
-        return data; 
+        return data;
     }
 }
 
@@ -8574,7 +8590,7 @@ export class BusinessProcessBulkResponseViewItem extends BusinessProcessViewItem
         data = typeof data === 'object' ? data : {};
         data["Response"] = this.response ? this.response.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8617,7 +8633,7 @@ export class BulkResponseViewItem implements IBulkResponseViewItem {
             for (let item of this.rows)
                 data["Rows"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -8664,7 +8680,7 @@ export class BulkResponseRowViewItem implements IBulkResponseRowViewItem {
         data["Error"] = this.error;
         data["Reason"] = this.reason;
         data["Succeeded"] = this.succeeded;
-        return data; 
+        return data;
     }
 }
 
@@ -8760,7 +8776,7 @@ export class ContentAggregationRequest implements IContentAggregationRequest {
         }
         data["CollectionId"] = this.collectionId;
         data["LifeCycleFilter"] = this.lifeCycleFilter;
-        return data; 
+        return data;
     }
 }
 
@@ -8897,8 +8913,8 @@ export class FilterBase implements IFilterBase {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
-        return data; 
+        data["Kind"] = this._discriminator;
+        return data;
     }
 }
 
@@ -8941,7 +8957,7 @@ export class AndFilter extends FilterBase implements IAndFilter {
                 data["Filters"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -8986,7 +9002,7 @@ export class OrFilter extends FilterBase implements IOrFilter {
                 data["Filters"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9023,7 +9039,7 @@ export class NotFilter extends FilterBase implements INotFilter {
         data = typeof data === 'object' ? data : {};
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9068,7 +9084,7 @@ export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
         data["Field"] = this.field;
         data["Range"] = this.range ? this.range.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9117,7 +9133,7 @@ export class DateRange implements IDateRange {
         data["Names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["From"] = this.from;
         data["To"] = this.to;
-        return data; 
+        return data;
     }
 }
 
@@ -9158,7 +9174,7 @@ export class ExistsFilter extends FilterBase implements IExistsFilter {
         data = typeof data === 'object' ? data : {};
         data["Field"] = this.field;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9203,7 +9219,7 @@ export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxF
         data["TopLeft"] = this.topLeft ? this.topLeft.toJSON() : <any>undefined;
         data["BottomRight"] = this.bottomRight ? this.bottomRight.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9247,7 +9263,7 @@ export class GeoLocation implements IGeoLocation {
         data = typeof data === 'object' ? data : {};
         data["Lat"] = this.lat;
         data["Lon"] = this.lon;
-        return data; 
+        return data;
     }
 }
 
@@ -9291,7 +9307,7 @@ export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter 
         data["Location"] = this.location ? this.location.toJSON() : <any>undefined;
         data["Distance"] = this.distance;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9340,7 +9356,7 @@ export class GeoDistanceRangeFilter extends FilterBase implements IGeoDistanceRa
         data["Location"] = this.location ? this.location.toJSON() : <any>undefined;
         data["Range"] = this.range ? this.range.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9390,7 +9406,7 @@ export class NumericRange implements INumericRange {
         data["Names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["From"] = this.from;
         data["To"] = this.to;
-        return data; 
+        return data;
     }
 }
 
@@ -9434,7 +9450,7 @@ export class NestedFilter extends FilterBase implements INestedFilter {
         data["Path"] = this.path;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9477,7 +9493,7 @@ export class NumericRangeFilter extends FilterBase implements INumericRangeFilte
         data["Field"] = this.field;
         data["Range"] = this.range ? this.range.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9520,7 +9536,7 @@ export class PrefixFilter extends FilterBase implements IPrefixFilter {
         data["Field"] = this.field;
         data["Prefix"] = this.prefix;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9563,7 +9579,7 @@ export class TermFilter extends FilterBase implements ITermFilter {
         data["Field"] = this.field;
         data["Term"] = this.term;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9614,7 +9630,7 @@ export class TermsFilter extends FilterBase implements ITermsFilter {
                 data["Terms"].push(item);
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9660,7 +9676,7 @@ export class AggregationFilter extends FilterBase implements IAggregationFilter 
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["TemporaryAggregatorRequestId"] = this.temporaryAggregatorRequestId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9704,7 +9720,7 @@ export class ChildFilter extends FilterBase implements IChildFilter {
         data["ChildType"] = this.childType;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9747,7 +9763,7 @@ export class ParentFilter extends FilterBase implements IParentFilter {
         data["ParentType"] = this.parentType;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9840,7 +9856,7 @@ export class AggregatorBase implements IAggregatorBase {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Name"] = this.name;
         data["Names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.aggregators && this.aggregators.constructor === Array) {
@@ -9848,7 +9864,7 @@ export class AggregatorBase implements IAggregatorBase {
             for (let item of this.aggregators)
                 data["Aggregators"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -9901,7 +9917,7 @@ export class DateRangeAggregator extends AggregatorBase implements IDateRangeAgg
                 data["Ranges"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9940,7 +9956,7 @@ export class FilterAggregator extends AggregatorBase implements IFilterAggregato
         data = typeof data === 'object' ? data : {};
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -9993,7 +10009,7 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
                 data["Ranges"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10034,7 +10050,7 @@ export class NestedAggregator extends AggregatorBase implements INestedAggregato
         data = typeof data === 'object' ? data : {};
         data["Path"] = this.path;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10083,7 +10099,7 @@ export class NumericRangeAggregator extends AggregatorBase implements INumericRa
                 data["Ranges"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10160,7 +10176,7 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
                 data["Excludes"].push(item);
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10203,7 +10219,7 @@ export class TermsRelationAggregator extends TermsAggregator implements ITermsRe
         data = typeof data === 'object' ? data : {};
         data["DocumentType"] = this.documentType;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10214,10 +10230,10 @@ export interface ITermsRelationAggregator extends ITermsAggregator {
 }
 
 export enum TermsRelationAggregatorDocumentType {
-    Content = <any>"Content", 
-    ListItem = <any>"ListItem", 
-    Schema = <any>"Schema", 
-    User = <any>"User", 
+    Content = <any>"Content",
+    ListItem = <any>"ListItem",
+    Schema = <any>"Schema",
+    User = <any>"User",
 }
 
 /** The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values. */
@@ -10247,7 +10263,7 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
         data = typeof data === 'object' ? data : {};
         data["EnumType"] = this.enumType;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10258,9 +10274,9 @@ export interface ITermsEnumAggregator extends ITermsAggregator {
 }
 
 export enum LifeCycleFilter {
-    ActiveOnly = <any>"ActiveOnly", 
-    All = <any>"All", 
-    InactiveOnly = <any>"InactiveOnly", 
+    ActiveOnly = <any>"ActiveOnly",
+    All = <any>"All",
+    InactiveOnly = <any>"InactiveOnly",
 }
 
 export class ObjectAggregationResult implements IObjectAggregationResult {
@@ -10301,7 +10317,7 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
             for (let item of this.aggregationResults)
                 data["AggregationResults"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -10354,7 +10370,7 @@ export class AggregationResult implements IAggregationResult {
             for (let item of this.aggregationResultItems)
                 data["AggregationResultItems"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -10373,8 +10389,8 @@ export class AggregationResultItem implements IAggregationResultItem {
     aggregationResults?: AggregationResult[] | undefined;
 
     getDisplayName(locale: string) {
-      let displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null; 
-      return displayName ? displayName : this.name;
+        let displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
+        return displayName ? displayName : this.name;
     }
 
     constructor(data?: IAggregationResultItem) {
@@ -10417,7 +10433,7 @@ export class AggregationResultItem implements IAggregationResultItem {
             for (let item of this.aggregationResults)
                 data["AggregationResults"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -10464,7 +10480,7 @@ export class ContentBatchDownloadRequest implements IContentBatchDownloadRequest
             for (let item of this.contents)
                 data["Contents"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -10502,7 +10518,7 @@ export class Content implements IContent {
         data = typeof data === 'object' ? data : {};
         data["ContentId"] = this.contentId;
         data["OutputFormatId"] = this.outputFormatId;
-        return data; 
+        return data;
     }
 }
 
@@ -10535,7 +10551,7 @@ export class DownloadItem implements IDownloadItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        return data; 
+        return data;
     }
 }
 
@@ -10569,7 +10585,7 @@ export class ContentBatchDownloadItem extends DownloadItem implements IContentBa
         data["DownloadToken"] = this.downloadToken;
         data["DownloadUrl"] = this.downloadUrl;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10639,7 +10655,7 @@ export class CreateContentRequest implements ICreateContentRequest {
             for (let item of this.contentPermissionSetIds)
                 data["ContentPermissionSetIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -10658,9 +10674,9 @@ export interface ICreateContentRequest {
 }
 
 export enum ThumbnailSize {
-    Small = <any>"Small", 
-    Medium = <any>"Medium", 
-    Large = <any>"Large", 
+    Small = <any>"Small",
+    Medium = <any>"Medium",
+    Large = <any>"Large",
 }
 
 export class UpdateContentPermissionsRequest implements IUpdateContentPermissionsRequest {
@@ -10703,7 +10719,7 @@ export class UpdateContentPermissionsRequest implements IUpdateContentPermission
             for (let item of this.contentPermissionSetIds)
                 data["ContentPermissionSetIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -10814,7 +10830,7 @@ export class ContentSearchRequest implements IContentSearchRequest {
         data["Limit"] = this.limit;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["LifeCycleFilter"] = this.lifeCycleFilter;
-        return data; 
+        return data;
     }
 }
 
@@ -10875,7 +10891,7 @@ export class SortInfo implements ISortInfo {
         data = typeof data === 'object' ? data : {};
         data["Field"] = this.field;
         data["Direction"] = this.direction;
-        return data; 
+        return data;
     }
 }
 
@@ -10887,8 +10903,8 @@ export interface ISortInfo {
 }
 
 export enum SortDirection {
-    Asc = <any>"Asc", 
-    Desc = <any>"Desc", 
+    Asc = <any>"Asc",
+    Desc = <any>"Desc",
 }
 
 export class BaseResultOfContentViewItem implements IBaseResultOfContentViewItem {
@@ -10932,7 +10948,7 @@ export class BaseResultOfContentViewItem implements IBaseResultOfContentViewItem
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -10977,7 +10993,7 @@ export class ContentSearchResult extends BaseResultOfContentViewItem implements 
         }
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -10995,7 +11011,7 @@ export class ContentViewItem implements IContentViewItem {
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues?: { [key: string] : string; } | undefined;
+    displayValues?: { [key: string]: string; } | undefined;
     id?: string | undefined;
 
     constructor(data?: IContentViewItem) {
@@ -11052,7 +11068,7 @@ export class ContentViewItem implements IContentViewItem {
             }
         }
         data["Id"] = this.id;
-        return data; 
+        return data;
     }
 }
 
@@ -11065,7 +11081,7 @@ export interface IContentViewItem {
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues?: { [key: string] : string; } | undefined;
+    displayValues?: { [key: string]: string; } | undefined;
     id?: string | undefined;
 }
 
@@ -11099,7 +11115,7 @@ export class ContentFileUpdateRequest implements IContentFileUpdateRequest {
         data = typeof data === 'object' ? data : {};
         data["ContentId"] = this.contentId;
         data["FileTransferId"] = this.fileTransferId;
-        return data; 
+        return data;
     }
 }
 
@@ -11152,7 +11168,7 @@ export class UpdateContentMetadataRequest implements IUpdateContentMetadataReque
                 data["SchemaIds"].push(item);
         }
         data["Metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -11200,7 +11216,7 @@ export class ContentDeactivationRequest implements IContentDeactivationRequest {
             for (let item of this.contentIds)
                 data["ContentIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -11243,7 +11259,7 @@ export class ContentReactivationRequest implements IContentReactivationRequest {
             for (let item of this.contentIds)
                 data["ContentIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -11295,13 +11311,13 @@ export class MetadataValuesChangeRequestBase implements IMetadataValuesChangeReq
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         if (this.changeCommands && this.changeCommands.constructor === Array) {
             data["ChangeCommands"] = [];
             for (let item of this.changeCommands)
                 data["ChangeCommands"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -11344,7 +11360,7 @@ export class ContentsMetadataUpdateRequest extends MetadataValuesChangeRequestBa
                 data["ContentIds"].push(item);
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11411,8 +11427,8 @@ export class MetadataValuesChangeCommandBase implements IMetadataValuesChangeCom
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
-        return data; 
+        data["Kind"] = this._discriminator;
+        return data;
     }
 }
 
@@ -11451,7 +11467,7 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
         data["SchemaId"] = this.schemaId;
         data["Value"] = this.value ? this.value.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11494,7 +11510,7 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
         data["SchemaId"] = this.schemaId;
         data["Value"] = this.value ? this.value.toJSON() : <any>undefined;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11533,7 +11549,7 @@ export class MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeComma
         data = typeof data === 'object' ? data : {};
         data["SchemaId"] = this.schemaId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11570,7 +11586,7 @@ export class MetadataValuesFieldRemoveCommand extends MetadataValuesChangeComman
         data = typeof data === 'object' ? data : {};
         data["FieldNamespace"] = this.fieldNamespace;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11611,7 +11627,7 @@ export class MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeComm
         data["FieldNamespace"] = this.fieldNamespace;
         data["ReferenceId"] = this.referenceId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11654,7 +11670,7 @@ export class MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeC
         data["FieldNamespace"] = this.fieldNamespace;
         data["ReferenceId"] = this.referenceId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11694,7 +11710,7 @@ export class FilterContentsMetadataUpdateRequest extends MetadataValuesChangeReq
         data["ContentSearchRequest"] = this.contentSearchRequest ? this.contentSearchRequest.toJSON() : <any>undefined;
         data["TotalItemsCount"] = this.totalItemsCount;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11744,7 +11760,7 @@ export class BaseResultOfBusinessProcessViewItem implements IBaseResultOfBusines
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -11778,7 +11794,7 @@ export class BusinessProcessSearchResult extends BaseResultOfBusinessProcessView
         data = typeof data === 'object' ? data : {};
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -11813,7 +11829,7 @@ export class StartProcessRequest implements IStartProcessRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Variables"] = this.variables;
-        return data; 
+        return data;
     }
 }
 
@@ -11851,7 +11867,7 @@ export class SendMessageRequest implements ISendMessageRequest {
         data = typeof data === 'object' ? data : {};
         data["MessageName"] = this.messageName;
         data["Variables"] = this.variables;
-        return data; 
+        return data;
     }
 }
 
@@ -11896,7 +11912,7 @@ export class BusinessProcessWaitResult implements IBusinessProcessWaitResult {
         data["ProcessEnded"] = this.processEnded;
         data["StateHit"] = this.stateHit;
         data["BusinessProcess"] = this.businessProcess ? this.businessProcess.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -11955,7 +11971,7 @@ export class DocumentHistorySearchRequest implements IDocumentHistorySearchReque
         data["Id"] = this.id;
         data["DocumentId"] = this.documentId;
         data["DocumentVersion"] = this.documentVersion;
-        return data; 
+        return data;
     }
 }
 
@@ -12014,7 +12030,7 @@ export class DocumentHistorySearchResult implements IDocumentHistorySearchResult
         }
         data["PageToken"] = this.pageToken;
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
-        return data; 
+        return data;
     }
 }
 
@@ -12076,7 +12092,7 @@ export class DocumentHistoryViewItem implements IDocumentHistoryViewItem {
         data["Timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
         data["Audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["Deleted"] = this.deleted;
-        return data; 
+        return data;
     }
 }
 
@@ -12122,7 +12138,7 @@ export class HistoryAudit implements IHistoryAudit {
         data = typeof data === 'object' ? data : {};
         data["ModificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
         data["ModifiedByUser"] = this.modifiedByUser ? this.modifiedByUser.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -12170,7 +12186,7 @@ export class DocumentHistoryDifferenceViewItem implements IDocumentHistoryDiffer
         data["NewDocumentVersion"] = this.newDocumentVersion;
         data["OldValues"] = this.oldValues;
         data["NewValues"] = this.newValues;
-        return data; 
+        return data;
     }
 }
 
@@ -12219,7 +12235,7 @@ export class ListItemCreateRequest implements IListItemCreateRequest {
         data["Content"] = this.content;
         data["ContentSchemaId"] = this.contentSchemaId;
         data["ListItemId"] = this.listItemId;
-        return data; 
+        return data;
     }
 }
 
@@ -12278,7 +12294,7 @@ export class ListItemDetail implements IListItemDetail {
         data["DisplayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["EntityType"] = this.entityType;
         data["Id"] = this.id;
-        return data; 
+        return data;
     }
 }
 
@@ -12384,7 +12400,7 @@ export class ListItemAggregationRequest implements IListItemAggregationRequest {
             for (let item of this.searchLanguages)
                 data["SearchLanguages"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -12507,7 +12523,7 @@ export class ListItemSearchRequest implements IListItemSearchRequest {
                 data["SearchLanguages"].push(item);
         }
         data["IncludeMetadata"] = this.includeMetadata;
-        return data; 
+        return data;
     }
 }
 
@@ -12577,7 +12593,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -12632,7 +12648,7 @@ export class ListItem implements IListItem {
         data["DisplayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["EntityType"] = this.entityType;
         data["Id"] = this.id;
-        return data; 
+        return data;
     }
 }
 
@@ -12683,7 +12699,7 @@ export class ListItemUpdateRequest implements IListItemUpdateRequest {
         data = typeof data === 'object' ? data : {};
         data["Content"] = this.content;
         data["Id"] = this.id;
-        return data; 
+        return data;
     }
 }
 
@@ -12734,7 +12750,7 @@ export class LiveStreamSearchRequest implements ILiveStreamSearchRequest {
         data["Start"] = this.start;
         data["Limit"] = this.limit;
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -12787,7 +12803,7 @@ export class BaseResultOfObject implements IBaseResultOfObject {
                 data["Results"].push(item);
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -12821,7 +12837,7 @@ export class ObjectSearchResult extends BaseResultOfObject implements IObjectSea
         data = typeof data === 'object' ? data : {};
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13000,7 +13016,7 @@ export class SchemaDetailViewItem implements ISchemaDetailViewItem {
         }
         data["Audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["SearchFieldCount"] = this.searchFieldCount ? this.searchFieldCount.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -13045,10 +13061,10 @@ export interface ISchemaDetailViewItem {
 }
 
 export enum SchemaType {
-    Content = <any>"Content", 
-    Layer = <any>"Layer", 
-    List = <any>"List", 
-    Struct = <any>"Struct", 
+    Content = <any>"Content",
+    Layer = <any>"Layer",
+    List = <any>"List",
+    Struct = <any>"Struct",
 }
 
 export class DisplayPattern implements IDisplayPattern {
@@ -13091,7 +13107,7 @@ export class DisplayPattern implements IDisplayPattern {
         data["TemplateEngine"] = this.templateEngine;
         data["DisplayPatternType"] = this.displayPatternType;
         data["Templates"] = this.templates ? this.templates.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -13107,15 +13123,15 @@ export interface IDisplayPattern {
 }
 
 export enum TemplateEngine {
-    DotLiquid = <any>"DotLiquid", 
+    DotLiquid = <any>"DotLiquid",
 }
 
 export enum DisplayPatternType {
-    Thumbnail = <any>"Thumbnail", 
-    List = <any>"List", 
-    Detail = <any>"Detail", 
-    Custom = <any>"Custom", 
-    Name = <any>"Name", 
+    Thumbnail = <any>"Thumbnail",
+    List = <any>"List",
+    Detail = <any>"Detail",
+    Custom = <any>"Custom",
+    Name = <any>"Name",
 }
 
 /** The field base class. */
@@ -13268,7 +13284,7 @@ export class FieldBase implements IFieldBase {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Id"] = this.id;
         data["IndexId"] = this.indexId;
         data["FieldNamespace"] = this.fieldNamespace;
@@ -13278,7 +13294,7 @@ export class FieldBase implements IFieldBase {
         data["Index"] = this.index;
         data["SimpleSearch"] = this.simpleSearch;
         data["Boost"] = this.boost;
-        return data; 
+        return data;
     }
 }
 
@@ -13326,7 +13342,7 @@ export class FieldBoolean extends FieldBase implements IFieldBoolean {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13359,7 +13375,7 @@ export class FieldDate extends FieldBase implements IFieldDate {
         data = typeof data === 'object' ? data : {};
         data["Format"] = this.format;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13399,7 +13415,7 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
         data = typeof data === 'object' ? data : {};
         data["Format"] = this.format;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13440,7 +13456,7 @@ export class FieldDateTimeArray extends FieldDateTime implements IFieldDateTimeA
         data["MaximumItems"] = this.maximumItems;
         data["MinimumItems"] = this.minimumItems;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13484,7 +13500,7 @@ export class FieldDecimal extends FieldBase implements IFieldDecimal {
         data["Minimum"] = this.minimum;
         data["Maximum"] = this.maximum;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13524,7 +13540,7 @@ export class FieldDictionary extends FieldBase implements IFieldDictionary {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13564,7 +13580,7 @@ export class FieldDictionaryArray extends FieldDictionary implements IFieldDicti
         data["MaximumItems"] = this.maximumItems;
         data["MinimumItems"] = this.minimumItems;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13597,7 +13613,7 @@ export class FieldGeoPoint extends FieldBase implements IFieldGeoPoint {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13642,7 +13658,7 @@ export class FieldLong extends FieldBase implements IFieldLong {
         data["Minimum"] = this.minimum;
         data["Maximum"] = this.maximum;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13686,7 +13702,7 @@ export class FieldLongArray extends FieldLong implements IFieldLongArray {
         data["MaximumItems"] = this.maximumItems;
         data["MinimumItems"] = this.minimumItems;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13727,7 +13743,7 @@ export class FieldSingleFieldset extends FieldBase implements IFieldSingleFields
         data["SchemaId"] = this.schemaId;
         data["MaxRecursion"] = this.maxRecursion;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13780,7 +13796,7 @@ export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset
         data["MaximumItems"] = this.maximumItems;
         data["MinimumItems"] = this.minimumItems;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13835,7 +13851,7 @@ export class FieldSingleTagbox extends FieldBase implements IFieldSingleTagbox {
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["ListItemCreateTemplate"] = this.listItemCreateTemplate;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13900,7 +13916,7 @@ export class FieldMultiTagbox extends FieldBase implements IFieldMultiTagbox {
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["ListItemCreateTemplate"] = this.listItemCreateTemplate;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -13996,7 +14012,7 @@ export class FieldString extends FieldBase implements IFieldString {
                 data["GrantedValues"].push(item);
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14075,9 +14091,9 @@ export class AnalyzerBase implements IAnalyzerBase {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["SimpleSearch"] = this.simpleSearch;
-        return data; 
+        return data;
     }
 }
 
@@ -14113,7 +14129,7 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
         data = typeof data === 'object' ? data : {};
         data["FieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14148,7 +14164,7 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
         data = typeof data === 'object' ? data : {};
         data["FieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14183,7 +14199,7 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
         data = typeof data === 'object' ? data : {};
         data["FieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14218,7 +14234,7 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
         data = typeof data === 'object' ? data : {};
         data["FieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14253,7 +14269,7 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
         data = typeof data === 'object' ? data : {};
         data["FieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14294,7 +14310,7 @@ export class FieldStringArray extends FieldString implements IFieldStringArray {
         data["MaximumItems"] = this.maximumItems;
         data["MinimumItems"] = this.minimumItems;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14377,7 +14393,7 @@ If Required is false, the field can be left empty, but as soon as a value is ent
         data["Template"] = this.template;
         data["KeepFieldValue"] = this.keepFieldValue;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14444,7 +14460,7 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
         }
         data["MaxRecursion"] = this.maxRecursion;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14501,7 +14517,7 @@ export class RelationType implements IRelationType {
         data["TargetContext"] = this.targetContext;
         data["SchemaId"] = this.schemaId;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -14519,10 +14535,10 @@ export interface IRelationType {
 }
 
 export enum TargetContext {
-    Content = <any>"Content", 
-    ListItem = <any>"ListItem", 
-    User = <any>"User", 
-    Custom = <any>"Custom", 
+    Content = <any>"Content",
+    ListItem = <any>"ListItem",
+    User = <any>"User",
+    Custom = <any>"Custom",
 }
 
 export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation {
@@ -14579,7 +14595,7 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
         data["MaximumItems"] = this.maximumItems;
         data["MinimumItems"] = this.minimumItems;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -14635,7 +14651,7 @@ export class SearchFieldCountViewItem implements ISearchFieldCountViewItem {
         data["DataField"] = this.dataField;
         data["IndexedField"] = this.indexedField;
         data["SimpleSearchField"] = this.simpleSearchField;
-        return data; 
+        return data;
     }
 }
 
@@ -14676,7 +14692,7 @@ export class ExistsResponse implements IExistsResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Exists"] = this.exists;
-        return data; 
+        return data;
     }
 }
 
@@ -14828,7 +14844,7 @@ export class SchemaCreateRequest implements ISchemaCreateRequest {
             for (let item of this.referencedInContentSchemaIds)
                 data["ReferencedInContentSchemaIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -14999,7 +15015,7 @@ export class SchemaUpdateRequest implements ISchemaUpdateRequest {
             for (let item of this.types)
                 data["Types"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -15082,7 +15098,7 @@ export class SchemaSearchRequest implements ISchemaSearchRequest {
         data["Start"] = this.start;
         data["Limit"] = this.limit;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -15140,7 +15156,7 @@ export class BaseResultOfSchemaViewItem implements IBaseResultOfSchemaViewItem {
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -15230,7 +15246,7 @@ export class SchemaViewItem implements ISchemaViewItem {
         data["ChildCount"] = this.childCount;
         data["Level"] = this.level;
         data["System"] = this.system;
-        return data; 
+        return data;
     }
 }
 
@@ -15258,22 +15274,22 @@ export interface ISchemaViewItem {
 }
 
 export enum UserRight {
-    ManageContent = <any>"ManageContent", 
-    ManageSharings = <any>"ManageSharings", 
-    ManageDrives = <any>"ManageDrives", 
-    ManageTransfer = <any>"ManageTransfer", 
-    ManageAnalytics = <any>"ManageAnalytics", 
-    ManageChannels = <any>"ManageChannels", 
-    ManageSchemas = <any>"ManageSchemas", 
-    ManageUsers = <any>"ManageUsers", 
-    ManageUserRoles = <any>"ManageUserRoles", 
-    ManagePermissions = <any>"ManagePermissions", 
-    ManageSearchIndexes = <any>"ManageSearchIndexes", 
-    ManageRecipients = <any>"ManageRecipients", 
-    ManageCollections = <any>"ManageCollections", 
-    ManageComments = <any>"ManageComments", 
-    ManageListItems = <any>"ManageListItems", 
-    ManageServiceProviders = <any>"ManageServiceProviders", 
+    ManageContent = <any>"ManageContent",
+    ManageSharings = <any>"ManageSharings",
+    ManageDrives = <any>"ManageDrives",
+    ManageTransfer = <any>"ManageTransfer",
+    ManageAnalytics = <any>"ManageAnalytics",
+    ManageChannels = <any>"ManageChannels",
+    ManageSchemas = <any>"ManageSchemas",
+    ManageUsers = <any>"ManageUsers",
+    ManageUserRoles = <any>"ManageUserRoles",
+    ManagePermissions = <any>"ManagePermissions",
+    ManageSearchIndexes = <any>"ManageSearchIndexes",
+    ManageRecipients = <any>"ManageRecipients",
+    ManageCollections = <any>"ManageCollections",
+    ManageComments = <any>"ManageComments",
+    ManageListItems = <any>"ManageListItems",
+    ManageServiceProviders = <any>"ManageServiceProviders",
 }
 
 export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
@@ -15323,7 +15339,7 @@ export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
         data["Start"] = this.start;
         data["Limit"] = this.limit;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -15376,7 +15392,7 @@ export class BaseResultOfPermissionSetViewItem implements IBaseResultOfPermissio
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -15421,7 +15437,7 @@ export class PermissionSetSearchResult extends BaseResultOfPermissionSetViewItem
         }
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -15465,7 +15481,7 @@ export class PermissionSetViewItem implements IPermissionSetViewItem {
         data["Id"] = this.id;
         data["Trashed"] = this.trashed;
         data["Names"] = this.names ? this.names.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -15535,7 +15551,7 @@ export class PermissionSetDetailViewItemOfContentRight implements IPermissionSet
                 data["UserRolesPermissionSetRights"].push(item.toJSON());
         }
         data["Exclusive"] = this.exclusive;
-        return data; 
+        return data;
     }
 }
 
@@ -15569,7 +15585,7 @@ export class ContentPermissionSetDetailViewItem extends PermissionSetDetailViewI
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -15617,7 +15633,7 @@ export class UserRoleRightsViewItemOfContentRight implements IUserRoleRightsView
             for (let item of this.rights)
                 data["Rights"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -15628,11 +15644,11 @@ export interface IUserRoleRightsViewItemOfContentRight {
 }
 
 export enum ContentRight {
-    View = <any>"View", 
-    Edit = <any>"Edit", 
-    Update = <any>"Update", 
-    Manage = <any>"Manage", 
-    Trash = <any>"Trash", 
+    View = <any>"View",
+    Edit = <any>"Edit",
+    Update = <any>"Update",
+    Manage = <any>"Manage",
+    Trash = <any>"Trash",
 }
 
 export class UserRoleRightsViewItemOfPermissionSetRight implements IUserRoleRightsViewItemOfPermissionSetRight {
@@ -15676,7 +15692,7 @@ export class UserRoleRightsViewItemOfPermissionSetRight implements IUserRoleRigh
             for (let item of this.rights)
                 data["Rights"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -15687,7 +15703,7 @@ export interface IUserRoleRightsViewItemOfPermissionSetRight {
 }
 
 export enum PermissionSetRight {
-    Apply = <any>"Apply", 
+    Apply = <any>"Apply",
 }
 
 export class PermissionSetDetailViewItemOfMetadataRight implements IPermissionSetDetailViewItemOfMetadataRight {
@@ -15748,7 +15764,7 @@ export class PermissionSetDetailViewItemOfMetadataRight implements IPermissionSe
                 data["UserRolesPermissionSetRights"].push(item.toJSON());
         }
         data["Exclusive"] = this.exclusive;
-        return data; 
+        return data;
     }
 }
 
@@ -15782,7 +15798,7 @@ export class SchemaPermissionSetDetailViewItem extends PermissionSetDetailViewIt
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -15830,7 +15846,7 @@ export class UserRoleRightsViewItemOfMetadataRight implements IUserRoleRightsVie
             for (let item of this.rights)
                 data["Rights"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -15841,9 +15857,9 @@ export interface IUserRoleRightsViewItemOfMetadataRight {
 }
 
 export enum MetadataRight {
-    View = <any>"View", 
-    Edit = <any>"Edit", 
-    Manage = <any>"Manage", 
+    View = <any>"View",
+    Edit = <any>"Edit",
+    Manage = <any>"Manage",
 }
 
 /** The version view item for the environment. */
@@ -15887,7 +15903,7 @@ export class VersionInfoViewItem implements IVersionInfoViewItem {
         data["FileProductVersion"] = this.fileProductVersion;
         data["ContractVersion"] = this.contractVersion;
         data["Release"] = this.release;
-        return data; 
+        return data;
     }
 }
 
@@ -15960,7 +15976,7 @@ export class ShareBaseDetailViewItem implements IShareBaseDetailViewItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Id"] = this.id;
         data["Name"] = this.name;
         data["Description"] = this.description;
@@ -15973,7 +15989,7 @@ export class ShareBaseDetailViewItem implements IShareBaseDetailViewItem {
         }
         data["TemplateId"] = this.templateId;
         data["ExpirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -16083,7 +16099,7 @@ export class ContentDetailViewItem implements IContentDetailViewItem {
         data["OwnerTokenId"] = this.ownerTokenId;
         data["ContentType"] = this.contentType;
         data["DisplayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -16156,7 +16172,7 @@ export class ShareBasicDetailViewItem extends ShareBaseDetailViewItem implements
         }
         data["LanguageCode"] = this.languageCode;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -16199,7 +16215,7 @@ export class MailRecipientViewItem implements IMailRecipientViewItem {
         data["UserEmail"] = this.userEmail ? this.userEmail.toJSON() : <any>undefined;
         data["Token"] = this.token;
         data["Url"] = this.url;
-        return data; 
+        return data;
     }
 }
 
@@ -16242,7 +16258,7 @@ export class UserEmail implements IUserEmail {
         data["FirstName"] = this.firstName;
         data["LastName"] = this.lastName;
         data["EmailAddress"] = this.emailAddress;
-        return data; 
+        return data;
     }
 }
 
@@ -16285,7 +16301,7 @@ export class InternalRecipientViewItem implements IInternalRecipientViewItem {
         data["Recipient"] = this.recipient ? this.recipient.toJSON() : <any>undefined;
         data["Token"] = this.token;
         data["Url"] = this.url;
-        return data; 
+        return data;
     }
 }
 
@@ -16334,7 +16350,7 @@ export class ShareEmbedDetailViewItem extends ShareBaseDetailViewItem implements
         data["Token"] = this.token;
         data["Url"] = this.url;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -16380,7 +16396,7 @@ export class EmbedContentViewItem implements IEmbedContentViewItem {
         data["OutputFormatId"] = this.outputFormatId;
         data["Token"] = this.token;
         data["Url"] = this.url;
-        return data; 
+        return data;
     }
 }
 
@@ -16442,7 +16458,7 @@ export class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Id"] = this.id;
         data["Name"] = this.name;
         data["ExpirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
@@ -16452,7 +16468,7 @@ export class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
             for (let item of this.shareContentItems)
                 data["ShareContentItems"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -16502,7 +16518,7 @@ export class ShareContent implements IShareContent {
             for (let item of this.outputFormatIds)
                 data["OutputFormatIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -16533,7 +16549,7 @@ export class ShareBasicUpdateRequest extends ShareBaseUpdateRequest implements I
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -16562,7 +16578,7 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -16610,7 +16626,7 @@ export class BaseResultOfShareBaseViewItem implements IBaseResultOfShareBaseView
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -16673,7 +16689,7 @@ export class ShareBaseViewItem implements IShareBaseViewItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Name"] = this.name;
         if (this.contentIds && this.contentIds.constructor === Array) {
             data["ContentIds"] = [];
@@ -16684,7 +16700,7 @@ export class ShareBaseViewItem implements IShareBaseViewItem {
         data["Audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["EntityType"] = this.entityType;
         data["ExpirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -16744,7 +16760,7 @@ export class ShareBasicViewItem extends ShareBaseViewItem implements IShareBasic
         }
         data["Description"] = this.description;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -16776,7 +16792,7 @@ export class ShareEmbedViewItem extends ShareBaseViewItem implements IShareEmbed
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -16850,7 +16866,7 @@ export class ShareAggregationRequest implements IShareAggregationRequest {
                 data["Aggregators"].push(item.toJSON());
         }
         data["DisplayLanguage"] = this.displayLanguage;
-        return data; 
+        return data;
     }
 }
 
@@ -16913,7 +16929,7 @@ export class ShareBaseCreateRequest implements IShareBaseCreateRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Name"] = this.name;
         data["Description"] = this.description;
         data["ExpirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
@@ -16922,7 +16938,7 @@ export class ShareBaseCreateRequest implements IShareBaseCreateRequest {
             for (let item of this.contents)
                 data["Contents"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -16994,7 +17010,7 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
         data["LanguageCode"] = this.languageCode;
         data["TemplateId"] = this.templateId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -17053,7 +17069,7 @@ export class UserRoleViewItem implements IUserRoleViewItem {
             for (let item of this.userRights)
                 data["UserRights"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -17089,7 +17105,7 @@ export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements I
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -17123,7 +17139,7 @@ export class CreateShareResult implements ICreateShareResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["ShareId"] = this.shareId;
-        return data; 
+        return data;
     }
 }
 
@@ -17169,7 +17185,7 @@ export class FileTransferDeleteRequest implements IFileTransferDeleteRequest {
             for (let item of this.fileTransferIds)
                 data["FileTransferIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -17213,7 +17229,7 @@ export class Blacklist implements IBlacklist {
             for (let item of this.items)
                 data["Items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -17251,7 +17267,7 @@ export class BlacklistItem implements IBlacklistItem {
         data = typeof data === 'object' ? data : {};
         data["Name"] = this.name;
         data["Match"] = this.match;
-        return data; 
+        return data;
     }
 }
 
@@ -17329,7 +17345,7 @@ export class CreateTransferRequest implements ICreateTransferRequest {
         }
         data["CollectionName"] = this.collectionName;
         data["CreateCollection"] = this.createCollection;
-        return data; 
+        return data;
     }
 }
 
@@ -17344,11 +17360,11 @@ export interface ICreateTransferRequest {
 }
 
 export enum TransferType {
-    FileUpload = <any>"FileUpload", 
-    DriveImport = <any>"DriveImport", 
-    DriveExport = <any>"DriveExport", 
-    WebDownload = <any>"WebDownload", 
-    SchemaImport = <any>"SchemaImport", 
+    FileUpload = <any>"FileUpload",
+    DriveImport = <any>"DriveImport",
+    DriveExport = <any>"DriveExport",
+    WebDownload = <any>"WebDownload",
+    SchemaImport = <any>"SchemaImport",
 }
 
 export class TransferFile implements ITransferFile {
@@ -17378,7 +17394,7 @@ export class TransferFile implements ITransferFile {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Identifier"] = this.identifier;
-        return data; 
+        return data;
     }
 }
 
@@ -17410,7 +17426,7 @@ export class TransferUploadFile extends TransferFile implements ITransferUploadF
         data = typeof data === 'object' ? data : {};
         data["FileName"] = this.fileName;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -17451,7 +17467,7 @@ export class TransferDriveFile extends TransferFile implements ITransferDriveFil
         data["Name"] = this.name;
         data["ExternalOutputFolderId"] = this.externalOutputFolderId;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -17486,7 +17502,7 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
         data = typeof data === 'object' ? data : {};
         data["Url"] = this.url;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -17536,7 +17552,7 @@ export class TransferViewItem implements ITransferViewItem {
         data["TransferType"] = this.transferType;
         data["BusinessProcessId"] = this.businessProcessId;
         data["FileTransferCount"] = this.fileTransferCount;
-        return data; 
+        return data;
     }
 }
 
@@ -17550,20 +17566,20 @@ export interface ITransferViewItem {
 }
 
 export enum TransferState {
-    Draft = <any>"Draft", 
-    UploadInProgress = <any>"UploadInProgress", 
-    UploadCompleted = <any>"UploadCompleted", 
-    ImportInProgress = <any>"ImportInProgress", 
-    ImportCompleted = <any>"ImportCompleted", 
-    UploadCancelled = <any>"UploadCancelled", 
-    ImportCancelled = <any>"ImportCancelled", 
-    ImportFailed = <any>"ImportFailed", 
-    Created = <any>"Created", 
-    UploadFailed = <any>"UploadFailed", 
-    Deleted = <any>"Deleted", 
-    TransferReady = <any>"TransferReady", 
-    FileDeleteInProgress = <any>"FileDeleteInProgress", 
-    TransferCleanup = <any>"TransferCleanup", 
+    Draft = <any>"Draft",
+    UploadInProgress = <any>"UploadInProgress",
+    UploadCompleted = <any>"UploadCompleted",
+    ImportInProgress = <any>"ImportInProgress",
+    ImportCompleted = <any>"ImportCompleted",
+    UploadCancelled = <any>"UploadCancelled",
+    ImportCancelled = <any>"ImportCancelled",
+    ImportFailed = <any>"ImportFailed",
+    Created = <any>"Created",
+    UploadFailed = <any>"UploadFailed",
+    Deleted = <any>"Deleted",
+    TransferReady = <any>"TransferReady",
+    FileDeleteInProgress = <any>"FileDeleteInProgress",
+    TransferCleanup = <any>"TransferCleanup",
 }
 
 export class TransferDetailViewItem implements ITransferDetailViewItem {
@@ -17629,7 +17645,7 @@ export class TransferDetailViewItem implements ITransferDetailViewItem {
         data["ItemsCancelled"] = this.itemsCancelled;
         data["LastProgressStamp"] = this.lastProgressStamp;
         data["FileTransferCount"] = this.fileTransferCount;
-        return data; 
+        return data;
     }
 }
 
@@ -17717,7 +17733,7 @@ export class FileTransferDetailViewItem implements IFileTransferDetailViewItem {
                 data["OutputItems"].push(item.toJSON());
         }
         data["ContentId"] = this.contentId;
-        return data; 
+        return data;
     }
 }
 
@@ -17737,21 +17753,21 @@ export interface IFileTransferDetailViewItem {
 }
 
 export enum FileTransferState {
-    Draft = <any>"Draft", 
-    UploadInProgress = <any>"UploadInProgress", 
-    UploadCompleted = <any>"UploadCompleted", 
-    DataExtractionInProgress = <any>"DataExtractionInProgress", 
-    DataExtractionDone = <any>"DataExtractionDone", 
-    ImportInProgress = <any>"ImportInProgress", 
-    ImportCompleted = <any>"ImportCompleted", 
-    UploadCancelled = <any>"UploadCancelled", 
-    ImportCancelled = <any>"ImportCancelled", 
-    UploadFailed = <any>"UploadFailed", 
-    ImportFailed = <any>"ImportFailed", 
-    DeleteInProgress = <any>"DeleteInProgress", 
-    Deleted = <any>"Deleted", 
-    CleanupInProgress = <any>"CleanupInProgress", 
-    CleanupCompleted = <any>"CleanupCompleted", 
+    Draft = <any>"Draft",
+    UploadInProgress = <any>"UploadInProgress",
+    UploadCompleted = <any>"UploadCompleted",
+    DataExtractionInProgress = <any>"DataExtractionInProgress",
+    DataExtractionDone = <any>"DataExtractionDone",
+    ImportInProgress = <any>"ImportInProgress",
+    ImportCompleted = <any>"ImportCompleted",
+    UploadCancelled = <any>"UploadCancelled",
+    ImportCancelled = <any>"ImportCancelled",
+    UploadFailed = <any>"UploadFailed",
+    ImportFailed = <any>"ImportFailed",
+    DeleteInProgress = <any>"DeleteInProgress",
+    Deleted = <any>"Deleted",
+    CleanupInProgress = <any>"CleanupInProgress",
+    CleanupCompleted = <any>"CleanupCompleted",
 }
 
 export class FileMetadata implements IFileMetadata {
@@ -17821,7 +17837,7 @@ export class FileMetadata implements IFileMetadata {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Kind"] = this._discriminator; 
+        data["Kind"] = this._discriminator;
         data["Names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["Descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         data["FileExtension"] = this.fileExtension;
@@ -17832,7 +17848,7 @@ export class FileMetadata implements IFileMetadata {
         data["XmpMetadata"] = this.xmpMetadata ? this.xmpMetadata.toJSON() : <any>undefined;
         data["ExifMetadata"] = this.exifMetadata ? this.exifMetadata.toJSON() : <any>undefined;
         data["Language"] = this.language;
-        return data; 
+        return data;
     }
 }
 
@@ -17933,7 +17949,7 @@ export class XmpMetadata implements IXmpMetadata {
         data["XmpNote"] = this.xmpNote ? this.xmpNote.toJSON() : <any>undefined;
         data["XmpRights"] = this.xmpRights ? this.xmpRights.toJSON() : <any>undefined;
         data["XmpTPg"] = this.xmpTPg ? this.xmpTPg.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -17965,16 +17981,16 @@ export class Dc implements IDc {
     coverage?: string | undefined;
     creator?: string[] | undefined;
     date?: Date[] | undefined;
-    description?: { [key: string] : string; } | undefined;
+    description?: { [key: string]: string; } | undefined;
     format?: string | undefined;
     identifier?: string | undefined;
     language?: string[] | undefined;
     publisher?: string[] | undefined;
     relation?: string[] | undefined;
-    rights?: { [key: string] : string; } | undefined;
+    rights?: { [key: string]: string; } | undefined;
     source?: string | undefined;
     subject?: string[] | undefined;
-    title?: { [key: string] : string; } | undefined;
+    title?: { [key: string]: string; } | undefined;
     type?: string | undefined;
 
     constructor(data?: IDc) {
@@ -18121,7 +18137,7 @@ export class Dc implements IDc {
             }
         }
         data["Type"] = this.type;
-        return data; 
+        return data;
     }
 }
 
@@ -18130,16 +18146,16 @@ export interface IDc {
     coverage?: string | undefined;
     creator?: string[] | undefined;
     date?: Date[] | undefined;
-    description?: { [key: string] : string; } | undefined;
+    description?: { [key: string]: string; } | undefined;
     format?: string | undefined;
     identifier?: string | undefined;
     language?: string[] | undefined;
     publisher?: string[] | undefined;
     relation?: string[] | undefined;
-    rights?: { [key: string] : string; } | undefined;
+    rights?: { [key: string]: string; } | undefined;
     source?: string | undefined;
     subject?: string[] | undefined;
-    title?: { [key: string] : string; } | undefined;
+    title?: { [key: string]: string; } | undefined;
     type?: string | undefined;
 }
 
@@ -18298,7 +18314,7 @@ export class Crs implements ICrs {
         data["VignetteAmount"] = this.vignetteAmount;
         data["VignetteMidpoint"] = this.vignetteMidpoint;
         data["WhiteBalance"] = this.whiteBalance;
-        return data; 
+        return data;
     }
 }
 
@@ -18348,30 +18364,30 @@ export interface ICrs {
 
 /** Corresponds to crs.CropUnitsChoice */
 export enum CropUnit {
-    Pixels = <any>"Pixels", 
-    Inches = <any>"Inches", 
-    Centimeters = <any>"Centimeters", 
+    Pixels = <any>"Pixels",
+    Inches = <any>"Inches",
+    Centimeters = <any>"Centimeters",
 }
 
 /** Corresponds to crs.ToneCurveNameChoice */
 export enum ToneCurve {
-    Linear = <any>"Linear", 
-    MediumContrast = <any>"MediumContrast", 
-    StrongContrast = <any>"StrongContrast", 
-    Custom = <any>"Custom", 
+    Linear = <any>"Linear",
+    MediumContrast = <any>"MediumContrast",
+    StrongContrast = <any>"StrongContrast",
+    Custom = <any>"Custom",
 }
 
 /** Corresponds to crs.WhiteBalanceChoice */
 export enum WhiteBalance {
-    AsShot = <any>"AsShot", 
-    Auto = <any>"Auto", 
-    Daylight = <any>"Daylight", 
-    Cloudy = <any>"Cloudy", 
-    Shade = <any>"Shade", 
-    Tungsten = <any>"Tungsten", 
-    Fluorescent = <any>"Fluorescent", 
-    Flash = <any>"Flash", 
-    Custom = <any>"Custom", 
+    AsShot = <any>"AsShot",
+    Auto = <any>"Auto",
+    Daylight = <any>"Daylight",
+    Cloudy = <any>"Cloudy",
+    Shade = <any>"Shade",
+    Tungsten = <any>"Tungsten",
+    Fluorescent = <any>"Fluorescent",
+    Flash = <any>"Flash",
+    Custom = <any>"Custom",
 }
 
 export class IptcCore implements IIptcCore {
@@ -18432,7 +18448,7 @@ export class IptcCore implements IIptcCore {
         }
         data["Location"] = this.location;
         data["CreatorContactInfo"] = this.creatorContactInfo ? this.creatorContactInfo.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -18493,7 +18509,7 @@ export class CreatorContactInfo implements ICreatorContactInfo {
         data["PostalCode"] = this.postalCode;
         data["Region"] = this.region;
         data["URL"] = this.uRL;
-        return data; 
+        return data;
     }
 }
 
@@ -18519,7 +18535,7 @@ export class IptcExt implements IIptcExt {
     personInImage?: string[] | undefined;
     digitalImageGUID?: string | undefined;
     digitalSourceType?: string | undefined;
-    event?: { [key: string] : string; } | undefined;
+    event?: { [key: string]: string; } | undefined;
     imageRegistryEntry?: RegistryEntryInfo[] | undefined;
     metadataLastEdited?: Date | undefined;
     locationCreated?: LocationInfo[] | undefined;
@@ -18664,7 +18680,7 @@ export class IptcExt implements IIptcExt {
         }
         data["MaxAvailHeight"] = this.maxAvailHeight;
         data["MaxAvailWidth"] = this.maxAvailWidth;
-        return data; 
+        return data;
     }
 }
 
@@ -18679,7 +18695,7 @@ export interface IIptcExt {
     personInImage?: string[] | undefined;
     digitalImageGUID?: string | undefined;
     digitalSourceType?: string | undefined;
-    event?: { [key: string] : string; } | undefined;
+    event?: { [key: string]: string; } | undefined;
     imageRegistryEntry?: RegistryEntryInfo[] | undefined;
     metadataLastEdited?: Date | undefined;
     locationCreated?: LocationInfo[] | undefined;
@@ -18694,7 +18710,7 @@ export class ArtworkOrObjectInfo implements IArtworkOrObjectInfo {
     dateCreated?: Date | undefined;
     source?: string | undefined;
     sourceInventoryNumber?: string | undefined;
-    title?: { [key: string] : string; } | undefined;
+    title?: { [key: string]: string; } | undefined;
 
     constructor(data?: IArtworkOrObjectInfo) {
         if (data) {
@@ -18750,7 +18766,7 @@ export class ArtworkOrObjectInfo implements IArtworkOrObjectInfo {
                     data["Title"][key] = this.title[key];
             }
         }
-        return data; 
+        return data;
     }
 }
 
@@ -18761,7 +18777,7 @@ export interface IArtworkOrObjectInfo {
     dateCreated?: Date | undefined;
     source?: string | undefined;
     sourceInventoryNumber?: string | undefined;
-    title?: { [key: string] : string; } | undefined;
+    title?: { [key: string]: string; } | undefined;
 }
 
 export class LocationInfo implements ILocationInfo {
@@ -18806,7 +18822,7 @@ export class LocationInfo implements ILocationInfo {
         data["ProvinceState"] = this.provinceState;
         data["Sublocation"] = this.sublocation;
         data["WorldRegion"] = this.worldRegion;
-        return data; 
+        return data;
     }
 }
 
@@ -18849,7 +18865,7 @@ export class RegistryEntryInfo implements IRegistryEntryInfo {
         data = typeof data === 'object' ? data : {};
         data["RegistryItemIdentifier"] = this.registryItemIdentifier;
         data["RegistryOrganisationIdentifier"] = this.registryOrganisationIdentifier;
-        return data; 
+        return data;
     }
 }
 
@@ -18873,7 +18889,7 @@ export class IptcIIM implements IIptcIIM {
     recordVersion?: number | undefined;
     objectTypeReference?: string | undefined;
     objectAttributeReference?: string | undefined;
-    objectName?: { [key: string] : string; } | undefined;
+    objectName?: { [key: string]: string; } | undefined;
     editStatus?: string | undefined;
     urgency?: number | undefined;
     subjectReference?: string[] | undefined;
@@ -18909,8 +18925,8 @@ export class IptcIIM implements IIptcIIM {
     headline?: string | undefined;
     credit?: string | undefined;
     source?: string | undefined;
-    copyrightNotice?: { [key: string] : string; } | undefined;
-    captionAbstract?: { [key: string] : string; } | undefined;
+    copyrightNotice?: { [key: string]: string; } | undefined;
+    captionAbstract?: { [key: string]: string; } | undefined;
     writerEditor?: string | undefined;
     imageType?: string | undefined;
     imageOrientation?: string | undefined;
@@ -19150,7 +19166,7 @@ export class IptcIIM implements IIptcIIM {
         data["ImageType"] = this.imageType;
         data["ImageOrientation"] = this.imageOrientation;
         data["LanguageIdentifier"] = this.languageIdentifier;
-        return data; 
+        return data;
     }
 }
 
@@ -19169,7 +19185,7 @@ export interface IIptcIIM {
     recordVersion?: number | undefined;
     objectTypeReference?: string | undefined;
     objectAttributeReference?: string | undefined;
-    objectName?: { [key: string] : string; } | undefined;
+    objectName?: { [key: string]: string; } | undefined;
     editStatus?: string | undefined;
     urgency?: number | undefined;
     subjectReference?: string[] | undefined;
@@ -19205,8 +19221,8 @@ export interface IIptcIIM {
     headline?: string | undefined;
     credit?: string | undefined;
     source?: string | undefined;
-    copyrightNotice?: { [key: string] : string; } | undefined;
-    captionAbstract?: { [key: string] : string; } | undefined;
+    copyrightNotice?: { [key: string]: string; } | undefined;
+    captionAbstract?: { [key: string]: string; } | undefined;
     writerEditor?: string | undefined;
     imageType?: string | undefined;
     imageOrientation?: string | undefined;
@@ -19248,7 +19264,7 @@ export class Lr implements ILr {
             for (let item of this.hierarchicalSubject)
                 data["HierarchicalSubject"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -19292,7 +19308,7 @@ export class Pdf implements IPdf {
         data["PDFVersion"] = this.pDFVersion;
         data["Producer"] = this.producer;
         data["Trapped"] = this.trapped;
-        return data; 
+        return data;
     }
 }
 
@@ -19411,7 +19427,7 @@ export class Photoshop implements IPhotoshop {
         data["TransmissionReference"] = this.transmissionReference;
         data["Urgency"] = this.urgency;
         data["LegacyIPTCDigest"] = this.legacyIPTCDigest;
-        return data; 
+        return data;
     }
 }
 
@@ -19440,14 +19456,14 @@ export interface IPhotoshop {
 
 /** Corresponds to photoshop.ColorModeChoice */
 export enum ColorMode {
-    Bitmap = <any>"Bitmap", 
-    Grayscale = <any>"Grayscale", 
-    Indexed = <any>"Indexed", 
-    RGB = <any>"RGB", 
-    CMYK = <any>"CMYK", 
-    Multichannel = <any>"Multichannel", 
-    Duotone = <any>"Duotone", 
-    LAB = <any>"LAB", 
+    Bitmap = <any>"Bitmap",
+    Grayscale = <any>"Grayscale",
+    Indexed = <any>"Indexed",
+    RGB = <any>"RGB",
+    CMYK = <any>"CMYK",
+    Multichannel = <any>"Multichannel",
+    Duotone = <any>"Duotone",
+    LAB = <any>"LAB",
 }
 
 export class PhotoshopLayer implements IPhotoshopLayer {
@@ -19480,7 +19496,7 @@ export class PhotoshopLayer implements IPhotoshopLayer {
         data = typeof data === 'object' ? data : {};
         data["LayerName"] = this.layerName;
         data["LayerText"] = this.layerText;
-        return data; 
+        return data;
     }
 }
 
@@ -19498,13 +19514,13 @@ export class Plus implements IPlus {
     endUserID?: string | undefined;
     endUserName?: string | undefined;
     licensor?: LicensorInfo[] | undefined;
-    licensorNotes?: { [key: string] : string; } | undefined;
+    licensorNotes?: { [key: string]: string; } | undefined;
     mediaSummaryCode?: string | undefined;
     licenseStartDate?: Date | undefined;
     licenseEndDate?: Date | undefined;
-    mediaConstraints?: { [key: string] : string; } | undefined;
-    regionConstraints?: { [key: string] : string; } | undefined;
-    productOrServiceConstraints?: { [key: string] : string; } | undefined;
+    mediaConstraints?: { [key: string]: string; } | undefined;
+    regionConstraints?: { [key: string]: string; } | undefined;
+    productOrServiceConstraints?: { [key: string]: string; } | undefined;
     imageFileConstraints?: string[] | undefined;
     imageAlterationConstraints?: string[] | undefined;
     imageDuplicationConstraints?: string | undefined;
@@ -19513,13 +19529,13 @@ export class Plus implements IPlus {
     minorModelAgeDisclosure?: string | undefined;
     propertyReleaseStatus?: string | undefined;
     propertyReleaseID?: string[] | undefined;
-    otherConstraints?: { [key: string] : string; } | undefined;
+    otherConstraints?: { [key: string]: string; } | undefined;
     creditLineRequired?: string | undefined;
     adultContentWarning?: string | undefined;
-    otherLicenseRequirements?: { [key: string] : string; } | undefined;
-    termsAndConditionsText?: { [key: string] : string; } | undefined;
+    otherLicenseRequirements?: { [key: string]: string; } | undefined;
+    termsAndConditionsText?: { [key: string]: string; } | undefined;
     termsAndConditionsURL?: string | undefined;
-    otherConditions?: { [key: string] : string; } | undefined;
+    otherConditions?: { [key: string]: string; } | undefined;
     imageType?: string | undefined;
     licensorImageID?: string | undefined;
     fileNameAsDelivered?: string | undefined;
@@ -19535,8 +19551,8 @@ export class Plus implements IPlus {
     imageSupplier?: ImageSupplierInfo[] | undefined;
     imageSupplierImageID?: string | undefined;
     licenseeImageID?: string | undefined;
-    licenseeImageNotes?: { [key: string] : string; } | undefined;
-    otherImageInfo?: { [key: string] : string; } | undefined;
+    licenseeImageNotes?: { [key: string]: string; } | undefined;
+    otherImageInfo?: { [key: string]: string; } | undefined;
     licenseID?: string | undefined;
     licensorTransactionID?: string[] | undefined;
     licenseeTransactionID?: string[] | undefined;
@@ -19544,17 +19560,17 @@ export class Plus implements IPlus {
     licenseTransactionDate?: Date | undefined;
     reuse?: string | undefined;
     otherLicenseDocuments?: string[] | undefined;
-    otherLicenseInfo?: { [key: string] : string; } | undefined;
-    custom1?: { [key: string] : string; }[] | undefined;
-    custom2?: { [key: string] : string; }[] | undefined;
-    custom3?: { [key: string] : string; }[] | undefined;
-    custom4?: { [key: string] : string; }[] | undefined;
-    custom5?: { [key: string] : string; }[] | undefined;
-    custom6?: { [key: string] : string; }[] | undefined;
-    custom7?: { [key: string] : string; }[] | undefined;
-    custom8?: { [key: string] : string; }[] | undefined;
-    custom9?: { [key: string] : string; }[] | undefined;
-    custom10?: { [key: string] : string; }[] | undefined;
+    otherLicenseInfo?: { [key: string]: string; } | undefined;
+    custom1?: { [key: string]: string; }[] | undefined;
+    custom2?: { [key: string]: string; }[] | undefined;
+    custom3?: { [key: string]: string; }[] | undefined;
+    custom4?: { [key: string]: string; }[] | undefined;
+    custom5?: { [key: string]: string; }[] | undefined;
+    custom6?: { [key: string]: string; }[] | undefined;
+    custom7?: { [key: string]: string; }[] | undefined;
+    custom8?: { [key: string]: string; }[] | undefined;
+    custom9?: { [key: string]: string; }[] | undefined;
+    custom10?: { [key: string]: string; }[] | undefined;
 
     constructor(data?: IPlus) {
         if (data) {
@@ -20032,7 +20048,7 @@ export class Plus implements IPlus {
             for (let item of this.custom10)
                 data["Custom10"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -20045,13 +20061,13 @@ export interface IPlus {
     endUserID?: string | undefined;
     endUserName?: string | undefined;
     licensor?: LicensorInfo[] | undefined;
-    licensorNotes?: { [key: string] : string; } | undefined;
+    licensorNotes?: { [key: string]: string; } | undefined;
     mediaSummaryCode?: string | undefined;
     licenseStartDate?: Date | undefined;
     licenseEndDate?: Date | undefined;
-    mediaConstraints?: { [key: string] : string; } | undefined;
-    regionConstraints?: { [key: string] : string; } | undefined;
-    productOrServiceConstraints?: { [key: string] : string; } | undefined;
+    mediaConstraints?: { [key: string]: string; } | undefined;
+    regionConstraints?: { [key: string]: string; } | undefined;
+    productOrServiceConstraints?: { [key: string]: string; } | undefined;
     imageFileConstraints?: string[] | undefined;
     imageAlterationConstraints?: string[] | undefined;
     imageDuplicationConstraints?: string | undefined;
@@ -20060,13 +20076,13 @@ export interface IPlus {
     minorModelAgeDisclosure?: string | undefined;
     propertyReleaseStatus?: string | undefined;
     propertyReleaseID?: string[] | undefined;
-    otherConstraints?: { [key: string] : string; } | undefined;
+    otherConstraints?: { [key: string]: string; } | undefined;
     creditLineRequired?: string | undefined;
     adultContentWarning?: string | undefined;
-    otherLicenseRequirements?: { [key: string] : string; } | undefined;
-    termsAndConditionsText?: { [key: string] : string; } | undefined;
+    otherLicenseRequirements?: { [key: string]: string; } | undefined;
+    termsAndConditionsText?: { [key: string]: string; } | undefined;
     termsAndConditionsURL?: string | undefined;
-    otherConditions?: { [key: string] : string; } | undefined;
+    otherConditions?: { [key: string]: string; } | undefined;
     imageType?: string | undefined;
     licensorImageID?: string | undefined;
     fileNameAsDelivered?: string | undefined;
@@ -20082,8 +20098,8 @@ export interface IPlus {
     imageSupplier?: ImageSupplierInfo[] | undefined;
     imageSupplierImageID?: string | undefined;
     licenseeImageID?: string | undefined;
-    licenseeImageNotes?: { [key: string] : string; } | undefined;
-    otherImageInfo?: { [key: string] : string; } | undefined;
+    licenseeImageNotes?: { [key: string]: string; } | undefined;
+    otherImageInfo?: { [key: string]: string; } | undefined;
     licenseID?: string | undefined;
     licensorTransactionID?: string[] | undefined;
     licenseeTransactionID?: string[] | undefined;
@@ -20091,17 +20107,17 @@ export interface IPlus {
     licenseTransactionDate?: Date | undefined;
     reuse?: string | undefined;
     otherLicenseDocuments?: string[] | undefined;
-    otherLicenseInfo?: { [key: string] : string; } | undefined;
-    custom1?: { [key: string] : string; }[] | undefined;
-    custom2?: { [key: string] : string; }[] | undefined;
-    custom3?: { [key: string] : string; }[] | undefined;
-    custom4?: { [key: string] : string; }[] | undefined;
-    custom5?: { [key: string] : string; }[] | undefined;
-    custom6?: { [key: string] : string; }[] | undefined;
-    custom7?: { [key: string] : string; }[] | undefined;
-    custom8?: { [key: string] : string; }[] | undefined;
-    custom9?: { [key: string] : string; }[] | undefined;
-    custom10?: { [key: string] : string; }[] | undefined;
+    otherLicenseInfo?: { [key: string]: string; } | undefined;
+    custom1?: { [key: string]: string; }[] | undefined;
+    custom2?: { [key: string]: string; }[] | undefined;
+    custom3?: { [key: string]: string; }[] | undefined;
+    custom4?: { [key: string]: string; }[] | undefined;
+    custom5?: { [key: string]: string; }[] | undefined;
+    custom6?: { [key: string]: string; }[] | undefined;
+    custom7?: { [key: string]: string; }[] | undefined;
+    custom8?: { [key: string]: string; }[] | undefined;
+    custom9?: { [key: string]: string; }[] | undefined;
+    custom10?: { [key: string]: string; }[] | undefined;
 }
 
 export class LicenseeInfo implements ILicenseeInfo {
@@ -20134,7 +20150,7 @@ export class LicenseeInfo implements ILicenseeInfo {
         data = typeof data === 'object' ? data : {};
         data["LicenseeName"] = this.licenseeName;
         data["LicenseeID"] = this.licenseeID;
-        return data; 
+        return data;
     }
 }
 
@@ -20173,7 +20189,7 @@ export class EndUserInfo implements IEndUserInfo {
         data = typeof data === 'object' ? data : {};
         data["EndUserName"] = this.endUserName;
         data["EndUserID"] = this.endUserID;
-        return data; 
+        return data;
     }
 }
 
@@ -20248,7 +20264,7 @@ export class LicensorInfo implements ILicensorInfo {
         data["LicensorTelephone2"] = this.licensorTelephone2;
         data["LicensorEmail"] = this.licensorEmail;
         data["LicensorURL"] = this.licensorURL;
-        return data; 
+        return data;
     }
 }
 
@@ -20299,7 +20315,7 @@ export class CopyrightOwnerInfo implements ICopyrightOwnerInfo {
         data = typeof data === 'object' ? data : {};
         data["CopyrightOwnerName"] = this.copyrightOwnerName;
         data["CopyrightOwnerID"] = this.copyrightOwnerID;
-        return data; 
+        return data;
     }
 }
 
@@ -20338,7 +20354,7 @@ export class ImageCreatorInfo implements IImageCreatorInfo {
         data = typeof data === 'object' ? data : {};
         data["ImageCreatorName"] = this.imageCreatorName;
         data["ImageCreatorID"] = this.imageCreatorID;
-        return data; 
+        return data;
     }
 }
 
@@ -20377,7 +20393,7 @@ export class ImageSupplierInfo implements IImageSupplierInfo {
         data = typeof data === 'object' ? data : {};
         data["ImageSupplierName"] = this.imageSupplierName;
         data["ImageSupplierID"] = this.imageSupplierID;
-        return data; 
+        return data;
     }
 }
 
@@ -20390,9 +20406,9 @@ export class Tiff implements ITiff {
     artist?: string | undefined;
     bitsPerSample?: number[] | undefined;
     compression?: Compression | undefined;
-    copyright?: { [key: string] : string; } | undefined;
+    copyright?: { [key: string]: string; } | undefined;
     dateTime?: Date | undefined;
-    imageDescription?: { [key: string] : string; } | undefined;
+    imageDescription?: { [key: string]: string; } | undefined;
     imageLength?: number | undefined;
     imageWidth?: number | undefined;
     make?: string | undefined;
@@ -20560,7 +20576,7 @@ export class Tiff implements ITiff {
         data["YCbCrPositioning"] = this.yCbCrPositioning;
         data["YCbCrSubSampling"] = this.yCbCrSubSampling;
         data["NativeDigest"] = this.nativeDigest;
-        return data; 
+        return data;
     }
 }
 
@@ -20568,9 +20584,9 @@ export interface ITiff {
     artist?: string | undefined;
     bitsPerSample?: number[] | undefined;
     compression?: Compression | undefined;
-    copyright?: { [key: string] : string; } | undefined;
+    copyright?: { [key: string]: string; } | undefined;
     dateTime?: Date | undefined;
-    imageDescription?: { [key: string] : string; } | undefined;
+    imageDescription?: { [key: string]: string; } | undefined;
     imageLength?: number | undefined;
     imageWidth?: number | undefined;
     make?: string | undefined;
@@ -20595,96 +20611,96 @@ export interface ITiff {
 
 /** Corresponds to tiff.CompressionChoice */
 export enum Compression {
-    Uncompressed = <any>"Uncompressed", 
-    CCITT = <any>"CCITT", 
-    T4 = <any>"T4", 
-    T6 = <any>"T6", 
-    LZW = <any>"LZW", 
-    OJPEG = <any>"OJPEG", 
-    JPEG = <any>"JPEG", 
-    Deflate = <any>"Deflate", 
-    T82 = <any>"T82", 
-    T43 = <any>"T43", 
-    NeXT = <any>"NeXT", 
-    ARW = <any>"ARW", 
-    RAW = <any>"RAW", 
-    SRW = <any>"SRW", 
-    Group3_1D = <any>"Group3_1D", 
-    PackBits = <any>"PackBits", 
-    ThunderScan = <any>"ThunderScan", 
-    KDC = <any>"KDC", 
-    RasterPadding = <any>"RasterPadding", 
-    LineWork = <any>"LineWork", 
-    HighContinuous = <any>"HighContinuous", 
-    BinaryLineWork = <any>"BinaryLineWork", 
-    PixarFilm = <any>"PixarFilm", 
-    PixarLog = <any>"PixarLog", 
-    DCS = <any>"DCS", 
-    JBIG = <any>"JBIG", 
-    JPEG2000 = <any>"JPEG2000", 
-    NEF = <any>"NEF", 
-    JBIG2 = <any>"JBIG2", 
-    DCR = <any>"DCR", 
-    PEF = <any>"PEF", 
+    Uncompressed = <any>"Uncompressed",
+    CCITT = <any>"CCITT",
+    T4 = <any>"T4",
+    T6 = <any>"T6",
+    LZW = <any>"LZW",
+    OJPEG = <any>"OJPEG",
+    JPEG = <any>"JPEG",
+    Deflate = <any>"Deflate",
+    T82 = <any>"T82",
+    T43 = <any>"T43",
+    NeXT = <any>"NeXT",
+    ARW = <any>"ARW",
+    RAW = <any>"RAW",
+    SRW = <any>"SRW",
+    Group3_1D = <any>"Group3_1D",
+    PackBits = <any>"PackBits",
+    ThunderScan = <any>"ThunderScan",
+    KDC = <any>"KDC",
+    RasterPadding = <any>"RasterPadding",
+    LineWork = <any>"LineWork",
+    HighContinuous = <any>"HighContinuous",
+    BinaryLineWork = <any>"BinaryLineWork",
+    PixarFilm = <any>"PixarFilm",
+    PixarLog = <any>"PixarLog",
+    DCS = <any>"DCS",
+    JBIG = <any>"JBIG",
+    JPEG2000 = <any>"JPEG2000",
+    NEF = <any>"NEF",
+    JBIG2 = <any>"JBIG2",
+    DCR = <any>"DCR",
+    PEF = <any>"PEF",
 }
 
 /** Corresponds to tiff.OrientationChoice */
 export enum Orientation {
-    None = <any>"None", 
-    TopRowLeftColumn = <any>"TopRowLeftColumn", 
-    TopRowRightColumn = <any>"TopRowRightColumn", 
-    BottomRowLeftColumn = <any>"BottomRowLeftColumn", 
-    BottomRowRightColumn = <any>"BottomRowRightColumn", 
-    LeftRowTopColumn = <any>"LeftRowTopColumn", 
-    RightRowTopColumn = <any>"RightRowTopColumn", 
-    RightRowBottomColumn = <any>"RightRowBottomColumn", 
-    LeftRowBottomColumn = <any>"LeftRowBottomColumn", 
-    Unknown = <any>"Unknown", 
+    None = <any>"None",
+    TopRowLeftColumn = <any>"TopRowLeftColumn",
+    TopRowRightColumn = <any>"TopRowRightColumn",
+    BottomRowLeftColumn = <any>"BottomRowLeftColumn",
+    BottomRowRightColumn = <any>"BottomRowRightColumn",
+    LeftRowTopColumn = <any>"LeftRowTopColumn",
+    RightRowTopColumn = <any>"RightRowTopColumn",
+    RightRowBottomColumn = <any>"RightRowBottomColumn",
+    LeftRowBottomColumn = <any>"LeftRowBottomColumn",
+    Unknown = <any>"Unknown",
 }
 
 /** Corresponds to tiff.PhotometricInterpretationChoice */
 export enum PhotometricInterpretation {
-    WhiteIsZero = <any>"WhiteIsZero", 
-    BlackIsZero = <any>"BlackIsZero", 
-    RGB = <any>"RGB", 
-    Palette = <any>"Palette", 
-    TransparencyMask = <any>"TransparencyMask", 
-    CMYK = <any>"CMYK", 
-    YCbCr = <any>"YCbCr", 
-    CIELab = <any>"CIELab", 
-    ICCLab = <any>"ICCLab", 
-    ITULab = <any>"ITULab", 
-    ColorFilterArray = <any>"ColorFilterArray", 
-    LogL = <any>"LogL", 
-    LogLUV = <any>"LogLUV", 
-    LinearRaw = <any>"LinearRaw", 
+    WhiteIsZero = <any>"WhiteIsZero",
+    BlackIsZero = <any>"BlackIsZero",
+    RGB = <any>"RGB",
+    Palette = <any>"Palette",
+    TransparencyMask = <any>"TransparencyMask",
+    CMYK = <any>"CMYK",
+    YCbCr = <any>"YCbCr",
+    CIELab = <any>"CIELab",
+    ICCLab = <any>"ICCLab",
+    ITULab = <any>"ITULab",
+    ColorFilterArray = <any>"ColorFilterArray",
+    LogL = <any>"LogL",
+    LogLUV = <any>"LogLUV",
+    LinearRaw = <any>"LinearRaw",
 }
 
 /** Corresponds to tiff.PlanarConfigurationChoice */
 export enum PlanarConfiguration {
-    Chunky = <any>"Chunky", 
-    Planar = <any>"Planar", 
-    Line = <any>"Line", 
+    Chunky = <any>"Chunky",
+    Planar = <any>"Planar",
+    Line = <any>"Line",
 }
 
 /** Corresponds to exif.FocalPlaneResolutionUnitChoice */
 export enum ResolutionUnit {
-    None = <any>"None", 
-    Inch = <any>"Inch", 
-    Centimeter = <any>"Centimeter", 
+    None = <any>"None",
+    Inch = <any>"Inch",
+    Centimeter = <any>"Centimeter",
 }
 
 /** Corresponds to tiff.YCbCrPositioningChoice */
 export enum YCbCrPositioning {
-    Centered = <any>"Centered", 
-    Cosited = <any>"Cosited", 
+    Centered = <any>"Centered",
+    Cosited = <any>"Cosited",
 }
 
 /** Corresponds to tiff.YCbCrSubSamplingChoice */
 export enum YCbCrSubSampling {
-    YCbCr111 = <any>"YCbCr111", 
-    YCbCr422 = <any>"YCbCr422", 
-    YCbCr420 = <any>"YCbCr420", 
+    YCbCr111 = <any>"YCbCr111",
+    YCbCr422 = <any>"YCbCr422",
+    YCbCr420 = <any>"YCbCr420",
 }
 
 export class Xmp implements IXmp {
@@ -20768,7 +20784,7 @@ export class Xmp implements IXmp {
             for (let item of this.pageInfo)
                 data["PageInfo"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -20788,13 +20804,13 @@ export interface IXmp {
 
 /** Corresponds to xmp.RatingChoice */
 export enum Rating {
-    Rejected = <any>"Rejected", 
-    Unrated = <any>"Unrated", 
-    One = <any>"One", 
-    Two = <any>"Two", 
-    Three = <any>"Three", 
-    Four = <any>"Four", 
-    Five = <any>"Five", 
+    Rejected = <any>"Rejected",
+    Unrated = <any>"Unrated",
+    One = <any>"One",
+    Two = <any>"Two",
+    Three = <any>"Three",
+    Four = <any>"Four",
+    Five = <any>"Five",
 }
 
 export class XmpGImg implements IXmpGImg {
@@ -20833,7 +20849,7 @@ export class XmpGImg implements IXmpGImg {
         data["Width"] = this.width;
         data["Height"] = this.height;
         data["Image"] = this.image;
-        return data; 
+        return data;
     }
 }
 
@@ -20846,7 +20862,7 @@ export interface IXmpGImg {
 
 /** Corresponds to xmpGImg.FormatChoice */
 export enum ImgFormat {
-    JPEG = <any>"JPEG", 
+    JPEG = <any>"JPEG",
 }
 
 export class XmpBJ implements IXmpBJ {
@@ -20884,7 +20900,7 @@ export class XmpBJ implements IXmpBJ {
             for (let item of this.jobRef)
                 data["JobRef"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -20925,7 +20941,7 @@ export class Job implements IJob {
         data["Id"] = this.id;
         data["Name"] = this.name;
         data["Url"] = this.url;
-        return data; 
+        return data;
     }
 }
 
@@ -21187,7 +21203,7 @@ export class XmpDM implements IXmpDM {
         data["VideoFrameSize"] = this.videoFrameSize ? this.videoFrameSize.toJSON() : <any>undefined;
         data["VideoPixelDepth"] = this.videoPixelDepth;
         data["VideoPixelAspectRatio"] = this.videoPixelAspectRatio;
-        return data; 
+        return data;
     }
 }
 
@@ -21292,7 +21308,7 @@ export class TimeCode implements ITimeCode {
         data = typeof data === 'object' ? data : {};
         data["TimeFormat"] = this.timeFormat;
         data["TimeValue"] = this.timeValue;
-        return data; 
+        return data;
     }
 }
 
@@ -21303,38 +21319,38 @@ export interface ITimeCode {
 
 /** Corresponds to Timecode.TimeFormatChoice */
 export enum TimeFormat {
-    Timecode24 = <any>"Timecode24", 
-    Timecode25 = <any>"Timecode25", 
-    Timecode2997Drop = <any>"Timecode2997Drop", 
-    Timecode2997NonDrop = <any>"Timecode2997NonDrop", 
-    Timecode30 = <any>"Timecode30", 
-    Timecode50 = <any>"Timecode50", 
-    Timecode5994Drop = <any>"Timecode5994Drop", 
-    Timecode5994NonDrop = <any>"Timecode5994NonDrop", 
-    Timecode60 = <any>"Timecode60", 
-    Timecode23976 = <any>"Timecode23976", 
+    Timecode24 = <any>"Timecode24",
+    Timecode25 = <any>"Timecode25",
+    Timecode2997Drop = <any>"Timecode2997Drop",
+    Timecode2997NonDrop = <any>"Timecode2997NonDrop",
+    Timecode30 = <any>"Timecode30",
+    Timecode50 = <any>"Timecode50",
+    Timecode5994Drop = <any>"Timecode5994Drop",
+    Timecode5994NonDrop = <any>"Timecode5994NonDrop",
+    Timecode60 = <any>"Timecode60",
+    Timecode23976 = <any>"Timecode23976",
 }
 
 /** Corresponds to xmpDM.AudioChannelTypeChoice */
 export enum AudioChannelType {
-    CHANNEL_MONO = <any>"CHANNEL_MONO", 
-    CHANNEL_STEREO = <any>"CHANNEL_STEREO", 
-    CHANNEL_5_1 = <any>"CHANNEL_5_1", 
-    CHANNEL_7_1 = <any>"CHANNEL_7_1", 
-    CHANNEL_16 = <any>"CHANNEL_16", 
-    CHANNEL_OTHER = <any>"CHANNEL_OTHER", 
+    CHANNEL_MONO = <any>"CHANNEL_MONO",
+    CHANNEL_STEREO = <any>"CHANNEL_STEREO",
+    CHANNEL_5_1 = <any>"CHANNEL_5_1",
+    CHANNEL_7_1 = <any>"CHANNEL_7_1",
+    CHANNEL_16 = <any>"CHANNEL_16",
+    CHANNEL_OTHER = <any>"CHANNEL_OTHER",
 }
 
 /** Corresponds to xmpDM.AudioSampleTypeChoice */
 export enum AudioSampleType {
-    SAMPLE_8_INT = <any>"SAMPLE_8_INT", 
-    SAMPLE_16_INT = <any>"SAMPLE_16_INT", 
-    SAMPLE_24_INT = <any>"SAMPLE_24_INT", 
-    SAMPLE_32_INT = <any>"SAMPLE_32_INT", 
-    SAMPLE_32_FLOAT = <any>"SAMPLE_32_FLOAT", 
-    SAMPLE_COMPRESSED = <any>"SAMPLE_COMPRESSED", 
-    SAMPLE_PACKED = <any>"SAMPLE_PACKED", 
-    SAMPLE_OTHER = <any>"SAMPLE_OTHER", 
+    SAMPLE_8_INT = <any>"SAMPLE_8_INT",
+    SAMPLE_16_INT = <any>"SAMPLE_16_INT",
+    SAMPLE_24_INT = <any>"SAMPLE_24_INT",
+    SAMPLE_32_INT = <any>"SAMPLE_32_INT",
+    SAMPLE_32_FLOAT = <any>"SAMPLE_32_FLOAT",
+    SAMPLE_COMPRESSED = <any>"SAMPLE_COMPRESSED",
+    SAMPLE_PACKED = <any>"SAMPLE_PACKED",
+    SAMPLE_OTHER = <any>"SAMPLE_OTHER",
 }
 
 export class BeatSpliceStretch implements IBeatSpliceStretch {
@@ -21370,7 +21386,7 @@ export class BeatSpliceStretch implements IBeatSpliceStretch {
         data["RiseInDecibel"] = this.riseInDecibel;
         data["RiseInTimeDuration"] = this.riseInTimeDuration ? this.riseInTimeDuration.toJSON() : <any>undefined;
         data["UseFileBeatsMarker"] = this.useFileBeatsMarker;
-        return data; 
+        return data;
     }
 }
 
@@ -21410,7 +21426,7 @@ export class Time implements ITime {
         data = typeof data === 'object' ? data : {};
         data["Scale"] = this.scale;
         data["Value"] = this.value;
-        return data; 
+        return data;
     }
 }
 
@@ -21421,37 +21437,37 @@ export interface ITime {
 
 /** Corresponds to xmpDM.CameraAngleChoice */
 export enum CameraAngle {
-    ANGLE_LOW = <any>"ANGLE_LOW", 
-    ANGLE_EYE_LEVEL = <any>"ANGLE_EYE_LEVEL", 
-    ANGLE_HIGH = <any>"ANGLE_HIGH", 
-    ANGLE_OVERHEAD_SHOT = <any>"ANGLE_OVERHEAD_SHOT", 
-    ANGLE_BIRDS_EYE_SHOT = <any>"ANGLE_BIRDS_EYE_SHOT", 
-    ANGLE_DUTCH = <any>"ANGLE_DUTCH", 
-    ANGLE_POV = <any>"ANGLE_POV", 
-    ANGLE_OVER_THE_SHOULDER = <any>"ANGLE_OVER_THE_SHOULDER", 
-    ANGLE_REACTION_SHOT = <any>"ANGLE_REACTION_SHOT", 
+    ANGLE_LOW = <any>"ANGLE_LOW",
+    ANGLE_EYE_LEVEL = <any>"ANGLE_EYE_LEVEL",
+    ANGLE_HIGH = <any>"ANGLE_HIGH",
+    ANGLE_OVERHEAD_SHOT = <any>"ANGLE_OVERHEAD_SHOT",
+    ANGLE_BIRDS_EYE_SHOT = <any>"ANGLE_BIRDS_EYE_SHOT",
+    ANGLE_DUTCH = <any>"ANGLE_DUTCH",
+    ANGLE_POV = <any>"ANGLE_POV",
+    ANGLE_OVER_THE_SHOULDER = <any>"ANGLE_OVER_THE_SHOULDER",
+    ANGLE_REACTION_SHOT = <any>"ANGLE_REACTION_SHOT",
 }
 
 /** Corresponds to xmpDM.CameraMoveChoice */
 export enum CameraMove {
-    MOVE_AERIAL = <any>"MOVE_AERIAL", 
-    MOVE_BOOM_UP = <any>"MOVE_BOOM_UP", 
-    MOVE_BOOM_DOWN = <any>"MOVE_BOOM_DOWN", 
-    MOVE_CRANE_UP = <any>"MOVE_CRANE_UP", 
-    MOVE_CRANE_DOWN = <any>"MOVE_CRANE_DOWN", 
-    MOVE_DOLLY_IN = <any>"MOVE_DOLLY_IN", 
-    MOVE_DOLLY_OUT = <any>"MOVE_DOLLY_OUT", 
-    MOVE_PAN_LEFT = <any>"MOVE_PAN_LEFT", 
-    MOVE_PAN_RIGHT = <any>"MOVE_PAN_RIGHT", 
-    MOVE_PEDESTAL_UP = <any>"MOVE_PEDESTAL_UP", 
-    MOVE_PEDESTAL_DOWN = <any>"MOVE_PEDESTAL_DOWN", 
-    MOVE_TILT_UP = <any>"MOVE_TILT_UP", 
-    MOVE_TILT_DOWN = <any>"MOVE_TILT_DOWN", 
-    MOVE_TRACKING = <any>"MOVE_TRACKING", 
-    MOVE_TRUCK_LEFT = <any>"MOVE_TRUCK_LEFT", 
-    MOVE_TRUCK_RIGHT = <any>"MOVE_TRUCK_RIGHT", 
-    MOVE_ZOOM_IN = <any>"MOVE_ZOOM_IN", 
-    MOVE_ZOOM_OUT = <any>"MOVE_ZOOM_OUT", 
+    MOVE_AERIAL = <any>"MOVE_AERIAL",
+    MOVE_BOOM_UP = <any>"MOVE_BOOM_UP",
+    MOVE_BOOM_DOWN = <any>"MOVE_BOOM_DOWN",
+    MOVE_CRANE_UP = <any>"MOVE_CRANE_UP",
+    MOVE_CRANE_DOWN = <any>"MOVE_CRANE_DOWN",
+    MOVE_DOLLY_IN = <any>"MOVE_DOLLY_IN",
+    MOVE_DOLLY_OUT = <any>"MOVE_DOLLY_OUT",
+    MOVE_PAN_LEFT = <any>"MOVE_PAN_LEFT",
+    MOVE_PAN_RIGHT = <any>"MOVE_PAN_RIGHT",
+    MOVE_PEDESTAL_UP = <any>"MOVE_PEDESTAL_UP",
+    MOVE_PEDESTAL_DOWN = <any>"MOVE_PEDESTAL_DOWN",
+    MOVE_TILT_UP = <any>"MOVE_TILT_UP",
+    MOVE_TILT_DOWN = <any>"MOVE_TILT_DOWN",
+    MOVE_TRACKING = <any>"MOVE_TRACKING",
+    MOVE_TRUCK_LEFT = <any>"MOVE_TRUCK_LEFT",
+    MOVE_TRUCK_RIGHT = <any>"MOVE_TRUCK_RIGHT",
+    MOVE_ZOOM_IN = <any>"MOVE_ZOOM_IN",
+    MOVE_ZOOM_OUT = <any>"MOVE_ZOOM_OUT",
 }
 
 export class Media implements IMedia {
@@ -21496,7 +21512,7 @@ export class Media implements IMedia {
         data["StartTime"] = this.startTime ? this.startTime.toJSON() : <any>undefined;
         data["Track"] = this.track;
         data["WebStatement"] = this.webStatement;
-        return data; 
+        return data;
     }
 }
 
@@ -21511,23 +21527,23 @@ export interface IMedia {
 
 /** Corresponds to xmpDM.AudioMusicalKeyChoice */
 export enum AudioMusicalKey {
-    KEY_C = <any>"KEY_C", 
-    KEY_C_SHARP = <any>"KEY_C_SHARP", 
-    KEY_D = <any>"KEY_D", 
-    KEY_D_SHARP = <any>"KEY_D_SHARP", 
-    KEY_E = <any>"KEY_E", 
-    KEY_F = <any>"KEY_F", 
-    KEY_F_SHARP = <any>"KEY_F_SHARP", 
-    KEY_G = <any>"KEY_G", 
-    KEY_G_SHARP = <any>"KEY_G_SHARP", 
-    KEY_A = <any>"KEY_A", 
-    KEY_A_SHARP = <any>"KEY_A_SHARP", 
-    KEY_B = <any>"KEY_B", 
+    KEY_C = <any>"KEY_C",
+    KEY_C_SHARP = <any>"KEY_C_SHARP",
+    KEY_D = <any>"KEY_D",
+    KEY_D_SHARP = <any>"KEY_D_SHARP",
+    KEY_E = <any>"KEY_E",
+    KEY_F = <any>"KEY_F",
+    KEY_F_SHARP = <any>"KEY_F_SHARP",
+    KEY_G = <any>"KEY_G",
+    KEY_G_SHARP = <any>"KEY_G_SHARP",
+    KEY_A = <any>"KEY_A",
+    KEY_A_SHARP = <any>"KEY_A_SHARP",
+    KEY_B = <any>"KEY_B",
 }
 
 export class Marker implements IMarker {
     comment?: string | undefined;
-    cuePointParams?: { [key: string] : string; } | undefined;
+    cuePointParams?: { [key: string]: string; } | undefined;
     cuePointType?: string | undefined;
     duration?: string | undefined;
     location?: string | undefined;
@@ -21594,13 +21610,13 @@ export class Marker implements IMarker {
         data["StartTime"] = this.startTime;
         data["Target"] = this.target;
         data["Type"] = this.type;
-        return data; 
+        return data;
     }
 }
 
 export interface IMarker {
     comment?: string | undefined;
-    cuePointParams?: { [key: string] : string; } | undefined;
+    cuePointParams?: { [key: string]: string; } | undefined;
     cuePointType?: string | undefined;
     duration?: string | undefined;
     location?: string | undefined;
@@ -21614,11 +21630,11 @@ export interface IMarker {
 
 /** Corresponds to Xmp.Media.Marker.TypeChoice */
 export enum MarkerType {
-    Chapter = <any>"Chapter", 
-    Cue = <any>"Cue", 
-    Index = <any>"Index", 
-    Speech = <any>"Speech", 
-    Track = <any>"Track", 
+    Chapter = <any>"Chapter",
+    Cue = <any>"Cue",
+    Index = <any>"Index",
+    Speech = <any>"Speech",
+    Track = <any>"Track",
 }
 
 export class ProjectLink implements IProjectLink {
@@ -21651,7 +21667,7 @@ export class ProjectLink implements IProjectLink {
         data = typeof data === 'object' ? data : {};
         data["Path"] = this.path;
         data["Type"] = this.type;
-        return data; 
+        return data;
     }
 }
 
@@ -21662,24 +21678,24 @@ export interface IProjectLink {
 
 /** Corresponds to Xmp.Media.ProjectLink.TypeChoice */
 export enum ProjectLinkType {
-    Movie = <any>"Movie", 
-    Still = <any>"Still", 
-    Audio = <any>"Audio", 
-    Custom = <any>"Custom", 
+    Movie = <any>"Movie",
+    Still = <any>"Still",
+    Audio = <any>"Audio",
+    Custom = <any>"Custom",
 }
 
 /** Corresponds to xmpDM.VideoPullDownChoice */
 export enum VideoPullDown {
-    PULLDOWN_WSSWW = <any>"PULLDOWN_WSSWW", 
-    PULLDOWN_SSWWW = <any>"PULLDOWN_SSWWW", 
-    PULLDOWN_SWWWS = <any>"PULLDOWN_SWWWS", 
-    PULLDOWN_WWWSS = <any>"PULLDOWN_WWWSS", 
-    PULLDOWN_WWSSW = <any>"PULLDOWN_WWSSW", 
-    PULLDOWN_WWWSW = <any>"PULLDOWN_WWWSW", 
-    PULLDOWN_WWSWW = <any>"PULLDOWN_WWSWW", 
-    PULLDOWN_WSWWW = <any>"PULLDOWN_WSWWW", 
-    PULLDOWN_SWWWW = <any>"PULLDOWN_SWWWW", 
-    PULLDOWN_WWWWS = <any>"PULLDOWN_WWWWS", 
+    PULLDOWN_WSSWW = <any>"PULLDOWN_WSSWW",
+    PULLDOWN_SSWWW = <any>"PULLDOWN_SSWWW",
+    PULLDOWN_SWWWS = <any>"PULLDOWN_SWWWS",
+    PULLDOWN_WWWSS = <any>"PULLDOWN_WWWSS",
+    PULLDOWN_WWSSW = <any>"PULLDOWN_WWSSW",
+    PULLDOWN_WWWSW = <any>"PULLDOWN_WWWSW",
+    PULLDOWN_WWSWW = <any>"PULLDOWN_WWSWW",
+    PULLDOWN_WSWWW = <any>"PULLDOWN_WSWWW",
+    PULLDOWN_SWWWW = <any>"PULLDOWN_SWWWW",
+    PULLDOWN_WWWWS = <any>"PULLDOWN_WWWWS",
 }
 
 export class ResampleStretch implements IResampleStretch {
@@ -21709,7 +21725,7 @@ export class ResampleStretch implements IResampleStretch {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Quality"] = this.quality;
-        return data; 
+        return data;
     }
 }
 
@@ -21719,37 +21735,37 @@ export interface IResampleStretch {
 
 /** Corresponds to Xmp.Media.resampleStretch.QualityChoice and Xmp.Media.timeScaleStretch.QualityChoice */
 export enum Quality {
-    High = <any>"High", 
-    Medium = <any>"Medium", 
-    Low = <any>"Low", 
+    High = <any>"High",
+    Medium = <any>"Medium",
+    Low = <any>"Low",
 }
 
 /** Corresponds to xmpDM.AudioMusicalScaleTypeChoice */
 export enum AudioMusicalScaleType {
-    SCALE_MAJOR = <any>"SCALE_MAJOR", 
-    SCALE_MINOR = <any>"SCALE_MINOR", 
-    SCALE_BOTH = <any>"SCALE_BOTH", 
-    SCALE_NEITHER = <any>"SCALE_NEITHER", 
+    SCALE_MAJOR = <any>"SCALE_MAJOR",
+    SCALE_MINOR = <any>"SCALE_MINOR",
+    SCALE_BOTH = <any>"SCALE_BOTH",
+    SCALE_NEITHER = <any>"SCALE_NEITHER",
 }
 
 /** Corresponds to xmpDM.ShotSizeChoice */
 export enum ShotSize {
-    SHOT_ECU = <any>"SHOT_ECU", 
-    SHOT_MCU = <any>"SHOT_MCU", 
-    SHOT_CU = <any>"SHOT_CU", 
-    SHOT_MS = <any>"SHOT_MS", 
-    SHOT_WS = <any>"SHOT_WS", 
-    SHOT_MWS = <any>"SHOT_MWS", 
-    SHOT_EWS = <any>"SHOT_EWS", 
+    SHOT_ECU = <any>"SHOT_ECU",
+    SHOT_MCU = <any>"SHOT_MCU",
+    SHOT_CU = <any>"SHOT_CU",
+    SHOT_MS = <any>"SHOT_MS",
+    SHOT_WS = <any>"SHOT_WS",
+    SHOT_MWS = <any>"SHOT_MWS",
+    SHOT_EWS = <any>"SHOT_EWS",
 }
 
 /** Corresponds to xmpDM.AudioStretchModeChoice */
 export enum AudioStretchMode {
-    STRETCH_FIXED_LENGTH = <any>"STRETCH_FIXED_LENGTH", 
-    STRETCH_TIME_SCALE = <any>"STRETCH_TIME_SCALE", 
-    STRETCH_RESAMPLE = <any>"STRETCH_RESAMPLE", 
-    STRETCH_BEAT_SPLICE = <any>"STRETCH_BEAT_SPLICE", 
-    STRETCH_HYBRID = <any>"STRETCH_HYBRID", 
+    STRETCH_FIXED_LENGTH = <any>"STRETCH_FIXED_LENGTH",
+    STRETCH_TIME_SCALE = <any>"STRETCH_TIME_SCALE",
+    STRETCH_RESAMPLE = <any>"STRETCH_RESAMPLE",
+    STRETCH_BEAT_SPLICE = <any>"STRETCH_BEAT_SPLICE",
+    STRETCH_HYBRID = <any>"STRETCH_HYBRID",
 }
 
 export class TimeScaleStretch implements ITimeScaleStretch {
@@ -21785,7 +21801,7 @@ export class TimeScaleStretch implements ITimeScaleStretch {
         data["FrameOverlappingPercentage"] = this.frameOverlappingPercentage;
         data["FrameSize"] = this.frameSize;
         data["Quality"] = this.quality;
-        return data; 
+        return data;
     }
 }
 
@@ -21797,15 +21813,15 @@ export interface ITimeScaleStretch {
 
 /** Corresponds to xmpDM.TimeSignatureChoice */
 export enum TimeSignature {
-    TIME_2_4 = <any>"TIME_2_4", 
-    TIME_3_4 = <any>"TIME_3_4", 
-    TIME_4_4 = <any>"TIME_4_4", 
-    TIME_5_4 = <any>"TIME_5_4", 
-    TIME_7_4 = <any>"TIME_7_4", 
-    TIME_6_8 = <any>"TIME_6_8", 
-    TIME_9_8 = <any>"TIME_9_8", 
-    TIME_12_8 = <any>"TIME_12_8", 
-    TIME_OTHER = <any>"TIME_OTHER", 
+    TIME_2_4 = <any>"TIME_2_4",
+    TIME_3_4 = <any>"TIME_3_4",
+    TIME_4_4 = <any>"TIME_4_4",
+    TIME_5_4 = <any>"TIME_5_4",
+    TIME_7_4 = <any>"TIME_7_4",
+    TIME_6_8 = <any>"TIME_6_8",
+    TIME_9_8 = <any>"TIME_9_8",
+    TIME_12_8 = <any>"TIME_12_8",
+    TIME_OTHER = <any>"TIME_OTHER",
 }
 
 export class Track implements ITrack {
@@ -21852,7 +21868,7 @@ export class Track implements ITrack {
         }
         data["TrackName"] = this.trackName;
         data["TrackType"] = this.trackType;
-        return data; 
+        return data;
     }
 }
 
@@ -21865,9 +21881,9 @@ export interface ITrack {
 
 /** Corresponds to xmpDM.VideoAlphaModeChoice */
 export enum VideoAlphaMode {
-    ALPHA_MODE_STRAIGHT = <any>"ALPHA_MODE_STRAIGHT", 
-    ALPHA_MODE_PREMULTIPLIED = <any>"ALPHA_MODE_PREMULTIPLIED", 
-    ALPHA_MODE_NONE = <any>"ALPHA_MODE_NONE", 
+    ALPHA_MODE_STRAIGHT = <any>"ALPHA_MODE_STRAIGHT",
+    ALPHA_MODE_PREMULTIPLIED = <any>"ALPHA_MODE_PREMULTIPLIED",
+    ALPHA_MODE_NONE = <any>"ALPHA_MODE_NONE",
 }
 
 export class XmpG implements IXmpG {
@@ -21933,7 +21949,7 @@ export class XmpG implements IXmpG {
         data["Mode"] = this.mode;
         data["SwatchName"] = this.swatchName;
         data["Type"] = this.type;
-        return data; 
+        return data;
     }
 }
 
@@ -21955,36 +21971,36 @@ export interface IXmpG {
 
 /** Corresponds to xmpG.ModeChoice */
 export enum ColorantMode {
-    CMYK = <any>"CMYK", 
-    RGB = <any>"RGB", 
-    LAB = <any>"LAB", 
+    CMYK = <any>"CMYK",
+    RGB = <any>"RGB",
+    LAB = <any>"LAB",
 }
 
 /** Corresponds to xmpG.TypeChoice */
 export enum ColorantType {
-    Process = <any>"Process", 
-    Spot = <any>"Spot", 
+    Process = <any>"Process",
+    Spot = <any>"Spot",
 }
 
 /** Corresponds to xmpDM.VideoColorSpaceChoice */
 export enum VideoColorSpace {
-    COLOR_SPACE_SRGB = <any>"COLOR_SPACE_SRGB", 
-    COLOR_SPACE_CCIR_601 = <any>"COLOR_SPACE_CCIR_601", 
-    COLOR_SPACE_CCIR_709 = <any>"COLOR_SPACE_CCIR_709", 
+    COLOR_SPACE_SRGB = <any>"COLOR_SPACE_SRGB",
+    COLOR_SPACE_CCIR_601 = <any>"COLOR_SPACE_CCIR_601",
+    COLOR_SPACE_CCIR_709 = <any>"COLOR_SPACE_CCIR_709",
 }
 
 /** Corresponds to xmpDM.VideoFieldOrderChoice */
 export enum VideoFieldOrder {
-    FIELD_ORDER_UPPER = <any>"FIELD_ORDER_UPPER", 
-    FIELD_ORDER_LOWER = <any>"FIELD_ORDER_LOWER", 
-    FIELD_ORDER_PROGRESSIVE = <any>"FIELD_ORDER_PROGRESSIVE", 
+    FIELD_ORDER_UPPER = <any>"FIELD_ORDER_UPPER",
+    FIELD_ORDER_LOWER = <any>"FIELD_ORDER_LOWER",
+    FIELD_ORDER_PROGRESSIVE = <any>"FIELD_ORDER_PROGRESSIVE",
 }
 
 /** Corresponds to xmpDM.VideoFrameRateChoice */
 export enum VideoFrameRate {
-    FRAME_RATE_24 = <any>"FRAME_RATE_24", 
-    FRAME_RATE_NTSC = <any>"FRAME_RATE_NTSC", 
-    FRAME_RATE_PAL = <any>"FRAME_RATE_PAL", 
+    FRAME_RATE_24 = <any>"FRAME_RATE_24",
+    FRAME_RATE_NTSC = <any>"FRAME_RATE_NTSC",
+    FRAME_RATE_PAL = <any>"FRAME_RATE_PAL",
 }
 
 export class Dimension implements IDimension {
@@ -22020,7 +22036,7 @@ export class Dimension implements IDimension {
         data["Height"] = this.height;
         data["Width"] = this.width;
         data["Unit"] = this.unit;
-        return data; 
+        return data;
     }
 }
 
@@ -22032,22 +22048,22 @@ export interface IDimension {
 
 /** Corresponds to stDim.UnitChoice */
 export enum Unit {
-    Inch = <any>"Inch", 
-    Millimeter = <any>"Millimeter", 
-    Centimeter = <any>"Centimeter", 
-    Pixel = <any>"Pixel", 
-    Pica = <any>"Pica", 
-    Point = <any>"Point", 
+    Inch = <any>"Inch",
+    Millimeter = <any>"Millimeter",
+    Centimeter = <any>"Centimeter",
+    Pixel = <any>"Pixel",
+    Pica = <any>"Pica",
+    Point = <any>"Point",
 }
 
 /** Corresponds to xmpDM.VideoPixelDepthChoice */
 export enum VideoPixelDepth {
-    PIXEL_DEPTH_8_INT = <any>"PIXEL_DEPTH_8_INT", 
-    PIXEL_DEPTH_16_INT = <any>"PIXEL_DEPTH_16_INT", 
-    PIXEL_DEPTH_24_INT = <any>"PIXEL_DEPTH_24_INT", 
-    PIXEL_DEPTH_32_INT = <any>"PIXEL_DEPTH_32_INT", 
-    PIXEL_DEPTH_32_FLOAT = <any>"PIXEL_DEPTH_32_FLOAT", 
-    PIXEL_DEPTH_OTHER = <any>"PIXEL_DEPTH_OTHER", 
+    PIXEL_DEPTH_8_INT = <any>"PIXEL_DEPTH_8_INT",
+    PIXEL_DEPTH_16_INT = <any>"PIXEL_DEPTH_16_INT",
+    PIXEL_DEPTH_24_INT = <any>"PIXEL_DEPTH_24_INT",
+    PIXEL_DEPTH_32_INT = <any>"PIXEL_DEPTH_32_INT",
+    PIXEL_DEPTH_32_FLOAT = <any>"PIXEL_DEPTH_32_FLOAT",
+    PIXEL_DEPTH_OTHER = <any>"PIXEL_DEPTH_OTHER",
 }
 
 export class Xmpidq implements IXmpidq {
@@ -22077,7 +22093,7 @@ export class Xmpidq implements IXmpidq {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Scheme"] = this.scheme;
-        return data; 
+        return data;
     }
 }
 
@@ -22178,7 +22194,7 @@ export class XmpMM implements IXmpMM {
             for (let item of this.versions)
                 data["Versions"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -22283,7 +22299,7 @@ export class Reference implements IReference {
         data["RenditionParams"] = this.renditionParams;
         data["ToPart"] = this.toPart;
         data["VersionID"] = this.versionID;
-        return data; 
+        return data;
     }
 }
 
@@ -22309,8 +22325,8 @@ export interface IReference {
 
 /** Corresponds to stRef.MaskMarkersChoice */
 export enum MaskMarkers {
-    All = <any>"All", 
-    None = <any>"None", 
+    All = <any>"All",
+    None = <any>"None",
 }
 
 export class Event implements IEvent {
@@ -22355,7 +22371,7 @@ export class Event implements IEvent {
         data["Parameters"] = this.parameters;
         data["SoftwareAgent"] = this.softwareAgent;
         data["When"] = this.when ? this.when.toISOString() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -22370,21 +22386,21 @@ export interface IEvent {
 
 /** Corresponds to stEvt.ActionChoice */
 export enum EventAction {
-    Converted = <any>"Converted", 
-    Copied = <any>"Copied", 
-    Created = <any>"Created", 
-    Cropped = <any>"Cropped", 
-    Edited = <any>"Edited", 
-    Filtered = <any>"Filtered", 
-    Formatted = <any>"Formatted", 
-    VersionUpdated = <any>"VersionUpdated", 
-    Printed = <any>"Printed", 
-    Published = <any>"Published", 
-    Managed = <any>"Managed", 
-    Produced = <any>"Produced", 
-    Resized = <any>"Resized", 
-    Saved = <any>"Saved", 
-    Derived = <any>"Derived", 
+    Converted = <any>"Converted",
+    Copied = <any>"Copied",
+    Created = <any>"Created",
+    Cropped = <any>"Cropped",
+    Edited = <any>"Edited",
+    Filtered = <any>"Filtered",
+    Formatted = <any>"Formatted",
+    VersionUpdated = <any>"VersionUpdated",
+    Printed = <any>"Printed",
+    Published = <any>"Published",
+    Managed = <any>"Managed",
+    Produced = <any>"Produced",
+    Resized = <any>"Resized",
+    Saved = <any>"Saved",
+    Derived = <any>"Derived",
 }
 
 export class VersionInfo implements IVersionInfo {
@@ -22426,7 +22442,7 @@ export class VersionInfo implements IVersionInfo {
         data["Modifier"] = this.modifier;
         data["ModifyDate"] = this.modifyDate ? this.modifyDate.toISOString() : <any>undefined;
         data["Version"] = this.version;
-        return data; 
+        return data;
     }
 }
 
@@ -22465,7 +22481,7 @@ export class XmpNote implements IXmpNote {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["HasExtendedXMP"] = this.hasExtendedXMP;
-        return data; 
+        return data;
     }
 }
 
@@ -22477,7 +22493,7 @@ export class XmpRights implements IXmpRights {
     certificate?: string | undefined;
     marked?: boolean | undefined;
     owner?: string[] | undefined;
-    usageTerms?: { [key: string] : string; } | undefined;
+    usageTerms?: { [key: string]: string; } | undefined;
     webStatement?: string | undefined;
 
     constructor(data?: IXmpRights) {
@@ -22532,7 +22548,7 @@ export class XmpRights implements IXmpRights {
             }
         }
         data["WebStatement"] = this.webStatement;
-        return data; 
+        return data;
     }
 }
 
@@ -22540,7 +22556,7 @@ export interface IXmpRights {
     certificate?: string | undefined;
     marked?: boolean | undefined;
     owner?: string[] | undefined;
-    usageTerms?: { [key: string] : string; } | undefined;
+    usageTerms?: { [key: string]: string; } | undefined;
     webStatement?: string | undefined;
 }
 
@@ -22607,7 +22623,7 @@ export class XmpTPg implements IXmpTPg {
             for (let item of this.plateNames)
                 data["PlateNames"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -22675,7 +22691,7 @@ export class Font implements IFont {
         data["FontName"] = this.fontName;
         data["FontType"] = this.fontType;
         data["VersionString"] = this.versionString;
-        return data; 
+        return data;
     }
 }
 
@@ -22692,10 +22708,10 @@ export interface IFont {
 
 /** Corresponds to stFnt.FontTypeChoice */
 export enum FontType {
-    TrueType = <any>"TrueType", 
-    Type1 = <any>"Type1", 
-    OpenType = <any>"OpenType", 
-    OpenTypeCFF = <any>"OpenTypeCFF", 
+    TrueType = <any>"TrueType",
+    Type1 = <any>"Type1",
+    OpenType = <any>"OpenType",
+    OpenTypeCFF = <any>"OpenTypeCFF",
 }
 
 export class ExifMetadata implements IExifMetadata {
@@ -22728,7 +22744,7 @@ export class ExifMetadata implements IExifMetadata {
         data = typeof data === 'object' ? data : {};
         data["Exif"] = this.exif ? this.exif.toJSON() : <any>undefined;
         data["ExifAux"] = this.exifAux ? this.exifAux.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -22815,7 +22831,7 @@ export class Exif implements IExif {
     subjectDistance?: string | undefined;
     subjectDistanceRange?: SubjectDistanceRange | undefined;
     subjectLocation?: number[] | undefined;
-    userComment?: { [key: string] : string; } | undefined;
+    userComment?: { [key: string]: string; } | undefined;
     whiteBalance?: WhiteBalanceExif | undefined;
     nativeDigest?: string | undefined;
 
@@ -23045,7 +23061,7 @@ export class Exif implements IExif {
         }
         data["WhiteBalance"] = this.whiteBalance;
         data["NativeDigest"] = this.nativeDigest;
-        return data; 
+        return data;
     }
 }
 
@@ -23127,7 +23143,7 @@ export interface IExif {
     subjectDistance?: string | undefined;
     subjectDistanceRange?: SubjectDistanceRange | undefined;
     subjectLocation?: number[] | undefined;
-    userComment?: { [key: string] : string; } | undefined;
+    userComment?: { [key: string]: string; } | undefined;
     whiteBalance?: WhiteBalanceExif | undefined;
     nativeDigest?: string | undefined;
 }
@@ -23173,7 +23189,7 @@ export class CFAPattern implements ICFAPattern {
             for (let item of this.values)
                 data["Values"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -23185,24 +23201,24 @@ export interface ICFAPattern {
 
 /** Corresponds to exif.ColorSpaceChoice */
 export enum ColorSpace {
-    None = <any>"None", 
-    SRGB = <any>"sRGB", 
-    AdobeRGB = <any>"AdobeRGB", 
-    Uncalibrated = <any>"Uncalibrated", 
+    None = <any>"None",
+    SRGB = <any>"sRGB",
+    AdobeRGB = <any>"AdobeRGB",
+    Uncalibrated = <any>"Uncalibrated",
 }
 
 /** Corresponds to exif.ContrastChoice */
 export enum Contrast {
-    Normal = <any>"Normal", 
-    Soft = <any>"Soft", 
-    Hard = <any>"Hard", 
-    Unknown = <any>"Unknown", 
+    Normal = <any>"Normal",
+    Soft = <any>"Soft",
+    Hard = <any>"Hard",
+    Unknown = <any>"Unknown",
 }
 
 /** Corresponds to exif.CustomRenderedChoice */
 export enum CustomRendered {
-    NormalProcess = <any>"NormalProcess", 
-    CustomProcess = <any>"CustomProcess", 
+    NormalProcess = <any>"NormalProcess",
+    CustomProcess = <any>"CustomProcess",
 }
 
 export class DeviceSettings implements IDeviceSettings {
@@ -23246,7 +23262,7 @@ export class DeviceSettings implements IDeviceSettings {
             for (let item of this.settings)
                 data["Settings"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -23258,40 +23274,40 @@ export interface IDeviceSettings {
 
 /** Corresponds to exif.ExifVersionChoice */
 export enum ExifVersion {
-    V210 = <any>"V210", 
-    V220 = <any>"V220", 
-    V221 = <any>"V221", 
-    V222 = <any>"V222", 
-    V230 = <any>"V230", 
+    V210 = <any>"V210",
+    V220 = <any>"V220",
+    V221 = <any>"V221",
+    V222 = <any>"V222",
+    V230 = <any>"V230",
 }
 
 /** Corresponds to exif.ExposureModeChoice */
 export enum ExposureMode {
-    Auto = <any>"Auto", 
-    Manual = <any>"Manual", 
-    AutoBracket = <any>"AutoBracket", 
+    Auto = <any>"Auto",
+    Manual = <any>"Manual",
+    AutoBracket = <any>"AutoBracket",
 }
 
 /** Corresponds to exif.ExposureProgramChoice */
 export enum ExposureProgram {
-    Undefined = <any>"Undefined", 
-    Manual = <any>"Manual", 
-    NormalProgram = <any>"NormalProgram", 
-    AperturePriority = <any>"AperturePriority", 
-    ShutterPriority = <any>"ShutterPriority", 
-    CreativeProgram = <any>"CreativeProgram", 
-    ActionProgram = <any>"ActionProgram", 
-    PortraitMode = <any>"PortraitMode", 
-    LandscapeMode = <any>"LandscapeMode", 
-    Unknown = <any>"Unknown", 
+    Undefined = <any>"Undefined",
+    Manual = <any>"Manual",
+    NormalProgram = <any>"NormalProgram",
+    AperturePriority = <any>"AperturePriority",
+    ShutterPriority = <any>"ShutterPriority",
+    CreativeProgram = <any>"CreativeProgram",
+    ActionProgram = <any>"ActionProgram",
+    PortraitMode = <any>"PortraitMode",
+    LandscapeMode = <any>"LandscapeMode",
+    Unknown = <any>"Unknown",
 }
 
 /** Corresponds to exif.FileSourceChoice */
 export enum FileSource {
-    Other = <any>"Other", 
-    TransparentScanner = <any>"TransparentScanner", 
-    ReflexScanner = <any>"ReflexScanner", 
-    DSC = <any>"DSC", 
+    Other = <any>"Other",
+    TransparentScanner = <any>"TransparentScanner",
+    ReflexScanner = <any>"ReflexScanner",
+    DSC = <any>"DSC",
 }
 
 export class Flash implements IFlash {
@@ -23333,7 +23349,7 @@ export class Flash implements IFlash {
         data["Mode"] = this.mode;
         data["Function"] = this.function;
         data["RedEyeMode"] = this.redEyeMode;
-        return data; 
+        return data;
     }
 }
 
@@ -23347,74 +23363,74 @@ export interface IFlash {
 
 /** Corresponds to Xmp.Structure.Flash.ReturnChoice */
 export enum FlashReturn {
-    NoStrobeReturnDetection = <any>"NoStrobeReturnDetection", 
-    StrobeReturnLightNotDetected = <any>"StrobeReturnLightNotDetected", 
-    StrobeReturnLightDetected = <any>"StrobeReturnLightDetected", 
+    NoStrobeReturnDetection = <any>"NoStrobeReturnDetection",
+    StrobeReturnLightNotDetected = <any>"StrobeReturnLightNotDetected",
+    StrobeReturnLightDetected = <any>"StrobeReturnLightDetected",
 }
 
 /** Corresponds to Xmp.Structure.Flash.ModeChoice */
 export enum FlashMode {
-    Unknown = <any>"Unknown", 
-    CompulsoryFlashFiring = <any>"CompulsoryFlashFiring", 
-    CompulsoryFlashSuppression = <any>"CompulsoryFlashSuppression", 
-    AutoMode = <any>"AutoMode", 
+    Unknown = <any>"Unknown",
+    CompulsoryFlashFiring = <any>"CompulsoryFlashFiring",
+    CompulsoryFlashSuppression = <any>"CompulsoryFlashSuppression",
+    AutoMode = <any>"AutoMode",
 }
 
 /** Corresponds to exif.FlashpixVersionChoice */
 export enum FlashpixVersion {
-    V100 = <any>"V100", 
-    V101 = <any>"V101", 
-    V110 = <any>"V110", 
+    V100 = <any>"V100",
+    V101 = <any>"V101",
+    V110 = <any>"V110",
 }
 
 /** Corresponds to exif.FocalPlaneResolutionUnitChoice */
 export enum FocalPlaneResolutionUnit {
-    None = <any>"None", 
-    Inch = <any>"Inch", 
-    Meter = <any>"Meter", 
-    Centimeter = <any>"Centimeter", 
-    Millimeter = <any>"Millimeter", 
-    Micrometer = <any>"Micrometer", 
+    None = <any>"None",
+    Inch = <any>"Inch",
+    Meter = <any>"Meter",
+    Centimeter = <any>"Centimeter",
+    Millimeter = <any>"Millimeter",
+    Micrometer = <any>"Micrometer",
 }
 
 /** Corresponds to exif.GainControlChoice */
 export enum GainControl {
-    None = <any>"None", 
-    LowGainUp = <any>"LowGainUp", 
-    HighGainUp = <any>"HighGainUp", 
-    LowGainDown = <any>"LowGainDown", 
-    HighGainDown = <any>"HighGainDown", 
+    None = <any>"None",
+    LowGainUp = <any>"LowGainUp",
+    HighGainUp = <any>"HighGainUp",
+    LowGainDown = <any>"LowGainDown",
+    HighGainDown = <any>"HighGainDown",
 }
 
 /** Corresponds to exif.GPSAltitudeRefChoice */
 export enum GPSAltitudeRef {
-    AboveSeaLevel = <any>"AboveSeaLevel", 
-    BelowSeaLevel = <any>"BelowSeaLevel", 
+    AboveSeaLevel = <any>"AboveSeaLevel",
+    BelowSeaLevel = <any>"BelowSeaLevel",
 }
 
 /** Corresponds to exif.GPSDestBearingRefChoice */
 export enum GPSDestBearingRef {
-    TrueDirection = <any>"TrueDirection", 
-    MagneticDirection = <any>"MagneticDirection", 
+    TrueDirection = <any>"TrueDirection",
+    MagneticDirection = <any>"MagneticDirection",
 }
 
 /** Corresponds to exif.GPSDestDistanceRefChoice */
 export enum GPSDestDistanceRef {
-    Kilometers = <any>"Kilometers", 
-    Miles = <any>"Miles", 
-    Knots = <any>"Knots", 
+    Kilometers = <any>"Kilometers",
+    Miles = <any>"Miles",
+    Knots = <any>"Knots",
 }
 
 /** Corresponds to exif.GPSDifferentialChoice */
 export enum GPSDifferential {
-    WithoutCorrection = <any>"WithoutCorrection", 
-    WithCorrection = <any>"WithCorrection", 
+    WithoutCorrection = <any>"WithoutCorrection",
+    WithCorrection = <any>"WithCorrection",
 }
 
 /** Corresponds to exif.GPSImgDirectionRefChoice */
 export enum GPSImgDirectionRef {
-    TrueDirection = <any>"TrueDirection", 
-    MagneticDirection = <any>"MagneticDirection", 
+    TrueDirection = <any>"TrueDirection",
+    MagneticDirection = <any>"MagneticDirection",
 }
 
 export class GPSCoordinate implements IGPSCoordinate {
@@ -23447,7 +23463,7 @@ export class GPSCoordinate implements IGPSCoordinate {
         data = typeof data === 'object' ? data : {};
         data["lon"] = this.lon;
         data["lat"] = this.lat;
-        return data; 
+        return data;
     }
 }
 
@@ -23458,53 +23474,53 @@ export interface IGPSCoordinate {
 
 /** Corresponds to exif.GPSSpeedRefChoice */
 export enum GPSSpeedRef {
-    KilometersPerHour = <any>"KilometersPerHour", 
-    MilesPerHour = <any>"MilesPerHour", 
-    Knots = <any>"Knots", 
+    KilometersPerHour = <any>"KilometersPerHour",
+    MilesPerHour = <any>"MilesPerHour",
+    Knots = <any>"Knots",
 }
 
 /** Corresponds to exif.GPSStatusChoice */
 export enum GPSStatus {
-    MeasurementInProgress = <any>"MeasurementInProgress", 
-    MeasurementIsInteroperability = <any>"MeasurementIsInteroperability", 
+    MeasurementInProgress = <any>"MeasurementInProgress",
+    MeasurementIsInteroperability = <any>"MeasurementIsInteroperability",
 }
 
 /** Corresponds to exif.LightSourceChoice */
 export enum LightSource {
-    Unidentified = <any>"Unidentified", 
-    Daylight = <any>"Daylight", 
-    Fluorescent = <any>"Fluorescent", 
-    Tungsten = <any>"Tungsten", 
-    Flash = <any>"Flash", 
-    FineWeather = <any>"FineWeather", 
-    CloudyWeather = <any>"CloudyWeather", 
-    Shade = <any>"Shade", 
-    DaylightFluorescent = <any>"DaylightFluorescent", 
-    DayWhiteFluorescent = <any>"DayWhiteFluorescent", 
-    CoolWhiteFluorescent = <any>"CoolWhiteFluorescent", 
-    WhiteFluorescent = <any>"WhiteFluorescent", 
-    StandardIlluminantA = <any>"StandardIlluminantA", 
-    StandardIlluminantB = <any>"StandardIlluminantB", 
-    StandardIlluminantC = <any>"StandardIlluminantC", 
-    D55Illuminant = <any>"D55Illuminant", 
-    D65Illuminant = <any>"D65Illuminant", 
-    D75Illuminant = <any>"D75Illuminant", 
-    D50Illuminant = <any>"D50Illuminant", 
-    ISOStudioTungsten = <any>"ISOStudioTungsten", 
-    Other = <any>"Other", 
+    Unidentified = <any>"Unidentified",
+    Daylight = <any>"Daylight",
+    Fluorescent = <any>"Fluorescent",
+    Tungsten = <any>"Tungsten",
+    Flash = <any>"Flash",
+    FineWeather = <any>"FineWeather",
+    CloudyWeather = <any>"CloudyWeather",
+    Shade = <any>"Shade",
+    DaylightFluorescent = <any>"DaylightFluorescent",
+    DayWhiteFluorescent = <any>"DayWhiteFluorescent",
+    CoolWhiteFluorescent = <any>"CoolWhiteFluorescent",
+    WhiteFluorescent = <any>"WhiteFluorescent",
+    StandardIlluminantA = <any>"StandardIlluminantA",
+    StandardIlluminantB = <any>"StandardIlluminantB",
+    StandardIlluminantC = <any>"StandardIlluminantC",
+    D55Illuminant = <any>"D55Illuminant",
+    D65Illuminant = <any>"D65Illuminant",
+    D75Illuminant = <any>"D75Illuminant",
+    D50Illuminant = <any>"D50Illuminant",
+    ISOStudioTungsten = <any>"ISOStudioTungsten",
+    Other = <any>"Other",
 }
 
 /** Corresponds to exif.MeteringModeChoice */
 export enum MeteringMode {
-    Unidentified = <any>"Unidentified", 
-    Average = <any>"Average", 
-    CenterWeightedAverage = <any>"CenterWeightedAverage", 
-    Spot = <any>"Spot", 
-    MultiSpot = <any>"MultiSpot", 
-    Pattern = <any>"Pattern", 
-    Partial = <any>"Partial", 
-    Reserved = <any>"Reserved", 
-    Other = <any>"Other", 
+    Unidentified = <any>"Unidentified",
+    Average = <any>"Average",
+    CenterWeightedAverage = <any>"CenterWeightedAverage",
+    Spot = <any>"Spot",
+    MultiSpot = <any>"MultiSpot",
+    Pattern = <any>"Pattern",
+    Partial = <any>"Partial",
+    Reserved = <any>"Reserved",
+    Other = <any>"Other",
 }
 
 export class OECF implements IOECF {
@@ -23559,7 +23575,7 @@ export class OECF implements IOECF {
             for (let item of this.names)
                 data["Names"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -23572,44 +23588,44 @@ export interface IOECF {
 
 /** Corresponds to exif.SaturationChoice */
 export enum Saturation {
-    Normal = <any>"Normal", 
-    Low = <any>"Low", 
-    High = <any>"High", 
-    Unknown = <any>"Unknown", 
+    Normal = <any>"Normal",
+    Low = <any>"Low",
+    High = <any>"High",
+    Unknown = <any>"Unknown",
 }
 
 /** Corresponds to exif.SceneCaptureTypeChoice */
 export enum SceneCaptureType {
-    Standard = <any>"Standard", 
-    Landscape = <any>"Landscape", 
-    Portrait = <any>"Portrait", 
-    NightScene = <any>"NightScene", 
+    Standard = <any>"Standard",
+    Landscape = <any>"Landscape",
+    Portrait = <any>"Portrait",
+    NightScene = <any>"NightScene",
 }
 
 /** Corresponds to exif.SceneTypeChoice */
 export enum SceneType {
-    DirectlyPhotographedImage = <any>"DirectlyPhotographedImage", 
+    DirectlyPhotographedImage = <any>"DirectlyPhotographedImage",
 }
 
 /** Corresponds to exif.SensingMethodChoice */
 export enum SensingMethod {
-    Undefined = <any>"Undefined", 
-    MonochromeArea = <any>"MonochromeArea", 
-    OneChipColourAreaSensor = <any>"OneChipColourAreaSensor", 
-    TwoChipColourAreaSensor = <any>"TwoChipColourAreaSensor", 
-    ThreeChipColourAreaSensor = <any>"ThreeChipColourAreaSensor", 
-    ColourSequentialAreaSensor = <any>"ColourSequentialAreaSensor", 
-    MonochromeLinearArea = <any>"MonochromeLinearArea", 
-    TrilinearSensor = <any>"TrilinearSensor", 
-    ColourSequentialLinearSensor = <any>"ColourSequentialLinearSensor", 
+    Undefined = <any>"Undefined",
+    MonochromeArea = <any>"MonochromeArea",
+    OneChipColourAreaSensor = <any>"OneChipColourAreaSensor",
+    TwoChipColourAreaSensor = <any>"TwoChipColourAreaSensor",
+    ThreeChipColourAreaSensor = <any>"ThreeChipColourAreaSensor",
+    ColourSequentialAreaSensor = <any>"ColourSequentialAreaSensor",
+    MonochromeLinearArea = <any>"MonochromeLinearArea",
+    TrilinearSensor = <any>"TrilinearSensor",
+    ColourSequentialLinearSensor = <any>"ColourSequentialLinearSensor",
 }
 
 /** Corresponds to exif.SharpnessChoice */
 export enum Sharpness {
-    Normal = <any>"Normal", 
-    Soft = <any>"Soft", 
-    Hard = <any>"Hard", 
-    Unknown = <any>"Unknown", 
+    Normal = <any>"Normal",
+    Soft = <any>"Soft",
+    Hard = <any>"Hard",
+    Unknown = <any>"Unknown",
 }
 
 export class SFR implements ISFR {
@@ -23664,7 +23680,7 @@ export class SFR implements ISFR {
             for (let item of this.names)
                 data["Names"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -23677,17 +23693,17 @@ export interface ISFR {
 
 /** Corresponds to exif.SubjectDistanceRangeChoice */
 export enum SubjectDistanceRange {
-    Unknown = <any>"Unknown", 
-    Macro = <any>"Macro", 
-    CloseView = <any>"CloseView", 
-    DistantView = <any>"DistantView", 
+    Unknown = <any>"Unknown",
+    Macro = <any>"Macro",
+    CloseView = <any>"CloseView",
+    DistantView = <any>"DistantView",
 }
 
 /** Corresponds to exif.WhiteBalanceChoice */
 export enum WhiteBalanceExif {
-    Auto = <any>"Auto", 
-    Manual = <any>"Manual", 
-    Unknown = <any>"Unknown", 
+    Auto = <any>"Auto",
+    Manual = <any>"Manual",
+    Unknown = <any>"Unknown",
 }
 
 export class ExifAux implements IExifAux {
@@ -23720,7 +23736,7 @@ export class ExifAux implements IExifAux {
         data = typeof data === 'object' ? data : {};
         data["Lens"] = this.lens;
         data["SerialNumber"] = this.serialNumber;
-        return data; 
+        return data;
     }
 }
 
@@ -23762,7 +23778,7 @@ export class AudioMetadata extends FileMetadata implements IAudioMetadata {
                 data["AudioStreams"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -23827,7 +23843,7 @@ export class AudioStream implements IAudioStream {
         data["Resolution"] = this.resolution;
         data["SamplingRate"] = this.samplingRate;
         data["StreamSize"] = this.streamSize;
-        return data; 
+        return data;
     }
 }
 
@@ -23945,7 +23961,7 @@ export class DocumentMetadata extends FileMetadata implements IDocumentMetadata 
                 data["EmbeddedFiles"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -24003,7 +24019,7 @@ export class EpsMetadata implements IEpsMetadata {
         data["IsRasterized"] = this.isRasterized;
         data["WidthInPoints"] = this.widthInPoints;
         data["HeightInPoints"] = this.heightInPoints;
-        return data; 
+        return data;
     }
 }
 
@@ -24107,7 +24123,7 @@ export class ImageMetadata extends FileMetadata implements IImageMetadata {
         data["HasXmpData"] = this.hasXmpData;
         data["UncompressedSizeInBytes"] = this.uncompressedSizeInBytes;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -24200,7 +24216,7 @@ export class VideoMetadata extends FileMetadata implements IVideoMetadata {
                 data["AudioStreams"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -24281,7 +24297,7 @@ export class VideoStream implements IVideoStream {
         data["StreamSize"] = this.streamSize;
         data["Width"] = this.width;
         data["Rotation"] = this.rotation;
-        return data; 
+        return data;
     }
 }
 
@@ -24338,7 +24354,7 @@ export class DriveMetadata implements IDriveMetadata {
         data["FileType"] = this.fileType;
         data["Audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["Description"] = this.description;
-        return data; 
+        return data;
     }
 }
 
@@ -24385,7 +24401,7 @@ export class DriveMetadataAudit implements IDriveMetadataAudit {
         data["Modified"] = this.modified;
         data["Opened"] = this.opened;
         data["Created"] = this.created;
-        return data; 
+        return data;
     }
 }
 
@@ -24429,7 +24445,7 @@ export class OutputItem implements IOutputItem {
         data["Id"] = this.id;
         data["FilePath"] = this.filePath;
         data["OutputSource"] = this.outputSource;
-        return data; 
+        return data;
     }
 }
 
@@ -24440,8 +24456,8 @@ export interface IOutputItem {
 }
 
 export enum OutputSource {
-    Rendered = <any>"Rendered", 
-    Embedded = <any>"Embedded", 
+    Rendered = <any>"Rendered",
+    Embedded = <any>"Embedded",
 }
 
 export class FileTransfer2ContentCreateRequest implements IFileTransfer2ContentCreateRequest {
@@ -24498,7 +24514,7 @@ export class FileTransfer2ContentCreateRequest implements IFileTransfer2ContentC
             for (let item of this.contentPermissionSetIds)
                 data["ContentPermissionSetIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -24549,7 +24565,7 @@ export class FileTransferPartial2ContentCreateRequest implements IFileTransferPa
             for (let item of this.items)
                 data["Items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -24612,7 +24628,7 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
             for (let item of this.contentPermissionSetIds)
                 data["ContentPermissionSetIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -24675,7 +24691,7 @@ export class TransferSearchRequest implements ITransferSearchRequest {
         data["Start"] = this.start;
         data["Limit"] = this.limit;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -24729,7 +24745,7 @@ export class BaseResultOfTransferViewItem implements IBaseResultOfTransferViewIt
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -24763,7 +24779,7 @@ export class TransferSearchResult extends BaseResultOfTransferViewItem implement
         data = typeof data === 'object' ? data : {};
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -24818,7 +24834,7 @@ export class FileTransferSearchRequest implements IFileTransferSearchRequest {
         data["Start"] = this.start;
         data["Limit"] = this.limit;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -24871,7 +24887,7 @@ export class BaseResultOfFileTransferViewItem implements IBaseResultOfFileTransf
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -24905,7 +24921,7 @@ export class FileTransferSearchResult extends BaseResultOfFileTransferViewItem i
         data = typeof data === 'object' ? data : {};
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -24958,7 +24974,7 @@ export class FileTransferViewItem implements IFileTransferViewItem {
         data["State"] = this.state;
         data["EntityType"] = this.entityType;
         data["ContentId"] = this.contentId;
-        return data; 
+        return data;
     }
 }
 
@@ -25022,7 +25038,7 @@ export class UserSearchRequest implements IUserSearchRequest {
         data["Limit"] = this.limit;
         data["Filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["LifeCycleFilter"] = this.lifeCycleFilter;
-        return data; 
+        return data;
     }
 }
 
@@ -25076,7 +25092,7 @@ export class BaseResultOfUserViewItem implements IBaseResultOfUserViewItem {
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -25110,7 +25126,7 @@ export class UserSearchResult extends BaseResultOfUserViewItem implements IUserS
         data = typeof data === 'object' ? data : {};
         data["ElapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -25150,7 +25166,7 @@ export class UserViewItem extends UserItem implements IUserViewItem {
                 data["UserRoleIds"].push(item);
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -25227,7 +25243,7 @@ export class UserDetailViewItem extends UserItem implements IUserDetailViewItem 
                 data["OwnerTokens"].push(item.toJSON());
         }
         super.toJSON(data);
-        return data; 
+        return data;
     }
 }
 
@@ -25290,7 +25306,7 @@ export class UserAddress implements IUserAddress {
         data["City"] = this.city;
         data["Phone"] = this.phone;
         data["CountryCode"] = this.countryCode;
-        return data; 
+        return data;
     }
 }
 
@@ -25335,7 +25351,7 @@ export class UserPrivilege implements IUserPrivilege {
         data = typeof data === 'object' ? data : {};
         data["CanBeInternalContact"] = this.canBeInternalContact;
         data["CanChangeOwnProfile"] = this.canChangeOwnProfile;
-        return data; 
+        return data;
     }
 }
 
@@ -25374,7 +25390,7 @@ export class DriveViewItem implements IDriveViewItem {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["Name"] = this.name;
-        return data; 
+        return data;
     }
 }
 
@@ -25415,7 +25431,7 @@ export class OwnerTokenViewItem implements IOwnerTokenViewItem {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["UserId"] = this.userId;
-        return data; 
+        return data;
     }
 }
 
@@ -25483,7 +25499,7 @@ export class UserProfileViewItem implements IUserProfileViewItem {
         data["Zip"] = this.zip;
         data["City"] = this.city;
         data["Phone"] = this.phone;
-        return data; 
+        return data;
     }
 }
 
@@ -25594,7 +25610,7 @@ The search by filters and aggregations are unaffected. */
             for (let item of this.extendedSimpleSearchFields)
                 data["ExtendedSimpleSearchFields"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -25653,7 +25669,7 @@ export class ContentsByIdsRequest implements IContentsByIdsRequest {
             for (let item of this.contentIds)
                 data["ContentIds"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -25702,7 +25718,7 @@ export class BaseResultOfOutputDetailViewItem implements IBaseResultOfOutputDeta
                 data["Results"].push(item.toJSON());
         }
         data["PageToken"] = this.pageToken;
-        return data; 
+        return data;
     }
 }
 
@@ -25719,16 +25735,16 @@ export interface FileParameter {
 
 export interface FileResponse {
     data: Blob;
-	status: number;
+    status: number;
     fileName?: string;
-	headers?: { [name: string]: any };
+    headers?: { [name: string]: any };
 }
 
 export class SwaggerException extends Error {
     message: string;
-    status: number; 
-    response: string; 
-    result: any; 
+    status: number;
+    response: string;
+    result: any;
 
     constructor(message: string, status: number, response: string, result: any) {
         super();
@@ -25741,19 +25757,19 @@ export class SwaggerException extends Error {
 }
 
 function throwException(message: string, status: number, response: string, result?: any): Observable<any> {
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         return Observable.throw(result);
     else
         return Observable.throw(new SwaggerException(message, status, response, null));
 }
 
 function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => { 
-        let reader = new FileReader(); 
-        reader.onload = function() { 
+    return new Observable<string>((observer: any) => {
+        let reader = new FileReader();
+        reader.onload = function () {
             observer.next(this.result);
             observer.complete();
         }
-        reader.readAsText(blob); 
+        reader.readAsText(blob);
     });
 }

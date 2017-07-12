@@ -5,5 +5,8 @@ export const PICTUREPARK_CONFIGURATION = new OpaqueToken('PICTUREPARK_CONFIGURAT
 export interface PictureparkConfiguration {
     apiServer: string;
     stsServer: string;
+    customerAlias: string;
+
     redirectUrl?: string;
+    redirectRoute?: string;
 }

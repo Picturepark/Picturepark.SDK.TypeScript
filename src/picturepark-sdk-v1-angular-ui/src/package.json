@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@picturepark/sdk-v1-angular": "*",
-    "angular2-virtual-scroll": "^0.1.5"
+    "angular2-virtual-scroll": "^0.1.5",
+    "angular-auth-oidc-client": "^1.2.0"
   }
 }

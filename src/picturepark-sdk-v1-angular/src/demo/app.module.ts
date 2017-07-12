@@ -21,9 +21,10 @@ import { PICTUREPARK_API_URL, PICTUREPARK_CONFIGURATION, PictureparkConfiguratio
   providers: [
     {
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
-        apiServer: "https://devnext-api.preview-picturepark.com/",
+        apiServer: "https://devnext-api.preview-picturepark.com",
         stsServer: "https://devnext-identity.preview-picturepark.com",
-        redirectUrl: "http://localhost:4200"
+        redirectUrl: "http://localhost:4200", 
+        customerAlias: "dev"
       }
     }
   ],

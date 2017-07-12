@@ -32,17 +32,17 @@ export class LoginComponent {
 
   constructor(public authService: AuthService, 
     @Inject(LOCALE_ID) private locale: string) {
-    if (this.authService.isLoggedIn)
-      this.username = this.authService.username!;
+    // if (this.authService.isLoggedIn)
+    //   this.username = this.authService.username!;
   }
 
   async login() {
-    try {
-      await this.authService.login(this.username, this.password, this.rememberPassword);
-      this.errorMessage = '';
-      this.loggedIn.emit();
-    } catch (error) {
-      this.errorMessage = translate(TRANSLATIONS.Login.TextWrongUsernameOrPassword, this.locale);
-    }
+    // try {
+    //   await this.authService.login(this.username, this.password, this.rememberPassword);
+    //   this.errorMessage = '';
+    //   this.loggedIn.emit();
+    // } catch (error) {
+    //   this.errorMessage = translate(TRANSLATIONS.Login.TextWrongUsernameOrPassword, this.locale);
+    // }
   }
 }
