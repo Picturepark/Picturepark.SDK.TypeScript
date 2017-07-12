@@ -69,13 +69,17 @@ export class PictureparkOidcModule {
     configuration.log_console_warning_active = true;
     configuration.log_console_debug_active = false;
     configuration.max_id_token_iat_offset_allowed_in_seconds = 10;
-    configuration.override_well_known_configuration = false; 
+    configuration.override_well_known_configuration = false;
     configuration.storage = localStorage;
 
     oidcSecurityService.setupModule(configuration);
 
     if (typeof location !== "undefined" && window.location.hash) {
       oidcSecurityService.authorizedCallback();
+
+      if (window.history.replaceState) {
+        window.history.replaceState("", "", "/");
+      }
     }
   }
 }
