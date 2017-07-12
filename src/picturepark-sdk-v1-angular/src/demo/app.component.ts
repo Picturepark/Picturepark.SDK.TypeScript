@@ -1,24 +1,37 @@
 import { Component } from '@angular/core';
 
 import { AuthService, ContentService, ContentSearchRequest } from '../index';
+import { OidcSecurityService } from "angular-auth-oidc-client";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'app works!';
+  token = 'n/a';
+  data = 'n/a';
 
-  constructor(public authService: AuthService, public contentService: ContentService) {
-    this.authService.login(prompt('Username: ')!, prompt('Password: ')!).then(() => {
-      this.title = this.authService.token!;
+  constructor(
+    public authService: AuthService,
+    public contentService: ContentService) {
+  }
 
-      const request = new ContentSearchRequest();
-      request.searchString = 'm';
+  ngOnInit() {
+    this.token = this.authService.token;
+  }
 
-      this.contentService.search(request).subscribe(response => {
-        this.title = response ? JSON.stringify(response) : 'n/a';
-      });
+  login() {
+    this.authService.login();
+  }
+
+  search() {
+    this.token = this.authService.token;
+
+    const request = new ContentSearchRequest();
+    request.searchString = 'm';
+
+    this.contentService.search(request).subscribe(response => {
+      this.data = response ? JSON.stringify(response) : 'null';
     });
   }
 }
