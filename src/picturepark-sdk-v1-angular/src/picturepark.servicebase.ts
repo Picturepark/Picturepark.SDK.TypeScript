@@ -24,7 +24,6 @@ export abstract class PictureparkServiceBase {
                 if (this.authService.token) {
                     options.headers.append("Authorization", "Bearer " + this.authService.token);
                 }
-
                 options.headers.append("Picturepark-CustomerAlias", "dev");
             }
 
