@@ -15,3 +15,6 @@ cd "picturepark-sdk-v1-angular-app"
 cmd /c npm link @picturepark/sdk-v1-angular
 cmd /c npm link @picturepark/sdk-v1-angular-ui
 cd "../"
+
+rmdir -r "src/picturepark-sdk-v1-angular/src/node_modules"
+rmdir -r "src/picturepark-sdk-v1-angular-ui/src/node_modules"
