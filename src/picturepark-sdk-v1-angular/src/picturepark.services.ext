@@ -5,7 +5,7 @@ import { PICTUREPARK_API_URL } from "./picturepark.services"; // ignore
 
 import { Output, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase } from './picturepark.servicebase';
-import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from './picturepark.config';
+import { PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 import * as generated from "./picturepark.services";
 
@@ -68,9 +68,20 @@ export class AuthService {
 
     constructor(
         @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
-        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
+        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
-        this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
+
+        if (this.oidcSecurityService) {
+            this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
+        }
+    }
+
+    get apiServer() {
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkApiUrl!;
+    }
+
+    get customerAlias() {
+        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
     @Output()
@@ -90,14 +101,6 @@ export class AuthService {
 
     get token() {
         return this._token;
-    }
-
-    get apiServer() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkUrl!;
-    }
-
-    get customerAlias() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
     get isAuthorizing() {

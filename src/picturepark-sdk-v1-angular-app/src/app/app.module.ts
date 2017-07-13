@@ -13,7 +13,7 @@ import { ContentPickerComponent } from './content-picker/content-picker.componen
 import { TranslatePipe } from "pipes/translate.pipe";
 
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
-import { PictureparkModule } from '@picturepark/sdk-v1-angular';
+import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 
 // Load configuration
@@ -34,7 +34,7 @@ let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : 
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    PictureparkModule,
+    PictureparkOidcModule,
     PictureparkUiModule,
     RouterModule.forRoot([
       { path: '', component: AppComponent },
