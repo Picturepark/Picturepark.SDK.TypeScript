@@ -1,17 +1,20 @@
 {
-  "name": "picturepark-sdk-v1-angular-ui-base",
-  "version": "0.0.0",
+  "name": "@picturepark/sdk-v1-angular-ui",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "link": "npm link @picturepark/sdk-v1-angular",
+    "init": "npm run link && cmd /c if exist \"../picturepark-sdk-v1-angular/node_modules\" rmdir \"../picturepark-sdk-v1-angular/node_modules\" /s /q && npm i",
+
+    "start": "npm run init && ng serve",
+    "build": "npm run init && ng build --prod",
+    "test": "npm run init && ng test",
+    "lint": "npm run init && ng lint",
+    "e2e": "npm run init && ng e2e"
   },
   "private": true,
   "dependencies": {
+    "@picturepark/sdk-v1-angular": "*",
     "@angular/common": "^4.1.0",
     "@angular/compiler": "^4.1.0",
     "@angular/core": "^4.1.0",

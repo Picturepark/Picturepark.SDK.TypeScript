@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PICTUREPARK_API_URL } from '@picturepark/sdk-v1-angular';
-import { PictureparkUiModule } from '../index';
+import { PictureparkUiModule } from "../picturepark-ui.module";
 
-let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language; 
+let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
 
 @NgModule({
   declarations: [

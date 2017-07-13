@@ -1,6 +1,6 @@
 import { Inject, OpaqueToken } from '@angular/core';
 import { Response, RequestOptionsArgs } from '@angular/http';
-import { AuthService } from './index';
+import { AuthService } from './picturepark.services';
 
 export abstract class PictureparkServiceBase {
     public constructor(private authService: AuthService) {

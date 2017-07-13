@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AuthService, ContentService, ContentSearchRequest } from '../index';
+import { AuthService, ContentService, ContentSearchRequest } from '../picturepark.services';
 import { OidcSecurityService } from "angular-auth-oidc-client";
 
 @Component({

@@ -9,6 +9,8 @@ import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from './picturepa
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 import * as generated from "./picturepark.services";
 
+export const PICTUREPARK_CONFIGURATION = new OpaqueToken('PICTUREPARK_CONFIGURATION');
+
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
     translate(locale: string) {
         let language = locale.split("-")[0];
@@ -65,7 +67,7 @@ export class AuthService {
     private _username: string | undefined = undefined;
 
     constructor(
-        @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
+        @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
         this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());

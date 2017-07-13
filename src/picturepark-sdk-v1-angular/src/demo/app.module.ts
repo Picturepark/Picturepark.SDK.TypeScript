@@ -4,7 +4,9 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { PICTUREPARK_API_URL, PICTUREPARK_CONFIGURATION, PictureparkConfiguration, PictureparkOidcModule } from '../index';
+import { PictureparkOidcModule } from "picturepark.module";
+import { PictureparkConfiguration } from "picturepark.config";
+import { PICTUREPARK_CONFIGURATION } from "picturepark.services";
 
 @NgModule({
   declarations: [

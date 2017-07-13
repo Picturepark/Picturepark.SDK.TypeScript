@@ -1,7 +1,0 @@
-{
-  "name": "@picturepark/sdk-v1-angular",
-  "version": "0.0.1",
-  "dependencies": {
-    "angular-auth-oidc-client": "^1.2.0"
-  }
-}

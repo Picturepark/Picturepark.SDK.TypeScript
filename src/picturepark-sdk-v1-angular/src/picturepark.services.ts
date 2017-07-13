@@ -8,7 +8,7 @@
 
 import { Output, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase } from './picturepark.servicebase';
-import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from './picturepark.config';
+import { PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 
 import 'rxjs/add/observable/fromPromise';
@@ -24,6 +24,7 @@ import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response, RequestOptionsArgs } from '@angular/http';
 
 export const PICTUREPARK_API_URL = new OpaqueToken('PICTUREPARK_API_URL');
+export const PICTUREPARK_CONFIGURATION = new OpaqueToken('PICTUREPARK_CONFIGURATION');
 
 @Injectable()
 export class AuthService {
@@ -33,10 +34,13 @@ export class AuthService {
     private _username: string | undefined = undefined;
 
     constructor(
-        @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
+        @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
-        this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
+
+        if (this.oidcSecurityService) {
+            this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
+        }
     }
 
     get apiServer() {

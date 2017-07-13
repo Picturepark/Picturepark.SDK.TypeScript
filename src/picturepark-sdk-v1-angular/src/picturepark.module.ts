@@ -3,8 +3,9 @@ import { NgModule, Inject, Optional } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 
-import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from "./picturepark.config";
+import { PictureparkConfiguration } from "./picturepark.config";
 import {
+  PICTUREPARK_CONFIGURATION,
   JsonSchemaService,
   ContentService,
   BusinessProcessService,

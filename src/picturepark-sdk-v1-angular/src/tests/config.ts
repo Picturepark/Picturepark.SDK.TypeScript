@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { PICTUREPARK_API_URL, PictureparkModule } from '../index';
+import { PictureparkModule } from "picturepark.module";
+import { PICTUREPARK_API_URL } from "picturepark.services";
 
 export const testUrl = "https://devnext.preview-picturepark.com";
 export const testUsername = "picturepark.admin@acme.xxx";

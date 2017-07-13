@@ -1,9 +1,9 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { PICTUREPARK_API_URL, PictureparkModule, AuthService, 
+import { PICTUREPARK_API_URL, AuthService, 
   ContentService, ContentSearchRequest,
-  ShareContent, ShareBasicCreateRequest, ShareService } from '../index';
+  ShareContent, ShareBasicCreateRequest, ShareService } from '../picturepark.services';
 import { testUrl, testUsername, testPassword, configureTest } from './config';
 
 describe('ShareService', () => {
@@ -12,7 +12,7 @@ describe('ShareService', () => {
   it('should create embed share', async(inject([AuthService, ContentService, ShareService], 
     async (authService: AuthService, contentService: ContentService, shareService: ShareService) => {
     // arrange
-    await authService.login(testUsername, testPassword);
+    await authService.login();
 
     // act
     let request = new ContentSearchRequest();

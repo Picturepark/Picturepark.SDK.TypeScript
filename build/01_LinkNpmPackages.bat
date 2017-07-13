@@ -1,11 +1,11 @@
 cd "src/"
-cd "picturepark-sdk-v1-angular/src"
+cd "picturepark-sdk-v1-angular"
 cmd /c npm link
-cd "../../"
+cd "../"
 
-cd "picturepark-sdk-v1-angular-ui/src"
+cd "picturepark-sdk-v1-angular-ui"
 cmd /c npm link
-cd "../../"
+cd "../"
 
 cd "picturepark-sdk-v1-angular-ui"
 cmd /c npm link @picturepark/sdk-v1-angular
@@ -15,6 +15,3 @@ cd "picturepark-sdk-v1-angular-app"
 cmd /c npm link @picturepark/sdk-v1-angular
 cmd /c npm link @picturepark/sdk-v1-angular-ui
 cd "../"
-
-cmd /c rmdir "picturepark-sdk-v1-angular/src/node_modules" /s /q
-cmd /c rmdir "picturepark-sdk-v1-angular-ui/src/node_modules" /s /q
