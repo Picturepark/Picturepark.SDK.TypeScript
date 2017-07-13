@@ -7,7 +7,7 @@
 // ReSharper disable InconsistentNaming
 
 import { Output, EventEmitter } from '@angular/core';
-import { PictureparkServiceBase } from './picturepark.servicebase';
+import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
 import { PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 
@@ -25809,5 +25809,3 @@ function blobToText(blob: any): Observable<string> {
         reader.readAsText(blob); 
     });
 }
-
-export const PICTUREPARK_CONFIGURATION = new OpaqueToken('PICTUREPARK_CONFIGURATION');

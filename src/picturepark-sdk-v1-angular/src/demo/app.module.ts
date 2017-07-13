@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PictureparkOidcModule } from "picturepark.module";
 import { PictureparkConfiguration } from "picturepark.config";
-import { PICTUREPARK_CONFIGURATION } from "picturepark.services";
+import { PICTUREPARK_CONFIGURATION } from "picturepark.servicebase";
 
 @NgModule({
   declarations: [

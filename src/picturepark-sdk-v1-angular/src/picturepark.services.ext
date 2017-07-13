@@ -4,12 +4,10 @@ import { Http, Headers } from '@angular/http'; // ignore
 import { PICTUREPARK_API_URL } from "./picturepark.services"; // ignore
 
 import { Output, EventEmitter } from '@angular/core';
-import { PictureparkServiceBase } from './picturepark.servicebase';
+import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
 import { PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
 import * as generated from "./picturepark.services";
-
-export const PICTUREPARK_CONFIGURATION = new OpaqueToken('PICTUREPARK_CONFIGURATION');
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
     translate(locale: string) {
