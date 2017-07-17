@@ -51,7 +51,7 @@ export class PictureparkOidcModule {
     @Inject(AuthService) authService: AuthService,
     @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
     @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkConfiguration) {
-
+    
     let redirectRoute = "/pcpToken";
     let configuration = new OpenIDImplicitFlowConfiguration();
     configuration.client_id = 'picturepark_frontend';
@@ -70,10 +70,6 @@ export class PictureparkOidcModule {
     configuration.max_id_token_iat_offset_allowed_in_seconds = 10;
     configuration.override_well_known_configuration = false;
     configuration.storage = localStorage;
-
-    console.log("OidcSecurityService configuration:");
-    console.log(configuration);
-    debugger;
 
     oidcSecurityService.setupModule(configuration);
 

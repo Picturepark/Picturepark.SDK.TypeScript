@@ -16,9 +16,18 @@ import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '@picturepar
 import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 
-// Load configuration
-let appRootTag = document.getElementsByTagName('app-root')[0];
-let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
+export function LocaleIdFactory() {
+  return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
+}
+
+export function PictureparkConfigurationFactory() {
+  let appRootTag = document.getElementsByTagName('app-root')[0];
+  return <PictureparkConfiguration>{
+    apiServer: appRootTag.getAttribute('picturepark-api-server'),
+    stsServer: appRootTag.getAttribute('picturepark-sts-server'),
+    customerAlias: appRootTag.getAttribute('customer-alias')
+  }
+}
 
 @NgModule({
   declarations: [
@@ -42,15 +51,10 @@ let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : 
     ])
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: userLanguage },
-    {
-      provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
-        apiServer: appRootTag.getAttribute('picturepark-api-server'),
-        stsServer: appRootTag.getAttribute('picturepark-sts-server'),
-        customerAlias: appRootTag.getAttribute('customer-alias')
-      }
-    }
+    { provide: LOCALE_ID, useFactory: LocaleIdFactory },
+    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
