@@ -11,10 +11,10 @@ Install the following NPM packages:
 - [@picturepark/sdk-v1-angular](https://www.npmjs.com/package/@picturepark/sdk-v1-angular): The client proxies to access the Picturepark API
 - [@picturepark/sdk-v1-angular-ui](https://www.npmjs.com/package/@picturepark/sdk-v1-angular-ui): The predefined Picturepark UI components
 
-Register the Picturepark SDK modules in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_URL` token:
+Register the Picturepark SDK modules in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
 
 ```ts
-import { PICTUREPARK_URL } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_API_URL } from '@picturepark/sdk-v1-angular';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
     PictureparkUiModule
   ],
   providers: [
-    { provide: PICTUREPARK_URL, useValue: "https://devnext.preview-picturepark.com" }
+    { provide: PICTUREPARK_API_URL, useValue: "https://devnext.preview-picturepark.com" }
   ],
   bootstrap: [ AppComponent ]
 })

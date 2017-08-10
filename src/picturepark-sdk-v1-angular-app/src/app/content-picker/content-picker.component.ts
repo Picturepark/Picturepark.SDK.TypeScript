@@ -3,13 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 
 import {
   AggregationFilter,
-  ContentViewItem,
+  Content,
   AuthService,
   ShareService,
   ShareContent,
   ShareEmbedCreateRequest,
-  ShareEmbedDetailViewItem, 
-  AggregationResult
+  ShareEmbedDetail,
+  AggregationResult,
+  OutputAccess
 } from '@picturepark/sdk-v1-angular';
 
 import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angular-ui';
@@ -23,7 +24,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   selectedFilters: AggregationFilter[] = [];
   selectionMode = SelectionMode.Multiple;
 
-  selectedItems: ContentViewItem[] = [];
+  selectedItems: Content[] = [];
   aggregations: AggregationResult[] = [];
 
   loading = false;
@@ -35,17 +36,12 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     public authService: AuthService) {
   }
 
-  @ViewChild('contentBrowserContainer')
-  contentBrowserContainer: ElementRef;
-
-  @ViewChild('aggregationFilterContainer')
-  aggregationFilterContainer: ElementRef;
-
   @ViewChild('contentBrowser')
   private contentBrowser: ContentBrowserComponent;
 
   contentBrowserColumns = 3;
   contentBrowserHeight = '500px';
+  aggregationFilterHeight = '0px';
 
   onWindowUnload = () => {
     if (!this.messagePosted && window.opener)
@@ -56,12 +52,17 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     this.recalculateSizes();
   };
 
-  ngOnInit(): void {
+  ngOnInit() {
+    if (this.authService.isAuthorizing === false)
+      this.authService.login();
+
     if (this.route.snapshot.queryParams["postUrl"])
       this.postUrl = this.route.snapshot.queryParams["postUrl"];
 
     window.addEventListener("unload", this.onWindowUnload, false);
     window.addEventListener("resize", this.onWindowResized, false);
+
+    this.recalculateSizes();
   }
 
   ngAfterViewInit() {
@@ -84,11 +85,12 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
         this.loading = true;
 
         let result = await this.shareService.create(new ShareEmbedCreateRequest({
-          contents: contentItems
+          contents: contentItems,
+          outputAccess: OutputAccess.Full
         })).toPromise();
 
         if (result) {
-          let share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetailViewItem;
+          let share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
           let postMessage = JSON.stringify({
             token: share.token,
             shareId: share.id!,
@@ -111,19 +113,15 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   recalculateSizes() {
-    if (this.contentBrowserContainer && this.aggregationFilterContainer) {
-      let windowHeight = window.innerHeight;
-      let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    let windowWidth = window.innerWidth;
 
-      this.contentBrowserHeight = (windowHeight - 160 + 22) + 'px';
-      this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
-      
-      (<HTMLElement>this.contentBrowserContainer.nativeElement).style.height = this.contentBrowserHeight;
-      (<HTMLElement>this.aggregationFilterContainer.nativeElement).style.height = (windowHeight - 190 + 22) + 'px';
+    this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
+    this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
+    this.aggregationFilterHeight = (windowHeight - 190 + 20) + 'px';
 
-      if (this.contentBrowser)
-        this.contentBrowser.refresh();
-    }
+    if (this.contentBrowser)
+      this.contentBrowser.refresh();
   }
 
   cancel() {

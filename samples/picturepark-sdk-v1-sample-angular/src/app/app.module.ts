@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-import { PICTUREPARK_URL } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_API_URL } from '@picturepark/sdk-v1-angular';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
     PictureparkUiModule
   ],
   providers: [
-    { provide: PICTUREPARK_URL, useValue: "https://devnext.preview-picturepark.com" }
+    { provide: PICTUREPARK_API_URL, useValue: "https://devnext.preview-picturepark.com" }
   ],
   bootstrap: [AppComponent]
 })

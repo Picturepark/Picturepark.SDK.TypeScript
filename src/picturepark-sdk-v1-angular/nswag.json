@@ -45,7 +45,8 @@
       "handleReferences": false,
       "generateConstructorInterface": true,
       "importRequiredTypes": true,
-      "baseUrlTokenName": "PICTUREPARK_URL",
+      "useGetBaseUrlMethod": true,
+      "baseUrlTokenName": "PICTUREPARK_API_URL",
       "serviceHost": ".",
       "output": "src/picturepark.services.ts"
     }

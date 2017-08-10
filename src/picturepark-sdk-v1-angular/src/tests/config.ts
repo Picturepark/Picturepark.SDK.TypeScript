@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { PICTUREPARK_URL, PictureparkModule } from '../index';
-import { PICTUREPARK_REFRESH_TOKEN } from '../picturepark.servicebase';
+import { PictureparkModule } from "picturepark.module";
+import { PICTUREPARK_API_URL } from "picturepark.services";
 
 export const testUrl = "https://devnext.preview-picturepark.com";
 export const testUsername = "picturepark.admin@acme.xxx";
@@ -10,8 +10,7 @@ export function configureTest(){
     TestBed.configureTestingModule({
       imports: [ PictureparkModule ],
       providers: [
-        { provide: PICTUREPARK_URL, useValue: testUrl }, 
-        { provide: PICTUREPARK_REFRESH_TOKEN, useValue: false }
+        { provide: PICTUREPARK_API_URL, useValue: testUrl }
       ]
     });
     TestBed.compileComponents();

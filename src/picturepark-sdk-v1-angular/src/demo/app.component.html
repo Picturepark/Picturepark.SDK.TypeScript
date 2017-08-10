@@ -1,4 +1,17 @@
 <h1>picturepark-sdk-v1-angular</h1>
-<pre>
-  {{title}}
+
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>
+<button (click)="search()" *ngIf="authService.isAuthorized">Search</button>
+
+<p>
+  Token: {{authService.token}}, Username: {{authService.username}}
+</p>
+<div *ngIf="authService.isAuthorized">
+  <p>
+    Data:
+  </p>
+  <pre>
+  {{data}}
 </pre>
+</div>

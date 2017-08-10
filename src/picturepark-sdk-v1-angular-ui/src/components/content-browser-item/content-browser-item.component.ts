@@ -3,7 +3,7 @@ import { InputConverter, StringConverter } from '../converter';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { ContentService, ContentSearchRequest, ContentSearchResult, ThumbnailSize } from '@picturepark/sdk-v1-angular';
-import { ContentViewItemModel } from '../content-browser/content-browser.component';
+import { ContentModel } from '../content-browser/content-browser.component';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -11,7 +11,7 @@ import { ContentViewItemModel } from '../content-browser/content-browser.compone
 })
 export class ContentBrowserItemComponent implements OnChanges {
   @Input()
-  itemModel: ContentViewItemModel;
+  itemModel: ContentModel;
 
   thumbnailUrl: SafeUrl | null = null;
 
@@ -27,8 +27,10 @@ export class ContentBrowserItemComponent implements OnChanges {
   async refresh() {
     if (this.itemModel) {
       try {
-        var blob = await this.contentService.downloadThumbnail(this.itemModel.item.id!, ThumbnailSize.Medium).toPromise();
-        this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        var response = await this.contentService.downloadThumbnail(this.itemModel.item.id!, ThumbnailSize.Medium).toPromise();
+        if (response) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
+        }
       } catch (error) {
         this.thumbnailUrl = null;
       }

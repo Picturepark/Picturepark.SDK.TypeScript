@@ -4,10 +4,11 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">Server URL</div>
-    <div class="panel-body">{{url}}</div>
+    <div class="panel-body">{{authService.apiServer}}</div>
   </div>
 
-  <pp-login></pp-login>
+  <button *ngIf="!authService.isAuthorized" (click)="login()">Login</button>
+  <!-- <pp-login></pp-login> -->
   <pp-logout></pp-logout>
 
   <h2>Widgets</h2>

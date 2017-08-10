@@ -4,10 +4,10 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { PICTUREPARK_URL } from '@picturepark/sdk-v1-angular';
-import { PictureparkUiModule } from '../index';
+import { PICTUREPARK_API_URL } from '@picturepark/sdk-v1-angular';
+import { PictureparkUiModule } from "../picturepark-ui.module";
 
-let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language; 
+let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ let userLanguage = (<any>navigator).languages ? (<any>navigator).languages[0] : 
   ],
   providers: [
     { provide: LOCALE_ID, useValue: userLanguage },
-    { provide: PICTUREPARK_URL, useValue: "https://devnext.preview-picturepark.com" }
+    { provide: PICTUREPARK_API_URL, useValue: "https://devnext.preview-picturepark.com" }
   ],
   bootstrap: [AppComponent]
 })

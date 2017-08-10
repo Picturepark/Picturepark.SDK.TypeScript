@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { InputConverter, StringConverter } from '../converter';
 
-import { UserService, ChannelViewItem } from '@picturepark/sdk-v1-angular';
+import { UserService, Channel } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-channel-picker',
@@ -9,7 +9,7 @@ import { UserService, ChannelViewItem } from '@picturepark/sdk-v1-angular';
 })
 export class ChannelPickerComponent implements OnInit, OnChanges {
   private isLoading = true;
-  channels: ChannelViewItem[] | null;
+  channels: Channel[] | null;
 
   @Input()
   label = '';
