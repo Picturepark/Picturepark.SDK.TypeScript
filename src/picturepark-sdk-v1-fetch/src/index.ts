@@ -24,7 +24,7 @@ export class ContentClient {
      * @timeout Maximum time in milliseconds to wait for the business process completed state.
      * @return ContentDoc
      */
-    updateTransferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | undefined, timeout: number | undefined): Promise<ContentDoc | null> {
+    updateTransferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | undefined, timeout: number | undefined): Promise<ContentDetail | null> {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/Ownership/Transfer?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -49,12 +49,12 @@ export class ContentClient {
         });
     }
 
-    protected processUpdateTransferOwnership(response: Response): Promise<ContentDoc | null> {
+    protected processUpdateTransferOwnership(response: Response): Promise<ContentDetail | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: ContentDoc | null = null;
-            result200 = _responseText === "" ? null : <ContentDoc>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: ContentDetail | null = null;
+            result200 = _responseText === "" ? null : <ContentDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -68,7 +68,7 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<ContentDoc | null>(<any>null);
+        return Promise.resolve<ContentDetail | null>(<any>null);
     }
 
     /**
@@ -127,7 +127,7 @@ export class ContentClient {
         return Promise.resolve<ContentDetail[] | null>(<any>null);
     }
 
-    transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Contents/Many/Ownership/Transfer";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -147,12 +147,12 @@ export class ContentClient {
         });
     }
 
-    protected processTransferOwnershipMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -166,7 +166,7 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
@@ -863,7 +863,7 @@ export class ContentClient {
      * @contentId The id of the content to replace
      * @updateRequest Update request
      */
-    updateFile(contentId: string, updateRequest: ContentFileUpdateRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    updateFile(contentId: string, updateRequest: ContentFileUpdateRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Contents/{ContentId}/File";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -886,12 +886,12 @@ export class ContentClient {
         });
     }
 
-    protected processUpdateFile(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processUpdateFile(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -905,7 +905,7 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     reactivate(contentId: string, resolve: boolean, timeout: number | undefined, patterns: string[] | undefined): Promise<ContentDetail | null> {
@@ -958,7 +958,7 @@ export class ContentClient {
         return Promise.resolve<ContentDetail | null>(<any>null);
     }
 
-    deactivateMany(deactivationRequest: ContentDeactivationRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    deactivateMany(deactivationRequest: ContentDeactivationRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Contents/Many/Deactivate";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -978,12 +978,12 @@ export class ContentClient {
         });
     }
 
-    protected processDeactivateMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processDeactivateMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -997,10 +997,10 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
-    reactivateMany(reactivationRequest: ContentReactivationRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    reactivateMany(reactivationRequest: ContentReactivationRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Contents/Many/Reactivate";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1020,12 +1020,12 @@ export class ContentClient {
         });
     }
 
-    protected processReactivateMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processReactivateMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -1039,15 +1039,15 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
      * Update Many - Metadata
      * @updateRequest The metadata update request.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Contents/Many/Metadata";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1067,12 +1067,12 @@ export class ContentClient {
         });
     }
 
-    protected processUpdateMetadataMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -1086,15 +1086,15 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
      * Update Many - Permissions
      * @updateRequest The permissions update request.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[] | undefined): Promise<BusinessProcessViewItem | null> {
+    updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[] | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Contents/Many/Permissions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1114,12 +1114,12 @@ export class ContentClient {
         });
     }
 
-    protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -1133,7 +1133,7 @@ export class ContentClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 }
 
@@ -1189,7 +1189,7 @@ export class BusinessProcessClient {
         return Promise.resolve<BusinessProcessSearchResult | null>(<any>null);
     }
 
-    start(processDefinitionId: string, request: StartProcessRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    start(processDefinitionId: string, request: StartProcessRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/BusinessProcesses/ProcessDefinitions/{ProcessDefinitionId}/Start";
         if (processDefinitionId === undefined || processDefinitionId === null)
             throw new Error("The parameter 'processDefinitionId' must be defined.");
@@ -1212,7 +1212,7 @@ export class BusinessProcessClient {
         });
     }
 
-    protected processStart(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processStart(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1222,8 +1222,8 @@ export class BusinessProcessClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1231,7 +1231,7 @@ export class BusinessProcessClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     markAsEnded(processId: string): Promise<void> {
@@ -1418,7 +1418,7 @@ export class DocumentHistoryClient {
         return Promise.resolve<DocumentHistorySearchResult | null>(<any>null);
     }
 
-    get(id: string): Promise<DocumentHistoryViewItem | null> {
+    get(id: string): Promise<DocumentHistory | null> {
         let url_ = this.baseUrl + "/V1/History/{Id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1438,7 +1438,7 @@ export class DocumentHistoryClient {
         });
     }
 
-    protected processGet(response: Response): Promise<DocumentHistoryViewItem | null> {
+    protected processGet(response: Response): Promise<DocumentHistory | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1448,8 +1448,8 @@ export class DocumentHistoryClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: DocumentHistoryViewItem | null = null;
-            result200 = _responseText === "" ? null : <DocumentHistoryViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: DocumentHistory | null = null;
+            result200 = _responseText === "" ? null : <DocumentHistory>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1457,10 +1457,10 @@ export class DocumentHistoryClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<DocumentHistoryViewItem | null>(<any>null);
+        return Promise.resolve<DocumentHistory | null>(<any>null);
     }
 
-    getVersion(id: string, version: string): Promise<DocumentHistoryViewItem | null> {
+    getVersion(id: string, version: string): Promise<DocumentHistory | null> {
         let url_ = this.baseUrl + "/V1/History/{Id}/{Version}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1483,7 +1483,7 @@ export class DocumentHistoryClient {
         });
     }
 
-    protected processGetVersion(response: Response): Promise<DocumentHistoryViewItem | null> {
+    protected processGetVersion(response: Response): Promise<DocumentHistory | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1493,8 +1493,8 @@ export class DocumentHistoryClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: DocumentHistoryViewItem | null = null;
-            result200 = _responseText === "" ? null : <DocumentHistoryViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: DocumentHistory | null = null;
+            result200 = _responseText === "" ? null : <DocumentHistory>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1502,10 +1502,10 @@ export class DocumentHistoryClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<DocumentHistoryViewItem | null>(<any>null);
+        return Promise.resolve<DocumentHistory | null>(<any>null);
     }
 
-    getDifferenceLatest(id: string, oldVersion: number): Promise<DocumentHistoryDifferenceViewItem | null> {
+    getDifferenceLatest(id: string, oldVersion: number): Promise<DocumentHistoryDifference | null> {
         let url_ = this.baseUrl + "/V1/History/{Id}/Difference/{OldVersion}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1528,7 +1528,7 @@ export class DocumentHistoryClient {
         });
     }
 
-    protected processGetDifferenceLatest(response: Response): Promise<DocumentHistoryDifferenceViewItem | null> {
+    protected processGetDifferenceLatest(response: Response): Promise<DocumentHistoryDifference | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1538,8 +1538,8 @@ export class DocumentHistoryClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: DocumentHistoryDifferenceViewItem | null = null;
-            result200 = _responseText === "" ? null : <DocumentHistoryDifferenceViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: DocumentHistoryDifference | null = null;
+            result200 = _responseText === "" ? null : <DocumentHistoryDifference>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1547,10 +1547,10 @@ export class DocumentHistoryClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<DocumentHistoryDifferenceViewItem | null>(<any>null);
+        return Promise.resolve<DocumentHistoryDifference | null>(<any>null);
     }
 
-    getDifference(id: string, oldVersion: number, newVersion: number): Promise<DocumentHistoryDifferenceViewItem | null> {
+    getDifference(id: string, oldVersion: number, newVersion: number): Promise<DocumentHistoryDifference | null> {
         let url_ = this.baseUrl + "/V1/History/{Id}/Difference/{OldVersion}/{NewVersion}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1576,7 +1576,7 @@ export class DocumentHistoryClient {
         });
     }
 
-    protected processGetDifference(response: Response): Promise<DocumentHistoryDifferenceViewItem | null> {
+    protected processGetDifference(response: Response): Promise<DocumentHistoryDifference | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1586,8 +1586,8 @@ export class DocumentHistoryClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: DocumentHistoryDifferenceViewItem | null = null;
-            result200 = _responseText === "" ? null : <DocumentHistoryDifferenceViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: DocumentHistoryDifference | null = null;
+            result200 = _responseText === "" ? null : <DocumentHistoryDifference>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1595,7 +1595,7 @@ export class DocumentHistoryClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<DocumentHistoryDifferenceViewItem | null>(<any>null);
+        return Promise.resolve<DocumentHistoryDifference | null>(<any>null);
     }
 }
 
@@ -1728,9 +1728,9 @@ export class ListItemClient {
     /**
      * Create Many
      * @objects A list of ListItemCreateRequests.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    createMany(objects: ListItemCreateRequest[] | undefined): Promise<BusinessProcessViewItem | null> {
+    createMany(objects: ListItemCreateRequest[] | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/ListItems/Many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1750,7 +1750,7 @@ export class ListItemClient {
         });
     }
 
-    protected processCreateMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processCreateMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1760,8 +1760,8 @@ export class ListItemClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1769,15 +1769,15 @@ export class ListItemClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
      * Delete Many
      * @ids The list item id list.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    deleteMany(ids: string[] | undefined): Promise<BusinessProcessViewItem | null> {
+    deleteMany(ids: string[] | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/ListItems/Many?";
         if (ids !== undefined)
             ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
@@ -1796,7 +1796,7 @@ export class ListItemClient {
         });
     }
 
-    protected processDeleteMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processDeleteMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1806,8 +1806,8 @@ export class ListItemClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1815,15 +1815,15 @@ export class ListItemClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
      * Update Many
      * @objects A list of ListItemUpdateRequests.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    updateMany(objects: ListItemUpdateRequest[] | undefined): Promise<BusinessProcessViewItem | null> {
+    updateMany(objects: ListItemUpdateRequest[] | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/ListItems/Many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1843,7 +1843,7 @@ export class ListItemClient {
         });
     }
 
-    protected processUpdateMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processUpdateMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1853,8 +1853,8 @@ export class ListItemClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1862,7 +1862,7 @@ export class ListItemClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
@@ -2303,9 +2303,9 @@ export class SchemaClient {
     /**
      * Get Many
      * @ids Comma separated list of schema ids
-     * @return SchemaDetailViewItem
+     * @return SchemaDetail
      */
-    getAll(ids: string[] | undefined): Promise<SchemaDetailViewItem[] | null> {
+    getAll(ids: string[] | undefined): Promise<SchemaDetail[] | null> {
         let url_ = this.baseUrl + "/V1/Schemas?";
         if (ids !== undefined)
             ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
@@ -2324,7 +2324,7 @@ export class SchemaClient {
         });
     }
 
-    protected processGetAll(response: Response): Promise<SchemaDetailViewItem[] | null> {
+    protected processGetAll(response: Response): Promise<SchemaDetail[] | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2334,8 +2334,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: SchemaDetailViewItem[] | null = null;
-            result200 = _responseText === "" ? null : <SchemaDetailViewItem[]>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: SchemaDetail[] | null = null;
+            result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2343,15 +2343,15 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<SchemaDetailViewItem[] | null>(<any>null);
+        return Promise.resolve<SchemaDetail[] | null>(<any>null);
     }
 
     /**
      * Create Single
      * @schema The schema create request.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    create(schema: SchemaCreateRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    create(schema: SchemaCreateRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Schemas";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2371,7 +2371,7 @@ export class SchemaClient {
         });
     }
 
-    protected processCreate(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processCreate(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2381,8 +2381,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2390,15 +2390,15 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
      * Get Single
      * @schemaId The schema id.
-     * @return SchemaDetailViewItem
+     * @return SchemaDetail
      */
-    get(schemaId: string): Promise<SchemaDetailViewItem | null> {
+    get(schemaId: string): Promise<SchemaDetail | null> {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
@@ -2418,7 +2418,7 @@ export class SchemaClient {
         });
     }
 
-    protected processGet(response: Response): Promise<SchemaDetailViewItem | null> {
+    protected processGet(response: Response): Promise<SchemaDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2428,8 +2428,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: SchemaDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <SchemaDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: SchemaDetail | null = null;
+            result200 = _responseText === "" ? null : <SchemaDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2437,16 +2437,16 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<SchemaDetailViewItem | null>(<any>null);
+        return Promise.resolve<SchemaDetail | null>(<any>null);
     }
 
     /**
      * Update Single
      * @schemaId The schema id.
      * @schema The schema update request.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    update(schemaId: string, schema: SchemaUpdateRequest | undefined): Promise<BusinessProcessViewItem | null> {
+    update(schemaId: string, schema: SchemaUpdateRequest | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
@@ -2469,7 +2469,7 @@ export class SchemaClient {
         });
     }
 
-    protected processUpdate(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processUpdate(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2479,8 +2479,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2488,15 +2488,15 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
      * Delete Single
      * @schemaId The schema id.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    delete(schemaId: string): Promise<BusinessProcessViewItem | null> {
+    delete(schemaId: string): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Schemas/{SchemaId}";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
@@ -2516,7 +2516,7 @@ export class SchemaClient {
         });
     }
 
-    protected processDelete(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processDelete(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2526,8 +2526,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2535,7 +2535,7 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
@@ -2595,7 +2595,7 @@ export class SchemaClient {
      * @schemaSearchRequest The schema search request.
      * @return Schema result set.
      */
-    search(schemaSearchRequest: SchemaSearchRequest | undefined): Promise<BaseResultOfSchemaViewItem | null> {
+    search(schemaSearchRequest: SchemaSearchRequest | undefined): Promise<BaseResultOfSchema | null> {
         let url_ = this.baseUrl + "/V1/Schemas/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2615,7 +2615,7 @@ export class SchemaClient {
         });
     }
 
-    protected processSearch(response: Response): Promise<BaseResultOfSchemaViewItem | null> {
+    protected processSearch(response: Response): Promise<BaseResultOfSchema | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2625,8 +2625,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfSchemaViewItem | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfSchemaViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BaseResultOfSchema | null = null;
+            result200 = _responseText === "" ? null : <BaseResultOfSchema>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2634,7 +2634,7 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BaseResultOfSchemaViewItem | null>(<any>null);
+        return Promise.resolve<BaseResultOfSchema | null>(<any>null);
     }
 }
 
@@ -2745,9 +2745,9 @@ export class PermissionClient {
     /**
      * Get Content Permission Single
      * @permissionSetId The content permission set id.
-     * @return ContentPermissionSetDetailViewItem
+     * @return ContentPermissionSetDetail
      */
-    getContentPermissions(permissionSetId: string): Promise<ContentPermissionSetDetailViewItem | null> {
+    getContentPermissions(permissionSetId: string): Promise<ContentPermissionSetDetail | null> {
         let url_ = this.baseUrl + "/V1/Permission/ContentPermissionSets/{PermissionSetId}";
         if (permissionSetId === undefined || permissionSetId === null)
             throw new Error("The parameter 'permissionSetId' must be defined.");
@@ -2767,7 +2767,7 @@ export class PermissionClient {
         });
     }
 
-    protected processGetContentPermissions(response: Response): Promise<ContentPermissionSetDetailViewItem | null> {
+    protected processGetContentPermissions(response: Response): Promise<ContentPermissionSetDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2777,8 +2777,8 @@ export class PermissionClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: ContentPermissionSetDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <ContentPermissionSetDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: ContentPermissionSetDetail | null = null;
+            result200 = _responseText === "" ? null : <ContentPermissionSetDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2786,7 +2786,7 @@ export class PermissionClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<ContentPermissionSetDetailViewItem | null>(<any>null);
+        return Promise.resolve<ContentPermissionSetDetail | null>(<any>null);
     }
 
     /**
@@ -2839,9 +2839,9 @@ export class PermissionClient {
     /**
      * Get Schema Permission Single
      * @permissionSetId The schema permission set id.
-     * @return SchemaPermissionSetDetailViewItem
+     * @return SchemaPermissionSetDetail
      */
-    getSchemaPermissions(permissionSetId: string): Promise<SchemaPermissionSetDetailViewItem | null> {
+    getSchemaPermissions(permissionSetId: string): Promise<SchemaPermissionSetDetail | null> {
         let url_ = this.baseUrl + "/V1/Permission/SchemaPermissionSets/{PermissionSetId}";
         if (permissionSetId === undefined || permissionSetId === null)
             throw new Error("The parameter 'permissionSetId' must be defined.");
@@ -2861,7 +2861,7 @@ export class PermissionClient {
         });
     }
 
-    protected processGetSchemaPermissions(response: Response): Promise<SchemaPermissionSetDetailViewItem | null> {
+    protected processGetSchemaPermissions(response: Response): Promise<SchemaPermissionSetDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2871,8 +2871,8 @@ export class PermissionClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: SchemaPermissionSetDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <SchemaPermissionSetDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: SchemaPermissionSetDetail | null = null;
+            result200 = _responseText === "" ? null : <SchemaPermissionSetDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2880,7 +2880,7 @@ export class PermissionClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<SchemaPermissionSetDetailViewItem | null>(<any>null);
+        return Promise.resolve<SchemaPermissionSetDetail | null>(<any>null);
     }
 }
 
@@ -2894,7 +2894,7 @@ export class PublicAccessClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getVersion(): Promise<VersionInfoViewItem | null> {
+    getVersion(): Promise<VersionInfo | null> {
         let url_ = this.baseUrl + "/V1/PublicAccess/Version";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2911,12 +2911,12 @@ export class PublicAccessClient {
         });
     }
 
-    protected processGetVersion(response: Response): Promise<VersionInfoViewItem | null> {
+    protected processGetVersion(response: Response): Promise<VersionInfo | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: VersionInfoViewItem | null = null;
-            result200 = _responseText === "" ? null : <VersionInfoViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: VersionInfo | null = null;
+            result200 = _responseText === "" ? null : <VersionInfo>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2924,10 +2924,10 @@ export class PublicAccessClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<VersionInfoViewItem | null>(<any>null);
+        return Promise.resolve<VersionInfo | null>(<any>null);
     }
 
-    getShare(token: string | undefined): Promise<ShareBaseDetailViewItem | null> {
+    getShare(token: string | undefined): Promise<ShareBaseDetail | null> {
         let url_ = this.baseUrl + "/V1/PublicAccess/GetShare?";
         if (token === undefined)
             throw new Error("The parameter 'token' must be defined.");
@@ -2948,7 +2948,7 @@ export class PublicAccessClient {
         });
     }
 
-    protected processGetShare(response: Response): Promise<ShareBaseDetailViewItem | null> {
+    protected processGetShare(response: Response): Promise<ShareBaseDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2958,8 +2958,8 @@ export class PublicAccessClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: ShareBaseDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <ShareBaseDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: ShareBaseDetail | null = null;
+            result200 = _responseText === "" ? null : <ShareBaseDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2967,7 +2967,7 @@ export class PublicAccessClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<ShareBaseDetailViewItem | null>(<any>null);
+        return Promise.resolve<ShareBaseDetail | null>(<any>null);
     }
 }
 
@@ -2987,9 +2987,9 @@ export class ShareClient {
      * @updateRequest The share update request.
      * @resolve Resolves the data of referenced list items into the shares content.
      * @timeout Maximum time in milliseconds to wait for the business process completed state.
-     * @return ShareViewItem
+     * @return Share
      */
-    update(id: string, updateRequest: ShareBaseUpdateRequest | undefined, resolve: boolean, timeout: number | undefined): Promise<BaseResultOfShareBaseViewItem | null> {
+    update(id: string, updateRequest: ShareBaseUpdateRequest | undefined, resolve: boolean, timeout: number | undefined): Promise<BaseResultOfShareBase | null> {
         let url_ = this.baseUrl + "/V1/Shares/{Id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -3018,7 +3018,7 @@ export class ShareClient {
         });
     }
 
-    protected processUpdate(response: Response): Promise<BaseResultOfShareBaseViewItem | null> {
+    protected processUpdate(response: Response): Promise<BaseResultOfShareBase | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3032,8 +3032,8 @@ export class ShareClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfShareBaseViewItem | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfShareBaseViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BaseResultOfShareBase | null = null;
+            result200 = _responseText === "" ? null : <BaseResultOfShareBase>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3041,7 +3041,7 @@ export class ShareClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BaseResultOfShareBaseViewItem | null>(<any>null);
+        return Promise.resolve<BaseResultOfShareBase | null>(<any>null);
     }
 
     /**
@@ -3049,7 +3049,7 @@ export class ShareClient {
      * @id Share Id (not token, use PublicAccess to get share by token)
      * @return Polymorph share
      */
-    get(id: string): Promise<ShareBaseDetailViewItem | null> {
+    get(id: string): Promise<ShareBaseDetail | null> {
         let url_ = this.baseUrl + "/V1/Shares/{Id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -3069,12 +3069,12 @@ export class ShareClient {
         });
     }
 
-    protected processGet(response: Response): Promise<ShareBaseDetailViewItem | null> {
+    protected processGet(response: Response): Promise<ShareBaseDetail | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: ShareBaseDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <ShareBaseDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: ShareBaseDetail | null = null;
+            result200 = _responseText === "" ? null : <ShareBaseDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -3092,15 +3092,15 @@ export class ShareClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<ShareBaseDetailViewItem | null>(<any>null);
+        return Promise.resolve<ShareBaseDetail | null>(<any>null);
     }
 
     /**
      * Delete Many
      * @shareIds A list of ListItemCreateRequests.
-     * @return BusinessProcessViewItem
+     * @return BusinessProcess
      */
-    deleteMany(shareIds: string[] | undefined): Promise<BusinessProcessViewItem | null> {
+    deleteMany(shareIds: string[] | undefined): Promise<BusinessProcess | null> {
         let url_ = this.baseUrl + "/V1/Shares/DeleteMany";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3120,7 +3120,7 @@ export class ShareClient {
         });
     }
 
-    protected processDeleteMany(response: Response): Promise<BusinessProcessViewItem | null> {
+    protected processDeleteMany(response: Response): Promise<BusinessProcess | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3134,8 +3134,8 @@ export class ShareClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BusinessProcessViewItem | null = null;
-            result200 = _responseText === "" ? null : <BusinessProcessViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BusinessProcess | null = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3143,7 +3143,7 @@ export class ShareClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BusinessProcessViewItem | null>(<any>null);
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
@@ -3259,7 +3259,7 @@ export class ShareClient {
      * @request Search request
      * @return Share search result
      */
-    search(request: ContentSearchRequest | undefined): Promise<BaseResultOfShareBaseViewItem | null> {
+    search(request: ContentSearchRequest | undefined): Promise<BaseResultOfShareBase | null> {
         let url_ = this.baseUrl + "/V1/Shares/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3279,12 +3279,12 @@ export class ShareClient {
         });
     }
 
-    protected processSearch(response: Response): Promise<BaseResultOfShareBaseViewItem | null> {
+    protected processSearch(response: Response): Promise<BaseResultOfShareBase | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfShareBaseViewItem | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfShareBaseViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BaseResultOfShareBase | null = null;
+            result200 = _responseText === "" ? null : <BaseResultOfShareBase>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -3302,7 +3302,7 @@ export class ShareClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BaseResultOfShareBaseViewItem | null>(<any>null);
+        return Promise.resolve<BaseResultOfShareBase | null>(<any>null);
     }
 }
 
@@ -3440,7 +3440,7 @@ export class TransferClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    create(request: CreateTransferRequest | undefined): Promise<TransferViewItem | null> {
+    create(request: CreateTransferRequest | undefined): Promise<Transfer | null> {
         let url_ = this.baseUrl + "/V1/Transfers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3460,7 +3460,7 @@ export class TransferClient {
         });
     }
 
-    protected processCreate(response: Response): Promise<TransferViewItem | null> {
+    protected processCreate(response: Response): Promise<Transfer | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3470,8 +3470,8 @@ export class TransferClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: TransferViewItem | null = null;
-            result200 = _responseText === "" ? null : <TransferViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: Transfer | null = null;
+            result200 = _responseText === "" ? null : <Transfer>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3479,7 +3479,7 @@ export class TransferClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<TransferViewItem | null>(<any>null);
+        return Promise.resolve<Transfer | null>(<any>null);
     }
 
     delete(transferId: string): Promise<void> {
@@ -3521,7 +3521,7 @@ export class TransferClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    get(transferId: string): Promise<TransferDetailViewItem | null> {
+    get(transferId: string): Promise<TransferDetail | null> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -3541,7 +3541,7 @@ export class TransferClient {
         });
     }
 
-    protected processGet(response: Response): Promise<TransferDetailViewItem | null> {
+    protected processGet(response: Response): Promise<TransferDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3551,8 +3551,8 @@ export class TransferClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: TransferDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <TransferDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: TransferDetail | null = null;
+            result200 = _responseText === "" ? null : <TransferDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3560,10 +3560,10 @@ export class TransferClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<TransferDetailViewItem | null>(<any>null);
+        return Promise.resolve<TransferDetail | null>(<any>null);
     }
 
-    getFile(fileTransferId: string): Promise<FileTransferDetailViewItem | null> {
+    getFile(fileTransferId: string): Promise<FileTransferDetail | null> {
         let url_ = this.baseUrl + "/V1/Transfers/Files/{FileTransferId}";
         if (fileTransferId === undefined || fileTransferId === null)
             throw new Error("The parameter 'fileTransferId' must be defined.");
@@ -3583,7 +3583,7 @@ export class TransferClient {
         });
     }
 
-    protected processGetFile(response: Response): Promise<FileTransferDetailViewItem | null> {
+    protected processGetFile(response: Response): Promise<FileTransferDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3593,8 +3593,8 @@ export class TransferClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: FileTransferDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <FileTransferDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: FileTransferDetail | null = null;
+            result200 = _responseText === "" ? null : <FileTransferDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3602,10 +3602,10 @@ export class TransferClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<FileTransferDetailViewItem | null>(<any>null);
+        return Promise.resolve<FileTransferDetail | null>(<any>null);
     }
 
-    importBatch(transferId: string, request: FileTransfer2ContentCreateRequest | undefined): Promise<TransferViewItem | null> {
+    importBatch(transferId: string, request: FileTransfer2ContentCreateRequest | undefined): Promise<Transfer | null> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Import";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -3628,7 +3628,7 @@ export class TransferClient {
         });
     }
 
-    protected processImportBatch(response: Response): Promise<TransferViewItem | null> {
+    protected processImportBatch(response: Response): Promise<Transfer | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3638,8 +3638,8 @@ export class TransferClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: TransferViewItem | null = null;
-            result200 = _responseText === "" ? null : <TransferViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: Transfer | null = null;
+            result200 = _responseText === "" ? null : <Transfer>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3647,10 +3647,10 @@ export class TransferClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<TransferViewItem | null>(<any>null);
+        return Promise.resolve<Transfer | null>(<any>null);
     }
 
-    partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | undefined): Promise<TransferViewItem | null> {
+    partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | undefined): Promise<Transfer | null> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/PartialImport";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -3673,7 +3673,7 @@ export class TransferClient {
         });
     }
 
-    protected processPartialImport(response: Response): Promise<TransferViewItem | null> {
+    protected processPartialImport(response: Response): Promise<Transfer | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3683,8 +3683,8 @@ export class TransferClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: TransferViewItem | null = null;
-            result200 = _responseText === "" ? null : <TransferViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: Transfer | null = null;
+            result200 = _responseText === "" ? null : <Transfer>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3692,7 +3692,7 @@ export class TransferClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<TransferViewItem | null>(<any>null);
+        return Promise.resolve<Transfer | null>(<any>null);
     }
 
     search(request: TransferSearchRequest | undefined): Promise<TransferSearchResult | null> {
@@ -3779,6 +3779,9 @@ export class TransferClient {
         return Promise.resolve<FileTransferSearchResult | null>(<any>null);
     }
 
+    /**
+     * @flowChunkNumber Starts with 1
+     */
     uploadFile(formFile: FileParameter | undefined, flowRelativePath: string | undefined, flowChunkNumber: number, flowCurrentChunkSize: number, flowTotalSize: number, flowTotalChunks: number, transferId: string, identifier: string): Promise<void> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Files/{Identifier}/Upload?";
         if (transferId === undefined || transferId === null)
@@ -3788,28 +3791,28 @@ export class TransferClient {
             throw new Error("The parameter 'identifier' must be defined.");
         url_ = url_.replace("{Identifier}", encodeURIComponent("" + identifier)); 
         if (flowRelativePath !== undefined)
-            url_ += "FlowRelativePath=" + encodeURIComponent("" + flowRelativePath) + "&"; 
+            url_ += "flowRelativePath=" + encodeURIComponent("" + flowRelativePath) + "&"; 
         if (flowChunkNumber === null)
             throw new Error("The parameter 'flowChunkNumber' cannot be null.");
         else if (flowChunkNumber !== undefined)
-            url_ += "FlowChunkNumber=" + encodeURIComponent("" + flowChunkNumber) + "&"; 
+            url_ += "flowChunkNumber=" + encodeURIComponent("" + flowChunkNumber) + "&"; 
         if (flowCurrentChunkSize === null)
             throw new Error("The parameter 'flowCurrentChunkSize' cannot be null.");
         else if (flowCurrentChunkSize !== undefined)
-            url_ += "FlowCurrentChunkSize=" + encodeURIComponent("" + flowCurrentChunkSize) + "&"; 
+            url_ += "flowCurrentChunkSize=" + encodeURIComponent("" + flowCurrentChunkSize) + "&"; 
         if (flowTotalSize === null)
             throw new Error("The parameter 'flowTotalSize' cannot be null.");
         else if (flowTotalSize !== undefined)
-            url_ += "FlowTotalSize=" + encodeURIComponent("" + flowTotalSize) + "&"; 
+            url_ += "flowTotalSize=" + encodeURIComponent("" + flowTotalSize) + "&"; 
         if (flowTotalChunks === null)
             throw new Error("The parameter 'flowTotalChunks' cannot be null.");
         else if (flowTotalChunks !== undefined)
-            url_ += "FlowTotalChunks=" + encodeURIComponent("" + flowTotalChunks) + "&"; 
+            url_ += "flowTotalChunks=" + encodeURIComponent("" + flowTotalChunks) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = new FormData();
         if (formFile !== null && formFile !== undefined)
-            content_.append("FormFile", formFile.data, formFile.fileName ? formFile.fileName : "FormFile");
+            content_.append("formFile", formFile.data, formFile.fileName ? formFile.fileName : "formFile");
 
         let options_ = <RequestInit>{
             body: content_,
@@ -3890,7 +3893,7 @@ export class UserClient {
         return Promise.resolve<UserSearchResult | null>(<any>null);
     }
 
-    getUser(userId: string): Promise<UserDetailViewItem | null> {
+    getUser(userId: string): Promise<UserDetail | null> {
         let url_ = this.baseUrl + "/V1/Users/GetUser/{UserId}";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
@@ -3910,12 +3913,12 @@ export class UserClient {
         });
     }
 
-    protected processGetUser(response: Response): Promise<UserDetailViewItem | null> {
+    protected processGetUser(response: Response): Promise<UserDetail | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: UserDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <UserDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: UserDetail | null = null;
+            result200 = _responseText === "" ? null : <UserDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3923,10 +3926,10 @@ export class UserClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<UserDetailViewItem | null>(<any>null);
+        return Promise.resolve<UserDetail | null>(<any>null);
     }
 
-    getProfile(): Promise<UserProfileViewItem | null> {
+    getProfile(): Promise<UserProfile | null> {
         let url_ = this.baseUrl + "/V1/Users/GetProfile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3943,7 +3946,7 @@ export class UserClient {
         });
     }
 
-    protected processGetProfile(response: Response): Promise<UserProfileViewItem | null> {
+    protected processGetProfile(response: Response): Promise<UserProfile | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3953,8 +3956,8 @@ export class UserClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: UserProfileViewItem | null = null;
-            result200 = _responseText === "" ? null : <UserProfileViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: UserProfile | null = null;
+            result200 = _responseText === "" ? null : <UserProfile>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -3962,10 +3965,10 @@ export class UserClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<UserProfileViewItem | null>(<any>null);
+        return Promise.resolve<UserProfile | null>(<any>null);
     }
 
-    getByOwnerToken(tokenId: string): Promise<UserDetailViewItem | null> {
+    getByOwnerToken(tokenId: string): Promise<UserDetail | null> {
         let url_ = this.baseUrl + "/V1/Users/Owner/{TokenId}";
         if (tokenId === undefined || tokenId === null)
             throw new Error("The parameter 'tokenId' must be defined.");
@@ -3985,7 +3988,7 @@ export class UserClient {
         });
     }
 
-    protected processGetByOwnerToken(response: Response): Promise<UserDetailViewItem | null> {
+    protected processGetByOwnerToken(response: Response): Promise<UserDetail | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3995,8 +3998,8 @@ export class UserClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: UserDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <UserDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: UserDetail | null = null;
+            result200 = _responseText === "" ? null : <UserDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -4004,10 +4007,10 @@ export class UserClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<UserDetailViewItem | null>(<any>null);
+        return Promise.resolve<UserDetail | null>(<any>null);
     }
 
-    getChannels(): Promise<ChannelViewItem[] | null> {
+    getChannels(): Promise<Channel[] | null> {
         let url_ = this.baseUrl + "/V1/Users/Channels";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4024,7 +4027,7 @@ export class UserClient {
         });
     }
 
-    protected processGetChannels(response: Response): Promise<ChannelViewItem[] | null> {
+    protected processGetChannels(response: Response): Promise<Channel[] | null> {
         const status = response.status;
         if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4034,8 +4037,8 @@ export class UserClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: ChannelViewItem[] | null = null;
-            result200 = _responseText === "" ? null : <ChannelViewItem[]>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: Channel[] | null = null;
+            result200 = _responseText === "" ? null : <Channel[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -4043,7 +4046,7 @@ export class UserClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<ChannelViewItem[] | null>(<any>null);
+        return Promise.resolve<Channel[] | null>(<any>null);
     }
 }
 
@@ -4060,9 +4063,9 @@ export class OutputClient {
     /**
      * Get outputs by contentIds
      * @contentsByIdsRequest Contains the list of contentIds for which the outputs are requested
-     * @return The Result containing a list of OutputDetailViewItem's
+     * @return The Result containing a list of OutputDetail's
      */
-    getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | undefined): Promise<BaseResultOfOutputDetailViewItem | null> {
+    getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | undefined): Promise<BaseResultOfOutputDetail | null> {
         let url_ = this.baseUrl + "/V1/Outputs";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4082,12 +4085,12 @@ export class OutputClient {
         });
     }
 
-    protected processGetByContentIds(response: Response): Promise<BaseResultOfOutputDetailViewItem | null> {
+    protected processGetByContentIds(response: Response): Promise<BaseResultOfOutputDetail | null> {
         const status = response.status;
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfOutputDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfOutputDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: BaseResultOfOutputDetail | null = null;
+            result200 = _responseText === "" ? null : <BaseResultOfOutputDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -4101,7 +4104,7 @@ export class OutputClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<BaseResultOfOutputDetailViewItem | null>(<any>null);
+        return Promise.resolve<BaseResultOfOutputDetail | null>(<any>null);
     }
 
     /**
@@ -4109,7 +4112,7 @@ export class OutputClient {
      * @outputId The output id.
      * @return OutputDetail
      */
-    get(outputId: string): Promise<OutputDetailViewItem | null> {
+    get(outputId: string): Promise<OutputDetail | null> {
         let url_ = this.baseUrl + "/V1/Outputs/{OutputId}";
         if (outputId === undefined || outputId === null)
             throw new Error("The parameter 'outputId' must be defined.");
@@ -4129,7 +4132,7 @@ export class OutputClient {
         });
     }
 
-    protected processGet(response: Response): Promise<OutputDetailViewItem | null> {
+    protected processGet(response: Response): Promise<OutputDetail | null> {
         const status = response.status;
         if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4139,8 +4142,8 @@ export class OutputClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: OutputDetailViewItem | null = null;
-            result200 = _responseText === "" ? null : <OutputDetailViewItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: OutputDetail | null = null;
+            result200 = _responseText === "" ? null : <OutputDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -4154,51 +4157,60 @@ export class OutputClient {
             return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<OutputDetailViewItem | null>(<any>null);
+        return Promise.resolve<OutputDetail | null>(<any>null);
     }
 }
 
 export interface ContentOwnershipTransferRequest {
     /** The content id. */
-    ContentId?: string | undefined;
+    contentId?: string | undefined;
     /** The id of the user to whom the content document has to be transfered to. */
-    TransferUserId?: string | undefined;
+    transferUserId?: string | undefined;
 }
 
-export interface BaseDoc {
-    Id?: string | undefined;
-    Audit?: StoreAudit | undefined;
-}
-
-/** The MetadataBaseDoc is the base class for ContentDoc and ListItemDoc. */
-export interface MetadataBaseDoc extends BaseDoc {
-    /** The id of the schema with schema type content/list. */
-    ContentSchemaId?: string | undefined;
-    /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
-    /** Contains metadata values of the content schema and all applied layer schemas. */
-    Data?: DataDictionary | undefined;
-    /** Contains language specific display values, rendered according to the list/content schema's display pattern configuration. */
-    DisplayValues?: DisplayValue[] | undefined;
-}
-
-export interface ContentDoc extends MetadataBaseDoc {
-    FileTransferId?: string | undefined;
+export interface ContentDetail {
+    /** Document audit information with information regarding document creation and modification. */
+    audit?: StoreAudit | undefined;
+    /** The content data of the content document. */
+    content?: any | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    ContentPermissionSetIds?: string[] | undefined;
-    OwnerTokenId?: string | undefined;
+    contentPermissionSetIds?: string[] | undefined;
+    /** The id of the schema with schema type content. */
+    contentSchemaId?: string | undefined;
+    /** The content type of a content document. */
+    contentType: ContentType;
+    /** The content type of a content document. */
+    contentTypeId: number;
+    /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
+    displayValues?: DisplayValueDictionary | undefined;
     /** The entity type of a content document is content. */
-    EntityType: EntityType;
-    ContentType: ContentType;
-    LifeCycle: LifeCycle;
+    entityType: EntityType;
+    /** The content id. */
+    id?: string | undefined;
+    /** An optional id list of schemas with schema type layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** The layer metadata of the content document. */
+    metadata?: DataDictionary | undefined;
+    /** A list of rendering ouputs for contents with an underlying digital file. */
+    outputs?: Output[] | undefined;
+    /** The id of a owner token. Defines the content owner. */
+    ownerTokenId?: string | undefined;
+    /** The trashed flag. */
+    trashed: boolean;
 }
 
-export enum EntityType {
-    Content = <any>"Content", 
-    BasicShare = <any>"BasicShare", 
-    EmbedShare = <any>"EmbedShare", 
-    Metadata = <any>"Metadata", 
-    FileTransfer = <any>"FileTransfer", 
+export interface StoreAudit {
+    creationDate: Date;
+    createdByUser?: UserItem | undefined;
+    modificationDate: Date;
+    modifiedByUser?: UserItem | undefined;
+}
+
+export interface UserItem {
+    id?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    emailAddress?: string | undefined;
 }
 
 export enum ContentType {
@@ -4224,56 +4236,86 @@ export enum ContentType {
     Model3d = <any>"Model3d", 
 }
 
-export enum LifeCycle {
-    Draft = <any>"Draft", 
-    Active = <any>"Active", 
-    Inactive = <any>"Inactive", 
-    Deleted = <any>"Deleted", 
+export interface DisplayValueDictionary {
+
+    [key: string]: string | any; 
 }
 
-/** A custom implementation of Dictionary{string, object} */
+export enum EntityType {
+    Content = <any>"Content", 
+    BasicShare = <any>"BasicShare", 
+    EmbedShare = <any>"EmbedShare", 
+    Metadata = <any>"Metadata", 
+    FileTransfer = <any>"FileTransfer", 
+}
+
 export interface DataDictionary {
 
     [key: string]: any; 
 }
 
-export interface DisplayValue {
-    Id?: string | undefined;
-    Values?: TranslatedStringDictionary | undefined;
+export interface Output {
+    id?: string | undefined;
+    outputFormatId?: string | undefined;
+    contentId?: string | undefined;
+    detail?: OutputDetailBase | undefined;
 }
 
-/** A custom dictionary type to distinguish language specific class properties. */
-export interface TranslatedStringDictionary {
-
-    [key: string]: string | any; 
+export interface OutputDetailBase {
+    fileExtension?: string | undefined;
+    fileName?: string | undefined;
+    filePath?: string | undefined;
+    fileSizeInBytes?: number | undefined;
+    sha1Hash?: string | undefined;
 }
 
-export interface StoreAudit {
-    CreationDate: Date;
-    CreatedByUser?: UserItem | undefined;
-    ModificationDate: Date;
-    ModifiedByUser?: UserItem | undefined;
+export interface OutputDetailImage extends OutputDetailBase {
+    width: number;
+    height: number;
 }
 
-export interface UserItem {
-    Id?: string | undefined;
-    FirstName?: string | undefined;
-    LastName?: string | undefined;
-    EmailAddress?: string | undefined;
+export interface OutputDetailAudio extends OutputDetailBase {
+    durationInSeconds?: number | undefined;
+}
+
+export interface OutputDetailVideo extends OutputDetailBase {
+    durationInSeconds: number;
+    width: number;
+    height: number;
+    sprites?: Sprite[] | undefined;
+}
+
+export interface Sprite {
+    width: number;
+    height: number;
+    y: number;
+    x: number;
+    start: string;
+    end: string;
+}
+
+export interface OutputDetailDocument extends OutputDetailBase {
+    pageCount: number;
+}
+
+export interface OutputDetailDefault extends OutputDetailBase {
+}
+
+export interface OutputDetail extends Output {
 }
 
 export interface Exception {
-    Message?: string | undefined;
-    InnerException?: Exception | undefined;
-    StackTrace?: string | undefined;
-    Source?: string | undefined;
+    message?: string | undefined;
+    innerException?: Exception | undefined;
+    stackTrace?: string | undefined;
+    source?: string | undefined;
 }
 
 export interface PictureparkException extends Exception {
-    TraceLevel: TraceLevel;
-    TraceId?: string | undefined;
-    TraceJobId?: string | undefined;
-    HttpStatusCode: number;
+    traceLevel: TraceLevel;
+    traceId?: string | undefined;
+    traceJobId?: string | undefined;
+    httpStatusCode: number;
 }
 
 export enum TraceLevel {
@@ -4285,153 +4327,156 @@ export enum TraceLevel {
 }
 
 export interface PictureparkBusinessException extends PictureparkException {
-    CustomerId?: string | undefined;
-    CustomerAlias?: string | undefined;
-    UserId?: string | undefined;
+    customerId?: string | undefined;
+    customerAlias?: string | undefined;
+    userId?: string | undefined;
 }
 
 export interface PictureparkApplicationException extends PictureparkBusinessException {
 }
 
 export interface PictureparkArgumentNullException extends PictureparkBusinessException {
-    ArgumentName?: string | undefined;
+    argumentName?: string | undefined;
 }
 
 export interface ContentNotFoundException extends PictureparkBusinessException {
-    ContentId?: string | undefined;
+    contentId?: string | undefined;
 }
 
 export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
-    ProcessDefinitionIds?: string[] | undefined;
+    processDefinitionIds?: string[] | undefined;
 }
 
 export interface BusinessProcessDefinitionNotFoundException extends PictureparkBusinessException {
-    ProcessDefinitionId?: string | undefined;
+    processDefinitionId?: string | undefined;
 }
 
 export interface BusinessProcessNotFoundException extends PictureparkBusinessException {
-    BusinessProcessId?: string | undefined;
+    businessProcessId?: string | undefined;
 }
 
 export interface CustomerHostNotFoundException extends PictureparkException {
-    HostName?: string | undefined;
+    hostName?: string | undefined;
 }
 
 export interface CustomerNotFoundException extends PictureparkException {
-    CustomerId?: string | undefined;
+    customerId?: string | undefined;
 }
 
 export interface DocumentNotFoundException extends PictureparkBusinessException {
-    DocumentId?: string | undefined;
+    documentId?: string | undefined;
 }
 
 export interface DocumentVersionNotFoundException extends PictureparkBusinessException {
-    DocumentId?: string | undefined;
-    DocumentVersion?: string | undefined;
+    documentId?: string | undefined;
+    documentVersion?: string | undefined;
 }
 
 export interface DriveRequestException extends PictureparkBusinessException {
 }
 
 export interface DuplicateRightException extends PictureparkBusinessException {
-    PermissionSetId?: string | undefined;
+    permissionSetId?: string | undefined;
 }
 
 export interface DuplicateDocumentException extends PictureparkBusinessException {
-    DocumentId?: string | undefined;
-    DocumentType?: string | undefined;
+    documentId?: string | undefined;
+    documentType?: string | undefined;
 }
 
 export interface DuplicateAggregatorException extends PictureparkBusinessException {
-    AggregatorName?: string | undefined;
+    aggregatorName?: string | undefined;
 }
 
 export interface FailedToLockException extends PictureparkBusinessException {
-    ResourceId?: string | undefined;
+    resourceId?: string | undefined;
 }
 
 export interface IndexException extends PictureparkBusinessException {
-    IndexName?: string | undefined;
-    DebugInformation?: string | undefined;
+    indexName?: string | undefined;
+    debugInformation?: string | undefined;
 }
 
 export interface InvalidArgumentException extends PictureparkBusinessException {
-    ArgumentName?: string | undefined;
-    ArgumentValue?: string | undefined;
+    argumentName?: string | undefined;
+    argumentValue?: string | undefined;
 }
 
 export interface InvalidCustomerException extends PictureparkException {
-    CustomerId?: string | undefined;
+    customerId?: string | undefined;
 }
 
 export interface PictureparkInvalidMetadataException extends PictureparkBusinessException {
-    MetadataErrors?: MetadataError[] | undefined;
+    metadataErrors?: MetadataError[] | undefined;
 }
 
 export interface MetadataError {
-    ErrorType?: string | undefined;
-    LineNumber: number;
-    LinePosition: number;
-    Path?: string | undefined;
-    Message?: string | undefined;
-    SchemaId?: string | undefined;
+    errorType?: string | undefined;
+    lineNumber: number;
+    linePosition: number;
+    path?: string | undefined;
+    message?: string | undefined;
+    schemaId?: string | undefined;
 }
 
 export interface InvalidStateException extends PictureparkBusinessException {
-    ResourceId?: string | undefined;
-    State?: string | undefined;
+    resourceId?: string | undefined;
+    state?: string | undefined;
 }
 
 export interface InvalidStateTransitionException extends InvalidStateException {
-    Transition?: string | undefined;
+    transition?: string | undefined;
 }
 
 export interface InvalidUserOrPasswordException extends PictureparkException {
-    CustomerId?: string | undefined;
+    customerId?: string | undefined;
 }
 
 export interface PictureparkMappingException extends PictureparkBusinessException {
-    IndexName?: string | undefined;
-    DebugInformation?: string | undefined;
+    indexName?: string | undefined;
+    debugInformation?: string | undefined;
 }
 
 export interface MessagePerformerTaskCanceledException extends PictureparkException {
-    MessageId?: string | undefined;
-    CustomerId?: string | undefined;
+    messageId?: string | undefined;
+    customerId?: string | undefined;
 }
 
 export interface NotFoundException extends PictureparkBusinessException {
-    Reference?: string | undefined;
+    reference?: string | undefined;
 }
 
 export interface ObjectStoreException extends PictureparkBusinessException {
-    RowErrorMessages?: string | undefined;
-    ErrorMessage?: string | undefined;
+    rowErrorMessages?: string | undefined;
+    errorMessage?: string | undefined;
+    message?: string | undefined;
 }
 
 export interface ObjectStoreResponseException extends PictureparkBusinessException {
-    RowErrorMessages?: string | undefined;
-    Message?: string | undefined;
+    rowErrorMessages?: string | undefined;
+    message?: string | undefined;
 }
 
 export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
+    cancellationToken?: string | undefined;
 }
 
 export interface OperationTimeoutException extends PictureparkBusinessException {
+    messageId?: string | undefined;
 }
 
 export interface OutputNotFoundException extends PictureparkBusinessException {
-    ContentId?: string | undefined;
-    OutputFormatId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
 }
 
 export interface PermissionException extends PictureparkBusinessException {
-    Permission?: string | undefined;
-    Operation?: string | undefined;
+    permission?: string | undefined;
+    operation?: string | undefined;
 }
 
 export interface QueryException extends PictureparkBusinessException {
-    DebugInformation?: string | undefined;
+    debugInformation?: string | undefined;
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -4441,149 +4486,64 @@ export interface RenderingJobItemNotSetException extends PictureparkBusinessExce
 }
 
 export interface ServiceProviderCreateException extends PictureparkException {
-    UserId?: string | undefined;
-    ExternalId?: string | undefined;
-    VirtualHost?: string | undefined;
-    DetailErrorMessage?: string | undefined;
+    userId?: string | undefined;
+    externalId?: string | undefined;
+    virtualHost?: string | undefined;
+    detailErrorMessage?: string | undefined;
 }
 
 export interface ServiceProviderDeleteException extends PictureparkException {
-    ServiceProviderId?: string | undefined;
-    DetailedErrorMessage?: string | undefined;
+    serviceProviderId?: string | undefined;
+    detailedErrorMessage?: string | undefined;
 }
 
 export interface ServiceProviderNotFoundException extends PictureparkException {
-    MissingServiceProviderId?: string | undefined;
+    missingServiceProviderId?: string | undefined;
 }
 
 export interface TokenValidationException extends PictureparkBusinessException {
 }
 
 export interface UnknownException extends PictureparkBusinessException {
-    ExceptionDetail?: string | undefined;
+    exceptionDetail?: string | undefined;
 }
 
 export interface UserNotFoundException extends PictureparkBusinessException {
-    MissingUserId?: string | undefined;
+    missingUserId?: string | undefined;
 }
 
 export interface UserPermanentlyRemovedException extends PictureparkBusinessException {
-    RemovedUserId?: string | undefined;
+    removedUserId?: string | undefined;
 }
 
 export interface UserRoleAssignedException extends PictureparkBusinessException {
-    UserRoleId?: string | undefined;
+    userRoleId?: string | undefined;
 }
 
 export interface UserRolesRightsAssignedException extends PictureparkBusinessException {
-    ContentPermissionSetId?: string | undefined;
-}
-
-export interface ContentDetail {
-    /** Document audit information with information regarding document creation and modification. */
-    Audit?: StoreAudit | undefined;
-    /** The content data of the content document. */
-    Content?: any | undefined;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    ContentPermissionSetIds?: string[] | undefined;
-    /** The id of the schema with schema type content. */
-    ContentSchemaId?: string | undefined;
-    /** The content type of a content document. */
-    ContentType: ContentType;
-    /** The content type of a content document. */
-    ContentTypeId: number;
-    /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
-    DisplayValues?: DisplayValueViewItem | undefined;
-    /** The entity type of a content document is content. */
-    EntityType: EntityType;
-    /** The content id. */
-    Id?: string | undefined;
-    /** An optional id list of schemas with schema type layer. */
-    LayerSchemaIds?: string[] | undefined;
-    /** The layer metadata of the content document. */
-    Metadata?: DataDictionary | undefined;
-    /** A list of rendering ouputs for contents with an underlying digital file. */
-    Outputs?: OutputViewItem[] | undefined;
-    /** The id of a owner token. Defines the content owner. */
-    OwnerTokenId?: string | undefined;
-    /** The trashed flag. */
-    Trashed: boolean;
-}
-
-export interface DisplayValueViewItem {
-
-    [key: string]: string | any; 
-}
-
-export interface OutputViewItem {
-    Id?: string | undefined;
-    OutputFormatId?: string | undefined;
-    ContentId?: string | undefined;
-    Detail?: OutputDetailBase | undefined;
-}
-
-export interface OutputDetailBase {
-    FileExtension?: string | undefined;
-    FileName?: string | undefined;
-    FilePath?: string | undefined;
-    FileSizeInBytes?: number | undefined;
-    Sha1Hash?: string | undefined;
-}
-
-export interface OutputDetailImage extends OutputDetailBase {
-    Width: number;
-    Height: number;
-}
-
-export interface OutputDetailAudio extends OutputDetailBase {
-    DurationInSeconds?: number | undefined;
-}
-
-export interface OutputDetailVideo extends OutputDetailBase {
-    DurationInSeconds: number;
-    Width: number;
-    Height: number;
-    Sprites?: Sprite[] | undefined;
-}
-
-export interface Sprite {
-    Width: number;
-    Height: number;
-    Y: number;
-    X: number;
-    Start: string;
-    End: string;
-}
-
-export interface OutputDetailDocument extends OutputDetailBase {
-    PageCount: number;
-}
-
-export interface OutputDetailDefault extends OutputDetailBase {
-}
-
-export interface OutputDetailViewItem extends OutputViewItem {
+    contentPermissionSetId?: string | undefined;
 }
 
 export interface ContentsOwnershipTransferRequest {
     /** The content ids. */
-    ContentIds?: string[] | undefined;
+    contentIds?: string[] | undefined;
     /** The id of user to whom the content documents have to be transfered to. */
-    TransferUserId?: string | undefined;
+    transferUserId?: string | undefined;
 }
 
-export interface BusinessProcessViewItem {
-    Id?: string | undefined;
-    ProcessDefinitionId?: string | undefined;
-    ReferenceId?: string | undefined;
-    ReferenceDocType?: string | undefined;
-    BusinessProcessScope: BusinessProcessScope;
-    LifeCycle: BusinessProcessLifeCylce;
-    StartDate: Date;
-    EndDate: Date;
-    StateHistory?: BusinessProcessStateItem[] | undefined;
-    ProcessDefinitionName?: string | undefined;
-    CurrentState?: string | undefined;
+export interface BusinessProcess {
+    id?: string | undefined;
+    processDefinitionId?: string | undefined;
+    referenceId?: string | undefined;
+    referenceDocType?: string | undefined;
+    notificationId?: string | undefined;
+    businessProcessScope: BusinessProcessScope;
+    lifeCycle: BusinessProcessLifeCylce;
+    startDate: Date;
+    endDate: Date;
+    stateHistory?: BusinessProcessStateItem[] | undefined;
+    processDefinitionName?: string | undefined;
+    currentState?: string | undefined;
 }
 
 export enum BusinessProcessScope {
@@ -4599,273 +4559,256 @@ export enum BusinessProcessLifeCylce {
 }
 
 export interface BusinessProcessStateItem {
-    State?: string | undefined;
-    Timestamp: Date;
-    Error?: ErrorResponse | undefined;
+    state?: string | undefined;
+    timestamp: Date;
+    error?: ErrorResponse | undefined;
 }
 
 export interface ErrorResponse {
-    Exception?: string | undefined;
-    TraceId?: string | undefined;
-    TraceJobId?: string | undefined;
+    exception?: string | undefined;
+    traceId?: string | undefined;
+    traceJobId?: string | undefined;
 }
 
-export interface BusinessProcessBulkResponseViewItem extends BusinessProcessViewItem {
-    Response?: BulkResponseViewItem | undefined;
+export interface BusinessProcessBulkResponse extends BusinessProcess {
+    response?: BulkResponse | undefined;
 }
 
-export interface BulkResponseViewItem {
-    Rows?: BulkResponseRowViewItem[] | undefined;
+export interface BulkResponse {
+    rows?: BulkResponseRow[] | undefined;
 }
 
-export interface BulkResponseRowViewItem {
-    Id?: string | undefined;
-    Version: number;
-    Error?: string | undefined;
-    Reason?: string | undefined;
-    Succeeded: boolean;
+export interface BulkResponseRow {
+    id?: string | undefined;
+    version: number;
+    error?: string | undefined;
+    reason?: string | undefined;
+    succeeded: boolean;
 }
 
 export interface ContentAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    SearchString?: string | undefined;
+    searchString?: string | undefined;
     /** An optional search filter. Limits the content document result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
     /** Special filters used to filter down on a specific aggregated value. */
-    AggregationFilters?: AggregationFilter[] | undefined;
+    aggregationFilters?: AggregationFilter[] | undefined;
     /** Defines the aggregation resultset. */
-    Aggregators?: AggregatorBase[] | undefined;
+    aggregators?: AggregatorBase[] | undefined;
     /** Limits the simple search fields to the fields available in the specified channel. */
-    ChannelId?: string | undefined;
+    channelId?: string | undefined;
     /** Defines the return language of translation values. Defaults to x-default. */
-    DisplayLanguage?: string | undefined;
+    displayLanguage?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration. */
-    SearchLanguages?: string[] | undefined;
+    searchLanguages?: string[] | undefined;
     /** The collection id. */
-    CollectionId?: string | undefined;
+    collectionId?: string | undefined;
     /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    LifeCycleFilter: LifeCycleFilter;
+    lifeCycleFilter: LifeCycleFilter;
 }
 
 /** The FilterBase is the base class for all filters. */
 export interface FilterBase {
 }
 
-/** The AndFilter> is a compound filter and returns documents that match all of the specified filters. */
 export interface AndFilter extends FilterBase {
     /** Accepts all filters. */
-    Filters?: FilterBase[] | undefined;
+    filters?: FilterBase[] | undefined;
 }
 
-/** The OrFilter is a compound filter and returns documents that match any of the specified filters. */
 export interface OrFilter extends FilterBase {
     /** Accepts all filters. */
-    Filters?: FilterBase[] | undefined;
+    filters?: FilterBase[] | undefined;
 }
 
-/** The NotFilter is a compound filter and returns documents that do not match the specified filter. */
 export interface NotFilter extends FilterBase {
     /** Limits the result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
 }
 
-/** The DateRangeFilter returns documents with fields that have date values within a certain range. */
 export interface DateRangeFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The date range. Supported pattern: now(+-)(int)(YMDHm). */
-    Range?: DateRange | undefined;
+    range?: DateRange | undefined;
 }
 
 /** The date range class used in aggregators and filters. */
 export interface DateRange {
     /** Tranlsated range names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    From?: string | undefined;
+    from?: string | undefined;
     /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    To?: string | undefined;
+    to?: string | undefined;
 }
 
-/** The ExistsFilter returns documents that have at least one non-null value in the original field. */
+export interface TranslatedStringDictionary {
+
+    [key: string]: string | any; 
+}
+
 export interface ExistsFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
 }
 
-/** The GeoBoundingBoxFilter returns documents that are found based on a point location using a bounding box. */
 export interface GeoBoundingBoxFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The top left longitude/latitude configuration. */
-    TopLeft?: GeoLocation | undefined;
+    topLeft?: GeoLocation | undefined;
     /** The bottom right longitude/latitude configuration. */
-    BottomRight?: GeoLocation | undefined;
+    bottomRight?: GeoLocation | undefined;
 }
 
 export interface GeoLocation {
-    Lat: number;
-    Lon: number;
+    lat: number;
+    lon: number;
 }
 
-/** The GeoDistanceRangeFilter returns documents that include only hits that exists within a specific distance from a geo point. */
 export interface GeoDistanceFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The longitude/latitude configuration for the point of origin. */
-    Location?: GeoLocation | undefined;
+    location?: GeoLocation | undefined;
     /** The range distance in meters. */
-    Distance: number;
+    distance: number;
 }
 
-/** The GeoDistanceRangeFilter returns documents that exists within a range from a specific point. */
 export interface GeoDistanceRangeFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The longitude/latitude configuration for the point of origin. */
-    Location?: GeoLocation | undefined;
+    location?: GeoLocation | undefined;
     /** The numeric range. */
-    Range?: NumericRange | undefined;
+    range?: NumericRange | undefined;
 }
 
 export interface NumericRange {
     /** Tranlsated range names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** The from value. */
-    From?: number | undefined;
+    from?: number | undefined;
     /** The to value. */
-    To?: number | undefined;
+    to?: number | undefined;
 }
 
-/** The NestedFilter is a joining filter and returns documents whose nested objects / documents (see nested mapping) match the specified filter. */
 export interface NestedFilter extends FilterBase {
     /** The path pointing to the nested object. */
-    Path?: string | undefined;
+    path?: string | undefined;
     /** Limits the result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
 }
 
-/** The NumericRangeFilter returns documents with fields that have numeric values within a certain range. */
 export interface NumericRangeFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The numeric range with from and to properties. */
-    Range?: NumericRange | undefined;
+    range?: NumericRange | undefined;
 }
 
-/** The PrefixFilter returns documents that have fields containing terms with a specified prefix (not analyzed). */
 export interface PrefixFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The prefix term to filter on. */
-    Prefix?: string | undefined;
+    prefix?: string | undefined;
 }
 
-/** The TermFilter returns documents that contain the exact term specified in the inverted index. */
 export interface TermFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The term to filter on. */
-    Term?: string | undefined;
+    term?: string | undefined;
 }
 
-/** The TermsFilter returns documents that have fields that match any of the provided terms (not analyzed). */
 export interface TermsFilter extends FilterBase {
     /** The elastic search index field to execute the filter on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** A list of OR combined terms. */
-    Terms?: string[] | undefined;
+    terms?: string[] | undefined;
 }
 
 /** An AggregationFilter is provided with each aggregated value. When selecting the aggregated value the aggregation filter is added to the search query and returns doucments meeting the aggregation condition. */
 export interface AggregationFilter extends FilterBase {
     /** The name of the aggregation this filter is connected to. */
-    AggregationName?: string | undefined;
+    aggregationName?: string | undefined;
     /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter and GeoDistanceRangeFilter. */
-    Filter?: FilterBase | undefined;
-    TemporaryAggregatorRequestId?: string | undefined;
+    filter?: FilterBase | undefined;
+    temporaryAggregatorRequestId?: string | undefined;
 }
 
-/** The ChildFilter allows to apply filters on child documents and returns documents that match the specified filter on the child document. */
 export interface ChildFilter extends FilterBase {
     /** The elastic search index type to filter as a child. */
-    ChildType?: string | undefined;
+    childType?: string | undefined;
     /** The filter to apply on the child entity. It accepts all filters. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
 }
 
-/** The ParentFilter allows to apply filters on parent documents and returns documents that match the specified filter on the parent document. */
 export interface ParentFilter extends FilterBase {
     /** The elastic search index type to filter as a parent. */
-    ParentType?: string | undefined;
+    parentType?: string | undefined;
     /** The filter to apply on the child entity. It accepts all filters. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
 }
 
 /** The AggregatorBase is the base class for all aggregators. */
 export interface AggregatorBase {
     /** The slug name of the aggregation. Must be unique per aggregation request. */
-    Name?: string | undefined;
+    name?: string | undefined;
     /** The translated names of the aggregation. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** An optional aggregator list for nested aggregations. */
-    Aggregators?: AggregatorBase[] | undefined;
+    aggregators?: AggregatorBase[] | undefined;
 }
 
-/** The DateRangeAggregator is a multi-bucket range aggregation dedicated for date values. Each bucket represents a range. */
 export interface DateRangeAggregator extends AggregatorBase {
     /** The elastic search index field to execute the aggregation on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** A list of date ranges. Supported pattern: now(+-)(int)(YMDHm). */
-    Ranges?: DateRange[] | undefined;
+    ranges?: DateRange[] | undefined;
 }
 
-/** The FilterAggregator is a single bucket aggregation of documents that match a specified filter. */
 export interface FilterAggregator extends AggregatorBase {
     /** Limits the result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
 }
 
-/** The GeoDistanceAggregator is a multi-bucket range aggregation that works on geo_point fields. Each bucket represents a range. */
 export interface GeoDistanceAggregator extends AggregatorBase {
     /** The elastic search index field to execute the aggregation on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The latitude/logitude configuration for the point of origin. */
-    Location?: GeoLocation | undefined;
+    location?: GeoLocation | undefined;
     /** A list of numeric ranges in meter. */
-    Ranges?: NumericRange[] | undefined;
+    ranges?: NumericRange[] | undefined;
 }
 
-/** The NestedAggregator is a special single bucket aggregation that enables aggregating nested documents. */
 export interface NestedAggregator extends AggregatorBase {
     /** The path pointing to the nested object. */
-    Path?: string | undefined;
+    path?: string | undefined;
 }
 
-/** The NumericRangeAggregator is a multi-bucket range aggregation. Each bucket represents a range. */
 export interface NumericRangeAggregator extends AggregatorBase {
     /** The elastic search index field to execute the aggregation on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** A list of numeric ranges. */
-    Ranges?: NumericRange[] | undefined;
+    ranges?: NumericRange[] | undefined;
 }
 
-/** The TermsAggregator is a multi-bucket value aggregation where buckets are dynamically built - one per unique value. */
 export interface TermsAggregator extends AggregatorBase {
     /** The elastic search index field (not analyzed) to execute the aggregation on. */
-    Field?: string | undefined;
+    field?: string | undefined;
     /** The size parameter can be set to define how many term buckets should be returned out of the overall terms list. */
-    Size?: number | undefined;
+    size?: number | undefined;
     /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    Includes?: string[] | undefined;
+    includes?: string[] | undefined;
     /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    Excludes?: string[] | undefined;
+    excludes?: string[] | undefined;
 }
 
-/** The TermsRelationAggregator is derived from TermsAggregator and used for aggregations on relation item ids. */
 export interface TermsRelationAggregator extends TermsAggregator {
     /** When aggregating on relations ids the DocumentType is needed to resolve the target item translation. */
-    DocumentType: TermsRelationAggregatorDocumentType;
+    documentType: TermsRelationAggregatorDocumentType;
 }
 
 export enum TermsRelationAggregatorDocumentType {
@@ -4875,10 +4818,9 @@ export enum TermsRelationAggregatorDocumentType {
     User = <any>"User", 
 }
 
-/** The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values. */
 export interface TermsEnumAggregator extends TermsAggregator {
     /** When aggregating on enum fields EnumType is needed to resolve the enum translation. */
-    EnumType?: string | undefined;
+    enumType?: string | undefined;
 }
 
 export enum LifeCycleFilter {
@@ -4888,54 +4830,54 @@ export enum LifeCycleFilter {
 }
 
 export interface ObjectAggregationResult {
-    ElapsedMilliseconds: number;
-    AggregationResults?: AggregationResult[] | undefined;
+    elapsedMilliseconds: number;
+    aggregationResults?: AggregationResult[] | undefined;
 }
 
 export interface AggregationResult {
-    Name?: string | undefined;
-    SumOtherDocCount?: number | undefined;
-    TemporaryRequestId?: string | undefined;
-    AggregationResultItems?: AggregationResultItem[] | undefined;
+    name?: string | undefined;
+    sumOtherDocCount?: number | undefined;
+    temporaryRequestId?: string | undefined;
+    aggregationResultItems?: AggregationResultItem[] | undefined;
 }
 
 export interface AggregationResultItem {
-    Name?: string | undefined;
-    Count: number;
-    Filter?: AggregationFilter | undefined;
-    Active: boolean;
-    AggregationResults?: AggregationResult[] | undefined;
+    name?: string | undefined;
+    count: number;
+    filter?: AggregationFilter | undefined;
+    active: boolean;
+    aggregationResults?: AggregationResult[] | undefined;
 }
 
 export interface ContentBatchDownloadRequest {
-    Contents?: Content[] | undefined;
+    contents?: ContentDownloadItem[] | undefined;
 }
 
-export interface Content {
-    ContentId?: string | undefined;
-    OutputFormatId?: string | undefined;
+export interface ContentDownloadItem {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
 }
 
 export interface DownloadItem {
 }
 
 export interface ContentBatchDownloadItem extends DownloadItem {
-    DownloadToken?: string | undefined;
-    DownloadUrl?: string | undefined;
+    downloadToken?: string | undefined;
+    downloadUrl?: string | undefined;
 }
 
 /** A request structure for creating a content document. */
 export interface CreateContentRequest {
     /** The id of a schema with schema type content. */
-    ContentSchemaId?: string | undefined;
+    contentSchemaId?: string | undefined;
     /** An optional id list of schemas with schema type layer. */
-    LayerSchemaIds?: string[] | undefined;
+    layerSchemaIds?: string[] | undefined;
     /** The content data of the content document. */
-    Content?: any | undefined;
+    content?: any | undefined;
     /** The layer metadata of the content document. */
-    Metadata?: DataDictionary | undefined;
+    metadata?: DataDictionary | undefined;
     /** An optional id list of content permission sets.  */
-    ContentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds?: string[] | undefined;
 }
 
 export enum ThumbnailSize {
@@ -4946,41 +4888,39 @@ export enum ThumbnailSize {
 
 export interface UpdateContentPermissionsRequest {
     /** The content id. */
-    ContentId?: string | undefined;
+    contentId?: string | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    ContentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds?: string[] | undefined;
 }
 
 export interface ContentSearchRequest {
     /** Limits the simple search fields to the fields available in the specified channel. */
-    ChannelIds?: string[] | undefined;
+    channelIds?: string[] | undefined;
     /** Defines the return language of translation values. Defaults to x-default. */
-    DisplayLanguage?: string | undefined;
+    displayLanguage?: string | undefined;
     /** Limits the display values included in the search response. Defaults to all display values. */
-    DisplayPatternIds?: string[] | undefined;
+    displayPatternIds?: string[] | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    SearchLanguages?: string[] | undefined;
+    searchLanguages?: string[] | undefined;
     /** The collection id. */
-    CollectionId?: string | undefined;
+    collectionId?: string | undefined;
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    SearchString?: string | undefined;
+    searchString?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    Sort?: SortInfo[] | undefined;
+    sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    Start: number;
+    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
-    Limit: number;
+    limit: number;
     /** An optional search filter. Limits the content document result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
     /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    LifeCycleFilter: LifeCycleFilter;
+    lifeCycleFilter: LifeCycleFilter;
 }
 
 export interface SortInfo {
-    /** The elastic search index field to sort on. */
-    Field?: string | undefined;
-    /** The sort direction (Asc/Desc). */
-    Direction: SortDirection;
+    field?: string | undefined;
+    direction: SortDirection;
 }
 
 export enum SortDirection {
@@ -4988,60 +4928,60 @@ export enum SortDirection {
     Desc = <any>"Desc", 
 }
 
-export interface BaseResultOfContentViewItem {
-    TotalResults: number;
-    Results?: ContentViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfContent {
+    totalResults: number;
+    results?: Content[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface ContentSearchResult extends BaseResultOfContentViewItem {
-    AggregationResults?: AggregationResult[] | undefined;
-    ElapsedMilliseconds: number;
+export interface ContentSearchResult extends BaseResultOfContent {
+    aggregationResults?: AggregationResult[] | undefined;
+    elapsedMilliseconds: number;
 }
 
-export interface ContentViewItem {
-    Audit?: StoreAudit | undefined;
+export interface Content {
+    audit?: StoreAudit | undefined;
     /** The entity type of a content document is content. */
-    EntityType: EntityType;
+    entityType: EntityType;
     /** The id of the schema with schema type content. */
-    ContentSchemaId?: string | undefined;
+    contentSchemaId?: string | undefined;
     /** An optional id list of schemas with schema type layer. */
-    LayerSchemaIds?: string[] | undefined;
+    layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    DisplayValues?: { [key: string] : string; } | undefined;
-    Id?: string | undefined;
+    displayValues?: { [key: string] : string; } | undefined;
+    id?: string | undefined;
 }
 
 export interface ContentFileUpdateRequest {
-    ContentId?: string | undefined;
-    FileTransferId?: string | undefined;
+    contentId?: string | undefined;
+    fileTransferId?: string | undefined;
 }
 
 export interface UpdateContentMetadataRequest {
     /** The content id. */
-    Id?: string | undefined;
+    id?: string | undefined;
     /** An id list of schemas with schema type content or layer. */
-    SchemaIds?: string[] | undefined;
+    schemaIds?: string[] | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with schema type content or layer. */
-    Metadata?: DataDictionary | undefined;
+    metadata?: DataDictionary | undefined;
 }
 
 export interface ContentDeactivationRequest {
-    ContentIds?: string[] | undefined;
+    contentIds?: string[] | undefined;
 }
 
 export interface ContentReactivationRequest {
-    ContentIds?: string[] | undefined;
+    contentIds?: string[] | undefined;
 }
 
 export interface MetadataValuesChangeRequestBase {
     /** A container for all change commads. */
-    ChangeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
 }
 
 export interface ContentsMetadataUpdateRequest extends MetadataValuesChangeRequestBase {
     /** The ids of the content documents. */
-    ContentIds?: string[] | undefined;
+    contentIds?: string[] | undefined;
 }
 
 /** The base class for metadata value change commands. */
@@ -5051,273 +4991,275 @@ export interface MetadataValuesChangeCommandBase {
 /** Updates schema values. */
 export interface MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeCommandBase {
     /** The id of the schema with type content or layer to be updated. */
-    SchemaId?: string | undefined;
+    schemaId?: string | undefined;
     /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
-    Value?: DataDictionary | undefined;
+    value?: DataDictionary | undefined;
 }
 
 /** Adds or updates schema values. */
 export interface MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeCommandBase {
     /** The id of the schema with type content or layer to be updated. */
-    SchemaId?: string | undefined;
+    schemaId?: string | undefined;
     /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
-    Value?: DataDictionary | undefined;
+    value?: DataDictionary | undefined;
 }
 
 /** Removes schema values. */
 export interface MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeCommandBase {
     /** The id of the schema with type layer to be removed. */
-    SchemaId?: string | undefined;
+    schemaId?: string | undefined;
 }
 
 /** Removes a field and its value from the schema values. */
 export interface MetadataValuesFieldRemoveCommand extends MetadataValuesChangeCommandBase {
     /** The fully qualified field name of the field to be removed, e.g. "Data.SchemaId.FieldId". */
-    FieldNamespace?: string | undefined;
+    fieldNamespace?: string | undefined;
 }
 
 /** Adds a list item id reference to a multi tagbox. */
 export interface MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeCommandBase {
     /** The fully qualified field name of the multi tagbox field. */
-    FieldNamespace?: string | undefined;
+    fieldNamespace?: string | undefined;
     /** The id of the list item to be added. */
-    ReferenceId?: string | undefined;
+    referenceId?: string | undefined;
 }
 
 /** Removes a list item id reference from a multi tagbox. */
 export interface MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeCommandBase {
     /** The fully qualified field name of the multi tagbox field. */
-    FieldNamespace?: string | undefined;
+    fieldNamespace?: string | undefined;
     /** The id of the list item to be removed. */
-    ReferenceId?: string | undefined;
+    referenceId?: string | undefined;
 }
 
 export interface FilterContentsMetadataUpdateRequest extends MetadataValuesChangeRequestBase {
-    ContentSearchRequest?: ContentSearchRequest | undefined;
-    TotalItemsCount: number;
+    contentSearchRequest?: ContentSearchRequest | undefined;
+    totalItemsCount: number;
 }
 
-export interface BaseResultOfBusinessProcessViewItem {
-    TotalResults: number;
-    Results?: BusinessProcessViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfBusinessProcess {
+    totalResults: number;
+    results?: BusinessProcess[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface BusinessProcessSearchResult extends BaseResultOfBusinessProcessViewItem {
-    ElapsedMilliseconds: number;
+export interface BusinessProcessSearchResult extends BaseResultOfBusinessProcess {
+    elapsedMilliseconds: number;
 }
 
 export interface StartProcessRequest {
-    Variables?: any | undefined;
+    variables?: any | undefined;
 }
 
 export interface SendMessageRequest {
-    MessageName?: string | undefined;
-    Variables?: any | undefined;
+    messageName?: string | undefined;
+    variables?: any | undefined;
 }
 
 export interface BusinessProcessWaitResult {
-    HasStateHit: boolean;
-    ProcessEnded: boolean;
-    StateHit?: string | undefined;
-    BusinessProcess?: BusinessProcessViewItem | undefined;
+    hasStateHit: boolean;
+    processEnded: boolean;
+    stateHit?: string | undefined;
+    businessProcess?: BusinessProcess | undefined;
 }
 
 export interface DocumentHistorySearchRequest {
-    From: Date;
-    To: Date;
-    Start: number;
-    Limit: number;
-    PageToken?: string | undefined;
-    Id?: string | undefined;
-    DocumentId?: string | undefined;
-    DocumentVersion: number;
+    from: Date;
+    to: Date;
+    start: number;
+    limit: number;
+    pageToken?: string | undefined;
+    id?: string | undefined;
+    documentId?: string | undefined;
+    documentVersion: number;
+    documentType?: string | undefined;
 }
 
 export interface DocumentHistorySearchResult {
-    TotalResults: number;
-    Results?: DocumentHistoryViewItem[] | undefined;
-    PageToken?: string | undefined;
-    ElapsedMilliseconds: number;
+    totalResults: number;
+    results?: DocumentHistory[] | undefined;
+    pageToken?: string | undefined;
+    elapsedMilliseconds: number;
 }
 
-export interface DocumentHistoryViewItem {
-    Id?: string | undefined;
-    DocumentId?: string | undefined;
-    DocumentVersion: number;
-    DocumentType?: string | undefined;
-    DocumentDate: Date;
-    Document?: string | undefined;
-    Timestamp: Date;
-    Audit?: HistoryAudit | undefined;
-    Deleted: boolean;
+export interface DocumentHistory {
+    id?: string | undefined;
+    documentId?: string | undefined;
+    documentVersion: number;
+    documentType?: string | undefined;
+    documentTypeContract?: string | undefined;
+    documentDate: Date;
+    document?: string | undefined;
+    timestamp: Date;
+    audit?: HistoryAudit | undefined;
+    deleted: boolean;
 }
 
 export interface HistoryAudit {
-    ModificationDate: Date;
-    ModifiedByUser?: UserItem | undefined;
+    modificationDate: Date;
+    modifiedByUser?: UserItem | undefined;
 }
 
-export interface DocumentHistoryDifferenceViewItem {
-    DocumentId?: string | undefined;
-    OldDocumentVersion: number;
-    NewDocumentVersion: number;
-    OldValues?: any | undefined;
-    NewValues?: any | undefined;
+export interface DocumentHistoryDifference {
+    documentId?: string | undefined;
+    oldDocumentVersion: number;
+    newDocumentVersion: number;
+    oldValues?: any | undefined;
+    newValues?: any | undefined;
 }
 
 /** A request structure for creating a list item document. */
 export interface ListItemCreateRequest {
     /** The content data of the list item. */
-    Content?: any | undefined;
+    content?: any | undefined;
     /** The id of the schema with schema type list. */
-    ContentSchemaId?: string | undefined;
+    contentSchemaId?: string | undefined;
     /** The list item id. When not provided a Guid is generated. */
-    ListItemId?: string | undefined;
+    listItemId?: string | undefined;
 }
 
 /** The detail view item for the list item. */
 export interface ListItemDetail {
     /** The content data of the list item. */
-    Content?: any | undefined;
+    content?: any | undefined;
     /** The id of the schema with schema type list. */
-    ContentSchemaId?: string | undefined;
+    contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
-    DisplayValues?: DisplayValueViewItem | undefined;
+    displayValues?: DisplayValueDictionary | undefined;
     /** The entity type of the list item is metadata. */
-    EntityType: EntityType;
+    entityType: EntityType;
     /** The list item id. */
-    Id?: string | undefined;
+    id?: string | undefined;
 }
 
 export interface ListItemAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    SearchString?: string | undefined;
+    searchString?: string | undefined;
     /** An optional search filter. Limits the list item result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
     /** Special filters used to filter down on a specific aggregated value. */
-    AggregationFilters?: AggregationFilter[] | undefined;
+    aggregationFilters?: AggregationFilter[] | undefined;
     /** Defines the aggregation resultset. */
-    Aggregators?: AggregatorBase[] | undefined;
+    aggregators?: AggregatorBase[] | undefined;
     /** Broadens the aggregation and include all schema descendant list items. */
-    IncludeAllSchemaChildren: boolean;
+    includeAllSchemaChildren: boolean;
     /** Limits the aggregation to list items of the provided schemas. */
-    SchemaIds?: string[] | undefined;
+    schemaIds?: string[] | undefined;
     /** Defines the return language of translation values. Defaults to x-default. */
-    DisplayLanguage?: string | undefined;
+    displayLanguage?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    SearchLanguages?: string[] | undefined;
+    searchLanguages?: string[] | undefined;
 }
 
 export interface ListItemSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    SearchString?: string | undefined;
+    searchString?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    Sort?: SortInfo[] | undefined;
+    sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    Start: number;
+    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
-    Limit: number;
+    limit: number;
     /** An optional search filter. Limits the list item result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
     /** Broadens the search and include all schema descendant list items. */
-    IncludeAllSchemaChildren: boolean;
+    includeAllSchemaChildren: boolean;
     /** Limits the search to list items of the provided schemas. */
-    SchemaIds?: string[] | undefined;
+    schemaIds?: string[] | undefined;
     /** Defines the return language of translation values. Defaults to x-default. */
-    DisplayLanguage?: string | undefined;
+    displayLanguage?: string | undefined;
     /** Limits the display values included in the search response. Defaults to all display values. */
-    DisplayPatternIds?: string[] | undefined;
+    displayPatternIds?: string[] | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    SearchLanguages?: string[] | undefined;
+    searchLanguages?: string[] | undefined;
     /** When set to true the content data is included in the result items. */
-    IncludeMetadata: boolean;
+    includeMetadata: boolean;
 }
 
 export interface BaseResultOfListItem {
-    TotalResults: number;
-    Results?: ListItem[] | undefined;
-    PageToken?: string | undefined;
+    totalResults: number;
+    results?: ListItem[] | undefined;
+    pageToken?: string | undefined;
 }
 
 /** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
 export interface ListItem {
     /** The content data of the list item. */
-    Content?: any | undefined;
+    content?: any | undefined;
     /** The id of the schema with schema type list. */
-    ContentSchemaId?: string | undefined;
+    contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
-    DisplayValues?: DisplayValueViewItem | undefined;
+    displayValues?: DisplayValueDictionary | undefined;
     /** The entity type of the list item is metadata. */
-    EntityType: EntityType;
+    entityType: EntityType;
     /** The list item id. */
-    Id?: string | undefined;
+    id?: string | undefined;
 }
 
 /** A request structure for updating a list item. */
 export interface ListItemUpdateRequest {
     /** The content data of the list item. */
-    Content?: any | undefined;
+    content?: any | undefined;
     /** The list item id. */
-    Id?: string | undefined;
+    id?: string | undefined;
 }
 
 export interface LiveStreamSearchRequest {
-    From: Date;
-    To: Date;
-    Start: number;
-    Limit: number;
-    PageToken?: string | undefined;
+    from: Date;
+    to: Date;
+    start: number;
+    limit: number;
+    pageToken?: string | undefined;
 }
 
 export interface BaseResultOfObject {
-    TotalResults: number;
-    Results?: any[] | undefined;
-    PageToken?: string | undefined;
+    totalResults: number;
+    results?: any[] | undefined;
+    pageToken?: string | undefined;
 }
 
 export interface ObjectSearchResult extends BaseResultOfObject {
-    ElapsedMilliseconds: number;
+    elapsedMilliseconds: number;
 }
 
-export interface SchemaDetailViewItem {
+export interface SchemaDetail {
     /** The schema id. */
-    Id?: string | undefined;
+    id?: string | undefined;
     /** The parent schema id. */
-    ParentSchemaId?: string | undefined;
+    parentSchemaId?: string | undefined;
     /** Types control schema usage. */
-    Types?: SchemaType[] | undefined;
+    types?: SchemaType[] | undefined;
     /** Language specific schema names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** Language specific schema descriptions. */
-    Descriptions?: TranslatedStringDictionary | undefined;
+    descriptions?: TranslatedStringDictionary | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
+    layerSchemaIds?: string[] | undefined;
     /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    DisplayPatterns?: DisplayPattern[] | undefined;
+    displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
-    Fields?: FieldBase[] | undefined;
+    fields?: FieldBase[] | undefined;
     /** Sorts content documents and/or list items. */
-    Sort?: SortInfo[] | undefined;
+    sort?: SortInfo[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
-    Aggregations?: AggregatorBase[] | undefined;
+    aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
-    SortOrder: number;
+    sortOrder: number;
     /** Is true when schema is system provided. */
-    System: boolean;
+    system: boolean;
     /** The owner token id. Defines the schema owner. */
-    OwnerTokenId?: string | undefined;
+    ownerTokenId?: string | undefined;
     /** Opens list item document accessibility. If true the SchemaPermissionSetIds must be empty. */
-    Public: boolean;
+    public: boolean;
     /** An optional id list of schema permission sets which control list item permissions. When not empty Public must be false. */
-    SchemaPermissionSetIds?: string[] | undefined;
+    schemaPermissionSetIds?: string[] | undefined;
     /** An optional id list of schemas with type content for a schema with type layer. */
-    ReferencedInContentSchemaIds?: string[] | undefined;
+    referencedInContentSchemaIds?: string[] | undefined;
     /** A complete id list of all descendant schemas. */
-    DescendantSchemaIds?: string[] | undefined;
-    Audit?: StoreAudit | undefined;
+    descendantSchemaIds?: string[] | undefined;
+    audit?: StoreAudit | undefined;
     /** The number of fields generated by the schema for the Search operations. */
-    SearchFieldCount?: SearchFieldCountViewItem | undefined;
+    searchFieldCount?: SearchFieldCount | undefined;
 }
 
 export enum SchemaType {
@@ -5328,14 +5270,10 @@ export enum SchemaType {
 }
 
 export interface DisplayPattern {
-    /** The display pattern id. */
-    Id?: string | undefined;
-    /** Defines the template engine for parsing the templates. */
-    TemplateEngine: TemplateEngine;
-    /** Defines the pattern type of the templates. */
-    DisplayPatternType: DisplayPatternType;
-    /** Language specific pattern templates. */
-    Templates?: TranslatedStringDictionary | undefined;
+    id?: string | undefined;
+    templateEngine: TemplateEngine;
+    displayPatternType: DisplayPatternType;
+    templates?: TranslatedStringDictionary | undefined;
 }
 
 export enum TemplateEngine {
@@ -5350,231 +5288,183 @@ export enum DisplayPatternType {
     Name = <any>"Name", 
 }
 
-/** The field base class. */
 export interface FieldBase {
-    /** The field id. Can be a slug and must be unique within the schema. */
-    Id?: string | undefined;
-    /** The index id is auto generated by the system. */
-    IndexId?: string | undefined;
-    /** The namespace is auto generated by the system. */
-    FieldNamespace?: string | undefined;
-    /** Language specific field names. */
-    Names?: TranslatedStringDictionary | undefined;
-    /** Defines if a field value is mandatory or not. */
-    Required: boolean;
-    /** Defines if the field can be edited or not. */
-    Fixed: boolean;
-    /** Maps the field in the elastic search index and its values become searchable. */
-    Index: boolean;
-    /** Includes fields in the simple search. Index must be true. */
-    SimpleSearch: boolean;
-    /** Priorizes search results. SimpleSearch must be true. */
-    Boost: number;
+    id?: string | undefined;
+    indexId?: string | undefined;
+    fieldNamespace?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    descriptions?: TranslatedStringDictionary | undefined;
+    required: boolean;
+    fixed: boolean;
+    index: boolean;
+    simpleSearch: boolean;
+    boost: number;
 }
 
 export interface FieldBoolean extends FieldBase {
 }
 
 export interface FieldDate extends FieldBase {
-    /** Defines the date format structure. */
-    Format?: string | undefined;
+    format?: string | undefined;
 }
 
 export interface FieldDateTime extends FieldBase {
-    /** Defines the date time format structure. */
-    Format?: string | undefined;
+    format?: string | undefined;
 }
 
-/** For internal use only (system schemas) */
 export interface FieldDateTimeArray extends FieldDateTime {
-    UniqueItems: boolean;
-    MaximumItems?: number | undefined;
-    MinimumItems?: number | undefined;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
 }
 
 export interface FieldDecimal extends FieldBase {
-    Pattern?: string | undefined;
-    /** Defines the lowest possible value. */
-    Minimum?: number | undefined;
-    /** Defines the highest possible value. */
-    Maximum?: number | undefined;
+    pattern?: string | undefined;
+    minimum?: number | undefined;
+    maximum?: number | undefined;
 }
 
-/** For internal use only (system schemas) */
 export interface FieldDictionary extends FieldBase {
 }
 
-/** For internal use only (system schemas) */
 export interface FieldDictionaryArray extends FieldDictionary {
-    UniqueItems: boolean;
-    MaximumItems?: number | undefined;
-    MinimumItems?: number | undefined;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
 }
 
 export interface FieldGeoPoint extends FieldBase {
 }
 
 export interface FieldLong extends FieldBase {
-    Pattern?: string | undefined;
-    /** Defines the lowest possible value. */
-    Minimum?: number | undefined;
-    /** Defines the highest possible value. */
-    Maximum?: number | undefined;
+    pattern?: string | undefined;
+    minimum?: number | undefined;
+    maximum?: number | undefined;
 }
 
-/** For internal use only (system schemas) */
 export interface FieldLongArray extends FieldLong {
-    UniqueItems: boolean;
-    MaximumItems?: number | undefined;
-    MinimumItems?: number | undefined;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
 }
 
 export interface FieldSingleFieldset extends FieldBase {
-    /** The id of the schema with type struct. */
-    SchemaId?: string | undefined;
-    /** Avoids cyclic dependencies and limits the elastic search index and json schema depth. */
-    MaxRecursion: number;
+    schemaId?: string | undefined;
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    maxRecursion: number;
+}
+
+export interface SchemaIndexingInfo {
+    fields?: FieldIndexingInfo[] | undefined;
+}
+
+export interface FieldIndexingInfo {
+    id?: string | undefined;
+    index: boolean;
+    simpleSearch: boolean;
+    relatedSchemaIndexing?: SchemaIndexingInfo | undefined;
 }
 
 export interface FieldMultiFieldset extends FieldBase {
-    /** The id of the schema with type struct. */
-    SchemaId?: string | undefined;
-    /** Avoids cyclic dependencies and limits the elastic search index and json schema depth. */
-    MaxRecursion: number;
-    /** Prevents duplicate values. */
-    UniqueItems: boolean;
-    /** Defines the highest possible fieldset count. */
-    MaximumItems?: number | undefined;
-    /** Defines the lowest possible fieldset count. */
-    MinimumItems?: number | undefined;
+    schemaId?: string | undefined;
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    maxRecursion: number;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
 }
 
 export interface FieldSingleTagbox extends FieldBase {
-    /** The id of the schema with type list. */
-    SchemaId?: string | undefined;
-    /** Avoids cyclic dependencies and limits the elastic search index and json schema depth. */
-    MaxRecursion: number;
-    /** An optional search filter. Limits the list item result set. */
-    Filter?: FilterBase | undefined;
-    /** Json serialized template used for creating new list item */
-    ListItemCreateTemplate?: string | undefined;
+    schemaId?: string | undefined;
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    maxRecursion: number;
+    filter?: FilterBase | undefined;
+    listItemCreateTemplate?: string | undefined;
 }
 
 export interface FieldMultiTagbox extends FieldBase {
-    /** The id of the schema with type list. */
-    SchemaId?: string | undefined;
-    /** Avoids cyclic dependencies and limits the elastic search index and json schema depth. */
-    MaxRecursion: number;
-    /** Prevents duplicate values. */
-    UniqueItems: boolean;
-    /** Defines the highest possible item count. */
-    MaximumItems?: number | undefined;
-    /** Defines the lowest possible item count. */
-    MinimumItems?: number | undefined;
-    /** An optional search filter. Limits the list item result set. */
-    Filter?: FilterBase | undefined;
-    /** Json serialized template used for creating new list item */
-    ListItemCreateTemplate?: string | undefined;
+    schemaId?: string | undefined;
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    maxRecursion: number;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
+    filter?: FilterBase | undefined;
+    listItemCreateTemplate?: string | undefined;
 }
 
 export interface FieldString extends FieldBase {
-    /** It is a DotLiquid template. */
-    Template?: string | undefined;
-    /** If true the Template will only render on item creation otherwise it will render on each update. */
-    KeepFieldValue: boolean;
-    /** Contains a regex validation pattern. */
-    Pattern?: string | undefined;
-    /** Defines the minimal string length. */
-    MinimumLength?: number | undefined;
-    /** Defines the maximal string length. */
-    MaximumLength?: number | undefined;
-    /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    Analyzers?: AnalyzerBase[] | undefined;
-    /** Displays the field value in a multiline component. */
-    MultiLine: boolean;
-    /** Similar to an enumeration valid field values are limited to values of this list. */
-    GrantedValues?: string[] | undefined;
+    template?: string | undefined;
+    keepFieldValue: boolean;
+    pattern?: string | undefined;
+    minimumLength?: number | undefined;
+    maximumLength?: number | undefined;
+    analyzers?: AnalyzerBase[] | undefined;
+    multiLine: boolean;
+    grantedValues?: string[] | undefined;
 }
 
 /** The analyzer base class. */
 export interface AnalyzerBase {
     /** Includes the analyzed field in the simple search. */
-    SimpleSearch: boolean;
+    simpleSearch: boolean;
 }
 
 /** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
 export interface EdgeNGramAnalyzer extends AnalyzerBase {
-    FieldSuffix?: string | undefined;
+    fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using a language analyzer. Restricted to the languages supported by elastic search. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html */
 export interface LanguageAnalyzer extends AnalyzerBase {
-    FieldSuffix?: string | undefined;
+    fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using the NGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html */
 export interface NGramAnalyzer extends AnalyzerBase {
-    FieldSuffix?: string | undefined;
+    fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using the path hierarchy tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pathhierarchy-tokenizer.html */
 export interface PathHierarchyAnalyzer extends AnalyzerBase {
-    FieldSuffix?: string | undefined;
+    fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using a custom pattern tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pattern-tokenizer.html */
 export interface SimpleAnalyzer extends AnalyzerBase {
-    FieldSuffix?: string | undefined;
+    fieldSuffix?: string | undefined;
 }
 
-/** For internal use only (system schemas) */
 export interface FieldStringArray extends FieldString {
-    UniqueItems: boolean;
-    MaximumItems?: number | undefined;
-    MinimumItems?: number | undefined;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
 }
 
 export interface FieldTranslatedString extends FieldBase {
-    /** Contains a regex validation pattern. */
-    Pattern?: string | undefined;
-    /** Defines the minimal string length. */
-    MinimumLength?: number | undefined;
-    /** Defines the maximal string length. */
-    MaximumLength?: number | undefined;
-    /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    Analyzers?: AnalyzerBase[] | undefined;
-    /** Displays the field value in a multiline component. */
-    MultiLine: boolean;
-    /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
-If Required is true, the field and all its metadata languages are required, including x-default.
-If Required is false, the field can be left empty, but as soon as a value is entered all required metadata languages are mandatory, including x-default. */
-    RequiredMetadataLanguages?: string[] | undefined;
-    /** It is a DotLiquid template. */
-    Template?: string | undefined;
-    /** If true the Template will only render on item creation otherwise it will render on each update. */
-    KeepFieldValue: boolean;
+    pattern?: string | undefined;
+    minimumLength?: number | undefined;
+    maximumLength?: number | undefined;
+    analyzers?: AnalyzerBase[] | undefined;
+    multiLine: boolean;
+    requiredMetadataLanguages?: string[] | undefined;
+    template?: string | undefined;
+    keepFieldValue: boolean;
 }
 
 export interface FieldSingleRelation extends FieldBase {
-    /** The id of the schema with type struct. */
-    SchemaId?: string | undefined;
-    /** Defines the relation types supported by the field. */
-    RelationTypes?: RelationType[] | undefined;
-    /** Avoids cyclic dependencies and limits the elastic search index and json schema depth. */
-    MaxRecursion: number;
+    schemaId?: string | undefined;
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    relationTypes?: RelationType[] | undefined;
+    maxRecursion: number;
 }
 
 export interface RelationType {
-    /** The id property. */
-    Id?: string | undefined;
-    /** Language specific relation names. */
-    Names?: TranslatedStringDictionary | undefined;
-    /** Defines the valid target context. */
-    TargetContext: TargetContext;
-    /** The id of the schema. Limits the content or the list item result set depending on the relation's target context. */
-    SchemaId?: string | undefined;
-    /** An optional search filter. Limits the content or the list item result set depending on the relation's target context. */
-    Filter?: FilterBase | undefined;
+    id?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    targetContext: TargetContext;
+    schemaId?: string | undefined;
+    filter?: FilterBase | undefined;
 }
 
 export enum TargetContext {
@@ -5585,132 +5475,127 @@ export enum TargetContext {
 }
 
 export interface FieldMultiRelation extends FieldBase {
-    /** The id of the schema with type struct. */
-    SchemaId?: string | undefined;
-    /** Defines the relation types supported by the field. */
-    RelationTypes?: RelationType[] | undefined;
-    /** Avoids cyclic dependencies and limits the elastic search index and json schema depth. */
-    MaxRecursion: number;
-    /** Prevents duplicate values. */
-    UniqueItems: boolean;
-    /** Defines the highest possible item count. */
-    MaximumItems?: number | undefined;
-    /** Dfines the lowest possible item count. */
-    MinimumItems?: number | undefined;
+    schemaId?: string | undefined;
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    relationTypes?: RelationType[] | undefined;
+    maxRecursion: number;
+    uniqueItems: boolean;
+    maximumItems?: number | undefined;
+    minimumItems?: number | undefined;
 }
 
 /** Count info of fields for search operations */
-export interface SearchFieldCountViewItem {
+export interface SearchFieldCount {
     /** The number of fields generated by the schema in the Search index. */
-    DataField: number;
+    dataField: number;
     /** The number of indexed fields generated by the schema in the Search index. */
-    IndexedField: number;
+    indexedField: number;
     /** The number of fields to be queried in the simple search for the schema. */
-    SimpleSearchField: number;
+    simpleSearchField: number;
 }
 
 export interface ExistsResponse {
-    Exists: boolean;
+    exists: boolean;
 }
 
 export interface SchemaCreateRequest {
     /** The schema id. Can be a slug, but must be unique throughout the whole customer setup. */
-    Id?: string | undefined;
+    id?: string | undefined;
     /** The parent schema id. */
-    ParentSchemaId?: string | undefined;
+    parentSchemaId?: string | undefined;
     /** Types control schema usage. */
-    Types?: SchemaType[] | undefined;
+    types?: SchemaType[] | undefined;
     /** Language specific schema names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** Language specific schema descriptions. */
-    Descriptions?: TranslatedStringDictionary | undefined;
+    descriptions?: TranslatedStringDictionary | undefined;
     /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    DisplayPatterns?: DisplayPattern[] | undefined;
+    displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. Can be empty. */
-    Fields?: FieldBase[] | undefined;
+    fields?: FieldBase[] | undefined;
     /** An optional list of aggregations to group content documents and/or list items. */
-    Aggregations?: AggregatorBase[] | undefined;
+    aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
-    SortOrder: number;
+    sortOrder: number;
     /** Sorts content documents and/or list items. */
-    Sort?: SortInfo[] | undefined;
+    sort?: SortInfo[] | undefined;
     /** Opens list item document accessibility. If true SchemaPermissionSetIds must be empty. */
-    Public: boolean;
+    public: boolean;
     /** An optional id list of schema permission sets. Control list item document permissions. When not empty Public must be false. */
-    SchemaPermissionSetIds?: string[] | undefined;
+    schemaPermissionSetIds?: string[] | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
+    layerSchemaIds?: string[] | undefined;
     /** An optional id list of schemas with type content for a schema with type layer. */
-    ReferencedInContentSchemaIds?: string[] | undefined;
+    referencedInContentSchemaIds?: string[] | undefined;
 }
 
 export interface SchemaUpdateRequest {
     /** Language specific schema names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** Language specific schema descriptions. */
-    Descriptions?: TranslatedStringDictionary | undefined;
+    descriptions?: TranslatedStringDictionary | undefined;
     /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    DisplayPatterns?: DisplayPattern[] | undefined;
+    displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
-    Fields?: FieldBase[] | undefined;
+    fields?: FieldBase[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
-    Aggregations?: AggregatorBase[] | undefined;
+    aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
-    SortOrder: number;
+    sortOrder: number;
     /** Sorts content documents and/or list items. */
-    Sort?: SortInfo[] | undefined;
+    sort?: SortInfo[] | undefined;
     /** Opens schema accessibility. */
-    Public: boolean;
+    public: boolean;
     /** An optional id list of schema permission sets which control list item permissions. When not empty Public must be false. */
-    SchemaPermissionSetIds?: string[] | undefined;
+    schemaPermissionSetIds?: string[] | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
+    layerSchemaIds?: string[] | undefined;
     /** An optional id list of schemas with type content for a schema with type layer. */
-    ReferencedInContentSchemaIds?: string[] | undefined;
+    referencedInContentSchemaIds?: string[] | undefined;
     /** Types control schema usage. Schema types can only be added, but not removed. */
-    Types?: SchemaType[] | undefined;
+    types?: SchemaType[] | undefined;
 }
 
 export interface SchemaSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    SearchString?: string | undefined;
+    searchString?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    Sort?: SortInfo[] | undefined;
+    sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    Start: number;
+    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
-    Limit: number;
+    limit: number;
     /** An optional search filter. Limits the schema result set. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
 }
 
-export interface BaseResultOfSchemaViewItem {
-    TotalResults: number;
-    Results?: SchemaViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfSchema {
+    totalResults: number;
+    results?: Schema[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface SchemaViewItem {
+export interface Schema {
     /** The schema id. */
-    Id?: string | undefined;
+    id?: string | undefined;
     /** The parent schema id. */
-    ParentSchemaId?: string | undefined;
+    parentSchemaId?: string | undefined;
     /** Types control schema usage. */
-    Types?: SchemaType[] | undefined;
+    types?: SchemaType[] | undefined;
     /** Language specific schema names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** Language specific schema descriptions. */
-    Descriptions?: TranslatedStringDictionary | undefined;
+    descriptions?: TranslatedStringDictionary | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
+    layerSchemaIds?: string[] | undefined;
     /** The count of all fields. */
-    FieldCount: number;
+    fieldCount: number;
     /** The count of all schema descendants with a immediate inheritance. */
-    ChildCount: number;
+    childCount: number;
     /** The descendancy depth of the schema. */
-    Level: number;
+    level: number;
     /** Is true when schema is system provided. */
-    System: boolean;
+    system: boolean;
 }
 
 export enum UserRight {
@@ -5727,54 +5612,54 @@ export enum UserRight {
     ManageSearchIndexes = <any>"ManageSearchIndexes", 
     ManageRecipients = <any>"ManageRecipients", 
     ManageCollections = <any>"ManageCollections", 
-    ManageComments = <any>"ManageComments", 
     ManageListItems = <any>"ManageListItems", 
     ManageServiceProviders = <any>"ManageServiceProviders", 
+    ManageEmbeds = <any>"ManageEmbeds", 
 }
 
 export interface PermissionSetSearchRequest {
-    SearchString?: string | undefined;
-    Sort?: SortInfo[] | undefined;
-    Start: number;
-    Limit: number;
-    Filter?: FilterBase | undefined;
+    searchString?: string | undefined;
+    sort?: SortInfo[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
 }
 
-export interface BaseResultOfPermissionSetViewItem {
-    TotalResults: number;
-    Results?: PermissionSetViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfPermissionSet {
+    totalResults: number;
+    results?: PermissionSet[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface PermissionSetSearchResult extends BaseResultOfPermissionSetViewItem {
-    AggregationResults?: AggregationResult[] | undefined;
-    ElapsedMilliseconds: number;
+export interface PermissionSetSearchResult extends BaseResultOfPermissionSet {
+    aggregationResults?: AggregationResult[] | undefined;
+    elapsedMilliseconds: number;
 }
 
-export interface PermissionSetViewItem {
+export interface PermissionSet {
     /** The permission set id. */
-    Id?: string | undefined;
-    Trashed: boolean;
+    id?: string | undefined;
+    trashed: boolean;
     /** Language specific permission set names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
 }
 
-export interface PermissionSetDetailViewItemOfContentRight {
-    Id?: string | undefined;
-    Names?: TranslatedStringDictionary | undefined;
-    Trashed: boolean;
-    UserRolesRights?: UserRoleRightsViewItemOfContentRight[] | undefined;
-    UserRolesPermissionSetRights?: UserRoleRightsViewItemOfPermissionSetRight[] | undefined;
-    Exclusive: boolean;
+export interface PermissionSetDetailOfContentRight {
+    id?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    trashed: boolean;
+    userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
 }
 
-export interface ContentPermissionSetDetailViewItem extends PermissionSetDetailViewItemOfContentRight {
+export interface ContentPermissionSetDetail extends PermissionSetDetailOfContentRight {
 }
 
-export interface UserRoleRightsViewItemOfContentRight {
-    UserRoleId?: string | undefined;
-    Names?: TranslatedStringDictionary | undefined;
-    Rights?: ContentRight[] | undefined;
+export interface PermissionUserRoleRightsOfContentRight {
+    userRoleId?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    rights?: ContentRight[] | undefined;
 }
 
 export enum ContentRight {
@@ -5785,32 +5670,32 @@ export enum ContentRight {
     Trash = <any>"Trash", 
 }
 
-export interface UserRoleRightsViewItemOfPermissionSetRight {
-    UserRoleId?: string | undefined;
-    Names?: TranslatedStringDictionary | undefined;
-    Rights?: PermissionSetRight[] | undefined;
+export interface PermissionUserRoleRightsOfPermissionSetRight {
+    userRoleId?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    rights?: PermissionSetRight[] | undefined;
 }
 
 export enum PermissionSetRight {
     Apply = <any>"Apply", 
 }
 
-export interface PermissionSetDetailViewItemOfMetadataRight {
-    Id?: string | undefined;
-    Names?: TranslatedStringDictionary | undefined;
-    Trashed: boolean;
-    UserRolesRights?: UserRoleRightsViewItemOfMetadataRight[] | undefined;
-    UserRolesPermissionSetRights?: UserRoleRightsViewItemOfPermissionSetRight[] | undefined;
-    Exclusive: boolean;
+export interface PermissionSetDetailOfMetadataRight {
+    id?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    trashed: boolean;
+    userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
 }
 
-export interface SchemaPermissionSetDetailViewItem extends PermissionSetDetailViewItemOfMetadataRight {
+export interface SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRight {
 }
 
-export interface UserRoleRightsViewItemOfMetadataRight {
-    UserRoleId?: string | undefined;
-    Names?: TranslatedStringDictionary | undefined;
-    Rights?: MetadataRight[] | undefined;
+export interface PermissionUserRoleRightsOfMetadataRight {
+    userRoleId?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    rights?: MetadataRight[] | undefined;
 }
 
 export enum MetadataRight {
@@ -5819,99 +5704,153 @@ export enum MetadataRight {
     Manage = <any>"Manage", 
 }
 
-/** The version view item for the environment. */
-export interface VersionInfoViewItem {
-    /** The manual file version of Picturepark.Contract.dll. */
-    FileVersion?: string | undefined;
-    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
-    FileProductVersion?: string | undefined;
-    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
-    ContractVersion?: string | undefined;
-    /** The bamboo release version. Only provided on bamboo deployments. */
-    Release?: string | undefined;
+export interface VersionInfo {
+    comments?: string | undefined;
+    event?: Event | undefined;
+    modifier?: string | undefined;
+    modifyDate?: Date | undefined;
+    version?: string | undefined;
 }
 
-export interface ShareBaseDetailViewItem {
-    Id?: string | undefined;
-    Name?: string | undefined;
-    Description?: string | undefined;
-    Audit?: StoreAudit | undefined;
-    EntityType: EntityType;
-    ContentSelections?: ContentDetailViewItem[] | undefined;
-    TemplateId?: string | undefined;
-    ExpirationDate?: Date | undefined;
+export interface Event {
+    action?: EventAction | undefined;
+    changed?: string | undefined;
+    instanceID?: string | undefined;
+    parameters?: string | undefined;
+    softwareAgent?: string | undefined;
+    when?: Date | undefined;
 }
 
-export interface ContentDetailViewItem {
-    ContentTypeId: number;
-    Trashed: boolean;
+/** Corresponds to stEvt.ActionChoice */
+export enum EventAction {
+    Converted = <any>"Converted", 
+    Copied = <any>"Copied", 
+    Created = <any>"Created", 
+    Cropped = <any>"Cropped", 
+    Edited = <any>"Edited", 
+    Filtered = <any>"Filtered", 
+    Formatted = <any>"Formatted", 
+    VersionUpdated = <any>"VersionUpdated", 
+    Printed = <any>"Printed", 
+    Published = <any>"Published", 
+    Managed = <any>"Managed", 
+    Produced = <any>"Produced", 
+    Resized = <any>"Resized", 
+    Saved = <any>"Saved", 
+    Derived = <any>"Derived", 
+}
+
+export interface ShareBaseDetail {
+    id?: string | undefined;
+    name?: string | undefined;
+    description?: string | undefined;
+    audit?: StoreAudit | undefined;
+    entityType: EntityType;
+    contentSelections?: ContentDetail2[] | undefined;
+    layerSchemaIds?: string[] | undefined;
+    mailTemplateId?: string | undefined;
+    expirationDate?: Date | undefined;
+    template?: TemplateBase | undefined;
+    outputAccess: OutputAccess;
+}
+
+export interface ContentDetail2 {
+    contentTypeId: number;
+    trashed: boolean;
     /** The entity type of a content document is content. */
-    EntityType: EntityType;
+    entityType: EntityType;
     /** The id of the schema with schema type content. */
-    ContentSchemaId?: string | undefined;
+    contentSchemaId?: string | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
-    Content?: DataDictionary | undefined;
-    Metadata?: DataDictionary | undefined;
-    Id?: string | undefined;
+    layerSchemaIds?: string[] | undefined;
+    content?: DataDictionary | undefined;
+    metadata?: DataDictionary | undefined;
+    id?: string | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    ContentPermissionSetIds?: string[] | undefined;
-    Outputs?: OutputViewItem[] | undefined;
-    Audit?: StoreAudit | undefined;
-    OwnerTokenId?: string | undefined;
-    ContentType: ContentType;
+    contentPermissionSetIds?: string[] | undefined;
+    outputs?: Output[] | undefined;
+    audit?: StoreAudit | undefined;
+    ownerTokenId?: string | undefined;
+    contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
-    DisplayValues?: DisplayValueViewItem | undefined;
+    displayValues?: DisplayValueDictionary | undefined;
 }
 
-export interface ShareBasicDetailViewItem extends ShareBaseDetailViewItem {
-    MailRecipients?: MailRecipientViewItem[] | undefined;
-    InternalRecipients?: InternalRecipientViewItem[] | undefined;
-    LanguageCode?: string | undefined;
+export interface TemplateBase {
+    width?: number | undefined;
+    height?: number | undefined;
 }
 
-export interface MailRecipientViewItem {
-    UserEmail?: UserEmail | undefined;
-    Token?: string | undefined;
-    Url?: string | undefined;
+export interface CardTemplate extends TemplateBase {
+    showNavigation: boolean;
+    showOverlay: boolean;
+    showLogo: boolean;
+    showFooter: boolean;
+}
+
+export interface ListTemplate extends TemplateBase {
+}
+
+export interface BasicTemplate extends TemplateBase {
+}
+
+export enum OutputAccess {
+    Full = <any>"Full", 
+    Preview = <any>"Preview", 
+    None = <any>"None", 
+}
+
+export interface ShareBasicDetail extends ShareBaseDetail {
+    mailRecipients?: MailRecipient[] | undefined;
+    internalRecipients?: InternalRecipient[] | undefined;
+    languageCode?: string | undefined;
+}
+
+export interface MailRecipient {
+    userEmail?: UserEmail | undefined;
+    token?: string | undefined;
+    url?: string | undefined;
 }
 
 export interface UserEmail {
-    FirstName?: string | undefined;
-    LastName?: string | undefined;
-    EmailAddress?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    emailAddress?: string | undefined;
 }
 
-export interface InternalRecipientViewItem {
-    Recipient?: UserItem | undefined;
-    Token?: string | undefined;
-    Url?: string | undefined;
+export interface InternalRecipient {
+    recipient?: UserItem | undefined;
+    token?: string | undefined;
+    url?: string | undefined;
 }
 
-export interface ShareEmbedDetailViewItem extends ShareBaseDetailViewItem {
-    EmbedContentItems?: EmbedContentViewItem[] | undefined;
-    Token?: string | undefined;
-    Url?: string | undefined;
+export interface ShareEmbedDetail extends ShareBaseDetail {
+    embedContentItems?: EmbedContentDetail[] | undefined;
+    token?: string | undefined;
+    url?: string | undefined;
 }
 
-export interface EmbedContentViewItem {
-    ContentId?: string | undefined;
-    OutputFormatId?: string | undefined;
-    Token?: string | undefined;
-    Url?: string | undefined;
+export interface EmbedContentDetail {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+    token?: string | undefined;
+    url?: string | undefined;
 }
 
 export interface ShareBaseUpdateRequest {
-    Id?: string | undefined;
-    Name?: string | undefined;
-    ExpirationDate?: Date | undefined;
-    Description?: string | undefined;
-    ShareContentItems?: ShareContent[] | undefined;
+    id?: string | undefined;
+    name?: string | undefined;
+    expirationDate?: Date | undefined;
+    description?: string | undefined;
+    shareContentItems?: ShareContent[] | undefined;
+    layerSchemaIds?: string[] | undefined;
+    template?: TemplateBase | undefined;
+    outputAccess: OutputAccess;
 }
 
 export interface ShareContent {
-    ContentId?: string | undefined;
-    OutputFormatIds?: string[] | undefined;
+    contentId?: string | undefined;
+    outputFormatIds?: string[] | undefined;
 }
 
 export interface ShareBasicUpdateRequest extends ShareBaseUpdateRequest {
@@ -5920,94 +5859,97 @@ export interface ShareBasicUpdateRequest extends ShareBaseUpdateRequest {
 export interface ShareEmbedUpdateRequest extends ShareBaseUpdateRequest {
 }
 
-export interface BaseResultOfShareBaseViewItem {
-    TotalResults: number;
-    Results?: ShareBaseViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfShareBase {
+    totalResults: number;
+    results?: ShareBase[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface ShareBaseViewItem {
-    Name?: string | undefined;
-    ContentIds?: string[] | undefined;
-    Id?: string | undefined;
-    Audit?: StoreAudit | undefined;
-    EntityType: EntityType;
-    ExpirationDate?: Date | undefined;
+export interface ShareBase {
+    name?: string | undefined;
+    contentIds?: string[] | undefined;
+    id?: string | undefined;
+    audit?: StoreAudit | undefined;
+    entityType: EntityType;
+    expirationDate?: Date | undefined;
 }
 
-export interface ShareBasicViewItem extends ShareBaseViewItem {
-    MailRecipients?: MailRecipientViewItem[] | undefined;
-    InternalRecipients?: InternalRecipientViewItem[] | undefined;
-    Description?: string | undefined;
+export interface ShareBasic extends ShareBase {
+    mailRecipients?: MailRecipient[] | undefined;
+    internalRecipients?: InternalRecipient[] | undefined;
+    description?: string | undefined;
 }
 
-export interface ShareEmbedViewItem extends ShareBaseViewItem {
+export interface ShareEmbed extends ShareBase {
 }
 
 export interface ShareAggregationRequest {
-    SearchString?: string | undefined;
-    Sort?: SortInfo[] | undefined;
+    searchString?: string | undefined;
+    sort?: SortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
-    Filter?: FilterBase | undefined;
-    AggregationFilters?: AggregationFilter[] | undefined;
-    Aggregators?: AggregatorBase[] | undefined;
-    DisplayLanguage?: string | undefined;
+    filter?: FilterBase | undefined;
+    aggregationFilters?: AggregationFilter[] | undefined;
+    aggregators?: AggregatorBase[] | undefined;
+    displayLanguage?: string | undefined;
 }
 
 export interface ShareBaseCreateRequest {
-    Name?: string | undefined;
-    Description?: string | undefined;
-    ExpirationDate?: Date | undefined;
-    Contents?: ShareContent[] | undefined;
+    name?: string | undefined;
+    description?: string | undefined;
+    expirationDate?: Date | undefined;
+    contents?: ShareContent[] | undefined;
+    layerSchemaIds?: string[] | undefined;
+    template?: TemplateBase | undefined;
+    outputAccess: OutputAccess;
 }
 
 export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
-    RecipientsEmail?: UserEmail[] | undefined;
-    RecipientsUser?: UserItem[] | undefined;
-    RecipientsGroup?: UserRoleViewItem[] | undefined;
-    LanguageCode?: string | undefined;
-    TemplateId?: string | undefined;
+    recipientsEmail?: UserEmail[] | undefined;
+    recipientsUser?: UserItem[] | undefined;
+    recipientsGroup?: UserRole[] | undefined;
+    languageCode?: string | undefined;
+    mailTemplateId?: string | undefined;
 }
 
-export interface UserRoleViewItem {
+export interface UserRole {
     /** The user role id. */
-    Id?: string | undefined;
-    Trashed: boolean;
+    id?: string | undefined;
+    trashed: boolean;
     /** Language specific user role names. */
-    Names?: TranslatedStringDictionary | undefined;
+    names?: TranslatedStringDictionary | undefined;
     /** All user rights for this user role. */
-    UserRights?: UserRight[] | undefined;
+    userRights?: UserRight[] | undefined;
 }
 
 export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
 }
 
 export interface CreateShareResult {
-    ShareId?: string | undefined;
+    shareId?: string | undefined;
 }
 
 export interface FileTransferDeleteRequest {
-    TransferId?: string | undefined;
-    FileTransferIds?: string[] | undefined;
+    transferId?: string | undefined;
+    fileTransferIds?: string[] | undefined;
 }
 
 export interface Blacklist {
-    Items?: BlacklistItem[] | undefined;
+    items?: BlacklistItem[] | undefined;
 }
 
 export interface BlacklistItem {
-    Name?: string | undefined;
-    Match?: string | undefined;
+    name?: string | undefined;
+    match?: string | undefined;
 }
 
 export interface CreateTransferRequest {
-    Name?: string | undefined;
-    TransferType: TransferType;
-    Files?: TransferUploadFile[] | undefined;
-    DriveFiles?: TransferDriveFile[] | undefined;
-    WebLinks?: TransferWebLink[] | undefined;
-    CollectionName?: string | undefined;
-    CreateCollection: boolean;
+    name?: string | undefined;
+    transferType: TransferType;
+    files?: TransferUploadFile[] | undefined;
+    driveFiles?: TransferDriveFile[] | undefined;
+    webLinks?: TransferWebLink[] | undefined;
+    collectionName?: string | undefined;
+    createCollection: boolean;
 }
 
 export enum TransferType {
@@ -6019,31 +5961,31 @@ export enum TransferType {
 }
 
 export interface TransferFile {
-    Identifier?: string | undefined;
+    identifier?: string | undefined;
 }
 
 export interface TransferUploadFile extends TransferFile {
-    FileName?: string | undefined;
+    fileName?: string | undefined;
 }
 
 export interface TransferDriveFile extends TransferFile {
-    DriveId?: string | undefined;
-    FileId?: string | undefined;
-    Name?: string | undefined;
-    ExternalOutputFolderId?: string | undefined;
+    driveId?: string | undefined;
+    fileId?: string | undefined;
+    name?: string | undefined;
+    externalOutputFolderId?: string | undefined;
 }
 
 export interface TransferWebLink extends TransferFile {
-    Url?: string | undefined;
+    url?: string | undefined;
 }
 
-export interface TransferViewItem {
-    Id?: string | undefined;
-    Name?: string | undefined;
-    State: TransferState;
-    TransferType: TransferType;
-    BusinessProcessId?: string | undefined;
-    FileTransferCount: number;
+export interface Transfer {
+    id?: string | undefined;
+    name?: string | undefined;
+    state: TransferState;
+    transferType: TransferType;
+    businessProcessId?: string | undefined;
+    fileTransferCount: number;
 }
 
 export enum TransferState {
@@ -6063,35 +6005,35 @@ export enum TransferState {
     TransferCleanup = <any>"TransferCleanup", 
 }
 
-export interface TransferDetailViewItem {
-    Id?: string | undefined;
-    Rev?: string | undefined;
-    Audit?: StoreAudit | undefined;
-    Name?: string | undefined;
-    State: TransferState;
-    BusinessProcessId?: string | undefined;
-    TransferType: TransferType;
-    ItemProgress: number;
-    ItemCount: number;
-    ItemsFailed: number;
-    ItemsCancelled: number;
-    LastProgressStamp: number;
-    FileTransferCount: number;
+export interface TransferDetail {
+    id?: string | undefined;
+    rev?: string | undefined;
+    audit?: StoreAudit | undefined;
+    name?: string | undefined;
+    state: TransferState;
+    businessProcessId?: string | undefined;
+    transferType: TransferType;
+    itemProgress: number;
+    itemCount: number;
+    itemsFailed: number;
+    itemsCancelled: number;
+    lastProgressStamp: number;
+    fileTransferCount: number;
 }
 
-export interface FileTransferDetailViewItem {
-    Id?: string | undefined;
-    Rev?: string | undefined;
-    Name?: string | undefined;
-    Identifier?: string | undefined;
-    Audit?: StoreAudit | undefined;
-    TransferId?: string | undefined;
-    State: FileTransferState;
-    EntityType: EntityType;
-    FileMetadata?: FileMetadata | undefined;
-    DriveMetadata?: DriveMetadata | undefined;
-    OutputItems?: OutputItem[] | undefined;
-    ContentId?: string | undefined;
+export interface FileTransferDetail {
+    id?: string | undefined;
+    rev?: string | undefined;
+    name?: string | undefined;
+    identifier?: string | undefined;
+    audit?: StoreAudit | undefined;
+    transferId?: string | undefined;
+    state: FileTransferState;
+    entityType: EntityType;
+    fileMetadata?: FileMetadata | undefined;
+    driveMetadata?: DriveMetadata | undefined;
+    outputItems?: OutputItem[] | undefined;
+    contentId?: string | undefined;
 }
 
 export enum FileTransferState {
@@ -6113,101 +6055,101 @@ export enum FileTransferState {
 }
 
 export interface FileMetadata {
-    Names?: TranslatedStringDictionary | undefined;
-    Descriptions?: TranslatedStringDictionary | undefined;
-    FileExtension?: string | undefined;
-    FileName?: string | undefined;
-    FilePath?: string | undefined;
-    FileSizeInBytes?: number | undefined;
-    Sha1Hash?: string | undefined;
-    XmpMetadata?: XmpMetadata | undefined;
-    ExifMetadata?: ExifMetadata | undefined;
-    Language?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    descriptions?: TranslatedStringDictionary | undefined;
+    fileExtension?: string | undefined;
+    fileName?: string | undefined;
+    filePath?: string | undefined;
+    fileSizeInBytes?: number | undefined;
+    sha1Hash?: string | undefined;
+    xmpMetadata?: XmpMetadata | undefined;
+    exifMetadata?: ExifMetadata | undefined;
+    language?: string | undefined;
 }
 
 export interface XmpMetadata {
-    Dc?: Dc | undefined;
-    Crs?: Crs | undefined;
-    IptcCore?: IptcCore | undefined;
-    IptcExt?: IptcExt | undefined;
-    IptcIIM?: IptcIIM | undefined;
-    Lr?: Lr | undefined;
-    Pdf?: Pdf | undefined;
-    Photoshop?: Photoshop | undefined;
-    Plus?: Plus | undefined;
-    Tiff?: Tiff | undefined;
-    Xmp?: Xmp | undefined;
-    XmpBJ?: XmpBJ | undefined;
-    XmpDM?: XmpDM | undefined;
-    XmpG?: XmpG | undefined;
-    XmpGImg?: XmpGImg | undefined;
-    Xmpidq?: Xmpidq | undefined;
-    XmpMM?: XmpMM | undefined;
-    XmpNote?: XmpNote | undefined;
-    XmpRights?: XmpRights | undefined;
-    XmpTPg?: XmpTPg | undefined;
+    dc?: Dc | undefined;
+    crs?: Crs | undefined;
+    iptcCore?: IptcCore | undefined;
+    iptcExt?: IptcExt | undefined;
+    iptcIIM?: IptcIIM | undefined;
+    lr?: Lr | undefined;
+    pdf?: Pdf | undefined;
+    photoshop?: Photoshop | undefined;
+    plus?: Plus | undefined;
+    tiff?: Tiff | undefined;
+    xmp?: Xmp | undefined;
+    xmpBJ?: XmpBJ | undefined;
+    xmpDM?: XmpDM | undefined;
+    xmpG?: XmpG | undefined;
+    xmpGImg?: XmpGImg | undefined;
+    xmpidq?: Xmpidq | undefined;
+    xmpMM?: XmpMM | undefined;
+    xmpNote?: XmpNote | undefined;
+    xmpRights?: XmpRights | undefined;
+    xmpTPg?: XmpTPg | undefined;
 }
 
 export interface Dc {
-    Contributor?: string[] | undefined;
-    Coverage?: string | undefined;
-    Creator?: string[] | undefined;
-    Date?: Date[] | undefined;
-    Description?: { [key: string] : string; } | undefined;
-    Format?: string | undefined;
-    Identifier?: string | undefined;
-    Language?: string[] | undefined;
-    Publisher?: string[] | undefined;
-    Relation?: string[] | undefined;
-    Rights?: { [key: string] : string; } | undefined;
-    Source?: string | undefined;
-    Subject?: string[] | undefined;
-    Title?: { [key: string] : string; } | undefined;
-    Type?: string | undefined;
+    contributor?: string[] | undefined;
+    coverage?: string | undefined;
+    creator?: string[] | undefined;
+    date?: Date[] | undefined;
+    description?: { [key: string] : string; } | undefined;
+    format?: string | undefined;
+    identifier?: string | undefined;
+    language?: string[] | undefined;
+    publisher?: string[] | undefined;
+    relation?: string[] | undefined;
+    rights?: { [key: string] : string; } | undefined;
+    source?: string | undefined;
+    subject?: string[] | undefined;
+    title?: { [key: string] : string; } | undefined;
+    type?: string | undefined;
 }
 
 export interface Crs {
-    AutoBrightness?: boolean | undefined;
-    AutoContrast?: boolean | undefined;
-    AutoExposure?: boolean | undefined;
-    AutoShadows?: boolean | undefined;
-    BlueHue?: number | undefined;
-    BlueSaturation?: number | undefined;
-    Brightness?: number | undefined;
-    CameraProfile?: string | undefined;
-    ChromaticAberrationB?: number | undefined;
-    ChromaticAberrationR?: number | undefined;
-    ColorNoiseReduction?: number | undefined;
-    Contrast?: number | undefined;
-    CropTop?: number | undefined;
-    CropLeft?: number | undefined;
-    CropBottom?: number | undefined;
-    CropRight?: number | undefined;
-    CropAngle?: number | undefined;
-    CropWidth?: number | undefined;
-    CropHeight?: number | undefined;
-    CropUnits?: CropUnit | undefined;
-    Exposure?: number | undefined;
-    GreenHue?: number | undefined;
-    GreenSaturation?: number | undefined;
-    HasCrop?: boolean | undefined;
-    HasSettings?: boolean | undefined;
-    LuminanceSmoothing?: number | undefined;
-    RawFileName?: string | undefined;
-    RedHue?: number | undefined;
-    RedSaturation?: number | undefined;
-    Saturation?: number | undefined;
-    Shadows?: number | undefined;
-    ShadowTint?: number | undefined;
-    Sharpness?: number | undefined;
-    Temperature?: number | undefined;
-    Tint?: number | undefined;
-    ToneCurve?: string[] | undefined;
-    ToneCurveName?: ToneCurve | undefined;
-    Version?: string | undefined;
-    VignetteAmount?: number | undefined;
-    VignetteMidpoint?: number | undefined;
-    WhiteBalance?: WhiteBalance | undefined;
+    autoBrightness?: boolean | undefined;
+    autoContrast?: boolean | undefined;
+    autoExposure?: boolean | undefined;
+    autoShadows?: boolean | undefined;
+    blueHue?: number | undefined;
+    blueSaturation?: number | undefined;
+    brightness?: number | undefined;
+    cameraProfile?: string | undefined;
+    chromaticAberrationB?: number | undefined;
+    chromaticAberrationR?: number | undefined;
+    colorNoiseReduction?: number | undefined;
+    contrast?: number | undefined;
+    cropTop?: number | undefined;
+    cropLeft?: number | undefined;
+    cropBottom?: number | undefined;
+    cropRight?: number | undefined;
+    cropAngle?: number | undefined;
+    cropWidth?: number | undefined;
+    cropHeight?: number | undefined;
+    cropUnits?: CropUnit | undefined;
+    exposure?: number | undefined;
+    greenHue?: number | undefined;
+    greenSaturation?: number | undefined;
+    hasCrop?: boolean | undefined;
+    hasSettings?: boolean | undefined;
+    luminanceSmoothing?: number | undefined;
+    rawFileName?: string | undefined;
+    redHue?: number | undefined;
+    redSaturation?: number | undefined;
+    saturation?: number | undefined;
+    shadows?: number | undefined;
+    shadowTint?: number | undefined;
+    sharpness?: number | undefined;
+    temperature?: number | undefined;
+    tint?: number | undefined;
+    toneCurve?: string[] | undefined;
+    toneCurveName?: ToneCurve | undefined;
+    version?: string | undefined;
+    vignetteAmount?: number | undefined;
+    vignetteMidpoint?: number | undefined;
+    whiteBalance?: WhiteBalance | undefined;
 }
 
 /** Corresponds to crs.CropUnitsChoice */
@@ -6239,159 +6181,158 @@ export enum WhiteBalance {
 }
 
 export interface IptcCore {
-    CountryCode?: string | undefined;
-    IntellectualGenre?: string | undefined;
-    Scene?: string[] | undefined;
-    SubjectCode?: string[] | undefined;
-    Location?: string | undefined;
-    CreatorContactInfo?: CreatorContactInfo | undefined;
+    countryCode?: string | undefined;
+    intellectualGenre?: string | undefined;
+    scene?: string[] | undefined;
+    subjectCode?: string[] | undefined;
+    location?: string | undefined;
+    creatorContactInfo?: CreatorContactInfo | undefined;
 }
 
 export interface CreatorContactInfo {
-    Address?: string | undefined;
-    City?: string | undefined;
-    Country?: string | undefined;
-    EmailAddress?: string | undefined;
-    PhoneNumber?: string | undefined;
-    PostalCode?: string | undefined;
-    Region?: string | undefined;
-    URL?: string | undefined;
+    address?: string | undefined;
+    city?: string | undefined;
+    country?: string | undefined;
+    emailAddress?: string | undefined;
+    phoneNumber?: string | undefined;
+    postalCode?: string | undefined;
+    region?: string | undefined;
+    url?: string | undefined;
 }
 
 export interface IptcExt {
-    AdditionalModelInformation?: string | undefined;
-    ArtworkOrObject?: ArtworkOrObjectInfo[] | undefined;
-    OrganisationInImageCode?: string[] | undefined;
-    ControlledVocabularyTerm?: string[] | undefined;
-    LocationShown?: LocationInfo[] | undefined;
-    ModelAge?: number[] | undefined;
-    OrganisationInImageName?: string[] | undefined;
-    PersonInImage?: string[] | undefined;
-    DigitalImageGUID?: string | undefined;
-    DigitalSourceType?: string | undefined;
-    Event?: { [key: string] : string; } | undefined;
-    ImageRegistryEntry?: RegistryEntryInfo[] | undefined;
-    MetadataLastEdited?: Date | undefined;
-    LocationCreated?: LocationInfo[] | undefined;
-    MaxAvailHeight?: number | undefined;
-    MaxAvailWidth?: number | undefined;
+    additionalModelInformation?: string | undefined;
+    artworkOrObject?: ArtworkOrObjectInfo[] | undefined;
+    organisationInImageCode?: string[] | undefined;
+    controlledVocabularyTerm?: string[] | undefined;
+    locationShown?: LocationInfo[] | undefined;
+    modelAge?: number[] | undefined;
+    organisationInImageName?: string[] | undefined;
+    personInImage?: string[] | undefined;
+    digitalImageGUID?: string | undefined;
+    digitalSourceType?: string | undefined;
+    event?: { [key: string] : string; } | undefined;
+    imageRegistryEntry?: RegistryEntryInfo[] | undefined;
+    metadataLastEdited?: Date | undefined;
+    locationCreated?: LocationInfo[] | undefined;
+    maxAvailHeight?: number | undefined;
+    maxAvailWidth?: number | undefined;
 }
 
-/** Corresponds to Xmp.Structure.ArtworkOrObjectDetails */
 export interface ArtworkOrObjectInfo {
-    CopyrightNotice?: string | undefined;
-    Creator?: string[] | undefined;
-    DateCreated?: Date | undefined;
-    Source?: string | undefined;
-    SourceInventoryNumber?: string | undefined;
-    Title?: { [key: string] : string; } | undefined;
+    copyrightNotice?: string | undefined;
+    creator?: string[] | undefined;
+    dateCreated?: Date | undefined;
+    source?: string | undefined;
+    sourceInventoryNumber?: string | undefined;
+    title?: { [key: string] : string; } | undefined;
 }
 
 export interface LocationInfo {
-    City?: string | undefined;
-    CountryCode?: string | undefined;
-    CountryName?: string | undefined;
-    ProvinceState?: string | undefined;
-    Sublocation?: string | undefined;
-    WorldRegion?: string | undefined;
+    city?: string | undefined;
+    countryCode?: string | undefined;
+    countryName?: string | undefined;
+    provinceState?: string | undefined;
+    sublocation?: string | undefined;
+    worldRegion?: string | undefined;
 }
 
 export interface RegistryEntryInfo {
-    RegistryItemIdentifier?: string | undefined;
-    RegistryOrganisationIdentifier?: string | undefined;
+    registryItemIdentifier?: string | undefined;
+    registryOrganisationIdentifier?: string | undefined;
 }
 
 export interface IptcIIM {
-    ModelVersion?: number | undefined;
-    Destination?: string[] | undefined;
-    FileFormat?: number | undefined;
-    FileFormatVersion?: number | undefined;
-    ServiceIdentifier?: string | undefined;
-    EnvelopeNumber?: string | undefined;
-    ProductID?: string[] | undefined;
-    EnvelopePriority?: number | undefined;
-    DateSent?: Date | undefined;
-    TimeSent?: Date | undefined;
-    UNO?: string | undefined;
-    RecordVersion?: number | undefined;
-    ObjectTypeReference?: string | undefined;
-    ObjectAttributeReference?: string | undefined;
-    ObjectName?: { [key: string] : string; } | undefined;
-    EditStatus?: string | undefined;
-    Urgency?: number | undefined;
-    SubjectReference?: string[] | undefined;
-    Category?: string | undefined;
-    SupplementalCategory?: string[] | undefined;
-    FixtureIdentifier?: string | undefined;
-    Keywords?: string[] | undefined;
-    ContentLocationCode?: string[] | undefined;
-    ContentLocationName?: string[] | undefined;
-    ReleaseDate?: Date | undefined;
-    ReleaseTime?: Date | undefined;
-    ExpirationDate?: Date | undefined;
-    ExpirationTime?: Date | undefined;
-    SpecialInstruction?: string | undefined;
-    ActionAdvised?: string | undefined;
-    ReferenceService?: string | undefined;
-    ReferenceDate?: Date | undefined;
-    ReferenceNumber?: string | undefined;
-    DateCreated?: Date | undefined;
-    TimeCreated?: Date | undefined;
-    DigitalCreationDate?: Date | undefined;
-    DigitalCreationTime?: Date | undefined;
-    OriginatingProgram?: string | undefined;
-    ProgramVersion?: string | undefined;
-    Byline?: string[] | undefined;
-    BylineTitle?: string | undefined;
-    City?: string | undefined;
-    Sublocation?: string | undefined;
-    ProvinceState?: string | undefined;
-    CountryPrimaryLocationCode?: string | undefined;
-    CountryPrimaryLocationName?: string | undefined;
-    OriginalTransmissionReference?: string | undefined;
-    Headline?: string | undefined;
-    Credit?: string | undefined;
-    Source?: string | undefined;
-    CopyrightNotice?: { [key: string] : string; } | undefined;
-    CaptionAbstract?: { [key: string] : string; } | undefined;
-    WriterEditor?: string | undefined;
-    ImageType?: string | undefined;
-    ImageOrientation?: string | undefined;
-    LanguageIdentifier?: string | undefined;
+    modelVersion?: number | undefined;
+    destination?: string[] | undefined;
+    fileFormat?: number | undefined;
+    fileFormatVersion?: number | undefined;
+    serviceIdentifier?: string | undefined;
+    envelopeNumber?: string | undefined;
+    productID?: string[] | undefined;
+    envelopePriority?: number | undefined;
+    dateSent?: Date | undefined;
+    timeSent?: Date | undefined;
+    uno?: string | undefined;
+    recordVersion?: number | undefined;
+    objectTypeReference?: string | undefined;
+    objectAttributeReference?: string | undefined;
+    objectName?: { [key: string] : string; } | undefined;
+    editStatus?: string | undefined;
+    urgency?: number | undefined;
+    subjectReference?: string[] | undefined;
+    category?: string | undefined;
+    supplementalCategory?: string[] | undefined;
+    fixtureIdentifier?: string | undefined;
+    keywords?: string[] | undefined;
+    contentLocationCode?: string[] | undefined;
+    contentLocationName?: string[] | undefined;
+    releaseDate?: Date | undefined;
+    releaseTime?: Date | undefined;
+    expirationDate?: Date | undefined;
+    expirationTime?: Date | undefined;
+    specialInstruction?: string | undefined;
+    actionAdvised?: string | undefined;
+    referenceService?: string | undefined;
+    referenceDate?: Date | undefined;
+    referenceNumber?: string | undefined;
+    dateCreated?: Date | undefined;
+    timeCreated?: Date | undefined;
+    digitalCreationDate?: Date | undefined;
+    digitalCreationTime?: Date | undefined;
+    originatingProgram?: string | undefined;
+    programVersion?: string | undefined;
+    byline?: string[] | undefined;
+    bylineTitle?: string | undefined;
+    city?: string | undefined;
+    sublocation?: string | undefined;
+    provinceState?: string | undefined;
+    countryPrimaryLocationCode?: string | undefined;
+    countryPrimaryLocationName?: string | undefined;
+    originalTransmissionReference?: string | undefined;
+    headline?: string | undefined;
+    credit?: string | undefined;
+    source?: string | undefined;
+    copyrightNotice?: { [key: string] : string; } | undefined;
+    captionAbstract?: { [key: string] : string; } | undefined;
+    writerEditor?: string | undefined;
+    imageType?: string | undefined;
+    imageOrientation?: string | undefined;
+    languageIdentifier?: string | undefined;
 }
 
 export interface Lr {
-    HierarchicalSubject?: string[] | undefined;
+    hierarchicalSubject?: string[] | undefined;
 }
 
 export interface Pdf {
-    Keywords?: string | undefined;
-    PDFVersion?: string | undefined;
-    Producer?: string | undefined;
-    Trapped?: boolean | undefined;
+    keywords?: string | undefined;
+    pdfVersion?: string | undefined;
+    producer?: string | undefined;
+    trapped?: boolean | undefined;
 }
 
 export interface Photoshop {
-    AuthorsPosition?: string | undefined;
-    CaptionWriter?: string | undefined;
-    Category?: string | undefined;
-    City?: string | undefined;
-    ColorMode?: ColorMode | undefined;
-    Country?: string | undefined;
-    Credit?: string | undefined;
-    DateCreated?: Date | undefined;
-    DocumentAncestors?: string[] | undefined;
-    Headline?: string | undefined;
-    History?: string | undefined;
-    ICCProfile?: string | undefined;
-    Instructions?: string | undefined;
-    Source?: string | undefined;
-    State?: string | undefined;
-    SupplementalCategories?: string[] | undefined;
-    TextLayers?: PhotoshopLayer[] | undefined;
-    TransmissionReference?: string | undefined;
-    Urgency?: number | undefined;
-    LegacyIPTCDigest?: string | undefined;
+    authorsPosition?: string | undefined;
+    captionWriter?: string | undefined;
+    category?: string | undefined;
+    city?: string | undefined;
+    colorMode?: ColorMode | undefined;
+    country?: string | undefined;
+    credit?: string | undefined;
+    dateCreated?: Date | undefined;
+    documentAncestors?: string[] | undefined;
+    headline?: string | undefined;
+    history?: string | undefined;
+    iccProfile?: string | undefined;
+    instructions?: string | undefined;
+    source?: string | undefined;
+    state?: string | undefined;
+    supplementalCategories?: string[] | undefined;
+    textLayers?: PhotoshopLayer[] | undefined;
+    transmissionReference?: string | undefined;
+    urgency?: number | undefined;
+    legacyIPTCDigest?: string | undefined;
 }
 
 /** Corresponds to photoshop.ColorModeChoice */
@@ -6407,147 +6348,147 @@ export enum ColorMode {
 }
 
 export interface PhotoshopLayer {
-    LayerName?: string | undefined;
-    LayerText?: string | undefined;
+    layerName?: string | undefined;
+    layerText?: string | undefined;
 }
 
 export interface Plus {
-    Version?: string | undefined;
-    Licensee?: LicenseeInfo[] | undefined;
-    LicenseeID?: string | undefined;
-    LicenseeName?: string | undefined;
-    EndUser?: EndUserInfo[] | undefined;
-    EndUserID?: string | undefined;
-    EndUserName?: string | undefined;
-    Licensor?: LicensorInfo[] | undefined;
-    LicensorNotes?: { [key: string] : string; } | undefined;
-    MediaSummaryCode?: string | undefined;
-    LicenseStartDate?: Date | undefined;
-    LicenseEndDate?: Date | undefined;
-    MediaConstraints?: { [key: string] : string; } | undefined;
-    RegionConstraints?: { [key: string] : string; } | undefined;
-    ProductOrServiceConstraints?: { [key: string] : string; } | undefined;
-    ImageFileConstraints?: string[] | undefined;
-    ImageAlterationConstraints?: string[] | undefined;
-    ImageDuplicationConstraints?: string | undefined;
-    ModelReleaseStatus?: string | undefined;
-    ModelReleaseID?: string[] | undefined;
-    MinorModelAgeDisclosure?: string | undefined;
-    PropertyReleaseStatus?: string | undefined;
-    PropertyReleaseID?: string[] | undefined;
-    OtherConstraints?: { [key: string] : string; } | undefined;
-    CreditLineRequired?: string | undefined;
-    AdultContentWarning?: string | undefined;
-    OtherLicenseRequirements?: { [key: string] : string; } | undefined;
-    TermsAndConditionsText?: { [key: string] : string; } | undefined;
-    TermsAndConditionsURL?: string | undefined;
-    OtherConditions?: { [key: string] : string; } | undefined;
-    ImageType?: string | undefined;
-    LicensorImageID?: string | undefined;
-    FileNameAsDelivered?: string | undefined;
-    ImageFileFormatAsDelivered?: string | undefined;
-    ImageFileSizeAsDelivered?: string | undefined;
-    CopyrightStatus?: string | undefined;
-    CopyrightRegistrationNumber?: string | undefined;
-    FirstPublicationDate?: Date | undefined;
-    CopyrightOwner?: CopyrightOwnerInfo[] | undefined;
-    CopyrightOwnerImageID?: string | undefined;
-    ImageCreator?: ImageCreatorInfo[] | undefined;
-    ImageCreatorImageID?: string | undefined;
-    ImageSupplier?: ImageSupplierInfo[] | undefined;
-    ImageSupplierImageID?: string | undefined;
-    LicenseeImageID?: string | undefined;
-    LicenseeImageNotes?: { [key: string] : string; } | undefined;
-    OtherImageInfo?: { [key: string] : string; } | undefined;
-    LicenseID?: string | undefined;
-    LicensorTransactionID?: string[] | undefined;
-    LicenseeTransactionID?: string[] | undefined;
-    LicenseeProjectReference?: string[] | undefined;
-    LicenseTransactionDate?: Date | undefined;
-    Reuse?: string | undefined;
-    OtherLicenseDocuments?: string[] | undefined;
-    OtherLicenseInfo?: { [key: string] : string; } | undefined;
-    Custom1?: { [key: string] : string; }[] | undefined;
-    Custom2?: { [key: string] : string; }[] | undefined;
-    Custom3?: { [key: string] : string; }[] | undefined;
-    Custom4?: { [key: string] : string; }[] | undefined;
-    Custom5?: { [key: string] : string; }[] | undefined;
-    Custom6?: { [key: string] : string; }[] | undefined;
-    Custom7?: { [key: string] : string; }[] | undefined;
-    Custom8?: { [key: string] : string; }[] | undefined;
-    Custom9?: { [key: string] : string; }[] | undefined;
-    Custom10?: { [key: string] : string; }[] | undefined;
+    version?: string | undefined;
+    licensee?: LicenseeInfo[] | undefined;
+    licenseeID?: string | undefined;
+    licenseeName?: string | undefined;
+    endUser?: EndUserInfo[] | undefined;
+    endUserID?: string | undefined;
+    endUserName?: string | undefined;
+    licensor?: LicensorInfo[] | undefined;
+    licensorNotes?: { [key: string] : string; } | undefined;
+    mediaSummaryCode?: string | undefined;
+    licenseStartDate?: Date | undefined;
+    licenseEndDate?: Date | undefined;
+    mediaConstraints?: { [key: string] : string; } | undefined;
+    regionConstraints?: { [key: string] : string; } | undefined;
+    productOrServiceConstraints?: { [key: string] : string; } | undefined;
+    imageFileConstraints?: string[] | undefined;
+    imageAlterationConstraints?: string[] | undefined;
+    imageDuplicationConstraints?: string | undefined;
+    modelReleaseStatus?: string | undefined;
+    modelReleaseID?: string[] | undefined;
+    minorModelAgeDisclosure?: string | undefined;
+    propertyReleaseStatus?: string | undefined;
+    propertyReleaseID?: string[] | undefined;
+    otherConstraints?: { [key: string] : string; } | undefined;
+    creditLineRequired?: string | undefined;
+    adultContentWarning?: string | undefined;
+    otherLicenseRequirements?: { [key: string] : string; } | undefined;
+    termsAndConditionsText?: { [key: string] : string; } | undefined;
+    termsAndConditionsURL?: string | undefined;
+    otherConditions?: { [key: string] : string; } | undefined;
+    imageType?: string | undefined;
+    licensorImageID?: string | undefined;
+    fileNameAsDelivered?: string | undefined;
+    imageFileFormatAsDelivered?: string | undefined;
+    imageFileSizeAsDelivered?: string | undefined;
+    copyrightStatus?: string | undefined;
+    copyrightRegistrationNumber?: string | undefined;
+    firstPublicationDate?: Date | undefined;
+    copyrightOwner?: CopyrightOwnerInfo[] | undefined;
+    copyrightOwnerImageID?: string | undefined;
+    imageCreator?: ImageCreatorInfo[] | undefined;
+    imageCreatorImageID?: string | undefined;
+    imageSupplier?: ImageSupplierInfo[] | undefined;
+    imageSupplierImageID?: string | undefined;
+    licenseeImageID?: string | undefined;
+    licenseeImageNotes?: { [key: string] : string; } | undefined;
+    otherImageInfo?: { [key: string] : string; } | undefined;
+    licenseID?: string | undefined;
+    licensorTransactionID?: string[] | undefined;
+    licenseeTransactionID?: string[] | undefined;
+    licenseeProjectReference?: string[] | undefined;
+    licenseTransactionDate?: Date | undefined;
+    reuse?: string | undefined;
+    otherLicenseDocuments?: string[] | undefined;
+    otherLicenseInfo?: { [key: string] : string; } | undefined;
+    custom1?: { [key: string] : string; }[] | undefined;
+    custom2?: { [key: string] : string; }[] | undefined;
+    custom3?: { [key: string] : string; }[] | undefined;
+    custom4?: { [key: string] : string; }[] | undefined;
+    custom5?: { [key: string] : string; }[] | undefined;
+    custom6?: { [key: string] : string; }[] | undefined;
+    custom7?: { [key: string] : string; }[] | undefined;
+    custom8?: { [key: string] : string; }[] | undefined;
+    custom9?: { [key: string] : string; }[] | undefined;
+    custom10?: { [key: string] : string; }[] | undefined;
 }
 
 export interface LicenseeInfo {
-    LicenseeName?: string | undefined;
-    LicenseeID?: string | undefined;
+    licenseeName?: string | undefined;
+    licenseeID?: string | undefined;
 }
 
 export interface EndUserInfo {
-    EndUserName?: string | undefined;
-    EndUserID?: string | undefined;
+    endUserName?: string | undefined;
+    endUserID?: string | undefined;
 }
 
 export interface LicensorInfo {
-    LicensorName?: string | undefined;
-    LicensorID?: string | undefined;
-    LicensorStreetAddress?: string | undefined;
-    LicensorExtendedAddress?: string | undefined;
-    LicensorCity?: string | undefined;
-    LicensorRegion?: string | undefined;
-    LicensorPostalCode?: string | undefined;
-    LicensorCountry?: string | undefined;
-    LicensorTelephoneType1?: string | undefined;
-    LicensorTelephone1?: string | undefined;
-    LicensorTelephoneType2?: string | undefined;
-    LicensorTelephone2?: string | undefined;
-    LicensorEmail?: string | undefined;
-    LicensorURL?: string | undefined;
+    licensorName?: string | undefined;
+    licensorID?: string | undefined;
+    licensorStreetAddress?: string | undefined;
+    licensorExtendedAddress?: string | undefined;
+    licensorCity?: string | undefined;
+    licensorRegion?: string | undefined;
+    licensorPostalCode?: string | undefined;
+    licensorCountry?: string | undefined;
+    licensorTelephoneType1?: string | undefined;
+    licensorTelephone1?: string | undefined;
+    licensorTelephoneType2?: string | undefined;
+    licensorTelephone2?: string | undefined;
+    licensorEmail?: string | undefined;
+    licensorURL?: string | undefined;
 }
 
 export interface CopyrightOwnerInfo {
-    CopyrightOwnerName?: string | undefined;
-    CopyrightOwnerID?: string | undefined;
+    copyrightOwnerName?: string | undefined;
+    copyrightOwnerID?: string | undefined;
 }
 
 export interface ImageCreatorInfo {
-    ImageCreatorName?: string | undefined;
-    ImageCreatorID?: string | undefined;
+    imageCreatorName?: string | undefined;
+    imageCreatorID?: string | undefined;
 }
 
 export interface ImageSupplierInfo {
-    ImageSupplierName?: string | undefined;
-    ImageSupplierID?: string | undefined;
+    imageSupplierName?: string | undefined;
+    imageSupplierID?: string | undefined;
 }
 
 export interface Tiff {
-    Artist?: string | undefined;
-    BitsPerSample?: number[] | undefined;
-    Compression?: Compression | undefined;
-    Copyright?: { [key: string] : string; } | undefined;
-    DateTime?: Date | undefined;
-    ImageDescription?: { [key: string] : string; } | undefined;
-    ImageLength?: number | undefined;
-    ImageWidth?: number | undefined;
-    Make?: string | undefined;
-    Model?: string | undefined;
-    Orientation?: Orientation | undefined;
-    PhotometricInterpretation?: PhotometricInterpretation | undefined;
-    PlanarConfiguration?: PlanarConfiguration | undefined;
-    PrimaryChromaticities?: string[] | undefined;
-    ReferenceBlackWhite?: string[] | undefined;
-    ResolutionUnit?: ResolutionUnit | undefined;
-    SamplesPerPixel?: number | undefined;
-    Software?: string | undefined;
-    TransferFunction?: number[] | undefined;
-    WhitePoint?: string[] | undefined;
-    XResolution?: string | undefined;
-    YResolution?: string | undefined;
-    YCbCrCoefficients?: string[] | undefined;
-    YCbCrPositioning?: YCbCrPositioning | undefined;
-    YCbCrSubSampling?: YCbCrSubSampling | undefined;
-    NativeDigest?: string | undefined;
+    artist?: string | undefined;
+    bitsPerSample?: number[] | undefined;
+    compression?: Compression | undefined;
+    copyright?: { [key: string] : string; } | undefined;
+    dateTime?: Date | undefined;
+    imageDescription?: { [key: string] : string; } | undefined;
+    imageLength?: number | undefined;
+    imageWidth?: number | undefined;
+    make?: string | undefined;
+    model?: string | undefined;
+    orientation?: Orientation | undefined;
+    photometricInterpretation?: PhotometricInterpretation | undefined;
+    planarConfiguration?: PlanarConfiguration | undefined;
+    primaryChromaticities?: string[] | undefined;
+    referenceBlackWhite?: string[] | undefined;
+    resolutionUnit?: ResolutionUnit | undefined;
+    samplesPerPixel?: number | undefined;
+    software?: string | undefined;
+    transferFunction?: number[] | undefined;
+    whitePoint?: string[] | undefined;
+    xResolution?: string | undefined;
+    yResolution?: string | undefined;
+    yCbCrCoefficients?: string[] | undefined;
+    yCbCrPositioning?: YCbCrPositioning | undefined;
+    yCbCrSubSampling?: YCbCrSubSampling | undefined;
+    nativeDigest?: string | undefined;
 }
 
 /** Corresponds to tiff.CompressionChoice */
@@ -6645,17 +6586,17 @@ export enum YCbCrSubSampling {
 }
 
 export interface Xmp {
-    BaseURL?: string | undefined;
-    CreateDate?: Date | undefined;
-    CreatorTool?: string | undefined;
-    Identifier?: string[] | undefined;
-    Label?: string | undefined;
-    MetadataDate?: Date | undefined;
-    ModifyDate?: Date | undefined;
-    Nickname?: string | undefined;
-    Rating?: Rating | undefined;
-    Thumbnails?: XmpGImg[] | undefined;
-    PageInfo?: XmpGImg[] | undefined;
+    baseURL?: string | undefined;
+    createDate?: Date | undefined;
+    creatorTool?: string | undefined;
+    identifier?: string[] | undefined;
+    label?: string | undefined;
+    metadataDate?: Date | undefined;
+    modifyDate?: Date | undefined;
+    nickname?: string | undefined;
+    rating?: Rating | undefined;
+    thumbnails?: XmpGImg[] | undefined;
+    pageInfo?: XmpGImg[] | undefined;
 }
 
 /** Corresponds to xmp.RatingChoice */
@@ -6670,10 +6611,10 @@ export enum Rating {
 }
 
 export interface XmpGImg {
-    Format?: ImgFormat | undefined;
-    Width?: number | undefined;
-    Height?: number | undefined;
-    Image?: string | undefined;
+    format?: ImgFormat | undefined;
+    width?: number | undefined;
+    height?: number | undefined;
+    image?: string | undefined;
 }
 
 /** Corresponds to xmpGImg.FormatChoice */
@@ -6682,89 +6623,89 @@ export enum ImgFormat {
 }
 
 export interface XmpBJ {
-    JobRef?: Job[] | undefined;
+    jobRef?: Job[] | undefined;
 }
 
 export interface Job {
-    Id?: string | undefined;
-    Name?: string | undefined;
-    Url?: string | undefined;
+    id?: string | undefined;
+    name?: string | undefined;
+    url?: string | undefined;
 }
 
 export interface XmpDM {
-    AbsPeakAudioFilePath?: string | undefined;
-    Artist?: string | undefined;
-    Album?: string | undefined;
-    AltTapeName?: string | undefined;
-    AltTimecode?: TimeCode | undefined;
-    AudioChannelType?: AudioChannelType | undefined;
-    AudioCompressor?: string | undefined;
-    AudioSampleRate?: number | undefined;
-    AudioSampleType?: AudioSampleType | undefined;
-    BeatSpliceParams?: BeatSpliceStretch | undefined;
-    CameraAngle?: CameraAngle | undefined;
-    CameraLabel?: string | undefined;
-    CameraModel?: string | undefined;
-    CameraMove?: CameraMove | undefined;
-    Client?: string | undefined;
-    Comment?: string | undefined;
-    Composer?: string | undefined;
-    ContributedMedia?: Media[] | undefined;
-    Director?: string | undefined;
-    DirectorPhotography?: string | undefined;
-    Duration?: Time | undefined;
-    Engineer?: string | undefined;
-    FileDataRate?: string | undefined;
-    Genre?: string | undefined;
-    Good?: boolean | undefined;
-    Instrument?: string | undefined;
-    IntroTime?: Time | undefined;
-    Key?: AudioMusicalKey | undefined;
-    LogComment?: string | undefined;
-    Loop?: boolean | undefined;
-    NumberOfBeats?: number | undefined;
-    Markers?: Marker[] | undefined;
-    OutCue?: Time | undefined;
-    ProjectName?: string | undefined;
-    ProjectRef?: ProjectLink | undefined;
-    PullDown?: VideoPullDown | undefined;
-    RelativePeakAudioFilePath?: string | undefined;
-    RelativeTimestamp?: Time | undefined;
-    ReleaseDate?: Date | undefined;
-    ResampleParams?: ResampleStretch | undefined;
-    ScaleType?: AudioMusicalScaleType | undefined;
-    Scene?: string | undefined;
-    ShotDate?: Date | undefined;
-    ShotDay?: string | undefined;
-    ShotLocation?: string | undefined;
-    ShotName?: string | undefined;
-    ShotNumber?: string | undefined;
-    ShotSize?: ShotSize | undefined;
-    SpeakerPlacement?: string | undefined;
-    StartTimecode?: TimeCode | undefined;
-    StretchMode?: AudioStretchMode | undefined;
-    TakeNumber?: number | undefined;
-    TapeName?: string | undefined;
-    Tempo?: number | undefined;
-    TimeScaleParams?: TimeScaleStretch | undefined;
-    TimeSignature?: TimeSignature | undefined;
-    TrackNumber?: number | undefined;
-    Tracks?: Track[] | undefined;
-    VideoAlphaMode?: VideoAlphaMode | undefined;
-    VideoAlphaPremultipleColor?: XmpG | undefined;
-    VideoAlphaUnityIsTransparent?: boolean | undefined;
-    VideoColorSpace?: VideoColorSpace | undefined;
-    VideoCompressor?: string | undefined;
-    VideoFieldOrder?: VideoFieldOrder | undefined;
-    VideoFrameRate?: VideoFrameRate | undefined;
-    VideoFrameSize?: Dimension | undefined;
-    VideoPixelDepth?: VideoPixelDepth | undefined;
-    VideoPixelAspectRatio?: string | undefined;
+    absPeakAudioFilePath?: string | undefined;
+    artist?: string | undefined;
+    album?: string | undefined;
+    altTapeName?: string | undefined;
+    altTimecode?: TimeCode | undefined;
+    audioChannelType?: AudioChannelType | undefined;
+    audioCompressor?: string | undefined;
+    audioSampleRate?: number | undefined;
+    audioSampleType?: AudioSampleType | undefined;
+    beatSpliceParams?: BeatSpliceStretch | undefined;
+    cameraAngle?: CameraAngle | undefined;
+    cameraLabel?: string | undefined;
+    cameraModel?: string | undefined;
+    cameraMove?: CameraMove | undefined;
+    client?: string | undefined;
+    comment?: string | undefined;
+    composer?: string | undefined;
+    contributedMedia?: Media[] | undefined;
+    director?: string | undefined;
+    directorPhotography?: string | undefined;
+    duration?: Time | undefined;
+    engineer?: string | undefined;
+    fileDataRate?: string | undefined;
+    genre?: string | undefined;
+    good?: boolean | undefined;
+    instrument?: string | undefined;
+    introTime?: Time | undefined;
+    key?: AudioMusicalKey | undefined;
+    logComment?: string | undefined;
+    loop?: boolean | undefined;
+    numberOfBeats?: number | undefined;
+    markers?: Marker[] | undefined;
+    outCue?: Time | undefined;
+    projectName?: string | undefined;
+    projectRef?: ProjectLink | undefined;
+    pullDown?: VideoPullDown | undefined;
+    relativePeakAudioFilePath?: string | undefined;
+    relativeTimestamp?: Time | undefined;
+    releaseDate?: Date | undefined;
+    resampleParams?: ResampleStretch | undefined;
+    scaleType?: AudioMusicalScaleType | undefined;
+    scene?: string | undefined;
+    shotDate?: Date | undefined;
+    shotDay?: string | undefined;
+    shotLocation?: string | undefined;
+    shotName?: string | undefined;
+    shotNumber?: string | undefined;
+    shotSize?: ShotSize | undefined;
+    speakerPlacement?: string | undefined;
+    startTimecode?: TimeCode | undefined;
+    stretchMode?: AudioStretchMode | undefined;
+    takeNumber?: number | undefined;
+    tapeName?: string | undefined;
+    tempo?: number | undefined;
+    timeScaleParams?: TimeScaleStretch | undefined;
+    timeSignature?: TimeSignature | undefined;
+    trackNumber?: number | undefined;
+    tracks?: Track[] | undefined;
+    videoAlphaMode?: VideoAlphaMode | undefined;
+    videoAlphaPremultipleColor?: XmpG | undefined;
+    videoAlphaUnityIsTransparent?: boolean | undefined;
+    videoColorSpace?: VideoColorSpace | undefined;
+    videoCompressor?: string | undefined;
+    videoFieldOrder?: VideoFieldOrder | undefined;
+    videoFrameRate?: VideoFrameRate | undefined;
+    videoFrameSize?: Dimension | undefined;
+    videoPixelDepth?: VideoPixelDepth | undefined;
+    videoPixelAspectRatio?: string | undefined;
 }
 
 export interface TimeCode {
-    TimeFormat?: TimeFormat | undefined;
-    TimeValue?: string | undefined;
+    timeFormat?: TimeFormat | undefined;
+    timeValue?: string | undefined;
 }
 
 /** Corresponds to Timecode.TimeFormatChoice */
@@ -6804,14 +6745,14 @@ export enum AudioSampleType {
 }
 
 export interface BeatSpliceStretch {
-    RiseInDecibel?: number | undefined;
-    RiseInTimeDuration?: Time | undefined;
-    UseFileBeatsMarker?: boolean | undefined;
+    riseInDecibel?: number | undefined;
+    riseInTimeDuration?: Time | undefined;
+    useFileBeatsMarker?: boolean | undefined;
 }
 
 export interface Time {
-    Scale?: string | undefined;
-    Value?: number | undefined;
+    scale?: string | undefined;
+    value?: number | undefined;
 }
 
 /** Corresponds to xmpDM.CameraAngleChoice */
@@ -6850,12 +6791,12 @@ export enum CameraMove {
 }
 
 export interface Media {
-    Duration?: Time | undefined;
-    Managed?: boolean | undefined;
-    Path?: string | undefined;
-    StartTime?: Time | undefined;
-    Track?: string | undefined;
-    WebStatement?: string | undefined;
+    duration?: Time | undefined;
+    managed?: boolean | undefined;
+    path?: string | undefined;
+    startTime?: Time | undefined;
+    track?: string | undefined;
+    webStatement?: string | undefined;
 }
 
 /** Corresponds to xmpDM.AudioMusicalKeyChoice */
@@ -6875,17 +6816,17 @@ export enum AudioMusicalKey {
 }
 
 export interface Marker {
-    Comment?: string | undefined;
-    CuePointParams?: { [key: string] : string; } | undefined;
-    CuePointType?: string | undefined;
-    Duration?: string | undefined;
-    Location?: string | undefined;
-    Name?: string | undefined;
-    Probability?: number | undefined;
-    Speaker?: string | undefined;
-    StartTime?: string | undefined;
-    Target?: string | undefined;
-    Type?: MarkerType | undefined;
+    comment?: string | undefined;
+    cuePointParams?: { [key: string] : string; } | undefined;
+    cuePointType?: string | undefined;
+    duration?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    probability?: number | undefined;
+    speaker?: string | undefined;
+    startTime?: string | undefined;
+    target?: string | undefined;
+    type?: MarkerType | undefined;
 }
 
 /** Corresponds to Xmp.Media.Marker.TypeChoice */
@@ -6898,8 +6839,8 @@ export enum MarkerType {
 }
 
 export interface ProjectLink {
-    Path?: string | undefined;
-    Type?: ProjectLinkType | undefined;
+    path?: string | undefined;
+    type?: ProjectLinkType | undefined;
 }
 
 /** Corresponds to Xmp.Media.ProjectLink.TypeChoice */
@@ -6925,7 +6866,7 @@ export enum VideoPullDown {
 }
 
 export interface ResampleStretch {
-    Quality?: Quality | undefined;
+    quality?: Quality | undefined;
 }
 
 /** Corresponds to Xmp.Media.resampleStretch.QualityChoice and Xmp.Media.timeScaleStretch.QualityChoice */
@@ -6964,9 +6905,9 @@ export enum AudioStretchMode {
 }
 
 export interface TimeScaleStretch {
-    FrameOverlappingPercentage?: number | undefined;
-    FrameSize?: number | undefined;
-    Quality?: Quality | undefined;
+    frameOverlappingPercentage?: number | undefined;
+    frameSize?: number | undefined;
+    quality?: Quality | undefined;
 }
 
 /** Corresponds to xmpDM.TimeSignatureChoice */
@@ -6983,10 +6924,10 @@ export enum TimeSignature {
 }
 
 export interface Track {
-    FrameRate?: string | undefined;
-    Markers?: Marker[] | undefined;
-    TrackName?: string | undefined;
-    TrackType?: MarkerType | undefined;
+    frameRate?: string | undefined;
+    markers?: Marker[] | undefined;
+    trackName?: string | undefined;
+    trackType?: MarkerType | undefined;
 }
 
 /** Corresponds to xmpDM.VideoAlphaModeChoice */
@@ -6997,19 +6938,19 @@ export enum VideoAlphaMode {
 }
 
 export interface XmpG {
-    A?: number | undefined;
-    B?: number | undefined;
-    L?: number | undefined;
-    Black?: number | undefined;
-    Cyan?: number | undefined;
-    Magenta?: number | undefined;
-    Yellow?: number | undefined;
-    Blue?: number | undefined;
-    Green?: number | undefined;
-    Red?: number | undefined;
-    Mode?: ColorantMode | undefined;
-    SwatchName?: string | undefined;
-    Type?: ColorantType | undefined;
+    a?: number | undefined;
+    b?: number | undefined;
+    l?: number | undefined;
+    black?: number | undefined;
+    cyan?: number | undefined;
+    magenta?: number | undefined;
+    yellow?: number | undefined;
+    blue?: number | undefined;
+    green?: number | undefined;
+    red?: number | undefined;
+    mode?: ColorantMode | undefined;
+    swatchName?: string | undefined;
+    type?: ColorantType | undefined;
 }
 
 /** Corresponds to xmpG.ModeChoice */
@@ -7047,9 +6988,9 @@ export enum VideoFrameRate {
 }
 
 export interface Dimension {
-    Height?: number | undefined;
-    Width?: number | undefined;
-    Unit?: Unit | undefined;
+    height?: number | undefined;
+    width?: number | undefined;
+    unit?: Unit | undefined;
 }
 
 /** Corresponds to stDim.UnitChoice */
@@ -7073,45 +7014,45 @@ export enum VideoPixelDepth {
 }
 
 export interface Xmpidq {
-    Scheme?: string | undefined;
+    scheme?: string | undefined;
 }
 
 export interface XmpMM {
-    DerivedFrom?: Reference | undefined;
-    DocumentID?: string | undefined;
-    History?: Event[] | undefined;
-    Ingredients?: Reference[] | undefined;
-    InstanceID?: string | undefined;
-    ManagedFrom?: Reference | undefined;
-    Manager?: string | undefined;
-    ManageTo?: string | undefined;
-    ManageUI?: string | undefined;
-    ManagerVariant?: string | undefined;
-    OriginalDocumentID?: string | undefined;
-    RenditionClass?: string | undefined;
-    RenditionParams?: string | undefined;
-    VersionID?: string | undefined;
-    Versions?: VersionInfo[] | undefined;
+    derivedFrom?: Reference | undefined;
+    documentID?: string | undefined;
+    history?: Event[] | undefined;
+    ingredients?: Reference[] | undefined;
+    instanceID?: string | undefined;
+    managedFrom?: Reference | undefined;
+    manager?: string | undefined;
+    manageTo?: string | undefined;
+    manageUI?: string | undefined;
+    managerVariant?: string | undefined;
+    originalDocumentID?: string | undefined;
+    renditionClass?: string | undefined;
+    renditionParams?: string | undefined;
+    versionID?: string | undefined;
+    versions?: VersionInfo[] | undefined;
 }
 
 export interface Reference {
-    AlternatePaths?: string[] | undefined;
-    DocumentID?: string | undefined;
-    FilePath?: string | undefined;
-    FromPart?: string | undefined;
-    InstanceID?: string | undefined;
-    LastModifyDate?: Date | undefined;
-    Manager?: string | undefined;
-    ManagerVariant?: string | undefined;
-    ManageTo?: string | undefined;
-    ManageUI?: string | undefined;
-    MaskMarkers?: MaskMarkers | undefined;
-    OriginalDocumentID?: string | undefined;
-    PartMapping?: string | undefined;
-    RenditionClass?: string | undefined;
-    RenditionParams?: string | undefined;
-    ToPart?: string | undefined;
-    VersionID?: string | undefined;
+    alternatePaths?: string[] | undefined;
+    documentID?: string | undefined;
+    filePath?: string | undefined;
+    fromPart?: string | undefined;
+    instanceID?: string | undefined;
+    lastModifyDate?: Date | undefined;
+    manager?: string | undefined;
+    managerVariant?: string | undefined;
+    manageTo?: string | undefined;
+    manageUI?: string | undefined;
+    maskMarkers?: MaskMarkers | undefined;
+    originalDocumentID?: string | undefined;
+    partMapping?: string | undefined;
+    renditionClass?: string | undefined;
+    renditionParams?: string | undefined;
+    toPart?: string | undefined;
+    versionID?: string | undefined;
 }
 
 /** Corresponds to stRef.MaskMarkersChoice */
@@ -7120,71 +7061,35 @@ export enum MaskMarkers {
     None = <any>"None", 
 }
 
-export interface Event {
-    Action?: EventAction | undefined;
-    Changed?: string | undefined;
-    InstanceID?: string | undefined;
-    Parameters?: string | undefined;
-    SoftwareAgent?: string | undefined;
-    When?: Date | undefined;
-}
-
-/** Corresponds to stEvt.ActionChoice */
-export enum EventAction {
-    Converted = <any>"Converted", 
-    Copied = <any>"Copied", 
-    Created = <any>"Created", 
-    Cropped = <any>"Cropped", 
-    Edited = <any>"Edited", 
-    Filtered = <any>"Filtered", 
-    Formatted = <any>"Formatted", 
-    VersionUpdated = <any>"VersionUpdated", 
-    Printed = <any>"Printed", 
-    Published = <any>"Published", 
-    Managed = <any>"Managed", 
-    Produced = <any>"Produced", 
-    Resized = <any>"Resized", 
-    Saved = <any>"Saved", 
-    Derived = <any>"Derived", 
-}
-
-export interface VersionInfo {
-    Comments?: string | undefined;
-    Event?: Event | undefined;
-    Modifier?: string | undefined;
-    ModifyDate?: Date | undefined;
-    Version?: string | undefined;
-}
-
 export interface XmpNote {
-    HasExtendedXMP?: string | undefined;
+    hasExtendedXMP?: string | undefined;
 }
 
 export interface XmpRights {
-    Certificate?: string | undefined;
-    Marked?: boolean | undefined;
-    Owner?: string[] | undefined;
-    UsageTerms?: { [key: string] : string; } | undefined;
-    WebStatement?: string | undefined;
+    certificate?: string | undefined;
+    marked?: boolean | undefined;
+    owner?: string[] | undefined;
+    usageTerms?: { [key: string] : string; } | undefined;
+    webStatement?: string | undefined;
 }
 
 export interface XmpTPg {
-    Colorants?: XmpG[] | undefined;
-    Fonts?: Font[] | undefined;
-    MaxPageSize?: Dimension | undefined;
-    NPages?: number | undefined;
-    PlateNames?: string[] | undefined;
+    colorants?: XmpG[] | undefined;
+    fonts?: Font[] | undefined;
+    maxPageSize?: Dimension | undefined;
+    nPages?: number | undefined;
+    plateNames?: string[] | undefined;
 }
 
 export interface Font {
-    ChildFontFiles?: string[] | undefined;
-    Composite?: boolean | undefined;
-    FontFace?: string | undefined;
-    FontFamily?: string | undefined;
-    FontFileName?: string | undefined;
-    FontName?: string | undefined;
-    FontType?: FontType | undefined;
-    VersionString?: string | undefined;
+    childFontFiles?: string[] | undefined;
+    composite?: boolean | undefined;
+    fontFace?: string | undefined;
+    fontFamily?: string | undefined;
+    fontFileName?: string | undefined;
+    fontName?: string | undefined;
+    fontType?: FontType | undefined;
+    versionString?: string | undefined;
 }
 
 /** Corresponds to stFnt.FontTypeChoice */
@@ -7196,97 +7101,97 @@ export enum FontType {
 }
 
 export interface ExifMetadata {
-    Exif?: Exif | undefined;
-    ExifAux?: ExifAux | undefined;
+    exif?: Exif | undefined;
+    exifAux?: ExifAux | undefined;
 }
 
 export interface Exif {
-    ApertureValue?: string | undefined;
-    BrightnessValue?: string | undefined;
-    CFAPattern?: CFAPattern | undefined;
-    ColorSpace?: ColorSpace | undefined;
-    ComponentsConfiguration?: number[] | undefined;
-    CompressedBitsPerPixel?: string | undefined;
-    Contrast?: Contrast | undefined;
-    CustomRendered?: CustomRendered | undefined;
-    DateTimeOriginal?: Date | undefined;
-    DateTimeDigitized?: Date | undefined;
-    DeviceSettingDescription?: DeviceSettings | undefined;
-    DigitalZoomRatio?: string | undefined;
-    ExifVersion?: ExifVersion | undefined;
-    ExposureBiasValue?: string | undefined;
-    ExposureIndex?: string | undefined;
-    ExposureMode?: ExposureMode | undefined;
-    ExposureProgram?: ExposureProgram | undefined;
-    ExposureTime?: string | undefined;
-    FileSource?: FileSource | undefined;
-    Flash?: Flash | undefined;
-    FlashEnergy?: string | undefined;
-    FlashpixVersion?: FlashpixVersion | undefined;
-    FNumber?: string | undefined;
-    FocalLength?: string | undefined;
-    FocalLengthIn35mmFilm?: number | undefined;
-    FocalPlaneResolutionUnit?: FocalPlaneResolutionUnit | undefined;
-    FocalPlaneXResolution?: string | undefined;
-    FocalPlaneYResolution?: string | undefined;
-    GainControl?: GainControl | undefined;
-    GPSAltitude?: string | undefined;
-    GPSAltitudeRef?: GPSAltitudeRef | undefined;
-    GPSAreaInformation?: string | undefined;
-    GPSDestBearing?: string | undefined;
-    GPSDestBearingRef?: GPSDestBearingRef | undefined;
-    GPSDestDistance?: string | undefined;
-    GPSDestDistanceRef?: GPSDestDistanceRef | undefined;
-    GPSDestLatitude?: string | undefined;
-    GPSDestLongitude?: string | undefined;
-    GPSDifferential?: GPSDifferential | undefined;
-    GPSDOP?: string | undefined;
-    GPSImgDirection?: string | undefined;
-    GPSImgDirectionRef?: GPSImgDirectionRef | undefined;
-    GPSCoordinate?: GPSCoordinate | undefined;
-    GPSLatitude?: string | undefined;
-    GPSLongitude?: string | undefined;
-    GPSMapDatum?: string | undefined;
-    GPSMeasureMode?: string | undefined;
-    GPSProcessingMethod?: string | undefined;
-    GPSSatellites?: string | undefined;
-    GPSSpeed?: string | undefined;
-    GPSSpeedRef?: GPSSpeedRef | undefined;
-    GPSStatus?: GPSStatus | undefined;
-    GPSTimeStamp?: Date | undefined;
-    GPSTrack?: string | undefined;
-    GPSTrackRef?: string | undefined;
-    GPSVersionID?: string | undefined;
-    ImageUniqueID?: string | undefined;
-    ISOSpeedRatings?: number[] | undefined;
-    LightSource?: LightSource | undefined;
-    MaxApertureValue?: string | undefined;
-    MeteringMode?: MeteringMode | undefined;
-    OECF?: OECF | undefined;
-    PixelXDimension?: number | undefined;
-    PixelYDimension?: number | undefined;
-    RelatedSoundFile?: string | undefined;
-    Saturation?: Saturation | undefined;
-    SceneCaptureType?: SceneCaptureType | undefined;
-    SceneType?: SceneType | undefined;
-    SensingMethod?: SensingMethod | undefined;
-    Sharpness?: Sharpness | undefined;
-    ShutterSpeedValue?: string | undefined;
-    SpatialFrequencyResponse?: SFR | undefined;
-    SpectralSensitivity?: string | undefined;
-    SubjectArea?: number[] | undefined;
-    SubjectDistance?: string | undefined;
-    SubjectDistanceRange?: SubjectDistanceRange | undefined;
-    SubjectLocation?: number[] | undefined;
-    UserComment?: { [key: string] : string; } | undefined;
-    WhiteBalance?: WhiteBalanceExif | undefined;
-    NativeDigest?: string | undefined;
+    apertureValue?: string | undefined;
+    brightnessValue?: string | undefined;
+    cfaPattern?: CFAPattern | undefined;
+    colorSpace?: ColorSpace | undefined;
+    componentsConfiguration?: number[] | undefined;
+    compressedBitsPerPixel?: string | undefined;
+    contrast?: Contrast | undefined;
+    customRendered?: CustomRendered | undefined;
+    dateTimeOriginal?: Date | undefined;
+    dateTimeDigitized?: Date | undefined;
+    deviceSettingDescription?: DeviceSettings | undefined;
+    digitalZoomRatio?: string | undefined;
+    exifVersion?: ExifVersion | undefined;
+    exposureBiasValue?: string | undefined;
+    exposureIndex?: string | undefined;
+    exposureMode?: ExposureMode | undefined;
+    exposureProgram?: ExposureProgram | undefined;
+    exposureTime?: string | undefined;
+    fileSource?: FileSource | undefined;
+    flash?: Flash | undefined;
+    flashEnergy?: string | undefined;
+    flashpixVersion?: FlashpixVersion | undefined;
+    fNumber?: string | undefined;
+    focalLength?: string | undefined;
+    focalLengthIn35mmFilm?: number | undefined;
+    focalPlaneResolutionUnit?: FocalPlaneResolutionUnit | undefined;
+    focalPlaneXResolution?: string | undefined;
+    focalPlaneYResolution?: string | undefined;
+    gainControl?: GainControl | undefined;
+    gpsAltitude?: string | undefined;
+    gpsAltitudeRef?: GPSAltitudeRef | undefined;
+    gpsAreaInformation?: string | undefined;
+    gpsDestBearing?: string | undefined;
+    gpsDestBearingRef?: GPSDestBearingRef | undefined;
+    gpsDestDistance?: string | undefined;
+    gpsDestDistanceRef?: GPSDestDistanceRef | undefined;
+    gpsDestLatitude?: string | undefined;
+    gpsDestLongitude?: string | undefined;
+    gpsDifferential?: GPSDifferential | undefined;
+    gpsdop?: string | undefined;
+    gpsImgDirection?: string | undefined;
+    gpsImgDirectionRef?: GPSImgDirectionRef | undefined;
+    gpsCoordinate?: GPSCoordinate | undefined;
+    gpsLatitude?: string | undefined;
+    gpsLongitude?: string | undefined;
+    gpsMapDatum?: string | undefined;
+    gpsMeasureMode?: string | undefined;
+    gpsProcessingMethod?: string | undefined;
+    gpsSatellites?: string | undefined;
+    gpsSpeed?: string | undefined;
+    gpsSpeedRef?: GPSSpeedRef | undefined;
+    gpsStatus?: GPSStatus | undefined;
+    gpsTimeStamp?: Date | undefined;
+    gpsTrack?: string | undefined;
+    gpsTrackRef?: string | undefined;
+    gpsVersionID?: string | undefined;
+    imageUniqueID?: string | undefined;
+    isoSpeedRatings?: number[] | undefined;
+    lightSource?: LightSource | undefined;
+    maxApertureValue?: string | undefined;
+    meteringMode?: MeteringMode | undefined;
+    oecf?: OECF | undefined;
+    pixelXDimension?: number | undefined;
+    pixelYDimension?: number | undefined;
+    relatedSoundFile?: string | undefined;
+    saturation?: Saturation | undefined;
+    sceneCaptureType?: SceneCaptureType | undefined;
+    sceneType?: SceneType | undefined;
+    sensingMethod?: SensingMethod | undefined;
+    sharpness?: Sharpness | undefined;
+    shutterSpeedValue?: string | undefined;
+    spatialFrequencyResponse?: SFR | undefined;
+    spectralSensitivity?: string | undefined;
+    subjectArea?: number[] | undefined;
+    subjectDistance?: string | undefined;
+    subjectDistanceRange?: SubjectDistanceRange | undefined;
+    subjectLocation?: number[] | undefined;
+    userComment?: { [key: string] : string; } | undefined;
+    whiteBalance?: WhiteBalanceExif | undefined;
+    nativeDigest?: string | undefined;
 }
 
 export interface CFAPattern {
-    Columns?: number | undefined;
-    Rows?: number | undefined;
-    Values?: number[] | undefined;
+    columns?: number | undefined;
+    rows?: number | undefined;
+    values?: number[] | undefined;
 }
 
 /** Corresponds to exif.ColorSpaceChoice */
@@ -7312,9 +7217,9 @@ export enum CustomRendered {
 }
 
 export interface DeviceSettings {
-    Columns?: number | undefined;
-    Rows?: number | undefined;
-    Settings?: string[] | undefined;
+    columns?: number | undefined;
+    rows?: number | undefined;
+    settings?: string[] | undefined;
 }
 
 /** Corresponds to exif.ExifVersionChoice */
@@ -7356,11 +7261,11 @@ export enum FileSource {
 }
 
 export interface Flash {
-    Fired?: boolean | undefined;
-    Return?: FlashReturn | undefined;
-    Mode?: FlashMode | undefined;
-    Function?: boolean | undefined;
-    RedEyeMode?: boolean | undefined;
+    fired?: boolean | undefined;
+    return?: FlashReturn | undefined;
+    mode?: FlashMode | undefined;
+    function?: boolean | undefined;
+    redEyeMode?: boolean | undefined;
 }
 
 /** Corresponds to Xmp.Structure.Flash.ReturnChoice */
@@ -7492,10 +7397,10 @@ export enum MeteringMode {
 }
 
 export interface OECF {
-    Columns?: number | undefined;
-    Rows?: number | undefined;
-    Values?: string[] | undefined;
-    Names?: string[] | undefined;
+    columns?: number | undefined;
+    rows?: number | undefined;
+    values?: string[] | undefined;
+    names?: string[] | undefined;
 }
 
 /** Corresponds to exif.SaturationChoice */
@@ -7541,10 +7446,10 @@ export enum Sharpness {
 }
 
 export interface SFR {
-    Columns?: number | undefined;
-    Rows?: number | undefined;
-    Values?: string[] | undefined;
-    Names?: string[] | undefined;
+    columns?: number | undefined;
+    rows?: number | undefined;
+    values?: string[] | undefined;
+    names?: string[] | undefined;
 }
 
 /** Corresponds to exif.SubjectDistanceRangeChoice */
@@ -7563,128 +7468,128 @@ export enum WhiteBalanceExif {
 }
 
 export interface ExifAux {
-    Lens?: string | undefined;
-    SerialNumber?: string | undefined;
+    lens?: string | undefined;
+    serialNumber?: string | undefined;
 }
 
 export interface AudioMetadata extends FileMetadata {
-    AudioStreams?: AudioStream[] | undefined;
+    audioStreams?: AudioStream[] | undefined;
 }
 
 export interface AudioStream {
-    BitRate?: string | undefined;
-    BitRateMode?: string | undefined;
-    Channels?: string | undefined;
-    ChannelPositions?: string | undefined;
-    Codec?: string | undefined;
-    DurationInSeconds?: number | undefined;
-    Format?: string | undefined;
-    Language?: string | undefined;
-    Resolution?: number | undefined;
-    SamplingRate?: number | undefined;
-    StreamSize?: number | undefined;
+    bitRate?: string | undefined;
+    bitRateMode?: string | undefined;
+    channels?: string | undefined;
+    channelPositions?: string | undefined;
+    codec?: string | undefined;
+    durationInSeconds?: number | undefined;
+    format?: string | undefined;
+    language?: string | undefined;
+    resolution?: number | undefined;
+    samplingRate?: number | undefined;
+    streamSize?: number | undefined;
 }
 
 export interface DocumentMetadata extends FileMetadata {
-    ApplicationName?: string | undefined;
-    ApplicationVersion?: string | undefined;
-    Author?: string | undefined;
-    Creator?: string | undefined;
-    Publisher?: string | undefined;
-    Company?: string | undefined;
-    DocumentTitle?: string | undefined;
-    CharacterCount: number;
-    CharacterCountWithSpaces: number;
-    LineCount: number;
-    PageCount: number;
-    SlideCount: number;
-    ParagraphCount: number;
-    RevisionNumber: number;
-    Titles?: string[] | undefined;
-    ImageTitles?: string[] | undefined;
-    EpsInfo?: EpsMetadata | undefined;
-    EmbeddedFiles?: FileMetadata[] | undefined;
+    applicationName?: string | undefined;
+    applicationVersion?: string | undefined;
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    documentTitle?: string | undefined;
+    characterCount: number;
+    characterCountWithSpaces: number;
+    lineCount: number;
+    pageCount: number;
+    slideCount: number;
+    paragraphCount: number;
+    revisionNumber: number;
+    titles?: string[] | undefined;
+    imageTitles?: string[] | undefined;
+    epsInfo?: EpsMetadata | undefined;
+    embeddedFiles?: FileMetadata[] | undefined;
 }
 
 export interface EpsMetadata {
-    IsRasterized: boolean;
-    WidthInPoints: number;
-    HeightInPoints: number;
+    isRasterized: boolean;
+    widthInPoints: number;
+    heightInPoints: number;
 }
 
 export interface ImageMetadata extends FileMetadata {
-    Width: number;
-    Height: number;
-    WidthInInch: number;
-    HeightInInch: number;
-    WidthInCm: number;
-    HeightInCm: number;
-    ColorSpace?: string | undefined;
-    ColorProfile?: string | undefined;
-    BitsPerPixel: number;
-    BitsPerChannel: number;
-    Channels?: string | undefined;
-    PixelFormat?: string | undefined;
-    HasAlpha: boolean;
-    IsIndexed: boolean;
-    IsExtended: boolean;
-    HorizontalResolution: number;
-    VerticalResolution: number;
-    TotalFrames: number;
-    TotalUnspecifiedTiffExtraChannels: number;
-    HasExifData: boolean;
-    HasIptcData: boolean;
-    HasAdobeResourceData: boolean;
-    HasXmpData: boolean;
-    UncompressedSizeInBytes: number;
+    width: number;
+    height: number;
+    widthInInch: number;
+    heightInInch: number;
+    widthInCm: number;
+    heightInCm: number;
+    colorSpace?: string | undefined;
+    colorProfile?: string | undefined;
+    bitsPerPixel: number;
+    bitsPerChannel: number;
+    channels?: string | undefined;
+    pixelFormat?: string | undefined;
+    hasAlpha: boolean;
+    isIndexed: boolean;
+    isExtended: boolean;
+    horizontalResolution: number;
+    verticalResolution: number;
+    totalFrames: number;
+    totalUnspecifiedTiffExtraChannels: number;
+    hasExifData: boolean;
+    hasIptcData: boolean;
+    hasAdobeResourceData: boolean;
+    hasXmpData: boolean;
+    uncompressedSizeInBytes: number;
 }
 
 export interface VideoMetadata extends FileMetadata {
-    Width: number;
-    Height: number;
-    DurationInSeconds: number;
-    Format?: string | undefined;
-    Codec?: string | undefined;
-    OverallBitrate?: number | undefined;
-    VideoStreams?: VideoStream[] | undefined;
-    AudioStreams?: AudioStream[] | undefined;
+    width: number;
+    height: number;
+    durationInSeconds: number;
+    format?: string | undefined;
+    codec?: string | undefined;
+    overallBitrate?: number | undefined;
+    videoStreams?: VideoStream[] | undefined;
+    audioStreams?: AudioStream[] | undefined;
 }
 
 export interface VideoStream {
-    BitRate?: string | undefined;
-    Codec?: string | undefined;
-    DisplayAspectRatio?: string | undefined;
-    DurationInSeconds: number;
-    Format?: string | undefined;
-    FrameCount?: number | undefined;
-    FrameRate?: number | undefined;
-    Height?: number | undefined;
-    Language?: string | undefined;
-    PixelAspectRatio?: number | undefined;
-    Resolution?: number | undefined;
-    StreamSize?: number | undefined;
-    Width?: number | undefined;
-    Rotation?: number | undefined;
+    bitRate?: string | undefined;
+    codec?: string | undefined;
+    displayAspectRatio?: string | undefined;
+    durationInSeconds: number;
+    format?: string | undefined;
+    frameCount?: number | undefined;
+    frameRate?: number | undefined;
+    height?: number | undefined;
+    language?: string | undefined;
+    pixelAspectRatio?: number | undefined;
+    resolution?: number | undefined;
+    streamSize?: number | undefined;
+    width?: number | undefined;
+    rotation?: number | undefined;
 }
 
 export interface DriveMetadata {
-    Location?: string | undefined;
-    FileType?: string | undefined;
-    Audit?: DriveMetadataAudit | undefined;
-    Description?: string | undefined;
+    location?: string | undefined;
+    fileType?: string | undefined;
+    audit?: DriveMetadataAudit | undefined;
+    description?: string | undefined;
 }
 
 export interface DriveMetadataAudit {
-    Owner?: string | undefined;
-    Modified?: string | undefined;
-    Opened?: string | undefined;
-    Created?: string | undefined;
+    owner?: string | undefined;
+    modified?: string | undefined;
+    opened?: string | undefined;
+    created?: string | undefined;
 }
 
 export interface OutputItem {
-    Id?: string | undefined;
-    FilePath?: string | undefined;
-    OutputSource: OutputSource;
+    id?: string | undefined;
+    filePath?: string | undefined;
+    outputSource: OutputSource;
 }
 
 export enum OutputSource {
@@ -7693,179 +7598,173 @@ export enum OutputSource {
 }
 
 export interface FileTransfer2ContentCreateRequest {
-    TransferId?: string | undefined;
+    transferId?: string | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
-    Metadata?: DataDictionary | undefined;
+    layerSchemaIds?: string[] | undefined;
+    metadata?: DataDictionary | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    ContentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds?: string[] | undefined;
 }
 
 export interface FileTransferPartial2ContentCreateRequest {
-    TransferId?: string | undefined;
-    Items?: FileTransferCreateItem[] | undefined;
+    transferId?: string | undefined;
+    items?: FileTransferCreateItem[] | undefined;
 }
 
 export interface FileTransferCreateItem {
-    FileId?: string | undefined;
+    fileId?: string | undefined;
     /** An optional id list of schemas with type layer. */
-    LayerSchemaIds?: string[] | undefined;
-    Metadata?: DataDictionary | undefined;
+    layerSchemaIds?: string[] | undefined;
+    metadata?: DataDictionary | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    ContentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds?: string[] | undefined;
 }
 
 export interface TransferSearchRequest {
-    Channel?: string | undefined;
-    SearchString?: string | undefined;
-    Sort?: SortInfo[] | undefined;
-    Start: number;
-    Limit: number;
-    Filter?: FilterBase | undefined;
+    channel?: string | undefined;
+    searchString?: string | undefined;
+    sort?: SortInfo[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
 }
 
-export interface BaseResultOfTransferViewItem {
-    TotalResults: number;
-    Results?: TransferViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfTransfer {
+    totalResults: number;
+    results?: Transfer[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface TransferSearchResult extends BaseResultOfTransferViewItem {
-    ElapsedMilliseconds: number;
+export interface TransferSearchResult extends BaseResultOfTransfer {
+    elapsedMilliseconds: number;
 }
 
 export interface FileTransferSearchRequest {
-    SearchString?: string | undefined;
-    Sort?: SortInfo[] | undefined;
-    Start: number;
-    Limit: number;
-    Filter?: FilterBase | undefined;
+    searchString?: string | undefined;
+    sort?: SortInfo[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
 }
 
-export interface BaseResultOfFileTransferViewItem {
-    TotalResults: number;
-    Results?: FileTransferViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfFileTransfer {
+    totalResults: number;
+    results?: FileTransfer[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface FileTransferSearchResult extends BaseResultOfFileTransferViewItem {
-    ElapsedMilliseconds: number;
+export interface FileTransferSearchResult extends BaseResultOfFileTransfer {
+    elapsedMilliseconds: number;
 }
 
-export interface FileTransferViewItem {
-    Id?: string | undefined;
-    Name?: string | undefined;
-    Identifier?: string | undefined;
-    TransferId?: string | undefined;
-    State: FileTransferState;
-    EntityType: EntityType;
-    ContentId?: string | undefined;
+export interface FileTransfer {
+    id?: string | undefined;
+    name?: string | undefined;
+    identifier?: string | undefined;
+    transferId?: string | undefined;
+    state: FileTransferState;
+    entityType: EntityType;
+    contentId?: string | undefined;
 }
 
 export interface UserSearchRequest {
-    SearchString?: string | undefined;
-    Sort?: SortInfo[] | undefined;
-    Start: number;
-    Limit: number;
-    Filter?: FilterBase | undefined;
-    LifeCycleFilter: LifeCycleFilter;
+    searchString?: string | undefined;
+    sort?: SortInfo[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
+    lifeCycleFilter: LifeCycleFilter;
 }
 
-export interface BaseResultOfUserViewItem {
-    TotalResults: number;
-    Results?: UserViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfUser {
+    totalResults: number;
+    results?: User[] | undefined;
+    pageToken?: string | undefined;
 }
 
-export interface UserSearchResult extends BaseResultOfUserViewItem {
-    ElapsedMilliseconds: number;
+export interface UserSearchResult extends BaseResultOfUser {
+    elapsedMilliseconds: number;
 }
 
-export interface UserViewItem extends UserItem {
-    UserRoleIds?: string[] | undefined;
+export interface User extends UserItem {
+    userRoleIds?: string[] | undefined;
 }
 
-export interface UserDetailViewItem extends UserItem {
-    Password?: string | undefined;
-    UserRoles?: UserRoleViewItem[] | undefined;
-    Comment?: string | undefined;
-    LanguageCode?: string | undefined;
-    Address?: UserAddress | undefined;
-    Privilege?: UserPrivilege | undefined;
-    Drives?: DriveViewItem[] | undefined;
-    OwnerTokens?: OwnerTokenViewItem[] | undefined;
+export interface UserDetail extends UserItem {
+    password?: string | undefined;
+    userRoles?: UserRole[] | undefined;
+    comment?: string | undefined;
+    languageCode?: string | undefined;
+    address?: UserAddress | undefined;
+    drives?: Drive[] | undefined;
+    ownerTokens?: OwnerToken[] | undefined;
 }
 
 export interface UserAddress {
-    Company?: string | undefined;
-    Address?: string | undefined;
-    AlternativeAddress?: string | undefined;
-    Department?: string | undefined;
-    Zip?: string | undefined;
-    City?: string | undefined;
-    Phone?: string | undefined;
-    CountryCode?: string | undefined;
+    company?: string | undefined;
+    address?: string | undefined;
+    alternativeAddress?: string | undefined;
+    department?: string | undefined;
+    zip?: string | undefined;
+    city?: string | undefined;
+    phone?: string | undefined;
+    countryCode?: string | undefined;
 }
 
-export interface UserPrivilege {
-    CanBeInternalContact: boolean;
-    CanChangeOwnProfile: boolean;
+export interface Drive {
+    id?: string | undefined;
+    name?: string | undefined;
 }
 
-export interface DriveViewItem {
-    Id?: string | undefined;
-    Name?: string | undefined;
-}
-
-export interface OwnerTokenViewItem {
+export interface OwnerToken {
     /** The ownertoken id. */
-    Id?: string | undefined;
+    id?: string | undefined;
     /** The id of the user to whom this ownertoken currently belongs to. */
-    UserId?: string | undefined;
+    userId?: string | undefined;
 }
 
-export interface UserProfileViewItem {
-    Id?: string | undefined;
-    EmailAddress?: string | undefined;
-    FirstName?: string | undefined;
-    LastName?: string | undefined;
-    Company?: string | undefined;
-    Address?: string | undefined;
-    AlternativeAddress?: string | undefined;
-    Department?: string | undefined;
-    Zip?: string | undefined;
-    City?: string | undefined;
-    Phone?: string | undefined;
+export interface UserProfile {
+    id?: string | undefined;
+    emailAddress?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    company?: string | undefined;
+    address?: string | undefined;
+    alternativeAddress?: string | undefined;
+    department?: string | undefined;
+    zip?: string | undefined;
+    city?: string | undefined;
+    phone?: string | undefined;
 }
 
-export interface ChannelViewItem {
-    Id?: string | undefined;
-    SortOrder: number;
+export interface Channel {
+    id?: string | undefined;
+    sortOrder: number;
     /** The search index id. */
-    SearchIndexId?: string | undefined;
-    EntityType: EntityType;
+    searchIndexId?: string | undefined;
+    entityType: EntityType;
     /** An id list of schemas with schema type content whose content documents should be found by the simple search.
 The search by filters and aggregations are unaffected. */
-    SchemaIds?: string[] | undefined;
+    schemaIds?: string[] | undefined;
     /** An optional search filter. Limits the content document result set on each search and aggregation request. */
-    Filter?: FilterBase | undefined;
+    filter?: FilterBase | undefined;
     /** Language specific names. */
-    Names?: TranslatedStringDictionary | undefined;
-    Sort?: SortInfo[] | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    sort?: SortInfo[] | undefined;
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
-    Aggregations?: AggregatorBase[] | undefined;
+    aggregations?: AggregatorBase[] | undefined;
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
-    ExtendedSimpleSearchFields?: string[] | undefined;
+    extendedSimpleSearchFields?: string[] | undefined;
 }
 
 export interface ContentsByIdsRequest {
-    ContentIds?: string[] | undefined;
+    contentIds?: string[] | undefined;
 }
 
-export interface BaseResultOfOutputDetailViewItem {
-    TotalResults: number;
-    Results?: OutputDetailViewItem[] | undefined;
-    PageToken?: string | undefined;
+export interface BaseResultOfOutputDetail {
+    totalResults: number;
+    results?: OutputDetail[] | undefined;
+    pageToken?: string | undefined;
 }
 
 export interface FileParameter {

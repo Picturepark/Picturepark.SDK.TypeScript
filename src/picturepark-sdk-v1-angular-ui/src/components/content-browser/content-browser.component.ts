@@ -3,7 +3,7 @@ import { InputConverter, StringConverter, NumberConverter } from '../converter';
 
 import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter, FilterBase, SortInfo, SortDirection, ContentViewItem } from '@picturepark/sdk-v1-angular';
+import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter, FilterBase, SortInfo, SortDirection, Content } from '@picturepark/sdk-v1-angular';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
 @Component({
@@ -14,7 +14,7 @@ export class ContentBrowserComponent implements OnChanges {
   private totalResults: number = -1;
 
   isLoading = false;
-  items: ContentViewItemModel[] = [];
+  items: ContentModel[] = [];
 
   @Input()
   @InputConverter(StringConverter)
@@ -38,9 +38,9 @@ export class ContentBrowserComponent implements OnChanges {
   columns = 2;
 
   @Input()
-  selectedItems: ContentViewItem[] = [];
+  selectedItems: Content[] = [];
   @Output()
-  selectedItemsChange = new EventEmitter<ContentViewItem[]>();
+  selectedItemsChange = new EventEmitter<Content[]>();
 
   @ViewChild('virtualScroll')
   private virtualScroll: VirtualScrollComponent;
@@ -48,7 +48,7 @@ export class ContentBrowserComponent implements OnChanges {
   constructor(private contentService: ContentService) {
   }
 
-  toggleSelected(item: ContentViewItemModel) {
+  toggleSelected(item: ContentModel) {
     if (this.selectionMode === SelectionMode.Single) {
       for (let i of this.items)
         i.isSelected = i === item ? !i.isSelected : false;
@@ -87,7 +87,7 @@ export class ContentBrowserComponent implements OnChanges {
           start: this.items.length,
           sort: [
             new SortInfo({
-              field: 'Audit.CreationDate',
+              field: 'audit.creationDate',
               direction: SortDirection.Desc
             })
           ]
@@ -98,7 +98,7 @@ export class ContentBrowserComponent implements OnChanges {
           this.totalResults = result.totalResults;
           if (result.results) {
             for (var r of result.results)
-              this.items.push(new ContentViewItemModel(r, this));
+              this.items.push(new ContentModel(r, this));
           }
         }
 
@@ -153,12 +153,12 @@ export enum SelectionMode {
   Multiple = <any>'multiple',
 }
 
-export class ContentViewItemModel {
+export class ContentModel {
   isSelected = false;
-  item: ContentViewItem;
+  item: Content;
   parent: ContentBrowserComponent;
 
-  constructor(item: ContentViewItem, parent: ContentBrowserComponent) {
+  constructor(item: Content, parent: ContentBrowserComponent) {
     this.item = item;
     this.parent = parent;
   }

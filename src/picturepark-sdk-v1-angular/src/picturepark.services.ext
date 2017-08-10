@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable'; // ignore
 import { Http, Headers } from '@angular/http'; // ignore
 import { PICTUREPARK_API_URL } from "./picturepark.services"; // ignore
 
-import { Output, EventEmitter } from '@angular/core';
+import { Output as NgOutput, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
 import { PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
@@ -70,7 +70,7 @@ export class AuthService {
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
 
         if (this.oidcSecurityService) {
-            this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
+            this.oidcSecurityService.getUserData().subscribe((userData) => this.userDataChanged(userData));
         }
     }
 
@@ -82,7 +82,7 @@ export class AuthService {
         return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
-    @Output()
+    @NgOutput()
     isAuthorizedChanged = new EventEmitter<boolean>();
 
     login() {
@@ -114,8 +114,8 @@ export class AuthService {
         this.oidcSecurityService.authorizedCallback();
     }
 
-    private userDataChanged() {
-        let userData = this.oidcSecurityService.isAuthorized ? this.oidcSecurityService.getUserData() : undefined;
+    private userDataChanged(userData: any) {
+        console.log(userData);
         this._username = userData && userData.name ? <string>userData.name : undefined;
         this._token = this.oidcSecurityService.getToken();
 

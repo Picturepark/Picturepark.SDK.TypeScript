@@ -3,13 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 
 import {
   AggregationFilter,
-  ContentViewItem,
+  Content,
   AuthService,
   ShareService,
   ShareContent,
   ShareEmbedCreateRequest,
-  ShareEmbedDetailViewItem,
-  AggregationResult
+  ShareEmbedDetail,
+  AggregationResult,
+  OutputAccess
 } from '@picturepark/sdk-v1-angular';
 
 import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angular-ui';
@@ -23,7 +24,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   selectedFilters: AggregationFilter[] = [];
   selectionMode = SelectionMode.Multiple;
 
-  selectedItems: ContentViewItem[] = [];
+  selectedItems: Content[] = [];
   aggregations: AggregationResult[] = [];
 
   loading = false;
@@ -84,11 +85,12 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
         this.loading = true;
 
         let result = await this.shareService.create(new ShareEmbedCreateRequest({
-          contents: contentItems
+          contents: contentItems,
+          outputAccess: OutputAccess.Full
         })).toPromise();
 
         if (result) {
-          let share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetailViewItem;
+          let share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
           let postMessage = JSON.stringify({
             token: share.token,
             shareId: share.id!,
