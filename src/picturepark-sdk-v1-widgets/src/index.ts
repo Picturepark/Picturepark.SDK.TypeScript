@@ -58,23 +58,23 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
   return window.fetch(config.server + '/Service/PublicAccess/GetShare?token=' + config.token).then(function (response) {
     return response.json();
-  }).then((rawShare: picturepark.ShareEmbedDetailViewItem) => {
+  }).then((rawShare: picturepark.ShareEmbedDetail) => {
     let index = 0;
     let share = {
-      id: rawShare.Id,
-      url: rawShare.Url,
-      name: rawShare.Name,
-      audit: rawShare.Audit,
-      description: rawShare.Description,
-      items: rawShare.ContentSelections.map(s => {
-        let outputs = s.Outputs.map(o => {
-          let embedItem = rawShare.EmbedContentItems.filter(e => e.ContentId === o.ContentId && e.OutputFormatId === o.OutputFormatId)[0];
+      id: rawShare.id,
+      url: rawShare.url,
+      name: rawShare.name,
+      audit: rawShare.audit,
+      description: rawShare.description,
+      items: rawShare.contentSelections.map(s => {
+        let outputs = s.outputs.map(o => {
+          let embedItem = rawShare.embedContentItems.filter(e => e.contentId === o.contentId && e.outputFormatId === o.outputFormatId)[0];
           return {
-            contentId: embedItem ? embedItem.ContentId : null,
-            outputFormatId: o.OutputFormatId,
-            fileExtension: o.Detail.FileExtension,
-            url: embedItem ? embedItem.Url : null,
-            detail: o.Detail
+            contentId: embedItem ? embedItem.contentId : null,
+            outputFormatId: o.outputFormatId,
+            fileExtension: o.detail.fileExtension,
+            url: embedItem ? embedItem.url : null,
+            detail: o.detail
           }
         });
 
@@ -82,7 +82,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
         // find best original output
         let originalOutput: any;
-        for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original"]) {
+        for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original", "Preview"]) {
           originalOutput = outputs.filter(o => o.outputFormatId === ofi)[0];
           if (originalOutput)
             break;
@@ -90,10 +90,10 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
         // TODO: Use VideoLarge AND VideoMedium
 
         return {
-          id: s.Id,
+          id: s.id,
           index: index++,
-          displayValues: s.DisplayValues,
-          detail: originalOutput.detail,
+          displayValues: s.displayValues,
+          detail: originalOutput ? originalOutput.detail : null,
 
           isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : null,
           isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : null,
