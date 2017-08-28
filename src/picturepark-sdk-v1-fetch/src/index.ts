@@ -1951,7 +1951,7 @@ export class ListItemClient {
      * @listItemSearchRequest The list item search request.
      * @return List item result set.
      */
-    search(listItemSearchRequest: ListItemSearchRequest | null): Promise<BaseResultOfListItem | null> {
+    search(listItemSearchRequest: ListItemSearchRequest | null): Promise<ListItemSearchResult | null> {
         let url_ = this.baseUrl + "/V1/ListItems/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1971,7 +1971,7 @@ export class ListItemClient {
         });
     }
 
-    protected processSearch(response: Response): Promise<BaseResultOfListItem | null> {
+    protected processSearch(response: Response): Promise<ListItemSearchResult | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 500) {
@@ -1982,8 +1982,8 @@ export class ListItemClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfListItem | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfListItem>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: ListItemSearchResult | null = null;
+            result200 = _responseText === "" ? null : <ListItemSearchResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1991,7 +1991,7 @@ export class ListItemClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BaseResultOfListItem | null>(<any>null);
+        return Promise.resolve<ListItemSearchResult | null>(<any>null);
     }
 
     /**
@@ -2642,7 +2642,7 @@ export class SchemaClient {
      * @schemaSearchRequest The schema search request.
      * @return Schema result set.
      */
-    search(schemaSearchRequest: SchemaSearchRequest | null): Promise<BaseResultOfSchema | null> {
+    search(schemaSearchRequest: SchemaSearchRequest | null): Promise<SchemaSearchResult | null> {
         let url_ = this.baseUrl + "/V1/Schemas/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2662,7 +2662,7 @@ export class SchemaClient {
         });
     }
 
-    protected processSearch(response: Response): Promise<BaseResultOfSchema | null> {
+    protected processSearch(response: Response): Promise<SchemaSearchResult | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 500) {
@@ -2673,8 +2673,8 @@ export class SchemaClient {
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfSchema | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfSchema>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: SchemaSearchResult | null = null;
+            result200 = _responseText === "" ? null : <SchemaSearchResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -2682,7 +2682,7 @@ export class SchemaClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BaseResultOfSchema | null>(<any>null);
+        return Promise.resolve<SchemaSearchResult | null>(<any>null);
     }
 }
 
@@ -3319,7 +3319,7 @@ export class ShareClient {
      * @request Search request
      * @return Share search result
      */
-    search(request: ContentSearchRequest | null): Promise<BaseResultOfShareBase | null> {
+    search(request: ContentSearchRequest | null): Promise<ShareSearchResult | null> {
         let url_ = this.baseUrl + "/V1/Shares/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3339,13 +3339,13 @@ export class ShareClient {
         });
     }
 
-    protected processSearch(response: Response): Promise<BaseResultOfShareBase | null> {
+    protected processSearch(response: Response): Promise<ShareSearchResult | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfShareBase | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfShareBase>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: ShareSearchResult | null = null;
+            result200 = _responseText === "" ? null : <ShareSearchResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -3363,7 +3363,7 @@ export class ShareClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BaseResultOfShareBase | null>(<any>null);
+        return Promise.resolve<ShareSearchResult | null>(<any>null);
     }
 }
 
@@ -4143,7 +4143,7 @@ export class OutputClient {
      * @contentsByIdsRequest Contains the list of contentIds for which the outputs are requested
      * @return The Result containing a list of OutputDetail's
      */
-    getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Promise<BaseResultOfOutputDetail | null> {
+    getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Promise<OutputDetail[] | null> {
         let url_ = this.baseUrl + "/V1/Outputs";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4163,13 +4163,13 @@ export class OutputClient {
         });
     }
 
-    protected processGetByContentIds(response: Response): Promise<BaseResultOfOutputDetail | null> {
+    protected processGetByContentIds(response: Response): Promise<OutputDetail[] | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: BaseResultOfOutputDetail | null = null;
-            result200 = _responseText === "" ? null : <BaseResultOfOutputDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: OutputDetail[] | null = null;
+            result200 = _responseText === "" ? null : <OutputDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -4183,7 +4183,7 @@ export class OutputClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BaseResultOfOutputDetail | null>(<any>null);
+        return Promise.resolve<OutputDetail[] | null>(<any>null);
     }
 
     /**
@@ -4896,6 +4896,7 @@ export enum TermsRelationAggregatorDocumentType {
     ListItem = <any>"ListItem", 
     Schema = <any>"Schema", 
     User = <any>"User", 
+    ContentPermissionSet = <any>"ContentPermissionSet", 
 }
 
 export interface TermsEnumAggregator extends TermsAggregator {
@@ -4930,10 +4931,10 @@ export interface AggregationResultItem {
 }
 
 export interface ContentBatchDownloadRequest {
-    contents?: Content[] | undefined;
+    contents?: ContentDownloadItem[] | undefined;
 }
 
-export interface Content {
+export interface ContentDownloadItem {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 }
@@ -4996,6 +4997,8 @@ export interface ContentSearchRequest {
     filter?: FilterBase | undefined;
     /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
+    /** Limits the content document result set to specific ContentRights the user has */
+    rightsFilter?: ContentRight[] | undefined;
 }
 
 export interface SortInfo {
@@ -5008,9 +5011,17 @@ export enum SortDirection {
     Desc = <any>"Desc", 
 }
 
+export enum ContentRight {
+    View = <any>"View", 
+    Edit = <any>"Edit", 
+    Update = <any>"Update", 
+    Manage = <any>"Manage", 
+    Trash = <any>"Trash", 
+}
+
 export interface BaseResultOfContent {
     totalResults: number;
-    results?: Content2[] | undefined;
+    results?: Content[] | undefined;
     pageToken?: string | undefined;
 }
 
@@ -5019,7 +5030,7 @@ export interface ContentSearchResult extends BaseResultOfContent {
     elapsedMilliseconds: number;
 }
 
-export interface Content2 {
+export interface Content {
     audit?: StoreAudit | undefined;
     /** The entity type of a content document is content. */
     entityType: EntityType;
@@ -5262,18 +5273,20 @@ export interface BaseResultOfListItem {
     pageToken?: string | undefined;
 }
 
-/** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
+export interface ListItemSearchResult extends BaseResultOfListItem {
+}
+
 export interface ListItem {
-    /** The content data of the list item. */
-    content?: any | undefined;
+    /** The list item id. */
+    id?: string | undefined;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
-    /** The entity type of the list item is metadata. */
+    /** The content data of the list item. */
+    content?: DataDictionary | undefined;
+    /** The entity type of a list item is metadata. */
     entityType: EntityType;
-    /** The list item id. */
-    id?: string | undefined;
 }
 
 /** A request structure for updating a list item. */
@@ -5655,6 +5668,9 @@ export interface BaseResultOfSchema {
     pageToken?: string | undefined;
 }
 
+export interface SchemaSearchResult extends BaseResultOfSchema {
+}
+
 export interface Schema {
     /** The schema id. */
     id?: string | undefined;
@@ -5703,6 +5719,11 @@ export interface PermissionSetSearchRequest {
     start: number;
     limit: number;
     filter?: FilterBase | undefined;
+    rightFilter?: PermissionSetRight | undefined;
+}
+
+export enum PermissionSetRight {
+    Apply = <any>"Apply", 
 }
 
 export interface BaseResultOfPermissionSet {
@@ -5742,22 +5763,10 @@ export interface PermissionUserRoleRightsOfContentRight {
     rights?: ContentRight[] | undefined;
 }
 
-export enum ContentRight {
-    View = <any>"View", 
-    Edit = <any>"Edit", 
-    Update = <any>"Update", 
-    Manage = <any>"Manage", 
-    Trash = <any>"Trash", 
-}
-
 export interface PermissionUserRoleRightsOfPermissionSetRight {
     userRoleId?: string | undefined;
     names?: TranslatedStringDictionary | undefined;
     rights?: PermissionSetRight[] | undefined;
-}
-
-export enum PermissionSetRight {
-    Apply = <any>"Apply", 
 }
 
 export interface PermissionSetDetailOfMetadataRight {
@@ -6006,6 +6015,10 @@ export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
 
 export interface CreateShareResult {
     shareId?: string | undefined;
+}
+
+export interface ShareSearchResult extends BaseResultOfShareBase {
+    elapsedMilliseconds: number;
 }
 
 export interface FileTransferDeleteRequest {
@@ -7839,12 +7852,6 @@ The search by filters and aggregations are unaffected. */
 
 export interface ContentsByIdsRequest {
     contentIds?: string[] | undefined;
-}
-
-export interface BaseResultOfOutputDetail {
-    totalResults: number;
-    results?: OutputDetail[] | undefined;
-    pageToken?: string | undefined;
 }
 
 export interface FileParameter {

@@ -6,7 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-import { Output as AngularOutput, EventEmitter } from '@angular/core';
+import { Output as NgOutput, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
 import { PictureparkConfiguration } from './picturepark.config';
 import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
@@ -37,9 +37,9 @@ export class AuthService {
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
 
-        // if (this.oidcSecurityService) {
-        //     this.oidcSecurityService.onUserDataLoaded.subscribe(() => this.userDataChanged());
-        // }
+        if (this.oidcSecurityService) {
+            this.oidcSecurityService.getUserData().subscribe((userData) => this.userDataChanged(userData));
+        }
     }
 
     get apiServer() {
@@ -50,7 +50,7 @@ export class AuthService {
         return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
     }
 
-    @AngularOutput()
+    @NgOutput()
     isAuthorizedChanged = new EventEmitter<boolean>();
 
     login() {
@@ -82,20 +82,20 @@ export class AuthService {
         this.oidcSecurityService.authorizedCallback();
     }
 
-    // private userDataChanged() {
-    //     let userData = this.oidcSecurityService.getIsAuthorized ? this.oidcSecurityService.getUserData() : undefined;
-    //     this._username = userData && userData.name ? <string>userData.name : undefined;
-    //     this._token = this.oidcSecurityService.getToken();
+    private userDataChanged(userData: any) {
+        console.log(userData);
+        this._username = userData && userData.name ? <string>userData.name : undefined;
+        this._token = this.oidcSecurityService.getToken();
 
-    //     if (!this._isAuthorized && this._token) {
-    //         this._isAuthorizing = false;
-    //         this._isAuthorized = true;
-    //         this.isAuthorizedChanged.emit(this._isAuthorized);
-    //     } else if (this._isAuthorized) {
-    //         this._isAuthorized = false;
-    //         this.isAuthorizedChanged.emit(this._isAuthorized);
-    //     }
-    // }
+        if (!this._isAuthorized && this._token) {
+            this._isAuthorizing = false;
+            this._isAuthorized = true;
+            this.isAuthorizedChanged.emit(this._isAuthorized);
+        } else if (this._isAuthorized) {
+            this._isAuthorized = false;
+            this.isAuthorizedChanged.emit(this._isAuthorized);
+        }
+    }
 
     updateTokenIfRequired() {
         return Promise.resolve();
@@ -2506,7 +2506,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @listItemSearchRequest The list item search request.
      * @return List item result set.
      */
-    search(listItemSearchRequest: ListItemSearchRequest | null): Observable<BaseResultOfListItem | null> {
+    search(listItemSearchRequest: ListItemSearchRequest | null): Observable<ListItemSearchResult | null> {
         let url_ = this.baseUrl + "/V1/ListItems/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2530,14 +2530,14 @@ export class ListItemService extends PictureparkServiceBase {
                 try {
                     return this.processSearch(response_);
                 } catch (e) {
-                    return <Observable<BaseResultOfListItem>><any>Observable.throw(e);
+                    return <Observable<ListItemSearchResult>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<BaseResultOfListItem>><any>Observable.throw(response_);
+                return <Observable<ListItemSearchResult>><any>Observable.throw(response_);
         });
     }
 
-    protected processSearch(response: Response): Observable<BaseResultOfListItem | null> {
+    protected processSearch(response: Response): Observable<ListItemSearchResult | null> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -2549,15 +2549,15 @@ export class ListItemService extends PictureparkServiceBase {
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
         } else if (status === 200) {
             const _responseText = response.text();
-            let result200: BaseResultOfListItem | null = null;
+            let result200: ListItemSearchResult | null = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BaseResultOfListItem.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? ListItemSearchResult.fromJS(resultData200) : <any>null;
             return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<BaseResultOfListItem | null>(<any>null);
+        return Observable.of<ListItemSearchResult | null>(<any>null);
     }
 
     /**
@@ -3345,7 +3345,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @schemaSearchRequest The schema search request.
      * @return Schema result set.
      */
-    search(schemaSearchRequest: SchemaSearchRequest | null): Observable<BaseResultOfSchema | null> {
+    search(schemaSearchRequest: SchemaSearchRequest | null): Observable<SchemaSearchResult | null> {
         let url_ = this.baseUrl + "/V1/Schemas/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3369,14 +3369,14 @@ export class SchemaService extends PictureparkServiceBase {
                 try {
                     return this.processSearch(response_);
                 } catch (e) {
-                    return <Observable<BaseResultOfSchema>><any>Observable.throw(e);
+                    return <Observable<SchemaSearchResult>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<BaseResultOfSchema>><any>Observable.throw(response_);
+                return <Observable<SchemaSearchResult>><any>Observable.throw(response_);
         });
     }
 
-    protected processSearch(response: Response): Observable<BaseResultOfSchema | null> {
+    protected processSearch(response: Response): Observable<SchemaSearchResult | null> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -3388,15 +3388,15 @@ export class SchemaService extends PictureparkServiceBase {
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
         } else if (status === 200) {
             const _responseText = response.text();
-            let result200: BaseResultOfSchema | null = null;
+            let result200: SchemaSearchResult | null = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BaseResultOfSchema.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? SchemaSearchResult.fromJS(resultData200) : <any>null;
             return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<BaseResultOfSchema | null>(<any>null);
+        return Observable.of<SchemaSearchResult | null>(<any>null);
     }
 }
 
@@ -4166,7 +4166,7 @@ export class ShareService extends PictureparkServiceBase {
      * @request Search request
      * @return Share search result
      */
-    search(request: ContentSearchRequest | null): Observable<BaseResultOfShareBase | null> {
+    search(request: ContentSearchRequest | null): Observable<ShareSearchResult | null> {
         let url_ = this.baseUrl + "/V1/Shares/Search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4190,22 +4190,22 @@ export class ShareService extends PictureparkServiceBase {
                 try {
                     return this.processSearch(response_);
                 } catch (e) {
-                    return <Observable<BaseResultOfShareBase>><any>Observable.throw(e);
+                    return <Observable<ShareSearchResult>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<BaseResultOfShareBase>><any>Observable.throw(response_);
+                return <Observable<ShareSearchResult>><any>Observable.throw(response_);
         });
     }
 
-    protected processSearch(response: Response): Observable<BaseResultOfShareBase | null> {
+    protected processSearch(response: Response): Observable<ShareSearchResult | null> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
         if (status === 200) {
             const _responseText = response.text();
-            let result200: BaseResultOfShareBase | null = null;
+            let result200: ShareSearchResult | null = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BaseResultOfShareBase.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? ShareSearchResult.fromJS(resultData200) : <any>null;
             return Observable.of(result200);
         } else if (status === 500) {
             const _responseText = response.text();
@@ -4220,7 +4220,7 @@ export class ShareService extends PictureparkServiceBase {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<BaseResultOfShareBase | null>(<any>null);
+        return Observable.of<ShareSearchResult | null>(<any>null);
     }
 }
 
@@ -5192,7 +5192,7 @@ export class OutputService extends PictureparkServiceBase {
      * @contentsByIdsRequest Contains the list of contentIds for which the outputs are requested
      * @return The Result containing a list of OutputDetail's
      */
-    getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Observable<BaseResultOfOutputDetail | null> {
+    getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Observable<OutputDetail[] | null> {
         let url_ = this.baseUrl + "/V1/Outputs";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5216,22 +5216,26 @@ export class OutputService extends PictureparkServiceBase {
                 try {
                     return this.processGetByContentIds(response_);
                 } catch (e) {
-                    return <Observable<BaseResultOfOutputDetail>><any>Observable.throw(e);
+                    return <Observable<OutputDetail[]>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<BaseResultOfOutputDetail>><any>Observable.throw(response_);
+                return <Observable<OutputDetail[]>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetByContentIds(response: Response): Observable<BaseResultOfOutputDetail | null> {
+    protected processGetByContentIds(response: Response): Observable<OutputDetail[] | null> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
         if (status === 200) {
             const _responseText = response.text();
-            let result200: BaseResultOfOutputDetail | null = null;
+            let result200: OutputDetail[] | null = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BaseResultOfOutputDetail.fromJS(resultData200) : <any>null;
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(OutputDetail.fromJS(item));
+            }
             return Observable.of(result200);
         } else if (status === 500) {
             const _responseText = response.text();
@@ -5243,7 +5247,7 @@ export class OutputService extends PictureparkServiceBase {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<BaseResultOfOutputDetail | null>(<any>null);
+        return Observable.of<OutputDetail[] | null>(<any>null);
     }
 
     /**
@@ -5738,7 +5742,7 @@ export class Output implements IOutput {
             result.init(data);
             return result;
         }
-        let result = new AngularOutput();
+        let result = new Output();
         result.init(data);
         return result;
     }
@@ -10106,6 +10110,7 @@ export enum TermsRelationAggregatorDocumentType {
     ListItem = <any>"ListItem", 
     Schema = <any>"Schema", 
     User = <any>"User", 
+    ContentPermissionSet = <any>"ContentPermissionSet", 
 }
 
 export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAggregator {
@@ -10316,7 +10321,7 @@ export interface IAggregationResultItem {
 }
 
 export class ContentBatchDownloadRequest implements IContentBatchDownloadRequest {
-    contents?: Content[] | undefined;
+    contents?: ContentDownloadItem[] | undefined;
 
     constructor(data?: IContentBatchDownloadRequest) {
         if (data) {
@@ -10332,7 +10337,7 @@ export class ContentBatchDownloadRequest implements IContentBatchDownloadRequest
             if (data["contents"] && data["contents"].constructor === Array) {
                 this.contents = [];
                 for (let item of data["contents"])
-                    this.contents.push(Content.fromJS(item));
+                    this.contents.push(ContentDownloadItem.fromJS(item));
             }
         }
     }
@@ -10355,14 +10360,14 @@ export class ContentBatchDownloadRequest implements IContentBatchDownloadRequest
 }
 
 export interface IContentBatchDownloadRequest {
-    contents?: Content[] | undefined;
+    contents?: ContentDownloadItem[] | undefined;
 }
 
-export class Content implements IContent {
+export class ContentDownloadItem implements IContentDownloadItem {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 
-    constructor(data?: IContent) {
+    constructor(data?: IContentDownloadItem) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -10378,8 +10383,8 @@ export class Content implements IContent {
         }
     }
 
-    static fromJS(data: any): Content {
-        let result = new Content();
+    static fromJS(data: any): ContentDownloadItem {
+        let result = new ContentDownloadItem();
         result.init(data);
         return result;
     }
@@ -10392,7 +10397,7 @@ export class Content implements IContent {
     }
 }
 
-export interface IContent {
+export interface IContentDownloadItem {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 }
@@ -10623,6 +10628,8 @@ export class ContentSearchRequest implements IContentSearchRequest {
     filter?: FilterBase | undefined;
     /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
+    /** Limits the content document result set to specific ContentRights the user has */
+    rightsFilter?: ContentRight[] | undefined;
 
     constructor(data?: IContentSearchRequest) {
         if (data) {
@@ -10662,6 +10669,11 @@ export class ContentSearchRequest implements IContentSearchRequest {
             this.limit = data["limit"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.lifeCycleFilter = data["lifeCycleFilter"];
+            if (data["rightsFilter"] && data["rightsFilter"].constructor === Array) {
+                this.rightsFilter = [];
+                for (let item of data["rightsFilter"])
+                    this.rightsFilter.push(item);
+            }
         }
     }
 
@@ -10700,6 +10712,11 @@ export class ContentSearchRequest implements IContentSearchRequest {
         data["limit"] = this.limit;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["lifeCycleFilter"] = this.lifeCycleFilter;
+        if (this.rightsFilter && this.rightsFilter.constructor === Array) {
+            data["rightsFilter"] = [];
+            for (let item of this.rightsFilter)
+                data["rightsFilter"].push(item);
+        }
         return data; 
     }
 }
@@ -10727,6 +10744,8 @@ export interface IContentSearchRequest {
     filter?: FilterBase | undefined;
     /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
+    /** Limits the content document result set to specific ContentRights the user has */
+    rightsFilter?: ContentRight[] | undefined;
 }
 
 export class SortInfo implements ISortInfo {
@@ -10773,9 +10792,17 @@ export enum SortDirection {
     Desc = <any>"Desc", 
 }
 
+export enum ContentRight {
+    View = <any>"View", 
+    Edit = <any>"Edit", 
+    Update = <any>"Update", 
+    Manage = <any>"Manage", 
+    Trash = <any>"Trash", 
+}
+
 export class BaseResultOfContent implements IBaseResultOfContent {
     totalResults: number;
-    results?: Content2[] | undefined;
+    results?: Content[] | undefined;
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfContent) {
@@ -10793,7 +10820,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
             if (data["results"] && data["results"].constructor === Array) {
                 this.results = [];
                 for (let item of data["results"])
-                    this.results.push(Content2.fromJS(item));
+                    this.results.push(Content.fromJS(item));
             }
             this.pageToken = data["pageToken"];
         }
@@ -10820,7 +10847,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
 
 export interface IBaseResultOfContent {
     totalResults: number;
-    results?: Content2[] | undefined;
+    results?: Content[] | undefined;
     pageToken?: string | undefined;
 }
 
@@ -10868,7 +10895,7 @@ export interface IContentSearchResult extends IBaseResultOfContent {
     elapsedMilliseconds: number;
 }
 
-export class Content2 implements IContent2 {
+export class Content implements IContent {
     audit?: StoreAudit | undefined;
     /** The entity type of a content document is content. */
     entityType: EntityType;
@@ -10880,7 +10907,7 @@ export class Content2 implements IContent2 {
     displayValues?: { [key: string] : string; } | undefined;
     id?: string | undefined;
 
-    constructor(data?: IContent2) {
+    constructor(data?: IContent) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -10910,8 +10937,8 @@ export class Content2 implements IContent2 {
         }
     }
 
-    static fromJS(data: any): Content2 {
-        let result = new Content2();
+    static fromJS(data: any): Content {
+        let result = new Content();
         result.init(data);
         return result;
     }
@@ -10938,7 +10965,7 @@ export class Content2 implements IContent2 {
     }
 }
 
-export interface IContent2 {
+export interface IContent {
     audit?: StoreAudit | undefined;
     /** The entity type of a content document is content. */
     entityType: EntityType;
@@ -12477,18 +12504,45 @@ export interface IBaseResultOfListItem {
     pageToken?: string | undefined;
 }
 
-/** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
+export class ListItemSearchResult extends BaseResultOfListItem implements IListItemSearchResult {
+
+    constructor(data?: IListItemSearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): ListItemSearchResult {
+        let result = new ListItemSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IListItemSearchResult extends IBaseResultOfListItem {
+}
+
 export class ListItem implements IListItem {
-    /** The content data of the list item. */
-    content?: any | undefined;
+    /** The list item id. */
+    id?: string | undefined;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
-    /** The entity type of the list item is metadata. */
+    /** The content data of the list item. */
+    content?: DataDictionary | undefined;
+    /** The entity type of a list item is metadata. */
     entityType: EntityType;
-    /** The list item id. */
-    id?: string | undefined;
 
     constructor(data?: IListItem) {
         if (data) {
@@ -12501,11 +12555,11 @@ export class ListItem implements IListItem {
 
     init(data?: any) {
         if (data) {
-            this.content = data["content"];
+            this.id = data["id"];
             this.contentSchemaId = data["contentSchemaId"];
             this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
+            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : <any>undefined;
             this.entityType = data["entityType"];
-            this.id = data["id"];
         }
     }
 
@@ -12517,27 +12571,26 @@ export class ListItem implements IListItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
+        data["id"] = this.id;
         data["contentSchemaId"] = this.contentSchemaId;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
+        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
         data["entityType"] = this.entityType;
-        data["id"] = this.id;
         return data; 
     }
 }
 
-/** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
 export interface IListItem {
-    /** The content data of the list item. */
-    content?: any | undefined;
+    /** The list item id. */
+    id?: string | undefined;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
-    /** The entity type of the list item is metadata. */
+    /** The content data of the list item. */
+    content?: DataDictionary | undefined;
+    /** The entity type of a list item is metadata. */
     entityType: EntityType;
-    /** The list item id. */
-    id?: string | undefined;
 }
 
 /** A request structure for updating a list item. */
@@ -15008,6 +15061,34 @@ export interface IBaseResultOfSchema {
     pageToken?: string | undefined;
 }
 
+export class SchemaSearchResult extends BaseResultOfSchema implements ISchemaSearchResult {
+
+    constructor(data?: ISchemaSearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): SchemaSearchResult {
+        let result = new SchemaSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaSearchResult extends IBaseResultOfSchema {
+}
+
 export class Schema implements ISchema {
     /** The schema id. */
     id?: string | undefined;
@@ -15140,6 +15221,7 @@ export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
     start: number;
     limit: number;
     filter?: FilterBase | undefined;
+    rightFilter?: PermissionSetRight | undefined;
 
     constructor(data?: IPermissionSetSearchRequest) {
         if (data) {
@@ -15161,6 +15243,7 @@ export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
             this.start = data["start"];
             this.limit = data["limit"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.rightFilter = data["rightFilter"];
         }
     }
 
@@ -15181,6 +15264,7 @@ export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
         data["start"] = this.start;
         data["limit"] = this.limit;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["rightFilter"] = this.rightFilter;
         return data; 
     }
 }
@@ -15191,6 +15275,11 @@ export interface IPermissionSetSearchRequest {
     start: number;
     limit: number;
     filter?: FilterBase | undefined;
+    rightFilter?: PermissionSetRight | undefined;
+}
+
+export enum PermissionSetRight {
+    Apply = <any>"Apply", 
 }
 
 export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
@@ -15485,14 +15574,6 @@ export interface IPermissionUserRoleRightsOfContentRight {
     rights?: ContentRight[] | undefined;
 }
 
-export enum ContentRight {
-    View = <any>"View", 
-    Edit = <any>"Edit", 
-    Update = <any>"Update", 
-    Manage = <any>"Manage", 
-    Trash = <any>"Trash", 
-}
-
 export class PermissionUserRoleRightsOfPermissionSetRight implements IPermissionUserRoleRightsOfPermissionSetRight {
     userRoleId?: string | undefined;
     names?: TranslatedStringDictionary | undefined;
@@ -15542,10 +15623,6 @@ export interface IPermissionUserRoleRightsOfPermissionSetRight {
     userRoleId?: string | undefined;
     names?: TranslatedStringDictionary | undefined;
     rights?: PermissionSetRight[] | undefined;
-}
-
-export enum PermissionSetRight {
-    Apply = <any>"Apply", 
 }
 
 export class PermissionSetDetailOfMetadataRight implements IPermissionSetDetailOfMetadataRight {
@@ -17282,6 +17359,38 @@ export class CreateShareResult implements ICreateShareResult {
 
 export interface ICreateShareResult {
     shareId?: string | undefined;
+}
+
+export class ShareSearchResult extends BaseResultOfShareBase implements IShareSearchResult {
+    elapsedMilliseconds: number;
+
+    constructor(data?: IShareSearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
+        }
+    }
+
+    static fromJS(data: any): ShareSearchResult {
+        let result = new ShareSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IShareSearchResult extends IBaseResultOfShareBase {
+    elapsedMilliseconds: number;
 }
 
 export class FileTransferDeleteRequest implements IFileTransferDeleteRequest {
@@ -25642,57 +25751,6 @@ export class ContentsByIdsRequest implements IContentsByIdsRequest {
 
 export interface IContentsByIdsRequest {
     contentIds?: string[] | undefined;
-}
-
-export class BaseResultOfOutputDetail implements IBaseResultOfOutputDetail {
-    totalResults: number;
-    results?: OutputDetail[] | undefined;
-    pageToken?: string | undefined;
-
-    constructor(data?: IBaseResultOfOutputDetail) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalResults = data["totalResults"];
-            if (data["results"] && data["results"].constructor === Array) {
-                this.results = [];
-                for (let item of data["results"])
-                    this.results.push(OutputDetail.fromJS(item));
-            }
-            this.pageToken = data["pageToken"];
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfOutputDetail {
-        let result = new BaseResultOfOutputDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (this.results && this.results.constructor === Array) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
-}
-
-export interface IBaseResultOfOutputDetail {
-    totalResults: number;
-    results?: OutputDetail[] | undefined;
-    pageToken?: string | undefined;
 }
 
 export interface FileParameter {

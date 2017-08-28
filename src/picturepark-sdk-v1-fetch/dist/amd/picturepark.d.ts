@@ -241,8 +241,8 @@
          * @listItemSearchRequest The list item search request.
          * @return List item result set.
          */
-        search(listItemSearchRequest: ListItemSearchRequest | null): Promise<BaseResultOfListItem | null>;
-        protected processSearch(response: Response): Promise<BaseResultOfListItem | null>;
+        search(listItemSearchRequest: ListItemSearchRequest | null): Promise<ListItemSearchResult | null>;
+        protected processSearch(response: Response): Promise<ListItemSearchResult | null>;
         /**
          * Delete Single
          * @objectId The list item id.
@@ -353,8 +353,8 @@
          * @schemaSearchRequest The schema search request.
          * @return Schema result set.
          */
-        search(schemaSearchRequest: SchemaSearchRequest | null): Promise<BaseResultOfSchema | null>;
-        protected processSearch(response: Response): Promise<BaseResultOfSchema | null>;
+        search(schemaSearchRequest: SchemaSearchRequest | null): Promise<SchemaSearchResult | null>;
+        protected processSearch(response: Response): Promise<SchemaSearchResult | null>;
     }
     export class PermissionClient {
         private http;
@@ -461,8 +461,8 @@
          * @request Search request
          * @return Share search result
          */
-        search(request: ContentSearchRequest | null): Promise<BaseResultOfShareBase | null>;
-        protected processSearch(response: Response): Promise<BaseResultOfShareBase | null>;
+        search(request: ContentSearchRequest | null): Promise<ShareSearchResult | null>;
+        protected processSearch(response: Response): Promise<ShareSearchResult | null>;
     }
     export class TransferClient {
         private http;
@@ -532,8 +532,8 @@
          * @contentsByIdsRequest Contains the list of contentIds for which the outputs are requested
          * @return The Result containing a list of OutputDetail's
          */
-        getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Promise<BaseResultOfOutputDetail | null>;
-        protected processGetByContentIds(response: Response): Promise<BaseResultOfOutputDetail | null>;
+        getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Promise<OutputDetail[] | null>;
+        protected processGetByContentIds(response: Response): Promise<OutputDetail[] | null>;
         /**
          * Get Single
          * @outputId The output id.
@@ -1090,6 +1090,7 @@
         ListItem,
         Schema,
         User,
+        ContentPermissionSet,
     }
     export interface TermsEnumAggregator extends TermsAggregator {
         /** When aggregating on enum fields EnumType is needed to resolve the enum translation. */
@@ -1118,9 +1119,9 @@
         aggregationResults?: AggregationResult[] | undefined;
     }
     export interface ContentBatchDownloadRequest {
-        contents?: Content[] | undefined;
+        contents?: ContentDownloadItem[] | undefined;
     }
-    export interface Content {
+    export interface ContentDownloadItem {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
     }
@@ -1177,6 +1178,8 @@
         filter?: FilterBase | undefined;
         /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** Limits the content document result set to specific ContentRights the user has */
+        rightsFilter?: ContentRight[] | undefined;
     }
     export interface SortInfo {
         field?: string | undefined;
@@ -1186,16 +1189,23 @@
         Asc,
         Desc,
     }
+    export enum ContentRight {
+        View,
+        Edit,
+        Update,
+        Manage,
+        Trash,
+    }
     export interface BaseResultOfContent {
         totalResults: number;
-        results?: Content2[] | undefined;
+        results?: Content[] | undefined;
         pageToken?: string | undefined;
     }
     export interface ContentSearchResult extends BaseResultOfContent {
         aggregationResults?: AggregationResult[] | undefined;
         elapsedMilliseconds: number;
     }
-    export interface Content2 {
+    export interface Content {
         audit?: StoreAudit | undefined;
         /** The entity type of a content document is content. */
         entityType: EntityType;
@@ -1410,18 +1420,19 @@
         results?: ListItem[] | undefined;
         pageToken?: string | undefined;
     }
-    /** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
+    export interface ListItemSearchResult extends BaseResultOfListItem {
+    }
     export interface ListItem {
-        /** The content data of the list item. */
-        content?: any | undefined;
+        /** The list item id. */
+        id?: string | undefined;
         /** The id of the schema with schema type list. */
         contentSchemaId?: string | undefined;
         /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The entity type of the list item is metadata. */
+        /** The content data of the list item. */
+        content?: DataDictionary | undefined;
+        /** The entity type of a list item is metadata. */
         entityType: EntityType;
-        /** The list item id. */
-        id?: string | undefined;
     }
     /** A request structure for updating a list item. */
     export interface ListItemUpdateRequest {
@@ -1757,6 +1768,8 @@
         results?: Schema[] | undefined;
         pageToken?: string | undefined;
     }
+    export interface SchemaSearchResult extends BaseResultOfSchema {
+    }
     export interface Schema {
         /** The schema id. */
         id?: string | undefined;
@@ -1803,6 +1816,10 @@
         start: number;
         limit: number;
         filter?: FilterBase | undefined;
+        rightFilter?: PermissionSetRight | undefined;
+    }
+    export enum PermissionSetRight {
+        Apply,
     }
     export interface BaseResultOfPermissionSet {
         totalResults: number;
@@ -1835,20 +1852,10 @@
         names?: TranslatedStringDictionary | undefined;
         rights?: ContentRight[] | undefined;
     }
-    export enum ContentRight {
-        View,
-        Edit,
-        Update,
-        Manage,
-        Trash,
-    }
     export interface PermissionUserRoleRightsOfPermissionSetRight {
         userRoleId?: string | undefined;
         names?: TranslatedStringDictionary | undefined;
         rights?: PermissionSetRight[] | undefined;
-    }
-    export enum PermissionSetRight {
-        Apply,
     }
     export interface PermissionSetDetailOfMetadataRight {
         id?: string | undefined;
@@ -2063,6 +2070,9 @@
     }
     export interface CreateShareResult {
         shareId?: string | undefined;
+    }
+    export interface ShareSearchResult extends BaseResultOfShareBase {
+        elapsedMilliseconds: number;
     }
     export interface FileTransferDeleteRequest {
         transferId?: string | undefined;
@@ -3798,11 +3808,6 @@
     }
     export interface ContentsByIdsRequest {
         contentIds?: string[] | undefined;
-    }
-    export interface BaseResultOfOutputDetail {
-        totalResults: number;
-        results?: OutputDetail[] | undefined;
-        pageToken?: string | undefined;
     }
     export interface FileParameter {
         data: any;
