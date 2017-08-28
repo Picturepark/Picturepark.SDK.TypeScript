@@ -87,8 +87,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#contentid" class="tsd-kind-icon">content<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#audit" class="tsd-kind-icon">audit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#displayvalues" class="tsd-kind-icon">display<wbr>Values</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#entitytype" class="tsd-kind-icon">entity<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontent.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,24 +101,84 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="audit" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> audit</h3>
+					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="../classes/storeaudit.html" class="tsd-signature-type">StoreAudit</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/d64dc10/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10612">picturepark.services.ts:10612</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10969">picturepark.services.ts:10969</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="outputformatid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> output<wbr>Format<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">output<wbr>Format<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="contentschemaid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Schema<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/d64dc10/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10613">picturepark.services.ts:10613</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10973">picturepark.services.ts:10973</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The id of the schema with schema type content.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="displayvalues" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Values</h3>
+					<div class="tsd-signature tsd-kind-icon">display<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10977">picturepark.services.ts:10977</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Contains display values of the specified language, rendered according to the content schema&#39;s display pattern configuration.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="entitytype" class="tsd-anchor"></a>
+					<h3>entity<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">entity<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/entitytype.html" class="tsd-signature-type">EntityType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10971">picturepark.services.ts:10971</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The entity type of a content document is content.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10978">picturepark.services.ts:10978</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="layerschemaids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> layer<wbr>Schema<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10975">picturepark.services.ts:10975</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional id list of schemas with schema type layer.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -134,10 +198,22 @@
 						<a href="icontent.html" class="tsd-kind-icon">IContent</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="icontent.html#contentid" class="tsd-kind-icon">content<wbr>Id</a>
+								<a href="icontent.html#audit" class="tsd-kind-icon">audit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="icontent.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a>
+								<a href="icontent.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="icontent.html#displayvalues" class="tsd-kind-icon">display<wbr>Values</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="icontent.html#entitytype" class="tsd-kind-icon">entity<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="icontent.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="icontent.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a>
 							</li>
 						</ul>
 					</li>

@@ -13,7 +13,9 @@ cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-pickers.
 
 cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-widgets.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-widgets\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-widgets\API.md" --theme default --name "picturepark-sdk-v1-widgets API"
 
-REM TODO: Enable angular docs
-REM cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-angular\index.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-angular\api" --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-angular\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-angular\src\tsconfig.app.json" --excludePrivate --name "@picturepark/sdk-v1-angular API"
+pushd "%~dp0/../src/picturepark-sdk-v1-angular"
+cmd /c call npm install
+popd
+cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-angular\index.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-angular\api" --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-angular\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-angular\src\tsconfig.app.json" --excludePrivate --name "@picturepark/sdk-v1-angular API"
 
 rmdir "%~dp0\..\docs\temp\" /s /q
