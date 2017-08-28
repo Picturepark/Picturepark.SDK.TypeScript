@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputConverter, BooleanConverter, StringConverter } from '../converter';
 
-import {  PublicAccessService, ShareBaseDetailViewItem, EntityType } from '@picturepark/sdk-v1-angular';
+import {  PublicAccessService, ShareBaseDetail, EntityType } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-share-card',
@@ -14,7 +14,7 @@ export class ShareCardComponent implements OnChanges {
   @InputConverter(StringConverter)
   token: string = ''; 
 
-  share: ShareBaseDetailViewItem | null; 
+  share: ShareBaseDetail | null; 
 
   constructor(public publicAccessService: PublicAccessService) {
   }
