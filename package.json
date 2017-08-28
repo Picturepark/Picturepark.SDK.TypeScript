@@ -15,10 +15,11 @@
   },
   "devDependencies": {
     "http-server": "0.10.0",
-    "nswag": "11.3.1",
-    "typedoc": "0.7.1",
-    "typescript-bundle": "0.8.2",
-    "uglify-js": "3.0.24"
+    "nswag": "^11.4.3",
+    "typedoc": "0.8.0",
+    "typescript": "^2.4.2",
+    "typescript-bundle": "0.8.7",
+    "uglify-js": "3.0.28"
   },
   "dependencies": {}
 }

@@ -24,10 +24,10 @@
   
   <script>
 		var client = new picturepark.PublicAccessClient('https://qanext04.preview-picturepark.com');
-		client.getShare('DcuJkKMZ').then(function(result) {
-			document.getElementById('shareName').innerText = result.Name + ' - ' + result.Description;
+		client.getShare('9a66322072b44a958aa34b5470e87fb7').then(function(result) {
+			document.getElementById('shareName').innerText = result.name + ' - ' + result.description;
 		}).catch(function(error) {
-			document.getElementById('shareName').innerText = error.Kind;
+			document.getElementById('shareName').innerText = error.kind;
     });
   </script>
 </body>

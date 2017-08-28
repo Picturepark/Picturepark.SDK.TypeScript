@@ -219,8 +219,8 @@ export class PictureparkTemplates {
           {% endif %}
           <hr class="picturepark-widget-card-footer-hr picturepark-widget-card-footer-hr-{{id}}">
           <div class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}">
-            <img src="//www.gravatar.com/avatar/{{ share.audit.CreatedByUser.EmailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}" />
-            Shared by: {{ share.audit.CreatedByUser.FirstName }} {{ share.audit.CreatedByUser.LastName }}
+            <img src="//www.gravatar.com/avatar/{{ share.audit.createdByUser.emailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}" />
+            Shared by: {{ share.audit.createdByUser.firstName }} {{ share.audit.createdByUser.lastName }}
             </div>
         </div>
         {% endif %}
@@ -290,7 +290,7 @@ export class PictureparkTemplates {
               </a>
             </span>
             <span>
-              <strong>{{ selection.displayValues.List }}</strong><br />
+              <strong>{{ selection.displayValues.list }}</strong><br />
               TBD
             </span>
           </li>

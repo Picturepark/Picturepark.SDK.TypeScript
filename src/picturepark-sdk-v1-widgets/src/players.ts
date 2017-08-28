@@ -158,8 +158,8 @@ export class PictureparkPlayers {
         if (i.isImage) {
           return {
             src: i.originalUrl,
-            w: i.detail.Width,
-            h: i.detail.Height
+            w: i.detail.width,
+            h: i.detail.height
           };
         } else if (i.isPdf) {
           return {
