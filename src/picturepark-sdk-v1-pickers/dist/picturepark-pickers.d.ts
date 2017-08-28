@@ -1,6 +1,6 @@
 // Picturepark Pickers SDK declarations
 declare module "pictureparkPickers" {
-    import "promise.min";
+    
     /**
      * Opens a content picker window to select content items and create an embedded share.
      *

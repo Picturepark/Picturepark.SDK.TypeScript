@@ -12,4 +12,4 @@ cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist
 
 cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts') | ForEach-Object { $_ -replace 'declare module \"index\"', 'declare module \"pictureparkPickers\"' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts'}"
 
-cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts') | ForEach-Object { $_ -replace 'import ''promise.min.js'';', '' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts'}"
+cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts') | ForEach-Object { $_ -replace 'import \"promise.min\";', '' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts'}"
