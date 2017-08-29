@@ -274,7 +274,7 @@ export class PictureparkTemplates {
         <h1 class="picturepark-widget-list-header picturepark-widget-list-header-{{id}}">
           {% translate 'List.HeaderDownloads' %}
           <span style="float:right" class="picturepark-widget-list-header-download picturepark-widget-list-header-download-{{id}}">
-            <a href="{{ config.server }}/Embed/{{ config.token }}">{% translate 'List.ButtonDownloadAll' %}</a>
+            <a href="{{ share.url }}">{% translate 'List.ButtonDownloadAll' %}</a>
           </span>
         </h1>
         <ul class="picturepark-widget-list-body picturepark-widget-list-body-{{id}}">
