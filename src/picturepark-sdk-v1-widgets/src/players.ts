@@ -112,7 +112,7 @@ export class PictureparkPlayers {
   static loadVideoPlayer() {
     if ((<any>window).jwplayer)
       return Promise.resolve((<any>window).jwplayer);
-    return this.loadScript("https://content.jwplatform.com/libraries/L7fM8L0h.js", false, 'jwplayer');
+    return this.loadScript("https://content.jwplatform.com/libraries/DbXZPMBQ.js", false, 'jwplayer');
   }
 
   static showPdfJsItem(item) {

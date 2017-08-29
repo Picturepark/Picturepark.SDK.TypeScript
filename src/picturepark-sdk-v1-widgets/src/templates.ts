@@ -63,6 +63,9 @@ export class PictureparkTemplates {
       {% if config.renderStyles %}
       <style>
         .picturepark-widget-{{id}} {
+          all: initial;
+          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+          font-size: 13px;
           float: left;
           margin-right: 4px;
           margin-bottom: 4px;
@@ -232,6 +235,9 @@ export class PictureparkTemplates {
       {% if config.renderStyles %}
       <style>
         .picturepark-widget-{{id}} {
+          all: initial;
+          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+          font-size: 13px;
           float: left;
           margin-right: 4px;
           margin-bottom: 4px;
