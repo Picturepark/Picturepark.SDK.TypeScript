@@ -11,7 +11,8 @@
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng && npm run docs",
     "start:fetch": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090",
     "start:pickers": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-pickers/\" -p 8090",
-    "start:widgets": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090"
+    "start:widgets": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090",
+    "dev:widgets": "watch \"npm run build:widgets\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-widgets"
   },
   "devDependencies": {
     "http-server": "0.10.0",
@@ -19,7 +20,8 @@
     "typedoc": "0.8.0",
     "typescript": "^2.4.2",
     "typescript-bundle": "0.8.7",
-    "uglify-js": "3.0.28"
+    "uglify-js": "3.0.28",
+    "watch": "^1.0.2"
   },
   "dependencies": {}
 }
