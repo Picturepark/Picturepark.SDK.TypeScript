@@ -36,9 +36,9 @@ export class PictureparkRenderEngine {
         try {
           let item = share.items.filter(i => i.id === id)[0];
           if (outputFormatId === "Preview" && item.previewUrl) {
-            return item.previewUrl.replace("/Embed/", "/Go/") + `/V/${item.previewContentId}/Preview/${width}/${height}`;
+            return item.previewUrl + `/${width}/${height}`;
           } else {
-            return item.originalUrl.replace("/Embed/", "/Go/") + `/V/${item.originalContentId}/Original/${width}/${height}`;
+            return item.originalUrl + `/${width}/${height}`;
           }
         } catch (ex) {
           console.log(ex);

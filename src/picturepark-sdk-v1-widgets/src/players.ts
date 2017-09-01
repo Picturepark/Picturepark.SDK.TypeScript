@@ -157,7 +157,7 @@ export class PictureparkPlayers {
       let photoSwipeItems = items.map(i => {
         if (i.isImage) {
           return {
-            src: i.originalUrl,
+            src: i.previewUrl,
             w: i.detail.width,
             h: i.detail.height
           };
