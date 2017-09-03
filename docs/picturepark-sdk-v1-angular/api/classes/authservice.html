@@ -119,19 +119,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Auth<wbr>Service<span class="tsd-signature-symbol">(</span>oidcSecurityService<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OidcSecurityService</span>, pictureparkApiUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, pictureparkConfiguration<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pictureparkconfiguration.html" class="tsd-signature-type">PictureparkConfiguration</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="authservice.html" class="tsd-signature-type">AuthService</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Auth<wbr>Service<span class="tsd-signature-symbol">(</span>oidcSecurityService<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OidcSecurityService</span>, authWellKnownEndpoints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthWellKnownEndpoints</span>, pictureparkApiUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, pictureparkConfiguration<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pictureparkconfiguration.html" class="tsd-signature-type">PictureparkConfiguration</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="authservice.html" class="tsd-signature-type">AuthService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L33">picturepark.services.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L33">picturepark.services.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>oidcSecurityService: <span class="tsd-signature-type">OidcSecurityService</span></h5>
+								</li>
+								<li>
+									<h5>authWellKnownEndpoints: <span class="tsd-signature-type">AuthWellKnownEndpoints</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> pictureparkApiUrl: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
@@ -153,7 +156,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Authorized<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new EventEmitter&lt;boolean&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L54">picturepark.services.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L55">picturepark.services.ts:55</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +173,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L45">picturepark.services.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L46">picturepark.services.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -187,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L49">picturepark.services.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L50">picturepark.services.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
@@ -207,7 +210,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L76">picturepark.services.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L81">picturepark.services.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -224,7 +227,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L72">picturepark.services.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L77">picturepark.services.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -241,7 +244,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L68">picturepark.services.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L73">picturepark.services.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
@@ -261,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L64">picturepark.services.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L69">picturepark.services.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
@@ -284,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L56">picturepark.services.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L57">picturepark.services.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -301,7 +304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L60">picturepark.services.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L65">picturepark.services.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -318,7 +321,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L80">picturepark.services.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L85">picturepark.services.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -335,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/4d3eec6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L100">picturepark.services.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L105">picturepark.services.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>

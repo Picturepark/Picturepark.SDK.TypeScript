@@ -19,6 +19,7 @@ export class PictureparkTemplates {
       <style>
         .picturepark-widget-gallery-{{id}} {
           float: left;
+          width: 100%;
           position: relative;
           margin-right: -4px;
           margin-bottom: -4px;
@@ -55,7 +56,8 @@ export class PictureparkTemplates {
             {% endif %}
           </div>
         {% endfor %}
-    </div>`;
+    </div>
+    <br style="clear: both;" />`;
   }
 
   private static getCard(): string {
