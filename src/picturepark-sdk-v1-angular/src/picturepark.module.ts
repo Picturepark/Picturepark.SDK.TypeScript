@@ -58,12 +58,15 @@ export class PictureparkOidcModule {
     configuration.response_type = 'id_token token';
     configuration.scope = 'offline_access profile picturepark_api picturepark_account openid';
 
+    let url = window.location.origin;
+    let search = window.location.search;
+    
     configuration.stsServer = pictureparkConfiguration.stsServer;
-    configuration.redirect_url = document.baseURI + redirectRoute + '/Success';
-    configuration.post_logout_redirect_uri = document.baseURI + redirectRoute + '/Logout';
-    configuration.startup_route = document.baseURI + redirectRoute + '/Success';
-    configuration.forbidden_route = document.baseURI + redirectRoute + '/Forbidden';
-    configuration.unauthorized_route = document.baseURI + redirectRoute + '/Unauthorized';
+    configuration.redirect_url = url + redirectRoute + '/Success' + search;
+    configuration.post_logout_redirect_uri = url + redirectRoute + '/Logout' + search;
+    configuration.startup_route = url + redirectRoute + '/Success' + search;
+    configuration.forbidden_route = url + redirectRoute + '/Forbidden' + search;
+    configuration.unauthorized_route = url + redirectRoute + '/Unauthorized' + search;
 
     configuration.log_console_warning_active = true;
     configuration.log_console_debug_active = true;

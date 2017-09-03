@@ -47,7 +47,7 @@ export function PictureparkConfigurationFactory() {
     PictureparkUiModule,
     RouterModule.forRoot([
       { path: '', component: AppComponent },
-      { path: 'pcpToken/:type', redirectTo: 'content-picker' }
+      { path: 'pcpToken/:type?postUrl=:postUrl', redirectTo: '/content-picker?postUrl=:postUrl' }
     ])
   ],
   providers: [

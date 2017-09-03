@@ -44,7 +44,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   aggregationFilterHeight = '0px';
 
   onWindowUnload = () => {
-    if (!this.messagePosted && window.opener)
+    if (this.authService.isAuthorized && !this.messagePosted && window.opener)
       window.opener.postMessage("undefined", "*");
   };
 
@@ -105,7 +105,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
           }
         }
       } catch (error) {
-        // TODO: Show error
+        console.error(error);
       } finally {
         this.loading = false;
       }

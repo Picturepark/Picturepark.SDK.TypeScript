@@ -9,7 +9,7 @@
 import { Output as NgOutput, EventEmitter } from '@angular/core';
 import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
 import { PictureparkConfiguration } from './picturepark.config';
-import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from "angular-auth-oidc-client";
+import { OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from "angular-auth-oidc-client";
 
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
@@ -34,6 +34,7 @@ export class AuthService {
 
     constructor(
         @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
+        @Optional() @Inject(AuthWellKnownEndpoints) private authWellKnownEndpoints: AuthWellKnownEndpoints,
         @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
         @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
 
@@ -54,7 +55,11 @@ export class AuthService {
     isAuthorizedChanged = new EventEmitter<boolean>();
 
     login() {
-        this.oidcSecurityService.authorize();
+        if (!this.authWellKnownEndpoints.authorization_endpoint) {
+            this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => { this.oidcSecurityService.authorize(); });
+        } else {
+            this.oidcSecurityService.authorize();
+        }
     }
 
     logout() {
@@ -15956,12 +15961,12 @@ export class ShareBaseDetail implements IShareBaseDetail {
     }
 
     static fromJS(data: any): ShareBaseDetail {
-        if (data["kind"] === "ShareBasicDetail") {
+        if (data["kind"] === "ShareBasicDetailViewItem") {
             let result = new ShareBasicDetail();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ShareEmbedDetail") {
+        if (data["kind"] === "ShareEmbedDetailViewItem") {
             let result = new ShareEmbedDetail();
             result.init(data);
             return result;
