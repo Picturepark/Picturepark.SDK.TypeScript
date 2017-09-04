@@ -17,6 +17,10 @@ export class PictureparkTemplates {
     return `
       {% if config.renderStyles %}
       <style>
+      .picturepark-widget-content-preview {
+         background-color: white;
+         padding: 40px;
+        }
         .picturepark-widget-gallery-{{id}} {
           float: left;
           width: 100%;
@@ -25,6 +29,7 @@ export class PictureparkTemplates {
           margin-bottom: -4px;
         }
         .picturepark-widget-gallery-item-{{id}} {
+          overflow: hidden;
           background: #cecece;
           margin-right: 4px;
           margin-bottom: 4px;
@@ -37,6 +42,9 @@ export class PictureparkTemplates {
           left: 0;
           right: 0;
           bottom: 0;
+        }
+        .picturepark-widget-gallery-item-thumbnail-{{id}} {
+          
         }
       </style>
       {% endif %}
@@ -51,7 +59,11 @@ export class PictureparkTemplates {
             </div>
             {% else %}
             <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
-              <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+              {% if selection.isBinary == false %}
+                <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
+              {% else %}
+                <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+              {% endif %}
             </a>
             {% endif %}
           </div>
@@ -102,6 +114,8 @@ export class PictureparkTemplates {
         /** Gallery */
         .picturepark-widget-card-gallery-{{id}} {
           line-height: 0;
+          overflow: hidden;
+          max-height: {{ config.width }};
         }
         .picturepark-widget-card-gallery-image-{{id}} {
           position: absolute;
@@ -168,7 +182,11 @@ export class PictureparkTemplates {
               </div>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
-                <img class="picturepark-widget-card-gallery-image picturepark-widget-card-gallery-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+               {% if selection.isBinary == false %}
+                <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
+              {% else %}
+                <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+              {% endif %}
               </a>
               {% endif %}
               

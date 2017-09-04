@@ -76,7 +76,7 @@ export class PictureparkPlayers {
     if (item.isPdf && share.items.length === 1) {
       this.showPdfJsItem(item);
       PictureparkPlayers.loading = false;
-    } else if (item.isImage || item.isMovie || item.isPdf) {
+    } else if (item.isImage || item.isMovie || item.isPdf || !item.isBinary) {
       let savedOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       this.showPhotoSwipeItem(token, item, share.items, 'gallery_' + widgetId).then(() => {
@@ -175,6 +175,10 @@ export class PictureparkPlayers {
         } else if (i.isMovie) {
           return {
             html: '<div id="jwplayer_' + i.id + '"></div>'
+          };
+        } else if (!i.isBinary) {
+          return {
+            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + item.displayValues.detail + '</div>'
           };
         } else {
           return {
