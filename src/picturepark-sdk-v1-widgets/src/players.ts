@@ -46,18 +46,24 @@ export class PictureparkPlayers {
   }
 
   private static getGallery(elementId: string) {
-    let element = document.getElementById(elementId);
     let children = [];
     let visibleIndex = -1;
-    for (var i = 0; i < element.children.length; i++) {
-      let child = element.children[i] as HTMLDivElement;
-      let isVisible = child.style.display !== "none";
-      children.push({ index: i, visible: isVisible, element: child });
-      if (isVisible) {
-        visibleIndex = i;
+
+    let element = document.getElementById(elementId);
+    if (element) {
+      for (var i = 0; i < element.children.length; i++) {
+        let child = element.children[i] as HTMLDivElement;
+        let isVisible = child.style.display !== "none";
+        children.push({ index: i, visible: isVisible, element: child });
+        if (isVisible) {
+          visibleIndex = i;
+        }
       }
+      return { children: children, index: visibleIndex };
+    } else {
+      // no website gallery found (e.g. not available in the gallery template)
+      return null;
     }
-    return { children: children, index: visibleIndex };
   }
 
   static showDetail(token: string, itemId: string, widgetId: string) {
@@ -177,13 +183,14 @@ export class PictureparkPlayers {
         }
       });
 
-      var gallery = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: items.indexOf(item) });
-      gallery.options.history = false;
-      gallery.init();
-
-      gallery.listen('afterChange', function () {
-        let g = PictureparkPlayers.getGallery(galleryElementId);
-        PictureparkPlayers.showGalleryItem(g, gallery.getCurrentIndex());
+      var photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: items.indexOf(item) });
+      photoSwipe.options.history = false;
+      photoSwipe.init();
+      photoSwipe.listen('afterChange', function () {
+        let gallery = PictureparkPlayers.getGallery(galleryElementId);
+        if (gallery) {
+          PictureparkPlayers.showGalleryItem(gallery, photoSwipe.getCurrentIndex());
+        }
       });
 
       var players = [];
@@ -213,18 +220,18 @@ export class PictureparkPlayers {
             if (element) {
               element.onload = () => {
                 if (element.contentWindow.location.href == 'about:blank')
-                  gallery.close();
+                  photoSwipe.close();
               }
             }
           }
         };
 
-        gallery.listen('beforeChange', updatePlayers);
+        photoSwipe.listen('beforeChange', updatePlayers);
         setTimeout(updatePlayers);
       }
 
       return new Promise((resolve) => {
-        gallery.listen('close', () => {
+        photoSwipe.listen('close', () => {
           for (let player of players)
             player.remove();
           for (let resizeCallback of resizeCallbacks)
@@ -330,7 +337,7 @@ export class PictureparkPlayers {
         scriptTag.onload = () => {
           (<any>window).define = oldDefine;
           (<any>window).require = oldRequire;
-          resolve((<any>window)[globalName]); 
+          resolve((<any>window)[globalName]);
         };
         document.head.appendChild(scriptTag);
       });
