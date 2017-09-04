@@ -118,7 +118,7 @@ export class PictureparkPlayers {
   static loadVideoPlayer() {
     if ((<any>window).jwplayer)
       return Promise.resolve((<any>window).jwplayer);
-    return this.loadScript("https://content.jwplatform.com/libraries/DbXZPMBQ.js", false, 'jwplayer');
+    return this.loadScript("https://content.jwplatform.com/libraries/DbXZPMBQ.js", 'jwplayer');
   }
 
   static showPdfJsItem(item) {
@@ -253,8 +253,8 @@ export class PictureparkPlayers {
       return Promise.all([
         this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css"),
         this.loadCss("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css"),
-        this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js", true, "PhotoSwipe"),
-        this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js", true, "PhotoSwipeUI_Default")
+        this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js", "PhotoSwipe"),
+        this.loadScript("https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js", "PhotoSwipeUI_Default")
       ]).then(([css1, css2, photoSwipe, photoSwipeDefault]) => {
         return {
           element: PictureparkPlayers.getPhotoSwipeElement(),
@@ -315,28 +315,21 @@ export class PictureparkPlayers {
     }
   }
 
-  static loadScript(url: string, useRequire: boolean, globalName: string): Promise<any> {
-    // if (useRequire && (<any>window).require) {
-    //   return new Promise(resolve => {
-    //     (<any>window).require([url], (module) => {
-    //       resolve(module);
-    //     });
-    //   });
-    // } else {
-    {
-      // TODO(high-prio): Fix this hack
-
-      let oldDefine = (<any>window).define;
-      (<any>window).define = undefined;
-      let oldRequire = (<any>window).require;
-      (<any>window).require = undefined;
+  static loadScript(url: string, globalName: string): Promise<any> {
+    if ((<any>window).require) {
+      console.log('Picturepark Widgets > Load external script via require(): ' + url);
+      return new Promise(resolve => {
+        (<any>window).require([url], (module) => {
+          resolve(module);
+        });
+      });
+    } else {
+      console.log('Picturepark Widgets > Load external script via tag: ' + url);
       return new Promise<any>((resolve) => {
         var scriptTag = document.createElement('script');
         scriptTag.src = url;
         scriptTag.async = true;
         scriptTag.onload = () => {
-          (<any>window).define = oldDefine;
-          (<any>window).require = oldRequire;
           resolve((<any>window)[globalName]);
         };
         document.head.appendChild(scriptTag);
