@@ -28,7 +28,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
   let id = Math.random().toString(36).substr(2, 10);
   var elementId = 'picturepark_widget_' + id;
-  let config = PictureparkConfig.get(scriptTag);
+  let initialConfig = PictureparkConfig.get(scriptTag);
 
   // Load custom templates
   if (scriptTag.innerHTML) {
@@ -47,18 +47,24 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       contentTemplate = scriptTag.innerHTML;
   }
 
-  // Fallback to card templates
-  if (contentTemplate === '') {
-    contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
-  }
-
   // Apply loading template
   scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
     elementId + '>' + loadingTemplate + '</div>';
 
-  return window.fetch(config.server + '/Service/PublicAccess/GetShare?token=' + config.token).then(function (response) {
+  return window.fetch(initialConfig.server + '/Service/PublicAccess/GetShare?token=' + initialConfig.token).then(function (response) {
     return response.json();
-  }).then((rawShare: picturepark.ShareEmbedDetail) => {
+  }).then((rawShare: picturepark.ShareEmbedDetail | picturepark.ShareBasicDetail) => {
+    // Merge config with config from server
+    var config = rawShare.template as any;
+    Object.keys(initialConfig).forEach(key => {
+      config[key] = initialConfig[key];
+    });
+    
+    // Fallback to card templates
+    if (contentTemplate === '') {
+      contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
+    }
+
     let index = 0;
     let share = {
       id: rawShare.id,
@@ -68,13 +74,23 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       description: rawShare.description,
       items: rawShare.contentSelections.map(s => {
         let outputs = s.outputs.map(o => {
-          let embedItem = rawShare.embedContentItems.filter(e => e.contentId === o.contentId && e.outputFormatId === o.outputFormatId)[0];
-          return {
-            contentId: embedItem ? embedItem.contentId : null,
-            outputFormatId: o.outputFormatId,
-            fileExtension: o.detail.fileExtension,
-            url: embedItem ? embedItem.url : null,
-            detail: o.detail
+          if((rawShare as picturepark.ShareEmbedDetail).embedContentItems) {
+            let embedItem = (rawShare as picturepark.ShareEmbedDetail).embedContentItems.filter(e => e.contentId === o.contentId && e.outputFormatId === o.outputFormatId)[0];
+            return {
+              contentId: s.id,
+              outputFormatId: o.outputFormatId,
+              fileExtension: o.detail.fileExtension,
+              url: embedItem ? embedItem.url : null,
+              detail: o.detail
+            }
+          } else {
+            return {
+              contentId: s.id,
+              outputFormatId: o.outputFormatId,
+              fileExtension: o.detail.fileExtension,
+              url: `http://localhost:8080/Go/${config.token}/V/${s.id}/${o.outputFormatId}`,
+              detail: o.detail
+            }
           }
         });
 

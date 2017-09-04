@@ -30,6 +30,9 @@ export function showContentPicker(serverUrl: string) {
 
     var callbackCalled = false;
     let messageReceived = (event: any) => {
+      console.log("PCP Message received:");
+      console.log(event);
+      
       if (event.origin == serverUrl) {
         window.removeEventListener("message", messageReceived);
         var share = event.data && event.data !== 'undefined' ? JSON.parse(event.data) : undefined;

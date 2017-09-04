@@ -157,7 +157,7 @@ export class PictureparkPlayers {
       let photoSwipeItems = items.map(i => {
         if (i.isImage) {
           return {
-            src: i.originalUrl,
+            src: i.previewUrl,
             w: i.detail.width,
             h: i.detail.height
           };
@@ -309,18 +309,29 @@ export class PictureparkPlayers {
   }
 
   static loadScript(url: string, useRequire: boolean, globalName: string): Promise<any> {
-    if (useRequire && (<any>window).require) {
-      return new Promise(resolve => {
-        (<any>window).require([url], (module) => {
-          resolve(module);
-        });
-      });
-    } else {
+    // if (useRequire && (<any>window).require) {
+    //   return new Promise(resolve => {
+    //     (<any>window).require([url], (module) => {
+    //       resolve(module);
+    //     });
+    //   });
+    // } else {
+    {
+      // TODO(high-prio): Fix this hack
+
+      let oldDefine = (<any>window).define;
+      (<any>window).define = undefined;
+      let oldRequire = (<any>window).require;
+      (<any>window).require = undefined;
       return new Promise<any>((resolve) => {
         var scriptTag = document.createElement('script');
         scriptTag.src = url;
         scriptTag.async = true;
-        scriptTag.onload = () => resolve((<any>window)[globalName]);
+        scriptTag.onload = () => {
+          (<any>window).define = oldDefine;
+          (<any>window).require = oldRequire;
+          resolve((<any>window)[globalName]); 
+        };
         document.head.appendChild(scriptTag);
       });
     }
