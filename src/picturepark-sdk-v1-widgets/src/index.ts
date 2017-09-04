@@ -54,8 +54,21 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   return window.fetch(initialConfig.server + '/Service/PublicAccess/GetShare?token=' + initialConfig.token).then(function (response) {
     return response.json();
   }).then((rawShare: picturepark.ShareEmbedDetail | picturepark.ShareBasicDetail) => {
+
     // Merge config with config from server
     var config = rawShare.template as any;
+    switch(config.kind) {
+      case "BasicTemplate":
+        config.template = "gallery";
+        break;
+      case "CardTemplate":
+        config.template = "card";
+        break;
+      case "ListTemplate":
+        config.template = "list";
+        break;
+    }
+
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });
