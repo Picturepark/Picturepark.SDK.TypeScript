@@ -88,7 +88,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
               contentId: s.id,
               outputFormatId: o.outputFormatId,
               fileExtension: o.detail.fileExtension,
-              url: `http://localhost:8080/Go/${config.token}/V/${s.id}/${o.outputFormatId}`,
+              url: `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`,
               detail: o.detail
             }
           }
