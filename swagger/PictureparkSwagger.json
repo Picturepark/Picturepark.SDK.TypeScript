@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.2.0.0 (NJsonSchema v9.2.4.0)",
+  "x-generator": "NSwag v11.5.1.0 (NJsonSchema v9.4.10.0)",
   "swagger": "2.0",
   "info": {
     "title": "Web API Swagger specification",
@@ -4920,7 +4920,8 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "lifeCycleFilter"
+        "lifeCycleFilter",
+        "searchType"
       ],
       "properties": {
         "searchString": {
@@ -4967,6 +4968,10 @@
         "lifeCycleFilter": {
           "description": "Limits the content document result set to that life cycle state. Defaults to ActiveOnly.",
           "$ref": "#/definitions/LifeCycleFilter"
+        },
+        "searchType": {
+          "description": "Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata.",
+          "$ref": "#/definitions/ContentSearchType"
         }
       }
     },
@@ -5598,6 +5603,20 @@
         "InactiveOnly"
       ]
     },
+    "ContentSearchType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Metadata",
+        "FullText",
+        "MetadataAndFullText"
+      ],
+      "enum": [
+        "Metadata",
+        "FullText",
+        "MetadataAndFullText"
+      ]
+    },
     "ObjectAggregationResult": {
       "type": "object",
       "additionalProperties": false,
@@ -5782,7 +5801,8 @@
       "required": [
         "start",
         "limit",
-        "lifeCycleFilter"
+        "lifeCycleFilter",
+        "searchType"
       ],
       "properties": {
         "channelIds": {
@@ -5849,6 +5869,10 @@
           "items": {
             "$ref": "#/definitions/ContentRight"
           }
+        },
+        "searchType": {
+          "description": "Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata.",
+          "$ref": "#/definitions/ContentSearchType"
         }
       }
     },
@@ -6614,6 +6638,13 @@
             "type": "string"
           }
         },
+        "referencedFieldsDisplayPatternIds": {
+          "type": "array",
+          "description": "Define the display values included in the search response for the referenced fields. Defaults to no display value.",
+          "items": {
+            "type": "string"
+          }
+        },
         "searchLanguages": {
           "type": "array",
           "description": "Only searches the specified language values. Defaults to all metadata languages of the language configuration.",
@@ -7214,7 +7245,8 @@
       "additionalProperties": false,
       "required": [
         "index",
-        "simpleSearch"
+        "simpleSearch",
+        "boost"
       ],
       "properties": {
         "id": {
@@ -7225,6 +7257,10 @@
         },
         "simpleSearch": {
           "type": "boolean"
+        },
+        "boost": {
+          "type": "number",
+          "format": "double"
         },
         "relatedSchemaIndexing": {
           "$ref": "#/definitions/SchemaIndexingInfo"
@@ -8602,6 +8638,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "url": {
+          "type": "string"
+        },
         "mailRecipients": {
           "type": "array",
           "items": {
@@ -14177,6 +14216,9 @@
     "UserDetail": {
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "authorizationState"
+      ],
       "properties": {
         "password": {
           "type": "string"
@@ -14207,6 +14249,9 @@
           "items": {
             "$ref": "#/definitions/OwnerToken"
           }
+        },
+        "authorizationState": {
+          "$ref": "#/definitions/AuthorizationState"
         }
       },
       "allOf": [
@@ -14271,9 +14316,26 @@
         }
       }
     },
+    "AuthorizationState": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Active",
+        "Review",
+        "Locked"
+      ],
+      "enum": [
+        "Active",
+        "Review",
+        "Locked"
+      ]
+    },
     "UserProfile": {
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "authorizationState"
+      ],
       "properties": {
         "id": {
           "type": "string"
@@ -14307,6 +14369,9 @@
         },
         "phone": {
           "type": "string"
+        },
+        "authorizationState": {
+          "$ref": "#/definitions/AuthorizationState"
         }
       }
     },
