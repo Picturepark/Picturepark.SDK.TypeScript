@@ -77,7 +77,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     if (contentTemplate === '') {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
     }
-
+    let baseUrl = rawShare.url.replace("/Go/" + config.token + "/D", "");
     let index = 0;
     let share = {
       id: rawShare.id,
@@ -101,12 +101,11 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
               contentId: s.id,
               outputFormatId: o.outputFormatId,
               fileExtension: o.detail.fileExtension,
-              url: `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`,
+              url: baseUrl + `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`,
               detail: o.detail
             }
           }
         });
-
         let previewOutput = outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
         // find best original output

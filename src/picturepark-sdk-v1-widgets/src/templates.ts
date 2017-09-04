@@ -17,7 +17,7 @@ export class PictureparkTemplates {
     return `
       {% if config.renderStyles %}
       <style>
-      .picturepark-widget-content-preview {
+       .picturepark-widget-content-preview {
          background-color: white;
          padding: 40px;
         }
@@ -76,6 +76,10 @@ export class PictureparkTemplates {
     return `
       {% if config.renderStyles %}
       <style>
+       .picturepark-widget-content-preview {
+         background-color: white;
+         padding: 40px;
+        }
         .picturepark-widget-{{id}} {
           all: initial;
           font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
