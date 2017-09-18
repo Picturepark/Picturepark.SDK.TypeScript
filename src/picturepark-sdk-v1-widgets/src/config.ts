@@ -34,8 +34,21 @@ export class PictureparkConfig {
         if (configuration.width === undefined)
           configuration.width = configuration.height * 4 / 3;
       }
-      else if (attribute.name.indexOf('data-') === 0)
-        configuration[attribute.name.substr(5).replace(/-([a-z])/g, g => g[1].toUpperCase())] = attribute.value;
+      else if (attribute.name.indexOf('data-') === 0) {
+        let value;
+        switch(attribute.value) {
+            case "false":
+              value = false;
+              break;
+            case "true":
+              value = true;
+              break;
+            default:
+              value = attribute.value;
+              break;
+        }
+        configuration[attribute.name.substr(5).replace(/-([a-z])/g, g => g[1].toUpperCase())] = value;
+      }
     }
     return configuration;
   }

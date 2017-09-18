@@ -194,7 +194,7 @@ export class PictureparkTemplates {
               </a>
               {% endif %}
               
-              {% if config.showLogo != 'false' and config.showLogo != 'no' %}
+              {% if config.showLogo %}
               <div style="position: absolute; bottom: 4px; right: 8px;">
                 <svg style="width: 120px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 690.93 75.96">
                   <defs>
@@ -217,7 +217,7 @@ export class PictureparkTemplates {
             {% endfor %}
           </div>
 
-          {% if config.showOverlay == 'true' or config.showOverlay == 'yes' %}
+          {% if config.showOverlay %}
             <div class="picturepark-widget-card-overlay picturepark-widget-card-overlay-{{id}}">
               <div class="picturepark-widget-card-overlay-title picturepark-widget-card-overlay-title-{{id}}">{{ share.name }}</div>
               {% if share.description %}
@@ -226,7 +226,7 @@ export class PictureparkTemplates {
             </div>
           {% endif %}
 
-          {% if config.showNavigation != 'false' and config.showNavigation != 'no' and share.items.length > 1 %}
+          {% if config.showNavigation and share.items.length > 1 %}
           <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showPrevious('{{ config.token }}', 'gallery_{{ id }}')"
             class="picturepark-widget-card-navigation-previous picturepark-widget-card-navigation-previous-{{id}}">
             <svg style="position: absolute; top: 50%; transform: translate(0,-50%);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.8 42.8"><path d="M11 21.7l18 20c0.1 0.1 0.2 0.2 0.4 0.2 0.1 0 0.3 0 0.4-0.1l2.9-2.9c0.2-0.2 0.2-0.5 0-0.7L17.9 21.3 32.7 4.6c0.2-0.2 0.2-0.5 0-0.7L29.7 1c-0.1-0.1-0.2-0.1-0.4-0.1h0c-0.1 0-0.3 0.1-0.4 0.2L11 21c-0.1 0.1-0.1 0.2-0.1 0.3C10.8 21.4 10.8 21.6 11 21.7z" fill="#CCCCCC"/></svg>
@@ -238,7 +238,7 @@ export class PictureparkTemplates {
           {% endif %}
         </div>
 
-        {% if config.showFooter != 'false' and config.showFooter != 'no' %}
+        {% if config.showFooter %}
         <div class="picturepark-widget-card-footer-content picturepark-widget-card-footer-content-{{id}}">
           <div class="picturepark-widget-card-footer-title picturepark-widget-card-footer-title-{{id}}">{{ share.name }}</div>
           {% if share.description %}
