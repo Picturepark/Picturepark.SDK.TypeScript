@@ -1,4 +1,4 @@
-import { OpaqueToken } from "@angular/core";
+import { OpaqueToken } from '@angular/core';
 import { NgModule, Inject, Optional } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, BrowserStorage } from 'angular-auth-oidc-client';
@@ -43,7 +43,7 @@ export class PictureparkModule {
   imports: [
     HttpModule,
     PictureparkModule,
-    AuthModule.forRoot({storage: BrowserStorage})
+    AuthModule.forRoot({ storage: BrowserStorage })
   ]
 })
 export class PictureparkOidcModule {
@@ -51,16 +51,16 @@ export class PictureparkOidcModule {
     @Inject(AuthService) authService: AuthService,
     @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
     @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkConfiguration) {
-    
-    let redirectRoute = "/pcpToken";
-    let configuration = new OpenIDImplicitFlowConfiguration();
+
+    const redirectRoute = '/pcpToken';
+    const configuration = new OpenIDImplicitFlowConfiguration();
     configuration.client_id = 'picturepark_frontend';
     configuration.response_type = 'id_token token';
     configuration.scope = 'offline_access profile picturepark_api picturepark_account openid';
 
-    let url = window.location.origin;
-    let search = window.location.search;
-    
+    const url = window.location.origin;
+    const search = window.location.search;
+
     configuration.stsServer = pictureparkConfiguration.stsServer;
     configuration.redirect_url = url + redirectRoute + '/Success' + search;
     configuration.post_logout_redirect_uri = url + redirectRoute + '/Logout' + search;
@@ -77,7 +77,7 @@ export class PictureparkOidcModule {
 
     oidcSecurityService.setupModule(configuration);
     oidcSecurityService.setCustomRequestParameters({});
-    if (typeof location !== "undefined" && window.location.hash && window.location.hash.startsWith("#id_token=")) {
+    if (typeof location !== 'undefined' && window.location.hash && window.location.hash.startsWith('#id_token=')) {
       authService.processAuthorizationRedirect();
     }
   }
