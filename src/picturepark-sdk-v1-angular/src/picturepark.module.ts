@@ -3,6 +3,8 @@ import { NgModule, Inject, Optional } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, BrowserStorage } from 'angular-auth-oidc-client';
 
+import { OidcAuthService } from './auth/oidc-auth-service';
+import { TokenAuthService } from './auth/token-auth-service';
 import { PictureparkConfiguration } from './picturepark.config';
 import { PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
 import {
@@ -34,7 +36,8 @@ import {
     PublicAccessService,
     ShareService,
     TransferService,
-    AuthService]
+    { provide: AuthService, useClass: TokenAuthService }
+  ]
 })
 export class PictureparkModule {
 }
@@ -44,11 +47,14 @@ export class PictureparkModule {
     HttpModule,
     PictureparkModule,
     AuthModule.forRoot({ storage: BrowserStorage })
+  ],
+  providers: [
+    { provide: AuthService, useClass: OidcAuthService }
   ]
 })
 export class PictureparkOidcModule {
   constructor(
-    @Inject(AuthService) authService: AuthService,
+    @Inject(AuthService) authService: OidcAuthService,
     @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
     @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkConfiguration) {
 
@@ -61,7 +67,7 @@ export class PictureparkOidcModule {
     const url = window.location.origin;
     const search = window.location.search;
 
-    configuration.stsServer = pictureparkConfiguration.stsServer;
+    configuration.stsServer = pictureparkConfiguration.stsServer!;
     configuration.redirect_url = url + redirectRoute + '/Success' + search;
     configuration.post_logout_redirect_uri = url + redirectRoute + '/Logout' + search;
     configuration.startup_route = url + redirectRoute + '/Success' + search;

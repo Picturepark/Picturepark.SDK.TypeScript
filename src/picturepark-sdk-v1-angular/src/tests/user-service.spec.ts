@@ -1,17 +1,15 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { PICTUREPARK_API_URL, AuthService,
-  UserService } from '../picturepark.services';
+import { PICTUREPARK_API_URL, UserService } from '../picturepark.services';
 import { testUrl, testUsername, testPassword, configureTest } from './config';
 
 describe('UserService', () => {
   beforeEach(configureTest);
 
-  it('should response with at least one channel', async(inject([AuthService, UserService],
-    async (authService: AuthService, userService: UserService) => {
+  it('should response with at least one channel', async(inject([UserService],
+    async (userService: UserService) => {
     // arrange
-    await authService.login();
 
     // act
     const channels = await userService.getChannels().toPromise();
@@ -20,10 +18,9 @@ describe('UserService', () => {
     expect(channels!.length).toBeGreaterThanOrEqual(1);
   })));
 
-  it('should return translated channel', async(inject([AuthService, UserService],
-    async (authService: AuthService, userService: UserService) => {
+  it('should return translated channel', async(inject([UserService],
+    async (userService: UserService) => {
     // arrange
-    await authService.login();
 
     // act
     const channels = await userService.getChannels().toPromise();

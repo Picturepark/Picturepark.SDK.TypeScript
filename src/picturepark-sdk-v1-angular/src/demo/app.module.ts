@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
+import { PictureparkOidcModule } from '../picturepark.module';
+import { PictureparkConfiguration } from '../picturepark.config';
+import { PICTUREPARK_CONFIGURATION } from '../picturepark.servicebase';
+
 import { AppComponent } from './app.component';
-import { PictureparkOidcModule } from "picturepark.module";
-import { PictureparkConfiguration } from "picturepark.config";
-import { PICTUREPARK_CONFIGURATION } from "picturepark.servicebase";
 
 @NgModule({
   declarations: [
@@ -24,10 +25,10 @@ import { PICTUREPARK_CONFIGURATION } from "picturepark.servicebase";
   providers: [
     {
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
-        apiServer: "https://devnext-api.preview-picturepark.com",
-        stsServer: "https://devnext-identity.preview-picturepark.com",
-        redirectUrl: "http://localhost:4200", 
-        customerAlias: "dev"
+        apiServer: 'https://devnext-api.preview-picturepark.com',
+        stsServer: 'https://devnext-identity.preview-picturepark.com',
+        redirectUrl: 'http://localhost:4200',
+        customerAlias: 'dev'
       }
     }
   ],

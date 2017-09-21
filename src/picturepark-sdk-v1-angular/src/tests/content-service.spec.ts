@@ -2,18 +2,16 @@ import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import {
-  PICTUREPARK_API_URL, AuthService,
-  ContentService, ContentSearchRequest, ThumbnailSize, ContentAggregationRequest
+  PICTUREPARK_API_URL, ContentService, ContentSearchRequest, ThumbnailSize, ContentAggregationRequest
 } from '../picturepark.services';
 import { testUrl, testUsername, testPassword, configureTest } from './config';
 
 describe('ContentService', () => {
   beforeEach(configureTest);
 
-  it('should return search results', async(inject([AuthService, ContentService],
-    async (authService: AuthService, contentService: ContentService) => {
+  it('should return search results', async(inject([ContentService],
+    async (contentService: ContentService) => {
       // arrange
-      await authService.login();
 
       // act
       const request = new ContentSearchRequest();
@@ -25,10 +23,9 @@ describe('ContentService', () => {
       expect(response!.totalResults).toBeGreaterThan(0);
     })));
 
-  it('should download content thumbnail', async(inject([AuthService, ContentService],
-    async (authService: AuthService, contentService: ContentService) => {
+  it('should download content thumbnail', async(inject([ContentService],
+    async (contentService: ContentService) => {
       // arrange
-      await authService.login();
 
       // act
       const request = new ContentSearchRequest();
@@ -41,10 +38,9 @@ describe('ContentService', () => {
       expect(result!.data.size).toBeGreaterThan(0);
     })));
 
-  it('should download resized content', async(inject([AuthService, ContentService],
-    async (authService: AuthService, contentService: ContentService) => {
+  it('should download resized content', async(inject([ContentService],
+    async (contentService: ContentService) => {
       // arrange
-      await authService.login();
 
       // act
       const request = new ContentSearchRequest();
@@ -57,10 +53,9 @@ describe('ContentService', () => {
       expect(result!.data.size).toBeGreaterThan(0);
     })));
 
-  it('should download content', async(inject([AuthService, ContentService],
-    async (authService: AuthService, contentService: ContentService) => {
+  it('should download content', async(inject([ContentService],
+    async (contentService: ContentService) => {
       // arrange
-      await authService.login();
 
       // act
       const request = new ContentSearchRequest();
@@ -73,10 +68,9 @@ describe('ContentService', () => {
       expect(result!.data.size).toBeGreaterThan(0);
     })));
 
-  it('should return some aggregations', async(inject([AuthService, ContentService],
-    async (authService: AuthService, contentService: ContentService) => {
+  it('should return some aggregations', async(inject([ContentService],
+    async (contentService: ContentService) => {
       // arrange
-      await authService.login();
 
       // act
       const request = new ContentAggregationRequest();
@@ -88,10 +82,9 @@ describe('ContentService', () => {
       expect(response!.aggregationResults!.length).toBeGreaterThan(0);
     })));
 
-  it('should return some aggregations for RootChannel', async(inject([AuthService, ContentService],
-    async (authService: AuthService, contentService: ContentService) => {
+  it('should return some aggregations for RootChannel', async(inject([ContentService],
+    async (contentService: ContentService) => {
       // arrange
-      await authService.login();
 
       // act
       const request = new ContentAggregationRequest();

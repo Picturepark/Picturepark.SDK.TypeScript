@@ -5,7 +5,7 @@
 <button (click)="search()" *ngIf="authService.isAuthorized">Search</button>
 
 <p>
-  Token: {{authService.token}}, Username: {{authService.username}}
+  Username: {{authService.username}}
 </p>
 <div *ngIf="authService.isAuthorized">
   <p>

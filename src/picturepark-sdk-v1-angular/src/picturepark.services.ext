@@ -3,138 +3,19 @@ import { Observable } from 'rxjs/Observable'; // ignore
 import { Http, Headers } from '@angular/http'; // ignore
 import { PICTUREPARK_API_URL } from "./picturepark.services"; // ignore
 
-import { Output as NgOutput, EventEmitter } from '@angular/core';
-import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
-import { PictureparkConfiguration } from './picturepark.config';
-import { OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from "angular-auth-oidc-client";
+import { PictureparkServiceBase } from './picturepark.servicebase';
 import * as generated from "./picturepark.services";
 
-class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
-    translate(locale: string) {
-        let language = locale.split("-")[0];
-        return this[language] ? this[language] : this[Object.keys(this)[0]];
-    }
-}
+export abstract class AuthService {
+    private _pictureparkApiUrl: string;
 
-class FilterBase extends generated.FilterBase {
-    getDisplayName(locale: string): string | null {
-        return null;
-    }    
-}
-
-class DateRangeFilter extends generated.DateRangeFilter {
-    getDisplayName(locale: string) {
-        return this.range && this.range.names ? this.range.names.translate(locale) : "n/a";
-    }
-}
-
-class AggregationResultItem extends generated.AggregationResultItem {
-    getDisplayName(locale: string) {
-      let displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null; 
-      return displayName ? displayName : this.name;
-    }
-}
-
-class ContentService extends generated.ContentService {
-    private thumbnailCache: { [key: string]: FileResponse | null; } = {};
-
-    /**
-     * Get Thumbnail
-     * @contentId The Content id
-     * @size Thumbnail size. Either small, medium or large
-     * @return HttpResponseMessage
-     */
-    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
-        let key = contentId + ":" + size;
-        if (cache !== false && this.thumbnailCache[key] !== undefined)
-            return Observable.of(this.thumbnailCache[key]);
-
-        let response = this.downloadThumbnailCore(contentId, size);
-        response.subscribe(blob => {
-            this.thumbnailCache[key] = blob;
-        });
-        return response;
-    }
-}
-
-@Injectable()
-export class AuthService {
-    private _isAuthorizing = false;
-    private _isAuthorized = false;
-    private _token: string | undefined = undefined;
-    private _username: string | undefined = undefined;
-
-    constructor(
-        @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
-        @Optional() @Inject(AuthWellKnownEndpoints) private authWellKnownEndpoints: AuthWellKnownEndpoints,
-        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
-        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
-
-        if (this.oidcSecurityService) {
-            this.oidcSecurityService.getUserData().subscribe((userData) => this.userDataChanged(userData));
-        }
+    constructor(pictureparkApiUrl: string) {
+        this._pictureparkApiUrl = pictureparkApiUrl;
     }
 
     get apiServer() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkApiUrl!;
+        return this._pictureparkApiUrl;
     }
 
-    get customerAlias() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
-    }
-
-    @NgOutput()
-    isAuthorizedChanged = new EventEmitter<boolean>();
-
-    login() {
-        if (!this.authWellKnownEndpoints.authorization_endpoint) {
-            this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => { this.oidcSecurityService.authorize(); });
-        } else {
-            this.oidcSecurityService.authorize();
-        }
-    }
-
-    logout() {
-        this.oidcSecurityService.logoff();
-    }
-
-    get username() {
-        return this._username;
-    }
-
-    get token() {
-        return this._token;
-    }
-
-    get isAuthorizing() {
-        return this._isAuthorizing;
-    }
-
-    get isAuthorized() {
-        return this._isAuthorized;
-    }
-
-    processAuthorizationRedirect() {
-        this._isAuthorizing = true;
-        this.oidcSecurityService.authorizedCallback();
-    }
-
-    private userDataChanged(userData: any) {
-        console.log(userData);
-        this._username = userData && userData.name ? <string>userData.name : undefined;
-        this._token = this.oidcSecurityService.getToken();
-
-        if (!this._isAuthorized && this._token) {
-            this._isAuthorizing = false;
-            this._isAuthorized = true;
-            this.isAuthorizedChanged.emit(this._isAuthorized);
-        } else if (this._isAuthorized) {
-            this._isAuthorized = false;
-            this.isAuthorizedChanged.emit(this._isAuthorized);
-        }
-    }
-
-    updateTokenIfRequired() {
-        return Promise.resolve();
-    }
+    abstract transformHttpRequestOptions(options: RequestOptionsArgs): Promise<RequestOptionsArgs>;
 }

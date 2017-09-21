@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ShareCardComponent } from './share-card/share-card.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
 
-import { TranslatePipe } from "pipes/translate.pipe";
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
 import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular';
@@ -21,7 +21,7 @@ export function LocaleIdFactory() {
 }
 
 export function PictureparkConfigurationFactory() {
-  let appRootTag = document.getElementsByTagName('app-root')[0];
+  const appRootTag = document.getElementsByTagName('app-root')[0];
   return <PictureparkConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     stsServer: appRootTag.getAttribute('picturepark-sts-server'),

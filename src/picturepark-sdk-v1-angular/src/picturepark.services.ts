@@ -6,10 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-import { Output as NgOutput, EventEmitter } from '@angular/core';
-import { PictureparkServiceBase, PICTUREPARK_CONFIGURATION } from './picturepark.servicebase';
-import { PictureparkConfiguration } from './picturepark.config';
-import { OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from "angular-auth-oidc-client";
+import { PictureparkServiceBase } from './picturepark.servicebase';
 
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
@@ -25,86 +22,18 @@ import { Http, Headers, ResponseContentType, Response, RequestOptionsArgs } from
 
 export const PICTUREPARK_API_URL = new OpaqueToken('PICTUREPARK_API_URL');
 
-@Injectable()
-export class AuthService {
-    private _isAuthorizing = false;
-    private _isAuthorized = false;
-    private _token: string | undefined = undefined;
-    private _username: string | undefined = undefined;
+export abstract class AuthService {
+    private _pictureparkApiUrl: string;
 
-    constructor(
-        @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
-        @Optional() @Inject(AuthWellKnownEndpoints) private authWellKnownEndpoints: AuthWellKnownEndpoints,
-        @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
-        @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
-
-        if (this.oidcSecurityService) {
-            this.oidcSecurityService.getUserData().subscribe((userData) => this.userDataChanged(userData));
-        }
+    constructor(pictureparkApiUrl: string) {
+        this._pictureparkApiUrl = pictureparkApiUrl;
     }
 
     get apiServer() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.apiServer : this.pictureparkApiUrl!;
+        return this._pictureparkApiUrl;
     }
 
-    get customerAlias() {
-        return this.pictureparkConfiguration ? this.pictureparkConfiguration.customerAlias : undefined;
-    }
-
-    @NgOutput()
-    isAuthorizedChanged = new EventEmitter<boolean>();
-
-    login() {
-        if (!this.authWellKnownEndpoints.authorization_endpoint) {
-            this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => { this.oidcSecurityService.authorize(); });
-        } else {
-            this.oidcSecurityService.authorize();
-        }
-    }
-
-    logout() {
-        this.oidcSecurityService.logoff();
-    }
-
-    get username() {
-        return this._username;
-    }
-
-    get token() {
-        return this._token;
-    }
-
-    get isAuthorizing() {
-        return this._isAuthorizing;
-    }
-
-    get isAuthorized() {
-        return this._isAuthorized;
-    }
-
-    processAuthorizationRedirect() {
-        this._isAuthorizing = true;
-        this.oidcSecurityService.authorizedCallback();
-    }
-
-    private userDataChanged(userData: any) {
-        console.log(userData);
-        this._username = userData && userData.name ? <string>userData.name : undefined;
-        this._token = this.oidcSecurityService.getToken();
-
-        if (!this._isAuthorized && this._token) {
-            this._isAuthorizing = false;
-            this._isAuthorized = true;
-            this.isAuthorizedChanged.emit(this._isAuthorized);
-        } else if (this._isAuthorized) {
-            this._isAuthorized = false;
-            this.isAuthorizedChanged.emit(this._isAuthorized);
-        }
-    }
-
-    updateTokenIfRequired() {
-        return Promise.resolve();
-    }
+    abstract transformHttpRequestOptions(options: RequestOptionsArgs): Promise<RequestOptionsArgs>;
 }
 
 @Injectable()

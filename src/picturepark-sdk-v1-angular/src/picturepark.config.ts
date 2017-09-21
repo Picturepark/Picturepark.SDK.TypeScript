@@ -1,5 +1,10 @@
 export interface PictureparkConfiguration {
-    apiServer: string;
-    stsServer: string;
-    customerAlias: string;
+    customerAlias?: string;
+
+    // Oidc
+    apiServer?: string;
+    stsServer?: string;
+
+    // Token
+    accessToken?: string;
 }
