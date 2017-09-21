@@ -18,6 +18,12 @@ export class TokenAuthService extends AuthService {
         super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl!);
     }
 
+    get isAuthorized(): boolean {
+        return this.pictureparkConfiguration &&
+            this.pictureparkConfiguration.accessToken &&
+            this.pictureparkConfiguration.accessToken !== '' ? true : false;
+    }
+
     transformHttpRequestOptions(options: RequestOptionsArgs): Promise<RequestOptionsArgs> {
         if (options.headers) {
             if (this.pictureparkConfiguration && this.pictureparkConfiguration.accessToken) {

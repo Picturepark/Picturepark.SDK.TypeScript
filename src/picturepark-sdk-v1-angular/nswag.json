@@ -39,7 +39,7 @@
         "AggregationResultItem",
         "ContentService"
       ],
-      "extensionCode": "src/picturepark.services.ext",
+      "extensionCode": "src/picturepark.services.extensions",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
       "handleReferences": false,

@@ -33,6 +33,7 @@ export abstract class AuthService {
         return this._pictureparkApiUrl;
     }
 
+    abstract get isAuthorized(): boolean;
     abstract transformHttpRequestOptions(options: RequestOptionsArgs): Promise<RequestOptionsArgs>;
 }
 
