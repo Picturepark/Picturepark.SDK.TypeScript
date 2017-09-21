@@ -1,37 +1,40 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { PICTUREPARK_API_URL, AuthService, 
+import {
+  PICTUREPARK_API_URL, AuthService,
   ContentService, ContentSearchRequest,
-  ShareContent, ShareBasicCreateRequest, ShareService } from '../picturepark.services';
+  ShareContent, ShareBasicCreateRequest, ShareService, OutputAccess
+} from '../picturepark.services';
 import { testUrl, testUsername, testPassword, configureTest } from './config';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
 
-  it('should create embed share', async(inject([AuthService, ContentService, ShareService], 
+  it('should create embed share', async(inject([AuthService, ContentService, ShareService],
     async (authService: AuthService, contentService: ContentService, shareService: ShareService) => {
-    // arrange
-    await authService.login();
+      // arrange
+      await authService.login();
 
-    // act
-    let request = new ContentSearchRequest();
-    request.searchString = 'm';
-    
-    let response = await contentService.search(request).toPromise();
-    let contents = response!.results!.map(i => new ShareContent({ 
-      contentId: i.id, 
-      outputFormatIds: ["Original"] 
-    }));
+      // act
+      const request = new ContentSearchRequest();
+      request.searchString = 'm';
 
-    let result = await shareService.create(new ShareBasicCreateRequest({
-      contents: contents
-    })).toPromise();
+      const response = await contentService.search(request).toPromise();
+      const contents = response!.results!.map(i => new ShareContent({
+        contentId: i.id,
+        outputFormatIds: ['Original']
+      }));
 
-    let share = await shareService.get(result!.shareId!).toPromise();
+      const result = await shareService.create(new ShareBasicCreateRequest({
+        contents: contents,
+        outputAccess: OutputAccess.Full
+      })).toPromise();
 
-    // assert
-    expect(result!.shareId).not.toBeNull();
-    expect(share!.id).toEqual(result!.shareId);
-  })));
+      const share = await shareService.get(result!.shareId!).toPromise();
+
+      // assert
+      expect(result!.shareId).not.toBeNull();
+      expect(share!.id).toEqual(result!.shareId);
+    })));
 });
