@@ -8,8 +8,9 @@ export class TranslatePipe implements PipeTransform {
   }
 
   transform(value: string, replacement?: string): string | null {
-    if (typeof value === 'string')
+    if (typeof value === 'string') {
       return translate(value, this.locale).replace('{0}', replacement);
+    }
     return null;
   }
 }

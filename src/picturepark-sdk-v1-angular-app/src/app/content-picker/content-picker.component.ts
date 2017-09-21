@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {
@@ -33,7 +33,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
 
   constructor(private route: ActivatedRoute,
     private shareService: ShareService,
-    public authService: AuthService) {
+    @Inject(AuthService) public authService: OidcAuthService) {
   }
 
   @ViewChild('contentBrowser')
@@ -45,7 +45,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
 
   onWindowUnload = () => {
     if (this.authService.isAuthorized && !this.messagePosted && window.opener)
-      window.opener.postMessage("undefined", "*");
+      window.opener.postMessage('undefined', '*');
   };
 
   onWindowResized = () => {
@@ -56,11 +56,11 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     if (this.authService.isAuthorizing === false)
       this.authService.login();
 
-    if (this.route.snapshot.queryParams["postUrl"])
-      this.postUrl = this.route.snapshot.queryParams["postUrl"];
+    if (this.route.snapshot.queryParams['postUrl'])
+      this.postUrl = this.route.snapshot.queryParams['postUrl'];
 
-    window.addEventListener("unload", this.onWindowUnload, false);
-    window.addEventListener("resize", this.onWindowResized, false);
+    window.addEventListener('unload', this.onWindowUnload, false);
+    window.addEventListener('resize', this.onWindowResized, false);
 
     this.recalculateSizes();
   }
@@ -70,15 +70,15 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener("unload", this.onWindowUnload, false);
-    window.removeEventListener("resize", this.onWindowResized, false);
+    window.removeEventListener('unload', this.onWindowUnload, false);
+    window.removeEventListener('resize', this.onWindowResized, false);
   }
 
   async embed() {
     if (this.selectedItems.length > 0) {
       let contentItems = this.selectedItems.map(i => new ShareContent({
         contentId: i.id,
-        outputFormatIds: ["Original"]
+        outputFormatIds: ['Original']
       }));
 
       try {
