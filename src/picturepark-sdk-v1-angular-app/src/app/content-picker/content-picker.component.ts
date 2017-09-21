@@ -10,7 +10,8 @@ import {
   ShareEmbedCreateRequest,
   ShareEmbedDetail,
   AggregationResult,
-  OutputAccess
+  OutputAccess,
+  OidcAuthService
 } from '@picturepark/sdk-v1-angular';
 
 import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angular-ui';
