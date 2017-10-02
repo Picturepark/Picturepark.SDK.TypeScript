@@ -1,4 +1,5 @@
 ﻿{
+  "runtime": "Default",
   "swaggerGenerator": {
     "fromSwagger": {
       "url": "../../swagger/PictureparkSwagger.json",
@@ -19,8 +20,12 @@
       "generateClientInterfaces": false,
       "generateOptionalParameters": false,
       "wrapDtoExceptions": false,
-      "configurationClass": "",
-      "useTransformOptionsMethod": false,
+      "clientBaseClass": "PictureparkClientBase",
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
+      "configurationClass": "AuthClient",
+      "useTransformOptionsMethod": true,
       "useTransformResultMethod": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
@@ -28,11 +33,13 @@
       "generateCloneMethod": false,
       "typeStyle": "Interface",
       "extendedClasses": [],
+      "extensionCode": "src/index.extensions.ts",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
       "handleReferences": false,
       "generateConstructorInterface": true,
       "importRequiredTypes": true,
+      "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "API_BASE_URL",
       "serviceHost": ".",
       "output": "src/index.ts"

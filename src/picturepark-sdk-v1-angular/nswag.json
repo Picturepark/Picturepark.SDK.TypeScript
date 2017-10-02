@@ -1,4 +1,5 @@
 ﻿{
+  "runtime": "Default",
   "swaggerGenerator": {
     "fromSwagger": {
       "json": "",
@@ -21,6 +22,9 @@
       "generateOptionalParameters": false,
       "wrapDtoExceptions": false,
       "clientBaseClass": "PictureparkServiceBase",
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
       "protectedMethods": [
         "ContentService.downloadThumbnail"
       ],
