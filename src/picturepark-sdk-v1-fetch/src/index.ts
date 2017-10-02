@@ -64,6 +64,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -121,6 +129,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -169,6 +185,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -216,6 +240,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -269,6 +301,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -316,6 +356,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -374,6 +422,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -437,6 +493,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -491,6 +555,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -555,6 +627,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -616,6 +696,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -680,6 +768,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -743,6 +839,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -790,6 +894,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -843,6 +955,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -892,6 +1012,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -901,7 +1029,7 @@ export class ContentClient {
     }
 
     /**
-     * Update file
+     * Update Single - File
      * @contentId The id of the content to replace
      * @updateRequest Update request
      */
@@ -942,6 +1070,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1002,6 +1138,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1049,6 +1193,14 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1098,6 +1250,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1145,6 +1305,70 @@ export class ContentClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess | null>(<any>null);
+    }
+
+    /**
+     * Update by filter - Metadata
+     * @updateRequest The metadata update request.
+     * @return BusinessProcess
+     */
+    updateMetadataByFilter(updateRequest: FilterContentsMetadataUpdateRequest | null): Promise<BusinessProcess | null> {
+        let url_ = this.baseUrl + "/V1/Contents/Many/Metadata/Filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateRequest);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateMetadataByFilter(_response);
+        });
+    }
+
+    protected processUpdateMetadataByFilter(response: Response): Promise<BusinessProcess | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1194,6 +1418,14 @@ export class ContentClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1214,12 +1446,12 @@ export class BusinessProcessClient {
     }
 
     /**
-     * Search for business process
+     * Search
      * @businessProcessSearchRequest The business process request
      * @return BusinessProcessSearchResult
      */
-    search(businessProcessSearchRequest: BusinessProcessSearchResult | null): Promise<BusinessProcessSearchResult | null> {
-        let url_ = this.baseUrl + "/V1/BusinessProcesses/Search";
+    search(businessProcessSearchRequest: BusinessProcessSearchRequest | null): Promise<BusinessProcessSearchResult | null> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(businessProcessSearchRequest);
@@ -1253,6 +1485,14 @@ export class BusinessProcessClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1262,16 +1502,16 @@ export class BusinessProcessClient {
     }
 
     /**
-     * Starts a process with given definition
+     * Start
      * @processDefinitionId The process definition id
      * @request The start process request
      * @return BusinessProcess
      */
     start(processDefinitionId: string, request: StartProcessRequest | null): Promise<BusinessProcess | null> {
-        let url_ = this.baseUrl + "/V1/BusinessProcesses/ProcessDefinitions/{ProcessDefinitionId}/Start";
+        let url_ = this.baseUrl + "/v1/businessProcesses/processDefinitions/{processDefinitionId}/start";
         if (processDefinitionId === undefined || processDefinitionId === null)
             throw new Error("The parameter 'processDefinitionId' must be defined.");
-        url_ = url_.replace("{ProcessDefinitionId}", encodeURIComponent("" + processDefinitionId)); 
+        url_ = url_.replace("{processDefinitionId}", encodeURIComponent("" + processDefinitionId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -1305,6 +1545,14 @@ export class BusinessProcessClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1314,14 +1562,14 @@ export class BusinessProcessClient {
     }
 
     /**
-     * Mark a given process as ended
+     * Mark as ended
      * @processId The process id
      */
     markAsEnded(processId: string): Promise<void> {
-        let url_ = this.baseUrl + "/V1/BusinessProcesses/Processes/{ProcessId}/MarkAsEnded";
+        let url_ = this.baseUrl + "/v1/businessProcesses/processes/{processId}/markAsEnded";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1349,6 +1597,14 @@ export class BusinessProcessClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1358,15 +1614,15 @@ export class BusinessProcessClient {
     }
 
     /**
-     * Send message to given process
+     * Send message
      * @processId The process id
      * @request The send message request
      */
     sendMessage(processId: string, request: SendMessageRequest | null): Promise<void> {
-        let url_ = this.baseUrl + "/V1/BusinessProcesses/Processes/{ProcessId}/Message";
+        let url_ = this.baseUrl + "/v1/businessProcesses/processes/{processId}/message";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -1397,6 +1653,14 @@ export class BusinessProcessClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1406,17 +1670,17 @@ export class BusinessProcessClient {
     }
 
     /**
-     * Wait for given process states
+     * Wait for states
      * @processId The process id
      * @states The states to wait for
      * @timeout The timeout in ms
      * @return BusinessProcessWaitResult
      */
     waitForStates(processId: string, states: string | null, timeout: number): Promise<BusinessProcessWaitResult | null> {
-        let url_ = this.baseUrl + "/V1/BusinessProcesses/{ProcessId}/Wait?";
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/wait?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{ProcessId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
         if (states === undefined)
             throw new Error("The parameter 'states' must be defined.");
         else
@@ -1454,6 +1718,14 @@ export class BusinessProcessClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1514,6 +1786,14 @@ export class DocumentHistoryClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1561,6 +1841,14 @@ export class DocumentHistoryClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1614,6 +1902,14 @@ export class DocumentHistoryClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1665,6 +1961,14 @@ export class DocumentHistoryClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1721,6 +2025,14 @@ export class DocumentHistoryClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1780,6 +2092,14 @@ export class JsonSchemaClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1851,6 +2171,14 @@ export class ListItemClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1899,6 +2227,14 @@ export class ListItemClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1945,6 +2281,14 @@ export class ListItemClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -1994,6 +2338,14 @@ export class ListItemClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2041,6 +2393,14 @@ export class ListItemClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2090,6 +2450,14 @@ export class ListItemClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2138,6 +2506,14 @@ export class ListItemClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2197,6 +2573,14 @@ export class ListItemClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2261,12 +2645,132 @@ export class ListItemClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<ListItemDetail | null>(<any>null);
+    }
+
+    /**
+     * Update by filter - Fields
+     * @updateRequest The metadata update request.
+     * @return BusinessProcess
+     */
+    updateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess | null> {
+        let url_ = this.baseUrl + "/V1/ListItems/Many/Fields/Filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateRequest);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateFieldsByFilter(_response);
+        });
+    }
+
+    protected processUpdateFieldsByFilter(response: Response): Promise<BusinessProcess | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess | null>(<any>null);
+    }
+
+    /**
+     * Update - Fields
+     * @updateRequest The metadata update request.
+     * @return BusinessProcess
+     */
+    updateFields(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess | null> {
+        let url_ = this.baseUrl + "/V1/ListItems/Many/Fields";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateRequest);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateFields(_response);
+        });
+    }
+
+    protected processUpdateFields(response: Response): Promise<BusinessProcess | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess | null>(<any>null);
     }
 
     /**
@@ -2316,6 +2820,14 @@ export class ListItemClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2371,6 +2883,14 @@ export class ListItemClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2431,6 +2951,14 @@ export class LiveStreamClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2489,6 +3017,14 @@ export class SchemaClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2537,6 +3073,14 @@ export class SchemaClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2584,6 +3128,14 @@ export class SchemaClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2637,6 +3189,14 @@ export class SchemaClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2684,6 +3244,14 @@ export class SchemaClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2738,6 +3306,14 @@ export class SchemaClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2785,6 +3361,14 @@ export class SchemaClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2845,6 +3429,14 @@ export class PermissionClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2892,6 +3484,14 @@ export class PermissionClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -2941,6 +3541,14 @@ export class PermissionClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -2989,6 +3597,14 @@ export class PermissionClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3036,6 +3652,14 @@ export class PermissionClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3092,6 +3716,14 @@ export class PublicAccessClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3140,6 +3772,14 @@ export class PublicAccessClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3216,6 +3856,10 @@ export class ShareClient {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3265,6 +3909,10 @@ export class ShareClient {
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
         } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
@@ -3320,6 +3968,10 @@ export class ShareClient {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3369,6 +4021,10 @@ export class ShareClient {
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
         } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
@@ -3430,6 +4086,10 @@ export class ShareClient {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3479,6 +4139,10 @@ export class ShareClient {
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
         } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
@@ -3541,6 +4205,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3585,6 +4257,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3594,9 +4274,9 @@ export class TransferClient {
     }
 
     /**
-     * Cancels an active batch. Valid states: TODO
+     * Cancels an active transfer. Valid states: TODO
      */
-    cancelBatch(transferId: string): Promise<void> {
+    cancelTransfer(transferId: string): Promise<void> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Cancel";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -3611,11 +4291,11 @@ export class TransferClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processCancelBatch(_response);
+            return this.processCancelTransfer(_response);
         });
     }
 
-    protected processCancelBatch(response: Response): Promise<void> {
+    protected processCancelTransfer(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 204) {
@@ -3627,6 +4307,14 @@ export class TransferClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3676,6 +4364,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3720,6 +4416,14 @@ export class TransferClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3769,6 +4473,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3817,6 +4529,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3831,7 +4551,7 @@ export class TransferClient {
      * @request The filetransfer to content create request
      * @return Transfer
      */
-    importBatch(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer | null> {
+    importTransfer(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer | null> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Import";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -3850,11 +4570,11 @@ export class TransferClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processImportBatch(_response);
+            return this.processImportTransfer(_response);
         });
     }
 
-    protected processImportBatch(response: Response): Promise<Transfer | null> {
+    protected processImportTransfer(response: Response): Promise<Transfer | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
@@ -3868,6 +4588,14 @@ export class TransferClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3920,6 +4648,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -3967,6 +4703,14 @@ export class TransferClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4016,6 +4760,14 @@ export class TransferClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -4026,7 +4778,11 @@ export class TransferClient {
 
     /**
      * @formFile Gets or sets the form file.
-     * @chunkNumber Starts with 1
+     * @relativePath Relative path of the uploading file
+     * @chunkNumber Current chunk number. starts with 1
+     * @currentChunkSize Size in bytes of the current chunk
+     * @totalSize Total size in bytes of the uploading file
+     * @totalChunks Total chunks of the uploading file
      */
     uploadFile(formFile: FileParameter | null, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Promise<void> {
         let url_ = this.baseUrl + "/V1/Transfers/{TransferId}/Files/{Identifier}/Upload?";
@@ -4084,6 +4840,14 @@ export class TransferClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4144,6 +4908,14 @@ export class UserClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -4191,6 +4963,14 @@ export class UserClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4240,6 +5020,14 @@ export class UserClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -4282,6 +5070,14 @@ export class UserClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4342,6 +5138,14 @@ export class OutputClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -4395,6 +5199,14 @@ export class OutputClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4451,6 +5263,14 @@ export class ProfileClient {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -4497,6 +5317,14 @@ export class ProfileClient {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4823,6 +5651,36 @@ export interface PermissionException extends PictureparkBusinessException {
 
 export interface QueryException extends PictureparkBusinessException {
     debugInformation?: string | undefined;
+    serverError?: StorageServerError | undefined;
+}
+
+export interface StorageServerError {
+    error?: StorageError | undefined;
+    status: number;
+}
+
+export interface StorageError {
+    index?: string | undefined;
+    reason?: string | undefined;
+    resourceId?: string | undefined;
+    resourceType?: string | undefined;
+    type?: string | undefined;
+    rootCause?: StorageRootCause[] | undefined;
+    causedBy?: StorageCausedBy | undefined;
+}
+
+export interface StorageRootCause {
+    index?: string | undefined;
+    reason?: string | undefined;
+    resourceId?: string | undefined;
+    resourceType?: string | undefined;
+    type?: string | undefined;
+}
+
+export interface StorageCausedBy {
+    reason?: string | undefined;
+    type?: string | undefined;
+    innerCausedBy?: StorageCausedBy | undefined;
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -4935,6 +5793,8 @@ export interface BulkResponseRow {
 export interface ContentAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down on a specific aggregated value. */
@@ -5165,6 +6025,7 @@ export enum TermsRelationAggregatorDocumentType {
     Schema = <any>"Schema", 
     User = <any>"User", 
     ContentPermissionSet = <any>"ContentPermissionSet", 
+    Owner = <any>"Owner", 
 }
 
 export interface TermsEnumAggregator extends TermsAggregator {
@@ -5187,6 +6048,10 @@ export enum ContentSearchType {
 export interface ObjectAggregationResult {
     elapsedMilliseconds: number;
     aggregationResults?: AggregationResult[] | undefined;
+    /** The search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    isSearchStringRewritten: boolean;
 }
 
 export interface AggregationResult {
@@ -5205,10 +6070,10 @@ export interface AggregationResultItem {
 }
 
 export interface ContentBatchDownloadRequest {
-    contents?: ContentDownloadItem[] | undefined;
+    contents?: ContentBatchDownloadRequestItem[] | undefined;
 }
 
-export interface ContentDownloadItem {
+export interface ContentBatchDownloadRequestItem {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 }
@@ -5262,6 +6127,8 @@ export interface ContentSearchRequest {
     collectionId?: string | undefined;
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -5405,6 +6272,14 @@ export interface FilterContentsMetadataUpdateRequest extends MetadataValuesChang
     totalItemsCount: number;
 }
 
+export interface BusinessProcessSearchRequest {
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
+    searchString?: string | undefined;
+    sort?: SortInfo[] | undefined;
+}
+
 export interface BaseResultOfBusinessProcess {
     totalResults: number;
     results?: BusinessProcess[] | undefined;
@@ -5503,6 +6378,8 @@ export interface ListItemDetail {
 export interface ListItemAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     /** An optional search filter. Limits the list item result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down on a specific aggregated value. */
@@ -5522,6 +6399,8 @@ export interface ListItemAggregationRequest {
 export interface ListItemSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -5578,6 +6457,21 @@ export interface ListItemUpdateRequest {
     id?: string | undefined;
 }
 
+/** ListItemFieldsFilterUpdateRequest class */
+export interface ListItemFieldsFilterUpdateRequest {
+    /** The search request used to filter the list items on which the change commands must be applied */
+    searchRequest?: ListItemSearchRequest | undefined;
+    /** The change commads to be applied to the list items */
+    changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+}
+
+export interface ListItemFieldsUpdateRequest {
+    /** The ids of the list items whose fields need to be updated */
+    listItemIds?: string[] | undefined;
+    /** The change commads to be applied to the list items */
+    changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+}
+
 export interface LiveStreamSearchRequest {
     from: Date;
     to: Date;
@@ -5592,7 +6486,12 @@ export interface BaseResultOfObject {
     pageToken?: string | undefined;
 }
 
-export interface ObjectSearchResult extends BaseResultOfObject {
+export interface RewritableBaseResultOfObject extends BaseResultOfObject {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+}
+
+export interface ObjectSearchResult extends RewritableBaseResultOfObject {
     elapsedMilliseconds: number;
 }
 
@@ -5936,6 +6835,8 @@ export interface SchemaUpdateRequest {
 export interface SchemaSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -5952,7 +6853,12 @@ export interface BaseResultOfSchema {
     pageToken?: string | undefined;
 }
 
-export interface SchemaSearchResult extends BaseResultOfSchema {
+export interface RewritableBaseResultOfSchema extends BaseResultOfSchema {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+}
+
+export interface SchemaSearchResult extends RewritableBaseResultOfSchema {
 }
 
 export interface Schema {
@@ -5983,7 +6889,6 @@ export enum UserRight {
     ManageSharings = <any>"ManageSharings", 
     ManageDrives = <any>"ManageDrives", 
     ManageTransfer = <any>"ManageTransfer", 
-    ManageAnalytics = <any>"ManageAnalytics", 
     ManageChannels = <any>"ManageChannels", 
     ManageSchemas = <any>"ManageSchemas", 
     ManageUsers = <any>"ManageUsers", 
@@ -6000,6 +6905,8 @@ export enum UserRight {
 
 export interface PermissionSetSearchRequest {
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     sort?: SortInfo[] | undefined;
     start: number;
     limit: number;
@@ -6017,7 +6924,12 @@ export interface BaseResultOfPermissionSet {
     pageToken?: string | undefined;
 }
 
-export interface PermissionSetSearchResult extends BaseResultOfPermissionSet {
+export interface RewritableBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+}
+
+export interface PermissionSetSearchResult extends RewritableBaseResultOfPermissionSet {
     aggregationResults?: AggregationResult[] | undefined;
     elapsedMilliseconds: number;
 }
@@ -6259,6 +7171,8 @@ export interface ShareEmbed extends ShareBase {
 
 export interface ShareAggregationRequest {
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     sort?: SortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
@@ -6305,6 +7219,8 @@ export interface CreateShareResult {
 export interface ShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to empty. */
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -6315,7 +7231,12 @@ export interface ShareSearchRequest {
     filter?: FilterBase | undefined;
 }
 
-export interface ShareSearchResult extends BaseResultOfShareBase {
+export interface RewritableBaseResultOfShareBase extends BaseResultOfShareBase {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+}
+
+export interface ShareSearchResult extends RewritableBaseResultOfShareBase {
     elapsedMilliseconds: number;
 }
 
@@ -8060,6 +8981,8 @@ export interface FileTransfer {
 
 export interface UserSearchRequest {
     searchString?: string | undefined;
+    /** Allow the backend to modify the search string if it generates a non valid query */
+    allowSearchStringRewrite: boolean;
     sort?: SortInfo[] | undefined;
     start: number;
     limit: number;
@@ -8073,7 +8996,12 @@ export interface BaseResultOfUser {
     pageToken?: string | undefined;
 }
 
-export interface UserSearchResult extends BaseResultOfUser {
+export interface RewritableBaseResultOfUser extends BaseResultOfUser {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+}
+
+export interface UserSearchResult extends RewritableBaseResultOfUser {
     elapsedMilliseconds: number;
 }
 

@@ -3,7 +3,7 @@ import { InputConverter, StringConverter, NumberConverter } from '../converter';
 
 import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter, FilterBase, SortInfo, SortDirection, Content } from '@picturepark/sdk-v1-angular';
+import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter, FilterBase, SortInfo, SortDirection, Content, ContentSearchType } from '@picturepark/sdk-v1-angular';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
 @Component({
@@ -84,6 +84,8 @@ export class ContentBrowserComponent implements OnChanges {
           lifeCycleFilter: 0,
           limit: 50,
           searchString: this.query,
+          searchType: ContentSearchType.MetadataAndFullText,
+          allowSearchStringRewrite: true,
           start: this.items.length,
           sort: [
             new SortInfo({
