@@ -28,6 +28,7 @@ import { AppComponent } from './app.component';
         apiServer: 'https://devnext-api.preview-picturepark.com',
         stsServer: 'https://devnext-identity.preview-picturepark.com',
         redirectUrl: 'http://localhost:4200',
+        customerId: '-enter-id-here-',
         customerAlias: 'dev'
       }
     }
