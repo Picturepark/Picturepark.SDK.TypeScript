@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "link": "npm link @picturepark/sdk-v1-angular",
-    "init": "npm run link && cmd /c if exist \"../picturepark-sdk-v1-angular/node_modules\" rmdir \"../picturepark-sdk-v1-angular/node_modules\" /s /q && npm i",
+    "init": "cmd /c if exist \"../picturepark-sdk-v1-angular/node_modules\" rmdir \"../picturepark-sdk-v1-angular/node_modules\" /s /q && npm i && npm run link",
     "start": "npm run init && ng serve",
     "build": "npm run init && ng build --prod",
     "test": "npm run init && ng test",
