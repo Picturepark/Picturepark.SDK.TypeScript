@@ -14,11 +14,11 @@ export class PictureparkClientBase {
     }
 
     getBaseUrl(defaultUrl: string) {
-        return this.authClient.getBaseUrl(defaultUrl);        
+        return this.authClient ? this.authClient.getBaseUrl(defaultUrl) : defaultUrl;        
     }
 
     transformOptions(options: RequestInit): Promise<RequestInit> {
-        return this.authClient.transformHttpRequestOptions(options);
+        return this.authClient ? this.authClient.transformHttpRequestOptions(options) : Promise.resolve(options);
     }
 }
 
@@ -8396,3 +8396,5 @@ function throwException(message: string, status: number, response: string, heade
     else
         throw new SwaggerException(message, status, response, headers, null);
 }
+
+export { AuthClient, TokenAuthClient };

@@ -14,7 +14,9 @@ cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/p
 
 cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts') | ForEach-Object { $_ -replace 'declare module \"auth\"', 'declare module \"picturepark\"' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts'}"
 
-cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts') -replace '}\r\ndeclare module \"index\" {\r\n    import { AuthClient } from \"auth\";', '' | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts'}"
+cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts') | ForEach-Object { $_ -replace 'export { AuthClient, TokenAuthClient };', '' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts'}"
+
+cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts') -replace '}\r\ndeclare module \"index\" {\r\n    import { AuthClient, TokenAuthClient } from \"auth\";', '' | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts'}"
 
 REM # Compile AMD bundle
 
@@ -28,6 +30,8 @@ REM ## Transform AMD .d.ts
 
 cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts') -replace 'declare module \"auth\" \{', '' | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts'}"
 
-cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts') -replace '}\r\ndeclare module \"index\" {\r\n    import { AuthClient } from \"auth\";', '' | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts'}"
+cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts') | ForEach-Object { $_ -replace 'export { AuthClient, TokenAuthClient };', '' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts'}"
+
+cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts') -replace '}\r\ndeclare module \"index\" {\r\n    import { AuthClient, TokenAuthClient } from \"auth\";', '' | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts'}"
 
 cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts') -replace '\r\n}\r\n', '' | Set-Content '%~dp0/../src/picturepark-sdk-v1-fetch/dist/amd/picturepark.d.ts'}"

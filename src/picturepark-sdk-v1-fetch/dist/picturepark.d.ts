@@ -1,9 +1,28 @@
 declare module "picturepark" {
-    export class ContentClient {
+    export class AuthClient {
+        private pictureparkApiUrl;
+        private customerAlias;
+        constructor(pictureparkApiUrl: string, customerAlias?: string);
+        getBaseUrl(defaultUrl: string): string;
+        transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
+    }
+    export class TokenAuthClient extends AuthClient {
+        private accessToken;
+        constructor(pictureparkApiUrl: string, customerAlias: string, accessToken: string);
+        transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
+    }
+
+    export class PictureparkClientBase {
+        private authClient;
+        constructor(authClient: AuthClient);
+        getBaseUrl(defaultUrl: string): string;
+        transformOptions(options: RequestInit): Promise<RequestInit>;
+    }
+    export class ContentClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
@@ -11,19 +30,24 @@ declare module "picturepark" {
          * @contentId The content id.
          * @updateRequest The content ownership transfer request update request.
          * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @return ContentDoc
+         * @return ContentDetail
          */
         updateTransferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: number | null): Promise<ContentDetail | null>;
         protected processUpdateTransferOwnership(response: Response): Promise<ContentDetail | null>;
         /**
          * Get Many
-         * @contentIds Comma-separated list of contentIds
+         * @ids Comma-separated list of contentIds
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
          * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @return List of ContentDetail
          */
-        getMany(contentIds: string[] | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail[] | null>;
+        getMany(ids: string[] | null, resolve: boolean, patterns: string[] | null): Promise<ContentDetail[] | null>;
         protected processGetMany(response: Response): Promise<ContentDetail[] | null>;
+        /**
+         * Process many ownership trasnfer request
+         * @contentsOwnershipTransferRequest The content ownership transfer request request.
+         * @return BusinessProcess
+         */
         transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | null): Promise<BusinessProcess | null>;
         protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess | null>;
         /**
@@ -34,13 +58,18 @@ declare module "picturepark" {
         aggregate(contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult | null>;
         protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
         /**
-         * Aggregate By Channel
+         * Aggregate by Channel
          * @channelId The channel id
          * @contentAggregationRequest The content aggregation request.
          * @return ObjectAggregationResult
          */
         aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult | null>;
         protected processAggregateByChannel(response: Response): Promise<ObjectAggregationResult | null>;
+        /**
+         * Creates a content batch download
+         * @request The content batch download request
+         * @return ContentBatchDonloadItem
+         */
         createDownloadLink(request: ContentBatchDownloadRequest | null): Promise<ContentBatchDownloadItem | null>;
         protected processCreateDownloadLink(response: Response): Promise<ContentBatchDownloadItem | null>;
         /**
@@ -52,6 +81,13 @@ declare module "picturepark" {
          */
         createContent(createRequest: CreateContentRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
         protected processCreateContent(response: Response): Promise<ContentDetail | null>;
+        /**
+         * Downloads content in a specific outputformat
+         * @contentId The content id
+         * @outputFormatId The output format id
+         * @range the range
+         * @return HttpResponseMessage
+         */
         download(contentId: string, outputFormatId: string, range: string | null): Promise<FileResponse | null>;
         protected processDownload(response: Response): Promise<FileResponse | null>;
         /**
@@ -62,6 +98,14 @@ declare module "picturepark" {
          */
         downloadThumbnail(contentId: string, size: ThumbnailSize): Promise<FileResponse | null>;
         protected processDownloadThumbnail(response: Response): Promise<FileResponse | null>;
+        /**
+         * Download resized content
+         * @contentId The Content id
+         * @outputFormatId The output format id
+         * @width The content width
+         * @height The content height
+         * @return HttpResponseMessage
+         */
         downloadResized(contentId: string, outputFormatId: string, width: number, height: number): Promise<FileResponse | null>;
         protected processDownloadResized(response: Response): Promise<FileResponse | null>;
         /**
@@ -110,6 +154,11 @@ declare module "picturepark" {
          */
         searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult | null>;
         protected processSearchByChannel(response: Response): Promise<ContentSearchResult | null>;
+        /**
+         * Deactivates a content
+         * @contentId the id of the content to deactivate
+         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         */
         deactivate(contentId: string, timeout: number): Promise<void>;
         protected processDeactivate(response: Response): Promise<void>;
         /**
@@ -119,10 +168,28 @@ declare module "picturepark" {
          */
         updateFile(contentId: string, updateRequest: ContentFileUpdateRequest | null): Promise<BusinessProcess | null>;
         protected processUpdateFile(response: Response): Promise<BusinessProcess | null>;
+        /**
+         * Reactivate - Content
+         * @contentId The content id.
+         * @resolve Resolves the data of referenced list items into the contents's content.
+         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @return ContentDetail
+         */
         reactivate(contentId: string, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
         protected processReactivate(response: Response): Promise<ContentDetail | null>;
+        /**
+         * Dactivate Many - Content
+         * @deactivationRequest The deactivation request
+         * @return BusinessProcess
+         */
         deactivateMany(deactivationRequest: ContentDeactivationRequest | null): Promise<BusinessProcess | null>;
         protected processDeactivateMany(response: Response): Promise<BusinessProcess | null>;
+        /**
+         * Reactivate Many - Content
+         * @reactivationRequest The content reactivation request.
+         * @return BusinessProcess
+         */
         reactivateMany(reactivationRequest: ContentReactivationRequest | null): Promise<BusinessProcess | null>;
         protected processReactivateMany(response: Response): Promise<BusinessProcess | null>;
         /**
@@ -140,47 +207,103 @@ declare module "picturepark" {
         updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[] | null): Promise<BusinessProcess | null>;
         protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcess | null>;
     }
-    export class BusinessProcessClient {
+    export class BusinessProcessClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        /**
+         * Search for business process
+         * @businessProcessSearchRequest The business process request
+         * @return BusinessProcessSearchResult
+         */
         search(businessProcessSearchRequest: BusinessProcessSearchResult | null): Promise<BusinessProcessSearchResult | null>;
         protected processSearch(response: Response): Promise<BusinessProcessSearchResult | null>;
+        /**
+         * Starts a process with given definition
+         * @processDefinitionId The process definition id
+         * @request The start process request
+         * @return BusinessProcess
+         */
         start(processDefinitionId: string, request: StartProcessRequest | null): Promise<BusinessProcess | null>;
         protected processStart(response: Response): Promise<BusinessProcess | null>;
+        /**
+         * Mark a given process as ended
+         * @processId The process id
+         */
         markAsEnded(processId: string): Promise<void>;
         protected processMarkAsEnded(response: Response): Promise<void>;
+        /**
+         * Send message to given process
+         * @processId The process id
+         * @request The send message request
+         */
         sendMessage(processId: string, request: SendMessageRequest | null): Promise<void>;
         protected processSendMessage(response: Response): Promise<void>;
+        /**
+         * Wait for given process states
+         * @processId The process id
+         * @states The states to wait for
+         * @timeout The timeout in ms
+         * @return BusinessProcessWaitResult
+         */
         waitForStates(processId: string, states: string | null, timeout: number): Promise<BusinessProcessWaitResult | null>;
         protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
     }
-    export class DocumentHistoryClient {
+    export class DocumentHistoryClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        /**
+         * Search for document history
+         * @documentHistorySearchRequest The document history search request
+         * @return DocumentHistorySearchResult
+         */
         search(documentHistorySearchRequest: DocumentHistorySearchRequest | null): Promise<DocumentHistorySearchResult | null>;
         protected processSearch(response: Response): Promise<DocumentHistorySearchResult | null>;
+        /**
+         * Gets a document history
+         * @id The id
+         * @return DocumentHistory
+         */
         get(id: string): Promise<DocumentHistory | null>;
         protected processGet(response: Response): Promise<DocumentHistory | null>;
+        /**
+         * Get document history version
+         * @id The id
+         * @version The version
+         * @return DocumentHistory
+         */
         getVersion(id: string, version: string): Promise<DocumentHistory | null>;
         protected processGetVersion(response: Response): Promise<DocumentHistory | null>;
+        /**
+         * Get latest difference of document history
+         * @id The id
+         * @oldVersion The old version
+         * @return DocumentHistoryDifference
+         */
         getDifferenceLatest(id: string, oldVersion: number): Promise<DocumentHistoryDifference | null>;
         protected processGetDifferenceLatest(response: Response): Promise<DocumentHistoryDifference | null>;
+        /**
+         * Get the difference between tho document history
+         * @id The id
+         * @oldVersion The old version
+         * @newVersion The new version
+         * @return DocumentHistoryDifference
+         */
         getDifference(id: string, oldVersion: number, newVersion: number): Promise<DocumentHistoryDifference | null>;
         protected processGetDifference(response: Response): Promise<DocumentHistoryDifference | null>;
     }
-    export class JsonSchemaClient {
+    export class JsonSchemaClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
@@ -191,11 +314,11 @@ declare module "picturepark" {
         get(schemaId: string): Promise<any | null>;
         protected processGet(response: Response): Promise<any | null>;
     }
-    export class ListItemClient {
+    export class ListItemClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
@@ -287,21 +410,26 @@ declare module "picturepark" {
         import(contentId: string | null, fileTransferId: string | null, includeObjects: boolean): Promise<void>;
         protected processImport(response: Response): Promise<void>;
     }
-    export class LiveStreamClient {
+    export class LiveStreamClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        /**
+         * Search LiveStream
+         * @liveStreamSearchRequest The livestream search request
+         * @return ObjectSearchResult
+         */
         search(liveStreamSearchRequest: LiveStreamSearchRequest | null): Promise<ObjectSearchResult | null>;
         protected processSearch(response: Response): Promise<ObjectSearchResult | null>;
     }
-    export class SchemaClient {
+    export class SchemaClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
@@ -356,11 +484,11 @@ declare module "picturepark" {
         search(schemaSearchRequest: SchemaSearchRequest | null): Promise<SchemaSearchResult | null>;
         protected processSearch(response: Response): Promise<SchemaSearchResult | null>;
     }
-    export class PermissionClient {
+    export class PermissionClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
@@ -368,8 +496,8 @@ declare module "picturepark" {
          * @permission The UserRight to validate
          * @return Boolean - user has permission
          */
-        getUserPermissions(permission: UserRight): Promise<boolean | null>;
-        protected processGetUserPermissions(response: Response): Promise<boolean | null>;
+        getUserPermissions(permission: UserRight): Promise<boolean>;
+        protected processGetUserPermissions(response: Response): Promise<boolean>;
         /**
          * Search Content Permissions
          * @request The permission search request.
@@ -399,27 +527,36 @@ declare module "picturepark" {
         getSchemaPermissions(permissionSetId: string): Promise<SchemaPermissionSetDetail | null>;
         protected processGetSchemaPermissions(response: Response): Promise<SchemaPermissionSetDetail | null>;
     }
-    export class PublicAccessClient {
+    export class PublicAccessClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
-            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-        });
-        getVersion(): Promise<VersionInfo | null>;
-        protected processGetVersion(response: Response): Promise<VersionInfo | null>;
-        getShare(token: string | null): Promise<ShareBaseDetail | null>;
-        protected processGetShare(response: Response): Promise<ShareBaseDetail | null>;
-    }
-    export class ShareClient {
-        private http;
-        private baseUrl;
-        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Update Single - Share
+         * Get Version
+         * @return VersionInfo
+         */
+        getVersion(): Promise<VersionInfo | null>;
+        protected processGetVersion(response: Response): Promise<VersionInfo | null>;
+        /**
+         * Get Share
+         * @token The token
+         * @return ShareBaseDetail
+         */
+        getShare(token: string | null): Promise<ShareBaseDetail | null>;
+        protected processGetShare(response: Response): Promise<ShareBaseDetail | null>;
+    }
+    export class ShareClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Update single
          * @id The share id.
          * @updateRequest The share update request.
          * @resolve Resolves the data of referenced list items into the shares content.
@@ -429,50 +566,58 @@ declare module "picturepark" {
         update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<BaseResultOfShareBase | null>;
         protected processUpdate(response: Response): Promise<BaseResultOfShareBase | null>;
         /**
-         * Get share by id (basic or embed)
+         * Get single
          * @id Share Id (not token, use PublicAccess to get share by token)
          * @return Polymorph share
          */
         get(id: string): Promise<ShareBaseDetail | null>;
         protected processGet(response: Response): Promise<ShareBaseDetail | null>;
         /**
-         * Delete Many
+         * Delete many
          * @shareIds A list of ListItemCreateRequests.
          * @return BusinessProcess
          */
         deleteMany(shareIds: string[] | null): Promise<BusinessProcess | null>;
         protected processDeleteMany(response: Response): Promise<BusinessProcess | null>;
         /**
-         * Aggregates own shares
+         * Aggregate
          * @request Aggregation request
          * @return AggregationResult
          */
         aggregate(request: ShareAggregationRequest | null): Promise<ObjectAggregationResult | null>;
         protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
         /**
-         * Create a new share (basic or embed).
+         * Create single
          * @request Polymorph create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
          * @return Create result
          */
         create(request: ShareBaseCreateRequest | null): Promise<CreateShareResult | null>;
         protected processCreate(response: Response): Promise<CreateShareResult | null>;
         /**
-         * Search shares
+         * Search
          * @request Search request
          * @return Share search result
          */
-        search(request: ContentSearchRequest | null): Promise<ShareSearchResult | null>;
+        search(request: ShareSearchRequest | null): Promise<ShareSearchResult | null>;
         protected processSearch(response: Response): Promise<ShareSearchResult | null>;
     }
-    export class TransferClient {
+    export class TransferClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        /**
+         * Delete Files
+         * @request The filetransfer delete request
+         */
         deleteFiles(request: FileTransferDeleteRequest | null): Promise<void>;
         protected processDeleteFiles(response: Response): Promise<void>;
+        /**
+         * Get Blacklist
+         * @return Blacklist
+         */
         getBlacklist(): Promise<Blacklist | null>;
         protected processGetBlacklist(response: Response): Promise<Blacklist | null>;
         /**
@@ -480,51 +625,109 @@ declare module "picturepark" {
          */
         cancelBatch(transferId: string): Promise<void>;
         protected processCancelBatch(response: Response): Promise<void>;
+        /**
+         * Create Transfer
+         * @request The create transfer request
+         * @return Transfer
+         */
         create(request: CreateTransferRequest | null): Promise<Transfer | null>;
         protected processCreate(response: Response): Promise<Transfer | null>;
+        /**
+         * Delete Transfer
+         * @transferId The tranfer id
+         * @return Transfer
+         */
         delete(transferId: string): Promise<void>;
         protected processDelete(response: Response): Promise<void>;
+        /**
+         * Get Transferdetail
+         * @transferId The tranfer id
+         * @return TransferDetail
+         */
         get(transferId: string): Promise<TransferDetail | null>;
         protected processGet(response: Response): Promise<TransferDetail | null>;
+        /**
+         * Get File
+         * @fileTransferId The filetransfer id
+         * @return FileTransferDetail
+         */
         getFile(fileTransferId: string): Promise<FileTransferDetail | null>;
         protected processGetFile(response: Response): Promise<FileTransferDetail | null>;
+        /**
+         * Delete Transfer
+         * @transferId The tranfer id
+         * @request The filetransfer to content create request
+         * @return Transfer
+         */
         importBatch(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer | null>;
         protected processImportBatch(response: Response): Promise<Transfer | null>;
+        /**
+         * Create a partial import
+         * @transferId The transfer id
+         * @request The filetransfer partial to content create request
+         */
         partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | null): Promise<Transfer | null>;
         protected processPartialImport(response: Response): Promise<Transfer | null>;
+        /**
+         * Search
+         * @request The transfer search request
+         * @return TransferSearchResult
+         */
         search(request: TransferSearchRequest | null): Promise<TransferSearchResult | null>;
         protected processSearch(response: Response): Promise<TransferSearchResult | null>;
+        /**
+         * Search for files
+         * @request The file transfer search request
+         * @return FileTransferSearchResult
+         */
         searchFiles(request: FileTransferSearchRequest | null): Promise<FileTransferSearchResult | null>;
         protected processSearchFiles(response: Response): Promise<FileTransferSearchResult | null>;
         /**
-         * @flowChunkNumber Starts with 1
+         * @formFile Gets or sets the form file.
+         * @chunkNumber Starts with 1
          */
-        uploadFile(formFile: FileParameter | null, flowRelativePath: string | null, flowChunkNumber: number, flowCurrentChunkSize: number, flowTotalSize: number, flowTotalChunks: number, transferId: string, identifier: string): Promise<void>;
+        uploadFile(formFile: FileParameter | null, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
     }
-    export class UserClient {
+    export class UserClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
+        /**
+         * Search for users
+         * @searchRequest The user search request
+         * @return UserSearchResult
+         */
         search(searchRequest: UserSearchRequest | null): Promise<UserSearchResult | null>;
         protected processSearch(response: Response): Promise<UserSearchResult | null>;
+        /**
+         * Get Userdetail by id
+         * @userId The user id
+         * @return UserDetail
+         */
         getUser(userId: string): Promise<UserDetail | null>;
         protected processGetUser(response: Response): Promise<UserDetail | null>;
-        getProfile(): Promise<UserProfile | null>;
-        protected processGetProfile(response: Response): Promise<UserProfile | null>;
+        /**
+         * Get userdetail by owner token
+         * @tokenId The token id
+         * @return UserDetail
+         */
         getByOwnerToken(tokenId: string): Promise<UserDetail | null>;
         protected processGetByOwnerToken(response: Response): Promise<UserDetail | null>;
+        /**
+         * Get List of Channels
+         */
         getChannels(): Promise<Channel[] | null>;
         protected processGetChannels(response: Response): Promise<Channel[] | null>;
     }
-    export class OutputClient {
+    export class OutputClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
-        constructor(baseUrl?: string, http?: {
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
@@ -542,36 +745,56 @@ declare module "picturepark" {
         get(outputId: string): Promise<OutputDetail | null>;
         protected processGet(response: Response): Promise<OutputDetail | null>;
     }
+    export class ProfileClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get
+         * @return UserProfile
+         */
+        get(): Promise<UserProfile | null>;
+        protected processGet(response: Response): Promise<UserProfile | null>;
+        /**
+         * Update
+         * @return UserProfile
+         */
+        update(profile: UserProfile | null): Promise<UserProfile | null>;
+        protected processUpdate(response: Response): Promise<UserProfile | null>;
+    }
     export interface ContentOwnershipTransferRequest {
         /** The content id. */
         contentId?: string | undefined;
         /** The id of the user to whom the content document has to be transfered to. */
         transferUserId?: string | undefined;
     }
+    /** A content detail. */
     export interface ContentDetail {
-        /** Document audit information with information regarding document creation and modification. */
+        /** Audit data with information regarding document creation and modification. */
         audit?: StoreAudit | undefined;
-        /** The content data of the content document. */
+        /** The content data */
         content?: any | undefined;
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
         contentPermissionSetIds?: string[] | undefined;
-        /** The id of the schema with schema type content. */
+        /** The id of the content schema */
         contentSchemaId?: string | undefined;
-        /** The content type of a content document. */
+        /** The type of content */
         contentType: ContentType;
-        /** The content type of a content document. */
-        contentTypeId: number;
-        /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
+        /** Contains language specific display values, rendered according to the content schema's
+                 display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The entity type of a content document is content. */
+        /** The entity type */
         entityType: EntityType;
         /** The content id. */
         id?: string | undefined;
-        /** An optional id list of schemas with schema type layer. */
+        /** An optional list of layer schemas ids */
         layerSchemaIds?: string[] | undefined;
-        /** The layer metadata of the content document. */
+        /** The metadata dictionary */
         metadata?: DataDictionary | undefined;
-        /** A list of rendering ouputs for contents with an underlying digital file. */
+        /** A list of rendering ouputs for underlying digital file. */
         outputs?: Output[] | undefined;
         /** The id of a owner token. Defines the content owner. */
         ownerTokenId?: string | undefined;
@@ -910,6 +1133,8 @@ declare module "picturepark" {
         collectionId?: string | undefined;
         /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+        searchType: ContentSearchType;
     }
     /** The FilterBase is the base class for all filters. */
     export interface FilterBase {
@@ -1101,6 +1326,11 @@ declare module "picturepark" {
         All,
         InactiveOnly,
     }
+    export enum ContentSearchType {
+        Metadata,
+        FullText,
+        MetadataAndFullText,
+    }
     export interface ObjectAggregationResult {
         elapsedMilliseconds: number;
         aggregationResults?: AggregationResult[] | undefined;
@@ -1144,6 +1374,7 @@ declare module "picturepark" {
         /** An optional id list of content permission sets.  */
         contentPermissionSetIds?: string[] | undefined;
     }
+    /** Values that represent thumbnail sizes. */
     export enum ThumbnailSize {
         Small,
         Medium,
@@ -1180,6 +1411,8 @@ declare module "picturepark" {
         lifeCycleFilter: LifeCycleFilter;
         /** Limits the content document result set to specific ContentRights the user has */
         rightsFilter?: ContentRight[] | undefined;
+        /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+        searchType: ContentSearchType;
     }
     export interface SortInfo {
         field?: string | undefined;
@@ -1410,6 +1643,8 @@ declare module "picturepark" {
         displayLanguage?: string | undefined;
         /** Limits the display values included in the search response. Defaults to all display values. */
         displayPatternIds?: string[] | undefined;
+        /** Define the display values included in the search response for the referenced fields. Defaults to no display value. */
+        referencedFieldsDisplayPatternIds?: string[] | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
         /** When set to true the content data is included in the result items. */
@@ -1420,19 +1655,21 @@ declare module "picturepark" {
         results?: ListItem[] | undefined;
         pageToken?: string | undefined;
     }
+    /** Encapsulates the result of a list item search. */
     export interface ListItemSearchResult extends BaseResultOfListItem {
     }
+    /** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
     export interface ListItem {
-        /** The list item id. */
-        id?: string | undefined;
+        /** The content data of the list item. */
+        content?: any | undefined;
         /** The id of the schema with schema type list. */
         contentSchemaId?: string | undefined;
         /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The content data of the list item. */
-        content?: DataDictionary | undefined;
-        /** The entity type of a list item is metadata. */
+        /** The entity type of the list item is metadata. */
         entityType: EntityType;
+        /** The list item id. */
+        id?: string | undefined;
     }
     /** A request structure for updating a list item. */
     export interface ListItemUpdateRequest {
@@ -1578,6 +1815,7 @@ declare module "picturepark" {
         id?: string | undefined;
         index: boolean;
         simpleSearch: boolean;
+        boost: number;
         relatedSchemaIndexing?: SchemaIndexingInfo | undefined;
     }
     export interface FieldMultiFieldset extends FieldBase {
@@ -1692,7 +1930,9 @@ declare module "picturepark" {
         /** The number of fields to be queried in the simple search for the schema. */
         simpleSearchField: number;
     }
+    /** Response that tells if exists */
     export interface ExistsResponse {
+        /** Gets or sets a value indicating whether it exists */
         exists: boolean;
     }
     export interface SchemaCreateRequest {
@@ -1809,6 +2049,7 @@ declare module "picturepark" {
         ManageListItems,
         ManageServiceProviders,
         ManageEmbeds,
+        ManageTemplates,
     }
     export interface PermissionSetSearchRequest {
         searchString?: string | undefined;
@@ -1924,7 +2165,6 @@ declare module "picturepark" {
         outputAccess: OutputAccess;
     }
     export interface ContentDetail2 {
-        contentTypeId: number;
         trashed: boolean;
         /** The entity type of a content document is content. */
         entityType: EntityType;
@@ -1964,6 +2204,7 @@ declare module "picturepark" {
         None,
     }
     export interface ShareBasicDetail extends ShareBaseDetail {
+        url?: string | undefined;
         mailRecipients?: MailRecipient[] | undefined;
         internalRecipients?: InternalRecipient[] | undefined;
         languageCode?: string | undefined;
@@ -2070,6 +2311,18 @@ declare module "picturepark" {
     }
     export interface CreateShareResult {
         shareId?: string | undefined;
+    }
+    export interface ShareSearchRequest {
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to empty. */
+        searchString?: string | undefined;
+        /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+        sort?: SortInfo[] | undefined;
+        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+        start: number;
+        /** Limits the document count of the result set. Defaults to 30. */
+        limit: number;
+        /** An optional search filter. Limits the share document result set. */
+        filter?: FilterBase | undefined;
     }
     export interface ShareSearchResult extends BaseResultOfShareBase {
         elapsedMilliseconds: number;
@@ -3753,6 +4006,7 @@ declare module "picturepark" {
         address?: UserAddress | undefined;
         drives?: Drive[] | undefined;
         ownerTokens?: OwnerToken[] | undefined;
+        authorizationState: AuthorizationState;
     }
     export interface UserAddress {
         company?: string | undefined;
@@ -3774,18 +4028,10 @@ declare module "picturepark" {
         /** The id of the user to whom this ownertoken currently belongs to. */
         userId?: string | undefined;
     }
-    export interface UserProfile {
-        id?: string | undefined;
-        emailAddress?: string | undefined;
-        firstName?: string | undefined;
-        lastName?: string | undefined;
-        company?: string | undefined;
-        address?: string | undefined;
-        alternativeAddress?: string | undefined;
-        department?: string | undefined;
-        zip?: string | undefined;
-        city?: string | undefined;
-        phone?: string | undefined;
+    export enum AuthorizationState {
+        Active,
+        Review,
+        Locked,
     }
     export interface Channel {
         id?: string | undefined;
@@ -3808,6 +4054,15 @@ declare module "picturepark" {
     }
     export interface ContentsByIdsRequest {
         contentIds?: string[] | undefined;
+    }
+    export interface UserProfile {
+        id?: string | undefined;
+        emailAddress?: string | undefined;
+        firstName?: string | undefined;
+        lastName?: string | undefined;
+        languageCode?: string | undefined;
+        address?: UserAddress | undefined;
+        authorizationState: AuthorizationState;
     }
     export interface FileParameter {
         data: any;
@@ -3835,4 +4090,6 @@ declare module "picturepark" {
         protected isSwaggerException: boolean;
         static isSwaggerException(obj: any): obj is SwaggerException;
     }
+    
 }
+

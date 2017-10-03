@@ -16,18 +16,19 @@
       <h4>picturepark-sdk-v1-fetch</h4>
 
       <h2>Fetch Sample</h2>
-      <div id="shareName">Loading...</div>
+      <div id="version">Loading...</div>
 
       <h2>AngularJS Sample</h2>
       <a href="angular.html">AngularJS Demo</a>
   </div>
   
   <script>
-		var client = new picturepark.PublicAccessClient('https://qanext04.preview-picturepark.com');
-		client.getShare('9a66322072b44a958aa34b5470e87fb7').then(function(result) {
-			document.getElementById('shareName').innerText = result.name + ' - ' + result.description;
+    var authClient = new picturepark.AuthClient('https://qanext04-api.preview-picturepark.com', 'localtest');
+		var client = new picturepark.PublicAccessClient(authClient);
+		client.getVersion().then(function(versionInfo) {
+			document.getElementById('version').innerText = 'Version: ' + versionInfo.contractVersion + ' - ' + versionInfo.release;
 		}).catch(function(error) {
-			document.getElementById('shareName').innerText = error.kind;
+			document.getElementById('version').innerText = error.kind;
     });
   </script>
 </body>

@@ -45,7 +45,8 @@ Load the script in your website:
 The available classes are now available in the global namespace `picturepark`: 
 
 ```js
-var client = new picturepark.PublicAccessClient('https://my-picturepark-server.com');
+var authClient = new picturepark.AuthClient('https://my-picturepark-server.com', 'yourCustomerAlias');
+var client = new picturepark.PublicAccessClient(authClient);
 client.getShare('4rgTsG52').then(function(result) {
     // TODO: Process result
 }).catch(function(error) {
@@ -62,10 +63,27 @@ Install the NPM package:
 Import and instantiate the client:
 
 ```js
-import { PublicAccessClient } from '@picturepark/sdk-v1-fetch';
+import { AuthClient, PublicAccessClient } from '@picturepark/sdk-v1-fetch';
  
-let publicAccessClient = new PublicAccessClient('https://qanext04.preview-picturepark.com');
+let authClient = new AuthClient('https://my-picturepark-server.com', 'yourCustomerAlias');
+let publicAccessClient = new PublicAccessClient(authClient);
 ```
+
+### Authentication
+
+The fetch client currently supports two authentication modes: 
+
+**AuthClient**
+
+No authentication, only public data can be accessed
+
+    let authClient = new AuthClient(server, customerAlias);
+
+**TokenAuthClient**
+
+Token based authentication to access the Picturepark API
+
+    let authClient = new TokenAuthClient(server, customerAlias, accessToken);
 
 ### Sample application
 
