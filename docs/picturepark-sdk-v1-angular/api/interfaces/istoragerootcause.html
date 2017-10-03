@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IContentDownloadItem | @picturepark/sdk-v1-angular API</title>
+	<title>IStorageRootCause | @picturepark/sdk-v1-angular API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="icontentdownloaditem.html">IContentDownloadItem</a>
+					<a href="istoragerootcause.html">IStorageRootCause</a>
 				</li>
 			</ul>
-			<h1>Interface IContentDownloadItem</h1>
+			<h1>Interface IStorageRootCause</h1>
 		</div>
 	</div>
 </header>
@@ -70,14 +70,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IContentDownloadItem</span>
+						<span class="target">IStorageRootCause</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implemented by</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../classes/contentdownloaditem.html" class="tsd-signature-type">ContentDownloadItem</a></li>
+					<li><a href="../classes/storagerootcause.html" class="tsd-signature-type">StorageRootCause</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -87,8 +87,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontentdownloaditem.html#contentid" class="tsd-kind-icon">content<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontentdownloaditem.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istoragerootcause.html#index" class="tsd-kind-icon">index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istoragerootcause.html#reason" class="tsd-kind-icon">reason</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istoragerootcause.html#resourceid" class="tsd-kind-icon">resource<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istoragerootcause.html#resourcetype" class="tsd-kind-icon">resource<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istoragerootcause.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,22 +100,52 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="index" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> index</h3>
+					<div class="tsd-signature tsd-kind-icon">index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10406">picturepark.services.ts:10406</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L8892">src/picturepark.services.ts:8892</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="outputformatid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> output<wbr>Format<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">output<wbr>Format<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="reason" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reason</h3>
+					<div class="tsd-signature tsd-kind-icon">reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10407">picturepark.services.ts:10407</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L8893">src/picturepark.services.ts:8893</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resourceid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> resource<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">resource<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L8894">src/picturepark.services.ts:8894</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resourcetype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> resource<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">resource<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L8895">src/picturepark.services.ts:8895</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="type" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L8896">src/picturepark.services.ts:8896</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -131,13 +164,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="icontentdownloaditem.html" class="tsd-kind-icon">IContent<wbr>Download<wbr>Item</a>
+						<a href="istoragerootcause.html" class="tsd-kind-icon">IStorage<wbr>Root<wbr>Cause</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="icontentdownloaditem.html#contentid" class="tsd-kind-icon">content<wbr>Id</a>
+								<a href="istoragerootcause.html#index" class="tsd-kind-icon">index</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="icontentdownloaditem.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a>
+								<a href="istoragerootcause.html#reason" class="tsd-kind-icon">reason</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="istoragerootcause.html#resourceid" class="tsd-kind-icon">resource<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="istoragerootcause.html#resourcetype" class="tsd-kind-icon">resource<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="istoragerootcause.html#type" class="tsd-kind-icon">type</a>
 							</li>
 						</ul>
 					</li>

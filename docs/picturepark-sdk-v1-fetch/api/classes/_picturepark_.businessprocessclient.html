@@ -73,7 +73,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">BusinessProcessClient</span>
+						<a href="_picturepark_.pictureparkclientbase.html" class="tsd-signature-type">PictureparkClientBase</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">BusinessProcessClient</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,7 +89,7 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_picturepark_.businessprocessclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private-protected">
@@ -98,10 +103,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.businessprocessclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#markasended" class="tsd-kind-icon">mark<wbr>AsEnded</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#sendmessage" class="tsd-kind-icon">send<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.businessprocessclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#waitforstates" class="tsd-kind-icon">wait<wbr>For<wbr>States</a></li>
 							</ul>
 						</section>
@@ -110,21 +117,25 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Business<wbr>Process<wbr>Client<span class="tsd-signature-symbol">(</span>baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, http<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_picturepark_.businessprocessclient.html" class="tsd-signature-type">BusinessProcessClient</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Business<wbr>Process<wbr>Client<span class="tsd-signature-symbol">(</span>configuration<span class="tsd-signature-symbol">: </span><a href="_picturepark_.authclient.html" class="tsd-signature-type">AuthClient</a>, baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, http<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_picturepark_.businessprocessclient.html" class="tsd-signature-type">BusinessProcessClient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:146</li>
+									<li>Defined in docs/temp/picturepark.d.ts:220</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>configuration: <a href="_picturepark_.authclient.html" class="tsd-signature-type">AuthClient</a></h5>
+								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> baseUrl: <span class="tsd-signature-type">string</span></h5>
 								</li>
@@ -140,7 +151,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:148</li>
+															<li>Defined in docs/temp/picturepark.d.ts:222</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -171,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:145</li>
+							<li>Defined in docs/temp/picturepark.d.ts:219</li>
 						</ul>
 					</aside>
 				</section>
@@ -181,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:144</li>
+							<li>Defined in docs/temp/picturepark.d.ts:218</li>
 						</ul>
 					</aside>
 				</section>
@@ -191,13 +202,37 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:146</li>
+							<li>Defined in docs/temp/picturepark.d.ts:220</li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getbaseurl" class="tsd-anchor"></a>
+					<h3>get<wbr>Base<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Base<wbr>Url<span class="tsd-signature-symbol">(</span>defaultUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#getbaseurl">getBaseUrl</a></p>
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:18</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>defaultUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="markasended" class="tsd-anchor"></a>
 					<h3>mark<wbr>AsEnded</h3>
@@ -208,9 +243,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:154</li>
+									<li>Defined in docs/temp/picturepark.d.ts:243</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Mark as ended</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>processid</dt>
+									<dd><p>The process id</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -225,22 +270,33 @@
 					<a name="search" class="tsd-anchor"></a>
 					<h3>search</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>businessProcessSearchRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>businessProcessSearchRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.businessprocesssearchrequest.html" class="tsd-signature-type">BusinessProcessSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:150</li>
+									<li>Defined in docs/temp/picturepark.d.ts:229</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Search</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>businessprocesssearchrequest</dt>
+									<dd><p>The business process request</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>businessProcessSearchRequest: <a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>businessProcessSearchRequest: <a href="../interfaces/_picturepark_.businessprocesssearchrequest.html" class="tsd-signature-type">BusinessProcessSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcessSearchResult</p>
 						</li>
 					</ul>
 				</section>
@@ -254,9 +310,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:156</li>
+									<li>Defined in docs/temp/picturepark.d.ts:250</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send message</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>processid</dt>
+									<dd><p>The process id</p>
+									</dd>
+									<dt>request</dt>
+									<dd><p>The send message request</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -280,9 +349,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:152</li>
+									<li>Defined in docs/temp/picturepark.d.ts:237</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Start</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>processdefinitionid</dt>
+									<dd><p>The process definition id</p>
+									</dd>
+									<dt>request</dt>
+									<dd><p>The start process request</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -293,6 +375,31 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="transformoptions" class="tsd-anchor"></a>
+					<h3>transform<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">transform<wbr>Options<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#transformoptions">transformOptions</a></p>
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:19</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestInit</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -306,9 +413,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:158</li>
+									<li>Defined in docs/temp/picturepark.d.ts:259</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wait for states</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>processid</dt>
+									<dd><p>The process id</p>
+									</dd>
+									<dt>states</dt>
+									<dd><p>The states to wait for</p>
+									</dd>
+									<dt>timeout</dt>
+									<dd><p>The timeout in ms</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -322,6 +445,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitresult.html" class="tsd-signature-type">BusinessProcessWaitResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcessWaitResult</p>
 						</li>
 					</ul>
 				</section>
@@ -345,7 +469,7 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_picturepark_.businessprocessclient.html" class="tsd-kind-icon">Business<wbr>Process<wbr>Client</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_picturepark_.businessprocessclient.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -356,6 +480,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="_picturepark_.businessprocessclient.html#jsonparsereviver" class="tsd-kind-icon">json<wbr>Parse<wbr>Reviver</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_picturepark_.businessprocessclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.businessprocessclient.html#markasended" class="tsd-kind-icon">mark<wbr>AsEnded</a>
@@ -368,6 +495,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.businessprocessclient.html#start" class="tsd-kind-icon">start</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_picturepark_.businessprocessclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.businessprocessclient.html#waitforstates" class="tsd-kind-icon">wait<wbr>For<wbr>States</a>

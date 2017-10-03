@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="baseresultofpermissionset.html" class="tsd-signature-type">BaseResultOfPermissionSet</a>
+						<a href="rewritablebaseresultofpermissionset.html" class="tsd-signature-type">RewritableBaseResultOfPermissionSet</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PermissionSetSearchResult</span>
@@ -83,6 +83,7 @@
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/ibaseresultofpermissionset.html" class="tsd-signature-type">IBaseResultOfPermissionSet</a></li>
+					<li><a href="../interfaces/irewritablebaseresultofpermissionset.html" class="tsd-signature-type">IRewritableBaseResultOfPermissionSet</a></li>
 					<li><a href="../interfaces/ipermissionsetsearchresult.html" class="tsd-signature-type">IPermissionSetSearchResult</a></li>
 				</ul>
 			</section>
@@ -101,8 +102,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="permissionsetsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="permissionsetsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="permissionsetsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="permissionsetsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="permissionsetsearchresult.html#results" class="tsd-kind-icon">results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="permissionsetsearchresult.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="permissionsetsearchresult.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a></li>
 							</ul>
 						</section>
@@ -128,9 +131,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#constructor">constructor</a></p>
+								<p>Overrides <a href="rewritablebaseresultofpermissionset.html">RewritableBaseResultOfPermissionSet</a>.<a href="rewritablebaseresultofpermissionset.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15343">picturepark.services.ts:15343</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16825">src/picturepark.services.ts:16825</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +156,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#aggregationresults">aggregationResults</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15342">picturepark.services.ts:15342</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16824">src/picturepark.services.ts:16824</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +167,19 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15343">picturepark.services.ts:15343</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16825">src/picturepark.services.ts:16825</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="issearchstringrewritten" class="tsd-anchor"></a>
+					<h3>is<wbr>Search<wbr>String<wbr>Rewritten</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#issearchstringrewritten">isSearchStringRewritten</a></p>
+						<p>Inherited from <a href="rewritablebaseresultofpermissionset.html">RewritableBaseResultOfPermissionSet</a>.<a href="rewritablebaseresultofpermissionset.html#issearchstringrewritten">isSearchStringRewritten</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16789">src/picturepark.services.ts:16789</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +191,7 @@
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#pagetoken">pageToken</a></p>
 						<p>Inherited from <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#pagetoken">pageToken</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15293">picturepark.services.ts:15293</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16739">src/picturepark.services.ts:16739</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +203,19 @@
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#results">results</a></p>
 						<p>Inherited from <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#results">results</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15292">picturepark.services.ts:15292</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16738">src/picturepark.services.ts:16738</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="searchstring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#searchstring">searchString</a></p>
+						<p>Inherited from <a href="rewritablebaseresultofpermissionset.html">RewritableBaseResultOfPermissionSet</a>.<a href="rewritablebaseresultofpermissionset.html#searchstring">searchString</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16788">src/picturepark.services.ts:16788</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +227,7 @@
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchresult.html">IPermissionSetSearchResult</a>.<a href="../interfaces/ipermissionsetsearchresult.html#totalresults">totalResults</a></p>
 						<p>Inherited from <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#totalresults">totalResults</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15291">picturepark.services.ts:15291</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16737">src/picturepark.services.ts:16737</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,9 +243,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#init">init</a></p>
+								<p>Overrides <a href="rewritablebaseresultofpermissionset.html">RewritableBaseResultOfPermissionSet</a>.<a href="rewritablebaseresultofpermissionset.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15349">picturepark.services.ts:15349</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16831">src/picturepark.services.ts:16831</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -240,9 +267,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#tojson">toJSON</a></p>
+								<p>Overrides <a href="rewritablebaseresultofpermissionset.html">RewritableBaseResultOfPermissionSet</a>.<a href="rewritablebaseresultofpermissionset.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15367">picturepark.services.ts:15367</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16849">src/picturepark.services.ts:16849</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -264,9 +291,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="baseresultofpermissionset.html">BaseResultOfPermissionSet</a>.<a href="baseresultofpermissionset.html#fromjs">fromJS</a></p>
+								<p>Overrides <a href="rewritablebaseresultofpermissionset.html">RewritableBaseResultOfPermissionSet</a>.<a href="rewritablebaseresultofpermissionset.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/460576d/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15361">picturepark.services.ts:15361</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7c6bdd7/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16843">src/picturepark.services.ts:16843</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,10 +333,16 @@
 								<a href="permissionsetsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="permissionsetsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="permissionsetsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="permissionsetsearchresult.html#results" class="tsd-kind-icon">results</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="permissionsetsearchresult.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="permissionsetsearchresult.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a>

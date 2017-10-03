@@ -73,7 +73,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ContentClient</span>
+						<a href="_picturepark_.pictureparkclientbase.html" class="tsd-signature-type">PictureparkClientBase</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ContentClient</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,7 +89,7 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_picturepark_.contentclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private-protected">
@@ -108,14 +113,17 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#downloadresized" class="tsd-kind-icon">download<wbr>Resized</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#downloadthumbnail" class="tsd-kind-icon">download<wbr>Thumbnail</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.contentclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#getmany" class="tsd-kind-icon">get<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#reactivate" class="tsd-kind-icon">reactivate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#reactivatemany" class="tsd-kind-icon">reactivate<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#searchbychannel" class="tsd-kind-icon">search<wbr>ByChannel</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#transferownershipmany" class="tsd-kind-icon">transfer<wbr>Ownership<wbr>Many</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.contentclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatefile" class="tsd-kind-icon">update<wbr>File</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatemetadata" class="tsd-kind-icon">update<wbr>Metadata</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatemetadatabyfilter" class="tsd-kind-icon">update<wbr>Metadata<wbr>ByFilter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatemetadatamany" class="tsd-kind-icon">update<wbr>Metadata<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatepermissions" class="tsd-kind-icon">update<wbr>Permissions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatepermissionsmany" class="tsd-kind-icon">update<wbr>Permissions<wbr>Many</a></li>
@@ -127,21 +135,25 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Content<wbr>Client<span class="tsd-signature-symbol">(</span>baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, http<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_picturepark_.contentclient.html" class="tsd-signature-type">ContentClient</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Content<wbr>Client<span class="tsd-signature-symbol">(</span>configuration<span class="tsd-signature-symbol">: </span><a href="_picturepark_.authclient.html" class="tsd-signature-type">AuthClient</a>, baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, http<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_picturepark_.contentclient.html" class="tsd-signature-type">ContentClient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:5</li>
+									<li>Defined in docs/temp/picturepark.d.ts:24</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>configuration: <a href="_picturepark_.authclient.html" class="tsd-signature-type">AuthClient</a></h5>
+								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> baseUrl: <span class="tsd-signature-type">string</span></h5>
 								</li>
@@ -157,7 +169,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:7</li>
+															<li>Defined in docs/temp/picturepark.d.ts:26</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -188,7 +200,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4</li>
+							<li>Defined in docs/temp/picturepark.d.ts:23</li>
 						</ul>
 					</aside>
 				</section>
@@ -198,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3</li>
+							<li>Defined in docs/temp/picturepark.d.ts:22</li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +220,7 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5</li>
+							<li>Defined in docs/temp/picturepark.d.ts:24</li>
 						</ul>
 					</aside>
 				</section>
@@ -225,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:34</li>
+									<li>Defined in docs/temp/picturepark.d.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,12 +271,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:42</li>
+									<li>Defined in docs/temp/picturepark.d.ts:66</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Aggregate By Channel</p>
+									<p>Aggregate by Channel</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>channelid</dt>
@@ -299,7 +311,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:53</li>
+									<li>Defined in docs/temp/picturepark.d.ts:82</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -350,9 +362,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:44</li>
+									<li>Defined in docs/temp/picturepark.d.ts:73</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a content batch download</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>request</dt>
+									<dd><p>The content batch download request</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -360,6 +382,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentbatchdownloaditem.html" class="tsd-signature-type">ContentBatchDownloadItem</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>ContentBatchDonloadItem</p>
 						</li>
 					</ul>
 				</section>
@@ -373,9 +396,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:113</li>
+									<li>Defined in docs/temp/picturepark.d.ts:162</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deactivates a content</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>contentid</dt>
+									<dd><p>the id of the content to deactivate</p>
+									</dd>
+									<dt>timeout</dt>
+									<dd><p>Maximum time in milliseconds to wait for the business process completed state.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -399,9 +435,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:124</li>
+									<li>Defined in docs/temp/picturepark.d.ts:186</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Dactivate Many - Content</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deactivationrequest</dt>
+									<dd><p>The deactivation request</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -409,6 +455,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
 						</li>
 					</ul>
 				</section>
@@ -422,9 +469,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:55</li>
+									<li>Defined in docs/temp/picturepark.d.ts:91</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Downloads content in a specific outputformat</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>contentid</dt>
+									<dd><p>The content id</p>
+									</dd>
+									<dt>outputformatid</dt>
+									<dd><p>The output format id</p>
+									</dd>
+									<dt>range</dt>
+									<dd><p>the range</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -438,6 +501,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.fileresponse.html" class="tsd-signature-type">FileResponse</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>HttpResponseMessage</p>
 						</li>
 					</ul>
 				</section>
@@ -451,9 +515,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:65</li>
+									<li>Defined in docs/temp/picturepark.d.ts:109</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Download resized content</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>contentid</dt>
+									<dd><p>The Content id</p>
+									</dd>
+									<dt>outputformatid</dt>
+									<dd><p>The output format id</p>
+									</dd>
+									<dt>width</dt>
+									<dd><p>The content width</p>
+									</dd>
+									<dt>height</dt>
+									<dd><p>The content height</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -470,6 +553,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.fileresponse.html" class="tsd-signature-type">FileResponse</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>HttpResponseMessage</p>
 						</li>
 					</ul>
 				</section>
@@ -483,7 +567,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:63</li>
+									<li>Defined in docs/temp/picturepark.d.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -523,7 +607,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:74</li>
+									<li>Defined in docs/temp/picturepark.d.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -559,17 +643,41 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getbaseurl" class="tsd-anchor"></a>
+					<h3>get<wbr>Base<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Base<wbr>Url<span class="tsd-signature-symbol">(</span>defaultUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#getbaseurl">getBaseUrl</a></p>
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:18</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>defaultUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getmany" class="tsd-anchor"></a>
 					<h3>get<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Many<span class="tsd-signature-symbol">(</span>contentIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, patterns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Many<span class="tsd-signature-symbol">(</span>ids<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, patterns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:25</li>
+									<li>Defined in docs/temp/picturepark.d.ts:44</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -577,14 +685,11 @@
 									<p>Get Many</p>
 								</div>
 								<dl class="tsd-comment-tags">
-									<dt>contentids</dt>
+									<dt>ids</dt>
 									<dd><p>Comma-separated list of contentIds</p>
 									</dd>
 									<dt>resolve</dt>
 									<dd><p>Resolves the data of referenced list items into the contents&#39;s content.</p>
-									</dd>
-									<dt>timeout</dt>
-									<dd><p>Maximum time in milliseconds to wait for the business process completed state.</p>
 									</dd>
 									<dt>patterns</dt>
 									<dd><p>Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.</p>
@@ -594,19 +699,17 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>contentIds: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>ids: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
 									<h5>resolve: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-								<li>
-									<h5>timeout: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
 									<h5>patterns: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>List of ContentDetail</p>
 						</li>
 					</ul>
 				</section>
@@ -620,9 +723,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:122</li>
+									<li>Defined in docs/temp/picturepark.d.ts:179</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reactivate - Content</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>contentid</dt>
+									<dd><p>The content id.</p>
+									</dd>
+									<dt>resolve</dt>
+									<dd><p>Resolves the data of referenced list items into the contents&#39;s content.</p>
+									</dd>
+									<dt>timeout</dt>
+									<dd><p>Maximum time in milliseconds to wait for the business process completed state.</p>
+									</dd>
+									<dt>patterns</dt>
+									<dd><p>Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -639,6 +761,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>ContentDetail</p>
 						</li>
 					</ul>
 				</section>
@@ -652,9 +775,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:126</li>
+									<li>Defined in docs/temp/picturepark.d.ts:193</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reactivate Many - Content</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>reactivationrequest</dt>
+									<dd><p>The content reactivation request.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -662,6 +795,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
 						</li>
 					</ul>
 				</section>
@@ -675,7 +809,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:103</li>
+									<li>Defined in docs/temp/picturepark.d.ts:147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -709,7 +843,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:111</li>
+									<li>Defined in docs/temp/picturepark.d.ts:155</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -749,9 +883,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:27</li>
+									<li>Defined in docs/temp/picturepark.d.ts:51</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Process many ownership trasnfer request</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>contentsownershiptransferrequest</dt>
+									<dd><p>The content ownership transfer request request.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -759,6 +903,31 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="transformoptions" class="tsd-anchor"></a>
+					<h3>transform<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">transform<wbr>Options<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#transformoptions">transformOptions</a></p>
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:19</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestInit</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -772,12 +941,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:120</li>
+									<li>Defined in docs/temp/picturepark.d.ts:169</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Update file</p>
+									<p>Update Single - File</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>contentid</dt>
@@ -811,7 +980,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:85</li>
+									<li>Defined in docs/temp/picturepark.d.ts:129</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -860,6 +1029,40 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatemetadatabyfilter" class="tsd-anchor"></a>
+					<h3>update<wbr>Metadata<wbr>ByFilter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Metadata<wbr>ByFilter<span class="tsd-signature-symbol">(</span>updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filtercontentsmetadataupdaterequest.html" class="tsd-signature-type">FilterContentsMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:207</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update by filter - Metadata</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>updaterequest</dt>
+									<dd><p>The metadata update request.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>updateRequest: <a href="../interfaces/_picturepark_.filtercontentsmetadataupdaterequest.html" class="tsd-signature-type">FilterContentsMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="updatemetadatamany" class="tsd-anchor"></a>
 					<h3>update<wbr>Metadata<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -869,7 +1072,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:133</li>
+									<li>Defined in docs/temp/picturepark.d.ts:200</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -903,7 +1106,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:96</li>
+									<li>Defined in docs/temp/picturepark.d.ts:140</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -961,7 +1164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:140</li>
+									<li>Defined in docs/temp/picturepark.d.ts:214</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -995,7 +1198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:16</li>
+									<li>Defined in docs/temp/picturepark.d.ts:35</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1027,7 +1230,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>ContentDoc</p>
+							<p>ContentDetail</p>
 						</li>
 					</ul>
 				</section>
@@ -1051,7 +1254,7 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_picturepark_.contentclient.html" class="tsd-kind-icon">Content<wbr>Client</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_picturepark_.contentclient.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -1093,6 +1296,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#get" class="tsd-kind-icon">get</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_picturepark_.contentclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#getmany" class="tsd-kind-icon">get<wbr>Many</a>
 							</li>
@@ -1111,11 +1317,17 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#transferownershipmany" class="tsd-kind-icon">transfer<wbr>Ownership<wbr>Many</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_picturepark_.contentclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#updatefile" class="tsd-kind-icon">update<wbr>File</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#updatemetadata" class="tsd-kind-icon">update<wbr>Metadata</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.contentclient.html#updatemetadatabyfilter" class="tsd-kind-icon">update<wbr>Metadata<wbr>ByFilter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#updatemetadatamany" class="tsd-kind-icon">update<wbr>Metadata<wbr>Many</a>

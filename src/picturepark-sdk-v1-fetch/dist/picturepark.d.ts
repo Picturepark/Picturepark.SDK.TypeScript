@@ -162,7 +162,7 @@ declare module "picturepark" {
         deactivate(contentId: string, timeout: number): Promise<void>;
         protected processDeactivate(response: Response): Promise<void>;
         /**
-         * Update file
+         * Update Single - File
          * @contentId The id of the content to replace
          * @updateRequest Update request
          */
@@ -200,6 +200,13 @@ declare module "picturepark" {
         updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | null): Promise<BusinessProcess | null>;
         protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess | null>;
         /**
+         * Update by filter - Metadata
+         * @updateRequest The metadata update request.
+         * @return BusinessProcess
+         */
+        updateMetadataByFilter(updateRequest: FilterContentsMetadataUpdateRequest | null): Promise<BusinessProcess | null>;
+        protected processUpdateMetadataByFilter(response: Response): Promise<BusinessProcess | null>;
+        /**
          * Update Many - Permissions
          * @updateRequest The permissions update request.
          * @return BusinessProcess
@@ -215,14 +222,14 @@ declare module "picturepark" {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Search for business process
+         * Search
          * @businessProcessSearchRequest The business process request
          * @return BusinessProcessSearchResult
          */
-        search(businessProcessSearchRequest: BusinessProcessSearchResult | null): Promise<BusinessProcessSearchResult | null>;
+        search(businessProcessSearchRequest: BusinessProcessSearchRequest | null): Promise<BusinessProcessSearchResult | null>;
         protected processSearch(response: Response): Promise<BusinessProcessSearchResult | null>;
         /**
-         * Starts a process with given definition
+         * Start
          * @processDefinitionId The process definition id
          * @request The start process request
          * @return BusinessProcess
@@ -230,20 +237,20 @@ declare module "picturepark" {
         start(processDefinitionId: string, request: StartProcessRequest | null): Promise<BusinessProcess | null>;
         protected processStart(response: Response): Promise<BusinessProcess | null>;
         /**
-         * Mark a given process as ended
+         * Mark as ended
          * @processId The process id
          */
         markAsEnded(processId: string): Promise<void>;
         protected processMarkAsEnded(response: Response): Promise<void>;
         /**
-         * Send message to given process
+         * Send message
          * @processId The process id
          * @request The send message request
          */
         sendMessage(processId: string, request: SendMessageRequest | null): Promise<void>;
         protected processSendMessage(response: Response): Promise<void>;
         /**
-         * Wait for given process states
+         * Wait for states
          * @processId The process id
          * @states The states to wait for
          * @timeout The timeout in ms
@@ -392,6 +399,20 @@ declare module "picturepark" {
          */
         update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail | null>;
         protected processUpdate(response: Response): Promise<ListItemDetail | null>;
+        /**
+         * Update by filter - Fields
+         * @updateRequest The metadata update request.
+         * @return BusinessProcess
+         */
+        updateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess | null>;
+        protected processUpdateFieldsByFilter(response: Response): Promise<BusinessProcess | null>;
+        /**
+         * Update - Fields
+         * @updateRequest The metadata update request.
+         * @return BusinessProcess
+         */
+        updateFields(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess | null>;
+        protected processUpdateFields(response: Response): Promise<BusinessProcess | null>;
         /**
          * Wait For States
          * @processId The business process id.
@@ -621,10 +642,10 @@ declare module "picturepark" {
         getBlacklist(): Promise<Blacklist | null>;
         protected processGetBlacklist(response: Response): Promise<Blacklist | null>;
         /**
-         * Cancels an active batch. Valid states: TODO
+         * Cancels an active transfer. Valid states: TODO
          */
-        cancelBatch(transferId: string): Promise<void>;
-        protected processCancelBatch(response: Response): Promise<void>;
+        cancelTransfer(transferId: string): Promise<void>;
+        protected processCancelTransfer(response: Response): Promise<void>;
         /**
          * Create Transfer
          * @request The create transfer request
@@ -659,8 +680,8 @@ declare module "picturepark" {
          * @request The filetransfer to content create request
          * @return Transfer
          */
-        importBatch(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer | null>;
-        protected processImportBatch(response: Response): Promise<Transfer | null>;
+        importTransfer(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer | null>;
+        protected processImportTransfer(response: Response): Promise<Transfer | null>;
         /**
          * Create a partial import
          * @transferId The transfer id
@@ -684,7 +705,11 @@ declare module "picturepark" {
         protected processSearchFiles(response: Response): Promise<FileTransferSearchResult | null>;
         /**
          * @formFile Gets or sets the form file.
-         * @chunkNumber Starts with 1
+         * @relativePath Relative path of the uploading file
+         * @chunkNumber Current chunk number. starts with 1
+         * @currentChunkSize Size in bytes of the current chunk
+         * @totalSize Total size in bytes of the uploading file
+         * @totalChunks Total chunks of the uploading file
          */
         uploadFile(formFile: FileParameter | null, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
@@ -1026,6 +1051,32 @@ declare module "picturepark" {
     }
     export interface QueryException extends PictureparkBusinessException {
         debugInformation?: string | undefined;
+        serverError?: StorageServerError | undefined;
+    }
+    export interface StorageServerError {
+        error?: StorageError | undefined;
+        status: number;
+    }
+    export interface StorageError {
+        index?: string | undefined;
+        reason?: string | undefined;
+        resourceId?: string | undefined;
+        resourceType?: string | undefined;
+        type?: string | undefined;
+        rootCause?: StorageRootCause[] | undefined;
+        causedBy?: StorageCausedBy | undefined;
+    }
+    export interface StorageRootCause {
+        index?: string | undefined;
+        reason?: string | undefined;
+        resourceId?: string | undefined;
+        resourceType?: string | undefined;
+        type?: string | undefined;
+    }
+    export interface StorageCausedBy {
+        reason?: string | undefined;
+        type?: string | undefined;
+        innerCausedBy?: StorageCausedBy | undefined;
     }
     export interface RenderingException extends PictureparkBusinessException {
     }
@@ -1117,6 +1168,8 @@ declare module "picturepark" {
     export interface ContentAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         /** An optional search filter. Limits the content document result set. */
         filter?: FilterBase | undefined;
         /** Special filters used to filter down on a specific aggregated value. */
@@ -1316,6 +1369,7 @@ declare module "picturepark" {
         Schema,
         User,
         ContentPermissionSet,
+        Owner,
     }
     export interface TermsEnumAggregator extends TermsAggregator {
         /** When aggregating on enum fields EnumType is needed to resolve the enum translation. */
@@ -1334,6 +1388,10 @@ declare module "picturepark" {
     export interface ObjectAggregationResult {
         elapsedMilliseconds: number;
         aggregationResults?: AggregationResult[] | undefined;
+        /** The search string used to query the data */
+        searchString?: string | undefined;
+        /** Flag to notify if the SearchString was modified compared to the original requested one */
+        isSearchStringRewritten: boolean;
     }
     export interface AggregationResult {
         name?: string | undefined;
@@ -1349,9 +1407,9 @@ declare module "picturepark" {
         aggregationResults?: AggregationResult[] | undefined;
     }
     export interface ContentBatchDownloadRequest {
-        contents?: ContentDownloadItem[] | undefined;
+        contents?: ContentBatchDownloadRequestItem[] | undefined;
     }
-    export interface ContentDownloadItem {
+    export interface ContentBatchDownloadRequestItem {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
     }
@@ -1399,6 +1457,8 @@ declare module "picturepark" {
         collectionId?: string | undefined;
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -1523,6 +1583,13 @@ declare module "picturepark" {
         contentSearchRequest?: ContentSearchRequest | undefined;
         totalItemsCount: number;
     }
+    export interface BusinessProcessSearchRequest {
+        start: number;
+        limit: number;
+        filter?: FilterBase | undefined;
+        searchString?: string | undefined;
+        sort?: SortInfo[] | undefined;
+    }
     export interface BaseResultOfBusinessProcess {
         totalResults: number;
         results?: BusinessProcess[] | undefined;
@@ -1609,6 +1676,8 @@ declare module "picturepark" {
     export interface ListItemAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         /** An optional search filter. Limits the list item result set. */
         filter?: FilterBase | undefined;
         /** Special filters used to filter down on a specific aggregated value. */
@@ -1627,6 +1696,8 @@ declare module "picturepark" {
     export interface ListItemSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -1678,6 +1749,19 @@ declare module "picturepark" {
         /** The list item id. */
         id?: string | undefined;
     }
+    /** ListItemFieldsFilterUpdateRequest class */
+    export interface ListItemFieldsFilterUpdateRequest {
+        /** The search request used to filter the list items on which the change commands must be applied */
+        searchRequest?: ListItemSearchRequest | undefined;
+        /** The change commads to be applied to the list items */
+        changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+    }
+    export interface ListItemFieldsUpdateRequest {
+        /** The ids of the list items whose fields need to be updated */
+        listItemIds?: string[] | undefined;
+        /** The change commads to be applied to the list items */
+        changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+    }
     export interface LiveStreamSearchRequest {
         from: Date;
         to: Date;
@@ -1690,7 +1774,11 @@ declare module "picturepark" {
         results?: any[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface ObjectSearchResult extends BaseResultOfObject {
+    export interface RewritableBaseResultOfObject extends BaseResultOfObject {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface ObjectSearchResult extends RewritableBaseResultOfObject {
         elapsedMilliseconds: number;
     }
     export interface SchemaDetail {
@@ -1994,6 +2082,8 @@ declare module "picturepark" {
     export interface SchemaSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -2008,7 +2098,11 @@ declare module "picturepark" {
         results?: Schema[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface SchemaSearchResult extends BaseResultOfSchema {
+    export interface RewritableBaseResultOfSchema extends BaseResultOfSchema {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface SchemaSearchResult extends RewritableBaseResultOfSchema {
     }
     export interface Schema {
         /** The schema id. */
@@ -2037,7 +2131,6 @@ declare module "picturepark" {
         ManageSharings,
         ManageDrives,
         ManageTransfer,
-        ManageAnalytics,
         ManageChannels,
         ManageSchemas,
         ManageUsers,
@@ -2053,6 +2146,8 @@ declare module "picturepark" {
     }
     export interface PermissionSetSearchRequest {
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         sort?: SortInfo[] | undefined;
         start: number;
         limit: number;
@@ -2067,7 +2162,11 @@ declare module "picturepark" {
         results?: PermissionSet[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface PermissionSetSearchResult extends BaseResultOfPermissionSet {
+    export interface RewritableBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface PermissionSetSearchResult extends RewritableBaseResultOfPermissionSet {
         aggregationResults?: AggregationResult[] | undefined;
         elapsedMilliseconds: number;
     }
@@ -2275,6 +2374,8 @@ declare module "picturepark" {
     }
     export interface ShareAggregationRequest {
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         sort?: SortInfo[] | undefined;
         /** An optional search filter. Limits the content document result set. */
         filter?: FilterBase | undefined;
@@ -2315,6 +2416,8 @@ declare module "picturepark" {
     export interface ShareSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to empty. */
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -2324,7 +2427,11 @@ declare module "picturepark" {
         /** An optional search filter. Limits the share document result set. */
         filter?: FilterBase | undefined;
     }
-    export interface ShareSearchResult extends BaseResultOfShareBase {
+    export interface RewritableBaseResultOfShareBase extends BaseResultOfShareBase {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface ShareSearchResult extends RewritableBaseResultOfShareBase {
         elapsedMilliseconds: number;
     }
     export interface FileTransferDeleteRequest {
@@ -3981,6 +4088,8 @@ declare module "picturepark" {
     }
     export interface UserSearchRequest {
         searchString?: string | undefined;
+        /** Allow the backend to modify the search string if it generates a non valid query */
+        allowSearchStringRewrite: boolean;
         sort?: SortInfo[] | undefined;
         start: number;
         limit: number;
@@ -3992,7 +4101,11 @@ declare module "picturepark" {
         results?: User[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface UserSearchResult extends BaseResultOfUser {
+    export interface RewritableBaseResultOfUser extends BaseResultOfUser {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface UserSearchResult extends RewritableBaseResultOfUser {
         elapsedMilliseconds: number;
     }
     export interface User extends UserItem {
