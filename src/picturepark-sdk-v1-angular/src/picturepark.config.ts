@@ -1,4 +1,5 @@
 export interface PictureparkConfiguration {
+    customerId?: string;
     customerAlias?: string;
 
     // Oidc

@@ -82,7 +82,7 @@ export class PictureparkOidcModule {
     configuration.silent_renew = true;
 
     oidcSecurityService.setupModule(configuration);
-    oidcSecurityService.setCustomRequestParameters({});
+    oidcSecurityService.setCustomRequestParameters({'acr_values':'tenant:{"id":"' + pictureparkConfiguration.customerId + '","alias":"' + pictureparkConfiguration.customerAlias + '"}'});
     if (typeof location !== 'undefined' && window.location.hash && window.location.hash.startsWith('#id_token=')) {
       authService.processAuthorizationRedirect();
     }
