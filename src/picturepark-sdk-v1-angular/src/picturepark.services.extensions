@@ -1,6 +1,5 @@
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core'; // ignore
 import { Observable } from 'rxjs/Observable'; // ignore
-import { Http, Headers, RequestOptionsArgs } from '@angular/http'; // ignore
 import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './picturepark.services'; // ignore
 
 import { PictureparkServiceBase } from './picturepark.servicebase';
@@ -67,5 +66,5 @@ export abstract class AuthService {
     }
 
     abstract get isAuthorized(): boolean;
-    abstract transformHttpRequestOptions(options: RequestOptionsArgs): Promise<RequestOptionsArgs>;
+    abstract transformHttpRequestOptions(options: any): Promise<any>;
 }

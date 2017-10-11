@@ -1,8 +1,7 @@
-import { Inject, OpaqueToken } from '@angular/core';
-import { Response, RequestOptionsArgs } from '@angular/http';
+import { Inject, InjectionToken } from '@angular/core';
 import { AuthService } from './picturepark.services';
 
-export const PICTUREPARK_CONFIGURATION = new OpaqueToken('PICTUREPARK_CONFIGURATION');
+export const PICTUREPARK_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_CONFIGURATION');
 
 export abstract class PictureparkServiceBase {
     public constructor(private authService: AuthService) {
@@ -12,7 +11,7 @@ export abstract class PictureparkServiceBase {
         return this.authService.apiServer;
     }
 
-    protected transformOptions(options: RequestOptionsArgs) {
+    protected transformOptions(options: any) {
         return this.authService.transformHttpRequestOptions(options);
     }
 }

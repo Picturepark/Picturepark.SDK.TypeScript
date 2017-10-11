@@ -1,6 +1,5 @@
-import { OpaqueToken } from '@angular/core';
 import { NgModule, Inject, Optional } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, BrowserStorage } from 'angular-auth-oidc-client';
 
 import { OidcAuthService } from './auth/oidc-auth-service';
@@ -23,7 +22,7 @@ import {
 
 @NgModule({
   imports: [
-    HttpModule
+    HttpClientModule
   ],
   providers: [
     JsonSchemaService,
@@ -44,7 +43,7 @@ export class PictureparkModule {
 
 @NgModule({
   imports: [
-    HttpModule,
+    HttpClientModule,
     PictureparkModule,
     AuthModule.forRoot({ storage: BrowserStorage })
   ],
