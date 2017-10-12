@@ -27,7 +27,9 @@ export function PictureparkConfigurationFactory() {
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     stsServer: appRootTag.getAttribute('picturepark-sts-server'),
     customerId: appRootTag.getAttribute('customer-id'),
-    customerAlias: appRootTag.getAttribute('customer-alias')
+    customerAlias: appRootTag.getAttribute('customer-alias'),
+    clientId: appRootTag.getAttribute('clientId'),
+    scope: appRootTag.getAttribute('scope'),
   }
 }
 

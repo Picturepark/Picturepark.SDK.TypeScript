@@ -59,10 +59,12 @@ export class PictureparkOidcModule {
 
     const redirectRoute = '/pcpToken';
     const configuration = new OpenIDImplicitFlowConfiguration();
-    configuration.client_id = 'picturepark_frontend';
     configuration.response_type = 'id_token token';
-    configuration.scope = 'offline_access profile picturepark_api picturepark_account openid';
-
+    configuration.client_id =
+      pictureparkConfiguration.clientId ? pictureparkConfiguration.clientId : 'picturepark_frontend';
+    configuration.scope = pictureparkConfiguration.scope ?
+      pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid';
+    
     const url = window.location.origin;
     const search = window.location.search;
 
@@ -81,7 +83,7 @@ export class PictureparkOidcModule {
     configuration.silent_renew = true;
 
     oidcSecurityService.setupModule(configuration);
-    oidcSecurityService.setCustomRequestParameters({'acr_values':'tenant:{"id":"' + pictureparkConfiguration.customerId + '","alias":"' + pictureparkConfiguration.customerAlias + '"}'});
+    oidcSecurityService.setCustomRequestParameters({ 'acr_values': 'tenant:{"id":"' + pictureparkConfiguration.customerId + '","alias":"' + pictureparkConfiguration.customerAlias + '"}' });
     if (typeof location !== 'undefined' && window.location.hash && window.location.hash.startsWith('#id_token=')) {
       authService.processAuthorizationRedirect();
     }

@@ -50,7 +50,7 @@
       "excludedTypeNames": [],
       "handleReferences": false,
       "generateConstructorInterface": true,
-      "convertConstructorInterfaceData": false,
+      "convertConstructorInterfaceData": true,
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "PICTUREPARK_API_URL",

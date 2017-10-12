@@ -5,6 +5,8 @@ export interface PictureparkConfiguration {
     // Oidc
     apiServer?: string;
     stsServer?: string;
+    clientId?: string;
+    scope?: string;
 
     // Token
     accessToken?: string;
