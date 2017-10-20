@@ -2,7 +2,7 @@
 
 ## picturepark-sdk-v1-angular-oidc
 
-Depenedencies: 
+Dependencies: 
 
 - @angular/*
 - @picturepark/picturepark-sdk-v1-angular

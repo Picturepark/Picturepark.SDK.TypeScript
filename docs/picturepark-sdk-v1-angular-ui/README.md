@@ -2,6 +2,12 @@
 
 ## picturepark-sdk-v1-angular-ui
 
+Dependencies: 
+
+- @angular/*
+- @picturepark/picturepark-sdk-v1-angular
+- [angular2-virtual-scroll](https://www.npmjs.com/package/angular2-virtual-scroll)
+
 The `@picturepark/sdk-v1-angular-ui` package provides common UI components to work with the Picturepark API. 
 
 ### Usage
