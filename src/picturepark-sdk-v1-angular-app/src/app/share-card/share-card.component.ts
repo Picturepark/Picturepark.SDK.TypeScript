@@ -5,12 +5,12 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './share-card.component.html'
 })
 export class ShareCardComponent implements OnInit {
-  token: string; 
+  token: string;
 
   constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.token = this.route.snapshot.params["token"];
+    this.token = this.route.snapshot.params['token'];
   }
 }

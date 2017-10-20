@@ -1,62 +1,63 @@
-export var TRANSLATIONS = {
+export let TRANSLATIONS = {
   ContentPicker: {
     LabelChannel: {
-      en: "Channel",
-      de: "Kanal."
-    }, 
+      en: 'Channel',
+      de: 'Kanal.'
+    },
     LabelSearch: {
-      en: "Search", 
-      de: "Suche"
-    }, 
+      en: 'Search',
+      de: 'Suche'
+    },
     LabelFilters: {
-      en: "Filters", 
-      de: "Filter"
-    }, 
+      en: 'Filters',
+      de: 'Filter'
+    },
     ButtonChoose: {
-      en: "Choose", 
-      de: "Wählen"
-    }, 
+      en: 'Choose',
+      de: 'Wählen'
+    },
     ButtonLoading: {
-      en: "Loading...", 
-      de: "Wird geladen..."
+      en: 'Loading...',
+      de: 'Wird geladen...'
     },
     ButtonCancel: {
-      en: "Cancel", 
-      de: "Abbrechen"
+      en: 'Cancel',
+      de: 'Abbrechen'
     },
     TextSelectedSingle: {
-      en: "You have selected 1 item.", 
-      de: "Sie haben ein Element ausgewählt."
+      en: 'You have selected 1 item.',
+      de: 'Sie haben ein Element ausgewählt.'
     },
     TextSelectedMultiple: {
-      en: "You have selected {0} items.", 
-      de: "Sie haben {0} Elemente ausgewählt."
+      en: 'You have selected {0} items.',
+      de: 'Sie haben {0} Elemente ausgewählt.'
     }
   }
 }
 
-var fallbackLanguage = 'en';
+const fallbackLanguage = 'en';
 
 export function translate(key: any, locale: string) {
-  let language = locale ? locale.split("-")[0].toLowerCase() : "";
+  const language = locale ? locale.split('-')[0].toLowerCase() : '';
   let translations: any = TRANSLATIONS;
 
   if (typeof key === 'string') {
-    let path = key.split(".");
+    const path = key.split('.');
     if (path.length > 0) {
-      for (let segment of path) {
-        if (translations[segment])
+      for (const segment of path) {
+        if (translations[segment]) {
           translations = translations[segment];
-        else {
+        } else {
           translations = null;
           break;
         }
       }
-    }
-    else
+    } else {
       translations = null;
-  } else
+    }
+  } else {
     translations = key;
+  }
 
   return translations && translations[language] ? translations[language] :
     (language !== fallbackLanguage ? translate(key, fallbackLanguage + '-') : `[!${key}]`);

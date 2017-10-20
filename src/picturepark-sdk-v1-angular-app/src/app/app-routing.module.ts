@@ -7,7 +7,7 @@ import { ContentPickerComponent } from './content-picker/content-picker.componen
 
 const routes: Routes = [
   {
-    path: '', 
+    path: '',
     component: HomeComponent
   },
   {
