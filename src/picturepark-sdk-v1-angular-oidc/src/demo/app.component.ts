@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 
-import { AuthService, ContentService, ContentSearchRequest } from '../picturepark.services';
+import { AuthService, ContentService, ContentSearchRequest } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '../oidc-auth-service';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,16 @@ export class AppComponent {
   data = 'n/a';
 
   constructor(
-    @Inject(AuthService) public authService: AuthService,
+    @Inject(AuthService) public authService: OidcAuthService,
     public contentService: ContentService) {
+  }
+
+  login() {
+    this.authService.login();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   search() {

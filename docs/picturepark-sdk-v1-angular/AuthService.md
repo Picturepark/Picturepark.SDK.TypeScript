@@ -17,3 +17,8 @@ Properties:
 Events:
 
 - isLoggedInChange: Event which triggers when `isLoggedIn` has changed
+
+Implementations: 
+
+- [TokenAuthService](TokenAuthService.md)
+- [OidcAuthService](../picturepark-sdk-v1-angular-oidc/README.md)

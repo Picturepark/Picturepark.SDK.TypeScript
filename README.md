@@ -47,6 +47,12 @@ Contains Angular service components to access the public Picturepark API.
 
 NPM package: `@picturepark/sdk-v1-angular`
 
+**[picturepark-sdk-v1-angular-oidc](docs/picturepark-sdk-v1-angular-oidc/README.md)** 
+
+Contains the Open ID Connect `OidcAuthService` to authenticate with the implicit flow.
+
+NPM package: `@picturepark/sdk-v1-angular-oidc`
+
 **[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular-ui/README.md)** 
 
 Contains reusable Angular UI components

@@ -1,9 +1,7 @@
 import { Output, EventEmitter, Injectable, Inject, Optional } from '@angular/core';
 import { OidcSecurityService, AuthWellKnownEndpoints } from 'angular-auth-oidc-client';
 
-import { PICTUREPARK_CONFIGURATION } from '../picturepark.servicebase';
-import { PictureparkConfiguration } from '../picturepark.config';
-import { AuthService, PICTUREPARK_API_URL } from '../picturepark.services';
+import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration, AuthService, PICTUREPARK_API_URL } from '@picturepark/sdk-v1-angular';
 
 @Injectable()
 export class OidcAuthService extends AuthService {

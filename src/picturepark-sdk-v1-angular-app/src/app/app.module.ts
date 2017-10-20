@@ -14,7 +14,7 @@ import { ContentPickerComponent } from './content-picker/content-picker.componen
 import { TranslatePipe } from '../pipes/translate.pipe';
 
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
-import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular';
+import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 
 export function LocaleIdFactory() {

@@ -10,9 +10,9 @@ import {
   ShareEmbedCreateRequest,
   ShareEmbedDetail,
   AggregationResult,
-  OutputAccess,
-  OidcAuthService
+  OutputAccess
 } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angular-ui';
 
@@ -20,8 +20,8 @@ import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angu
   templateUrl: './content-picker.component.html'
 })
 export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit {
-  searchText = "";
-  selectedChannel = "";
+  searchText = '';
+  selectedChannel = '';
   selectedFilters: AggregationFilter[] = [];
   selectionMode = SelectionMode.Multiple;
 
@@ -32,11 +32,6 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   messagePosted = false;
   postUrl: string;
 
-  constructor(private route: ActivatedRoute,
-    private shareService: ShareService,
-    @Inject(AuthService) public authService: OidcAuthService) {
-  }
-
   @ViewChild('contentBrowser')
   private contentBrowser: ContentBrowserComponent;
 
@@ -44,9 +39,15 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   contentBrowserHeight = '500px';
   aggregationFilterHeight = '0px';
 
+  constructor(private route: ActivatedRoute,
+    private shareService: ShareService,
+    @Inject(AuthService) public authService: OidcAuthService) {
+  }
+
   onWindowUnload = () => {
-    if (this.authService.isAuthorized && !this.messagePosted && window.opener)
+    if (this.authService.isAuthorized && !this.messagePosted && window.opener) {
       window.opener.postMessage('undefined', '*');
+    }
   };
 
   onWindowResized = () => {
@@ -54,11 +55,13 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   };
 
   ngOnInit() {
-    if (this.authService.isAuthorizing === false)
+    if (this.authService.isAuthorizing === false) {
       this.authService.login();
+    }
 
-    if (this.route.snapshot.queryParams['postUrl'])
+    if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
+    }
 
     window.addEventListener('unload', this.onWindowUnload, false);
     window.addEventListener('resize', this.onWindowResized, false);
@@ -77,7 +80,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
 
   async embed() {
     if (this.selectedItems.length > 0) {
-      let contentItems = this.selectedItems.map(i => new ShareContent({
+      const contentItems = this.selectedItems.map(i => new ShareContent({
         contentId: i.id,
         outputFormatIds: ['Original']
       }));
@@ -85,14 +88,14 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
       try {
         this.loading = true;
 
-        let result = await this.shareService.create(new ShareEmbedCreateRequest({
+        const result = await this.shareService.create(new ShareEmbedCreateRequest({
           contents: contentItems,
           outputAccess: OutputAccess.Full
         })).toPromise();
 
         if (result) {
-          let share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
-          let postMessage = JSON.stringify({
+          const share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
+          const postMessage = JSON.stringify({
             token: share.token,
             shareId: share.id!,
             items: share.embedContentItems!.map(i => { return { token: i.token, url: i.url }; })
@@ -114,15 +117,16 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   recalculateSizes() {
-    let windowHeight = window.innerHeight;
-    let windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
 
     this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
     this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
     this.aggregationFilterHeight = (windowHeight - 190 + 20) + 'px';
 
-    if (this.contentBrowser)
+    if (this.contentBrowser) {
       this.contentBrowser.refresh();
+    }
   }
 
   cancel() {

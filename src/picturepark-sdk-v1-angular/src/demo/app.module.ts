@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { PictureparkOidcModule } from '../picturepark.module';
+import { PictureparkModule } from '../picturepark.module';
 import { PictureparkConfiguration } from '../picturepark.config';
 import { PICTUREPARK_CONFIGURATION } from '../picturepark.servicebase';
 
@@ -16,19 +16,15 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    PictureparkOidcModule,
+    PictureparkModule,
     RouterModule.forRoot([
-      { path: '', component: AppComponent },
-      { path: 'pcpToken/:type', redirectTo: '' },
+      { path: '', component: AppComponent }
     ])
   ],
   providers: [
     {
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
-        apiServer: 'https://devnext-api.preview-picturepark.com',
-        stsServer: 'https://devnext-identity.preview-picturepark.com',
-        redirectUrl: 'http://localhost:4200',
-        customerId: '-enter-id-here-',
+        accessToken: 'foobar',
         customerAlias: 'dev'
       }
     }
