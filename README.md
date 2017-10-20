@@ -41,6 +41,8 @@ In the project directory (e.g. in `src/picturepark-sdk-v1-angular-app`):
 - Run `npm start` to start the Angular project
 - Open the URL `http://localhost:4200` in the browser
 
+The following diagram shows the Angular packages, the Angular modules and their dependencies: 
+
 ![](assets/angular-diagram.png)
 
 **[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
