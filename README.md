@@ -41,6 +41,8 @@ In the project directory (e.g. in `src/picturepark-sdk-v1-angular-app`):
 - Run `npm start` to start the Angular project
 - Open the URL `http://localhost:4200` in the browser
 
+![](assets/angular-diagram.png)
+
 **[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
 
 Contains Angular service components to access the public Picturepark API.
