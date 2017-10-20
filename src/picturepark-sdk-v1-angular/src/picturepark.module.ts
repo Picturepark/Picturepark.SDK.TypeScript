@@ -13,6 +13,7 @@ import {
   PublicAccessService,
   ShareService,
   TransferService,
+  ServiceProviderService,
   AuthService
 } from './picturepark.services';
 
@@ -31,6 +32,7 @@ import {
     PublicAccessService,
     ShareService,
     TransferService,
+    ServiceProviderService,
     { provide: AuthService, useClass: TokenAuthService }
   ]
 })

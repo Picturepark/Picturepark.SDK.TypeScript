@@ -14,7 +14,7 @@ export class LogoutComponent {
   @Output()
   loggedOut = new EventEmitter();
 
-  constructor(@Inject(AuthService) public authService: AuthService, 
+  constructor(@Inject(AuthService) public authService: AuthService,
     @Inject(LOCALE_ID) private locale: string) {
     if (!(<any>authService).logout) {
       throw new Error('The pp-logout (LogoutComponent) component must be used with the OidcAuthService service.');

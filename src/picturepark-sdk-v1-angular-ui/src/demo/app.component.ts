@@ -8,12 +8,12 @@ import {
   AggregationFilter,
   Content,
   ShareEmbedCreateRequest,
-  ShareContent, 
+  ShareContent,
   ShareEmbedDetail,
   OutputAccess
 } from '@picturepark/sdk-v1-angular';
 
-import { SelectionMode } from "../components/content-browser/content-browser.component";
+import { SelectionMode } from '../components/content-browser/content-browser.component';
 
 @Component({
   selector: 'app-root',
@@ -21,9 +21,9 @@ import { SelectionMode } from "../components/content-browser/content-browser.com
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  shareToken: string | undefined = "";
-  searchText = "";
-  selectedChannel = "";
+  shareToken: string | undefined = '';
+  searchText = '';
+  selectedChannel = '';
   filters: AggregationFilter[] = [];
   selectedItems: Content[] = [];
   selectionMode = SelectionMode.Single;
@@ -36,21 +36,21 @@ export class AppComponent {
 
   async embed() {
     if (this.selectedItems.length > 0) {
-      let contentItems = this.selectedItems.map(i => new ShareContent({ 
-        contentId: i.id, 
-        outputFormatIds: ["Original"] 
+      const contentItems = this.selectedItems.map(i => new ShareContent({
+        contentId: i.id,
+        outputFormatIds: ['Original']
       }));
 
-      let result = await this.shareService.create(new ShareEmbedCreateRequest({
+      const result = await this.shareService.create(new ShareEmbedCreateRequest({
         contents: contentItems,
         outputAccess: OutputAccess.Full
       })).toPromise();
 
       if (result) {
-        let share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
+        const share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
         if (share && share.embedContentItems) {
-          let tokens = share.embedContentItems.map(i => i.token).reduce((p, i) => p + "\n" + i, "");
-          let message = "Embed share created\n\nID: " + share.id + "\n\nTokens: " + tokens; 
+          const tokens = share.embedContentItems.map(i => i.token).reduce((p, i) => p + '\n' + i, '');
+          const message = 'Embed share created\n\nID: ' + share.id + '\n\nTokens: ' + tokens;
 
           this.shareToken = share.embedContentItems[0].token;
           console.log(share);
@@ -61,6 +61,6 @@ export class AppComponent {
   }
 
   onLoggedIn() {
-    console.log("User has logged in.");
+    console.log('User has logged in.');
   }
 }

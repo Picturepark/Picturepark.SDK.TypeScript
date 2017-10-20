@@ -22,17 +22,18 @@ export class SearchBoxComponent implements OnChanges {
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['query'])
+    if (changes['query']) {
       this.search(); // TODO: Add throttling
+    }
   }
 
   async search() {
     try {
       this.queryChange.emit(this.query);
 
-      var request = new ContentSearchRequest();
+      const request = new ContentSearchRequest();
       request.searchString = this.query;
-      
+
       this.result = await this.contentService.search(request).toPromise();
     } catch (error) {
       // TODO: Add error message

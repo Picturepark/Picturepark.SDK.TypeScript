@@ -1,9 +1,11 @@
-import { Component, Input, Output, OnChanges, SimpleChange, ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, OnChanges, SimpleChange,
+  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { InputConverter, StringConverter, NumberConverter } from '../converter';
 
 import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter, FilterBase, SortInfo, SortDirection, Content, ContentSearchType } from '@picturepark/sdk-v1-angular';
+import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
+  FilterBase, SortInfo, SortDirection, Content, ContentSearchType } from '@picturepark/sdk-v1-angular';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
 @Component({
@@ -18,11 +20,11 @@ export class ContentBrowserComponent implements OnChanges {
 
   @Input()
   @InputConverter(StringConverter)
-  height: string = '500px';
+  height = '500px';
 
   @Input()
   @InputConverter(StringConverter)
-  channel: string = '';
+  channel = '';
 
   @Input()
   query = '';
@@ -50,8 +52,9 @@ export class ContentBrowserComponent implements OnChanges {
 
   toggleSelected(item: ContentModel) {
     if (this.selectionMode === SelectionMode.Single) {
-      for (let i of this.items)
+      for (const i of this.items) {
         i.isSelected = i === item ? !i.isSelected : false;
+      }
     } else if (this.selectionMode === SelectionMode.Multiple) {
       item.isSelected = !item.isSelected;
     }
@@ -70,22 +73,22 @@ export class ContentBrowserComponent implements OnChanges {
   }
 
   public refresh() {
-    if (this.virtualScroll)
+    if (this.virtualScroll) {
       this.virtualScroll.refresh();
+    }
   }
 
   protected async loadData() {
     if (this.channel && !this.isLoading) {
       this.isLoading = true;
       try {
-        let request = new ContentSearchRequest({
+        const request = new ContentSearchRequest({
           filter: new AndFilter({ filters: this.filters }),
           channelIds: [this.channel],
           lifeCycleFilter: 0,
           limit: 50,
           searchString: this.query,
           searchType: ContentSearchType.MetadataAndFullText,
-          allowSearchStringRewrite: true,
           start: this.items.length,
           sort: [
             new SortInfo({
@@ -95,12 +98,13 @@ export class ContentBrowserComponent implements OnChanges {
           ]
         });
 
-        let result = await this.contentService.searchByChannel(this.channel, request).toPromise();
+        const result = await this.contentService.searchByChannel(this.channel, request).toPromise();
         if (result) {
           this.totalResults = result.totalResults;
           if (result.results) {
-            for (var r of result.results)
+            for (const r of result.results) {
               this.items.push(new ContentModel(r, this));
+            }
           }
         }
 
@@ -115,11 +119,13 @@ export class ContentBrowserComponent implements OnChanges {
   }
 
   protected onListChange(event: ChangeEvent) {
-    if (event.end !== this.items.length)
+    if (event.end !== this.items.length) {
       return;
+    }
 
-    if (event.end === this.totalResults)
+    if (event.end === this.totalResults) {
       return;
+    }
 
     this.loadData();
   }
@@ -131,12 +137,14 @@ export class ContentBrowserComponent implements OnChanges {
 
   private onSelectionModeChanged() {
     if (this.selectionMode === SelectionMode.None) {
-      for (let item of this.items)
+      for (const item of this.items) {
         item.isSelected = false;
+      }
     } else if (this.selectionMode === SelectionMode.Single) {
       if (this.selectedItems.length > 1) {
-        for (let item of this.items)
+        for (const item of this.items) {
           item.isSelected = false;
+        }
       }
     }
 
@@ -144,8 +152,9 @@ export class ContentBrowserComponent implements OnChanges {
   }
 
   private onSelectedItems() {
-    for (let item of this.items)
+    for (const item of this.items) {
       item.isSelected = this.selectedItems.filter(i => i.id === item.item.id).length > 0;
+    }
   }
 }
 

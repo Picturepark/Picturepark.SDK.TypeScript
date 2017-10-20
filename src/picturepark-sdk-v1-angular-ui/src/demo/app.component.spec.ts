@@ -5,6 +5,6 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   it('1 + 1 == 2', async(() => {
-    expect(1 + 1 == 2).toBeTruthy();
+    expect(1 + 1 === 2).toBeTruthy();
   }));
 });

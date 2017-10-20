@@ -9,6 +9,8 @@ import { UserService, Channel } from '@picturepark/sdk-v1-angular';
 })
 export class ChannelPickerComponent implements OnInit, OnChanges {
   private isLoading = true;
+  private currentIndex = -1; // used to avoid circular updates
+
   channels: Channel[] | null;
 
   @Input()
@@ -30,8 +32,9 @@ export class ChannelPickerComponent implements OnInit, OnChanges {
     this.isLoading = true;
     try {
       this.channels = await this.userService.getChannels().toPromise();
-      if (this.channels)
+      if (this.channels) {
         this.setChannel(this.channels[0].id!);
+      }
       this.isLoading = false;
     } catch (error) {
       this.channels = [];
@@ -39,11 +42,10 @@ export class ChannelPickerComponent implements OnInit, OnChanges {
     }
   }
 
-  private currentIndex = -1; // used to avoid circular updates  
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (this.select && changes['channel']) {
       if (this.channels !== null && this.channels !== undefined) {
-        var index = this.channels.indexOf(this.channels.filter(c => c.id == this.channel)[0]);
+        const index = this.channels.indexOf(this.channels.filter(c => c.id === this.channel)[0]);
         if (this.currentIndex !== index) {
           this.currentIndex = index;
           setTimeout(() => { this.select.nativeElement.selectedIndex = index; }, 0);
@@ -53,12 +55,13 @@ export class ChannelPickerComponent implements OnInit, OnChanges {
   }
 
   onChange(event: Event) {
-    var index = (<any>event.currentTarget).selectedIndex;
+    const index = (<any>event.currentTarget).selectedIndex;
     if (index !== -1) {
       if (index !== this.currentIndex) {
         this.currentIndex = index;
-        if (this.channels)
+        if (this.channels) {
           this.setChannel(index >= 0 ? this.channels[index].id! : null);
+        }
       }
     }
   }

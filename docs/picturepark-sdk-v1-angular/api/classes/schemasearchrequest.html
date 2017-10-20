@@ -93,9 +93,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#allowsearchstringrewrite" class="tsd-kind-icon">allow<wbr>Search<wbr>String<wbr>Rewrite</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="schemasearchrequest.html#start" class="tsd-kind-icon">start</a></li>
@@ -124,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16874">src/picturepark.services.ts:16874</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17622">src/picturepark.services.ts:17622</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,29 +141,13 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="allowsearchstringrewrite" class="tsd-anchor"></a>
-					<h3>allow<wbr>Search<wbr>String<wbr>Rewrite</h3>
-					<div class="tsd-signature tsd-kind-icon">allow<wbr>Search<wbr>String<wbr>Rewrite<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#allowsearchstringrewrite">allowSearchStringRewrite</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16866">src/picturepark.services.ts:16866</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Allow the backend to modify the search string if it generates a non valid query</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="filter" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16874">src/picturepark.services.ts:16874</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17622">src/picturepark.services.ts:17622</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,12 +163,28 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#limit">limit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16872">src/picturepark.services.ts:16872</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17620">src/picturepark.services.ts:17620</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Limits the document count of the result set. Defaults to 30.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="searchbehaviours" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviours</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviours<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehaviour.html" class="tsd-signature-type">SearchBehaviour</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#searchbehaviours">searchBehaviours</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17614">src/picturepark.services.ts:17614</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional list of search behaviours. All the passed behaviours will be applied</p>
 						</div>
 					</div>
 				</section>
@@ -195,7 +195,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16864">src/picturepark.services.ts:16864</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17612">src/picturepark.services.ts:17612</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,7 +211,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#sort">sort</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16868">src/picturepark.services.ts:16868</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17616">src/picturepark.services.ts:17616</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -227,7 +227,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ischemasearchrequest.html">ISchemaSearchRequest</a>.<a href="../interfaces/ischemasearchrequest.html#start">start</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16870">src/picturepark.services.ts:16870</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17618">src/picturepark.services.ts:17618</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16885">src/picturepark.services.ts:16885</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17641">src/picturepark.services.ts:17641</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -272,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16906">src/picturepark.services.ts:16906</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17666">src/picturepark.services.ts:17666</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -295,7 +295,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L16900">src/picturepark.services.ts:16900</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L17660">src/picturepark.services.ts:17660</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -329,13 +329,13 @@
 								<a href="schemasearchrequest.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="schemasearchrequest.html#allowsearchstringrewrite" class="tsd-kind-icon">allow<wbr>Search<wbr>String<wbr>Rewrite</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="schemasearchrequest.html#filter" class="tsd-kind-icon">filter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="schemasearchrequest.html#limit" class="tsd-kind-icon">limit</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="schemasearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="schemasearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>

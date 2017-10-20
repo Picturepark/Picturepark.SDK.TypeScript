@@ -1,16 +1,17 @@
 import { Component, Input, OnChanges, SimpleChange, LOCALE_ID, Inject, Output, EventEmitter } from '@angular/core';
 import { InputConverter, StringConverter } from '../converter';
 
-import { 
-  ContentService, 
-  ObjectAggregationResult, 
+import {
+  ContentService,
+  ObjectAggregationResult,
   ContentAggregationRequest,
-  AggregationFilter, 
-  FilterBase, 
-  AggregationResult, 
+  AggregationFilter,
+  FilterBase,
+  AggregationResult,
   AggregationResultItem,
   ContentSearchType,
-  OrFilter } from '@picturepark/sdk-v1-angular';
+  OrFilter
+} from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-aggregation-filter',
@@ -18,24 +19,24 @@ import {
 })
 export class AggregationFilterComponent implements OnChanges {
   isLoading = true;
-  
+
   aggregations: AggregationResult[] = [];
   @Output()
   aggregationsChange = new EventEmitter<AggregationResult[]>();
 
   @Input()
   @InputConverter(StringConverter)
-  channel: string = '';
+  channel = '';
 
   @Input()
   query = '';
 
   @Input()
-  filters: FilterBase[] | null = null; 
+  filters: FilterBase[] | null = null;
   @Output()
   filtersChange = new EventEmitter<AggregationFilter[]>();
 
-  aggregationFilters: AggregationFilter[]; 
+  aggregationFilters: AggregationFilter[];
 
   constructor(private contentService: ContentService, @Inject(LOCALE_ID) private locale: string) {
   }
@@ -50,23 +51,22 @@ export class AggregationFilterComponent implements OnChanges {
     if (this.channel) {
       this.isLoading = true;
       try {
-        let request = new ContentAggregationRequest({
-          searchString: this.query, 
+        const request = new ContentAggregationRequest({
+          searchString: this.query,
           aggregationFilters: this.aggregationFilters,
           searchType: ContentSearchType.MetadataAndFullText,
-          allowSearchStringRewrite: true,
           lifeCycleFilter: 0
         });
 
-        let result = await this.contentService.aggregateByChannel(this.channel, request).toPromise();
+        const result = await this.contentService.aggregateByChannel(this.channel, request).toPromise();
         if (result && result.aggregationResults) {
-          this.aggregations = result.aggregationResults.filter(r => 
-            r.sumOtherDocCount !== null && 
-            r.aggregationResultItems && 
+          this.aggregations = result.aggregationResults.filter(r =>
+            r.sumOtherDocCount !== null &&
+            r.aggregationResultItems &&
             r.aggregationResultItems.length > 0);
+        } else {
+          this.aggregations = [];
         }
-        else
-          this.aggregations = []; 
 
         this.isLoading = false;
       } catch (error) {
@@ -79,16 +79,16 @@ export class AggregationFilterComponent implements OnChanges {
   }
 
   selectionChanged(changedItem: AggregationResultItem) {
-    changedItem.active = !changedItem.active;    
-    
-    let filters: FilterBase[] = [];
-    let aggregationFilters: AggregationFilter[] = [];
+    changedItem.active = !changedItem.active;
+
+    const filters: FilterBase[] = [];
+    const aggregationFilters: AggregationFilter[] = [];
     if (this.aggregations) {
-      for (let result of this.aggregations) {
-        let resultFilters: FilterBase[] = [];
+      for (const result of this.aggregations) {
+        const resultFilters: FilterBase[] = [];
 
         if (result.aggregationResultItems) {
-          for (let item of result.aggregationResultItems) {
+          for (const item of result.aggregationResultItems) {
             if (item.active && item.filter) {
               aggregationFilters.push(item.filter);
               resultFilters.push(item.filter.filter!);
@@ -96,17 +96,17 @@ export class AggregationFilterComponent implements OnChanges {
           }
         }
 
-        if (resultFilters.length > 0){
-          let orFilter = new OrFilter();
+        if (resultFilters.length > 0) {
+          const orFilter = new OrFilter();
           orFilter.filters = resultFilters;
           filters.push(orFilter);
         }
       }
     }
-    
-    this.aggregationFilters = aggregationFilters; 
 
-    this.filters = filters; 
+    this.aggregationFilters = aggregationFilters;
+
+    this.filters = filters;
     this.filtersChange.emit(filters);
   }
 }

@@ -422,14 +422,6 @@ declare module "picturepark" {
          */
         waitForStates(processId: string, states: string[] | null, timeout: number): Promise<BusinessProcessWaitResult | null>;
         protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
-        /**
-         * Import
-         * @contentId The content id.
-         * @fileTransferId The file transfer id.
-         * @includeObjects Imports list items defined in the json import file.
-         */
-        import(contentId: string | null, fileTransferId: string | null, includeObjects: boolean): Promise<void>;
-        protected processImport(response: Response): Promise<void>;
     }
     export class LiveStreamClient extends PictureparkClientBase {
         private http;
@@ -458,8 +450,8 @@ declare module "picturepark" {
          * @ids Comma separated list of schema ids
          * @return SchemaDetail
          */
-        getAll(ids: string[] | null): Promise<SchemaDetail[] | null>;
-        protected processGetAll(response: Response): Promise<SchemaDetail[] | null>;
+        getMany(ids: string[] | null): Promise<SchemaDetail[] | null>;
+        protected processGetMany(response: Response): Promise<SchemaDetail[] | null>;
         /**
          * Create Single
          * @schema The schema create request.
@@ -622,6 +614,20 @@ declare module "picturepark" {
         search(request: ShareSearchRequest | null): Promise<ShareSearchResult | null>;
         protected processSearch(response: Response): Promise<ShareSearchResult | null>;
     }
+    export class ServiceProviderClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        sendMessage(serviceProviderId: string, request: SendMessageRequest2 | null): Promise<void>;
+        protected processSendMessage(response: Response): Promise<void>;
+        getConfiguration(serviceProviderId: string): Promise<CustomerServiceProviderConfiguration | null>;
+        protected processGetConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration | null>;
+        updateConfiguration(serviceProviderId: string, configuration: ServiceProviderConfigurationUpdateRequest | null): Promise<CustomerServiceProviderConfiguration | null>;
+        protected processUpdateConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration | null>;
+    }
     export class TransferClient extends PictureparkClientBase {
         private http;
         private baseUrl;
@@ -704,6 +710,7 @@ declare module "picturepark" {
         searchFiles(request: FileTransferSearchRequest | null): Promise<FileTransferSearchResult | null>;
         protected processSearchFiles(response: Response): Promise<FileTransferSearchResult | null>;
         /**
+         * Upload file
          * @formFile Gets or sets the form file.
          * @relativePath Relative path of the uploading file
          * @chunkNumber Current chunk number. starts with 1
@@ -799,7 +806,7 @@ declare module "picturepark" {
     /** A content detail. */
     export interface ContentDetail {
         /** Audit data with information regarding document creation and modification. */
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         /** The content data */
         content?: any | undefined;
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
@@ -826,17 +833,11 @@ declare module "picturepark" {
         /** The trashed flag. */
         trashed: boolean;
     }
-    export interface StoreAudit {
+    export interface UserAudit {
         creationDate: Date;
-        createdByUser?: UserItem | undefined;
         modificationDate: Date;
-        modifiedByUser?: UserItem | undefined;
-    }
-    export interface UserItem {
-        id?: string | undefined;
-        firstName?: string | undefined;
-        lastName?: string | undefined;
-        emailAddress?: string | undefined;
+        createdByUser?: string | undefined;
+        modifiedByUser?: string | undefined;
     }
     export enum ContentType {
         Unknown,
@@ -1029,17 +1030,14 @@ declare module "picturepark" {
     export interface ObjectStoreException extends PictureparkBusinessException {
         rowErrorMessages?: string | undefined;
         errorMessage?: string | undefined;
-        message?: string | undefined;
     }
     export interface ObjectStoreResponseException extends PictureparkBusinessException {
         rowErrorMessages?: string | undefined;
         message?: string | undefined;
     }
     export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
-        cancellationToken?: string | undefined;
     }
     export interface OperationTimeoutException extends PictureparkBusinessException {
-        messageId?: string | undefined;
     }
     export interface OutputNotFoundException extends PictureparkBusinessException {
         contentId?: string | undefined;
@@ -1168,8 +1166,8 @@ declare module "picturepark" {
     export interface ContentAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         /** An optional search filter. Limits the content document result set. */
         filter?: FilterBase | undefined;
         /** Special filters used to filter down on a specific aggregated value. */
@@ -1189,21 +1187,29 @@ declare module "picturepark" {
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
         searchType: ContentSearchType;
     }
+    export enum SearchBehaviour {
+        DropInvalidCharactersOnFailure,
+        WildcardOnSingleTerm,
+    }
     /** The FilterBase is the base class for all filters. */
     export interface FilterBase {
     }
+    /** The AndFilter> is a compound filter and returns documents that match all of the specified filters. */
     export interface AndFilter extends FilterBase {
         /** Accepts all filters. */
         filters?: FilterBase[] | undefined;
     }
+    /** The OrFilter is a compound filter and returns documents that match any of the specified filters. */
     export interface OrFilter extends FilterBase {
         /** Accepts all filters. */
         filters?: FilterBase[] | undefined;
     }
+    /** The NotFilter is a compound filter and returns documents that do not match the specified filter. */
     export interface NotFilter extends FilterBase {
         /** Limits the result set. */
         filter?: FilterBase | undefined;
     }
+    /** The DateRangeFilter returns documents with fields that have date values within a certain range. */
     export interface DateRangeFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
@@ -1222,10 +1228,12 @@ declare module "picturepark" {
     export interface TranslatedStringDictionary {
         [key: string]: string | any;
     }
+    /** The ExistsFilter returns documents that have at least one non-null value in the original field. */
     export interface ExistsFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
     }
+    /** The GeoBoundingBoxFilter returns documents that are found based on a point location using a bounding box. */
     export interface GeoBoundingBoxFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
@@ -1238,6 +1246,7 @@ declare module "picturepark" {
         lat: number;
         lon: number;
     }
+    /** The GeoDistanceRangeFilter returns documents that include only hits that exists within a specific distance from a geo point. */
     export interface GeoDistanceFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
@@ -1246,6 +1255,7 @@ declare module "picturepark" {
         /** The range distance in meters. */
         distance: number;
     }
+    /** The GeoDistanceRangeFilter returns documents that exists within a range from a specific point. */
     export interface GeoDistanceRangeFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
@@ -1262,30 +1272,35 @@ declare module "picturepark" {
         /** The to value. */
         to?: number | undefined;
     }
+    /** The NestedFilter is a joining filter and returns documents whose nested objects / documents (see nested mapping) match the specified filter. */
     export interface NestedFilter extends FilterBase {
         /** The path pointing to the nested object. */
         path?: string | undefined;
         /** Limits the result set. */
         filter?: FilterBase | undefined;
     }
+    /** The NumericRangeFilter returns documents with fields that have numeric values within a certain range. */
     export interface NumericRangeFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
         /** The numeric range with from and to properties. */
         range?: NumericRange | undefined;
     }
+    /** The PrefixFilter returns documents that have fields containing terms with a specified prefix (not analyzed). */
     export interface PrefixFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
         /** The prefix term to filter on. */
         prefix?: string | undefined;
     }
+    /** The TermFilter returns documents that contain the exact term specified in the inverted index. */
     export interface TermFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
         /** The term to filter on. */
         term?: string | undefined;
     }
+    /** The TermsFilter returns documents that have fields that match any of the provided terms (not analyzed). */
     export interface TermsFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
@@ -1300,12 +1315,14 @@ declare module "picturepark" {
         filter?: FilterBase | undefined;
         temporaryAggregatorRequestId?: string | undefined;
     }
+    /** The ChildFilter allows to apply filters on child documents and returns documents that match the specified filter on the child document. */
     export interface ChildFilter extends FilterBase {
         /** The elastic search index type to filter as a child. */
         childType?: string | undefined;
         /** The filter to apply on the child entity. It accepts all filters. */
         filter?: FilterBase | undefined;
     }
+    /** The ParentFilter allows to apply filters on parent documents and returns documents that match the specified filter on the parent document. */
     export interface ParentFilter extends FilterBase {
         /** The elastic search index type to filter as a parent. */
         parentType?: string | undefined;
@@ -1321,16 +1338,19 @@ declare module "picturepark" {
         /** An optional aggregator list for nested aggregations. */
         aggregators?: AggregatorBase[] | undefined;
     }
+    /** The DateRangeAggregator is a multi-bucket range aggregation dedicated for date values. Each bucket represents a range. */
     export interface DateRangeAggregator extends AggregatorBase {
         /** The elastic search index field to execute the aggregation on. */
         field?: string | undefined;
         /** A list of date ranges. Supported pattern: now(+-)(int)(YMDHm). */
         ranges?: DateRange[] | undefined;
     }
+    /** The FilterAggregator is a single bucket aggregation of documents that match a specified filter. */
     export interface FilterAggregator extends AggregatorBase {
         /** Limits the result set. */
         filter?: FilterBase | undefined;
     }
+    /** The GeoDistanceAggregator is a multi-bucket range aggregation that works on geo_point fields. Each bucket represents a range. */
     export interface GeoDistanceAggregator extends AggregatorBase {
         /** The elastic search index field to execute the aggregation on. */
         field?: string | undefined;
@@ -1339,16 +1359,19 @@ declare module "picturepark" {
         /** A list of numeric ranges in meter. */
         ranges?: NumericRange[] | undefined;
     }
+    /** The NestedAggregator is a special single bucket aggregation that enables aggregating nested documents. */
     export interface NestedAggregator extends AggregatorBase {
         /** The path pointing to the nested object. */
         path?: string | undefined;
     }
+    /** The NumericRangeAggregator is a multi-bucket range aggregation. Each bucket represents a range. */
     export interface NumericRangeAggregator extends AggregatorBase {
         /** The elastic search index field to execute the aggregation on. */
         field?: string | undefined;
         /** A list of numeric ranges. */
         ranges?: NumericRange[] | undefined;
     }
+    /** The TermsAggregator is a multi-bucket value aggregation where buckets are dynamically built - one per unique value. */
     export interface TermsAggregator extends AggregatorBase {
         /** The elastic search index field (not analyzed) to execute the aggregation on. */
         field?: string | undefined;
@@ -1359,6 +1382,7 @@ declare module "picturepark" {
         /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
         excludes?: string[] | undefined;
     }
+    /** The TermsRelationAggregator is derived from TermsAggregator and used for aggregations on relation item ids. */
     export interface TermsRelationAggregator extends TermsAggregator {
         /** When aggregating on relations ids the DocumentType is needed to resolve the target item translation. */
         documentType: TermsRelationAggregatorDocumentType;
@@ -1371,6 +1395,7 @@ declare module "picturepark" {
         ContentPermissionSet,
         Owner,
     }
+    /** The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values. */
     export interface TermsEnumAggregator extends TermsAggregator {
         /** When aggregating on enum fields EnumType is needed to resolve the enum translation. */
         enumType?: string | undefined;
@@ -1457,8 +1482,8 @@ declare module "picturepark" {
         collectionId?: string | undefined;
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied in the specified order. */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -1494,12 +1519,16 @@ declare module "picturepark" {
         results?: Content[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface ContentSearchResult extends BaseResultOfContent {
+    export interface SearchBehaviourBaseResultOfContent extends BaseResultOfContent {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface ContentSearchResult extends SearchBehaviourBaseResultOfContent {
         aggregationResults?: AggregationResult[] | undefined;
         elapsedMilliseconds: number;
     }
     export interface Content {
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         /** The entity type of a content document is content. */
         entityType: EntityType;
         /** The id of the schema with schema type content. */
@@ -1580,14 +1609,35 @@ declare module "picturepark" {
         referenceId?: string | undefined;
     }
     export interface FilterContentsMetadataUpdateRequest extends MetadataValuesChangeRequestBase {
-        contentSearchRequest?: ContentSearchRequest | undefined;
+        contentFilterRequest?: ContentFilterRequest | undefined;
         totalItemsCount: number;
+    }
+    export interface ContentFilterRequest {
+        /** Limits the simple search fields to the fields available in the specified in the channel. */
+        channelIds?: string[] | undefined;
+        /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+        searchLanguages?: string[] | undefined;
+        /** Defines the return language of translation values. Defaults to x-default. */
+        displayLanguage?: string | undefined;
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+        searchString?: string | undefined;
+        /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+        searchType: ContentSearchType;
+        /** The collection id. */
+        collectionId?: string | undefined;
+        /** An optional search filter. Limits the content document result set. */
+        filter?: FilterBase | undefined;
+        /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
+        lifeCycleFilter: LifeCycleFilter;
+        /** Limits the content document result set to specific ContentRights the user has */
+        rightsFilter?: ContentRight[] | undefined;
     }
     export interface BusinessProcessSearchRequest {
         start: number;
         limit: number;
         filter?: FilterBase | undefined;
         searchString?: string | undefined;
+        searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
     }
     export interface BaseResultOfBusinessProcess {
@@ -1595,7 +1645,11 @@ declare module "picturepark" {
         results?: BusinessProcess[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface BusinessProcessSearchResult extends BaseResultOfBusinessProcess {
+    export interface SearchBehaviourBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface BusinessProcessSearchResult extends SearchBehaviourBaseResultOfBusinessProcess {
         elapsedMilliseconds: number;
     }
     export interface StartProcessRequest {
@@ -1621,6 +1675,7 @@ declare module "picturepark" {
         documentId?: string | undefined;
         documentVersion: number;
         documentType?: string | undefined;
+        sort?: SortInfo | undefined;
     }
     export interface DocumentHistorySearchResult {
         totalResults: number;
@@ -1637,12 +1692,20 @@ declare module "picturepark" {
         documentDate: Date;
         document?: string | undefined;
         timestamp: Date;
-        audit?: HistoryAudit | undefined;
+        audit?: UserAuditHistory | undefined;
         deleted: boolean;
+        action: DocumentChangeAction;
     }
-    export interface HistoryAudit {
+    export interface UserAuditHistory {
         modificationDate: Date;
-        modifiedByUser?: UserItem | undefined;
+        modifiedByUser?: string | undefined;
+    }
+    export enum DocumentChangeAction {
+        Create,
+        Update,
+        Delete,
+        Activate,
+        Deactivate,
     }
     export interface DocumentHistoryDifference {
         documentId?: string | undefined;
@@ -1676,8 +1739,8 @@ declare module "picturepark" {
     export interface ListItemAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         /** An optional search filter. Limits the list item result set. */
         filter?: FilterBase | undefined;
         /** Special filters used to filter down on a specific aggregated value. */
@@ -1696,8 +1759,8 @@ declare module "picturepark" {
     export interface ListItemSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -1752,9 +1815,23 @@ declare module "picturepark" {
     /** ListItemFieldsFilterUpdateRequest class */
     export interface ListItemFieldsFilterUpdateRequest {
         /** The search request used to filter the list items on which the change commands must be applied */
-        searchRequest?: ListItemSearchRequest | undefined;
+        listItemFilterRequest?: ListItemFilterRequest | undefined;
         /** The change commads to be applied to the list items */
         changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+    }
+    export interface ListItemFilterRequest {
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+        searchString?: string | undefined;
+        /** An optional search filter. Limits the list item result set. */
+        filter?: FilterBase | undefined;
+        /** Broadens the search and include all schema descendant list items. */
+        includeAllSchemaChildren: boolean;
+        /** Limits the search to list items of the provided schemas. */
+        schemaIds?: string[] | undefined;
+        /** Defines the return language of translation values. Defaults to x-default. */
+        displayLanguage?: string | undefined;
+        /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+        searchLanguages?: string[] | undefined;
     }
     export interface ListItemFieldsUpdateRequest {
         /** The ids of the list items whose fields need to be updated */
@@ -1774,11 +1851,11 @@ declare module "picturepark" {
         results?: any[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface RewritableBaseResultOfObject extends BaseResultOfObject {
+    export interface SearchBehaviourBaseResultOfObject extends BaseResultOfObject {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface ObjectSearchResult extends RewritableBaseResultOfObject {
+    export interface ObjectSearchResult extends SearchBehaviourBaseResultOfObject {
         elapsedMilliseconds: number;
     }
     export interface SchemaDetail {
@@ -1816,7 +1893,7 @@ declare module "picturepark" {
         referencedInContentSchemaIds?: string[] | undefined;
         /** A complete id list of all descendant schemas. */
         descendantSchemaIds?: string[] | undefined;
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         /** The number of fields generated by the schema for the Search operations. */
         searchFieldCount?: SearchFieldCount | undefined;
     }
@@ -2082,8 +2159,8 @@ declare module "picturepark" {
     export interface SchemaSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -2098,11 +2175,11 @@ declare module "picturepark" {
         results?: Schema[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface RewritableBaseResultOfSchema extends BaseResultOfSchema {
+    export interface SearchBehaviourBaseResultOfSchema extends BaseResultOfSchema {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface SchemaSearchResult extends RewritableBaseResultOfSchema {
+    export interface SchemaSearchResult extends SearchBehaviourBaseResultOfSchema {
     }
     export interface Schema {
         /** The schema id. */
@@ -2146,8 +2223,8 @@ declare module "picturepark" {
     }
     export interface PermissionSetSearchRequest {
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
         start: number;
         limit: number;
@@ -2162,11 +2239,11 @@ declare module "picturepark" {
         results?: PermissionSet[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface RewritableBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
+    export interface SearchBehaviourBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface PermissionSetSearchResult extends RewritableBaseResultOfPermissionSet {
+    export interface PermissionSetSearchResult extends SearchBehaviourBaseResultOfPermissionSet {
         aggregationResults?: AggregationResult[] | undefined;
         elapsedMilliseconds: number;
     }
@@ -2254,7 +2331,7 @@ declare module "picturepark" {
         id?: string | undefined;
         name?: string | undefined;
         description?: string | undefined;
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         entityType: EntityType;
         contentSelections?: ContentDetail2[] | undefined;
         layerSchemaIds?: string[] | undefined;
@@ -2277,7 +2354,7 @@ declare module "picturepark" {
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
         contentPermissionSetIds?: string[] | undefined;
         outputs?: Output[] | undefined;
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         ownerTokenId?: string | undefined;
         contentType: ContentType;
         /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
@@ -2323,6 +2400,12 @@ declare module "picturepark" {
         token?: string | undefined;
         url?: string | undefined;
     }
+    export interface UserItem {
+        id?: string | undefined;
+        firstName?: string | undefined;
+        lastName?: string | undefined;
+        emailAddress?: string | undefined;
+    }
     export interface ShareEmbedDetail extends ShareBaseDetail {
         embedContentItems?: EmbedContentDetail[] | undefined;
         token?: string | undefined;
@@ -2361,7 +2444,7 @@ declare module "picturepark" {
         name?: string | undefined;
         contentIds?: string[] | undefined;
         id?: string | undefined;
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         entityType: EntityType;
         expirationDate?: Date | undefined;
     }
@@ -2374,8 +2457,8 @@ declare module "picturepark" {
     }
     export interface ShareAggregationRequest {
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
         /** An optional search filter. Limits the content document result set. */
         filter?: FilterBase | undefined;
@@ -2416,8 +2499,8 @@ declare module "picturepark" {
     export interface ShareSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to empty. */
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -2427,12 +2510,29 @@ declare module "picturepark" {
         /** An optional search filter. Limits the share document result set. */
         filter?: FilterBase | undefined;
     }
-    export interface RewritableBaseResultOfShareBase extends BaseResultOfShareBase {
+    export interface SearchBehaviourBaseResultOfShareBase extends BaseResultOfShareBase {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface ShareSearchResult extends RewritableBaseResultOfShareBase {
+    export interface ShareSearchResult extends SearchBehaviourBaseResultOfShareBase {
         elapsedMilliseconds: number;
+    }
+    export interface SendMessageRequest2 {
+        messageName?: string | undefined;
+        businessProcessId?: string | undefined;
+        variables?: any | undefined;
+    }
+    export interface CustomerServiceProviderConfiguration {
+        serviceProviderId?: string | undefined;
+        customerId?: string | undefined;
+        userRoleIds?: string[] | undefined;
+        settings?: string | undefined;
+    }
+    export interface ServiceProviderConfigurationUpdateRequest {
+        customerId?: string | undefined;
+        serviceProviderId?: string | undefined;
+        settings?: string | undefined;
+        userRoleIds?: string[] | undefined;
     }
     export interface FileTransferDeleteRequest {
         transferId?: string | undefined;
@@ -2503,7 +2603,7 @@ declare module "picturepark" {
     export interface TransferDetail {
         id?: string | undefined;
         rev?: string | undefined;
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         name?: string | undefined;
         state: TransferState;
         businessProcessId?: string | undefined;
@@ -2520,7 +2620,7 @@ declare module "picturepark" {
         rev?: string | undefined;
         name?: string | undefined;
         identifier?: string | undefined;
-        audit?: StoreAudit | undefined;
+        audit?: UserAudit | undefined;
         transferId?: string | undefined;
         state: FileTransferState;
         entityType: EntityType;
@@ -4049,6 +4149,7 @@ declare module "picturepark" {
     export interface TransferSearchRequest {
         channel?: string | undefined;
         searchString?: string | undefined;
+        searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
         start: number;
         limit: number;
@@ -4059,11 +4160,16 @@ declare module "picturepark" {
         results?: Transfer[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface TransferSearchResult extends BaseResultOfTransfer {
+    export interface SearchBehaviourBaseResultOfTransfer extends BaseResultOfTransfer {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface TransferSearchResult extends SearchBehaviourBaseResultOfTransfer {
         elapsedMilliseconds: number;
     }
     export interface FileTransferSearchRequest {
         searchString?: string | undefined;
+        searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
         start: number;
         limit: number;
@@ -4074,7 +4180,11 @@ declare module "picturepark" {
         results?: FileTransfer[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface FileTransferSearchResult extends BaseResultOfFileTransfer {
+    export interface SearchBehaviourBaseResultOfFileTransfer extends BaseResultOfFileTransfer {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+    }
+    export interface FileTransferSearchResult extends SearchBehaviourBaseResultOfFileTransfer {
         elapsedMilliseconds: number;
     }
     export interface FileTransfer {
@@ -4088,8 +4198,8 @@ declare module "picturepark" {
     }
     export interface UserSearchRequest {
         searchString?: string | undefined;
-        /** Allow the backend to modify the search string if it generates a non valid query */
-        allowSearchStringRewrite: boolean;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
         start: number;
         limit: number;
@@ -4101,18 +4211,21 @@ declare module "picturepark" {
         results?: User[] | undefined;
         pageToken?: string | undefined;
     }
-    export interface RewritableBaseResultOfUser extends BaseResultOfUser {
+    export interface SearchBehaviourBaseResultOfUser extends BaseResultOfUser {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface UserSearchResult extends RewritableBaseResultOfUser {
+    export interface UserSearchResult extends SearchBehaviourBaseResultOfUser {
         elapsedMilliseconds: number;
     }
-    export interface User extends UserItem {
+    export interface User {
         userRoleIds?: string[] | undefined;
+        id?: string | undefined;
+        firstName?: string | undefined;
+        lastName?: string | undefined;
+        emailAddress?: string | undefined;
     }
     export interface UserDetail extends UserItem {
-        password?: string | undefined;
         userRoles?: UserRole[] | undefined;
         comment?: string | undefined;
         languageCode?: string | undefined;
@@ -4145,6 +4258,7 @@ declare module "picturepark" {
         Active,
         Review,
         Locked,
+        Invited,
     }
     export interface Channel {
         id?: string | undefined;

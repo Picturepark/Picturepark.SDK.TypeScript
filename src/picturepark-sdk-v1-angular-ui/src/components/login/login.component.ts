@@ -13,11 +13,11 @@ export class LoginComponent {
 
   @Input()
   @InputConverter(StringConverter)
-  username: string = '';
+  username = '';
 
   @Input()
   @InputConverter(StringConverter)
-  password: string = '';
+  password = '';
 
   @Input()
   @InputConverter(BooleanConverter)
@@ -30,7 +30,7 @@ export class LoginComponent {
   @Output()
   loggedIn = new EventEmitter();
 
-  constructor(public authService: AuthService, 
+  constructor(public authService: AuthService,
     @Inject(LOCALE_ID) private locale: string) {
     // if (this.authService.isLoggedIn)
     //   this.username = this.authService.username!;

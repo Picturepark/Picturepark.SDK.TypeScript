@@ -89,9 +89,9 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#aggregationfilters" class="tsd-kind-icon">aggregation<wbr>Filters</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#aggregators" class="tsd-kind-icon">aggregators</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#allowsearchstringrewrite" class="tsd-kind-icon">allow<wbr>Search<wbr>String<wbr>Rewrite</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#displaylanguage" class="tsd-kind-icon">display<wbr>Language</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ishareaggregationrequest.html#sort" class="tsd-kind-icon">sort</a></li>
 							</ul>
@@ -104,37 +104,22 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="aggregationfilters" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Filters</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters<span class="tsd-signature-symbol">:</span> <a href="../classes/aggregationfilter.html" class="tsd-signature-type">AggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters<span class="tsd-signature-symbol">:</span> <a href="iaggregationfilter.html" class="tsd-signature-type">IAggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19080">src/picturepark.services.ts:19080</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20026">src/picturepark.services.ts:20026</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="aggregators" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregators</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="../classes/aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="iaggregatorbase.html" class="tsd-signature-type">IAggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19081">src/picturepark.services.ts:19081</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20027">src/picturepark.services.ts:20027</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="allowsearchstringrewrite" class="tsd-anchor"></a>
-					<h3>allow<wbr>Search<wbr>String<wbr>Rewrite</h3>
-					<div class="tsd-signature tsd-kind-icon">allow<wbr>Search<wbr>String<wbr>Rewrite<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19076">src/picturepark.services.ts:19076</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Allow the backend to modify the search string if it generates a non valid query</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="displaylanguage" class="tsd-anchor"></a>
@@ -142,17 +127,17 @@
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19082">src/picturepark.services.ts:19082</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20028">src/picturepark.services.ts:20028</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="filter" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
-					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../classes/filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="ifilterbase.html" class="tsd-signature-type">IFilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19079">src/picturepark.services.ts:19079</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20025">src/picturepark.services.ts:20025</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,22 +147,37 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="searchbehaviours" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviours</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviours<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehaviour.html" class="tsd-signature-type">SearchBehaviour</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20022">src/picturepark.services.ts:20022</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional list of search behaviours. All the passed behaviours will be applied</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="searchstring" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>String</h3>
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19074">src/picturepark.services.ts:19074</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20020">src/picturepark.services.ts:20020</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="sort" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sort</h3>
-					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="../classes/sortinfo.html" class="tsd-signature-type">SortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="isortinfo.html" class="tsd-signature-type">ISortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/181f407/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L19077">src/picturepark.services.ts:19077</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L20023">src/picturepark.services.ts:20023</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,13 +205,13 @@
 								<a href="ishareaggregationrequest.html#aggregators" class="tsd-kind-icon">aggregators</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ishareaggregationrequest.html#allowsearchstringrewrite" class="tsd-kind-icon">allow<wbr>Search<wbr>String<wbr>Rewrite</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ishareaggregationrequest.html#displaylanguage" class="tsd-kind-icon">display<wbr>Language</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ishareaggregationrequest.html#filter" class="tsd-kind-icon">filter</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ishareaggregationrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ishareaggregationrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>
