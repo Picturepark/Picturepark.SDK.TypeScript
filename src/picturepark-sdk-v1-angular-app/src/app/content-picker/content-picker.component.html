@@ -39,6 +39,7 @@
                               [query]="searchText" 
                               [columns]="contentBrowserColumns" 
                               [height]="contentBrowserHeight"
+                              (doubleClick)="showDetails($event)"
                               [(selectedItems)]="selectedItems">
           </pp-content-browser>
         </div>

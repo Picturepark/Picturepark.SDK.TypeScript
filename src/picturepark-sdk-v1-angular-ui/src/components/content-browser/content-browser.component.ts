@@ -44,6 +44,9 @@ export class ContentBrowserComponent implements OnChanges {
   @Output()
   selectedItemsChange = new EventEmitter<Content[]>();
 
+  @Output()
+  doubleClick = new EventEmitter<Content>();
+
   @ViewChild('virtualScroll')
   private virtualScroll: VirtualScrollComponent;
 
@@ -59,6 +62,10 @@ export class ContentBrowserComponent implements OnChanges {
       item.isSelected = !item.isSelected;
     }
     this.updateSelectedItems();
+  }
+
+  onDoubleClicked(item: ContentModel) {
+    this.doubleClick.emit(item.item);
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {

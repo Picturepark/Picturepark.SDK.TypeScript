@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ShareCardComponent } from './share-card/share-card.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
+import { ContentPickerDetailsComponent } from './content-picker-details/content-picker-details.component';
 
 import { TranslatePipe } from '../pipes/translate.pipe';
 
@@ -40,6 +41,7 @@ export function PictureparkConfigurationFactory() {
 
     ShareCardComponent,
     ContentPickerComponent,
+    ContentPickerDetailsComponent,
     TranslatePipe
   ],
   imports: [
@@ -52,6 +54,7 @@ export function PictureparkConfigurationFactory() {
     PictureparkUiModule,
     RouterModule.forRoot([
       { path: '', component: AppComponent },
+      { path: 'details', component: AppComponent },
       { path: 'pcpToken/:type?postUrl=:postUrl', redirectTo: '/content-picker?postUrl=:postUrl' }
     ])
   ],

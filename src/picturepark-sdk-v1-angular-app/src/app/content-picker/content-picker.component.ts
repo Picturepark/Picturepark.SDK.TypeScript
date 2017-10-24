@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   AggregationFilter,
@@ -40,6 +40,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   aggregationFilterHeight = '0px';
 
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private shareService: ShareService,
     @Inject(AuthService) public authService: OidcAuthService) {
   }
@@ -55,7 +56,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   };
 
   ngOnInit() {
-    if (this.authService.isAuthorizing === false) {
+    if (!this.authService.isAuthorized && this.authService.isAuthorizing === false) {
       this.authService.login();
     }
 
@@ -76,6 +77,10 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   ngOnDestroy(): void {
     window.removeEventListener('unload', this.onWindowUnload, false);
     window.removeEventListener('resize', this.onWindowResized, false);
+  }
+
+  showDetails(item: Content) {
+    this.router.navigate(['content-picker', 'details', item.id]);
   }
 
   async embed() {
