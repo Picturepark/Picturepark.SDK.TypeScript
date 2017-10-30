@@ -17,6 +17,7 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
 import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
+import { EmbedService } from './embed.service';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
@@ -59,6 +60,7 @@ export function PictureparkConfigurationFactory() {
     ])
   ],
   providers: [
+    EmbedService,
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
   ],

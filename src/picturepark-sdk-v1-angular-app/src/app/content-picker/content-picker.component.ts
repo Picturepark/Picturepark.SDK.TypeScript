@@ -15,6 +15,7 @@ import {
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angular-ui';
+import { ContentPickerResult, EmbedService } from '../embed.service';
 
 @Component({
   templateUrl: './content-picker.component.html'
@@ -41,7 +42,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private shareService: ShareService,
+    private embedService: EmbedService,
     @Inject(AuthService) public authService: OidcAuthService) {
   }
 
@@ -80,44 +81,15 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   showDetails(item: Content) {
-    this.router.navigate(['content-picker', 'details', item.id]);
+    this.router.navigate(['content-picker', 'details', item.id], { queryParams: { postUrl: this.postUrl } });
   }
 
   async embed() {
-    if (this.selectedItems.length > 0) {
-      const contentItems = this.selectedItems.map(i => new ShareContent({
-        contentId: i.id,
-        outputFormatIds: ['Original']
-      }));
-
-      try {
-        this.loading = true;
-
-        const result = await this.shareService.create(new ShareEmbedCreateRequest({
-          contents: contentItems,
-          outputAccess: OutputAccess.Full
-        })).toPromise();
-
-        if (result) {
-          const share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
-          const postMessage = JSON.stringify({
-            token: share.token,
-            shareId: share.id!,
-            items: share.embedContentItems!.map(i => { return { token: i.token, url: i.url }; })
-          } as ContentPickerResult);
-
-          this.messagePosted = true;
-          if (window.opener) {
-            window.opener.postMessage(postMessage, this.postUrl);
-          } else {
-            console.log('Post message (either no postUrl has been specified or window.opener is not defined): \n' + postMessage);
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.loading = false;
-      }
+    try {
+      this.loading = true;
+      this.messagePosted = await this.embedService.embed(this.selectedItems, this.postUrl);
+    } finally {
+      this.loading = false;
     }
   }
 
@@ -137,9 +109,4 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   cancel() {
     window.close();
   }
-}
-
-export interface ContentPickerResult {
-  shareId: string,
-  items: { token: string, url: string }[]
 }

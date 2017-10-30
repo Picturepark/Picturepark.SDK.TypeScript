@@ -66,27 +66,30 @@ export class PictureparkPlayers {
     }
   }
 
-  static showDetail(token: string, itemId: string, widgetId: string) {
+  static showDetail(token: string, shareItemId: string, widgetId: string) {
     if (PictureparkPlayers.loading) return;
     PictureparkPlayers.loading = true;
 
     let share = (<any>document).pictureparkShareCache[token];
-    let item = share.items.filter(i => i.id === itemId)[0];
+    PictureparkPlayers.showDetailById(shareItemId, share.items, widgetId);
+  }
 
-    if (item.isPdf && share.items.length === 1) {
-      this.showPdfJsItem(item);
+  static showDetailById(shareItemId: string, shareItems: IShareItem[], widgetId?: string) {
+    let shareItem = shareItems.filter(i => i.id === shareItemId)[0];
+    if (shareItem.isPdf && shareItems.length === 1) {
+      this.showPdfJsItem(shareItem);
       PictureparkPlayers.loading = false;
-    } else if (item.isImage || item.isMovie || item.isPdf || !item.isBinary) {
+    } else if (shareItem.isImage || shareItem.isMovie || shareItem.isPdf || !shareItem.isBinary) {
       let savedOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      this.showPhotoSwipeItem(token, item, share.items, 'gallery_' + widgetId).then(() => {
+      this.showPhotoSwipeItem(shareItem, shareItems, widgetId ? 'gallery_' + widgetId : undefined).then(() => {
         PictureparkPlayers.loading = false;
         document.body.style.overflow = savedOverflow;
       });
     } else {
       // download file
       var link = document.createElement("a");
-      link.href = item.originalUrl;
+      link.href = shareItem.originalUrl;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -94,14 +97,11 @@ export class PictureparkPlayers {
     }
   }
 
-  static renderVideoPlayer(token: string, id: string, elementId: string, width: any, height: any) {
-    let share = (<any>document).pictureparkShareCache[token];
-    let item = share.items.filter(i => i.id === id)[0];
-
+  static renderVideoPlayer(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, elementId: string, width: any, height: any) {
     return this.loadVideoPlayer().then((jwplayer) => {
       let player = jwplayer(elementId);
       if (player.setup) {
-        share.player = jwplayer(elementId).setup({
+        return jwplayer(elementId).setup({
           autostart: false,
           image: item.previewUrl,
           file: item.originalUrl,
@@ -109,7 +109,6 @@ export class PictureparkPlayers {
           width: width,
           height: height
         });
-        return player;
       }
       return undefined;
     });
@@ -158,9 +157,13 @@ export class PictureparkPlayers {
     document.body.appendChild(iframeElement);
   }
 
-  static showPhotoSwipeItem(token: string, item: any, items: any[], galleryElementId: string) {
+  static showPhotoSwipeItem(shareItem: IShareItem, shareItems?: IShareItem[], galleryElementId?: string) {
     return this.loadPhotoSwipe().then(result => {
-      let photoSwipeItems = items.map(i => {
+      if (!shareItems) {
+        shareItems = [shareItem];
+      }
+
+      let photoSwipeItems = shareItems.map(i => {
         if (i.isImage) {
           return {
             src: i.previewUrl,
@@ -170,7 +173,7 @@ export class PictureparkPlayers {
         } else if (i.isPdf) {
           return {
             html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-            'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>'
+              'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>'
           };
         } else if (i.isMovie) {
           return {
@@ -178,7 +181,7 @@ export class PictureparkPlayers {
           };
         } else if (!i.isBinary) {
           return {
-            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + item.displayValues.detail + '</div>'
+            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + shareItem.displayValues.detail + '</div>'
           };
         } else {
           return {
@@ -187,11 +190,11 @@ export class PictureparkPlayers {
         }
       });
 
-      var photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: items.indexOf(item) });
+      var photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: shareItems.indexOf(shareItem) });
       photoSwipe.options.history = false;
       photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
-        let gallery = PictureparkPlayers.getGallery(galleryElementId);
+        let gallery = galleryElementId ? PictureparkPlayers.getGallery(galleryElementId) : undefined;
         if (gallery) {
           PictureparkPlayers.showGalleryItem(gallery, photoSwipe.getCurrentIndex());
         }
@@ -199,13 +202,13 @@ export class PictureparkPlayers {
 
       var players = [];
       var resizeCallbacks = [];
-      if (items.filter(i => i.isMovie || i.isPdf).length > 0) {
+      if (shareItems.filter(i => i.isMovie || i.isPdf).length > 0) {
         var updatePlayers = () => {
-          if (items.filter(i => i.isMovie).length > 0) {
+          if (shareItems.filter(i => i.isMovie).length > 0) {
             // TODO: Only update if not already initialized
             PictureparkPlayers.loadVideoPlayer().then(() => {
-              for (let i of items.filter(i => i.isMovie)) {
-                PictureparkPlayers.renderVideoPlayer(token, i.id, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
+              for (let i of shareItems.filter(i => i.isMovie)) {
+                PictureparkPlayers.renderVideoPlayer(i, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
                   if (player) {
                     players.push(player);
                     let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
@@ -218,7 +221,7 @@ export class PictureparkPlayers {
           }
 
           // Handle pdfjs iframe close event
-          for (let i of items.filter(i => i.isPdf)) {
+          for (let i of shareItems.filter(i => i.isPdf)) {
             let elementId = 'pdfjs_' + i.id;
             let element: any = document.getElementById(elementId);
             if (element) {
@@ -351,5 +354,25 @@ export class PictureparkPlayers {
 
       document.getElementsByTagName("head")[0].appendChild(linkElement);
     });
+  }
+}
+
+interface IShareItem {
+  id: string;
+
+  isImage: boolean;
+  isPdf: boolean;
+  isMovie: boolean;
+  isBinary: boolean;
+
+  displayValues: any;
+  previewUrl: string; 
+
+  originalUrl: string;
+  originalFileExtension: string;
+
+  detail: {
+    width: number;
+    height: number;
   }
 }

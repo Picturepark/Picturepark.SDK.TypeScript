@@ -1,3 +1,19 @@
 <div class="container-fluid">
-  Details for {{contentId}}
+  <h1>{{content ? content.contentType : ''}}&nbsp;</h1>
+
+  <img *ngIf="thumbnailUrl" [src]="thumbnailUrl" 
+       style="float: left; cursor: pointer; padding-right: 10px" 
+       (click)="show()" />  
+
+  <dl *ngIf="imageMetadata">
+    <dt>File extension</dt>
+    <dd>{{imageMetadata.fileExtension}}</dd>
+
+    <dt>Size</dt>
+    <dd>{{imageMetadata.width}}px x {{imageMetadata.height}}px</dd>
+  </dl>
+
+  <a (click)="back()" style="cursor: pointer">Back</a>
+  <br>
+  <a (click)="embed()" style="cursor: pointer">Embed</a>
 </div>

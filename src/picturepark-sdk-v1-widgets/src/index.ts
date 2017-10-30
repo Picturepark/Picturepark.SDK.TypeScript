@@ -77,6 +77,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     if (contentTemplate === '') {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
     }
+
     let baseUrl = rawShare.url.replace("/Go/" + config.token + "/D", "");
     let index = 0;
     let share = {
@@ -109,7 +110,14 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
         let previewOutput = outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
         // find best original output
-        let originalOutput: any;
+        let originalOutput: {
+          contentId: string;
+          outputFormatId: string;
+          fileExtension: string;
+          url: string;
+          detail: picturepark.OutputDetailBase;
+        };
+
         for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original", "Preview"]) {
           originalOutput = outputs.filter(o => o.outputFormatId === ofi)[0];
           if (originalOutput)
@@ -157,11 +165,12 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       // Load movie players
       for (let item of share.items) {
         if (item.isMovie) {
-          let itemId = item.id;
           let elementId = 'player_' + item.index + "_" + id;
           setTimeout(() => {
             if (document.getElementById(elementId)) {
-              PictureparkPlayers.renderVideoPlayer(config.token, itemId, elementId, config.width, config.height);
+              PictureparkPlayers.renderVideoPlayer(item, elementId, config.width, config.height).then(player => {
+                (<any>share).player = player;
+              });
             }
           });
         }
