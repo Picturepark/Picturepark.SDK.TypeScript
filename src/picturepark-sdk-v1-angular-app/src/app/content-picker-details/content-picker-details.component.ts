@@ -7,7 +7,10 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 
-import { ContentService, ContentDetail, AuthService, ImageMetadata, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import {
+  ContentService, ContentDetail, AuthService, ImageMetadata, ThumbnailSize,
+  ContentBatchDownloadRequest, ContentBatchDownloadRequestItem, ContentBatchDownloadItem, ContentType
+} from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { EmbedService } from 'app/embed.service';
@@ -21,7 +24,9 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
   postUrl: any;
   content: ContentDetail;
   contentId: string;
-  thumbnailUrl: SafeUrl;
+
+  thumbnailUrl: string;
+  thumbnailUrlSafe: SafeUrl;
 
   constructor(private route: ActivatedRoute,
     private contentService: ContentService,
@@ -48,7 +53,8 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
       this.contentId = contentId.toString();
 
       this.contentService.downloadThumbnail(this.contentId, ThumbnailSize.Medium).subscribe(response => {
-        this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response!.data!));
+        this.thumbnailUrl = URL.createObjectURL(response!.data!);
+        this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
       });
 
       this.contentService.get(this.contentId, true, []).subscribe((content: ContentDetail) => {
@@ -58,26 +64,54 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
   }
 
   show() {
-    const previewOutput = this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
-    this.contentService.download(this.content.id!, 'Preview', null).subscribe(response => {
+    const isPdf = this.content.contentType === ContentType.InterchangeDocument;
+    const isAudio = this.content.contentType === ContentType.Audio;
+    const isVideo = this.content.contentType === ContentType.Video;
+
+    const isMovie = isAudio || isVideo;
+    const isImage = !isMovie && !isPdf;
+
+    const previewOutput =
+      isPdf ? this.content.outputs!.filter(o => o.outputFormatId === 'Original')[0] :
+        isAudio ? this.content.outputs!.filter(o => o.outputFormatId === 'AudioSmall')[0] :
+          isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
+            this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
+
+    const request = new ContentBatchDownloadRequest({
+      contents: [
+        new ContentBatchDownloadRequestItem({
+          contentId: this.contentId,
+          outputFormatId: previewOutput.outputFormatId
+        })
+      ]
+    });
+
+    // TODO: Improve this code!
+    this.contentService.createDownloadLink(request).subscribe((response: ContentBatchDownloadItem) => {
+      const url = 'https://devnext.preview-picturepark.com/' + response.downloadUrl! + '/' +
+        previewOutput.detail!.fileName + '?forcePartial=true';
+
       const item: IShareItem = {
         id: this.content.id!,
 
-        isImage: true,
-        isPdf: false,
-        isMovie: false,
+        isPdf: isPdf,
+        isImage: isImage,
+        isMovie: isMovie,
         isBinary: false,
 
         displayValues: {},
-        previewUrl: URL.createObjectURL(response!.data!),
-        originalUrl: URL.createObjectURL(response!.data!),
-        originalFileExtension: previewOutput.detail!.fileExtension!.substr(1),
+        previewUrl: isImage ? url : this.thumbnailUrl,
+
+        originalUrl: url,
+        originalFileExtension: previewOutput.detail!.fileExtension!,
+
         detail: {
           width: (<any>previewOutput.detail).width,
           height: (<any>previewOutput.detail).height,
         }
       };
-      (<any>window).pictureparkWidgets.players.showDetailById(item.id, [item]);
+
+      ((<any>window).pictureparkWidgets).players.showDetailById(item.id, [item]);
     });
   }
 
