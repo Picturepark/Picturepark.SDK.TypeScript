@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <h1>{{content ? content.contentType : ''}}&nbsp;</h1>
 
-  <img *ngIf="thumbnailUrl" [src]="thumbnailUrl" 
+  <img *ngIf="thumbnailUrl" [src]="thumbnailUrlSafe" 
        style="float: left; cursor: pointer; padding-right: 10px" 
        (click)="show()" />  
 
