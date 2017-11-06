@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 
 import {
-  ContentService, ContentDetail, AuthService, ImageMetadata, ThumbnailSize,
-  ContentBatchDownloadRequest, ContentBatchDownloadRequestItem, ContentBatchDownloadItem, ContentType
+  ContentService, ContentDetail, AuthService, ImageMetadata, ThumbnailSize, 
+  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink
 } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -82,20 +82,16 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
           isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
             this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
 
-    const request = new ContentBatchDownloadRequest({
+    const request = new ContentDownloadLinkCreateRequest({
       contents: [
-        new ContentBatchDownloadRequestItem({
+        new ContentDownloadRequestItem({
           contentId: this.contentId,
           outputFormatId: previewOutput.outputFormatId
         })
       ]
     });
 
-    // TODO: Improve this code!
-    this.contentService.createDownloadLink(request).subscribe((response: ContentBatchDownloadItem) => {
-      const url = 'https://devnext.preview-picturepark.com/' + response.downloadUrl! + '/' +
-        previewOutput.detail!.fileName + '?forcePartial=true';
-
+    this.contentService.createDownloadLink(request).subscribe((response: DownloadLink) => {
       const item: IShareItem = {
         id: this.content.id!,
 
@@ -105,9 +101,9 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
         isBinary: false,
 
         displayValues: {},
-        previewUrl: isImage ? url : this.thumbnailUrl,
+        previewUrl: isImage ? response.downloadUrl! : this.thumbnailUrl,
 
-        originalUrl: url,
+        originalUrl: response.downloadUrl!,
         originalFileExtension: previewOutput.detail!.fileExtension!,
 
         detail: {
