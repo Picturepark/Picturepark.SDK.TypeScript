@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <!-- Details -->
-  <div [style.height]="windowHeight">
+  <div [style.height]="windowHeight" *ngIf="content">
     <h1>{{content && content.content ? content.content.fileName : ''}}&nbsp;</h1>
 
     <div class="picturepark-content-browser-item" style="float: left; cursor: pointer; padding-right: 10px; width: 300px">
@@ -23,7 +23,7 @@
   </div>
 
   <!-- Footer -->
-  <div class="row" style="background-color: lightgray; margin-top: 22px; padding: 10px">
+  <div *ngIf="content" class="row" style="background-color: lightgray; margin-top: 22px; padding: 10px">
     <div class="col-md-6">
       <div class="btn btn-primary" (click)="back()">
         {{'ContentPickerDetails.ButtonBack' | pptranslate}}
