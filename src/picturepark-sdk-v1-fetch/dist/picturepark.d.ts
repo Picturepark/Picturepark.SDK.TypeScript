@@ -29,7 +29,7 @@ declare module "picturepark" {
          * Update Single - OwnershipTransfer
          * @contentId The content id.
          * @updateRequest The content ownership transfer request update request.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
          * @return ContentDetail
          */
         updateTransferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: number | null): Promise<ContentDetail | null>;
@@ -38,7 +38,7 @@ declare module "picturepark" {
          * Get Many
          * @ids Comma-separated list of contentIds
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return List of ContentDetail
          */
         getMany(ids: string[] | null, resolve: boolean, patterns: string[] | null): Promise<ContentDetail[] | null>;
@@ -70,14 +70,14 @@ declare module "picturepark" {
          * @request The content batch download request
          * @return ContentBatchDonloadItem
          */
-        createDownloadLink(request: ContentBatchDownloadRequest | null): Promise<ContentBatchDownloadItem | null>;
-        protected processCreateDownloadLink(response: Response): Promise<ContentBatchDownloadItem | null>;
+        createDownloadLink(request: ContentDownloadLinkCreateRequest | null): Promise<DownloadLink | null>;
+        protected processCreateDownloadLink(response: Response): Promise<DownloadLink | null>;
         /**
          * Create Single
          * @createRequest The content create request.
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
         createContent(createRequest: CreateContentRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
         protected processCreateContent(response: Response): Promise<ContentDetail | null>;
@@ -85,7 +85,7 @@ declare module "picturepark" {
          * Downloads content in a specific outputformat
          * @contentId The content id
          * @outputFormatId The output format id
-         * @range the range
+         * @range (optional) the range
          * @return HttpResponseMessage
          */
         download(contentId: string, outputFormatId: string, range: string | null): Promise<FileResponse | null>;
@@ -112,7 +112,7 @@ declare module "picturepark" {
          * Get Single
          * @contentId The content id.
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
         get(contentId: string, resolve: boolean, patterns: string[] | null): Promise<ContentDetail | null>;
@@ -122,8 +122,8 @@ declare module "picturepark" {
          * @contentId The content id.
          * @updateRequest The metadata update request.
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
         updateMetadata(contentId: string, updateRequest: UpdateContentMetadataRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
@@ -133,8 +133,8 @@ declare module "picturepark" {
          * @contentId The content id.
          * @updateRequest The content permission update request.
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
         updatePermissions(contentId: string, updateRequest: UpdateContentPermissionsRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
@@ -172,8 +172,8 @@ declare module "picturepark" {
          * Reactivate - Content
          * @contentId The content id.
          * @resolve Resolves the data of referenced list items into the contents's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
         reactivate(contentId: string, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
@@ -229,27 +229,6 @@ declare module "picturepark" {
         search(businessProcessSearchRequest: BusinessProcessSearchRequest | null): Promise<BusinessProcessSearchResult | null>;
         protected processSearch(response: Response): Promise<BusinessProcessSearchResult | null>;
         /**
-         * Start
-         * @processDefinitionId The process definition id
-         * @request The start process request
-         * @return BusinessProcess
-         */
-        start(processDefinitionId: string, request: StartProcessRequest | null): Promise<BusinessProcess | null>;
-        protected processStart(response: Response): Promise<BusinessProcess | null>;
-        /**
-         * Mark as ended
-         * @processId The process id
-         */
-        markAsEnded(processId: string): Promise<void>;
-        protected processMarkAsEnded(response: Response): Promise<void>;
-        /**
-         * Send message
-         * @processId The process id
-         * @request The send message request
-         */
-        sendMessage(processId: string, request: SendMessageRequest | null): Promise<void>;
-        protected processSendMessage(response: Response): Promise<void>;
-        /**
          * Wait for states
          * @processId The process id
          * @states The states to wait for
@@ -258,6 +237,13 @@ declare module "picturepark" {
          */
         waitForStates(processId: string, states: string | null, timeout: number): Promise<BusinessProcessWaitResult | null>;
         protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
+        /**
+         * Get details
+         * @processId The process id
+         * @return BusinessProcessDetails
+         */
+        getDetails(processId: string): Promise<BusinessProcessDetails | null>;
+        protected processGetDetails(response: Response): Promise<BusinessProcessDetails | null>;
     }
     export class DocumentHistoryClient extends PictureparkClientBase {
         private http;
@@ -332,8 +318,8 @@ declare module "picturepark" {
          * Create Single
          * @listItem List item create request.
          * @resolve Resolves the data of referenced list items into the list item's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
         create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail | null>;
@@ -347,7 +333,7 @@ declare module "picturepark" {
         protected processCreateMany(response: Response): Promise<BusinessProcess | null>;
         /**
          * Delete Many
-         * @ids The list item id list.
+         * @ids (optional) The list item id list.
          * @return BusinessProcess
          */
         deleteMany(ids: string[] | null): Promise<BusinessProcess | null>;
@@ -384,7 +370,7 @@ declare module "picturepark" {
          * Get Single
          * @listItemId The list item id.
          * @resolve Resolves the data of referenced list items into the list item's content.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
         get(listItemId: string, resolve: boolean, patterns: string[] | null): Promise<ListItemDetail | null>;
         protected processGet(response: Response): Promise<ListItemDetail | null>;
@@ -393,8 +379,8 @@ declare module "picturepark" {
          * @listItemId The list item id.
          * @updateRequest The list item update request.
          * @resolve Resolves the data of referenced list items into the list item's content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @patterns Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
+         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
         update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail | null>;
@@ -416,9 +402,10 @@ declare module "picturepark" {
         /**
          * Wait For States
          * @processId The business process id.
-         * @states Comma-separated list of business process states to wait for.
+         * @states (optional) Comma-separated list of business process states to wait for.
          * @timeout Maximum time in milliseconds to wait for the business process completed state.
          * @return BusinessProcessWaitResult
+         * @deprecated
          */
         waitForStates(processId: string, states: string[] | null, timeout: number): Promise<BusinessProcessWaitResult | null>;
         protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
@@ -447,7 +434,7 @@ declare module "picturepark" {
         });
         /**
          * Get Many
-         * @ids Comma separated list of schema ids
+         * @ids (optional) Comma separated list of schema ids
          * @return SchemaDetail
          */
         getMany(ids: string[] | null): Promise<SchemaDetail[] | null>;
@@ -558,8 +545,8 @@ declare module "picturepark" {
          * @token The token
          * @return ShareBaseDetail
          */
-        getShare(token: string | null): Promise<ShareBaseDetail | null>;
-        protected processGetShare(response: Response): Promise<ShareBaseDetail | null>;
+        getShare(token: string): Promise<ShareDetail | null>;
+        protected processGetShare(response: Response): Promise<ShareDetail | null>;
     }
     export class ShareClient extends PictureparkClientBase {
         private http;
@@ -573,18 +560,18 @@ declare module "picturepark" {
          * @id The share id.
          * @updateRequest The share update request.
          * @resolve Resolves the data of referenced list items into the shares content.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
+         * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
          * @return Share
          */
-        update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<BaseResultOfShareBase | null>;
-        protected processUpdate(response: Response): Promise<BaseResultOfShareBase | null>;
+        update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<ShareDetail | null>;
+        protected processUpdate(response: Response): Promise<ShareDetail | null>;
         /**
          * Get single
          * @id Share Id (not token, use PublicAccess to get share by token)
          * @return Polymorph share
          */
-        get(id: string): Promise<ShareBaseDetail | null>;
-        protected processGet(response: Response): Promise<ShareBaseDetail | null>;
+        get(id: string): Promise<ShareDetail | null>;
+        protected processGet(response: Response): Promise<ShareDetail | null>;
         /**
          * Delete many
          * @shareIds A list of ListItemCreateRequests.
@@ -621,7 +608,7 @@ declare module "picturepark" {
         constructor(configuration: AuthClient, baseUrl?: string, http?: {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
-        sendMessage(serviceProviderId: string, request: SendMessageRequest2 | null): Promise<void>;
+        sendMessage(serviceProviderId: string, request: SendMessageRequest | null): Promise<void>;
         protected processSendMessage(response: Response): Promise<void>;
         getConfiguration(serviceProviderId: string): Promise<CustomerServiceProviderConfiguration | null>;
         protected processGetConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration | null>;
@@ -711,12 +698,12 @@ declare module "picturepark" {
         protected processSearchFiles(response: Response): Promise<FileTransferSearchResult | null>;
         /**
          * Upload file
-         * @formFile Gets or sets the form file.
-         * @relativePath Relative path of the uploading file
-         * @chunkNumber Current chunk number. starts with 1
-         * @currentChunkSize Size in bytes of the current chunk
-         * @totalSize Total size in bytes of the uploading file
-         * @totalChunks Total chunks of the uploading file
+         * @formFile (optional) Gets or sets the form file.
+         * @relativePath (optional) Relative path of the uploading file
+         * @chunkNumber (optional) Current chunk number. starts with 1
+         * @currentChunkSize (optional) Size in bytes of the current chunk
+         * @totalSize (optional) Total size in bytes of the uploading file
+         * @totalChunks (optional) Total chunks of the uploading file
          */
         uploadFile(formFile: FileParameter | null, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
@@ -866,8 +853,6 @@ declare module "picturepark" {
     }
     export enum EntityType {
         Content,
-        BasicShare,
-        EmbedShare,
         Metadata,
         FileTransfer,
     }
@@ -1162,6 +1147,7 @@ declare module "picturepark" {
         error?: string | undefined;
         reason?: string | undefined;
         succeeded: boolean;
+        status: number;
     }
     export interface ContentAggregationRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
@@ -1431,16 +1417,16 @@ declare module "picturepark" {
         active: boolean;
         aggregationResults?: AggregationResult[] | undefined;
     }
-    export interface ContentBatchDownloadRequest {
-        contents?: ContentBatchDownloadRequestItem[] | undefined;
+    export interface ContentDownloadLinkCreateRequest {
+        contents?: ContentDownloadRequestItem[] | undefined;
     }
-    export interface ContentBatchDownloadRequestItem {
+    export interface ContentDownloadRequestItem {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
     }
     export interface DownloadItem {
     }
-    export interface ContentBatchDownloadItem extends DownloadItem {
+    export interface DownloadLink extends DownloadItem {
         downloadToken?: string | undefined;
         downloadUrl?: string | undefined;
     }
@@ -1509,6 +1495,7 @@ declare module "picturepark" {
     }
     export enum ContentRight {
         View,
+        AccessOriginal,
         Edit,
         Update,
         Manage,
@@ -1652,18 +1639,19 @@ declare module "picturepark" {
     export interface BusinessProcessSearchResult extends SearchBehaviourBaseResultOfBusinessProcess {
         elapsedMilliseconds: number;
     }
-    export interface StartProcessRequest {
-        variables?: any | undefined;
-    }
-    export interface SendMessageRequest {
-        messageName?: string | undefined;
-        variables?: any | undefined;
-    }
     export interface BusinessProcessWaitResult {
         hasStateHit: boolean;
         processEnded: boolean;
         stateHit?: string | undefined;
         businessProcess?: BusinessProcess | undefined;
+    }
+    export interface BusinessProcessDetails extends BusinessProcess {
+        details?: BusinessProcessDetailsDataBase | undefined;
+    }
+    export interface BusinessProcessDetailsDataBase {
+    }
+    export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
+        response?: BulkResponse | undefined;
     }
     export interface DocumentHistorySearchRequest {
         from: Date;
@@ -1929,15 +1917,17 @@ declare module "picturepark" {
         fixed: boolean;
         index: boolean;
         simpleSearch: boolean;
-        boost: number;
     }
     export interface FieldBoolean extends FieldBase {
+        boost: number;
     }
     export interface FieldDate extends FieldBase {
         format?: string | undefined;
+        boost: number;
     }
     export interface FieldDateTime extends FieldBase {
         format?: string | undefined;
+        boost: number;
     }
     export interface FieldDateTimeArray extends FieldDateTime {
         uniqueItems: boolean;
@@ -1948,8 +1938,10 @@ declare module "picturepark" {
         pattern?: string | undefined;
         minimum?: number | undefined;
         maximum?: number | undefined;
+        boost: number;
     }
     export interface FieldDictionary extends FieldBase {
+        boost: number;
     }
     export interface FieldDictionaryArray extends FieldDictionary {
         uniqueItems: boolean;
@@ -1957,11 +1949,13 @@ declare module "picturepark" {
         minimumItems?: number | undefined;
     }
     export interface FieldGeoPoint extends FieldBase {
+        boost: number;
     }
     export interface FieldLong extends FieldBase {
         pattern?: string | undefined;
         minimum?: number | undefined;
         maximum?: number | undefined;
+        boost: number;
     }
     export interface FieldLongArray extends FieldLong {
         uniqueItems: boolean;
@@ -1971,7 +1965,6 @@ declare module "picturepark" {
     export interface FieldSingleFieldset extends FieldBase {
         schemaId?: string | undefined;
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-        maxRecursion: number;
     }
     export interface SchemaIndexingInfo {
         fields?: FieldIndexingInfo[] | undefined;
@@ -1986,7 +1979,6 @@ declare module "picturepark" {
     export interface FieldMultiFieldset extends FieldBase {
         schemaId?: string | undefined;
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-        maxRecursion: number;
         uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
@@ -1994,14 +1986,12 @@ declare module "picturepark" {
     export interface FieldSingleTagbox extends FieldBase {
         schemaId?: string | undefined;
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-        maxRecursion: number;
         filter?: FilterBase | undefined;
         listItemCreateTemplate?: string | undefined;
     }
     export interface FieldMultiTagbox extends FieldBase {
         schemaId?: string | undefined;
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-        maxRecursion: number;
         uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
@@ -2017,6 +2007,7 @@ declare module "picturepark" {
         analyzers?: AnalyzerBase[] | undefined;
         multiLine: boolean;
         grantedValues?: string[] | undefined;
+        boost: number;
     }
     /** The analyzer base class. */
     export interface AnalyzerBase {
@@ -2057,12 +2048,12 @@ declare module "picturepark" {
         requiredMetadataLanguages?: string[] | undefined;
         template?: string | undefined;
         keepFieldValue: boolean;
+        boost: number;
     }
     export interface FieldSingleRelation extends FieldBase {
         schemaId?: string | undefined;
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
         relationTypes?: RelationType[] | undefined;
-        maxRecursion: number;
     }
     export interface RelationType {
         id?: string | undefined;
@@ -2081,7 +2072,6 @@ declare module "picturepark" {
         schemaId?: string | undefined;
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
         relationTypes?: RelationType[] | undefined;
-        maxRecursion: number;
         uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
@@ -2294,56 +2284,32 @@ declare module "picturepark" {
         Edit,
         Manage,
     }
+    /** The version view item for the environment. */
     export interface VersionInfo {
-        comments?: string | undefined;
-        event?: Event | undefined;
-        modifier?: string | undefined;
-        modifyDate?: Date | undefined;
-        version?: string | undefined;
+        /** The manual file version of Picturepark.Contract.dll. */
+        fileVersion?: string | undefined;
+        /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+        fileProductVersion?: string | undefined;
+        /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+        contractVersion?: string | undefined;
+        /** The bamboo release version. Only provided on bamboo deployments. */
+        release?: string | undefined;
     }
-    export interface Event {
-        action?: EventAction | undefined;
-        changed?: string | undefined;
-        instanceID?: string | undefined;
-        parameters?: string | undefined;
-        softwareAgent?: string | undefined;
-        when?: Date | undefined;
-    }
-    /** Corresponds to stEvt.ActionChoice */
-    export enum EventAction {
-        Converted,
-        Copied,
-        Created,
-        Cropped,
-        Edited,
-        Filtered,
-        Formatted,
-        VersionUpdated,
-        Printed,
-        Published,
-        Managed,
-        Produced,
-        Resized,
-        Saved,
-        Derived,
-    }
-    export interface ShareBaseDetail {
+    export interface ShareDetail {
         id?: string | undefined;
         name?: string | undefined;
         description?: string | undefined;
         audit?: UserAudit | undefined;
-        entityType: EntityType;
-        contentSelections?: ContentDetail2[] | undefined;
+        contentSelections?: ShareContentDetail[] | undefined;
         layerSchemaIds?: string[] | undefined;
+        data?: ShareDataBase | undefined;
         mailTemplateId?: string | undefined;
         expirationDate?: Date | undefined;
         template?: TemplateBase | undefined;
         outputAccess: OutputAccess;
+        shareType: ShareType;
     }
-    export interface ContentDetail2 {
-        trashed: boolean;
-        /** The entity type of a content document is content. */
-        entityType: EntityType;
+    export interface ShareContentDetail {
         /** The id of the schema with schema type content. */
         contentSchemaId?: string | undefined;
         /** An optional id list of schemas with type layer. */
@@ -2351,39 +2317,32 @@ declare module "picturepark" {
         content?: DataDictionary | undefined;
         metadata?: DataDictionary | undefined;
         id?: string | undefined;
-        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-        contentPermissionSetIds?: string[] | undefined;
-        outputs?: Output[] | undefined;
-        audit?: UserAudit | undefined;
-        ownerTokenId?: string | undefined;
+        outputs?: ShareOutputBase[] | undefined;
         contentType: ContentType;
         /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
     }
-    export interface TemplateBase {
-        width?: number | undefined;
-        height?: number | undefined;
+    export interface ShareOutputBase {
+        contentId?: string | undefined;
+        outputFormatId?: string | undefined;
     }
-    export interface CardTemplate extends TemplateBase {
-        showNavigation: boolean;
-        showOverlay: boolean;
-        showLogo: boolean;
-        showFooter: boolean;
+    export interface ShareOutputBasic extends ShareOutputBase {
     }
-    export interface ListTemplate extends TemplateBase {
-    }
-    export interface BasicTemplate extends TemplateBase {
-    }
-    export enum OutputAccess {
-        Full,
-        Preview,
-        None,
-    }
-    export interface ShareBasicDetail extends ShareBaseDetail {
+    export interface ShareOutputEmbed extends ShareOutputBase {
+        token?: string | undefined;
         url?: string | undefined;
+    }
+    export interface ShareDataBase {
+    }
+    export interface ShareDataEmbed extends ShareDataBase {
+        token?: string | undefined;
+        url?: string | undefined;
+    }
+    export interface ShareDataBasic extends ShareDataBase {
         mailRecipients?: MailRecipient[] | undefined;
         internalRecipients?: InternalRecipient[] | undefined;
         languageCode?: string | undefined;
+        url?: string | undefined;
     }
     export interface MailRecipient {
         userEmail?: UserEmail | undefined;
@@ -2406,16 +2365,28 @@ declare module "picturepark" {
         lastName?: string | undefined;
         emailAddress?: string | undefined;
     }
-    export interface ShareEmbedDetail extends ShareBaseDetail {
-        embedContentItems?: EmbedContentDetail[] | undefined;
-        token?: string | undefined;
-        url?: string | undefined;
+    export interface TemplateBase {
+        width?: number | undefined;
+        height?: number | undefined;
     }
-    export interface EmbedContentDetail {
-        contentId?: string | undefined;
-        outputFormatId?: string | undefined;
-        token?: string | undefined;
-        url?: string | undefined;
+    export interface CardTemplate extends TemplateBase {
+        showNavigation: boolean;
+        showOverlay: boolean;
+        showLogo: boolean;
+        showFooter: boolean;
+    }
+    export interface ListTemplate extends TemplateBase {
+    }
+    export interface BasicTemplate extends TemplateBase {
+    }
+    export enum OutputAccess {
+        Full,
+        Preview,
+        None,
+    }
+    export enum ShareType {
+        Basic,
+        Embed,
     }
     export interface ShareBaseUpdateRequest {
         id?: string | undefined;
@@ -2434,26 +2405,6 @@ declare module "picturepark" {
     export interface ShareBasicUpdateRequest extends ShareBaseUpdateRequest {
     }
     export interface ShareEmbedUpdateRequest extends ShareBaseUpdateRequest {
-    }
-    export interface BaseResultOfShareBase {
-        totalResults: number;
-        results?: ShareBase[] | undefined;
-        pageToken?: string | undefined;
-    }
-    export interface ShareBase {
-        name?: string | undefined;
-        contentIds?: string[] | undefined;
-        id?: string | undefined;
-        audit?: UserAudit | undefined;
-        entityType: EntityType;
-        expirationDate?: Date | undefined;
-    }
-    export interface ShareBasic extends ShareBase {
-        mailRecipients?: MailRecipient[] | undefined;
-        internalRecipients?: InternalRecipient[] | undefined;
-        description?: string | undefined;
-    }
-    export interface ShareEmbed extends ShareBase {
     }
     export interface ShareAggregationRequest {
         searchString?: string | undefined;
@@ -2510,14 +2461,27 @@ declare module "picturepark" {
         /** An optional search filter. Limits the share document result set. */
         filter?: FilterBase | undefined;
     }
-    export interface SearchBehaviourBaseResultOfShareBase extends BaseResultOfShareBase {
+    export interface BaseResultOfShare {
+        totalResults: number;
+        results?: Share[] | undefined;
+        pageToken?: string | undefined;
+    }
+    export interface SearchBehaviourBaseResultOfShare extends BaseResultOfShare {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface ShareSearchResult extends SearchBehaviourBaseResultOfShareBase {
+    export interface ShareSearchResult extends SearchBehaviourBaseResultOfShare {
         elapsedMilliseconds: number;
     }
-    export interface SendMessageRequest2 {
+    export interface Share {
+        name?: string | undefined;
+        contentIds?: string[] | undefined;
+        id?: string | undefined;
+        audit?: UserAudit | undefined;
+        expirationDate?: Date | undefined;
+        shareType: ShareType;
+    }
+    export interface SendMessageRequest {
         messageName?: string | undefined;
         businessProcessId?: string | undefined;
         variables?: any | undefined;
@@ -2556,6 +2520,7 @@ declare module "picturepark" {
     }
     export enum TransferType {
         FileUpload,
+        FileUploadAutoImport,
         DriveImport,
         DriveExport,
         WebDownload,
@@ -2583,6 +2548,7 @@ declare module "picturepark" {
         transferType: TransferType;
         businessProcessId?: string | undefined;
         fileTransferCount: number;
+        collectionId?: string | undefined;
     }
     export enum TransferState {
         Draft,
@@ -2594,7 +2560,6 @@ declare module "picturepark" {
         ImportCancelled,
         ImportFailed,
         Created,
-        UploadFailed,
         Deleted,
         TransferReady,
         FileDeleteInProgress,
@@ -2614,6 +2579,7 @@ declare module "picturepark" {
         itemsCancelled: number;
         lastProgressStamp: number;
         fileTransferCount: number;
+        collectionId?: string | undefined;
     }
     export interface FileTransferDetail {
         id?: string | undefined;
@@ -3613,7 +3579,7 @@ declare module "picturepark" {
         renditionClass?: string | undefined;
         renditionParams?: string | undefined;
         versionID?: string | undefined;
-        versions?: VersionInfo[] | undefined;
+        versions?: VersionInfo2[] | undefined;
     }
     export interface Reference {
         alternatePaths?: string[] | undefined;
@@ -3638,6 +3604,39 @@ declare module "picturepark" {
     export enum MaskMarkers {
         All,
         None,
+    }
+    export interface Event {
+        action?: EventAction | undefined;
+        changed?: string | undefined;
+        instanceID?: string | undefined;
+        parameters?: string | undefined;
+        softwareAgent?: string | undefined;
+        when?: Date | undefined;
+    }
+    /** Corresponds to stEvt.ActionChoice */
+    export enum EventAction {
+        Converted,
+        Copied,
+        Created,
+        Cropped,
+        Edited,
+        Filtered,
+        Formatted,
+        VersionUpdated,
+        Printed,
+        Published,
+        Managed,
+        Produced,
+        Resized,
+        Saved,
+        Derived,
+    }
+    export interface VersionInfo2 {
+        comments?: string | undefined;
+        event?: Event | undefined;
+        modifier?: string | undefined;
+        modifyDate?: Date | undefined;
+        version?: string | undefined;
     }
     export interface XmpNote {
         hasExtendedXMP?: string | undefined;
@@ -4205,6 +4204,7 @@ declare module "picturepark" {
         limit: number;
         filter?: FilterBase | undefined;
         lifeCycleFilter: LifeCycleFilter;
+        userRightsFilter?: UserRight[] | undefined;
     }
     export interface BaseResultOfUser {
         totalResults: number;
@@ -4278,6 +4278,8 @@ declare module "picturepark" {
         aggregations?: AggregatorBase[] | undefined;
         /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
         extendedSimpleSearchFields?: string[] | undefined;
+        /** Display pattern to use for rendering details when 0 results are returned */
+        missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
     }
     export interface ContentsByIdsRequest {
         contentIds?: string[] | undefined;

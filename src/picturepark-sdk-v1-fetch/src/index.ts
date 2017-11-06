@@ -3702,12 +3702,11 @@ export class PublicAccessClient extends PictureparkClientBase {
      * @token The token
      * @return ShareBaseDetail
      */
-    getShare(token: string | null): Promise<ShareBaseDetail | null> {
-        let url_ = this.baseUrl + "/v1/publicAccess/getShare?";
-        if (token === undefined)
+    getShare(token: string): Promise<ShareDetail | null> {
+        let url_ = this.baseUrl + "/v1/publicAccess/shares/{token}";
+        if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
-        else
-            url_ += "token=" + encodeURIComponent("" + token) + "&"; 
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -3725,13 +3724,13 @@ export class PublicAccessClient extends PictureparkClientBase {
         });
     }
 
-    protected processGetShare(response: Response): Promise<ShareBaseDetail | null> {
+    protected processGetShare(response: Response): Promise<ShareDetail | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <ShareBaseDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <ShareDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -3753,7 +3752,7 @@ export class PublicAccessClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ShareBaseDetail | null>(<any>null);
+        return Promise.resolve<ShareDetail | null>(<any>null);
     }
 }
 
@@ -3776,7 +3775,7 @@ export class ShareClient extends PictureparkClientBase {
      * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
      * @return Share
      */
-    update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<BaseResultOfShareBase | null> {
+    update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<ShareDetail | null> {
         let url_ = this.baseUrl + "/v1/shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -3807,13 +3806,13 @@ export class ShareClient extends PictureparkClientBase {
         });
     }
 
-    protected processUpdate(response: Response): Promise<BaseResultOfShareBase | null> {
+    protected processUpdate(response: Response): Promise<ShareDetail | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BaseResultOfShareBase>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <ShareDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -3835,7 +3834,7 @@ export class ShareClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BaseResultOfShareBase | null>(<any>null);
+        return Promise.resolve<ShareDetail | null>(<any>null);
     }
 
     /**
@@ -3843,7 +3842,7 @@ export class ShareClient extends PictureparkClientBase {
      * @id Share Id (not token, use PublicAccess to get share by token)
      * @return Polymorph share
      */
-    get(id: string): Promise<ShareBaseDetail | null> {
+    get(id: string): Promise<ShareDetail | null> {
         let url_ = this.baseUrl + "/v1/shares/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -3865,13 +3864,13 @@ export class ShareClient extends PictureparkClientBase {
         });
     }
 
-    protected processGet(response: Response): Promise<ShareBaseDetail | null> {
+    protected processGet(response: Response): Promise<ShareDetail | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <ShareBaseDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <ShareDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -3893,7 +3892,7 @@ export class ShareClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ShareBaseDetail | null>(<any>null);
+        return Promise.resolve<ShareDetail | null>(<any>null);
     }
 
     /**
@@ -5609,8 +5608,6 @@ export interface DisplayValueDictionary {
 
 export enum EntityType {
     Content = <any>"Content", 
-    BasicShare = <any>"BasicShare", 
-    EmbedShare = <any>"EmbedShare", 
     Metadata = <any>"Metadata", 
     FileTransfer = <any>"FileTransfer", 
 }
@@ -7270,60 +7267,34 @@ export enum MetadataRight {
     Manage = <any>"Manage", 
 }
 
+/** The version view item for the environment. */
 export interface VersionInfo {
-    comments?: string | undefined;
-    event?: Event | undefined;
-    modifier?: string | undefined;
-    modifyDate?: Date | undefined;
-    version?: string | undefined;
+    /** The manual file version of Picturepark.Contract.dll. */
+    fileVersion?: string | undefined;
+    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+    fileProductVersion?: string | undefined;
+    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+    contractVersion?: string | undefined;
+    /** The bamboo release version. Only provided on bamboo deployments. */
+    release?: string | undefined;
 }
 
-export interface Event {
-    action?: EventAction | undefined;
-    changed?: string | undefined;
-    instanceID?: string | undefined;
-    parameters?: string | undefined;
-    softwareAgent?: string | undefined;
-    when?: Date | undefined;
-}
-
-/** Corresponds to stEvt.ActionChoice */
-export enum EventAction {
-    Converted = <any>"Converted", 
-    Copied = <any>"Copied", 
-    Created = <any>"Created", 
-    Cropped = <any>"Cropped", 
-    Edited = <any>"Edited", 
-    Filtered = <any>"Filtered", 
-    Formatted = <any>"Formatted", 
-    VersionUpdated = <any>"VersionUpdated", 
-    Printed = <any>"Printed", 
-    Published = <any>"Published", 
-    Managed = <any>"Managed", 
-    Produced = <any>"Produced", 
-    Resized = <any>"Resized", 
-    Saved = <any>"Saved", 
-    Derived = <any>"Derived", 
-}
-
-export interface ShareBaseDetail {
+export interface ShareDetail {
     id?: string | undefined;
     name?: string | undefined;
     description?: string | undefined;
     audit?: UserAudit | undefined;
-    entityType: EntityType;
-    contentSelections?: ContentDetail2[] | undefined;
+    contentSelections?: ShareContentDetail[] | undefined;
     layerSchemaIds?: string[] | undefined;
+    data?: ShareDataBase | undefined;
     mailTemplateId?: string | undefined;
     expirationDate?: Date | undefined;
     template?: TemplateBase | undefined;
     outputAccess: OutputAccess;
+    shareType: ShareType;
 }
 
-export interface ContentDetail2 {
-    trashed: boolean;
-    /** The entity type of a content document is content. */
-    entityType: EntityType;
+export interface ShareContentDetail {
     /** The id of the schema with schema type content. */
     contentSchemaId?: string | undefined;
     /** An optional id list of schemas with type layer. */
@@ -7331,45 +7302,38 @@ export interface ContentDetail2 {
     content?: DataDictionary | undefined;
     metadata?: DataDictionary | undefined;
     id?: string | undefined;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    contentPermissionSetIds?: string[] | undefined;
-    outputs?: Output[] | undefined;
-    audit?: UserAudit | undefined;
-    ownerTokenId?: string | undefined;
+    outputs?: ShareOutputBase[] | undefined;
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
 }
 
-export interface TemplateBase {
-    width?: number | undefined;
-    height?: number | undefined;
+export interface ShareOutputBase {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
 }
 
-export interface CardTemplate extends TemplateBase {
-    showNavigation: boolean;
-    showOverlay: boolean;
-    showLogo: boolean;
-    showFooter: boolean;
+export interface ShareOutputBasic extends ShareOutputBase {
 }
 
-export interface ListTemplate extends TemplateBase {
-}
-
-export interface BasicTemplate extends TemplateBase {
-}
-
-export enum OutputAccess {
-    Full = <any>"Full", 
-    Preview = <any>"Preview", 
-    None = <any>"None", 
-}
-
-export interface ShareBasicDetail extends ShareBaseDetail {
+export interface ShareOutputEmbed extends ShareOutputBase {
+    token?: string | undefined;
     url?: string | undefined;
+}
+
+export interface ShareDataBase {
+}
+
+export interface ShareDataEmbed extends ShareDataBase {
+    token?: string | undefined;
+    url?: string | undefined;
+}
+
+export interface ShareDataBasic extends ShareDataBase {
     mailRecipients?: MailRecipient[] | undefined;
     internalRecipients?: InternalRecipient[] | undefined;
     languageCode?: string | undefined;
+    url?: string | undefined;
 }
 
 export interface MailRecipient {
@@ -7397,17 +7361,33 @@ export interface UserItem {
     emailAddress?: string | undefined;
 }
 
-export interface ShareEmbedDetail extends ShareBaseDetail {
-    embedContentItems?: EmbedContentDetail[] | undefined;
-    token?: string | undefined;
-    url?: string | undefined;
+export interface TemplateBase {
+    width?: number | undefined;
+    height?: number | undefined;
 }
 
-export interface EmbedContentDetail {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
-    token?: string | undefined;
-    url?: string | undefined;
+export interface CardTemplate extends TemplateBase {
+    showNavigation: boolean;
+    showOverlay: boolean;
+    showLogo: boolean;
+    showFooter: boolean;
+}
+
+export interface ListTemplate extends TemplateBase {
+}
+
+export interface BasicTemplate extends TemplateBase {
+}
+
+export enum OutputAccess {
+    Full = <any>"Full", 
+    Preview = <any>"Preview", 
+    None = <any>"None", 
+}
+
+export enum ShareType {
+    Basic = <any>"Basic", 
+    Embed = <any>"Embed", 
 }
 
 export interface ShareBaseUpdateRequest {
@@ -7430,30 +7410,6 @@ export interface ShareBasicUpdateRequest extends ShareBaseUpdateRequest {
 }
 
 export interface ShareEmbedUpdateRequest extends ShareBaseUpdateRequest {
-}
-
-export interface BaseResultOfShareBase {
-    totalResults: number;
-    results?: ShareBase[] | undefined;
-    pageToken?: string | undefined;
-}
-
-export interface ShareBase {
-    name?: string | undefined;
-    contentIds?: string[] | undefined;
-    id?: string | undefined;
-    audit?: UserAudit | undefined;
-    entityType: EntityType;
-    expirationDate?: Date | undefined;
-}
-
-export interface ShareBasic extends ShareBase {
-    mailRecipients?: MailRecipient[] | undefined;
-    internalRecipients?: InternalRecipient[] | undefined;
-    description?: string | undefined;
-}
-
-export interface ShareEmbed extends ShareBase {
 }
 
 export interface ShareAggregationRequest {
@@ -7518,13 +7474,28 @@ export interface ShareSearchRequest {
     filter?: FilterBase | undefined;
 }
 
-export interface SearchBehaviourBaseResultOfShareBase extends BaseResultOfShareBase {
+export interface BaseResultOfShare {
+    totalResults: number;
+    results?: Share[] | undefined;
+    pageToken?: string | undefined;
+}
+
+export interface SearchBehaviourBaseResultOfShare extends BaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export interface ShareSearchResult extends SearchBehaviourBaseResultOfShareBase {
+export interface ShareSearchResult extends SearchBehaviourBaseResultOfShare {
     elapsedMilliseconds: number;
+}
+
+export interface Share {
+    name?: string | undefined;
+    contentIds?: string[] | undefined;
+    id?: string | undefined;
+    audit?: UserAudit | undefined;
+    expirationDate?: Date | undefined;
+    shareType: ShareType;
 }
 
 export interface SendMessageRequest {
@@ -8653,7 +8624,7 @@ export interface XmpMM {
     renditionClass?: string | undefined;
     renditionParams?: string | undefined;
     versionID?: string | undefined;
-    versions?: VersionInfo[] | undefined;
+    versions?: VersionInfo2[] | undefined;
 }
 
 export interface Reference {
@@ -8680,6 +8651,42 @@ export interface Reference {
 export enum MaskMarkers {
     All = <any>"All", 
     None = <any>"None", 
+}
+
+export interface Event {
+    action?: EventAction | undefined;
+    changed?: string | undefined;
+    instanceID?: string | undefined;
+    parameters?: string | undefined;
+    softwareAgent?: string | undefined;
+    when?: Date | undefined;
+}
+
+/** Corresponds to stEvt.ActionChoice */
+export enum EventAction {
+    Converted = <any>"Converted", 
+    Copied = <any>"Copied", 
+    Created = <any>"Created", 
+    Cropped = <any>"Cropped", 
+    Edited = <any>"Edited", 
+    Filtered = <any>"Filtered", 
+    Formatted = <any>"Formatted", 
+    VersionUpdated = <any>"VersionUpdated", 
+    Printed = <any>"Printed", 
+    Published = <any>"Published", 
+    Managed = <any>"Managed", 
+    Produced = <any>"Produced", 
+    Resized = <any>"Resized", 
+    Saved = <any>"Saved", 
+    Derived = <any>"Derived", 
+}
+
+export interface VersionInfo2 {
+    comments?: string | undefined;
+    event?: Event | undefined;
+    modifier?: string | undefined;
+    modifyDate?: Date | undefined;
+    version?: string | undefined;
 }
 
 export interface XmpNote {

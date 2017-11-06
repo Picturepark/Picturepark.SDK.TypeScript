@@ -4506,12 +4506,11 @@ export class PublicAccessService extends PictureparkServiceBase {
      * @token The token
      * @return ShareBaseDetail
      */
-    getShare(token: string | null): Observable<ShareBaseDetail | null> {
-        let url_ = this.baseUrl + "/v1/publicAccess/getShare?";
-        if (token === undefined)
+    getShare(token: string): Observable<ShareDetail | null> {
+        let url_ = this.baseUrl + "/v1/publicAccess/shares/{token}";
+        if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
-        else
-            url_ += "token=" + encodeURIComponent("" + token) + "&"; 
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4532,14 +4531,14 @@ export class PublicAccessService extends PictureparkServiceBase {
                 try {
                     return this.processGetShare(response_);
                 } catch (e) {
-                    return <Observable<ShareBaseDetail | null>><any>Observable.throw(e);
+                    return <Observable<ShareDetail | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<ShareBaseDetail | null>><any>Observable.throw(response_);
+                return <Observable<ShareDetail | null>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetShare(response: HttpResponse<Blob>): Observable<ShareBaseDetail | null> {
+    protected processGetShare(response: HttpResponse<Blob>): Observable<ShareDetail | null> {
         const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4547,7 +4546,7 @@ export class PublicAccessService extends PictureparkServiceBase {
             return blobToText(response.body).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ShareBaseDetail.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? ShareDetail.fromJS(resultData200) : <any>null;
             return Observable.of(result200);
             });
         } else if (status === 500) {
@@ -4570,7 +4569,7 @@ export class PublicAccessService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<ShareBaseDetail | null>(<any>null);
+        return Observable.of<ShareDetail | null>(<any>null);
     }
 }
 
@@ -4594,7 +4593,7 @@ export class ShareService extends PictureparkServiceBase {
      * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
      * @return Share
      */
-    update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Observable<BaseResultOfShareBase | null> {
+    update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Observable<ShareDetail | null> {
         let url_ = this.baseUrl + "/v1/shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -4628,14 +4627,14 @@ export class ShareService extends PictureparkServiceBase {
                 try {
                     return this.processUpdate(response_);
                 } catch (e) {
-                    return <Observable<BaseResultOfShareBase | null>><any>Observable.throw(e);
+                    return <Observable<ShareDetail | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<BaseResultOfShareBase | null>><any>Observable.throw(response_);
+                return <Observable<ShareDetail | null>><any>Observable.throw(response_);
         });
     }
 
-    protected processUpdate(response: HttpResponse<Blob>): Observable<BaseResultOfShareBase | null> {
+    protected processUpdate(response: HttpResponse<Blob>): Observable<ShareDetail | null> {
         const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4643,7 +4642,7 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(response.body).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BaseResultOfShareBase.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? ShareDetail.fromJS(resultData200) : <any>null;
             return Observable.of(result200);
             });
         } else if (status === 500) {
@@ -4666,7 +4665,7 @@ export class ShareService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<BaseResultOfShareBase | null>(<any>null);
+        return Observable.of<ShareDetail | null>(<any>null);
     }
 
     /**
@@ -4674,7 +4673,7 @@ export class ShareService extends PictureparkServiceBase {
      * @id Share Id (not token, use PublicAccess to get share by token)
      * @return Polymorph share
      */
-    get(id: string): Observable<ShareBaseDetail | null> {
+    get(id: string): Observable<ShareDetail | null> {
         let url_ = this.baseUrl + "/v1/shares/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -4699,14 +4698,14 @@ export class ShareService extends PictureparkServiceBase {
                 try {
                     return this.processGet(response_);
                 } catch (e) {
-                    return <Observable<ShareBaseDetail | null>><any>Observable.throw(e);
+                    return <Observable<ShareDetail | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<ShareBaseDetail | null>><any>Observable.throw(response_);
+                return <Observable<ShareDetail | null>><any>Observable.throw(response_);
         });
     }
 
-    protected processGet(response: HttpResponse<Blob>): Observable<ShareBaseDetail | null> {
+    protected processGet(response: HttpResponse<Blob>): Observable<ShareDetail | null> {
         const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4714,7 +4713,7 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(response.body).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ShareBaseDetail.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? ShareDetail.fromJS(resultData200) : <any>null;
             return Observable.of(result200);
             });
         } else if (status === 500) {
@@ -4737,7 +4736,7 @@ export class ShareService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<ShareBaseDetail | null>(<any>null);
+        return Observable.of<ShareDetail | null>(<any>null);
     }
 
     /**
@@ -7044,8 +7043,6 @@ export interface IDisplayValueDictionary {
 
 export enum EntityType {
     Content = <any>"Content", 
-    BasicShare = <any>"BasicShare", 
-    EmbedShare = <any>"EmbedShare", 
     Metadata = <any>"Metadata", 
     FileTransfer = <any>"FileTransfer", 
 }
@@ -18522,12 +18519,16 @@ export enum MetadataRight {
     Manage = <any>"Manage", 
 }
 
+/** The version view item for the environment. */
 export class VersionInfo implements IVersionInfo {
-    comments?: string | undefined;
-    event?: Event | undefined;
-    modifier?: string | undefined;
-    modifyDate?: Date | undefined;
-    version?: string | undefined;
+    /** The manual file version of Picturepark.Contract.dll. */
+    fileVersion?: string | undefined;
+    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+    fileProductVersion?: string | undefined;
+    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+    contractVersion?: string | undefined;
+    /** The bamboo release version. Only provided on bamboo deployments. */
+    release?: string | undefined;
 
     constructor(data?: IVersionInfo) {
         if (data) {
@@ -18535,17 +18536,15 @@ export class VersionInfo implements IVersionInfo {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.event = data.event && !(<any>data.event).toJSON ? new Event(data.event) : <Event>this.event; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.comments = data["comments"];
-            this.event = data["event"] ? Event.fromJS(data["event"]) : <any>undefined;
-            this.modifier = data["modifier"];
-            this.modifyDate = data["modifyDate"] ? new Date(data["modifyDate"].toString()) : <any>undefined;
-            this.version = data["version"];
+            this.fileVersion = data["fileVersion"];
+            this.fileProductVersion = data["fileProductVersion"];
+            this.contractVersion = data["contractVersion"];
+            this.release = data["release"];
         }
     }
 
@@ -18557,113 +18556,41 @@ export class VersionInfo implements IVersionInfo {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["comments"] = this.comments;
-        data["event"] = this.event ? this.event.toJSON() : <any>undefined;
-        data["modifier"] = this.modifier;
-        data["modifyDate"] = this.modifyDate ? this.modifyDate.toISOString() : <any>undefined;
-        data["version"] = this.version;
+        data["fileVersion"] = this.fileVersion;
+        data["fileProductVersion"] = this.fileProductVersion;
+        data["contractVersion"] = this.contractVersion;
+        data["release"] = this.release;
         return data; 
     }
 }
 
+/** The version view item for the environment. */
 export interface IVersionInfo {
-    comments?: string | undefined;
-    event?: IEvent | undefined;
-    modifier?: string | undefined;
-    modifyDate?: Date | undefined;
-    version?: string | undefined;
+    /** The manual file version of Picturepark.Contract.dll. */
+    fileVersion?: string | undefined;
+    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+    fileProductVersion?: string | undefined;
+    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+    contractVersion?: string | undefined;
+    /** The bamboo release version. Only provided on bamboo deployments. */
+    release?: string | undefined;
 }
 
-export class Event implements IEvent {
-    action?: EventAction | undefined;
-    changed?: string | undefined;
-    instanceID?: string | undefined;
-    parameters?: string | undefined;
-    softwareAgent?: string | undefined;
-    when?: Date | undefined;
-
-    constructor(data?: IEvent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.action = data["action"];
-            this.changed = data["changed"];
-            this.instanceID = data["instanceID"];
-            this.parameters = data["parameters"];
-            this.softwareAgent = data["softwareAgent"];
-            this.when = data["when"] ? new Date(data["when"].toString()) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Event {
-        let result = new Event();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["action"] = this.action;
-        data["changed"] = this.changed;
-        data["instanceID"] = this.instanceID;
-        data["parameters"] = this.parameters;
-        data["softwareAgent"] = this.softwareAgent;
-        data["when"] = this.when ? this.when.toISOString() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IEvent {
-    action?: EventAction | undefined;
-    changed?: string | undefined;
-    instanceID?: string | undefined;
-    parameters?: string | undefined;
-    softwareAgent?: string | undefined;
-    when?: Date | undefined;
-}
-
-/** Corresponds to stEvt.ActionChoice */
-export enum EventAction {
-    Converted = <any>"Converted", 
-    Copied = <any>"Copied", 
-    Created = <any>"Created", 
-    Cropped = <any>"Cropped", 
-    Edited = <any>"Edited", 
-    Filtered = <any>"Filtered", 
-    Formatted = <any>"Formatted", 
-    VersionUpdated = <any>"VersionUpdated", 
-    Printed = <any>"Printed", 
-    Published = <any>"Published", 
-    Managed = <any>"Managed", 
-    Produced = <any>"Produced", 
-    Resized = <any>"Resized", 
-    Saved = <any>"Saved", 
-    Derived = <any>"Derived", 
-}
-
-export class ShareBaseDetail implements IShareBaseDetail {
+export class ShareDetail implements IShareDetail {
     id?: string | undefined;
     name?: string | undefined;
     description?: string | undefined;
     audit?: UserAudit | undefined;
-    entityType: EntityType;
-    contentSelections?: ContentDetail2[] | undefined;
+    contentSelections?: ShareContentDetail[] | undefined;
     layerSchemaIds?: string[] | undefined;
+    data?: ShareDataBase | undefined;
     mailTemplateId?: string | undefined;
     expirationDate?: Date | undefined;
     template?: TemplateBase | undefined;
     outputAccess: OutputAccess;
+    shareType: ShareType;
 
-    protected _discriminator: string;
-
-    constructor(data?: IShareBaseDetail) {
+    constructor(data?: IShareDetail) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -18674,12 +18601,12 @@ export class ShareBaseDetail implements IShareBaseDetail {
                 this.contentSelections = [];
                 for (let i = 0; i < data.contentSelections.length; i++) {
                     let item = data.contentSelections[i];
-                    this.contentSelections[i] = item && !(<any>item).toJSON ? new ContentDetail2(item) : <ContentDetail2>item;
+                    this.contentSelections[i] = item && !(<any>item).toJSON ? new ShareContentDetail(item) : <ShareContentDetail>item;
                 }
             }
+            this.data = data.data && !(<any>data.data).toJSON ? new ShareDataBase(data.data) : <ShareDataBase>this.data; 
             this.template = data.template && !(<any>data.template).toJSON ? new TemplateBase(data.template) : <TemplateBase>this.template; 
         }
-        this._discriminator = "ShareBaseDetail";
     }
 
     init(data?: any) {
@@ -18688,48 +18615,37 @@ export class ShareBaseDetail implements IShareBaseDetail {
             this.name = data["name"];
             this.description = data["description"];
             this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.entityType = data["entityType"];
             if (data["contentSelections"] && data["contentSelections"].constructor === Array) {
                 this.contentSelections = [];
                 for (let item of data["contentSelections"])
-                    this.contentSelections.push(ContentDetail2.fromJS(item));
+                    this.contentSelections.push(ShareContentDetail.fromJS(item));
             }
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
+            this.data = data["data"] ? ShareDataBase.fromJS(data["data"]) : <any>undefined;
             this.mailTemplateId = data["mailTemplateId"];
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
             this.outputAccess = data["outputAccess"];
+            this.shareType = data["shareType"];
         }
     }
 
-    static fromJS(data: any): ShareBaseDetail {
-        if (data["kind"] === "ShareBasicDetail") {
-            let result = new ShareBasicDetail();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ShareEmbedDetail") {
-            let result = new ShareEmbedDetail();
-            result.init(data);
-            return result;
-        }
-        let result = new ShareBaseDetail();
+    static fromJS(data: any): ShareDetail {
+        let result = new ShareDetail();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
         data["id"] = this.id;
         data["name"] = this.name;
         data["description"] = this.description;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["entityType"] = this.entityType;
         if (this.contentSelections && this.contentSelections.constructor === Array) {
             data["contentSelections"] = [];
             for (let item of this.contentSelections)
@@ -18740,32 +18656,32 @@ export class ShareBaseDetail implements IShareBaseDetail {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
         data["mailTemplateId"] = this.mailTemplateId;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["template"] = this.template ? this.template.toJSON() : <any>undefined;
         data["outputAccess"] = this.outputAccess;
+        data["shareType"] = this.shareType;
         return data; 
     }
 }
 
-export interface IShareBaseDetail {
+export interface IShareDetail {
     id?: string | undefined;
     name?: string | undefined;
     description?: string | undefined;
     audit?: IUserAudit | undefined;
-    entityType: EntityType;
-    contentSelections?: IContentDetail2[] | undefined;
+    contentSelections?: IShareContentDetail[] | undefined;
     layerSchemaIds?: string[] | undefined;
+    data?: IShareDataBase | undefined;
     mailTemplateId?: string | undefined;
     expirationDate?: Date | undefined;
     template?: ITemplateBase | undefined;
     outputAccess: OutputAccess;
+    shareType: ShareType;
 }
 
-export class ContentDetail2 implements IContentDetail2 {
-    trashed: boolean;
-    /** The entity type of a content document is content. */
-    entityType: EntityType;
+export class ShareContentDetail implements IShareContentDetail {
     /** The id of the schema with schema type content. */
     contentSchemaId?: string | undefined;
     /** An optional id list of schemas with type layer. */
@@ -18773,16 +18689,12 @@ export class ContentDetail2 implements IContentDetail2 {
     content?: DataDictionary | undefined;
     metadata?: DataDictionary | undefined;
     id?: string | undefined;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    contentPermissionSetIds?: string[] | undefined;
-    outputs?: Output[] | undefined;
-    audit?: UserAudit | undefined;
-    ownerTokenId?: string | undefined;
+    outputs?: ShareOutputBase[] | undefined;
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
 
-    constructor(data?: IContentDetail2) {
+    constructor(data?: IShareContentDetail) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -18794,18 +18706,15 @@ export class ContentDetail2 implements IContentDetail2 {
                 this.outputs = [];
                 for (let i = 0; i < data.outputs.length; i++) {
                     let item = data.outputs[i];
-                    this.outputs[i] = item && !(<any>item).toJSON ? new Output(item) : <Output>item;
+                    this.outputs[i] = item && !(<any>item).toJSON ? new ShareOutputBase(item) : <ShareOutputBase>item;
                 }
             }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.trashed = data["trashed"];
-            this.entityType = data["entityType"];
             this.contentSchemaId = data["contentSchemaId"];
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
@@ -18815,33 +18724,24 @@ export class ContentDetail2 implements IContentDetail2 {
             this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : <any>undefined;
             this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             this.id = data["id"];
-            if (data["contentPermissionSetIds"] && data["contentPermissionSetIds"].constructor === Array) {
-                this.contentPermissionSetIds = [];
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds.push(item);
-            }
             if (data["outputs"] && data["outputs"].constructor === Array) {
                 this.outputs = [];
                 for (let item of data["outputs"])
-                    this.outputs.push(Output.fromJS(item));
+                    this.outputs.push(ShareOutputBase.fromJS(item));
             }
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.ownerTokenId = data["ownerTokenId"];
             this.contentType = data["contentType"];
             this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): ContentDetail2 {
-        let result = new ContentDetail2();
+    static fromJS(data: any): ShareContentDetail {
+        let result = new ShareContentDetail();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["trashed"] = this.trashed;
-        data["entityType"] = this.entityType;
         data["contentSchemaId"] = this.contentSchemaId;
         if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
             data["layerSchemaIds"] = [];
@@ -18851,28 +18751,18 @@ export class ContentDetail2 implements IContentDetail2 {
         data["content"] = this.content ? this.content.toJSON() : <any>undefined;
         data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         data["id"] = this.id;
-        if (this.contentPermissionSetIds && this.contentPermissionSetIds.constructor === Array) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
         if (this.outputs && this.outputs.constructor === Array) {
             data["outputs"] = [];
             for (let item of this.outputs)
                 data["outputs"].push(item.toJSON());
         }
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["ownerTokenId"] = this.ownerTokenId;
         data["contentType"] = this.contentType;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-export interface IContentDetail2 {
-    trashed: boolean;
-    /** The entity type of a content document is content. */
-    entityType: EntityType;
+export interface IShareContentDetail {
     /** The id of the schema with schema type content. */
     contentSchemaId?: string | undefined;
     /** An optional id list of schemas with type layer. */
@@ -18880,56 +18770,47 @@ export interface IContentDetail2 {
     content?: IDataDictionary | undefined;
     metadata?: IDataDictionary | undefined;
     id?: string | undefined;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    contentPermissionSetIds?: string[] | undefined;
-    outputs?: IOutput[] | undefined;
-    audit?: IUserAudit | undefined;
-    ownerTokenId?: string | undefined;
+    outputs?: IShareOutputBase[] | undefined;
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
     displayValues?: IDisplayValueDictionary | undefined;
 }
 
-export class TemplateBase implements ITemplateBase {
-    width?: number | undefined;
-    height?: number | undefined;
+export class ShareOutputBase implements IShareOutputBase {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
 
     protected _discriminator: string;
 
-    constructor(data?: ITemplateBase) {
+    constructor(data?: IShareOutputBase) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
         }
-        this._discriminator = "TemplateBase";
+        this._discriminator = "ShareOutputBase";
     }
 
     init(data?: any) {
         if (data) {
-            this.width = data["width"];
-            this.height = data["height"];
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
         }
     }
 
-    static fromJS(data: any): TemplateBase {
-        if (data["kind"] === "CardTemplate") {
-            let result = new CardTemplate();
+    static fromJS(data: any): ShareOutputBase {
+        if (data["kind"] === "ShareOutputBasic") {
+            let result = new ShareOutputBasic();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ListTemplate") {
-            let result = new ListTemplate();
+        if (data["kind"] === "ShareOutputEmbed") {
+            let result = new ShareOutputEmbed();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BasicTemplate") {
-            let result = new BasicTemplate();
-            result.init(data);
-            return result;
-        }
-        let result = new TemplateBase();
+        let result = new ShareOutputBase();
         result.init(data);
         return result;
     }
@@ -18937,67 +18818,22 @@ export class TemplateBase implements ITemplateBase {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
-        data["width"] = this.width;
-        data["height"] = this.height;
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
         return data; 
     }
 }
 
-export interface ITemplateBase {
-    width?: number | undefined;
-    height?: number | undefined;
+export interface IShareOutputBase {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
 }
 
-export class CardTemplate extends TemplateBase implements ICardTemplate {
-    showNavigation: boolean;
-    showOverlay: boolean;
-    showLogo: boolean;
-    showFooter: boolean;
+export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBasic {
 
-    constructor(data?: ICardTemplate) {
+    constructor(data?: IShareOutputBasic) {
         super(data);
-        this._discriminator = "CardTemplate";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.showNavigation = data["showNavigation"];
-            this.showOverlay = data["showOverlay"];
-            this.showLogo = data["showLogo"];
-            this.showFooter = data["showFooter"];
-        }
-    }
-
-    static fromJS(data: any): CardTemplate {
-        let result = new CardTemplate();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["showNavigation"] = this.showNavigation;
-        data["showOverlay"] = this.showOverlay;
-        data["showLogo"] = this.showLogo;
-        data["showFooter"] = this.showFooter;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ICardTemplate extends ITemplateBase {
-    showNavigation: boolean;
-    showOverlay: boolean;
-    showLogo: boolean;
-    showFooter: boolean;
-}
-
-export class ListTemplate extends TemplateBase implements IListTemplate {
-
-    constructor(data?: IListTemplate) {
-        super(data);
-        this._discriminator = "ListTemplate";
+        this._discriminator = "ShareOutputBasic";
     }
 
     init(data?: any) {
@@ -19006,8 +18842,8 @@ export class ListTemplate extends TemplateBase implements IListTemplate {
         }
     }
 
-    static fromJS(data: any): ListTemplate {
-        let result = new ListTemplate();
+    static fromJS(data: any): ShareOutputBasic {
+        let result = new ShareOutputBasic();
         result.init(data);
         return result;
     }
@@ -19019,59 +18855,142 @@ export class ListTemplate extends TemplateBase implements IListTemplate {
     }
 }
 
-export interface IListTemplate extends ITemplateBase {
+export interface IShareOutputBasic extends IShareOutputBase {
 }
 
-export class BasicTemplate extends TemplateBase implements IBasicTemplate {
-
-    constructor(data?: IBasicTemplate) {
-        super(data);
-        this._discriminator = "BasicTemplate";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): BasicTemplate {
-        let result = new BasicTemplate();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IBasicTemplate extends ITemplateBase {
-}
-
-export enum OutputAccess {
-    Full = <any>"Full", 
-    Preview = <any>"Preview", 
-    None = <any>"None", 
-}
-
-export class ShareBasicDetail extends ShareBaseDetail implements IShareBasicDetail {
+export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmbed {
+    token?: string | undefined;
     url?: string | undefined;
+
+    constructor(data?: IShareOutputEmbed) {
+        super(data);
+        this._discriminator = "ShareOutputEmbed";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.token = data["token"];
+            this.url = data["url"];
+        }
+    }
+
+    static fromJS(data: any): ShareOutputEmbed {
+        let result = new ShareOutputEmbed();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        data["url"] = this.url;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IShareOutputEmbed extends IShareOutputBase {
+    token?: string | undefined;
+    url?: string | undefined;
+}
+
+export class ShareDataBase implements IShareDataBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IShareDataBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "ShareDataBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): ShareDataBase {
+        if (data["kind"] === "ShareDataEmbed") {
+            let result = new ShareDataEmbed();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareDataBasic") {
+            let result = new ShareDataBasic();
+            result.init(data);
+            return result;
+        }
+        let result = new ShareDataBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+export interface IShareDataBase {
+}
+
+export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
+    token?: string | undefined;
+    url?: string | undefined;
+
+    constructor(data?: IShareDataEmbed) {
+        super(data);
+        this._discriminator = "ShareDataEmbed";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.token = data["token"];
+            this.url = data["url"];
+        }
+    }
+
+    static fromJS(data: any): ShareDataEmbed {
+        let result = new ShareDataEmbed();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        data["url"] = this.url;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IShareDataEmbed extends IShareDataBase {
+    token?: string | undefined;
+    url?: string | undefined;
+}
+
+export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
     mailRecipients?: MailRecipient[] | undefined;
     internalRecipients?: InternalRecipient[] | undefined;
     languageCode?: string | undefined;
+    url?: string | undefined;
 
-    constructor(data?: IShareBasicDetail) {
+    constructor(data?: IShareDataBasic) {
         super(data);
-        this._discriminator = "ShareBasicDetail";
+        this._discriminator = "ShareDataBasic";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.url = data["url"];
             if (data["mailRecipients"] && data["mailRecipients"].constructor === Array) {
                 this.mailRecipients = [];
                 for (let item of data["mailRecipients"])
@@ -19083,18 +19002,18 @@ export class ShareBasicDetail extends ShareBaseDetail implements IShareBasicDeta
                     this.internalRecipients.push(InternalRecipient.fromJS(item));
             }
             this.languageCode = data["languageCode"];
+            this.url = data["url"];
         }
     }
 
-    static fromJS(data: any): ShareBasicDetail {
-        let result = new ShareBasicDetail();
+    static fromJS(data: any): ShareDataBasic {
+        let result = new ShareDataBasic();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["url"] = this.url;
         if (this.mailRecipients && this.mailRecipients.constructor === Array) {
             data["mailRecipients"] = [];
             for (let item of this.mailRecipients)
@@ -19106,16 +19025,17 @@ export class ShareBasicDetail extends ShareBaseDetail implements IShareBasicDeta
                 data["internalRecipients"].push(item.toJSON());
         }
         data["languageCode"] = this.languageCode;
+        data["url"] = this.url;
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IShareBasicDetail extends IShareBaseDetail {
-    url?: string | undefined;
+export interface IShareDataBasic extends IShareDataBase {
     mailRecipients?: IMailRecipient[] | undefined;
     internalRecipients?: IInternalRecipient[] | undefined;
     languageCode?: string | undefined;
+    url?: string | undefined;
 }
 
 export class MailRecipient implements IMailRecipient {
@@ -19296,100 +19216,176 @@ export interface IUserItem {
     emailAddress?: string | undefined;
 }
 
-export class ShareEmbedDetail extends ShareBaseDetail implements IShareEmbedDetail {
-    embedContentItems?: EmbedContentDetail[] | undefined;
-    token?: string | undefined;
-    url?: string | undefined;
+export class TemplateBase implements ITemplateBase {
+    width?: number | undefined;
+    height?: number | undefined;
 
-    constructor(data?: IShareEmbedDetail) {
-        super(data);
-        this._discriminator = "ShareEmbedDetail";
-    }
+    protected _discriminator: string;
 
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["embedContentItems"] && data["embedContentItems"].constructor === Array) {
-                this.embedContentItems = [];
-                for (let item of data["embedContentItems"])
-                    this.embedContentItems.push(EmbedContentDetail.fromJS(item));
-            }
-            this.token = data["token"];
-            this.url = data["url"];
-        }
-    }
-
-    static fromJS(data: any): ShareEmbedDetail {
-        let result = new ShareEmbedDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.embedContentItems && this.embedContentItems.constructor === Array) {
-            data["embedContentItems"] = [];
-            for (let item of this.embedContentItems)
-                data["embedContentItems"].push(item.toJSON());
-        }
-        data["token"] = this.token;
-        data["url"] = this.url;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IShareEmbedDetail extends IShareBaseDetail {
-    embedContentItems?: IEmbedContentDetail[] | undefined;
-    token?: string | undefined;
-    url?: string | undefined;
-}
-
-export class EmbedContentDetail implements IEmbedContentDetail {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
-    token?: string | undefined;
-    url?: string | undefined;
-
-    constructor(data?: IEmbedContentDetail) {
+    constructor(data?: ITemplateBase) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
         }
+        this._discriminator = "TemplateBase";
     }
 
     init(data?: any) {
         if (data) {
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-            this.token = data["token"];
-            this.url = data["url"];
+            this.width = data["width"];
+            this.height = data["height"];
         }
     }
 
-    static fromJS(data: any): EmbedContentDetail {
-        let result = new EmbedContentDetail();
+    static fromJS(data: any): TemplateBase {
+        if (data["kind"] === "CardTemplate") {
+            let result = new CardTemplate();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListTemplate") {
+            let result = new ListTemplate();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BasicTemplate") {
+            let result = new BasicTemplate();
+            result.init(data);
+            return result;
+        }
+        let result = new TemplateBase();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        data["token"] = this.token;
-        data["url"] = this.url;
+        data["kind"] = this._discriminator; 
+        data["width"] = this.width;
+        data["height"] = this.height;
         return data; 
     }
 }
 
-export interface IEmbedContentDetail {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
-    token?: string | undefined;
-    url?: string | undefined;
+export interface ITemplateBase {
+    width?: number | undefined;
+    height?: number | undefined;
+}
+
+export class CardTemplate extends TemplateBase implements ICardTemplate {
+    showNavigation: boolean;
+    showOverlay: boolean;
+    showLogo: boolean;
+    showFooter: boolean;
+
+    constructor(data?: ICardTemplate) {
+        super(data);
+        this._discriminator = "CardTemplate";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.showNavigation = data["showNavigation"];
+            this.showOverlay = data["showOverlay"];
+            this.showLogo = data["showLogo"];
+            this.showFooter = data["showFooter"];
+        }
+    }
+
+    static fromJS(data: any): CardTemplate {
+        let result = new CardTemplate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["showNavigation"] = this.showNavigation;
+        data["showOverlay"] = this.showOverlay;
+        data["showLogo"] = this.showLogo;
+        data["showFooter"] = this.showFooter;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICardTemplate extends ITemplateBase {
+    showNavigation: boolean;
+    showOverlay: boolean;
+    showLogo: boolean;
+    showFooter: boolean;
+}
+
+export class ListTemplate extends TemplateBase implements IListTemplate {
+
+    constructor(data?: IListTemplate) {
+        super(data);
+        this._discriminator = "ListTemplate";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): ListTemplate {
+        let result = new ListTemplate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IListTemplate extends ITemplateBase {
+}
+
+export class BasicTemplate extends TemplateBase implements IBasicTemplate {
+
+    constructor(data?: IBasicTemplate) {
+        super(data);
+        this._discriminator = "BasicTemplate";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): BasicTemplate {
+        let result = new BasicTemplate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBasicTemplate extends ITemplateBase {
+}
+
+export enum OutputAccess {
+    Full = <any>"Full", 
+    Preview = <any>"Preview", 
+    None = <any>"None", 
+}
+
+export enum ShareType {
+    Basic = <any>"Basic", 
+    Embed = <any>"Embed", 
 }
 
 export class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
@@ -19596,228 +19592,6 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
 }
 
 export interface IShareEmbedUpdateRequest extends IShareBaseUpdateRequest {
-}
-
-export class BaseResultOfShareBase implements IBaseResultOfShareBase {
-    totalResults: number;
-    results?: ShareBase[] | undefined;
-    pageToken?: string | undefined;
-
-    constructor(data?: IBaseResultOfShareBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.results) {
-                this.results = [];
-                for (let i = 0; i < data.results.length; i++) {
-                    let item = data.results[i];
-                    this.results[i] = item && !(<any>item).toJSON ? new ShareBase(item) : <ShareBase>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalResults = data["totalResults"];
-            if (data["results"] && data["results"].constructor === Array) {
-                this.results = [];
-                for (let item of data["results"])
-                    this.results.push(ShareBase.fromJS(item));
-            }
-            this.pageToken = data["pageToken"];
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfShareBase {
-        let result = new BaseResultOfShareBase();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (this.results && this.results.constructor === Array) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
-}
-
-export interface IBaseResultOfShareBase {
-    totalResults: number;
-    results?: IShareBase[] | undefined;
-    pageToken?: string | undefined;
-}
-
-export class ShareBase implements IShareBase {
-    name?: string | undefined;
-    contentIds?: string[] | undefined;
-    id?: string | undefined;
-    audit?: UserAudit | undefined;
-    entityType: EntityType;
-    expirationDate?: Date | undefined;
-
-    protected _discriminator: string;
-
-    constructor(data?: IShareBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
-        }
-        this._discriminator = "ShareBase";
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            if (data["contentIds"] && data["contentIds"].constructor === Array) {
-                this.contentIds = [];
-                for (let item of data["contentIds"])
-                    this.contentIds.push(item);
-            }
-            this.id = data["id"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.entityType = data["entityType"];
-            this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ShareBase {
-        if (data["kind"] === "ShareBasic") {
-            let result = new ShareBasic();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ShareEmbed") {
-            let result = new ShareEmbed();
-            result.init(data);
-            return result;
-        }
-        let result = new ShareBase();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        data["name"] = this.name;
-        if (this.contentIds && this.contentIds.constructor === Array) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        data["id"] = this.id;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["entityType"] = this.entityType;
-        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IShareBase {
-    name?: string | undefined;
-    contentIds?: string[] | undefined;
-    id?: string | undefined;
-    audit?: IUserAudit | undefined;
-    entityType: EntityType;
-    expirationDate?: Date | undefined;
-}
-
-export class ShareBasic extends ShareBase implements IShareBasic {
-    mailRecipients?: MailRecipient[] | undefined;
-    internalRecipients?: InternalRecipient[] | undefined;
-    description?: string | undefined;
-
-    constructor(data?: IShareBasic) {
-        super(data);
-        this._discriminator = "ShareBasic";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["mailRecipients"] && data["mailRecipients"].constructor === Array) {
-                this.mailRecipients = [];
-                for (let item of data["mailRecipients"])
-                    this.mailRecipients.push(MailRecipient.fromJS(item));
-            }
-            if (data["internalRecipients"] && data["internalRecipients"].constructor === Array) {
-                this.internalRecipients = [];
-                for (let item of data["internalRecipients"])
-                    this.internalRecipients.push(InternalRecipient.fromJS(item));
-            }
-            this.description = data["description"];
-        }
-    }
-
-    static fromJS(data: any): ShareBasic {
-        let result = new ShareBasic();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.mailRecipients && this.mailRecipients.constructor === Array) {
-            data["mailRecipients"] = [];
-            for (let item of this.mailRecipients)
-                data["mailRecipients"].push(item.toJSON());
-        }
-        if (this.internalRecipients && this.internalRecipients.constructor === Array) {
-            data["internalRecipients"] = [];
-            for (let item of this.internalRecipients)
-                data["internalRecipients"].push(item.toJSON());
-        }
-        data["description"] = this.description;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IShareBasic extends IShareBase {
-    mailRecipients?: IMailRecipient[] | undefined;
-    internalRecipients?: IInternalRecipient[] | undefined;
-    description?: string | undefined;
-}
-
-export class ShareEmbed extends ShareBase implements IShareEmbed {
-
-    constructor(data?: IShareEmbed) {
-        super(data);
-        this._discriminator = "ShareEmbed";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): ShareEmbed {
-        let result = new ShareEmbed();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IShareEmbed extends IShareBase {
 }
 
 export class ShareAggregationRequest implements IShareAggregationRequest {
@@ -20324,11 +20098,69 @@ export interface IShareSearchRequest {
     filter?: IFilterBase | undefined;
 }
 
-export class SearchBehaviourBaseResultOfShareBase extends BaseResultOfShareBase implements ISearchBehaviourBaseResultOfShareBase {
+export class BaseResultOfShare implements IBaseResultOfShare {
+    totalResults: number;
+    results?: Share[] | undefined;
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfShare) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new Share(item) : <Share>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalResults = data["totalResults"];
+            if (data["results"] && data["results"].constructor === Array) {
+                this.results = [];
+                for (let item of data["results"])
+                    this.results.push(Share.fromJS(item));
+            }
+            this.pageToken = data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfShare {
+        let result = new BaseResultOfShare();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (this.results && this.results.constructor === Array) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+export interface IBaseResultOfShare {
+    totalResults: number;
+    results?: IShare[] | undefined;
+    pageToken?: string | undefined;
+}
+
+export class SearchBehaviourBaseResultOfShare extends BaseResultOfShare implements ISearchBehaviourBaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfShareBase) {
+    constructor(data?: ISearchBehaviourBaseResultOfShare) {
         super(data);
     }
 
@@ -20340,8 +20172,8 @@ export class SearchBehaviourBaseResultOfShareBase extends BaseResultOfShareBase 
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfShareBase {
-        let result = new SearchBehaviourBaseResultOfShareBase();
+    static fromJS(data: any): SearchBehaviourBaseResultOfShare {
+        let result = new SearchBehaviourBaseResultOfShare();
         result.init(data);
         return result;
     }
@@ -20355,12 +20187,12 @@ export class SearchBehaviourBaseResultOfShareBase extends BaseResultOfShareBase 
     }
 }
 
-export interface ISearchBehaviourBaseResultOfShareBase extends IBaseResultOfShareBase {
+export interface ISearchBehaviourBaseResultOfShare extends IBaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class ShareSearchResult extends SearchBehaviourBaseResultOfShareBase implements IShareSearchResult {
+export class ShareSearchResult extends SearchBehaviourBaseResultOfShare implements IShareSearchResult {
     elapsedMilliseconds: number;
 
     constructor(data?: IShareSearchResult) {
@@ -20388,8 +20220,72 @@ export class ShareSearchResult extends SearchBehaviourBaseResultOfShareBase impl
     }
 }
 
-export interface IShareSearchResult extends ISearchBehaviourBaseResultOfShareBase {
+export interface IShareSearchResult extends ISearchBehaviourBaseResultOfShare {
     elapsedMilliseconds: number;
+}
+
+export class Share implements IShare {
+    name?: string | undefined;
+    contentIds?: string[] | undefined;
+    id?: string | undefined;
+    audit?: UserAudit | undefined;
+    expirationDate?: Date | undefined;
+    shareType: ShareType;
+
+    constructor(data?: IShare) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            if (data["contentIds"] && data["contentIds"].constructor === Array) {
+                this.contentIds = [];
+                for (let item of data["contentIds"])
+                    this.contentIds.push(item);
+            }
+            this.id = data["id"];
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
+            this.shareType = data["shareType"];
+        }
+    }
+
+    static fromJS(data: any): Share {
+        let result = new Share();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        if (this.contentIds && this.contentIds.constructor === Array) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        data["id"] = this.id;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
+        data["shareType"] = this.shareType;
+        return data; 
+    }
+}
+
+export interface IShare {
+    name?: string | undefined;
+    contentIds?: string[] | undefined;
+    id?: string | undefined;
+    audit?: IUserAudit | undefined;
+    expirationDate?: Date | undefined;
+    shareType: ShareType;
 }
 
 export class SendMessageRequest implements ISendMessageRequest {
@@ -25725,7 +25621,7 @@ export class XmpMM implements IXmpMM {
     renditionClass?: string | undefined;
     renditionParams?: string | undefined;
     versionID?: string | undefined;
-    versions?: VersionInfo[] | undefined;
+    versions?: VersionInfo2[] | undefined;
 
     constructor(data?: IXmpMM) {
         if (data) {
@@ -25753,7 +25649,7 @@ export class XmpMM implements IXmpMM {
                 this.versions = [];
                 for (let i = 0; i < data.versions.length; i++) {
                     let item = data.versions[i];
-                    this.versions[i] = item && !(<any>item).toJSON ? new VersionInfo(item) : <VersionInfo>item;
+                    this.versions[i] = item && !(<any>item).toJSON ? new VersionInfo2(item) : <VersionInfo2>item;
                 }
             }
         }
@@ -25786,7 +25682,7 @@ export class XmpMM implements IXmpMM {
             if (data["versions"] && data["versions"].constructor === Array) {
                 this.versions = [];
                 for (let item of data["versions"])
-                    this.versions.push(VersionInfo.fromJS(item));
+                    this.versions.push(VersionInfo2.fromJS(item));
             }
         }
     }
@@ -25845,7 +25741,7 @@ export interface IXmpMM {
     renditionClass?: string | undefined;
     renditionParams?: string | undefined;
     versionID?: string | undefined;
-    versions?: IVersionInfo[] | undefined;
+    versions?: IVersionInfo2[] | undefined;
 }
 
 export class Reference implements IReference {
@@ -25959,6 +25855,132 @@ export interface IReference {
 export enum MaskMarkers {
     All = <any>"All", 
     None = <any>"None", 
+}
+
+export class Event implements IEvent {
+    action?: EventAction | undefined;
+    changed?: string | undefined;
+    instanceID?: string | undefined;
+    parameters?: string | undefined;
+    softwareAgent?: string | undefined;
+    when?: Date | undefined;
+
+    constructor(data?: IEvent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.action = data["action"];
+            this.changed = data["changed"];
+            this.instanceID = data["instanceID"];
+            this.parameters = data["parameters"];
+            this.softwareAgent = data["softwareAgent"];
+            this.when = data["when"] ? new Date(data["when"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Event {
+        let result = new Event();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["action"] = this.action;
+        data["changed"] = this.changed;
+        data["instanceID"] = this.instanceID;
+        data["parameters"] = this.parameters;
+        data["softwareAgent"] = this.softwareAgent;
+        data["when"] = this.when ? this.when.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IEvent {
+    action?: EventAction | undefined;
+    changed?: string | undefined;
+    instanceID?: string | undefined;
+    parameters?: string | undefined;
+    softwareAgent?: string | undefined;
+    when?: Date | undefined;
+}
+
+/** Corresponds to stEvt.ActionChoice */
+export enum EventAction {
+    Converted = <any>"Converted", 
+    Copied = <any>"Copied", 
+    Created = <any>"Created", 
+    Cropped = <any>"Cropped", 
+    Edited = <any>"Edited", 
+    Filtered = <any>"Filtered", 
+    Formatted = <any>"Formatted", 
+    VersionUpdated = <any>"VersionUpdated", 
+    Printed = <any>"Printed", 
+    Published = <any>"Published", 
+    Managed = <any>"Managed", 
+    Produced = <any>"Produced", 
+    Resized = <any>"Resized", 
+    Saved = <any>"Saved", 
+    Derived = <any>"Derived", 
+}
+
+export class VersionInfo2 implements IVersionInfo2 {
+    comments?: string | undefined;
+    event?: Event | undefined;
+    modifier?: string | undefined;
+    modifyDate?: Date | undefined;
+    version?: string | undefined;
+
+    constructor(data?: IVersionInfo2) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.event = data.event && !(<any>data.event).toJSON ? new Event(data.event) : <Event>this.event; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.comments = data["comments"];
+            this.event = data["event"] ? Event.fromJS(data["event"]) : <any>undefined;
+            this.modifier = data["modifier"];
+            this.modifyDate = data["modifyDate"] ? new Date(data["modifyDate"].toString()) : <any>undefined;
+            this.version = data["version"];
+        }
+    }
+
+    static fromJS(data: any): VersionInfo2 {
+        let result = new VersionInfo2();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["comments"] = this.comments;
+        data["event"] = this.event ? this.event.toJSON() : <any>undefined;
+        data["modifier"] = this.modifier;
+        data["modifyDate"] = this.modifyDate ? this.modifyDate.toISOString() : <any>undefined;
+        data["version"] = this.version;
+        return data; 
+    }
+}
+
+export interface IVersionInfo2 {
+    comments?: string | undefined;
+    event?: IEvent | undefined;
+    modifier?: string | undefined;
+    modifyDate?: Date | undefined;
+    version?: string | undefined;
 }
 
 export class XmpNote implements IXmpNote {
