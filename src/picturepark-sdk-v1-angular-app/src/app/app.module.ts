@@ -14,8 +14,8 @@ import { ContentPickerDetailsComponent } from './content-picker-details/content-
 
 import { TranslatePipe } from '../pipes/translate.pipe';
 
-import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
-import { PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
+import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
+import { PictureparkOidcModule, PictureparkOidcAuthConfiguration } from '@picturepark/sdk-v1-angular-oidc';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 import { EmbedService } from './embed.service';
 
@@ -25,7 +25,7 @@ export function LocaleIdFactory() {
 
 export function PictureparkConfigurationFactory() {
   const appRootTag = document.getElementsByTagName('app-root')[0];
-  return <PictureparkConfiguration>{
+  return <PictureparkOidcAuthConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     stsServer: appRootTag.getAttribute('picturepark-sts-server'),
     customerId: appRootTag.getAttribute('customer-id'),

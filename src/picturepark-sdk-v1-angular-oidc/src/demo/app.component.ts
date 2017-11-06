@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 
 import { AuthService, ContentService, ContentSearchRequest } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '../oidc-auth-service';
+import { OidcAuthService } from '../oidc-auth.service';
 
 @Component({
   selector: 'app-root',

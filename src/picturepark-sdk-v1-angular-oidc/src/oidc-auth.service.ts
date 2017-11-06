@@ -17,7 +17,7 @@ export class OidcAuthService extends AuthService {
     @Optional() @Inject(OidcSecurityService) private oidcSecurityService: OidcSecurityService,
     @Optional() @Inject(AuthWellKnownEndpoints) private authWellKnownEndpoints: AuthWellKnownEndpoints,
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
-    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
+    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkOidcAuthConfiguration) {
     super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl!);
     if (this.oidcSecurityService) {
       this.oidcSecurityService.getUserData().subscribe((userData) => this.userDataChanged(userData));
@@ -86,4 +86,10 @@ export class OidcAuthService extends AuthService {
     // TODO: Implement refresh
     return Promise.resolve();
   }
+}
+
+export interface PictureparkOidcAuthConfiguration extends PictureparkConfiguration {
+  stsServer: string;
+  clientId: string;
+  scope: string;
 }

@@ -13,7 +13,7 @@ export class TokenAuthService extends AuthService {
 
   constructor(
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
-    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkConfiguration) {
+    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkTokenAuthConfiguration) {
     super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl!);
   }
 
@@ -35,4 +35,8 @@ export class TokenAuthService extends AuthService {
     }
     return Promise.resolve(options);
   }
+}
+
+export interface PictureparkTokenAuthConfiguration extends PictureparkConfiguration {
+  accessToken?: string;
 }

@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, BrowserStorage } from 'angular-auth-oidc-client';
 
 import { PictureparkModule, AuthService, PictureparkConfiguration, PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from './oidc-auth-service';
+import { OidcAuthService, PictureparkOidcAuthConfiguration } from './oidc-auth.service';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ export class PictureparkOidcModule {
   constructor(
     @Inject(AuthService) authService: OidcAuthService,
     @Inject(OidcSecurityService) oidcSecurityService: OidcSecurityService,
-    @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkConfiguration) {
+    @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration: PictureparkOidcAuthConfiguration) {
 
     const redirectRoute = '/pcpToken';
     const configuration = new OpenIDImplicitFlowConfiguration();

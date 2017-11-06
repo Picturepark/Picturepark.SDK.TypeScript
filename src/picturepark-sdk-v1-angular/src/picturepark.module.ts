@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TokenAuthService } from './token-auth-service';
+import { TokenAuthService } from './token-auth.service';
 import {
   JsonSchemaService,
   ContentService,
