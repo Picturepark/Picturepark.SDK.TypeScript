@@ -1,4 +1,8 @@
-<div class="container-fluid">
+<div *ngIf="detailsItemId">
+  <pp-content-picker-details [(contentId)]="detailsItemId" [postUrl]="postUrl">
+  </pp-content-picker-details>
+</div>
+<div class="container-fluid" [style.display]="detailsItemId ? 'none' : ''">
   <div *ngIf="!authService.isAuthorized">
     Authorization...
   </div>

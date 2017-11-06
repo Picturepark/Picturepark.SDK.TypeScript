@@ -18,10 +18,6 @@ const routes: Routes = [
   {
     path: 'content-picker',
     component: ContentPickerComponent
-  },
-  {
-    path: 'content-picker/details/:id',
-    component: ContentPickerDetailsComponent
   }
 ];
 

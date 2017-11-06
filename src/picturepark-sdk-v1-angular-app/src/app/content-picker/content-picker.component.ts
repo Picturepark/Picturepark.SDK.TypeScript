@@ -29,6 +29,8 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   selectedItems: Content[] = [];
   aggregations: AggregationResult[] = [];
 
+  detailsItemId: string | undefined = undefined;
+
   loading = false;
   messagePosted = false;
   postUrl: string;
@@ -81,7 +83,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   showDetails(item: Content) {
-    this.router.navigate(['content-picker', 'details', item.id], { queryParams: { postUrl: this.postUrl } });
+    this.detailsItemId = item.id;
   }
 
   async embed() {

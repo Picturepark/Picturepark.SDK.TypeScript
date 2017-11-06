@@ -1,6 +1,6 @@
 import {
   Component, EventEmitter, Input, Output, OnInit, OnDestroy,
-  AfterViewInit, ViewChild, ElementRef, Inject
+  AfterViewInit, ViewChild, ElementRef, Inject, SimpleChanges, OnChanges
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 
 import {
-  ContentService, ContentDetail, AuthService, ImageMetadata, ThumbnailSize, 
+  ContentService, ContentDetail, AuthService, ImageMetadata, ThumbnailSize,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink
 } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
@@ -16,26 +16,30 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { EmbedService } from 'app/embed.service';
 
 @Component({
+  selector: 'pp-content-picker-details',
   templateUrl: './content-picker-details.component.html'
 })
-export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterViewInit {
-  private routeSubscription: Subscription;
+export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  @Input()
+  postUrl: string;
 
-  postUrl: any;
+  @Input()
+  contentId: string | undefined;
+  @Output()
+  contentIdChange = new EventEmitter<string | undefined>();
   content: ContentDetail;
-  contentId: string;
 
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
 
   windowHeight: string;
 
-  constructor(private route: ActivatedRoute,
-    private contentService: ContentService,
+  constructor(private contentService: ContentService,
     private sanitizer: DomSanitizer,
     private location: Location,
     private embedService: EmbedService,
     @Inject(AuthService) public authService: OidcAuthService) {
+    this.recalculateSizes();
   }
 
   ngOnInit() {
@@ -43,13 +47,16 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
       this.authService.login();
     }
 
-    if (this.route.snapshot.queryParams['postUrl']) {
-      this.postUrl = this.route.snapshot.queryParams['postUrl'];
-    }
+    window.addEventListener('resize', this.onWindowResized, false);
+    this.recalculateSizes();
+  }
 
-    this.routeSubscription = this.route.params.map(params => <string>params['id']).subscribe(async contentId => {
-      this.contentId = contentId.toString();
+  ngAfterViewInit() {
+    this.recalculateSizes();
+  }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.contentId) {
       this.contentService.downloadThumbnail(this.contentId, ThumbnailSize.Medium).subscribe(response => {
         this.thumbnailUrl = URL.createObjectURL(response!.data!);
         this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
@@ -58,14 +65,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
       this.contentService.get(this.contentId, true, []).subscribe((content: ContentDetail) => {
         this.content = content;
       });
-    });
-
-    window.addEventListener('resize', this.onWindowResized, false);
-    this.recalculateSizes();
-  }
-
-  ngAfterViewInit() {
-    this.recalculateSizes();
+    }
   }
 
   show() {
@@ -117,7 +117,8 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   }
 
   back() {
-    this.location.back();
+    this.contentId = undefined;
+    this.contentIdChange.emit(this.contentId);
   }
 
   embed() {
@@ -126,7 +127,6 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
 
   ngOnDestroy() {
     window.removeEventListener('resize', this.onWindowResized, false);
-    this.routeSubscription.unsubscribe();
   }
 
   onWindowResized = () => {
