@@ -31,7 +31,7 @@ export class PictureparkOidcModule {
     configuration.scope = pictureparkConfiguration.scope ?
       pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid';
 
-    const url = pictureparkConfiguration.redirectServer ? 
+    const url = pictureparkConfiguration.redirectServer ?
       pictureparkConfiguration.redirectServer : window.location.origin;
     const search = window.location.search;
 
@@ -48,8 +48,6 @@ export class PictureparkOidcModule {
     configuration.override_well_known_configuration = false;
     configuration.auto_userinfo = true;
     configuration.silent_renew = true;
-
-    debugger;
 
     oidcSecurityService.setupModule(configuration);
     oidcSecurityService.setCustomRequestParameters({

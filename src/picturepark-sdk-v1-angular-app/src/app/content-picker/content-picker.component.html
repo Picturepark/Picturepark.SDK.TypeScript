@@ -48,25 +48,27 @@
 
     <!-- Footer -->
     <div class="row" style="background-color: lightgray; margin-top: 22px; padding: 10px">
-      <div class="col-md-6" style="padding-top: 8px">
-        <ng-container *ngIf="selectedItems.length == 1">  
-          {{'ContentPicker.TextSelectedSingle' | pptranslate:selectedItems.length}}
-        </ng-container>
-        <ng-container *ngIf="selectedItems.length != 1">  
-          {{'ContentPicker.TextSelectedMultiple' | pptranslate:selectedItems.length}}
-        </ng-container>
-      </div>
-      <div class="col-md-6" style="text-align: right">
-        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed()">
-          <ng-container *ngIf="!loading">  
-            {{'ContentPicker.ButtonChoose' | pptranslate}}
+      <div class="col-md-6">
+        <div style="padding-top: 8px">
+          <ng-container *ngIf="selectedItems.length == 1">  
+              {{'ContentPicker.TextSelectedSingle' | pptranslate:selectedItems.length}}
           </ng-container>
-          <ng-container *ngIf="loading">  
-            {{'ContentPicker.ButtonLoading' | pptranslate}}
+          <ng-container *ngIf="selectedItems.length != 1">  
+            {{'ContentPicker.TextSelectedMultiple' | pptranslate:selectedItems.length}}
           </ng-container>
         </div>
+      </div>
+      <div class="col-md-6" style="text-align: right">
         <div class="btn btn-default" (click)="cancel()">
           {{'ContentPicker.ButtonCancel' | pptranslate}}
+        </div>
+        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed()">
+          <ng-container *ngIf="!loading">
+            {{'ContentPicker.ButtonChoose' | pptranslate}}
+          </ng-container>
+          <ng-container *ngIf="loading"> 
+            {{'ContentPicker.ButtonLoading' | pptranslate}}
+          </ng-container>
         </div>
       </div>
     </div>

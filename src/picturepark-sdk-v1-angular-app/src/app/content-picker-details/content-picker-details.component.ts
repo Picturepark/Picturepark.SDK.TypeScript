@@ -28,7 +28,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
 
-  contentBrowserHeight: string;
+  windowHeight: string;
 
   constructor(private route: ActivatedRoute,
     private contentService: ContentService,
@@ -135,9 +135,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
 
   recalculateSizes() {
     const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
-
-    this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
+    this.windowHeight = (windowHeight - 100) + 'px';
   }
 }
 

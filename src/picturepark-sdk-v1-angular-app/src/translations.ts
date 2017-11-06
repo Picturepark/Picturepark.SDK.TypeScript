@@ -2,7 +2,7 @@ export let TRANSLATIONS = {
   ContentPicker: {
     LabelChannel: {
       en: 'Channel',
-      de: 'Kanal.'
+      de: 'Kanal'
     },
     LabelSearch: {
       en: 'Search',
@@ -13,8 +13,8 @@ export let TRANSLATIONS = {
       de: 'Filter'
     },
     ButtonChoose: {
-      en: 'Choose',
-      de: 'Wählen'
+      en: 'Choose selection',
+      de: 'Selektion auswählen'
     },
     ButtonLoading: {
       en: 'Loading...',
@@ -32,6 +32,25 @@ export let TRANSLATIONS = {
       en: 'You have selected {0} items.',
       de: 'Sie haben {0} Elemente ausgewählt.'
     }
+  },
+
+  ContentPickerDetails: {
+    ButtonBack: {
+      en: 'Go back',
+      de: 'Zurück'
+    },
+    ButtonChoose: {
+      en: 'Choose item',
+      de: 'Element auswählen'
+    },
+    LabelFileExtension: {
+      en: 'File extension',
+      de: 'Dateiendung'
+    },
+    LabelSize: {
+      en: 'Size',
+      de: 'Grösse'
+    },
   }
 }
 
