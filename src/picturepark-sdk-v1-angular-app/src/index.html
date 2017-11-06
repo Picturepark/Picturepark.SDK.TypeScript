@@ -12,10 +12,11 @@
 <body>
   <app-root picturepark-api-server="https://devnext-api.preview-picturepark.com" 
             picturepark-sts-server="https://devnext-identity.preview-picturepark.com"
-            scope="openid profile picturepark_api all_scopes"
-            client-id="TestRico"
-            customer-id="2e14d24d1aba4fac8d13e95f277bfedf"
-            customer-alias="dev">
+            picturepark-redirect-server="http://localhost:4200"
+            picturepark-scope="openid profile picturepark_api all_scopes"
+            picturepark-client-id="TestRico"
+            picturepark-customer-id="2e14d24d1aba4fac8d13e95f277bfedf"
+            picturepark-customer-alias="dev">
     Loading...
   </app-root>
   <script src="/assets/picturepark-sdk-v1-widgets/picturepark-widgets.js" async></script>

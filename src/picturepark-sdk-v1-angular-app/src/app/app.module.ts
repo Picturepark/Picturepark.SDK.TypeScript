@@ -28,10 +28,11 @@ export function PictureparkConfigurationFactory() {
   return <PictureparkOidcAuthConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     stsServer: appRootTag.getAttribute('picturepark-sts-server'),
-    customerId: appRootTag.getAttribute('customer-id'),
-    customerAlias: appRootTag.getAttribute('customer-alias'),
-    clientId: appRootTag.getAttribute('client-id'),
-    scope: appRootTag.getAttribute('scope'),
+    customerId: appRootTag.getAttribute('picturepark-customer-id'),
+    redirectServer: appRootTag.getAttribute('picturepark-redirect-server'),
+    customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
+    clientId: appRootTag.getAttribute('picturepark-client-id'),
+    scope: appRootTag.getAttribute('picturepark-scope'),
   }
 }
 
