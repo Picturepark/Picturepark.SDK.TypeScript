@@ -1,19 +1,33 @@
 <div class="container-fluid">
-  <h1>{{content ? content.contentType : ''}}&nbsp;</h1>
+  <div [style.height]="contentBrowserHeight">
+    <h1>{{content ? content.contentType : ''}}&nbsp;</h1>
+    
+    <img *ngIf="thumbnailUrl" [src]="thumbnailUrlSafe" 
+          style="float: left; cursor: pointer; padding-right: 10px" 
+          (click)="show()" />  
+  
+    <dl *ngIf="content.content.kind === 'ImageMetadata'">
+      <dt>File extension</dt>
+      <dd>{{content.content.fileExtension}}</dd>
+  
+      <dt>Size</dt>
+      <dd>{{content.content.width}}px x {{content.content.height}}px</dd>
+    </dl>
+  
+    <br style="clear: both" />
+  </div>
 
-  <img *ngIf="thumbnailUrl" [src]="thumbnailUrlSafe" 
-       style="float: left; cursor: pointer; padding-right: 10px" 
-       (click)="show()" />  
-
-  <dl *ngIf="imageMetadata">
-    <dt>File extension</dt>
-    <dd>{{imageMetadata.fileExtension}}</dd>
-
-    <dt>Size</dt>
-    <dd>{{imageMetadata.width}}px x {{imageMetadata.height}}px</dd>
-  </dl>
-
-  <a (click)="back()" style="cursor: pointer">Back</a>
-  <br>
-  <a (click)="embed()" style="cursor: pointer">Embed</a>
+  <!-- Footer -->
+  <div class="row" style="background-color: lightgray; margin-top: 22px; padding: 10px">
+    <div class="col-md-6" style="padding-top: 8px">
+      <div class="btn btn-primary" (click)="back()">
+        Back
+      </div>
+    </div>
+    <div class="col-md-6" style="text-align: right">
+      <div class="btn btn-default" (click)="embed()">
+        Embed
+      </div>
+    </div>
+  </div>
 </div>

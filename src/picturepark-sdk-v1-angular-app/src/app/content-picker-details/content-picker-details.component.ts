@@ -18,7 +18,7 @@ import { EmbedService } from 'app/embed.service';
 @Component({
   templateUrl: './content-picker-details.component.html'
 })
-export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
+export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterViewInit {
   private routeSubscription: Subscription;
 
   postUrl: any;
@@ -28,16 +28,14 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
 
+  contentBrowserHeight: string;
+
   constructor(private route: ActivatedRoute,
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
     private location: Location,
     private embedService: EmbedService,
     @Inject(AuthService) public authService: OidcAuthService) {
-  }
-
-  get imageMetadata() {
-    return this.content && (<any>this.content.content).kind === 'ImageMetadata' ? <ImageMetadata>this.content.content : undefined;
   }
 
   ngOnInit() {
@@ -61,6 +59,13 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
         this.content = content;
       });
     });
+
+    window.addEventListener('resize', this.onWindowResized, false);
+    this.recalculateSizes();
+  }
+
+  ngAfterViewInit() {
+    this.recalculateSizes();
   }
 
   show() {
@@ -124,7 +129,19 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    window.removeEventListener('resize', this.onWindowResized, false);
     this.routeSubscription.unsubscribe();
+  }
+
+  onWindowResized = () => {
+    this.recalculateSizes();
+  };
+
+  recalculateSizes() {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
   }
 }
 
