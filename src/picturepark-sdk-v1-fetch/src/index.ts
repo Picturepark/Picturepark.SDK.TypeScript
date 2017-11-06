@@ -347,8 +347,8 @@ export class ContentClient extends PictureparkClientBase {
      * @request The content batch download request
      * @return ContentBatchDonloadItem
      */
-    createDownloadLink(request: ContentBatchDownloadRequest | null): Promise<ContentBatchDownloadItem | null> {
-        let url_ = this.baseUrl + "/v1/contents/createBatchContentDownload";
+    createDownloadLink(request: ContentDownloadLinkCreateRequest | null): Promise<DownloadLink | null> {
+        let url_ = this.baseUrl + "/v1/contents/downloadLinks";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -369,13 +369,13 @@ export class ContentClient extends PictureparkClientBase {
         });
     }
 
-    protected processCreateDownloadLink(response: Response): Promise<ContentBatchDownloadItem | null> {
+    protected processCreateDownloadLink(response: Response): Promise<DownloadLink | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <ContentBatchDownloadItem>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <DownloadLink>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -397,7 +397,7 @@ export class ContentClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ContentBatchDownloadItem | null>(<any>null);
+        return Promise.resolve<DownloadLink | null>(<any>null);
     }
 
     /**
@@ -1566,180 +1566,6 @@ export class BusinessProcessClient extends PictureparkClientBase {
     }
 
     /**
-     * Start
-     * @processDefinitionId The process definition id
-     * @request The start process request
-     * @return BusinessProcess
-     */
-    start(processDefinitionId: string, request: StartProcessRequest | null): Promise<BusinessProcess | null> {
-        let url_ = this.baseUrl + "/v1/businessProcesses/processDefinitions/{processDefinitionId}/start";
-        if (processDefinitionId === undefined || processDefinitionId === null)
-            throw new Error("The parameter 'processDefinitionId' must be defined.");
-        url_ = url_.replace("{processDefinitionId}", encodeURIComponent("" + processDefinitionId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processStart(_response);
-        });
-    }
-
-    protected processStart(response: Response): Promise<BusinessProcess | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status === 500) {
-            return response.text().then((_responseText) => {
-            let result500: any = null;
-            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            });
-        } else if (status === 401) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 429) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<BusinessProcess | null>(<any>null);
-    }
-
-    /**
-     * Mark as ended
-     * @processId The process id
-     */
-    markAsEnded(processId: string): Promise<void> {
-        let url_ = this.baseUrl + "/v1/businessProcesses/processes/{processId}/markAsEnded";
-        if (processId === undefined || processId === null)
-            throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "POST",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processMarkAsEnded(_response);
-        });
-    }
-
-    protected processMarkAsEnded(response: Response): Promise<void> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
-        if (status === 204) {
-            return response.text().then((_responseText) => {
-            return;
-            });
-        } else if (status === 500) {
-            return response.text().then((_responseText) => {
-            let result500: any = null;
-            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            });
-        } else if (status === 401) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 429) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<void>(<any>null);
-    }
-
-    /**
-     * Send message
-     * @processId The process id
-     * @request The send message request
-     */
-    sendMessage(processId: string, request: SendMessageRequest | null): Promise<void> {
-        let url_ = this.baseUrl + "/v1/businessProcesses/processes/{processId}/message";
-        if (processId === undefined || processId === null)
-            throw new Error("The parameter 'processId' must be defined.");
-        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processSendMessage(_response);
-        });
-    }
-
-    protected processSendMessage(response: Response): Promise<void> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
-        if (status === 204) {
-            return response.text().then((_responseText) => {
-            return;
-            });
-        } else if (status === 500) {
-            return response.text().then((_responseText) => {
-            let result500: any = null;
-            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            });
-        } else if (status === 401) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 429) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<void>(<any>null);
-    }
-
-    /**
      * Wait for states
      * @processId The process id
      * @states The states to wait for
@@ -1805,6 +1631,64 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcessWaitResult | null>(<any>null);
+    }
+
+    /**
+     * Get details
+     * @processId The process id
+     * @return BusinessProcessDetails
+     */
+    getDetails(processId: string): Promise<BusinessProcessDetails | null> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/details";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetDetails(_response);
+        });
+    }
+
+    protected processGetDetails(response: Response): Promise<BusinessProcessDetails | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcessDetails>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcessDetails | null>(<any>null);
     }
 }
 
@@ -2888,6 +2772,7 @@ export class ListItemClient extends PictureparkClientBase {
      * @states (optional) Comma-separated list of business process states to wait for.
      * @timeout Maximum time in milliseconds to wait for the business process completed state.
      * @return BusinessProcessWaitResult
+     * @deprecated
      */
     waitForStates(processId: string, states: string[] | null, timeout: number): Promise<BusinessProcessWaitResult | null> {
         let url_ = this.baseUrl + "/v1/listItems/{processId}/wait?";
@@ -4261,7 +4146,7 @@ export class ServiceProviderClient extends PictureparkClientBase {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
-    sendMessage(serviceProviderId: string, request: SendMessageRequest2 | null): Promise<void> {
+    sendMessage(serviceProviderId: string, request: SendMessageRequest | null): Promise<void> {
         let url_ = this.baseUrl + "/v1/serviceProviders/{serviceProviderId}/message";
         if (serviceProviderId === undefined || serviceProviderId === null)
             throw new Error("The parameter 'serviceProviderId' must be defined.");
@@ -6402,11 +6287,11 @@ export interface AggregationResultItem {
     aggregationResults?: AggregationResult[] | undefined;
 }
 
-export interface ContentBatchDownloadRequest {
-    contents?: ContentBatchDownloadRequestItem[] | undefined;
+export interface ContentDownloadLinkCreateRequest {
+    contents?: ContentDownloadRequestItem[] | undefined;
 }
 
-export interface ContentBatchDownloadRequestItem {
+export interface ContentDownloadRequestItem {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 }
@@ -6414,7 +6299,7 @@ export interface ContentBatchDownloadRequestItem {
 export interface DownloadItem {
 }
 
-export interface ContentBatchDownloadItem extends DownloadItem {
+export interface DownloadLink extends DownloadItem {
     downloadToken?: string | undefined;
     downloadUrl?: string | undefined;
 }
@@ -6656,20 +6541,22 @@ export interface BusinessProcessSearchResult extends SearchBehaviourBaseResultOf
     elapsedMilliseconds: number;
 }
 
-export interface StartProcessRequest {
-    variables?: any | undefined;
-}
-
-export interface SendMessageRequest {
-    messageName?: string | undefined;
-    variables?: any | undefined;
-}
-
 export interface BusinessProcessWaitResult {
     hasStateHit: boolean;
     processEnded: boolean;
     stateHit?: string | undefined;
     businessProcess?: BusinessProcess | undefined;
+}
+
+export interface BusinessProcessDetails extends BusinessProcess {
+    details?: BusinessProcessDetailsDataBase | undefined;
+}
+
+export interface BusinessProcessDetailsDataBase {
+}
+
+export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
+    response?: BulkResponse | undefined;
 }
 
 export interface DocumentHistorySearchRequest {
@@ -7640,7 +7527,7 @@ export interface ShareSearchResult extends SearchBehaviourBaseResultOfShareBase 
     elapsedMilliseconds: number;
 }
 
-export interface SendMessageRequest2 {
+export interface SendMessageRequest {
     messageName?: string | undefined;
     businessProcessId?: string | undefined;
     variables?: any | undefined;
@@ -7719,6 +7606,7 @@ export interface Transfer {
     transferType: TransferType;
     businessProcessId?: string | undefined;
     fileTransferCount: number;
+    collectionId?: string | undefined;
 }
 
 export enum TransferState {
@@ -9421,6 +9309,7 @@ export interface UserSearchRequest {
     limit: number;
     filter?: FilterBase | undefined;
     lifeCycleFilter: LifeCycleFilter;
+    userRightsFilter?: UserRight[] | undefined;
 }
 
 export interface BaseResultOfUser {
@@ -9504,6 +9393,8 @@ The search by filters and aggregations are unaffected. */
     aggregations?: AggregatorBase[] | undefined;
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
     extendedSimpleSearchFields?: string[] | undefined;
+    /** Display pattern to use for rendering details when 0 results are returned */
+    missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
 }
 
 export interface ContentsByIdsRequest {
