@@ -2325,6 +2325,32 @@ declare module "picturepark" {
     export interface ShareOutputBase {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
+        detail?: OutputDataBase | undefined;
+    }
+    export interface OutputDataBase {
+        fileExtension?: string | undefined;
+        fileName?: string | undefined;
+        filePath?: string | undefined;
+        fileSizeInBytes?: number | undefined;
+        sha1Hash?: string | undefined;
+    }
+    export interface OutputDataImage extends OutputDataBase {
+        width: number;
+        height: number;
+    }
+    export interface OutputDataAudio extends OutputDataBase {
+        durationInSeconds?: number | undefined;
+    }
+    export interface OutputDataVideo extends OutputDataBase {
+        durationInSeconds: number;
+        width: number;
+        height: number;
+        sprites?: Sprite[] | undefined;
+    }
+    export interface OutputDataDocument extends OutputDataBase {
+        pageCount: number;
+    }
+    export interface OutputDataDefault extends OutputDataBase {
     }
     export interface ShareOutputBasic extends ShareOutputBase {
     }
@@ -2333,16 +2359,15 @@ declare module "picturepark" {
         url?: string | undefined;
     }
     export interface ShareDataBase {
+        url?: string | undefined;
     }
     export interface ShareDataEmbed extends ShareDataBase {
         token?: string | undefined;
-        url?: string | undefined;
     }
     export interface ShareDataBasic extends ShareDataBase {
         mailRecipients?: MailRecipient[] | undefined;
         internalRecipients?: InternalRecipient[] | undefined;
         languageCode?: string | undefined;
-        url?: string | undefined;
     }
     export interface MailRecipient {
         userEmail?: UserEmail | undefined;

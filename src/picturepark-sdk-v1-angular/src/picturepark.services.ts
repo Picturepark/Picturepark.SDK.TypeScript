@@ -18779,6 +18779,7 @@ export interface IShareContentDetail {
 export class ShareOutputBase implements IShareOutputBase {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    detail?: OutputDataBase | undefined;
 
     protected _discriminator: string;
 
@@ -18788,6 +18789,7 @@ export class ShareOutputBase implements IShareOutputBase {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.detail = data.detail && !(<any>data.detail).toJSON ? new OutputDataBase(data.detail) : <OutputDataBase>this.detail; 
         }
         this._discriminator = "ShareOutputBase";
     }
@@ -18796,6 +18798,7 @@ export class ShareOutputBase implements IShareOutputBase {
         if (data) {
             this.contentId = data["contentId"];
             this.outputFormatId = data["outputFormatId"];
+            this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
         }
     }
 
@@ -18820,6 +18823,7 @@ export class ShareOutputBase implements IShareOutputBase {
         data["kind"] = this._discriminator; 
         data["contentId"] = this.contentId;
         data["outputFormatId"] = this.outputFormatId;
+        data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -18827,6 +18831,272 @@ export class ShareOutputBase implements IShareOutputBase {
 export interface IShareOutputBase {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    detail?: IOutputDataBase | undefined;
+}
+
+export class OutputDataBase implements IOutputDataBase {
+    fileExtension?: string | undefined;
+    fileName?: string | undefined;
+    filePath?: string | undefined;
+    fileSizeInBytes?: number | undefined;
+    sha1Hash?: string | undefined;
+
+    protected _discriminator: string;
+
+    constructor(data?: IOutputDataBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "OutputDataBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.fileExtension = data["fileExtension"];
+            this.fileName = data["fileName"];
+            this.filePath = data["filePath"];
+            this.fileSizeInBytes = data["fileSizeInBytes"];
+            this.sha1Hash = data["sha1Hash"];
+        }
+    }
+
+    static fromJS(data: any): OutputDataBase {
+        if (data["kind"] === "OutputDataImage") {
+            let result = new OutputDataImage();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputDataAudio") {
+            let result = new OutputDataAudio();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputDataVideo") {
+            let result = new OutputDataVideo();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputDataDocument") {
+            let result = new OutputDataDocument();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputDataDefault") {
+            let result = new OutputDataDefault();
+            result.init(data);
+            return result;
+        }
+        let result = new OutputDataBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["fileExtension"] = this.fileExtension;
+        data["fileName"] = this.fileName;
+        data["filePath"] = this.filePath;
+        data["fileSizeInBytes"] = this.fileSizeInBytes;
+        data["sha1Hash"] = this.sha1Hash;
+        return data; 
+    }
+}
+
+export interface IOutputDataBase {
+    fileExtension?: string | undefined;
+    fileName?: string | undefined;
+    filePath?: string | undefined;
+    fileSizeInBytes?: number | undefined;
+    sha1Hash?: string | undefined;
+}
+
+export class OutputDataImage extends OutputDataBase implements IOutputDataImage {
+    width: number;
+    height: number;
+
+    constructor(data?: IOutputDataImage) {
+        super(data);
+        this._discriminator = "OutputDataImage";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.width = data["width"];
+            this.height = data["height"];
+        }
+    }
+
+    static fromJS(data: any): OutputDataImage {
+        let result = new OutputDataImage();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["width"] = this.width;
+        data["height"] = this.height;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputDataImage extends IOutputDataBase {
+    width: number;
+    height: number;
+}
+
+export class OutputDataAudio extends OutputDataBase implements IOutputDataAudio {
+    durationInSeconds?: number | undefined;
+
+    constructor(data?: IOutputDataAudio) {
+        super(data);
+        this._discriminator = "OutputDataAudio";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.durationInSeconds = data["durationInSeconds"];
+        }
+    }
+
+    static fromJS(data: any): OutputDataAudio {
+        let result = new OutputDataAudio();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["durationInSeconds"] = this.durationInSeconds;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputDataAudio extends IOutputDataBase {
+    durationInSeconds?: number | undefined;
+}
+
+export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo {
+    durationInSeconds: number;
+    width: number;
+    height: number;
+    sprites?: Sprite[] | undefined;
+
+    constructor(data?: IOutputDataVideo) {
+        super(data);
+        this._discriminator = "OutputDataVideo";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.durationInSeconds = data["durationInSeconds"];
+            this.width = data["width"];
+            this.height = data["height"];
+            if (data["sprites"] && data["sprites"].constructor === Array) {
+                this.sprites = [];
+                for (let item of data["sprites"])
+                    this.sprites.push(Sprite.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): OutputDataVideo {
+        let result = new OutputDataVideo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["durationInSeconds"] = this.durationInSeconds;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        if (this.sprites && this.sprites.constructor === Array) {
+            data["sprites"] = [];
+            for (let item of this.sprites)
+                data["sprites"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputDataVideo extends IOutputDataBase {
+    durationInSeconds: number;
+    width: number;
+    height: number;
+    sprites?: ISprite[] | undefined;
+}
+
+export class OutputDataDocument extends OutputDataBase implements IOutputDataDocument {
+    pageCount: number;
+
+    constructor(data?: IOutputDataDocument) {
+        super(data);
+        this._discriminator = "OutputDataDocument";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.pageCount = data["pageCount"];
+        }
+    }
+
+    static fromJS(data: any): OutputDataDocument {
+        let result = new OutputDataDocument();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageCount"] = this.pageCount;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputDataDocument extends IOutputDataBase {
+    pageCount: number;
+}
+
+export class OutputDataDefault extends OutputDataBase implements IOutputDataDefault {
+
+    constructor(data?: IOutputDataDefault) {
+        super(data);
+        this._discriminator = "OutputDataDefault";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): OutputDataDefault {
+        let result = new OutputDataDefault();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputDataDefault extends IOutputDataBase {
 }
 
 export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBasic {
@@ -18896,6 +19166,7 @@ export interface IShareOutputEmbed extends IShareOutputBase {
 }
 
 export class ShareDataBase implements IShareDataBase {
+    url?: string | undefined;
 
     protected _discriminator: string;
 
@@ -18911,6 +19182,7 @@ export class ShareDataBase implements IShareDataBase {
 
     init(data?: any) {
         if (data) {
+            this.url = data["url"];
         }
     }
 
@@ -18933,16 +19205,17 @@ export class ShareDataBase implements IShareDataBase {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
+        data["url"] = this.url;
         return data; 
     }
 }
 
 export interface IShareDataBase {
+    url?: string | undefined;
 }
 
 export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
     token?: string | undefined;
-    url?: string | undefined;
 
     constructor(data?: IShareDataEmbed) {
         super(data);
@@ -18953,7 +19226,6 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
         super.init(data);
         if (data) {
             this.token = data["token"];
-            this.url = data["url"];
         }
     }
 
@@ -18966,7 +19238,6 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["token"] = this.token;
-        data["url"] = this.url;
         super.toJSON(data);
         return data; 
     }
@@ -18974,14 +19245,12 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
 
 export interface IShareDataEmbed extends IShareDataBase {
     token?: string | undefined;
-    url?: string | undefined;
 }
 
 export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
     mailRecipients?: MailRecipient[] | undefined;
     internalRecipients?: InternalRecipient[] | undefined;
     languageCode?: string | undefined;
-    url?: string | undefined;
 
     constructor(data?: IShareDataBasic) {
         super(data);
@@ -19002,7 +19271,6 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
                     this.internalRecipients.push(InternalRecipient.fromJS(item));
             }
             this.languageCode = data["languageCode"];
-            this.url = data["url"];
         }
     }
 
@@ -19025,7 +19293,6 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
                 data["internalRecipients"].push(item.toJSON());
         }
         data["languageCode"] = this.languageCode;
-        data["url"] = this.url;
         super.toJSON(data);
         return data; 
     }
@@ -19035,7 +19302,6 @@ export interface IShareDataBasic extends IShareDataBase {
     mailRecipients?: IMailRecipient[] | undefined;
     internalRecipients?: IInternalRecipient[] | undefined;
     languageCode?: string | undefined;
-    url?: string | undefined;
 }
 
 export class MailRecipient implements IMailRecipient {
