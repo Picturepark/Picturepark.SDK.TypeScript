@@ -5926,9 +5926,8 @@ export interface BusinessProcess {
     processDefinitionId?: string | undefined;
     referenceId?: string | undefined;
     referenceDocType?: string | undefined;
-    notificationId?: string | undefined;
     businessProcessScope: BusinessProcessScope;
-    lifeCycle: BusinessProcessLifeCylce;
+    lifeCycle: BusinessProcessLifeCycle;
     startDate: Date;
     endDate: Date;
     stateHistory?: BusinessProcessStateItem[] | undefined;
@@ -5941,11 +5940,12 @@ export enum BusinessProcessScope {
     User = <any>"User", 
 }
 
-export enum BusinessProcessLifeCylce {
+export enum BusinessProcessLifeCycle {
     Draft = <any>"Draft", 
-    Started = <any>"Started", 
-    Ended = <any>"Ended", 
+    InProgress = <any>"InProgress", 
+    Succeeded = <any>"Succeeded", 
     Cancelled = <any>"Cancelled", 
+    Failed = <any>"Failed", 
 }
 
 export interface BusinessProcessStateItem {

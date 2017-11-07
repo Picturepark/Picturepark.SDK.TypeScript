@@ -9833,9 +9833,8 @@ export class BusinessProcess implements IBusinessProcess {
     processDefinitionId?: string | undefined;
     referenceId?: string | undefined;
     referenceDocType?: string | undefined;
-    notificationId?: string | undefined;
     businessProcessScope: BusinessProcessScope;
-    lifeCycle: BusinessProcessLifeCylce;
+    lifeCycle: BusinessProcessLifeCycle;
     startDate: Date;
     endDate: Date;
     stateHistory?: BusinessProcessStateItem[] | undefined;
@@ -9867,7 +9866,6 @@ export class BusinessProcess implements IBusinessProcess {
             this.processDefinitionId = data["processDefinitionId"];
             this.referenceId = data["referenceId"];
             this.referenceDocType = data["referenceDocType"];
-            this.notificationId = data["notificationId"];
             this.businessProcessScope = data["businessProcessScope"];
             this.lifeCycle = data["lifeCycle"];
             this.startDate = data["startDate"] ? new Date(data["startDate"].toString()) : <any>undefined;
@@ -9905,7 +9903,6 @@ export class BusinessProcess implements IBusinessProcess {
         data["processDefinitionId"] = this.processDefinitionId;
         data["referenceId"] = this.referenceId;
         data["referenceDocType"] = this.referenceDocType;
-        data["notificationId"] = this.notificationId;
         data["businessProcessScope"] = this.businessProcessScope;
         data["lifeCycle"] = this.lifeCycle;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
@@ -9926,9 +9923,8 @@ export interface IBusinessProcess {
     processDefinitionId?: string | undefined;
     referenceId?: string | undefined;
     referenceDocType?: string | undefined;
-    notificationId?: string | undefined;
     businessProcessScope: BusinessProcessScope;
-    lifeCycle: BusinessProcessLifeCylce;
+    lifeCycle: BusinessProcessLifeCycle;
     startDate: Date;
     endDate: Date;
     stateHistory?: IBusinessProcessStateItem[] | undefined;
@@ -9941,11 +9937,12 @@ export enum BusinessProcessScope {
     User = <any>"User", 
 }
 
-export enum BusinessProcessLifeCylce {
+export enum BusinessProcessLifeCycle {
     Draft = <any>"Draft", 
-    Started = <any>"Started", 
-    Ended = <any>"Ended", 
+    InProgress = <any>"InProgress", 
+    Succeeded = <any>"Succeeded", 
     Cancelled = <any>"Cancelled", 
+    Failed = <any>"Failed", 
 }
 
 export class BusinessProcessStateItem implements IBusinessProcessStateItem {

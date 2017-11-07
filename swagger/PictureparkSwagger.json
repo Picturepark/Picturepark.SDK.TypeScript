@@ -6250,14 +6250,11 @@
         "referenceDocType": {
           "type": "string"
         },
-        "notificationId": {
-          "type": "string"
-        },
         "businessProcessScope": {
           "$ref": "#/definitions/BusinessProcessScope"
         },
         "lifeCycle": {
-          "$ref": "#/definitions/BusinessProcessLifeCylce"
+          "$ref": "#/definitions/BusinessProcessLifeCycle"
         },
         "startDate": {
           "type": "string",
@@ -6296,20 +6293,22 @@
         "User"
       ]
     },
-    "BusinessProcessLifeCylce": {
+    "BusinessProcessLifeCycle": {
       "type": "string",
       "description": "",
       "x-enumNames": [
         "Draft",
-        "Started",
-        "Ended",
-        "Cancelled"
+        "InProgress",
+        "Succeeded",
+        "Cancelled",
+        "Failed"
       ],
       "enum": [
         "Draft",
-        "Started",
-        "Ended",
-        "Cancelled"
+        "InProgress",
+        "Succeeded",
+        "Cancelled",
+        "Failed"
       ]
     },
     "BusinessProcessStateItem": {
