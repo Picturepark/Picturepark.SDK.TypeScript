@@ -53,7 +53,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
   return window.fetch(initialConfig.server + '/Service/PublicAccess/GetShare?token=' + initialConfig.token).then(function (response) {
     return response.json();
-  }).then((rawShare: picturepark.ShareEmbedDetail | picturepark.ShareBasicDetail) => {
+  }).then((rawShare: picturepark.ShareDetail) => {
 
     // Merge config with config from server
     var config = rawShare.template as any;
@@ -78,33 +78,22 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
     }
 
-    let baseUrl = rawShare.url.replace("/Go/" + config.token + "/D", "");
+    let baseUrl = rawShare.data.url.replace("/Go/" + config.token + "/D", "");
     let index = 0;
     let share = {
       id: rawShare.id,
-      url: rawShare.url,
+      url: rawShare.data.url,
       name: rawShare.name,
       audit: rawShare.audit,
       description: rawShare.description,
       items: rawShare.contentSelections.map(s => {
         let outputs = s.outputs.map(o => {
-          if((rawShare as picturepark.ShareEmbedDetail).embedContentItems) {
-            let embedItem = (rawShare as picturepark.ShareEmbedDetail).embedContentItems.filter(e => e.contentId === o.contentId && e.outputFormatId === o.outputFormatId)[0];
-            return {
-              contentId: s.id,
-              outputFormatId: o.outputFormatId,
-              fileExtension: o.detail.fileExtension,
-              url: embedItem ? embedItem.url : null,
-              detail: o.detail
-            }
-          } else {
-            return {
-              contentId: s.id,
-              outputFormatId: o.outputFormatId,
-              fileExtension: o.detail.fileExtension,
-              url: baseUrl + `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`,
-              detail: o.detail
-            }
+          return {
+            contentId: s.id,
+            outputFormatId: o.outputFormatId,
+            fileExtension: o.detail.fileExtension,
+            url: rawShare.shareType.toString() === "Embed" ? (o as picturepark.ShareOutputEmbed).url : (baseUrl + `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`),
+            detail: o.detail
           }
         });
         let previewOutput = outputs.filter(o => o.outputFormatId === 'Preview')[0];
