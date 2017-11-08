@@ -91,6 +91,7 @@ export class OidcAuthService extends AuthService {
 export interface PictureparkOidcAuthConfiguration extends PictureparkConfiguration {
   stsServer: string;
   redirectServer?: string;
+  customerId?: string;
   clientId?: string;
   scope?: string;
 }

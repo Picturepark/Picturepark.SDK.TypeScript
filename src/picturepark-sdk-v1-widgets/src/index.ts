@@ -51,12 +51,11 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
     elementId + '>' + loadingTemplate + '</div>';
 
-  return window.fetch(initialConfig.server + '/Service/PublicAccess/GetShare?token=' + initialConfig.token).then(function (response) {
+  return window.fetch(initialConfig.server + '/service/publicAccess/shares/' + initialConfig.token).then(response => {
     return response.json();
-  }).then((rawShare: picturepark.ShareDetail) => {
-
+  }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
-    var config = rawShare.template as any;
+    var config = shareDetail.template as any;
     switch(config.kind) {
       case "BasicTemplate":
         config.template = "gallery";
@@ -78,21 +77,21 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
     }
 
-    let baseUrl = rawShare.data.url.replace("/Go/" + config.token + "/D", "");
+    let baseUrl = shareDetail.data.url.replace("/Go/" + config.token + "/D", "");
     let index = 0;
     let share = {
-      id: rawShare.id,
-      url: rawShare.data.url,
-      name: rawShare.name,
-      audit: rawShare.audit,
-      description: rawShare.description,
-      items: rawShare.contentSelections.map(s => {
+      id: shareDetail.id,
+      url: shareDetail.data.url,
+      name: shareDetail.name,
+      audit: shareDetail.audit,
+      description: shareDetail.description,
+      items: shareDetail.contentSelections.map(s => {
         let outputs = s.outputs.map(o => {
           return {
             contentId: s.id,
             outputFormatId: o.outputFormatId,
             fileExtension: o.detail.fileExtension,
-            url: rawShare.shareType.toString() === "Embed" ? 
+            url: shareDetail.shareType.toString() === "Embed" ? 
               (o as picturepark.ShareOutputEmbed).url : 
               (baseUrl + `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`), // TODO: Remove type check and directly use `url`
             detail: o.detail
