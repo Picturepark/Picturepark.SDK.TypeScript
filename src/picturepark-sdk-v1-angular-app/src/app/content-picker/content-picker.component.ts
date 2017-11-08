@@ -99,7 +99,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
     this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
-    this.aggregationFilterHeight = (windowHeight - 190 + 20) + 'px';
+    this.aggregationFilterHeight = (windowHeight - 188 + 20) + 'px';
 
     if (this.contentBrowser) {
       this.contentBrowser.refresh();

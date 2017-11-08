@@ -130,7 +130,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
 
   recalculateSizes() {
     const windowHeight = window.innerHeight;
-    this.windowHeight = (windowHeight - 100) + 'px';
+    this.windowHeight = (windowHeight - 96) + 'px';
   }
 }
 
