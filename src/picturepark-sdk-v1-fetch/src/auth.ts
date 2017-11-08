@@ -8,7 +8,7 @@ export class AuthClient {
 
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
     if (options.headers && this.customerAlias) {
-      options.headers['Picturepark-CustomerAlias'] = this.customerAlias;
+      options.headers.set('Picturepark-CustomerAlias', this.customerAlias);
     }
 
     return Promise.resolve(options);
@@ -23,7 +23,7 @@ export class TokenAuthClient extends AuthClient {
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
     if (options.headers) {
       if (this.accessToken) {
-        options.headers['Authorization'] = 'Bearer ' + this.accessToken;
+        options.headers.set('Authorization', 'Bearer ' + this.accessToken);
       }
     }
 
