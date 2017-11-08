@@ -9,8 +9,8 @@ import {
   Content,
   ShareEmbedCreateRequest,
   ShareContent,
-  ShareEmbedDetail,
-  OutputAccess
+  OutputAccess,
+  ShareDetail
 } from '@picturepark/sdk-v1-angular';
 
 import { SelectionMode } from '../components/content-browser/content-browser.component';
@@ -47,12 +47,12 @@ export class AppComponent {
       })).toPromise();
 
       if (result) {
-        const share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
-        if (share && share.embedContentItems) {
-          const tokens = share.embedContentItems.map(i => i.token).reduce((p, i) => p + '\n' + i, '');
-          const message = 'Embed share created\n\nID: ' + share.id + '\n\nTokens: ' + tokens;
+        const share = await this.shareService.get(result.shareId!).toPromise() as ShareDetail;
+        if (share && share.contentSelections) {
+          const ids = share.contentSelections.map(i => i.id).reduce((p, i) => p + '\n' + i, '');
+          const message = 'Embed share created\n\nID: ' + share.id + '\n\nSelection IDs: ' + ids;
 
-          this.shareToken = share.embedContentItems[0].token;
+          this.shareToken = share.contentSelections[0].id;
           console.log(share);
           console.log(message);
         }

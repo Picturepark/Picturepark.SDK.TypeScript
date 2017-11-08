@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The version view item for the environment.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -93,11 +100,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#comments" class="tsd-kind-icon">comments</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#event" class="tsd-kind-icon">event</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#modifier" class="tsd-kind-icon">modifier</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#modifydate" class="tsd-kind-icon">modify<wbr>Date</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#version" class="tsd-kind-icon">version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#contractversion" class="tsd-kind-icon">contract<wbr>Version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#fileproductversion" class="tsd-kind-icon">file<wbr>Product<wbr>Version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#fileversion" class="tsd-kind-icon">file<wbr>Version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="versioninfo.html#release" class="tsd-kind-icon">release</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -123,7 +129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18621">src/picturepark.services.ts:18621</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18500">src/picturepark.services.ts:18500</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -140,59 +146,68 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="comments" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> comments</h3>
-					<div class="tsd-signature tsd-kind-icon">comments<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="contractversion" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> contract<wbr>Version</h3>
+					<div class="tsd-signature tsd-kind-icon">contract<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#comments">comments</a></p>
+						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#contractversion">contractVersion</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18617">src/picturepark.services.ts:18617</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18498">src/picturepark.services.ts:18498</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current contract version stored in CustomerDoc / EnvironmentDoc.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="event" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> event</h3>
-					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="fileproductversion" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Product<wbr>Version</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Product<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#event">event</a></p>
+						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#fileproductversion">fileProductVersion</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18618">src/picturepark.services.ts:18618</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18496">src/picturepark.services.ts:18496</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The GitVersionTask generated file product version of Picturepark.Configuration.dll.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="modifier" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> modifier</h3>
-					<div class="tsd-signature tsd-kind-icon">modifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="fileversion" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Version</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#modifier">modifier</a></p>
+						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#fileversion">fileVersion</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18619">src/picturepark.services.ts:18619</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18494">src/picturepark.services.ts:18494</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The manual file version of Picturepark.Contract.dll.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="modifydate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> modify<wbr>Date</h3>
-					<div class="tsd-signature tsd-kind-icon">modify<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="release" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> release</h3>
+					<div class="tsd-signature tsd-kind-icon">release<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#modifydate">modifyDate</a></p>
+						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#release">release</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18620">src/picturepark.services.ts:18620</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18500">src/picturepark.services.ts:18500</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="version" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> version</h3>
-					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iversioninfo.html">IVersionInfo</a>.<a href="../interfaces/iversioninfo.html#version">version</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18621">src/picturepark.services.ts:18621</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The bamboo release version. Only provided on bamboo deployments.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -207,7 +222,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18633">src/picturepark.services.ts:18633</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18511">src/picturepark.services.ts:18511</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -230,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18649">src/picturepark.services.ts:18649</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18526">src/picturepark.services.ts:18526</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -253,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a1db85b/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18643">src/picturepark.services.ts:18643</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cf2bf44/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18520">src/picturepark.services.ts:18520</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -287,19 +302,16 @@
 								<a href="versioninfo.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="versioninfo.html#comments" class="tsd-kind-icon">comments</a>
+								<a href="versioninfo.html#contractversion" class="tsd-kind-icon">contract<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="versioninfo.html#event" class="tsd-kind-icon">event</a>
+								<a href="versioninfo.html#fileproductversion" class="tsd-kind-icon">file<wbr>Product<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="versioninfo.html#modifier" class="tsd-kind-icon">modifier</a>
+								<a href="versioninfo.html#fileversion" class="tsd-kind-icon">file<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="versioninfo.html#modifydate" class="tsd-kind-icon">modify<wbr>Date</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="versioninfo.html#version" class="tsd-kind-icon">version</a>
+								<a href="versioninfo.html#release" class="tsd-kind-icon">release</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="versioninfo.html#init" class="tsd-kind-icon">init</a>

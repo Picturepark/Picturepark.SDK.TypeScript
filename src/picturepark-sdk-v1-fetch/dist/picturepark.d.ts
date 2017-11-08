@@ -1106,9 +1106,8 @@ declare module "picturepark" {
         processDefinitionId?: string | undefined;
         referenceId?: string | undefined;
         referenceDocType?: string | undefined;
-        notificationId?: string | undefined;
         businessProcessScope: BusinessProcessScope;
-        lifeCycle: BusinessProcessLifeCylce;
+        lifeCycle: BusinessProcessLifeCycle;
         startDate: Date;
         endDate: Date;
         stateHistory?: BusinessProcessStateItem[] | undefined;
@@ -1119,11 +1118,12 @@ declare module "picturepark" {
         System,
         User,
     }
-    export enum BusinessProcessLifeCylce {
+    export enum BusinessProcessLifeCycle {
         Draft,
-        Started,
-        Ended,
+        InProgress,
+        Succeeded,
         Cancelled,
+        Failed,
     }
     export interface BusinessProcessStateItem {
         state?: string | undefined;
@@ -1424,9 +1424,7 @@ declare module "picturepark" {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
     }
-    export interface DownloadItem {
-    }
-    export interface DownloadLink extends DownloadItem {
+    export interface DownloadLink {
         downloadToken?: string | undefined;
         downloadUrl?: string | undefined;
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Content, ShareContent, ShareService,
-  ShareEmbedCreateRequest, OutputAccess, ShareEmbedDetail
+  ShareEmbedCreateRequest, OutputAccess, ShareDetail
 } from '@picturepark/sdk-v1-angular';
 
 @Injectable()
@@ -23,12 +23,8 @@ export class EmbedService {
         })).toPromise();
 
         if (result) {
-          const share = await this.shareService.get(result.shareId!).toPromise() as ShareEmbedDetail;
-          const postMessage = JSON.stringify({
-            token: share.token,
-            shareId: share.id!,
-            items: share.embedContentItems!.map(i => { return { token: i.token, url: i.url }; })
-          } as ContentPickerResult);
+          const share = await this.shareService.get(result.shareId!).toPromise() as ShareDetail;
+          const postMessage = JSON.stringify(share);
 
           if (window.opener) {
             window.opener.postMessage(postMessage, postUrl);
@@ -43,9 +39,4 @@ export class EmbedService {
     }
     return false;
   }
-}
-
-export interface ContentPickerResult {
-  shareId: string,
-  items: { token: string, url: string }[]
 }

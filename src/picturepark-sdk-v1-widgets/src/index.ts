@@ -92,7 +92,9 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
             contentId: s.id,
             outputFormatId: o.outputFormatId,
             fileExtension: o.detail.fileExtension,
-            url: rawShare.shareType.toString() === "Embed" ? (o as picturepark.ShareOutputEmbed).url : (baseUrl + `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`),
+            url: rawShare.shareType.toString() === "Embed" ? 
+              (o as picturepark.ShareOutputEmbed).url : 
+              (baseUrl + `/Go/${config.token}/V/${s.id}/${o.outputFormatId}`), // TODO: Remove type check and directly use `url`
             detail: o.detail
           }
         });

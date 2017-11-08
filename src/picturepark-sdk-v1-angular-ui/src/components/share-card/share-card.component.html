@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="!isLoading && share !== null">
     <h1>{{share.name}}</h1>
-    <div *ngFor="let item of share.embedContentItems">
-        <img [src]="item.url" style="width: 100px" />
+    <div *ngFor="let url of imageUrls">
+        <img [src]="url" style="width: 100px" />
     </div>
 </div>

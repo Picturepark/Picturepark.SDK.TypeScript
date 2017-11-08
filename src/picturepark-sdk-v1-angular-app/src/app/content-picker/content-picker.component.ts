@@ -7,15 +7,13 @@ import {
   AuthService,
   ShareService,
   ShareContent,
-  ShareEmbedCreateRequest,
-  ShareEmbedDetail,
   AggregationResult,
   OutputAccess
 } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 import { ContentBrowserComponent, SelectionMode } from '@picturepark/sdk-v1-angular-ui';
-import { ContentPickerResult, EmbedService } from '../embed.service';
+import { EmbedService } from '../embed.service';
 
 @Component({
   templateUrl: './content-picker.component.html'
