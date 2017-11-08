@@ -2323,6 +2323,8 @@ declare module "picturepark" {
     export interface ShareOutputBase {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
+        /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
+        url?: string | undefined;
         detail?: OutputDataBase | undefined;
     }
     export interface OutputDataBase {
@@ -2354,7 +2356,6 @@ declare module "picturepark" {
     }
     export interface ShareOutputEmbed extends ShareOutputBase {
         token?: string | undefined;
-        url?: string | undefined;
     }
     export interface ShareDataBase {
         url?: string | undefined;

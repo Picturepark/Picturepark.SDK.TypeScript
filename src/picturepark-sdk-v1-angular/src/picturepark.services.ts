@@ -18748,6 +18748,8 @@ export interface IShareContentDetail {
 export class ShareOutputBase implements IShareOutputBase {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
+    url?: string | undefined;
     detail?: OutputDataBase | undefined;
 
     protected _discriminator: string;
@@ -18767,6 +18769,7 @@ export class ShareOutputBase implements IShareOutputBase {
         if (data) {
             this.contentId = data["contentId"];
             this.outputFormatId = data["outputFormatId"];
+            this.url = data["url"];
             this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
         }
     }
@@ -18792,6 +18795,7 @@ export class ShareOutputBase implements IShareOutputBase {
         data["kind"] = this._discriminator; 
         data["contentId"] = this.contentId;
         data["outputFormatId"] = this.outputFormatId;
+        data["url"] = this.url;
         data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
         return data; 
     }
@@ -18800,6 +18804,8 @@ export class ShareOutputBase implements IShareOutputBase {
 export interface IShareOutputBase {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
+    url?: string | undefined;
     detail?: IOutputDataBase | undefined;
 }
 
@@ -19099,7 +19105,6 @@ export interface IShareOutputBasic extends IShareOutputBase {
 
 export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmbed {
     token?: string | undefined;
-    url?: string | undefined;
 
     constructor(data?: IShareOutputEmbed) {
         super(data);
@@ -19110,7 +19115,6 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
         super.init(data);
         if (data) {
             this.token = data["token"];
-            this.url = data["url"];
         }
     }
 
@@ -19123,7 +19127,6 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["token"] = this.token;
-        data["url"] = this.url;
         super.toJSON(data);
         return data; 
     }
@@ -19131,7 +19134,6 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 
 export interface IShareOutputEmbed extends IShareOutputBase {
     token?: string | undefined;
-    url?: string | undefined;
 }
 
 export class ShareDataBase implements IShareDataBase {

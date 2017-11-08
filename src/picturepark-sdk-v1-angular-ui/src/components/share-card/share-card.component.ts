@@ -33,8 +33,8 @@ export class ShareCardComponent implements OnChanges {
 
       this.imageUrls = share.contentSelections!
         .map(s => s.outputs!.filter(o => o.outputFormatId === 'Preview'))
-        .filter(s => s.length > 0)
-        .map(o => (<any>o[0]).url); // TODO: Remove <any>
+        .filter(s => s.length > 0 && s[0].url)
+        .map(o => o[0].url!);
 
       this.isLoading = false;
     }).catch(() => {
