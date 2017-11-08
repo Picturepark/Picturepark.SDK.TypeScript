@@ -1,5 +1,5 @@
 <div *ngIf="detailsItemId">
-  <pp-content-picker-details [(contentId)]="detailsItemId" [postUrl]="postUrl">
+  <pp-content-picker-details [(contentId)]="detailsItemId">
   </pp-content-picker-details>
 </div>
 <div class="container-fluid" [style.display]="detailsItemId ? 'none' : ''">
@@ -66,7 +66,7 @@
         <div class="btn btn-default" (click)="cancel()">
           {{'ContentPicker.ButtonCancel' | pptranslate}}
         </div>
-        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed()">
+        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed(selectedItems)">
           <ng-container *ngIf="!loading">
             {{'ContentPicker.ButtonChoose' | pptranslate}}
           </ng-container>

@@ -84,10 +84,10 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     this.detailsItemId = item.id;
   }
 
-  async embed() {
+  async embed(items: Content[]) {
     try {
       this.loading = true;
-      this.messagePosted = await this.embedService.embed(this.selectedItems, this.postUrl);
+      this.messagePosted = await this.embedService.embed(items, this.postUrl);
     } finally {
       this.loading = false;
     }

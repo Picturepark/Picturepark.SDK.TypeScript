@@ -1,9 +1,8 @@
 import {
   Component, EventEmitter, Input, Output, OnInit, OnDestroy,
-  AfterViewInit, ViewChild, ElementRef, Inject, SimpleChanges, OnChanges
+  AfterViewInit, ViewChild, ElementRef, Inject, SimpleChanges, OnChanges, forwardRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 
@@ -13,16 +12,13 @@ import {
 } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { EmbedService } from 'app/embed.service';
+import { ContentPickerComponent } from '../content-picker/content-picker.component';
 
 @Component({
   selector: 'pp-content-picker-details',
   templateUrl: './content-picker-details.component.html'
 })
 export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-  @Input()
-  postUrl: string;
-
   @Input()
   contentId: string | undefined;
   @Output()
@@ -36,9 +32,8 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
 
   constructor(private contentService: ContentService,
     private sanitizer: DomSanitizer,
-    private location: Location,
-    private embedService: EmbedService,
-    @Inject(AuthService) public authService: OidcAuthService) {
+    @Inject(AuthService) public authService: OidcAuthService,
+    @Inject(forwardRef(() => ContentPickerComponent)) private parent: ContentPickerComponent) {
     this.recalculateSizes();
   }
 
@@ -68,7 +63,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
     }
   }
 
-  show() {
+  showFullscreen() {
     const isPdf = this.content.contentType === ContentType.InterchangeDocument;
     const isAudio = this.content.contentType === ContentType.Audio;
     const isVideo = this.content.contentType === ContentType.Video;
@@ -122,7 +117,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   }
 
   embed() {
-    this.embedService.embed([this.content], this.postUrl);
+    this.parent.embed([this.content]);
   }
 
   ngOnDestroy() {
