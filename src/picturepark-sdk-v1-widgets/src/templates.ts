@@ -246,8 +246,8 @@ export class PictureparkTemplates {
           {% endif %}
           <hr class="picturepark-widget-card-footer-hr picturepark-widget-card-footer-hr-{{id}}">
           <div class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}">
-            <img src="//www.gravatar.com/avatar/{{ share.audit.createdByUser.emailAddress | md5 }}?m=dd&size=32" class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}" />
-            Shared by: {{ share.audit.createdByUser.firstName }} {{ share.audit.createdByUser.lastName }}
+            <img src="//www.gravatar.com/avatar/{{ share.creator.emailHash }}?m=dd&size=32&d=mm" class="picturepark-widget-card-footer-gravatar picturepark-widget-card-footer-gravatar-{{id}}" />
+            Shared by: {{ share.creator.displayName }}
             </div>
         </div>
         {% endif %}

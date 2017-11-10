@@ -361,10 +361,10 @@ declare module "picturepark" {
         protected processSearch(response: Response): Promise<ListItemSearchResult | null>;
         /**
          * Delete Single
-         * @objectId The list item id.
+         * @listItemId The list item id.
          * @timeout Maximum time in milliseconds to wait for the business process completed state.
          */
-        delete(objectId: string, timeout: number): Promise<void>;
+        delete(listItemId: string, timeout: number): Promise<void>;
         protected processDelete(response: Response): Promise<void>;
         /**
          * Get Single
@@ -471,7 +471,7 @@ declare module "picturepark" {
         /**
          * Exists
          * @schemaId The schema id.
-         * @fieldId The optional field id.
+         * @fieldId (optional) The optional field id.
          * @return ExistsResponse
          */
         exists(schemaId: string, fieldId: string | null): Promise<ExistsResponse | null>;
@@ -805,8 +805,6 @@ declare module "picturepark" {
         /** Contains language specific display values, rendered according to the content schema's
                  display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The entity type */
-        entityType: EntityType;
         /** The content id. */
         id?: string | undefined;
         /** An optional list of layer schemas ids */
@@ -850,11 +848,6 @@ declare module "picturepark" {
     }
     export interface DisplayValueDictionary {
         [key: string]: string | any;
-    }
-    export enum EntityType {
-        Content,
-        Metadata,
-        FileTransfer,
     }
     export interface DataDictionary {
         [key: string]: any;
@@ -1514,8 +1507,6 @@ declare module "picturepark" {
     }
     export interface Content {
         audit?: UserAudit | undefined;
-        /** The entity type of a content document is content. */
-        entityType: EntityType;
         /** The id of the schema with schema type content. */
         contentSchemaId?: string | undefined;
         /** An optional id list of schemas with schema type layer. */
@@ -1717,8 +1708,6 @@ declare module "picturepark" {
         contentSchemaId?: string | undefined;
         /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The entity type of the list item is metadata. */
-        entityType: EntityType;
         /** The list item id. */
         id?: string | undefined;
     }
@@ -1786,8 +1775,6 @@ declare module "picturepark" {
         contentSchemaId?: string | undefined;
         /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The entity type of the list item is metadata. */
-        entityType: EntityType;
         /** The list item id. */
         id?: string | undefined;
     }
@@ -2297,7 +2284,7 @@ declare module "picturepark" {
         id?: string | undefined;
         name?: string | undefined;
         description?: string | undefined;
-        audit?: UserAudit | undefined;
+        creator?: ShareUser | undefined;
         contentSelections?: ShareContentDetail[] | undefined;
         layerSchemaIds?: string[] | undefined;
         data?: ShareDataBase | undefined;
@@ -2306,6 +2293,13 @@ declare module "picturepark" {
         template?: TemplateBase | undefined;
         outputAccess: OutputAccess;
         shareType: ShareType;
+    }
+    /** Reduced set of user information used for shares */
+    export interface ShareUser {
+        /** Name of user */
+        displayName?: string | undefined;
+        /** MD5 hash of email address. Can be used to display gravatar image */
+        emailHash?: string | undefined;
     }
     export interface ShareContentDetail {
         /** The id of the schema with schema type content. */
@@ -2613,7 +2607,6 @@ declare module "picturepark" {
         audit?: UserAudit | undefined;
         transferId?: string | undefined;
         state: FileTransferState;
-        entityType: EntityType;
         fileMetadata?: FileMetadata | undefined;
         driveMetadata?: DriveMetadata | undefined;
         outputItems?: OutputItem[] | undefined;
@@ -4216,7 +4209,6 @@ declare module "picturepark" {
         identifier?: string | undefined;
         transferId?: string | undefined;
         state: FileTransferState;
-        entityType: EntityType;
         contentId?: string | undefined;
     }
     export interface UserSearchRequest {
@@ -4289,7 +4281,6 @@ declare module "picturepark" {
         sortOrder: number;
         /** The search index id. */
         searchIndexId?: string | undefined;
-        entityType: EntityType;
         /** An id list of schemas with schema type content whose content documents should be found by the simple search.
     The search by filters and aggregations are unaffected. */
         schemaIds?: string[] | undefined;

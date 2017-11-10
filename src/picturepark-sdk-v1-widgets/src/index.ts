@@ -77,13 +77,12 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
     }
 
-    let baseUrl = shareDetail.data.url.replace("/Go/" + config.token + "/D", "");
     let index = 0;
     let share = {
       id: shareDetail.id,
       url: shareDetail.data.url,
       name: shareDetail.name,
-      audit: shareDetail.audit,
+      creator: shareDetail.creator,
       description: shareDetail.description,
       items: shareDetail.contentSelections.map(s => {
         let outputs = s.outputs.map(o => {
