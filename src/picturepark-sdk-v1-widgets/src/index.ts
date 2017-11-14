@@ -89,7 +89,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           return {
             contentId: s.id,
             outputFormatId: o.outputFormatId,
-            fileExtension: o.detail.fileExtension,
+            fileExtension: o.detail ? o.detail.fileExtension : null,
             url: o.url,
             detail: o.detail
           }
