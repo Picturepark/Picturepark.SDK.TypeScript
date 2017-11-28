@@ -18,16 +18,17 @@ app.component('pictureparkShare', {
 });
 
 function TestController($scope) {
-    var client = new picturepark.PublicAccessClient(this.baseUrl);
+    var authClient = new picturepark.AuthClient('https://devnext-api.preview-picturepark.com', 'dev');
+    var client = new picturepark.PublicAccessClient(authClient);
     client.getShare(this.token).then(result => {
         $scope.$apply(() => {
             this.share = result;
-            this.records = result.AssetSelections.map(i => i.Asset);
-            this.token = result.MailRecipients[0].Token;
+            this.records = result.contentSelections;
+            this.token = result.mailRecipients[0].token;
         });
     });
 
     this.getThumbnail = function (record, size) {
-        return this.baseUrl + "/Go/" + this.token + "/V/" + record.Id + "/" + size;
+        return this.baseUrl + "/Go/" + this.token + "/V/" + record.id + "/" + size;
     }
 }
