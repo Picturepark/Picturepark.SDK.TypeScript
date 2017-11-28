@@ -1,6 +1,6 @@
-import { AuthClient, TokenAuthClient } from './auth';
+import { AuthClient, AccessTokenAuthClient } from './auth';
 
-export { AuthClient, TokenAuthClient };
+export { AuthClient, AccessTokenAuthClient };
 
 export class PictureparkClientBase {
     constructor(private authClient: AuthClient) {

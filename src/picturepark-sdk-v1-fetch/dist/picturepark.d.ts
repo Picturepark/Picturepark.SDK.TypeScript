@@ -6,7 +6,7 @@ declare module "picturepark" {
         getBaseUrl(defaultUrl: string): string;
         transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
     }
-    export class TokenAuthClient extends AuthClient {
+    export class AccessTokenAuthClient extends AuthClient {
         private accessToken;
         constructor(pictureparkApiUrl: string, customerAlias: string, accessToken: string);
         transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;

@@ -96,7 +96,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatavaluesfieldremovecommand.html#fieldnamespace" class="tsd-kind-icon">field<wbr>Namespace</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatavaluesfieldremovecommand.html#fieldpath" class="tsd-kind-icon">field<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.metadatavaluesfieldremovecommand.html#schemaid" class="tsd-kind-icon">schema<wbr>Id</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,17 +106,33 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="fieldnamespace" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Namespace</h3>
-					<div class="tsd-signature tsd-kind-icon">field<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="fieldpath" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">field<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1580</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1569</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The fully qualified field name of the field to be removed, e.g. &quot;Data.SchemaId.FieldId&quot;.</p>
+							<p>The path of the field to be removed (within tha data structure), e.g. &quot;data.schemaId.fieldId&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="schemaid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schema<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="_picturepark_.metadatavalueschangecommandbase.html#schemaid">schemaId</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:1551</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The id of the schema to which the operation scope is addressed.</p>
 						</div>
 					</div>
 				</section>
@@ -140,7 +157,10 @@
 						<a href="_picturepark_.metadatavaluesfieldremovecommand.html" class="tsd-kind-icon">Metadata<wbr>Values<wbr>Field<wbr>Remove<wbr>Command</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.metadatavaluesfieldremovecommand.html#fieldnamespace" class="tsd-kind-icon">field<wbr>Namespace</a>
+								<a href="_picturepark_.metadatavaluesfieldremovecommand.html#fieldpath" class="tsd-kind-icon">field<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.metadatavaluesfieldremovecommand.html#schemaid" class="tsd-kind-icon">schema<wbr>Id</a>
 							</li>
 						</ul>
 					</li>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GeoDistanceRangeFilter | picturepark-sdk-v1-fetch API</title>
+	<title>GeoDistance | picturepark-sdk-v1-fetch API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,33 +59,21 @@
 					<a href="../modules/_picturepark_.html">&quot;picturepark&quot;</a>
 				</li>
 				<li>
-					<a href="_picturepark_.geodistancerangefilter.html">GeoDistanceRangeFilter</a>
+					<a href="_picturepark_.geodistance.html">GeoDistance</a>
 				</li>
 			</ul>
-			<h1>Interface GeoDistanceRangeFilter</h1>
+			<h1>Interface GeoDistance</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The GeoDistanceRangeFilter returns documents that exists within a range from a specific point.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_picturepark_.filterbase.html" class="tsd-signature-type">FilterBase</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">GeoDistanceRangeFilter</span>
-							</li>
-						</ul>
+						<span class="target">GeoDistance</span>
 					</li>
 				</ul>
 			</section>
@@ -96,9 +84,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.geodistancerangefilter.html#field" class="tsd-kind-icon">field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.geodistancerangefilter.html#location" class="tsd-kind-icon">location</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.geodistancerangefilter.html#range" class="tsd-kind-icon">range</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.geodistance.html#distance" class="tsd-kind-icon">distance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.geodistance.html#names" class="tsd-kind-icon">names</a></li>
 							</ul>
 						</section>
 					</div>
@@ -107,47 +94,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="field" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field</h3>
-					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="distance" class="tsd-anchor"></a>
+					<h3>distance</h3>
+					<div class="tsd-signature tsd-kind-icon">distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1247</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1332</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The elastic search index field to execute the filter on.</p>
+							<p>The to value.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="location" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> location</h3>
-					<div class="tsd-signature tsd-kind-icon">location<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.geolocation.html" class="tsd-signature-type">GeoLocation</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="names" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> names</h3>
+					<div class="tsd-signature tsd-kind-icon">names<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1249</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1330</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The longitude/latitude configuration for the point of origin.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="range" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> range</h3>
-					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.numericrange.html" class="tsd-signature-type">NumericRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1251</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The numeric range.</p>
+							<p>Tranlsated range names.</p>
 						</div>
 					</div>
 				</section>
@@ -169,16 +141,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_picturepark_.geodistancerangefilter.html" class="tsd-kind-icon">Geo<wbr>Distance<wbr>Range<wbr>Filter</a>
+						<a href="_picturepark_.geodistance.html" class="tsd-kind-icon">Geo<wbr>Distance</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.geodistancerangefilter.html#field" class="tsd-kind-icon">field</a>
+								<a href="_picturepark_.geodistance.html#distance" class="tsd-kind-icon">distance</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.geodistancerangefilter.html#location" class="tsd-kind-icon">location</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.geodistancerangefilter.html#range" class="tsd-kind-icon">range</a>
+								<a href="_picturepark_.geodistance.html#names" class="tsd-kind-icon">names</a>
 							</li>
 						</ul>
 					</li>

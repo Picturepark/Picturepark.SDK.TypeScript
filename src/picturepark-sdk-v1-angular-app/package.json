@@ -5,7 +5,7 @@
   "scripts": {
     "link": "npm link @picturepark/sdk-v1-angular && npm link @picturepark/sdk-v1-angular-oidc && npm link @picturepark/sdk-v1-angular-ui",
     "init": "cmd /c if exist \"../picturepark-sdk-v1-angular/node_modules\" rmdir \"../picturepark-sdk-v1-angular/node_modules\" /s /q && cmd /c if exist \"../picturepark-sdk-v1-angular-oidc/node_modules\" rmdir \"../picturepark-sdk-v1-angular-oidc/node_modules\" /s /q && cmd /c if exist \"../picturepark-sdk-v1-angular-ui/node_modules\" rmdir \"../picturepark-sdk-v1-angular-ui/node_modules\" /s /q && npm i && npm run link",
-    "start": "npm run init && ng serve",
+    "start": "npm run init && ng serve --port 4500",
     "build": "npm run init && ng build --prod",
     "test": "npm run init && ng test",
     "lint": "npm run init && ng lint",

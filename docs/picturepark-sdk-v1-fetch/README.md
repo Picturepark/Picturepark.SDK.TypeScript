@@ -4,8 +4,8 @@
 
 Dependencies: 
 
-- window.fetch
-- window.promise
+- [window.fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- [window.promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
 The `@picturepark/sdk-v1-fetch` package / `picturepark.js` library provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers (use polyfills for older browsers). The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
 
@@ -84,11 +84,11 @@ No authentication, only public data can be accessed
 
     let authClient = new AuthClient(server, customerAlias);
 
-**TokenAuthClient**
+**AccessTokenAuthClient**
 
 Token based authentication to access the Picturepark API
 
-    let authClient = new TokenAuthClient(server, customerAlias, accessToken);
+    let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
 
 ### Sample application
 

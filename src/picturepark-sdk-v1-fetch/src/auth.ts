@@ -15,7 +15,7 @@ export class AuthClient {
   }
 }
 
-export class TokenAuthClient extends AuthClient {
+export class AccessTokenAuthClient extends AuthClient {
   constructor(pictureparkApiUrl: string, customerAlias: string, private accessToken: string) {
     super(pictureparkApiUrl, customerAlias);
   }

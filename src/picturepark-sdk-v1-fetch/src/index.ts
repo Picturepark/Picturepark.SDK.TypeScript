@@ -6,7 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-import { AuthClient, TokenAuthClient } from './auth';
+import { AuthClient, AccessTokenAuthClient } from './auth';
 export class PictureparkClientBase {
     constructor(private authClient: AuthClient) {
 
@@ -9461,4 +9461,4 @@ function throwException(message: string, status: number, response: string, heade
         throw new SwaggerException(message, status, response, headers, null);
 }
 
-export { AuthClient, TokenAuthClient };
+export { AuthClient, AccessTokenAuthClient };

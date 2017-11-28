@@ -49,6 +49,8 @@ export class PictureparkOidcModule {
     configuration.auto_userinfo = true;
     configuration.silent_renew = true;
 
+    debugger;
+
     oidcSecurityService.setupModule(configuration);
     oidcSecurityService.setCustomRequestParameters({
       'acr_values': 'tenant:{"id":"' + pictureparkConfiguration.customerId + '","alias":"' + pictureparkConfiguration.customerAlias + '"}'

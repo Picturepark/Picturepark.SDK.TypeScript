@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GeoDistanceRangeFilter | @picturepark/sdk-v1-angular API</title>
+	<title>ShareUser | @picturepark/sdk-v1-angular API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="geodistancerangefilter.html">GeoDistanceRangeFilter</a>
+					<a href="shareuser.html">ShareUser</a>
 				</li>
 			</ul>
-			<h1>Class GeoDistanceRangeFilter</h1>
+			<h1>Class ShareUser</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The GeoDistanceRangeFilter returns documents that exists within a range from a specific point.</p>
+						<p>Reduced set of user information used for shares</p>
 					</div>
 				</div>
 			</section>
@@ -77,20 +77,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="filterbase.html" class="tsd-signature-type">FilterBase</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">GeoDistanceRangeFilter</span>
-							</li>
-						</ul>
+						<span class="target">ShareUser</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/ifilterbase.html" class="tsd-signature-type">IFilterBase</a></li>
-					<li><a href="../interfaces/igeodistancerangefilter.html" class="tsd-signature-type">IGeoDistanceRangeFilter</a></li>
+					<li><a href="../interfaces/ishareuser.html" class="tsd-signature-type">IShareUser</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -100,25 +94,22 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="geodistancerangefilter.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="shareuser.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="geodistancerangefilter.html#_discriminator" class="tsd-kind-icon">_discriminator</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="geodistancerangefilter.html#field" class="tsd-kind-icon">field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="geodistancerangefilter.html#location" class="tsd-kind-icon">location</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="geodistancerangefilter.html#range" class="tsd-kind-icon">range</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="shareuser.html#displayname" class="tsd-kind-icon">display<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="shareuser.html#emailhash" class="tsd-kind-icon">email<wbr>Hash</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="geodistancerangefilter.html#getdisplayname" class="tsd-kind-icon">get<wbr>Display<wbr>Name</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="geodistancerangefilter.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="geodistancerangefilter.html#tojson" class="tsd-kind-icon">toJSON</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="geodistancerangefilter.html#fromjs" class="tsd-kind-icon">fromJS</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareuser.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareuser.html#tojson" class="tsd-kind-icon">toJSON</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="shareuser.html#fromjs" class="tsd-kind-icon">fromJS</a></li>
 							</ul>
 						</section>
 					</div>
@@ -126,134 +117,78 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Geo<wbr>Distance<wbr>Range<wbr>Filter<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><a href="../interfaces/igeodistancerangefilter.html" class="tsd-signature-type">IGeoDistanceRangeFilter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="geodistancerangefilter.html" class="tsd-signature-type">GeoDistanceRangeFilter</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Share<wbr>User<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ishareuser.html" class="tsd-signature-type">IShareUser</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="shareuser.html" class="tsd-signature-type">ShareUser</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="filterbase.html">FilterBase</a>.<a href="filterbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10898">src/picturepark.services.ts:10898</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18714">src/picturepark.services.ts:18714</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="../interfaces/igeodistancerangefilter.html" class="tsd-signature-type">IGeoDistanceRangeFilter</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="../interfaces/ishareuser.html" class="tsd-signature-type">IShareUser</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="geodistancerangefilter.html" class="tsd-signature-type">GeoDistanceRangeFilter</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="shareuser.html" class="tsd-signature-type">ShareUser</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="_discriminator" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _discriminator</h3>
-					<div class="tsd-signature tsd-kind-icon">_discriminator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="filterbase.html">FilterBase</a>.<a href="filterbase.html#_discriminator">_discriminator</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10325">src/picturepark.services.ts:10325</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="field" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field</h3>
-					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="displayname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">display<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/igeodistancerangefilter.html">IGeoDistanceRangeFilter</a>.<a href="../interfaces/igeodistancerangefilter.html#field">field</a></p>
+						<p>Implementation of <a href="../interfaces/ishareuser.html">IShareUser</a>.<a href="../interfaces/ishareuser.html#displayname">displayName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10894">src/picturepark.services.ts:10894</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18712">src/picturepark.services.ts:18712</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The elastic search index field to execute the filter on.</p>
+							<p>Name of user</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="location" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> location</h3>
-					<div class="tsd-signature tsd-kind-icon">location<span class="tsd-signature-symbol">:</span> <a href="geolocation.html" class="tsd-signature-type">GeoLocation</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="emailhash" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> email<wbr>Hash</h3>
+					<div class="tsd-signature tsd-kind-icon">email<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/igeodistancerangefilter.html">IGeoDistanceRangeFilter</a>.<a href="../interfaces/igeodistancerangefilter.html#location">location</a></p>
+						<p>Implementation of <a href="../interfaces/ishareuser.html">IShareUser</a>.<a href="../interfaces/ishareuser.html#emailhash">emailHash</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10896">src/picturepark.services.ts:10896</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18714">src/picturepark.services.ts:18714</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The longitude/latitude configuration for the point of origin.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="range" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> range</h3>
-					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="numericrange.html" class="tsd-signature-type">NumericRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/igeodistancerangefilter.html">IGeoDistanceRangeFilter</a>.<a href="../interfaces/igeodistancerangefilter.html#range">range</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10898">src/picturepark.services.ts:10898</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The numeric range.</p>
+							<p>MD5 hash of email address. Can be used to display gravatar image</p>
 						</div>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="getdisplayname" class="tsd-anchor"></a>
-					<h3>get<wbr>Display<wbr>Name</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Display<wbr>Name<span class="tsd-signature-symbol">(</span>locale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="filterbase.html">FilterBase</a>.<a href="filterbase.html#getdisplayname">getDisplayName</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10327">src/picturepark.services.ts:10327</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>locale: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="init" class="tsd-anchor"></a>
 					<h3>init</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="filterbase.html">FilterBase</a>.<a href="filterbase.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10905">src/picturepark.services.ts:10905</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18725">src/picturepark.services.ts:18725</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -266,18 +201,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="tojson" class="tsd-anchor"></a>
 					<h3>toJSON</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="filterbase.html">FilterBase</a>.<a href="filterbase.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10920">src/picturepark.services.ts:10920</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18738">src/picturepark.services.ts:18738</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -290,18 +224,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="fromjs" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> fromJS</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">fromJS<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="geodistancerangefilter.html" class="tsd-signature-type">GeoDistanceRangeFilter</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">fromJS<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="shareuser.html" class="tsd-signature-type">ShareUser</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="filterbase.html">FilterBase</a>.<a href="filterbase.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L10914">src/picturepark.services.ts:10914</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L18732">src/picturepark.services.ts:18732</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,7 +243,7 @@
 									<h5>data: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="geodistancerangefilter.html" class="tsd-signature-type">GeoDistanceRangeFilter</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="shareuser.html" class="tsd-signature-type">ShareUser</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -329,34 +262,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="geodistancerangefilter.html" class="tsd-kind-icon">Geo<wbr>Distance<wbr>Range<wbr>Filter</a>
+						<a href="shareuser.html" class="tsd-kind-icon">Share<wbr>User</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="geodistancerangefilter.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="geodistancerangefilter.html#_discriminator" class="tsd-kind-icon">_discriminator</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="shareuser.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="geodistancerangefilter.html#field" class="tsd-kind-icon">field</a>
+								<a href="shareuser.html#displayname" class="tsd-kind-icon">display<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="geodistancerangefilter.html#location" class="tsd-kind-icon">location</a>
+								<a href="shareuser.html#emailhash" class="tsd-kind-icon">email<wbr>Hash</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="geodistancerangefilter.html#range" class="tsd-kind-icon">range</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="shareuser.html#init" class="tsd-kind-icon">init</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="geodistancerangefilter.html#getdisplayname" class="tsd-kind-icon">get<wbr>Display<wbr>Name</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="shareuser.html#tojson" class="tsd-kind-icon">toJSON</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="geodistancerangefilter.html#init" class="tsd-kind-icon">init</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="geodistancerangefilter.html#tojson" class="tsd-kind-icon">toJSON</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="geodistancerangefilter.html#fromjs" class="tsd-kind-icon">fromJS</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="shareuser.html#fromjs" class="tsd-kind-icon">fromJS</a>
 							</li>
 						</ul>
 					</li>

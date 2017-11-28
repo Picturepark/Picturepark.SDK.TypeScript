@@ -107,7 +107,8 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="metadatavaluesfieldremovecommand.html#_discriminator" class="tsd-kind-icon">_discriminator</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metadatavaluesfieldremovecommand.html#fieldnamespace" class="tsd-kind-icon">field<wbr>Namespace</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metadatavaluesfieldremovecommand.html#fieldpath" class="tsd-kind-icon">field<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="metadatavaluesfieldremovecommand.html#schemaid" class="tsd-kind-icon">schema<wbr>Id</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -134,7 +135,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13263">src/picturepark.services.ts:13263</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13220">src/picturepark.services.ts:13220</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -157,23 +158,40 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#_discriminator">_discriminator</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13073">src/picturepark.services.ts:13073</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13044">src/picturepark.services.ts:13044</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="fieldnamespace" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Namespace</h3>
-					<div class="tsd-signature tsd-kind-icon">field<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="fieldpath" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">field<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/imetadatavaluesfieldremovecommand.html">IMetadataValuesFieldRemoveCommand</a>.<a href="../interfaces/imetadatavaluesfieldremovecommand.html#fieldnamespace">fieldNamespace</a></p>
+						<p>Implementation of <a href="../interfaces/imetadatavaluesfieldremovecommand.html">IMetadataValuesFieldRemoveCommand</a>.<a href="../interfaces/imetadatavaluesfieldremovecommand.html#fieldpath">fieldPath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13263">src/picturepark.services.ts:13263</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13220">src/picturepark.services.ts:13220</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The fully qualified field name of the field to be removed, e.g. &quot;Data.SchemaId.FieldId&quot;.</p>
+							<p>The path of the field to be removed (within tha data structure), e.g. &quot;data.schemaId.fieldId&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="schemaid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schema<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/imetadatavaluesfieldremovecommand.html">IMetadataValuesFieldRemoveCommand</a>.<a href="../interfaces/imetadatavaluesfieldremovecommand.html#schemaid">schemaId</a></p>
+						<p>Inherited from <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#schemaid">schemaId</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13042">src/picturepark.services.ts:13042</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The id of the schema to which the operation scope is addressed.</p>
 						</div>
 					</div>
 				</section>
@@ -191,7 +209,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13270">src/picturepark.services.ts:13270</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13227">src/picturepark.services.ts:13227</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,7 +233,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13283">src/picturepark.services.ts:13283</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13240">src/picturepark.services.ts:13240</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -239,7 +257,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8edb11f3/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13277">src/picturepark.services.ts:13277</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/e6f409e6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13234">src/picturepark.services.ts:13234</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,7 +294,10 @@
 								<a href="metadatavaluesfieldremovecommand.html#_discriminator" class="tsd-kind-icon">_discriminator</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="metadatavaluesfieldremovecommand.html#fieldnamespace" class="tsd-kind-icon">field<wbr>Namespace</a>
+								<a href="metadatavaluesfieldremovecommand.html#fieldpath" class="tsd-kind-icon">field<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="metadatavaluesfieldremovecommand.html#schemaid" class="tsd-kind-icon">schema<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="metadatavaluesfieldremovecommand.html#init" class="tsd-kind-icon">init</a>
