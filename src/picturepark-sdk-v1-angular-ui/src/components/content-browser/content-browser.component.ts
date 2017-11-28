@@ -90,6 +90,7 @@ export class ContentBrowserComponent implements OnChanges {
       this.isLoading = true;
       try {
         const request = new ContentSearchRequest({
+          debugMode: false,
           filter: new AndFilter({ filters: this.filters }),
           channelIds: [this.channel],
           lifeCycleFilter: 0,

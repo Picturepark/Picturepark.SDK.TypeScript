@@ -32,8 +32,8 @@
          * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
          * @return ContentDetail
          */
-        updateTransferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: number | null): Promise<ContentDetail | null>;
-        protected processUpdateTransferOwnership(response: Response): Promise<ContentDetail | null>;
+        transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: number | null): Promise<ContentDetail>;
+        protected processTransferOwnership(response: Response): Promise<ContentDetail>;
         /**
          * Get Many
          * @ids Comma-separated list of contentIds
@@ -41,73 +41,67 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return List of ContentDetail
          */
-        getMany(ids: string[] | null, resolve: boolean, patterns: string[] | null): Promise<ContentDetail[] | null>;
-        protected processGetMany(response: Response): Promise<ContentDetail[] | null>;
+        getMany(ids: string[] | null, resolve: boolean, patterns: string[] | null): Promise<ContentDetail[]>;
+        protected processGetMany(response: Response): Promise<ContentDetail[]>;
         /**
          * Process many ownership trasnfer request
          * @contentsOwnershipTransferRequest The content ownership transfer request request.
          * @return BusinessProcess
          */
-        transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | null): Promise<BusinessProcess | null>;
-        protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess | null>;
+        transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | null): Promise<BusinessProcess>;
+        protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess>;
         /**
          * Aggregate
          * @contentAggregationRequest The aggregation request.
          * @return ObjectAggregationResult
          */
-        aggregate(contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult | null>;
-        protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
+        aggregate(contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult>;
+        protected processAggregate(response: Response): Promise<ObjectAggregationResult>;
         /**
          * Aggregate by Channel
          * @channelId The channel id
          * @contentAggregationRequest The content aggregation request.
          * @return ObjectAggregationResult
          */
-        aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult | null>;
-        protected processAggregateByChannel(response: Response): Promise<ObjectAggregationResult | null>;
+        aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult>;
+        protected processAggregateByChannel(response: Response): Promise<ObjectAggregationResult>;
         /**
          * Creates a content batch download
          * @request The content batch download request
          * @return ContentBatchDonloadItem
          */
-        createDownloadLink(request: ContentDownloadLinkCreateRequest | null): Promise<DownloadLink | null>;
-        protected processCreateDownloadLink(response: Response): Promise<DownloadLink | null>;
+        createDownloadLink(request: ContentDownloadLinkCreateRequest | null): Promise<DownloadLink>;
+        protected processCreateDownloadLink(response: Response): Promise<DownloadLink>;
         /**
          * Create Single
-         * @createRequest The content create request.
+         * @contentCreateRequest The content create request.
          * @resolve Resolves the data of referenced list items into the contents's content.
          * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
-        createContent(createRequest: CreateContentRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
-        protected processCreateContent(response: Response): Promise<ContentDetail | null>;
+        createContent(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail>;
+        protected processCreateContent(response: Response): Promise<ContentDetail>;
         /**
          * Downloads content in a specific outputformat
          * @contentId The content id
          * @outputFormatId The output format id
-         * @range (optional) the range
+         * @width (optional) Optional width in pixels to resize image
+         * @height (optional) Optional height in pixels to resize image
+         * @range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
          * @return HttpResponseMessage
          */
-        download(contentId: string, outputFormatId: string, range: string | null): Promise<FileResponse | null>;
-        protected processDownload(response: Response): Promise<FileResponse | null>;
+        download(contentId: string, outputFormatId: string, width: number | null, height: number | null, range: string | null): Promise<FileResponse>;
+        protected processDownload(response: Response): Promise<FileResponse>;
         /**
          * Get Thumbnail
          * @contentId The Content id
          * @size Thumbnail size. Either small, medium or large
+         * @width (optional) Optional width in pixels to resize image
+         * @height (optional) Optional height in pixels to resize image
          * @return HttpResponseMessage
          */
-        downloadThumbnail(contentId: string, size: ThumbnailSize): Promise<FileResponse | null>;
-        protected processDownloadThumbnail(response: Response): Promise<FileResponse | null>;
-        /**
-         * Download resized content
-         * @contentId The Content id
-         * @outputFormatId The output format id
-         * @width The content width
-         * @height The content height
-         * @return HttpResponseMessage
-         */
-        downloadResized(contentId: string, outputFormatId: string, width: number, height: number): Promise<FileResponse | null>;
-        protected processDownloadResized(response: Response): Promise<FileResponse | null>;
+        downloadThumbnail(contentId: string, size: ThumbnailSize, width: number | null, height: number | null): Promise<FileResponse>;
+        protected processDownloadThumbnail(response: Response): Promise<FileResponse>;
         /**
          * Get Single
          * @contentId The content id.
@@ -126,8 +120,8 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
-        updateMetadata(contentId: string, updateRequest: UpdateContentMetadataRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
-        protected processUpdateMetadata(response: Response): Promise<ContentDetail | null>;
+        updateMetadata(contentId: string, updateRequest: UpdateContentMetadataRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail>;
+        protected processUpdateMetadata(response: Response): Promise<ContentDetail>;
         /**
          * Update Single - Permissions
          * @contentId The content id.
@@ -137,23 +131,23 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
-        updatePermissions(contentId: string, updateRequest: UpdateContentPermissionsRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
-        protected processUpdatePermissions(response: Response): Promise<ContentDetail | null>;
+        updatePermissions(contentId: string, updateRequest: UpdateContentPermissionsRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail>;
+        protected processUpdatePermissions(response: Response): Promise<ContentDetail>;
         /**
          * Search
          * @contentSearchRequest The content search request.
          * @return ContentSearchResult
          */
-        search(contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult | null>;
-        protected processSearch(response: Response): Promise<ContentSearchResult | null>;
+        search(contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult>;
+        protected processSearch(response: Response): Promise<ContentSearchResult>;
         /**
          * Search By Channel
          * @channelId The channel id.
          * @contentSearchRequest The content search request.
          * @return ContentSearchResult
          */
-        searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult | null>;
-        protected processSearchByChannel(response: Response): Promise<ContentSearchResult | null>;
+        searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult>;
+        protected processSearchByChannel(response: Response): Promise<ContentSearchResult>;
         /**
          * Deactivates a content
          * @contentId the id of the content to deactivate
@@ -166,8 +160,8 @@
          * @contentId The id of the content to replace
          * @updateRequest Update request
          */
-        updateFile(contentId: string, updateRequest: ContentFileUpdateRequest | null): Promise<BusinessProcess | null>;
-        protected processUpdateFile(response: Response): Promise<BusinessProcess | null>;
+        updateFile(contentId: string, updateRequest: ContentFileUpdateRequest | null): Promise<BusinessProcess>;
+        protected processUpdateFile(response: Response): Promise<BusinessProcess>;
         /**
          * Reactivate - Content
          * @contentId The content id.
@@ -176,43 +170,43 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ContentDetail
          */
-        reactivate(contentId: string, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail | null>;
-        protected processReactivate(response: Response): Promise<ContentDetail | null>;
+        reactivate(contentId: string, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ContentDetail>;
+        protected processReactivate(response: Response): Promise<ContentDetail>;
         /**
          * Dactivate Many - Content
          * @deactivationRequest The deactivation request
          * @return BusinessProcess
          */
-        deactivateMany(deactivationRequest: ContentDeactivationRequest | null): Promise<BusinessProcess | null>;
-        protected processDeactivateMany(response: Response): Promise<BusinessProcess | null>;
+        deactivateMany(deactivationRequest: ContentDeactivationRequest | null): Promise<BusinessProcess>;
+        protected processDeactivateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Reactivate Many - Content
          * @reactivationRequest The content reactivation request.
          * @return BusinessProcess
          */
-        reactivateMany(reactivationRequest: ContentReactivationRequest | null): Promise<BusinessProcess | null>;
-        protected processReactivateMany(response: Response): Promise<BusinessProcess | null>;
+        reactivateMany(reactivationRequest: ContentReactivationRequest | null): Promise<BusinessProcess>;
+        protected processReactivateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update Many - Metadata
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | null): Promise<BusinessProcess | null>;
-        protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess | null>;
+        updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | null): Promise<BusinessProcess>;
+        protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update by filter - Metadata
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        updateMetadataByFilter(updateRequest: FilterContentsMetadataUpdateRequest | null): Promise<BusinessProcess | null>;
-        protected processUpdateMetadataByFilter(response: Response): Promise<BusinessProcess | null>;
+        updateMetadataByFilter(updateRequest: FilterContentsMetadataUpdateRequest | null): Promise<BusinessProcess>;
+        protected processUpdateMetadataByFilter(response: Response): Promise<BusinessProcess>;
         /**
          * Update Many - Permissions
          * @updateRequest The permissions update request.
          * @return BusinessProcess
          */
-        updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[] | null): Promise<BusinessProcess | null>;
-        protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcess | null>;
+        updatePermissionsMany(updateRequest: UpdateContentPermissionsRequest[] | null): Promise<BusinessProcess>;
+        protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcess>;
     }
     export class BusinessProcessClient extends PictureparkClientBase {
         private http;
@@ -226,24 +220,33 @@
          * @businessProcessSearchRequest The business process request
          * @return BusinessProcessSearchResult
          */
-        search(businessProcessSearchRequest: BusinessProcessSearchRequest | null): Promise<BusinessProcessSearchResult | null>;
-        protected processSearch(response: Response): Promise<BusinessProcessSearchResult | null>;
+        search(businessProcessSearchRequest: BusinessProcessSearchRequest | null): Promise<BusinessProcessSearchResult>;
+        protected processSearch(response: Response): Promise<BusinessProcessSearchResult>;
         /**
-         * Wait for states
+         * Wait
          * @processId The process id
-         * @states The states to wait for
-         * @timeout The timeout in ms
+         * @states (optional) The states to wait for
+         * @lifeCycleIds (optional) Business process lifeCycle to wait for
+         * @timeout (optional) The timeout in ms to wait for completion.
          * @return BusinessProcessWaitResult
          */
-        waitForStates(processId: string, states: string | null, timeout: number): Promise<BusinessProcessWaitResult | null>;
-        protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
+        wait(processId: string, states: string[] | null, lifeCycleIds: BusinessProcessLifeCycle[] | null, timeout: number | null): Promise<BusinessProcessWaitResult>;
+        protected processWait(response: Response): Promise<BusinessProcessWaitResult>;
+        /**
+         * Wait for completion
+         * @processId The process id
+         * @timeout (optional) The timeout in ms to wait for completion.
+         * @return BusinessProcessWaitResult
+         */
+        waitForCompletion(processId: string, timeout: number | null): Promise<BusinessProcessWaitResult>;
+        protected processWaitForCompletion(response: Response): Promise<BusinessProcessWaitResult>;
         /**
          * Get details
          * @processId The process id
          * @return BusinessProcessDetails
          */
-        getDetails(processId: string): Promise<BusinessProcessDetails | null>;
-        protected processGetDetails(response: Response): Promise<BusinessProcessDetails | null>;
+        getDetails(processId: string): Promise<BusinessProcessDetails>;
+        protected processGetDetails(response: Response): Promise<BusinessProcessDetails>;
     }
     export class DocumentHistoryClient extends PictureparkClientBase {
         private http;
@@ -257,31 +260,31 @@
          * @documentHistorySearchRequest The document history search request
          * @return DocumentHistorySearchResult
          */
-        search(documentHistorySearchRequest: DocumentHistorySearchRequest | null): Promise<DocumentHistorySearchResult | null>;
-        protected processSearch(response: Response): Promise<DocumentHistorySearchResult | null>;
+        search(documentHistorySearchRequest: DocumentHistorySearchRequest | null): Promise<DocumentHistorySearchResult>;
+        protected processSearch(response: Response): Promise<DocumentHistorySearchResult>;
         /**
          * Gets a document history
          * @id The id
          * @return DocumentHistory
          */
-        get(id: string): Promise<DocumentHistory | null>;
-        protected processGet(response: Response): Promise<DocumentHistory | null>;
+        get(id: string): Promise<DocumentHistory>;
+        protected processGet(response: Response): Promise<DocumentHistory>;
         /**
          * Get document history version
          * @id The id
          * @version The version
          * @return DocumentHistory
          */
-        getVersion(id: string, version: string): Promise<DocumentHistory | null>;
-        protected processGetVersion(response: Response): Promise<DocumentHistory | null>;
+        getVersion(id: string, version: string): Promise<DocumentHistory>;
+        protected processGetVersion(response: Response): Promise<DocumentHistory>;
         /**
          * Get latest difference of document history
          * @id The id
          * @oldVersion The old version
          * @return DocumentHistoryDifference
          */
-        getDifferenceLatest(id: string, oldVersion: number): Promise<DocumentHistoryDifference | null>;
-        protected processGetDifferenceLatest(response: Response): Promise<DocumentHistoryDifference | null>;
+        getDifferenceLatest(id: string, oldVersion: number): Promise<DocumentHistoryDifference>;
+        protected processGetDifferenceLatest(response: Response): Promise<DocumentHistoryDifference>;
         /**
          * Get the difference between tho document history
          * @id The id
@@ -289,8 +292,8 @@
          * @newVersion The new version
          * @return DocumentHistoryDifference
          */
-        getDifference(id: string, oldVersion: number, newVersion: number): Promise<DocumentHistoryDifference | null>;
-        protected processGetDifference(response: Response): Promise<DocumentHistoryDifference | null>;
+        getDifference(id: string, oldVersion: number, newVersion: number): Promise<DocumentHistoryDifference>;
+        protected processGetDifference(response: Response): Promise<DocumentHistoryDifference>;
     }
     export class JsonSchemaClient extends PictureparkClientBase {
         private http;
@@ -304,8 +307,8 @@
          * @schemaId Schema Id
          * @return JsonSchemaViewItem
          */
-        get(schemaId: string): Promise<any | null>;
-        protected processGet(response: Response): Promise<any | null>;
+        get(schemaId: string): Promise<any>;
+        protected processGet(response: Response): Promise<any>;
     }
     export class ListItemClient extends PictureparkClientBase {
         private http;
@@ -322,43 +325,43 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail | null>;
-        protected processCreate(response: Response): Promise<ListItemDetail | null>;
+        create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail>;
+        protected processCreate(response: Response): Promise<ListItemDetail>;
         /**
          * Create Many
          * @objects A list of ListItemCreateRequests.
          * @return BusinessProcess
          */
-        createMany(objects: ListItemCreateRequest[] | null): Promise<BusinessProcess | null>;
-        protected processCreateMany(response: Response): Promise<BusinessProcess | null>;
+        createMany(objects: ListItemCreateRequest[] | null): Promise<BusinessProcess>;
+        protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Delete Many
          * @ids (optional) The list item id list.
          * @return BusinessProcess
          */
-        deleteMany(ids: string[] | null): Promise<BusinessProcess | null>;
-        protected processDeleteMany(response: Response): Promise<BusinessProcess | null>;
+        deleteMany(ids: string[] | null): Promise<BusinessProcess>;
+        protected processDeleteMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update Many
          * @objects A list of ListItemUpdateRequests.
          * @return BusinessProcess
          */
-        updateMany(objects: ListItemUpdateRequest[] | null): Promise<BusinessProcess | null>;
-        protected processUpdateMany(response: Response): Promise<BusinessProcess | null>;
+        updateMany(objects: ListItemUpdateRequest[] | null): Promise<BusinessProcess>;
+        protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Aggregate
          * @listItemAggregationRequest The list item aggregation request.
          * @return ObjectAggregationResult
          */
-        aggregate(listItemAggregationRequest: ListItemAggregationRequest | null): Promise<ObjectAggregationResult | null>;
-        protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
+        aggregate(listItemAggregationRequest: ListItemAggregationRequest | null): Promise<ObjectAggregationResult>;
+        protected processAggregate(response: Response): Promise<ObjectAggregationResult>;
         /**
          * Search
          * @listItemSearchRequest The list item search request.
          * @return List item result set.
          */
-        search(listItemSearchRequest: ListItemSearchRequest | null): Promise<ListItemSearchResult | null>;
-        protected processSearch(response: Response): Promise<ListItemSearchResult | null>;
+        search(listItemSearchRequest: ListItemSearchRequest | null): Promise<ListItemSearchResult>;
+        protected processSearch(response: Response): Promise<ListItemSearchResult>;
         /**
          * Delete Single
          * @listItemId The list item id.
@@ -372,8 +375,8 @@
          * @resolve Resolves the data of referenced list items into the list item's content.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
-        get(listItemId: string, resolve: boolean, patterns: string[] | null): Promise<ListItemDetail | null>;
-        protected processGet(response: Response): Promise<ListItemDetail | null>;
+        get(listItemId: string, resolve: boolean, patterns: string[] | null): Promise<ListItemDetail>;
+        protected processGet(response: Response): Promise<ListItemDetail>;
         /**
          * Update Single
          * @listItemId The list item id.
@@ -383,32 +386,22 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail | null>;
-        protected processUpdate(response: Response): Promise<ListItemDetail | null>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: number | null, patterns: string[] | null): Promise<ListItemDetail>;
+        protected processUpdate(response: Response): Promise<ListItemDetail>;
         /**
          * Update by filter - Fields
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        updateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess | null>;
-        protected processUpdateFieldsByFilter(response: Response): Promise<BusinessProcess | null>;
+        updateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
+        protected processUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
         /**
          * Update - Fields
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        updateFields(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess | null>;
-        protected processUpdateFields(response: Response): Promise<BusinessProcess | null>;
-        /**
-         * Wait For States
-         * @processId The business process id.
-         * @states (optional) Comma-separated list of business process states to wait for.
-         * @timeout Maximum time in milliseconds to wait for the business process completed state.
-         * @return BusinessProcessWaitResult
-         * @deprecated
-         */
-        waitForStates(processId: string, states: string[] | null, timeout: number): Promise<BusinessProcessWaitResult | null>;
-        protected processWaitForStates(response: Response): Promise<BusinessProcessWaitResult | null>;
+        updateFields(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess>;
+        protected processUpdateFields(response: Response): Promise<BusinessProcess>;
     }
     export class LiveStreamClient extends PictureparkClientBase {
         private http;
@@ -422,8 +415,8 @@
          * @liveStreamSearchRequest The livestream search request
          * @return ObjectSearchResult
          */
-        search(liveStreamSearchRequest: LiveStreamSearchRequest | null): Promise<ObjectSearchResult | null>;
-        protected processSearch(response: Response): Promise<ObjectSearchResult | null>;
+        search(liveStreamSearchRequest: LiveStreamSearchRequest | null): Promise<ObjectSearchResult>;
+        protected processSearch(response: Response): Promise<ObjectSearchResult>;
     }
     export class SchemaClient extends PictureparkClientBase {
         private http;
@@ -437,52 +430,52 @@
          * @ids (optional) Comma separated list of schema ids
          * @return SchemaDetail
          */
-        getMany(ids: string[] | null): Promise<SchemaDetail[] | null>;
-        protected processGetMany(response: Response): Promise<SchemaDetail[] | null>;
+        getMany(ids: string[] | null): Promise<SchemaDetail[]>;
+        protected processGetMany(response: Response): Promise<SchemaDetail[]>;
         /**
          * Create Single
          * @schema The schema create request.
          * @return BusinessProcess
          */
-        create(schema: SchemaCreateRequest | null): Promise<BusinessProcess | null>;
-        protected processCreate(response: Response): Promise<BusinessProcess | null>;
+        create(schema: SchemaCreateRequest | null): Promise<BusinessProcess>;
+        protected processCreate(response: Response): Promise<BusinessProcess>;
         /**
          * Get Single
          * @schemaId The schema id.
          * @return SchemaDetail
          */
-        get(schemaId: string): Promise<SchemaDetail | null>;
-        protected processGet(response: Response): Promise<SchemaDetail | null>;
+        get(schemaId: string): Promise<SchemaDetail>;
+        protected processGet(response: Response): Promise<SchemaDetail>;
         /**
          * Update Single
          * @schemaId The schema id.
          * @schema The schema update request.
          * @return BusinessProcess
          */
-        update(schemaId: string, schema: SchemaUpdateRequest | null): Promise<BusinessProcess | null>;
-        protected processUpdate(response: Response): Promise<BusinessProcess | null>;
+        update(schemaId: string, schema: SchemaUpdateRequest | null): Promise<BusinessProcess>;
+        protected processUpdate(response: Response): Promise<BusinessProcess>;
         /**
          * Delete Single
          * @schemaId The schema id.
          * @return BusinessProcess
          */
-        delete(schemaId: string): Promise<BusinessProcess | null>;
-        protected processDelete(response: Response): Promise<BusinessProcess | null>;
+        delete(schemaId: string): Promise<BusinessProcess>;
+        protected processDelete(response: Response): Promise<BusinessProcess>;
         /**
          * Exists
          * @schemaId The schema id.
          * @fieldId (optional) The optional field id.
          * @return ExistsResponse
          */
-        exists(schemaId: string, fieldId: string | null): Promise<ExistsResponse | null>;
-        protected processExists(response: Response): Promise<ExistsResponse | null>;
+        exists(schemaId: string, fieldId: string | null): Promise<ExistsResponse>;
+        protected processExists(response: Response): Promise<ExistsResponse>;
         /**
          * Search
          * @schemaSearchRequest The schema search request.
          * @return Schema result set.
          */
-        search(schemaSearchRequest: SchemaSearchRequest | null): Promise<SchemaSearchResult | null>;
-        protected processSearch(response: Response): Promise<SchemaSearchResult | null>;
+        search(schemaSearchRequest: SchemaSearchRequest | null): Promise<SchemaSearchResult>;
+        protected processSearch(response: Response): Promise<SchemaSearchResult>;
     }
     export class PermissionClient extends PictureparkClientBase {
         private http;
@@ -503,29 +496,29 @@
          * @request The permission search request.
          * @return PermissionSetSearchResult
          */
-        searchContentPermissions(request: PermissionSetSearchRequest | null): Promise<PermissionSetSearchResult | null>;
-        protected processSearchContentPermissions(response: Response): Promise<PermissionSetSearchResult | null>;
+        searchContentPermissions(request: PermissionSetSearchRequest | null): Promise<PermissionSetSearchResult>;
+        protected processSearchContentPermissions(response: Response): Promise<PermissionSetSearchResult>;
         /**
          * Get Content Permission Single
          * @permissionSetId The content permission set id.
          * @return ContentPermissionSetDetail
          */
-        getContentPermissions(permissionSetId: string): Promise<ContentPermissionSetDetail | null>;
-        protected processGetContentPermissions(response: Response): Promise<ContentPermissionSetDetail | null>;
+        getContentPermissions(permissionSetId: string): Promise<ContentPermissionSetDetail>;
+        protected processGetContentPermissions(response: Response): Promise<ContentPermissionSetDetail>;
         /**
          * Search Schema Permissions
          * @request The permission search request.
          * @return PermissionSetSearchResult
          */
-        searchSchemaPermissions(request: PermissionSetSearchRequest | null): Promise<PermissionSetSearchResult | null>;
-        protected processSearchSchemaPermissions(response: Response): Promise<PermissionSetSearchResult | null>;
+        searchSchemaPermissions(request: PermissionSetSearchRequest | null): Promise<PermissionSetSearchResult>;
+        protected processSearchSchemaPermissions(response: Response): Promise<PermissionSetSearchResult>;
         /**
          * Get Schema Permission Single
          * @permissionSetId The schema permission set id.
          * @return SchemaPermissionSetDetail
          */
-        getSchemaPermissions(permissionSetId: string): Promise<SchemaPermissionSetDetail | null>;
-        protected processGetSchemaPermissions(response: Response): Promise<SchemaPermissionSetDetail | null>;
+        getSchemaPermissions(permissionSetId: string): Promise<SchemaPermissionSetDetail>;
+        protected processGetSchemaPermissions(response: Response): Promise<SchemaPermissionSetDetail>;
     }
     export class PublicAccessClient extends PictureparkClientBase {
         private http;
@@ -538,15 +531,15 @@
          * Get Version
          * @return VersionInfo
          */
-        getVersion(): Promise<VersionInfo | null>;
-        protected processGetVersion(response: Response): Promise<VersionInfo | null>;
+        getVersion(): Promise<VersionInfo>;
+        protected processGetVersion(response: Response): Promise<VersionInfo>;
         /**
          * Get Share
          * @token The token
          * @return ShareBaseDetail
          */
-        getShare(token: string): Promise<ShareDetail | null>;
-        protected processGetShare(response: Response): Promise<ShareDetail | null>;
+        getShare(token: string): Promise<ShareDetail>;
+        protected processGetShare(response: Response): Promise<ShareDetail>;
     }
     export class ShareClient extends PictureparkClientBase {
         private http;
@@ -563,43 +556,43 @@
          * @timeout (optional) Maximum time in milliseconds to wait for the business process completed state.
          * @return Share
          */
-        update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<ShareDetail | null>;
-        protected processUpdate(response: Response): Promise<ShareDetail | null>;
+        update(id: string, updateRequest: ShareBaseUpdateRequest | null, resolve: boolean, timeout: number | null): Promise<ShareDetail>;
+        protected processUpdate(response: Response): Promise<ShareDetail>;
         /**
          * Get single
          * @id Share Id (not token, use PublicAccess to get share by token)
          * @return Polymorph share
          */
-        get(id: string): Promise<ShareDetail | null>;
-        protected processGet(response: Response): Promise<ShareDetail | null>;
+        get(id: string): Promise<ShareDetail>;
+        protected processGet(response: Response): Promise<ShareDetail>;
         /**
          * Delete many
          * @shareIds A list of ListItemCreateRequests.
          * @return BusinessProcess
          */
-        deleteMany(shareIds: string[] | null): Promise<BusinessProcess | null>;
-        protected processDeleteMany(response: Response): Promise<BusinessProcess | null>;
+        deleteMany(shareIds: string[] | null): Promise<BusinessProcess>;
+        protected processDeleteMany(response: Response): Promise<BusinessProcess>;
         /**
          * Aggregate
          * @request Aggregation request
          * @return AggregationResult
          */
-        aggregate(request: ShareAggregationRequest | null): Promise<ObjectAggregationResult | null>;
-        protected processAggregate(response: Response): Promise<ObjectAggregationResult | null>;
+        aggregate(request: ShareAggregationRequest | null): Promise<ObjectAggregationResult>;
+        protected processAggregate(response: Response): Promise<ObjectAggregationResult>;
         /**
          * Create single
          * @request Polymorph create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
          * @return Create result
          */
-        create(request: ShareBaseCreateRequest | null): Promise<CreateShareResult | null>;
-        protected processCreate(response: Response): Promise<CreateShareResult | null>;
+        create(request: ShareBaseCreateRequest | null): Promise<CreateShareResult>;
+        protected processCreate(response: Response): Promise<CreateShareResult>;
         /**
          * Search
          * @request Search request
          * @return Share search result
          */
-        search(request: ShareSearchRequest | null): Promise<ShareSearchResult | null>;
-        protected processSearch(response: Response): Promise<ShareSearchResult | null>;
+        search(request: ShareSearchRequest | null): Promise<ShareSearchResult>;
+        protected processSearch(response: Response): Promise<ShareSearchResult>;
     }
     export class ServiceProviderClient extends PictureparkClientBase {
         private http;
@@ -610,10 +603,10 @@
         });
         sendMessage(serviceProviderId: string, request: SendMessageRequest | null): Promise<void>;
         protected processSendMessage(response: Response): Promise<void>;
-        getConfiguration(serviceProviderId: string): Promise<CustomerServiceProviderConfiguration | null>;
-        protected processGetConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration | null>;
-        updateConfiguration(serviceProviderId: string, configuration: ServiceProviderConfigurationUpdateRequest | null): Promise<CustomerServiceProviderConfiguration | null>;
-        protected processUpdateConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration | null>;
+        getConfiguration(serviceProviderId: string): Promise<CustomerServiceProviderConfiguration>;
+        protected processGetConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration>;
+        updateConfiguration(serviceProviderId: string, configuration: ServiceProviderConfigurationUpdateRequest | null): Promise<CustomerServiceProviderConfiguration>;
+        protected processUpdateConfiguration(response: Response): Promise<CustomerServiceProviderConfiguration>;
     }
     export class TransferClient extends PictureparkClientBase {
         private http;
@@ -632,8 +625,8 @@
          * Get Blacklist
          * @return Blacklist
          */
-        getBlacklist(): Promise<Blacklist | null>;
-        protected processGetBlacklist(response: Response): Promise<Blacklist | null>;
+        getBlacklist(): Promise<Blacklist>;
+        protected processGetBlacklist(response: Response): Promise<Blacklist>;
         /**
          * Cancels an active transfer. Valid states: TODO
          */
@@ -644,8 +637,8 @@
          * @request The create transfer request
          * @return Transfer
          */
-        create(request: CreateTransferRequest | null): Promise<Transfer | null>;
-        protected processCreate(response: Response): Promise<Transfer | null>;
+        create(request: CreateTransferRequest | null): Promise<Transfer>;
+        protected processCreate(response: Response): Promise<Transfer>;
         /**
          * Delete Transfer
          * @transferId The tranfer id
@@ -658,44 +651,44 @@
          * @transferId The tranfer id
          * @return TransferDetail
          */
-        get(transferId: string): Promise<TransferDetail | null>;
-        protected processGet(response: Response): Promise<TransferDetail | null>;
+        get(transferId: string): Promise<TransferDetail>;
+        protected processGet(response: Response): Promise<TransferDetail>;
         /**
          * Get File
          * @fileTransferId The filetransfer id
          * @return FileTransferDetail
          */
-        getFile(fileTransferId: string): Promise<FileTransferDetail | null>;
-        protected processGetFile(response: Response): Promise<FileTransferDetail | null>;
+        getFile(fileTransferId: string): Promise<FileTransferDetail>;
+        protected processGetFile(response: Response): Promise<FileTransferDetail>;
         /**
          * Delete Transfer
          * @transferId The tranfer id
          * @request The filetransfer to content create request
          * @return Transfer
          */
-        importTransfer(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer | null>;
-        protected processImportTransfer(response: Response): Promise<Transfer | null>;
+        importTransfer(transferId: string, request: FileTransfer2ContentCreateRequest | null): Promise<Transfer>;
+        protected processImportTransfer(response: Response): Promise<Transfer>;
         /**
          * Create a partial import
          * @transferId The transfer id
          * @request The filetransfer partial to content create request
          */
-        partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | null): Promise<Transfer | null>;
-        protected processPartialImport(response: Response): Promise<Transfer | null>;
+        partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | null): Promise<Transfer>;
+        protected processPartialImport(response: Response): Promise<Transfer>;
         /**
          * Search
          * @request The transfer search request
          * @return TransferSearchResult
          */
-        search(request: TransferSearchRequest | null): Promise<TransferSearchResult | null>;
-        protected processSearch(response: Response): Promise<TransferSearchResult | null>;
+        search(request: TransferSearchRequest | null): Promise<TransferSearchResult>;
+        protected processSearch(response: Response): Promise<TransferSearchResult>;
         /**
          * Search for files
          * @request The file transfer search request
          * @return FileTransferSearchResult
          */
-        searchFiles(request: FileTransferSearchRequest | null): Promise<FileTransferSearchResult | null>;
-        protected processSearchFiles(response: Response): Promise<FileTransferSearchResult | null>;
+        searchFiles(request: FileTransferSearchRequest | null): Promise<FileTransferSearchResult>;
+        protected processSearchFiles(response: Response): Promise<FileTransferSearchResult>;
         /**
          * Upload file
          * @formFile (optional) Gets or sets the form file.
@@ -720,27 +713,27 @@
          * @searchRequest The user search request
          * @return UserSearchResult
          */
-        search(searchRequest: UserSearchRequest | null): Promise<UserSearchResult | null>;
-        protected processSearch(response: Response): Promise<UserSearchResult | null>;
+        search(searchRequest: UserSearchRequest | null): Promise<UserSearchResult>;
+        protected processSearch(response: Response): Promise<UserSearchResult>;
         /**
          * Get Userdetail by id
          * @userId The user id
          * @return UserDetail
          */
-        getUser(userId: string): Promise<UserDetail | null>;
-        protected processGetUser(response: Response): Promise<UserDetail | null>;
+        get(userId: string): Promise<UserDetail>;
+        protected processGet(response: Response): Promise<UserDetail>;
         /**
          * Get userdetail by owner token
          * @tokenId The token id
          * @return UserDetail
          */
-        getByOwnerToken(tokenId: string): Promise<UserDetail | null>;
-        protected processGetByOwnerToken(response: Response): Promise<UserDetail | null>;
+        getByOwnerToken(tokenId: string): Promise<UserDetail>;
+        protected processGetByOwnerToken(response: Response): Promise<UserDetail>;
         /**
          * Get List of Channels
          */
-        getChannels(): Promise<Channel[] | null>;
-        protected processGetChannels(response: Response): Promise<Channel[] | null>;
+        getChannels(): Promise<Channel[]>;
+        protected processGetChannels(response: Response): Promise<Channel[]>;
     }
     export class OutputClient extends PictureparkClientBase {
         private http;
@@ -754,15 +747,15 @@
          * @contentsByIdsRequest Contains the list of contentIds for which the outputs are requested
          * @return The Result containing a list of OutputDetail's
          */
-        getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Promise<OutputDetail[] | null>;
-        protected processGetByContentIds(response: Response): Promise<OutputDetail[] | null>;
+        getByContentIds(contentsByIdsRequest: ContentsByIdsRequest | null): Promise<OutputDetail[]>;
+        protected processGetByContentIds(response: Response): Promise<OutputDetail[]>;
         /**
          * Get Single
          * @outputId The output id.
          * @return OutputDetail
          */
-        get(outputId: string): Promise<OutputDetail | null>;
-        protected processGet(response: Response): Promise<OutputDetail | null>;
+        get(outputId: string): Promise<OutputDetail>;
+        protected processGet(response: Response): Promise<OutputDetail>;
     }
     export class ProfileClient extends PictureparkClientBase {
         private http;
@@ -775,17 +768,16 @@
          * Get
          * @return UserProfile
          */
-        get(): Promise<UserProfile | null>;
-        protected processGet(response: Response): Promise<UserProfile | null>;
+        get(): Promise<UserProfile>;
+        protected processGet(response: Response): Promise<UserProfile>;
         /**
          * Update
          * @return UserProfile
          */
-        update(profile: UserProfile | null): Promise<UserProfile | null>;
-        protected processUpdate(response: Response): Promise<UserProfile | null>;
+        update(profile: UserProfile | null): Promise<UserProfile>;
+        protected processUpdate(response: Response): Promise<UserProfile>;
     }
     export interface ContentOwnershipTransferRequest {
-        /** The content id. */
         contentId?: string | undefined;
         /** The id of the user to whom the content document has to be transfered to. */
         transferUserId?: string | undefined;
@@ -845,6 +837,7 @@
         Database,
         Cad,
         Model3d,
+        ContentItem,
     }
     export interface DisplayValueDictionary {
         [key: string]: string | any;
@@ -1099,13 +1092,15 @@
         processDefinitionId?: string | undefined;
         referenceId?: string | undefined;
         referenceDocType?: string | undefined;
+        supportsCancellation: boolean;
         businessProcessScope: BusinessProcessScope;
         lifeCycle: BusinessProcessLifeCycle;
         startDate: Date;
         endDate: Date;
+        finished: boolean;
         stateHistory?: BusinessProcessStateItem[] | undefined;
-        processDefinitionName?: string | undefined;
         currentState?: string | undefined;
+        processDefinitionName?: string | undefined;
     }
     export enum BusinessProcessScope {
         System,
@@ -1116,6 +1111,7 @@
         InProgress,
         Succeeded,
         Cancelled,
+        CancellationInProgress,
         Failed,
     }
     export interface BusinessProcessStateItem {
@@ -1173,7 +1169,7 @@
     /** The FilterBase is the base class for all filters. */
     export interface FilterBase {
     }
-    /** The AndFilter> is a compound filter and returns documents that match all of the specified filters. */
+    /** The AndFilter&gt; is a compound filter and returns documents that match all of the specified filters. */
     export interface AndFilter extends FilterBase {
         /** Accepts all filters. */
         filters?: FilterBase[] | undefined;
@@ -1225,7 +1221,7 @@
         lat: number;
         lon: number;
     }
-    /** The GeoDistanceRangeFilter returns documents that include only hits that exists within a specific distance from a geo point. */
+    /** The GeoDistanceFilter returns documents that include only hits that exists within a specific distance from a geo point. */
     export interface GeoDistanceFilter extends FilterBase {
         /** The elastic search index field to execute the filter on. */
         field?: string | undefined;
@@ -1233,23 +1229,6 @@
         location?: GeoLocation | undefined;
         /** The range distance in meters. */
         distance: number;
-    }
-    /** The GeoDistanceRangeFilter returns documents that exists within a range from a specific point. */
-    export interface GeoDistanceRangeFilter extends FilterBase {
-        /** The elastic search index field to execute the filter on. */
-        field?: string | undefined;
-        /** The longitude/latitude configuration for the point of origin. */
-        location?: GeoLocation | undefined;
-        /** The numeric range. */
-        range?: NumericRange | undefined;
-    }
-    export interface NumericRange {
-        /** Tranlsated range names. */
-        names?: TranslatedStringDictionary | undefined;
-        /** The from value. */
-        from?: number | undefined;
-        /** The to value. */
-        to?: number | undefined;
     }
     /** The NestedFilter is a joining filter and returns documents whose nested objects / documents (see nested mapping) match the specified filter. */
     export interface NestedFilter extends FilterBase {
@@ -1264,6 +1243,14 @@
         field?: string | undefined;
         /** The numeric range with from and to properties. */
         range?: NumericRange | undefined;
+    }
+    export interface NumericRange {
+        /** Tranlsated range names. */
+        names?: TranslatedStringDictionary | undefined;
+        /** The from value. */
+        from?: number | undefined;
+        /** The to value. */
+        to?: number | undefined;
     }
     /** The PrefixFilter returns documents that have fields containing terms with a specified prefix (not analyzed). */
     export interface PrefixFilter extends FilterBase {
@@ -1290,7 +1277,7 @@
     export interface AggregationFilter extends FilterBase {
         /** The name of the aggregation this filter is connected to. */
         aggregationName?: string | undefined;
-        /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter and GeoDistanceRangeFilter. */
+        /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter and GeoDistanceFilter. */
         filter?: FilterBase | undefined;
         temporaryAggregatorRequestId?: string | undefined;
     }
@@ -1336,7 +1323,13 @@
         /** The latitude/logitude configuration for the point of origin. */
         location?: GeoLocation | undefined;
         /** A list of numeric ranges in meter. */
-        ranges?: NumericRange[] | undefined;
+        ranges?: GeoDistance[] | undefined;
+    }
+    export interface GeoDistance {
+        /** Tranlsated range names. */
+        names?: TranslatedStringDictionary | undefined;
+        /** The to value. */
+        distance: number;
     }
     /** The NestedAggregator is a special single bucket aggregation that enables aggregating nested documents. */
     export interface NestedAggregator extends AggregatorBase {
@@ -1422,7 +1415,7 @@
         downloadUrl?: string | undefined;
     }
     /** A request structure for creating a content document. */
-    export interface CreateContentRequest {
+    export interface ContentCreateRequest {
         /** The id of a schema with schema type content. */
         contentSchemaId?: string | undefined;
         /** An optional id list of schemas with schema type layer. */
@@ -1457,7 +1450,7 @@
         searchLanguages?: string[] | undefined;
         /** The collection id. */
         collectionId?: string | undefined;
-        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviours. All the passed behaviours will be applied in the specified order. */
         searchBehaviours?: SearchBehaviour[] | undefined;
@@ -1475,6 +1468,8 @@
         rightsFilter?: ContentRight[] | undefined;
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
         searchType: ContentSearchType;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
     }
     export interface SortInfo {
         field?: string | undefined;
@@ -1496,6 +1491,7 @@
         totalResults: number;
         results?: Content[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfContent extends BaseResultOfContent {
         searchString?: string | undefined;
@@ -1516,6 +1512,12 @@
             [key: string]: string;
         } | undefined;
         id?: string | undefined;
+    }
+    export interface QueryDebugInformation {
+        general?: string | undefined;
+        auditTrail?: string | undefined;
+        request?: any | undefined;
+        response?: any | undefined;
     }
     export interface ContentFileUpdateRequest {
         contentId?: string | undefined;
@@ -1545,41 +1547,41 @@
     }
     /** The base class for metadata value change commands. */
     export interface MetadataValuesChangeCommandBase {
+        /** The id of the schema to which the operation scope is addressed. */
+        schemaId?: string | undefined;
     }
     /** Updates schema values. */
     export interface MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeCommandBase {
-        /** The id of the schema with type content or layer to be updated. */
-        schemaId?: string | undefined;
         /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
         value?: DataDictionary | undefined;
     }
     /** Adds or updates schema values. */
     export interface MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeCommandBase {
-        /** The id of the schema with type content or layer to be updated. */
-        schemaId?: string | undefined;
         /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
         value?: DataDictionary | undefined;
     }
     /** Removes schema values. */
     export interface MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeCommandBase {
-        /** The id of the schema with type layer to be removed. */
-        schemaId?: string | undefined;
     }
     /** Removes a field and its value from the schema values. */
     export interface MetadataValuesFieldRemoveCommand extends MetadataValuesChangeCommandBase {
-        /** The fully qualified field name of the field to be removed, e.g. "Data.SchemaId.FieldId". */
-        fieldNamespace?: string | undefined;
+        /** The path of the field to be removed (within tha data structure), e.g. "data.schemaId.fieldId" */
+        fieldPath?: string | undefined;
     }
     /** Adds a list item id reference to a multi tagbox. */
     export interface MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeCommandBase {
-        /** The fully qualified field name of the multi tagbox field. */
+        /** The path of the field relative to the Content or Layer schema values defined by the schemaId property */
+        fieldPath?: string | undefined;
+        /** The field namespace */
         fieldNamespace?: string | undefined;
         /** The id of the list item to be added. */
         referenceId?: string | undefined;
     }
     /** Removes a list item id reference from a multi tagbox. */
     export interface MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeCommandBase {
-        /** The fully qualified field name of the multi tagbox field. */
+        /** The path of the field relative to the Content or Layer schema values defined by the schemaId property */
+        fieldPath?: string | undefined;
+        /** The field namespace */
         fieldNamespace?: string | undefined;
         /** The id of the list item to be removed. */
         referenceId?: string | undefined;
@@ -1609,7 +1611,9 @@
         rightsFilter?: ContentRight[] | undefined;
     }
     export interface BusinessProcessSearchRequest {
+        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
+        /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         filter?: FilterBase | undefined;
         searchString?: string | undefined;
@@ -1620,6 +1624,7 @@
         totalResults: number;
         results?: BusinessProcess[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess {
         searchString?: string | undefined;
@@ -1630,8 +1635,10 @@
     }
     export interface BusinessProcessWaitResult {
         hasStateHit: boolean;
-        processEnded: boolean;
         stateHit?: string | undefined;
+        hasLifeCycleHit: boolean;
+        lifeCycleHit: BusinessProcessLifeCycle;
+        finished: boolean;
         businessProcess?: BusinessProcess | undefined;
     }
     export interface BusinessProcessDetails extends BusinessProcess {
@@ -1758,11 +1765,14 @@
         searchLanguages?: string[] | undefined;
         /** When set to true the content data is included in the result items. */
         includeMetadata: boolean;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
     }
     export interface BaseResultOfListItem {
         totalResults: number;
         results?: ListItem[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     /** Encapsulates the result of a list item search. */
     export interface ListItemSearchResult extends BaseResultOfListItem {
@@ -1778,6 +1788,9 @@
         /** The list item id. */
         id?: string | undefined;
     }
+    export interface ListItemNotFoundException extends PictureparkBusinessException {
+        listItemId?: string | undefined;
+    }
     /** A request structure for updating a list item. */
     export interface ListItemUpdateRequest {
         /** The content data of the list item. */
@@ -1790,7 +1803,7 @@
         /** The search request used to filter the list items on which the change commands must be applied */
         listItemFilterRequest?: ListItemFilterRequest | undefined;
         /** The change commads to be applied to the list items */
-        changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+        changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     }
     export interface ListItemFilterRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
@@ -1810,7 +1823,7 @@
         /** The ids of the list items whose fields need to be updated */
         listItemIds?: string[] | undefined;
         /** The change commads to be applied to the list items */
-        changeCommands?: MetadataValuesSchemaUpdateCommand[] | undefined;
+        changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     }
     export interface LiveStreamSearchRequest {
         from: Date;
@@ -1823,6 +1836,7 @@
         totalResults: number;
         results?: any[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfObject extends BaseResultOfObject {
         searchString?: string | undefined;
@@ -2132,7 +2146,7 @@
         types?: SchemaType[] | undefined;
     }
     export interface SchemaSearchRequest {
-        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviours. All the passed behaviours will be applied */
         searchBehaviours?: SearchBehaviour[] | undefined;
@@ -2144,11 +2158,14 @@
         limit: number;
         /** An optional search filter. Limits the schema result set. */
         filter?: FilterBase | undefined;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
     }
     export interface BaseResultOfSchema {
         totalResults: number;
         results?: Schema[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfSchema extends BaseResultOfSchema {
         searchString?: string | undefined;
@@ -2197,14 +2214,19 @@
         ManageTemplates,
     }
     export interface PermissionSetSearchRequest {
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviours. All the passed behaviours will be applied */
         searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
+        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
+        /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         filter?: FilterBase | undefined;
         rightFilter?: PermissionSetRight | undefined;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
     }
     export enum PermissionSetRight {
         Apply,
@@ -2213,6 +2235,7 @@
         totalResults: number;
         results?: PermissionSet[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
         searchString?: string | undefined;
@@ -2285,6 +2308,7 @@
         name?: string | undefined;
         description?: string | undefined;
         creator?: ShareUser | undefined;
+        audit?: UserAudit | undefined;
         contentSelections?: ShareContentDetail[] | undefined;
         layerSchemaIds?: string[] | undefined;
         data?: ShareDataBase | undefined;
@@ -2466,7 +2490,7 @@
         shareId?: string | undefined;
     }
     export interface ShareSearchRequest {
-        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to empty. */
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviours. All the passed behaviours will be applied */
         searchBehaviours?: SearchBehaviour[] | undefined;
@@ -2478,11 +2502,14 @@
         limit: number;
         /** An optional search filter. Limits the share document result set. */
         filter?: FilterBase | undefined;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
     }
     export interface BaseResultOfShare {
         totalResults: number;
         results?: Share[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfShare extends BaseResultOfShare {
         searchString?: string | undefined;
@@ -4163,11 +4190,13 @@
         contentPermissionSetIds?: string[] | undefined;
     }
     export interface TransferSearchRequest {
-        channel?: string | undefined;
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
+        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
+        /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         filter?: FilterBase | undefined;
     }
@@ -4175,6 +4204,7 @@
         totalResults: number;
         results?: Transfer[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfTransfer extends BaseResultOfTransfer {
         searchString?: string | undefined;
@@ -4187,7 +4217,9 @@
         searchString?: string | undefined;
         searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
+        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
+        /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         filter?: FilterBase | undefined;
     }
@@ -4195,6 +4227,7 @@
         totalResults: number;
         results?: FileTransfer[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfFileTransfer extends BaseResultOfFileTransfer {
         searchString?: string | undefined;
@@ -4212,20 +4245,26 @@
         contentId?: string | undefined;
     }
     export interface UserSearchRequest {
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviours. All the passed behaviours will be applied */
         searchBehaviours?: SearchBehaviour[] | undefined;
         sort?: SortInfo[] | undefined;
+        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
+        /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         filter?: FilterBase | undefined;
         lifeCycleFilter: LifeCycleFilter;
         userRightsFilter?: UserRight[] | undefined;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
     }
     export interface BaseResultOfUser {
         totalResults: number;
         results?: User[] | undefined;
         pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
     export interface SearchBehaviourBaseResultOfUser extends BaseResultOfUser {
         searchString?: string | undefined;
