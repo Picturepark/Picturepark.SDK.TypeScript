@@ -19,8 +19,9 @@ class Hello extends React.Component<Props, StoreState> {
   }
 
   requestShare() {
-    if (this.props.requestShare && this.state.server && this.state.token)
+    if (this.props.requestShare && this.state.server && this.state.token) {
       this.props.requestShare(this.state.server, this.state.token);
+    }
   }
 
   handleChange(event: any) {
@@ -34,11 +35,17 @@ class Hello extends React.Component<Props, StoreState> {
       <div className="hello">
         <div>
           <label>Server:</label><br />
-          <input name="server" value={this.state.server} onChange={this.handleChange.bind(this)} style={{"width": "100%"}}></input>
+          <input name="server" 
+                 value={this.state.server} 
+                 onChange={this.handleChange.bind(this)}
+                 style={{'width': '100%'}} />
         </div>
         <div>
           <label>Token:</label><br />
-          <input name="token" value={this.state.token} onChange={this.handleChange.bind(this)} style={{"width": "100%"}}></input>
+          <input name="token"
+                 value={this.state.token} 
+                 onChange={this.handleChange.bind(this)}
+                 style={{"width": "100%"}} />
           <br />
         </div>
         <div>
