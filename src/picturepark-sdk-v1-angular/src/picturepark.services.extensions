@@ -46,7 +46,7 @@ class ContentService extends generated.ContentService {
             return Observable.of(this.thumbnailCache[key]);
         }
 
-        const response = this.downloadThumbnailCore(contentId, size);
+        const response = this.downloadThumbnailCore(contentId, size, null, null);
         response.subscribe(blob => {
             this.thumbnailCache[key] = blob;
         });

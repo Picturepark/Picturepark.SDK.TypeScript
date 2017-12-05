@@ -2,7 +2,9 @@ import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import {
-  PICTUREPARK_API_URL, ContentService, ContentSearchRequest, ThumbnailSize, ContentAggregationRequest
+  PICTUREPARK_API_URL, ContentService, ContentSearchRequest,
+  ThumbnailSize, ContentAggregationRequest, PictureparkApplicationException,
+  ContentNotFoundException
 } from '../picturepark.services';
 import { testUrl, testUsername, testPassword, configureTest } from './config';
 
@@ -47,7 +49,7 @@ describe('ContentService', () => {
       request.searchString = 'm';
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.downloadResized(response!.results![0].id!, 'Original', 100, 100).toPromise();
+      const result = await contentService.download(response!.results![0].id!, 'Original', 100, 100, null).toPromise();
 
       // assert
       expect(result!.data.size).toBeGreaterThan(0);
@@ -62,10 +64,27 @@ describe('ContentService', () => {
       request.searchString = 'm';
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.download(response!.results![0].id!, 'Original', 'bytes=500-999').toPromise();
+      const result = await contentService.download(response!.results![0].id!, 'Original', null, null, 'bytes=500-999').toPromise();
 
       // assert
       expect(result!.data.size).toBeGreaterThan(0);
+    })));
+
+  it('should throw exception when not found', async(inject([ContentService],
+    async (contentService: ContentService) => {
+      // arrange
+      const contentId = 'foo.bar';
+
+      // act
+      try {
+        const response = await contentService.get(contentId, true, null).toPromise();
+      } catch (e) {
+        // assert
+        expect(e instanceof ContentNotFoundException).toBeTruthy();
+        expect(e.contentId).toBe('foo.bar');
+        return;
+      }
+      fail();
     })));
 
   it('should return some aggregations', async(inject([ContentService],
