@@ -1,17 +1,28 @@
 import * as constants from '../constants';
-import { PublicAccessClient, AuthClient, ShareDetail } from '@picturepark/sdk-v1-fetch';
+import {
+  PublicAccessClient,
+  ContentClient,
+  AccessTokenAuthClient,
+  AuthClient,
+  SwaggerException
+} from '@picturepark/sdk-v1-fetch';
 
 export interface RequestShare {
   type: constants.REQUEST_SHARE;
   payload: string;
 }
 
-export interface ReceiveShare {
-  type: constants.RECEIVE_SHARE;
-  payload: ShareDetail | null;
+export interface RequestContent {
+  type: constants.REQUEST_CONTENT;
+  payload: string;
 }
 
-export type KnownActions = RequestShare | ReceiveShare;
+export interface ReciveData {
+  type: constants.RECEIVE_DATA;
+  payload: string;
+}
+
+export type KnownActions = RequestShare | RequestContent | ReciveData;
 
 export function requestShare(server: string, token: string) {
   return (dispatch: (action: {}) => void) => {
@@ -23,16 +34,33 @@ export function requestShare(server: string, token: string) {
     let authClient = new AuthClient(server, 'dev');
     let publicAccessClient = new PublicAccessClient(authClient);
     publicAccessClient.getShare(token).then((share) => {
-      dispatch(receiveShare(share));
-    }).catch(() => {
-      dispatch(receiveShare(null));
+      dispatch(receiveData(JSON.stringify(share, null, 2)));
+    }).catch(error => {
+      dispatch(receiveData('Error: \n\n' + JSON.stringify(error, null, 2)));
     });
   };
 }
 
-export function receiveShare(share: ShareDetail | null): ReceiveShare {
+export function requestContent(server: string, token: string, accessToken: string) {
+  return (dispatch: (action: {}) => void) => {
+    dispatch({
+      type: constants.REQUEST_SHARE,
+      payload: token
+    });
+
+    let authClient = new AccessTokenAuthClient(server, 'dev', accessToken);
+    let contentClient = new ContentClient(authClient);
+    contentClient.get(token, true).then(content => {
+      dispatch(receiveData(JSON.stringify(content, null, 2)));
+    }).catch(error => {
+      dispatch(receiveData('Error: \n\n' + JSON.stringify(error, null, 2)));
+    });
+  };
+}
+
+export function receiveData(data: string): ReciveData {
   return {
-    type: constants.RECEIVE_SHARE,
-    payload: share
+    type: constants.RECEIVE_DATA,
+    payload: data
   };
 }

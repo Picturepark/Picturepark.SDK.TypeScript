@@ -26,7 +26,7 @@
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        get(contentId: string, resolve: boolean, patterns: DisplayPatternType[] | null | undefined): Promise<ContentDetail | null>;
+        get(contentId: string, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail | null>;
         protected processGet(response: Response): Promise<ContentDetail | null>;
         /**
          * Get detail - many
@@ -35,7 +35,7 @@
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return List of ContentDetail
          */
-        getMany(ids: string[] | null, resolve: boolean, patterns: DisplayPatternType[] | null | undefined): Promise<ContentDetail[]>;
+        getMany(ids: string[] | null, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail[]>;
         protected processGetMany(response: Response): Promise<ContentDetail[]>;
         /**
          * Search
@@ -83,7 +83,7 @@
          * @range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
          * @return HttpResponseMessage
          */
-        download(contentId: string, outputFormatId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Promise<FileResponse>;
+        download(contentId: string, outputFormatId: string, width?: number | null | undefined, height?: number | null | undefined, range?: string | null | undefined): Promise<FileResponse>;
         protected processDownload(response: Response): Promise<FileResponse>;
         /**
          * Download thumbnail
@@ -93,7 +93,7 @@
          * @height (optional) Optional height in pixels to resize image
          * @return HttpResponseMessage
          */
-        downloadThumbnail(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Promise<FileResponse>;
+        downloadThumbnail(contentId: string, size: ThumbnailSize, width?: number | null | undefined, height?: number | null | undefined): Promise<FileResponse>;
         protected processDownloadThumbnail(response: Response): Promise<FileResponse>;
         /**
          * Create - single
@@ -102,7 +102,7 @@
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          */
-        createContent(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        createContent(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processCreateContent(response: Response): Promise<ContentDetail>;
         /**
          * Deactivate - single
@@ -126,7 +126,7 @@
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        reactivate(contentId: string, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processReactivate(response: Response): Promise<ContentDetail>;
         /**
          * Reactivate - many
@@ -151,7 +151,7 @@
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processUpdateMetadata(response: Response): Promise<ContentDetail>;
         /**
          * Update metadata - many
@@ -176,7 +176,7 @@
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processUpdatePermissions(response: Response): Promise<ContentDetail>;
         /**
          * Update permissions - many
@@ -192,7 +192,7 @@
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @return ContentDetail
          */
-        transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: string | null | undefined): Promise<ContentDetail>;
+        transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout?: string | null | undefined): Promise<ContentDetail>;
         protected processTransferOwnership(response: Response): Promise<ContentDetail>;
         /**
          * Transfer ownership - many
@@ -224,7 +224,7 @@
          * @timeout (optional) The timeout to wait for completion.
          * @return BusinessProcessWaitResult
          */
-        wait(processId: string, states: string[] | null | undefined, lifeCycleIds: BusinessProcessLifeCycle[] | null | undefined, timeout: string | null | undefined): Promise<BusinessProcessWaitResult>;
+        wait(processId: string, states?: string[] | null | undefined, lifeCycleIds?: BusinessProcessLifeCycle[] | null | undefined, timeout?: string | null | undefined): Promise<BusinessProcessWaitResult>;
         protected processWait(response: Response): Promise<BusinessProcessWaitResult>;
         /**
          * Wait for completion
@@ -232,7 +232,7 @@
          * @timeout (optional) The timeout to wait for completion.
          * @return BusinessProcessWaitResult
          */
-        waitForCompletion(processId: string, timeout: string | null | undefined): Promise<BusinessProcessWaitResult>;
+        waitForCompletion(processId: string, timeout?: string | null | undefined): Promise<BusinessProcessWaitResult>;
         protected processWaitForCompletion(response: Response): Promise<BusinessProcessWaitResult>;
         /**
          * Get details
@@ -317,7 +317,7 @@
          * @resolve Resolves the data of referenced list items into the list item's content.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          */
-        get(listItemId: string, resolve: boolean, patterns: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        get(listItemId: string, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processGet(response: Response): Promise<ListItemDetail>;
         /**
          * Update - single
@@ -328,14 +328,14 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processUpdate(response: Response): Promise<ListItemDetail>;
         /**
          * Delete - single
          * @listItemId The list item id.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          */
-        delete(listItemId: string, timeout: string | null | undefined): Promise<void>;
+        delete(listItemId: string, timeout?: string | null | undefined): Promise<void>;
         protected processDelete(response: Response): Promise<void>;
         /**
          * Search
@@ -359,7 +359,7 @@
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processCreate(response: Response): Promise<ListItemDetail>;
         /**
          * Create - many
@@ -380,7 +380,7 @@
          * @ids (optional) The list item id list.
          * @return BusinessProcess
          */
-        deleteMany(ids: string[] | null | undefined): Promise<BusinessProcess>;
+        deleteMany(ids?: string[] | null | undefined): Promise<BusinessProcess>;
         protected processDeleteMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update fields
@@ -446,7 +446,7 @@
          * @ids (optional) Comma separated list of schema ids
          * @return SchemaDetail
          */
-        getMany(ids: string[] | null | undefined): Promise<SchemaDetail[]>;
+        getMany(ids?: string[] | null | undefined): Promise<SchemaDetail[]>;
         protected processGetMany(response: Response): Promise<SchemaDetail[]>;
         /**
          * Create - single
@@ -468,7 +468,7 @@
          * @fieldId (optional) The optional field id.
          * @return ExistsResponse
          */
-        exists(schemaId: string, fieldId: string | null | undefined): Promise<ExistsResponse>;
+        exists(schemaId: string, fieldId?: string | null | undefined): Promise<ExistsResponse>;
         protected processExists(response: Response): Promise<ExistsResponse>;
     }
     export class PermissionClient extends PictureparkClientBase {
@@ -694,7 +694,7 @@
          * @totalSize (optional) Total size in bytes of the uploading file
          * @totalChunks (optional) Total chunks of the uploading file
          */
-        uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null | undefined, chunkNumber: number | undefined, currentChunkSize: number | undefined, totalSize: number | undefined, totalChunks: number | undefined, transferId: string, identifier: string): Promise<void>;
+        uploadFile(transferId: string, identifier: string, formFile?: FileParameter | null | undefined, relativePath?: string | null | undefined, chunkNumber?: number | undefined, currentChunkSize?: number | undefined, totalSize?: number | undefined, totalChunks?: number | undefined): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
     }
     export class UserClient extends PictureparkClientBase {

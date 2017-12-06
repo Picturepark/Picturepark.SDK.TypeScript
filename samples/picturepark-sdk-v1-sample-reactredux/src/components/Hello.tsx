@@ -1,26 +1,36 @@
 import * as React from 'react';
 import './Hello.css';
-import { ShareDetail } from '@picturepark/sdk-v1-fetch';
+import { ContentDetail } from '@picturepark/sdk-v1-fetch';
 import { StoreState } from '../types/index';
 
 export interface Props {
   loading?: boolean;
-  share?: ShareDetail | null;
+  data?: string;
+
+  server?: string;
+  accessToken?: string;
+
   requestShare?: (server: string, token: string) => void;
+  requestContent?: (server: string, token: string, accessToken: string) => void;
 }
 
 class Hello extends React.Component<Props, StoreState> {
   constructor() {
     super();
     this.state = {
-      server: 'https://devnext-api.preview-picturepark.com',
       token: ''
     };
   }
 
   requestShare() {
-    if (this.props.requestShare && this.state.server && this.state.token) {
-      this.props.requestShare(this.state.server, this.state.token);
+    if (this.props.requestShare && this.props.server && this.state.token) {
+      this.props.requestShare(this.props.server, this.state.token);
+    }
+  }
+
+  requestContent() {
+    if (this.props.requestContent && this.props.server && this.state.token && this.props.accessToken) {
+      this.props.requestContent(this.props.server, this.state.token, this.props.accessToken);
     }
   }
 
@@ -35,28 +45,32 @@ class Hello extends React.Component<Props, StoreState> {
       <div className="hello">
         <div>
           <label>Server:</label><br />
-          <input name="server" 
-                 value={this.state.server} 
-                 onChange={this.handleChange.bind(this)}
-                 style={{'width': '100%'}} />
+          {this.props.server}
         </div>
         <div>
-          <label>Token:</label><br />
+          <label>ID:</label><br />
           <input name="token"
-                 value={this.state.token} 
-                 onChange={this.handleChange.bind(this)}
-                 style={{"width": "100%"}} />
+            value={this.state.token}
+            onChange={this.handleChange.bind(this)}
+            style={{ "width": "100%" }} />
           <br />
         </div>
-        <div>
-          <button onClick={this.requestShare.bind(this)}>Load share</button>
-        </div>
+        <p>
+        <button onClick={this.requestShare.bind(this)}>Load share</button>
+        <button onClick={this.requestContent.bind(this)}>Load content</button>
+        </p>
         <div className="greeting">
-          Loading: {this.props.loading ? 'true' : 'false'}<br />
-          JSON: <br />
+          <strong>Access Token: </strong><br />
+          {this.props.accessToken ? this.props.accessToken.substr(0, 10) + '...' : 'n/a'}<br />
+          <br />
+
+          <strong>Loading: </strong>{this.props.loading ? 'true' : 'false'}<br />
+          <br />
+
+          <strong>JSON: </strong>
         </div>
         <pre>
-          {this.props.share !== undefined ? JSON.stringify(this.props.share, null, 2) : 'n/a'}
+          {this.props.data !== undefined ? this.props.data : 'n/a'}
         </pre>
       </div>
     );
