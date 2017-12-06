@@ -1,11 +1,11 @@
 import * as React from 'react';
 import './Hello.css';
-import { ShareEmbedDetailViewItem } from '@picturepark/sdk-v1-fetch';
-import { StoreState } from "../types/index";
+import { ShareDetail } from '@picturepark/sdk-v1-fetch';
+import { StoreState } from '../types/index';
 
 export interface Props {
   loading?: boolean;
-  share?: ShareEmbedDetailViewItem | null;
+  share?: ShareDetail | null;
   requestShare?: (server: string, token: string) => void;
 }
 
@@ -13,7 +13,7 @@ class Hello extends React.Component<Props, StoreState> {
   constructor() {
     super();
     this.state = {
-      server: 'https://qanext04.preview-picturepark.com',
+      server: 'https://devnext-api.preview-picturepark.com',
       token: ''
     };
   }

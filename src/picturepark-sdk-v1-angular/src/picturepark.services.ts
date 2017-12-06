@@ -77,7 +77,7 @@ export class ContentService extends PictureparkServiceBase {
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
      * @return ContentDetail
      */
-    get(contentId: string, resolve: boolean, patterns: DisplayPatternType[] | null): Observable<ContentDetail | null> {
+    get(contentId: string, resolve: boolean, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail | null> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -166,7 +166,7 @@ export class ContentService extends PictureparkServiceBase {
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
      * @return List of ContentDetail
      */
-    getMany(ids: string[] | null, resolve: boolean, patterns: DisplayPatternType[] | null): Observable<ContentDetail[]> {
+    getMany(ids: string[] | null, resolve: boolean, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail[]> {
         let url_ = this.baseUrl + "/v1/contents/many?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
@@ -633,7 +633,7 @@ export class ContentService extends PictureparkServiceBase {
      * @range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
      * @return HttpResponseMessage
      */
-    download(contentId: string, outputFormatId: string, width: number | null, height: number | null, range: string | null): Observable<FileResponse> {
+    download(contentId: string, outputFormatId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/v1/contents/downloads/{contentId}/{outputFormatId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -725,7 +725,7 @@ export class ContentService extends PictureparkServiceBase {
      * @height (optional) Optional height in pixels to resize image
      * @return HttpResponseMessage
      */
-    protected downloadThumbnailCore(contentId: string, size: ThumbnailSize, width: number | null, height: number | null): Observable<FileResponse> {
+    protected downloadThumbnailCore(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/v1/contents/thumbnails/{contentId}/{size}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -810,7 +810,7 @@ export class ContentService extends PictureparkServiceBase {
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
      */
-    createContent(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout: string | null, patterns: DisplayPatternType[] | null): Observable<ContentDetail> {
+    createContent(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents?";
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
@@ -1057,7 +1057,7 @@ export class ContentService extends PictureparkServiceBase {
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
      * @return ContentDetail
      */
-    reactivate(contentId: string, resolve: boolean, timeout: string | null, patterns: DisplayPatternType[] | null): Observable<ContentDetail> {
+    reactivate(contentId: string, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/reactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1301,7 +1301,7 @@ export class ContentService extends PictureparkServiceBase {
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
      * @return ContentDetail
      */
-    updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, timeout: string | null, patterns: DisplayPatternType[] | null): Observable<ContentDetail> {
+    updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/metadata?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1545,7 +1545,7 @@ export class ContentService extends PictureparkServiceBase {
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
      * @return ContentDetail
      */
-    updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolve: boolean, timeout: string | null, patterns: DisplayPatternType[] | null): Observable<ContentDetail> {
+    updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/permissions?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1713,7 +1713,7 @@ export class ContentService extends PictureparkServiceBase {
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @return ContentDetail
      */
-    transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: string | null): Observable<ContentDetail> {
+    transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: string | null | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/ownership/transfer?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1963,7 +1963,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
-    wait(processId: string, states: string[] | null, lifeCycleIds: BusinessProcessLifeCycle[] | null, timeout: string | null): Observable<BusinessProcessWaitResult> {
+    wait(processId: string, states: string[] | null | undefined, lifeCycleIds: BusinessProcessLifeCycle[] | null | undefined, timeout: string | null | undefined): Observable<BusinessProcessWaitResult> {
         let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/wait?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
@@ -2044,7 +2044,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
-    waitForCompletion(processId: string, timeout: string | null): Observable<BusinessProcessWaitResult> {
+    waitForCompletion(processId: string, timeout: string | null | undefined): Observable<BusinessProcessWaitResult> {
         let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/waitCompletion?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
@@ -2694,7 +2694,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @resolve Resolves the data of referenced list items into the list item's content.
      * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
      */
-    get(listItemId: string, resolve: boolean, patterns: DisplayPatternType[] | null): Observable<ListItemDetail> {
+    get(listItemId: string, resolve: boolean, patterns: DisplayPatternType[] | null | undefined): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -2785,7 +2785,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
      * @return ListItemDetail
      */
-    update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: string | null, patterns: DisplayPatternType[] | null): Observable<ListItemDetail> {
+    update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -2870,7 +2870,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @listItemId The list item id.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      */
-    delete(listItemId: string, timeout: string | null): Observable<void> {
+    delete(listItemId: string, timeout: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -3100,7 +3100,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
      * @return ListItemDetail
      */
-    create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout: string | null, patterns: DisplayPatternType[] | null): Observable<ListItemDetail> {
+    create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems?";
         if (resolve === undefined || resolve === null)
             throw new Error("The parameter 'resolve' must be defined and cannot be null.");
@@ -3337,7 +3337,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @ids (optional) The list item id list.
      * @return BusinessProcess
      */
-    deleteMany(ids: string[] | null): Observable<BusinessProcess> {
+    deleteMany(ids: string[] | null | undefined): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/many?";
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
@@ -3912,7 +3912,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @ids (optional) Comma separated list of schema ids
      * @return SchemaDetail
      */
-    getMany(ids: string[] | null): Observable<SchemaDetail[]> {
+    getMany(ids: string[] | null | undefined): Observable<SchemaDetail[]> {
         let url_ = this.baseUrl + "/v1/schemas?";
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
@@ -4145,7 +4145,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @fieldId (optional) The optional field id.
      * @return ExistsResponse
      */
-    exists(schemaId: string, fieldId: string | null): Observable<ExistsResponse> {
+    exists(schemaId: string, fieldId: string | null | undefined): Observable<ExistsResponse> {
         let url_ = this.baseUrl + "/v1/schemas/{schemaId}/exists?";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
@@ -6235,7 +6235,7 @@ export class TransferService extends PictureparkServiceBase {
      * @totalSize (optional) Total size in bytes of the uploading file
      * @totalChunks (optional) Total chunks of the uploading file
      */
-    uploadFile(formFile: FileParameter | null, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Observable<void> {
+    uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null | undefined, chunkNumber: number | undefined, currentChunkSize: number | undefined, totalSize: number | undefined, totalChunks: number | undefined, transferId: string, identifier: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{identifier}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
