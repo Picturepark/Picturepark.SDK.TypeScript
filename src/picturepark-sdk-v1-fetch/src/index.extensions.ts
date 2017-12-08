@@ -8,10 +8,30 @@ export class AuthClient {
 
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
     if (options.headers && this.customerAlias) {
-      options.headers.set('Picturepark-CustomerAlias', this.customerAlias);
+      (<Headers>options.headers).set('Picturepark-CustomerAlias', this.customerAlias);
     }
 
     return Promise.resolve(options);
+  }
+}
+
+export class OidcClientSettings {
+  static create(settings: { serverUrl: string, stsServerUrl: string, clientId: string, customerAlias: string, 
+    customerId: string, scope: string, redirectServerUrl?: string, logoutServerUrl?: string }) {
+    
+    return {
+      client_id: settings.clientId,
+      scope: settings.scope,
+      authority: settings.stsServerUrl,
+      response_type: "id_token token",
+      filterProtocolClaims: true,
+      loadUserInfo: true,
+      redirect_uri: settings.redirectServerUrl ? settings.redirectServerUrl : settings.serverUrl + '/auth-callback',
+      post_logout_redirect_uri: settings.logoutServerUrl ? settings.logoutServerUrl : settings.serverUrl,
+      acr_values: 'tenant:{"id":"' +
+        settings.customerId + '","alias":"' +
+        settings.customerAlias + '"}'
+    }
   }
 }
 
@@ -21,10 +41,8 @@ export class AccessTokenAuthClient extends AuthClient {
   }
 
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
-    if (options.headers) {
-      if (this.accessToken) {
-        options.headers.set('Authorization', 'Bearer ' + this.accessToken);
-      }
+    if (options.headers && this.accessToken) {
+      (<Headers>options.headers).set('Authorization', 'Bearer ' + this.accessToken);
     }
 
     return super.transformHttpRequestOptions(options);
@@ -32,15 +50,15 @@ export class AccessTokenAuthClient extends AuthClient {
 }
 
 export class PictureparkClientBase {
-    constructor(private authClient: AuthClient) {
+  constructor(private authClient: AuthClient) {
 
-    }
+  }
 
-    getBaseUrl(defaultUrl: string) {
-        return this.authClient ? this.authClient.getBaseUrl(defaultUrl) : defaultUrl;        
-    }
+  getBaseUrl(defaultUrl: string) {
+    return this.authClient ? this.authClient.getBaseUrl(defaultUrl) : defaultUrl;
+  }
 
-    transformOptions(options: RequestInit): Promise<RequestInit> {
-        return this.authClient ? this.authClient.transformHttpRequestOptions(options) : Promise.resolve(options);
-    }
+  transformOptions(options: RequestInit): Promise<RequestInit> {
+    return this.authClient ? this.authClient.transformHttpRequestOptions(options) : Promise.resolve(options);
+  }
 }

@@ -90,6 +90,60 @@ Token based authentication to access the Picturepark API
 
     let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
 
+**Authenticate with OIDC implicit flow**
+
+For authenticating with the OIDC implicit flow, we use the JavaScript library [oidc-client](https://github.com/IdentityModel/oidc-client-js): 
+
+```
+npm install oidc-client
+```
+
+In JavaScript/TypeScript we import the Picturepark OIDC settings helper, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager`:
+
+```typescript
+import { OidcClientSettings, AccessTokenAuthClient, ContentClient } from '@picturepark/sdk-v1-fetch';
+import { UserManager } from 'oidc-client';
+```
+
+Now, we can initialize the settings: 
+
+```typescript
+let serverUrl = 'http://localhost:3000';
+let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
+let customerAlias = 'dev';
+
+let oidcSettings = OidcClientSettings.create({
+  serverUrl: serverUrl,
+  stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
+  clientId: 'TestRico',
+  customerAlias: customerAlias,
+  customerId: 'e852e2c209f0438bbf963b862d2ef1fa',
+  scope: 'openid profile picturepark_api all_scopes'
+});
+```
+
+With the created `oidcSettings` we can initialize a oidc-client `UserManager` and try to process the redirect callback with `signinRedirectCallback`. If this call fails we call `signinRedirect` which redirects the browser to the login page: 
+
+```typescript
+let manager = new UserManager(oidcSettings);
+manager.signinRedirectCallback(window.location.href).then(user => {
+  ...
+}, error => {
+  manager.signinRedirect();
+});
+```
+
+In the successful callback of `signinRedirectCallback` we get a `User` instance where we can read the access token to use in the `AccessTokenAuthClient`: 
+
+```typescript
+let authClient = new AccessTokenAuthClient(apiServerUrl, customerAlias, user.access_token);
+
+let contentClient = new ContentClient(authClient);
+contentClient.get('myContentId', true).then(content => {
+  ...
+});
+```
+
 ### Sample application
 
 - [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)

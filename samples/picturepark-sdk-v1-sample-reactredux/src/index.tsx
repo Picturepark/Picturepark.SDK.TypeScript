@@ -8,6 +8,7 @@ import Hello from './containers/Hello';
 import { enthusiasm } from './reducers/index';
 import { StoreState } from './types/index';
 
+import { OidcClientSettings } from '@picturepark/sdk-v1-fetch';
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 
 import './index.css';
@@ -15,27 +16,17 @@ import './index.css';
 // Authenticate
 let serverUrl = 'http://localhost:3000';
 let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
-let stsServerUrl = 'https://devnext-identity.preview-picturepark.com';
-let customerAlias = 'dev';
-let customerId = 'e852e2c209f0438bbf963b862d2ef1fa';
-let clientId = 'TestRico';
-let scope = 'openid profile picturepark_api all_scopes';
 
-let settings = {
-  client_id: clientId,
-  scope: scope,
-  authority: stsServerUrl,
-  response_type: "id_token token",
-  filterProtocolClaims: true,
-  loadUserInfo: true,
-  redirect_uri: serverUrl + '/auth-callback',
-  post_logout_redirect_uri: serverUrl,
-  acr_values: 'tenant:{"id":"' +
-    customerId + '","alias":"' +
-    customerAlias + '"}'
-} as UserManagerSettings;
+let oidcSettings = OidcClientSettings.create({
+  serverUrl: serverUrl,
+  stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
+  clientId: 'TestRico',
+  customerAlias: 'dev',
+  customerId: 'e852e2c209f0438bbf963b862d2ef1fa',
+  scope: 'openid profile picturepark_api all_scopes'
+});
 
-let manager = new UserManager(settings);
+let manager = new UserManager(oidcSettings);
 manager.signinRedirectCallback(window.location.href).then(user => {
   let initialState = { 
     server: apiServerUrl,    

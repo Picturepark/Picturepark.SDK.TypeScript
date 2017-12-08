@@ -16,7 +16,7 @@ export class AuthClient {
 
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
     if (options.headers && this.customerAlias) {
-      options.headers.set('Picturepark-CustomerAlias', this.customerAlias);
+      (<Headers>options.headers).set('Picturepark-CustomerAlias', this.customerAlias);
     }
 
     return Promise.resolve(options);
@@ -9650,12 +9650,28 @@ export class AccessTokenAuthClient extends AuthClient {
   }
 
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
-    if (options.headers) {
-      if (this.accessToken) {
-        options.headers.set('Authorization', 'Bearer ' + this.accessToken);
-      }
+    if (options.headers && this.accessToken) {
+      (<Headers>options.headers).set('Authorization', 'Bearer ' + this.accessToken);
     }
 
     return super.transformHttpRequestOptions(options);
+  }
+}
+
+export class OidcClientSettings {
+  static create(settings: { serverUrl: string, stsServerUrl: string, clientId: string, customerAlias: string, customerId: string, scope: string }) {
+    return {
+      client_id: settings.clientId,
+      scope: settings.scope,
+      authority: settings.stsServerUrl,
+      response_type: "id_token token",
+      filterProtocolClaims: true,
+      loadUserInfo: true,
+      redirect_uri: settings.serverUrl + '/auth-callback',
+      post_logout_redirect_uri: settings.serverUrl,
+      acr_values: 'tenant:{"id":"' +
+        settings.customerId + '","alias":"' +
+        settings.customerAlias + '"}'
+    }
   }
 }

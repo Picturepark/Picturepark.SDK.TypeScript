@@ -4494,4 +4494,24 @@ declare module "picturepark" {
         constructor(pictureparkApiUrl: string, customerAlias: string, accessToken: string);
         transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
     }
+    export class OidcClientSettings {
+        static create(settings: {
+            serverUrl: string;
+            stsServerUrl: string;
+            clientId: string;
+            customerAlias: string;
+            customerId: string;
+            scope: string;
+        }): {
+            client_id: string;
+            scope: string;
+            authority: string;
+            response_type: string;
+            filterProtocolClaims: boolean;
+            loadUserInfo: boolean;
+            redirect_uri: string;
+            post_logout_redirect_uri: string;
+            acr_values: string;
+        };
+    }
 }
