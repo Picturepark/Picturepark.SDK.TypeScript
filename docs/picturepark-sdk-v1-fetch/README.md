@@ -39,6 +39,8 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
     npm run start:fetch
 
+## Usage
+
 ### Usage of the global module
 
 Load the script in your website: 
@@ -74,7 +76,7 @@ let authClient = new AuthClient('https://my-picturepark-server.com', 'yourCustom
 let publicAccessClient = new PublicAccessClient(authClient);
 ```
 
-### Authentication
+## Authentication
 
 The fetch client currently supports two authentication modes: 
 
@@ -90,7 +92,7 @@ Token based authentication to access the Picturepark API
 
     let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
 
-**Authenticate with OIDC implicit flow**
+### Authenticate with OIDC implicit flow
 
 For authenticating with the OIDC implicit flow, you can use the JavaScript library [oidc-client](https://github.com/IdentityModel/oidc-client-js): 
 
@@ -144,6 +146,8 @@ contentClient.get('myContentId', true).then(content => {
 });
 ```
 
-### Sample application
+This implementation can also be found in the [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux) sample.
+
+## Sample application
 
 - [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)
