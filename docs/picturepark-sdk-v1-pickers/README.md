@@ -19,7 +19,12 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
     npm run start:pickers
 
-### Usage
+### Browser support
+
+- pictureparkPickers.showContentPicker(): 
+  - Uses [window.postMessage()](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to send messages from the popup to the opener window ([caniuse.com](http://caniuse.com/#feat=x-doc-messaging))
+
+## Usage
 
 Load the required JavaScript library: 
 
@@ -60,9 +65,4 @@ The `result` is undefined if the user clicked cancel or looks like:
     }
   ]
 }
-``` 
-
-### Browser support
-
-- pictureparkPickers.showContentPicker(): 
-  - Uses [window.postMessage()](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to send messages from the popup to the opener window ([caniuse.com](http://caniuse.com/#feat=x-doc-messaging))
+```

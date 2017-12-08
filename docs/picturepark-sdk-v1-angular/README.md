@@ -79,10 +79,10 @@ export class AppComponent implements AfterViewInit {
 
 ```
 
-### Classes
+## Classes
 
 - [AuthService](AuthService.md): Authenticates the user on the Picturepark server.
 
-### Sample
+## Sample
 
 - [picturepark-sdk-v1-sample-angular](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular)

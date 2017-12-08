@@ -41,7 +41,7 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 
 ## Usage
 
-### Usage of the global module
+### Global module
 
 Load the script in your website: 
 
@@ -61,11 +61,13 @@ client.getShare('4rgTsG52').then(function(result) {
 });
 ```
 
-### Usage of the AMD module
+### AMD module
 
 Install the NPM package: 
 
-    npm i @picturepark/sdk-v1-fetch
+```
+npm i @picturepark/sdk-v1-fetch
+```
 
 Import and instantiate the client:
 
@@ -84,13 +86,17 @@ The fetch client currently supports two authentication modes:
 
 No authentication, only public data can be accessed
 
-    let authClient = new AuthClient(server, customerAlias);
+```js
+let authClient = new AuthClient(server, customerAlias);
+```
 
 **AccessTokenAuthClient**
 
 Token based authentication to access the Picturepark API
 
-    let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
+```js
+let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
+```
 
 ### Authenticate with OIDC implicit flow
 

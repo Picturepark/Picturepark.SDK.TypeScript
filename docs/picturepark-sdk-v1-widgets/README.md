@@ -13,7 +13,12 @@ Latest version from master branch (use for development only):
 - [picturepark-widgets.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js)
 - [picturepark-widgets.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.d.ts)
 
-### Usage
+### Browser support
+
+- pictureparkWidgets.processScriptTag(): 
+  - Requires a polyfill for [window.fetch](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) and [Promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) (bundled)
+
+## Usage
 
 **Embed a shared content**
 
@@ -69,12 +74,7 @@ To change the styling and behavior of the widgets, you have the following option
 - Completely disable the generation of CSS classes and provide own classes (using the `data-render-styles` option)
 - Provide own Liquid templates for full control over the styling
 
-### Browser support
-
-- pictureparkWidgets.processScriptTag(): 
-  - Requires a polyfill for [window.fetch](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) and [Promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) (bundled)
-  
-### Samples
+## Samples
 
 To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-widgets/samples) navigate to the root of the repository and run: 
 

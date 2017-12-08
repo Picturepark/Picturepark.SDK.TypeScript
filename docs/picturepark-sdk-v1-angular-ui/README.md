@@ -10,7 +10,7 @@ Dependencies:
 
 The `@picturepark/sdk-v1-angular-ui` package provides common UI components to work with the Picturepark API. 
 
-### Usage
+## Usage
 
 Install the following NPM packages:
 
@@ -41,7 +41,7 @@ export class AppModule { }
 
 The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you do not need the UI components, just install `@picturepark/sdk-v1-angular` and import `PictureparkModule`.
 
-### Components
+## Components
 
 **NPM Package:** @picturepark/sdk-v1-angular-ui
 
@@ -53,6 +53,6 @@ The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you 
 - [pp-search-box](pp-search-box.md)
 - [pp-share-card](pp-share-card.md)
 
-### Sample
+## Sample
 
 - [picturepark-sdk-v1-sample-angular](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular)
