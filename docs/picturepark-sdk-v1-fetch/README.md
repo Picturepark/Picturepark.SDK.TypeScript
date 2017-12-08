@@ -92,22 +92,22 @@ Token based authentication to access the Picturepark API
 
 **Authenticate with OIDC implicit flow**
 
-For authenticating with the OIDC implicit flow, we use the JavaScript library [oidc-client](https://github.com/IdentityModel/oidc-client-js): 
+For authenticating with the OIDC implicit flow, you can use the JavaScript library [oidc-client](https://github.com/IdentityModel/oidc-client-js): 
 
 ```
 npm install oidc-client
 ```
 
-In JavaScript/TypeScript we import the Picturepark OIDC settings helper, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager`:
+For this sample, import the Picturepark OIDC settings helper, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
 
-```typescript
+```js
 import { OidcClientSettings, AccessTokenAuthClient, ContentClient } from '@picturepark/sdk-v1-fetch';
 import { UserManager } from 'oidc-client';
 ```
 
-Now, we can initialize the settings: 
+Initialize the settings: 
 
-```typescript
+```js
 let serverUrl = 'http://localhost:3000';
 let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
 let customerAlias = 'dev';
@@ -122,9 +122,9 @@ let oidcSettings = OidcClientSettings.create({
 });
 ```
 
-With the created `oidcSettings` we can initialize a oidc-client `UserManager` and try to process the redirect callback with `signinRedirectCallback`. If this call fails we call `signinRedirect` which redirects the browser to the login page: 
+With the created `oidcSettings` you can initialize an oidc-client `UserManager` and try to process the redirect callback with `signinRedirectCallback`. If this call fails call `signinRedirect` which redirects the browser to the login page: 
 
-```typescript
+```js
 let manager = new UserManager(oidcSettings);
 manager.signinRedirectCallback(window.location.href).then(user => {
   ...
@@ -133,9 +133,9 @@ manager.signinRedirectCallback(window.location.href).then(user => {
 });
 ```
 
-In the successful callback of `signinRedirectCallback` we get a `User` instance where we can read the access token to use in the `AccessTokenAuthClient`: 
+In the successful callback of `signinRedirectCallback` you get a `User` instance where you can read the access token to use with the `AccessTokenAuthClient`: 
 
-```typescript
+```js
 let authClient = new AccessTokenAuthClient(apiServerUrl, customerAlias, user.access_token);
 
 let contentClient = new ContentClient(authClient);
