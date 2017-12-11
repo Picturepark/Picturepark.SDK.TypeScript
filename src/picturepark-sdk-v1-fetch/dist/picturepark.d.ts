@@ -4489,11 +4489,6 @@ declare module "picturepark" {
         protected isSwaggerException: boolean;
         static isSwaggerException(obj: any): obj is SwaggerException;
     }
-    export class AccessTokenAuthClient extends AuthClient {
-        private accessToken;
-        constructor(pictureparkApiUrl: string, customerAlias: string, accessToken: string);
-        transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
-    }
     export class OidcClientSettings {
         static create(settings: {
             serverUrl: string;
@@ -4502,6 +4497,8 @@ declare module "picturepark" {
             customerAlias: string;
             customerId: string;
             scope: string;
+            redirectServerUrl?: string;
+            logoutServerUrl?: string;
         }): {
             client_id: string;
             scope: string;
@@ -4513,5 +4510,10 @@ declare module "picturepark" {
             post_logout_redirect_uri: string;
             acr_values: string;
         };
+    }
+    export class AccessTokenAuthClient extends AuthClient {
+        private accessToken;
+        constructor(pictureparkApiUrl: string, customerAlias: string, accessToken: string);
+        transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
     }
 }
