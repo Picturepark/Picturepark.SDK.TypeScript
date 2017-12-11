@@ -88,7 +88,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#documenttype" class="tsd-kind-icon">document<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#documentversion" class="tsd-kind-icon">document<wbr>Version</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#from" class="tsd-kind-icon">from</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorysearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
@@ -107,9 +106,14 @@
 					<div class="tsd-signature tsd-kind-icon">document<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1659</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1673</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the search to a specific document id. E.g. ContentId</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="documenttype" class="tsd-anchor"></a>
@@ -117,9 +121,14 @@
 					<div class="tsd-signature tsd-kind-icon">document<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1661</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1677</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the search to a specifc document type.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="documentversion" class="tsd-anchor"></a>
@@ -127,9 +136,14 @@
 					<div class="tsd-signature tsd-kind-icon">document<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1660</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1675</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The document version to search. Default to -1 to not limit to a specific document version.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="from" class="tsd-anchor"></a>
@@ -137,19 +151,14 @@
 					<div class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1653</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1663</li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1658</li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the start date of the search request. Default to last 1 year.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="limit" class="tsd-anchor"></a>
@@ -157,9 +166,14 @@
 					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1656</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1669</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the document count of the result set. Defaults to 30.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="pagetoken" class="tsd-anchor"></a>
@@ -167,9 +181,14 @@
 					<div class="tsd-signature tsd-kind-icon">page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1657</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1671</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>To get a large amount of data, page token returned from the response can be used to get all data.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="sort" class="tsd-anchor"></a>
@@ -177,9 +196,14 @@
 					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.sortinfo.html" class="tsd-signature-type">SortInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1662</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1679</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Sorts the search results. Sorting on a not indexed field will throw an exception.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="start" class="tsd-anchor"></a>
@@ -187,9 +211,14 @@
 					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1655</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1667</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines the offset from the first result you want to fetch. Defaults to 0.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="to" class="tsd-anchor"></a>
@@ -197,9 +226,14 @@
 					<div class="tsd-signature tsd-kind-icon">to<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1654</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1665</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the end date of the search request. Default to now.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -232,9 +266,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.documenthistorysearchrequest.html#from" class="tsd-kind-icon">from</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.documenthistorysearchrequest.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.documenthistorysearchrequest.html#limit" class="tsd-kind-icon">limit</a>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>UpdateContentPermissionsRequest | picturepark-sdk-v1-fetch API</title>
+	<title>ContentMetadataUpdateRequest | picturepark-sdk-v1-fetch API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_picturepark_.html">&quot;picturepark&quot;</a>
 				</li>
 				<li>
-					<a href="_picturepark_.updatecontentpermissionsrequest.html">UpdateContentPermissionsRequest</a>
+					<a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>
 				</li>
 			</ul>
-			<h1>Interface UpdateContentPermissionsRequest</h1>
+			<h1>Interface ContentMetadataUpdateRequest</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">UpdateContentPermissionsRequest</span>
+						<span class="target">ContentMetadataUpdateRequest</span>
 					</li>
 				</ul>
 			</section>
@@ -84,8 +84,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.updatecontentpermissionsrequest.html#contentid" class="tsd-kind-icon">content<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.updatecontentpermissionsrequest.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmetadataupdaterequest.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmetadataupdaterequest.html#metadata" class="tsd-kind-icon">metadata</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmetadataupdaterequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,12 +95,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1438</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1525</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -109,17 +110,32 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentpermissionsetids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Permission<wbr>Set<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="metadata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
+					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.datadictionary.html" class="tsd-signature-type">DataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1440</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1529</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional id list of content permission sets. Controls content accessibility outside of content ownership.</p>
+							<p>The dynamic data structure matching the field schematics of the schemas with schema type content or layer.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="schemaids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schema<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:1527</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An id list of schemas with schema type content or layer.</p>
 						</div>
 					</div>
 				</section>
@@ -141,13 +157,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_picturepark_.updatecontentpermissionsrequest.html" class="tsd-kind-icon">Update<wbr>Content<wbr>Permissions<wbr>Request</a>
+						<a href="_picturepark_.contentmetadataupdaterequest.html" class="tsd-kind-icon">Content<wbr>Metadata<wbr>Update<wbr>Request</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.updatecontentpermissionsrequest.html#contentid" class="tsd-kind-icon">content<wbr>Id</a>
+								<a href="_picturepark_.contentmetadataupdaterequest.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.updatecontentpermissionsrequest.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a>
+								<a href="_picturepark_.contentmetadataupdaterequest.html#metadata" class="tsd-kind-icon">metadata</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentmetadataupdaterequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a>
 							</li>
 						</ul>
 					</li>
