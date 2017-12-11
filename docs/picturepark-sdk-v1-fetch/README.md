@@ -152,7 +152,7 @@ contentClient.get('myContentId', true).then(content => {
 });
 ```
 
-This implementation can also be found in the [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux) sample.
+This implementation can also be found in the [picturepark-sdk-v1-sample-reactredux/src/index.tsx](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/samples/picturepark-sdk-v1-sample-reactredux/src/index.tsx) sample.
 
 ## Sample application
 
