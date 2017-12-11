@@ -22,7 +22,7 @@ let oidcSettings = OidcClientSettings.create({
   stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
   clientId: 'TestRico',
   customerAlias: 'dev',
-  customerId: 'e852e2c209f0438bbf963b862d2ef1fa',
+  customerId: 'cf4d022873314272b5abde61164197ca',
   scope: 'openid profile picturepark_api all_scopes'
 });
 
@@ -46,5 +46,6 @@ manager.signinRedirectCallback(window.location.href).then(user => {
     document.getElementById('root') as HTMLElement
   );
 }, error => {
+  // Redirect to STS server
   manager.signinRedirect();
 });
