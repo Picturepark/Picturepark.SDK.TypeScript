@@ -12,7 +12,7 @@ Links:
 
 ## Projects
 
-### JavaScript
+### Vanilla JavaScript and TypeScript
 
 **[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
 
