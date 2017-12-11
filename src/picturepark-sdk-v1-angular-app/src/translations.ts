@@ -47,6 +47,10 @@ export let TRANSLATIONS = {
       en: 'File extension',
       de: 'Dateiendung'
     },
+    LabelFileSize: {
+      en: 'File size',
+      de: 'Dateigrösse'
+    },
     LabelSize: {
       en: 'Size',
       de: 'Grösse'

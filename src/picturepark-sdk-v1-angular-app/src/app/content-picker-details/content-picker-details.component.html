@@ -13,6 +13,9 @@
       <dt>{{'ContentPickerDetails.LabelFileExtension' | pptranslate}}</dt>
       <dd>{{content.content.fileExtension}}</dd>
 
+      <dt>{{'ContentPickerDetails.LabelFileSize' | pptranslate}}</dt>
+      <dd>{{content.content.fileSizeInBytes | filesize}}</dd>
+
       <ng-container *ngIf="content.content.kind === 'ImageMetadata'">
         <dt>{{'ContentPickerDetails.LabelSize' | pptranslate}}</dt>
         <dd>{{content.content.width}}px x {{content.content.height}}px</dd>

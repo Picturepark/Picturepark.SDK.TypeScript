@@ -18,6 +18,7 @@ import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 import { PictureparkOidcModule, PictureparkOidcAuthConfiguration } from '@picturepark/sdk-v1-angular-oidc';
 import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
 import { EmbedService } from './embed.service';
+import { FileSizePipe } from 'app/pipes/filesize.pipe';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
@@ -44,7 +45,8 @@ export function PictureparkConfigurationFactory() {
     ShareCardComponent,
     ContentPickerComponent,
     ContentPickerDetailsComponent,
-    TranslatePipe
+    TranslatePipe,
+    FileSizePipe
   ],
   imports: [
     BrowserModule,

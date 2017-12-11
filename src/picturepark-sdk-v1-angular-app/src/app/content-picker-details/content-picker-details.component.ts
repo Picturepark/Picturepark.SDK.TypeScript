@@ -43,6 +43,8 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
     }
 
     window.addEventListener('resize', this.onWindowResized, false);
+    document.addEventListener('keydown', this.onKeyDown, false);
+
     this.recalculateSizes();
   }
 
@@ -122,11 +124,21 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
 
   ngOnDestroy() {
     window.removeEventListener('resize', this.onWindowResized, false);
+    document.removeEventListener('keydown', this.onKeyDown, false);
   }
 
   onWindowResized = () => {
     this.recalculateSizes();
   };
+
+  onKeyDown = (e: KeyboardEvent) => {
+    if (e.target instanceof HTMLBodyElement && e.keyCode === 27) {
+      e.cancelBubble = true;
+      e.preventDefault();
+
+      this.back();
+    }
+  }
 
   recalculateSizes() {
     const windowHeight = window.innerHeight;
