@@ -1,5 +1,3 @@
-/// <reference path="es6-promise.d.ts" />
-
 import './promise.min.js';
 
 /** 

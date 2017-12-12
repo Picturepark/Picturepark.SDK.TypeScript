@@ -1,4 +1,4 @@
-declare module "pictureparkPickers" {
+
     
     /**
      * Opens a content picker window to select content items and create an embedded share.
@@ -6,7 +6,7 @@ declare module "pictureparkPickers" {
      * @param serverUrl The URL of the Picturepark server
      * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
      */
-    export function showContentPicker(serverUrl: string): any;
+    export function showContentPicker(serverUrl: string): Promise<IShare>;
     export interface IShare {
         shareId: string;
         items: {
@@ -14,4 +14,5 @@ declare module "pictureparkPickers" {
             url: string;
         }[];
     }
-}
+
+
