@@ -1,4 +1,4 @@
-# Picturepark Content Platform Widgets
+# Picturepark Content Platform TypeScript SDK: Pickers
 
 ## picturepark-sdk-v1-pickers
 

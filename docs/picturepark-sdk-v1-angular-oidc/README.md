@@ -1,4 +1,4 @@
-# Picturepark Content Platform Angular Components
+# Picturepark Content Platform TypeScript SDK: Angular OIDC Authentication
 
 ## picturepark-sdk-v1-angular-oidc
 
