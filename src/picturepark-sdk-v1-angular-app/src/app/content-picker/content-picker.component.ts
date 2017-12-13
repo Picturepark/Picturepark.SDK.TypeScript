@@ -84,6 +84,11 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     this.detailsItemId = item.id;
   }
 
+  closeDetails() {
+    this.detailsItemId = undefined;
+    this.recalculateSizes();
+  }
+
   async embed(items: Content[]) {
     try {
       this.loading = true;
