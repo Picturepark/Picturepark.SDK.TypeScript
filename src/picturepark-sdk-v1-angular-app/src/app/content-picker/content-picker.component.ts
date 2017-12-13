@@ -57,8 +57,8 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   };
 
   ngOnInit() {
-    if (!this.authService.isAuthorized && this.authService.isAuthorizing === false) {
-      this.authService.login();
+    if (!this.authService.isAuthorized) {
+      this.authService.login('/content-picker');
     }
 
     if (this.route.snapshot.queryParams['postUrl']) {
