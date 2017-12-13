@@ -116,6 +116,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   back() {
     this.contentId = undefined;
     this.contentIdChange.emit(this.contentId);
+    this.parent.recalculateSizes();
   }
 
   embed() {

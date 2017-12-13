@@ -94,15 +94,17 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   recalculateSizes() {
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+    if (this.detailsItemId === undefined) {
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
 
-    this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
-    this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
-    this.aggregationFilterHeight = (windowHeight - 188 + 20) + 'px';
+      this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
+      this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
+      this.aggregationFilterHeight = (windowHeight - 188 + 20) + 'px';
 
-    if (this.contentBrowser) {
-      this.contentBrowser.refresh();
+      if (this.contentBrowser) {
+        this.contentBrowser.refresh();
+      }
     }
   }
 
