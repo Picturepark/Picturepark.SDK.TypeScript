@@ -29,7 +29,7 @@ import { AppComponent } from './app.component';
         scope: 'openid profile picturepark_api all_scopes',
         clientId: 'TestBRO',
         redirectUrl: 'http://localhost:4200',
-        customerId: 'ca554a7744694843a89a8bbbaadf5185',
+        customerId: '0d2e21c461374fb0aaba7020994d0e22',
         customerAlias: 'dev'
       }
     }

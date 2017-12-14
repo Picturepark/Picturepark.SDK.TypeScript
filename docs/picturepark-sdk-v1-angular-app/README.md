@@ -1,4 +1,4 @@
-# Picturepark Content Platform Angular Components
+# Picturepark Content Platform TypeScript SDK: Angular App (Pickers)
 
 ## picturepark-sdk-v1-angular-app
 

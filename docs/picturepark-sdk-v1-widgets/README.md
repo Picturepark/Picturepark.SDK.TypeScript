@@ -1,4 +1,4 @@
-# Picturepark Content Platform Widgets
+# Picturepark Content Platform TypeScript SDK: Widgets
 
 ## picturepark-sdk-v1-widgets
 

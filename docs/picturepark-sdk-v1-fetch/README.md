@@ -1,4 +1,4 @@
-# Picturepark Content Platform Fetch Clients
+# Picturepark Content Platform TypeScript SDK: Fetch Clients
 
 ## picturepark-sdk-v1-fetch
 
