@@ -1,8 +1,8 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { PICTUREPARK_API_URL, UserService } from '../picturepark.services';
-import { testUrl, testUsername, testPassword, configureTest } from './config';
+import { UserService } from '../picturepark.services';
+import { configureTest } from './config';
 
 describe('UserService', () => {
   beforeEach(configureTest);

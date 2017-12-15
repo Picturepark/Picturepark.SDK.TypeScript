@@ -2,11 +2,10 @@ import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import {
-  PICTUREPARK_API_URL,
   ContentService, ContentSearchRequest,
   ShareContent, ShareBasicCreateRequest, ShareService, OutputAccess
 } from '../picturepark.services';
-import { testUrl, testUsername, testPassword, configureTest } from './config';
+import { configureTest } from './config';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
@@ -14,12 +13,12 @@ describe('ShareService', () => {
   it('should create embed share', async(inject([ContentService, ShareService],
     async (contentService: ContentService, shareService: ShareService) => {
       // arrange
-
-      // act
       const request = new ContentSearchRequest();
       request.searchString = 'm';
 
       const response = await contentService.search(request).toPromise();
+
+      // act
       const contents = response!.results!.map(i => new ShareContent({
         contentId: i.id,
         outputFormatIds: ['Original']

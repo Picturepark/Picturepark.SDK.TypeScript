@@ -21,8 +21,7 @@ import { ContentPickerComponent } from '../content-picker/content-picker.compone
 export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input()
   contentId: string | undefined;
-  @Output()
-  contentIdChange = new EventEmitter<string | undefined>();
+
   content: ContentDetail;
 
   thumbnailUrl: string;
@@ -114,8 +113,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   }
 
   back() {
-    this.contentId = undefined;
-    this.contentIdChange.emit(this.contentId);
+    this.parent.closeDetails();
   }
 
   embed() {

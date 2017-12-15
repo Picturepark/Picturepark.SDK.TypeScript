@@ -57,8 +57,8 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   };
 
   ngOnInit() {
-    if (!this.authService.isAuthorized && this.authService.isAuthorizing === false) {
-      this.authService.login();
+    if (!this.authService.isAuthorized) {
+      this.authService.login('/content-picker');
     }
 
     if (this.route.snapshot.queryParams['postUrl']) {
@@ -84,6 +84,11 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     this.detailsItemId = item.id;
   }
 
+  closeDetails() {
+    this.detailsItemId = undefined;
+    this.recalculateSizes();
+  }
+
   async embed(items: Content[]) {
     try {
       this.loading = true;
@@ -94,15 +99,17 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   recalculateSizes() {
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+    if (this.detailsItemId === undefined) {
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
 
-    this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
-    this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
-    this.aggregationFilterHeight = (windowHeight - 188 + 20) + 'px';
+      this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
+      this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
+      this.aggregationFilterHeight = (windowHeight - 188 + 20) + 'px';
 
-    if (this.contentBrowser) {
-      this.contentBrowser.refresh();
+      if (this.contentBrowser) {
+        this.contentBrowser.refresh();
+      }
     }
   }
 

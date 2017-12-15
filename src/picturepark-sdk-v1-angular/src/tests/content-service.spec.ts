@@ -2,11 +2,11 @@ import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import {
-  PICTUREPARK_API_URL, ContentService, ContentSearchRequest,
-  ThumbnailSize, ContentAggregationRequest, PictureparkApplicationException,
+  ContentService, ContentSearchRequest,
+  ThumbnailSize, ContentAggregationRequest,
   ContentNotFoundException
 } from '../picturepark.services';
-import { testUrl, testUsername, testPassword, configureTest } from './config';
+import { configureTest } from './config';
 
 describe('ContentService', () => {
   beforeEach(configureTest);

@@ -1,4 +1,4 @@
-# Picturepark Content Platform Angular Components
+# Picturepark Content Platform TypeScript SDK: Angular UI Components
 
 ## picturepark-sdk-v1-angular-ui
 
