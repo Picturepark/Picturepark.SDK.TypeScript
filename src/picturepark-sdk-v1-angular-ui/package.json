@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-angular-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "scripts": {
     "link": "npm link @picturepark/sdk-v1-angular",
@@ -11,7 +11,6 @@
     "lint": "npm run init && ng lint",
     "e2e": "npm run init && ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@picturepark/sdk-v1-angular": "*",
     "@angular/common": "^4.3.0",
