@@ -9,6 +9,7 @@ Links:
 
 - [Picturepark Website](https://picturepark.com/)
 - [Sources](src/)
+- [All NPM packages](https://www.npmjs.com/~picturepark)
 
 ## Projects
 
@@ -82,6 +83,22 @@ Run the following commands to regenerate the clients based on the Swagger specif
 
     npm install
 	npm run nswag
+
+### Bump package versions
+
+1. Change package versions in the following projects and delete all `package-lock.json` files: 
+
+- picturepark-sdk-v1-angular
+- picturepark-sdk-v1-angular-oidc
+- picturepark-sdk-v1-angular-ui
+- picturepark-sdk-v1-fetch
+- picturepark-sdk-v1-pickers
+
+2. Run the following command to regenerate the `package-lock.json` files and build all projects:
+
+    npm run build
+
+3. Commit and push changes, then merge into the "release" branch
 
 ### CI Builds
 
