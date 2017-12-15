@@ -11,7 +11,6 @@
     "lint": "npm run init && ng lint",
     "e2e": "npm run init && ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@picturepark/sdk-v1-angular": "*",
     "@angular/common": "^4.3.0",
