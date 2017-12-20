@@ -13,7 +13,6 @@
     "packagr": "ng-packagr -p ng-package.json"
   },
   "dependencies": {
-    "@picturepark/sdk-v1-angular": "*",
     "@angular/common": "^4.3.0",
     "@angular/compiler": "^4.3.0",
     "@angular/core": "^4.3.0",
@@ -22,7 +21,7 @@
     "@angular/platform-browser": "^4.3.0",
     "@angular/platform-browser-dynamic": "^4.3.0",
     "@angular/router": "^4.3.0",
-    "angular-auth-oidc-client": "^1.2.1",
+    "@picturepark/sdk-v1-angular": "*",
     "angular2-virtual-scroll": "^0.3.1",
     "core-js": "^2.4.1",
     "rxjs": "^5.3.0",
