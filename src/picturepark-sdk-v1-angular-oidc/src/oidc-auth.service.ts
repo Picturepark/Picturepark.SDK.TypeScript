@@ -10,9 +10,6 @@ export class OidcAuthService extends AuthService {
   private _username: string | undefined = undefined;
   private _signinRedirectCallbackPromise: Promise<boolean>;
 
-  @Output()
-  isAuthorizedChanged = new EventEmitter<boolean>();
-
   constructor(
     @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration: PictureparkOidcAuthConfiguration,
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string) {
@@ -31,6 +28,9 @@ export class OidcAuthService extends AuthService {
   get isAuthenticated() {
     return this._isAuthenticated;
   }
+
+  @Output()
+  isAuthenticatedChanged = new EventEmitter<boolean>();
 
   /**
    * Redirects the user to the identity server to authenticate. 
@@ -127,10 +127,10 @@ export class OidcAuthService extends AuthService {
 
     if (!this._isAuthenticated && this._accessToken) {
       this._isAuthenticated = true;
-      this.isAuthorizedChanged.emit(this._isAuthenticated);
+      this.isAuthenticatedChanged.emit(this._isAuthenticated);
     } else if (this._isAuthenticated) {
       this._isAuthenticated = false;
-      this.isAuthorizedChanged.emit(this._isAuthenticated);
+      this.isAuthenticatedChanged.emit(this._isAuthenticated);
     }
   }
 

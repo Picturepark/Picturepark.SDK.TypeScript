@@ -2,12 +2,12 @@
 
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
-<button (click)="search()" *ngIf="authService.isAuthorized">Search</button>
+<button (click)="search()" *ngIf="authService.isAuthenticated">Search</button>
 
 <p>
   Username: {{authService.username}}
 </p>
-<div *ngIf="authService.isAuthorized">
+<div *ngIf="authService.isAuthenticated">
   <p>
     Data:
   </p>

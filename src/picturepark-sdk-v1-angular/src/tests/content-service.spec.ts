@@ -70,22 +70,22 @@ describe('ContentService', () => {
       expect(result!.data.size).toBeGreaterThan(0);
     })));
 
-  // it('should throw exception when not found', async(inject([ContentService],
-  //   async (contentService: ContentService) => {
-  //     // arrange
-  //     const contentId = 'foo.bar';
+  it('should throw exception when not found', async(inject([ContentService],
+    async (contentService: ContentService) => {
+      // arrange
+      const contentId = 'foo.bar';
 
-  //     // act
-  //     try {
-  //       const response = await contentService.get(contentId, true, null).toPromise();
-  //     } catch (e) {
-  //       // assert
-  //       expect(e instanceof ContentNotFoundException).toBeTruthy();
-  //       expect(e.contentId).toBe('foo.bar');
-  //       return;
-  //     }
-  //     fail();
-  //   })));
+      // act
+      try {
+        const response = await contentService.get(contentId, true, null).toPromise();
+      } catch (e) {
+        // assert
+        expect(e instanceof ContentNotFoundException).toBeTruthy();
+        expect(e.contentId).toBe('foo.bar');
+        return;
+      }
+      fail();
+    })));
 
   it('should return some aggregations', async(inject([ContentService],
     async (contentService: ContentService) => {
