@@ -24,16 +24,17 @@ export class ContentBrowserItemComponent implements OnChanges {
     }
   }
 
-  async refresh() {
+  refresh() {
     if (this.itemModel) {
-      try {
-        const response = await this.contentService.downloadThumbnail(this.itemModel.item.id!, ThumbnailSize.Medium).toPromise();
+      return this.contentService.downloadThumbnail(this.itemModel.item.id!, ThumbnailSize.Medium).toPromise().then(response => {
         if (response) {
           this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
         }
-      } catch (error) {
+      }, error => {
         this.thumbnailUrl = null;
-      }
+      });
     }
+
+    return Promise.resolve();
   }
 }

@@ -1,11 +1,15 @@
-import { Component, Input, Output, OnChanges, SimpleChange,
-  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  Component, Input, Output, OnChanges, SimpleChange,
+  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef
+} from '@angular/core';
 import { InputConverter, StringConverter, NumberConverter } from '../converter';
 
 import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
-  FilterBase, SortInfo, SortDirection, Content, ContentSearchType } from '@picturepark/sdk-v1-angular';
+import {
+  ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
+  FilterBase, SortInfo, SortDirection, Content, ContentSearchType
+} from '@picturepark/sdk-v1-angular';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
 @Component({
@@ -85,28 +89,27 @@ export class ContentBrowserComponent implements OnChanges {
     }
   }
 
-  protected async loadData() {
+  protected loadData() {
     if (this.channel && !this.isLoading) {
       this.isLoading = true;
-      try {
-        const request = new ContentSearchRequest({
-          debugMode: false,
-          filter: new AndFilter({ filters: this.filters }),
-          channelIds: [this.channel],
-          lifeCycleFilter: 0,
-          limit: 50,
-          searchString: this.query,
-          searchType: ContentSearchType.MetadataAndFullText,
-          start: this.items.length,
-          sort: [
-            new SortInfo({
-              field: 'audit.creationDate',
-              direction: SortDirection.Desc
-            })
-          ]
-        });
+      const request = new ContentSearchRequest({
+        debugMode: false,
+        filter: new AndFilter({ filters: this.filters }),
+        channelIds: [this.channel],
+        lifeCycleFilter: 0,
+        limit: 50,
+        searchString: this.query,
+        searchType: ContentSearchType.MetadataAndFullText,
+        start: this.items.length,
+        sort: [
+          new SortInfo({
+            field: 'audit.creationDate',
+            direction: SortDirection.Desc
+          })
+        ]
+      });
 
-        const result = await this.contentService.searchByChannel(this.channel, request).toPromise();
+      return this.contentService.searchByChannel(this.channel, request).toPromise().then(result => {
         if (result) {
           this.totalResults = result.totalResults;
           if (result.results) {
@@ -119,11 +122,13 @@ export class ContentBrowserComponent implements OnChanges {
         this.updateSelectedItems();
         this.refresh();
         this.isLoading = false;
-      } catch (error) {
+      }, error => {
         this.totalResults = -1;
         this.isLoading = false;
-      }
+      });
     }
+
+    return Promise.resolve();
   }
 
   protected onListChange(event: ChangeEvent) {

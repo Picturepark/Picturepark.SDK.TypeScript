@@ -27,16 +27,16 @@ export class SearchBoxComponent implements OnChanges {
     }
   }
 
-  async search() {
-    try {
-      this.queryChange.emit(this.query);
+  search() {
+    this.queryChange.emit(this.query);
 
-      const request = new ContentSearchRequest();
-      request.searchString = this.query;
+    const request = new ContentSearchRequest();
+    request.searchString = this.query;
 
-      this.result = await this.contentService.search(request).toPromise();
-    } catch (error) {
+    return this.contentService.search(request).toPromise().then(result => {
+      this.result = result;
+    }, error => {
       // TODO: Add error message
-    }
+    });
   }
 }
