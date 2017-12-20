@@ -7,7 +7,7 @@ Dependencies:
 - @angular/*
 - @picturepark/picturepark-sdk-v1-angular
 - @picturepark/picturepark-sdk-v1-angular-oidc
-    - [angular-auth-oidc-client](https://www.npmjs.com/package/angular-auth-oidc-client)
+    - [oidc-client](https://www.npmjs.com/package/oidc-client)
 - @picturepark/picturepark-sdk-v1-angular-ui
     - [angular2-virtual-scroll](https://www.npmjs.com/package/angular2-virtual-scroll)
 
