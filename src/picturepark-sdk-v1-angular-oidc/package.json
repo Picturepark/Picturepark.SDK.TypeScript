@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-angular-oidc",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "license": "MIT",
   "scripts": {
     "link": "npm link @picturepark/sdk-v1-angular",
