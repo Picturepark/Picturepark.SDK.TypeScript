@@ -47,18 +47,17 @@ export class AggregationFilterComponent implements OnChanges {
     }
   }
 
-  async refresh() {
+  refresh() {
     if (this.channel) {
       this.isLoading = true;
-      try {
-        const request = new ContentAggregationRequest({
-          searchString: this.query,
-          aggregationFilters: this.aggregationFilters,
-          searchType: ContentSearchType.MetadataAndFullText,
-          lifeCycleFilter: 0
-        });
+      const request = new ContentAggregationRequest({
+        searchString: this.query,
+        aggregationFilters: this.aggregationFilters,
+        searchType: ContentSearchType.MetadataAndFullText,
+        lifeCycleFilter: 0
+      });
 
-        const result = await this.contentService.aggregateByChannel(this.channel, request).toPromise();
+      return this.contentService.aggregateByChannel(this.channel, request).toPromise().then(result => {
         if (result && result.aggregationResults) {
           this.aggregations = result.aggregationResults.filter(r =>
             r.sumOtherDocCount !== null &&
@@ -69,13 +68,15 @@ export class AggregationFilterComponent implements OnChanges {
         }
 
         this.isLoading = false;
-      } catch (error) {
+      }, error => {
         this.aggregations = [];
         this.isLoading = false;
-      }
-
-      this.aggregationsChange.emit(this.aggregations);
+      }).then(() => {
+        this.aggregationsChange.emit(this.aggregations);
+      });
     }
+
+    return Promise.resolve();
   }
 
   selectionChanged(changedItem: AggregationResultItem) {

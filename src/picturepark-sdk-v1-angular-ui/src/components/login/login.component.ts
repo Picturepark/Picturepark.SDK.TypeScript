@@ -36,7 +36,7 @@ export class LoginComponent {
     //   this.username = this.authService.username!;
   }
 
-  async login() {
+  login() {
     // try {
     //   await this.authService.login(this.username, this.password, this.rememberPassword);
     //   this.errorMessage = '';

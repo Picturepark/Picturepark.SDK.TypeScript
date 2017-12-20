@@ -2,7 +2,7 @@
     Loading...
 </div>
 <div *ngIf="!isLoading && share !== null">
-    <h1>{{share.name}}</h1>
+    <h1>{{share ? share.name : ''}}</h1>
     <div *ngFor="let url of imageUrls">
         <img [src]="url" style="width: 100px" />
     </div>
