@@ -37,7 +37,7 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    if (!this.authService.isAuthorized && this.authService.isAuthorizing === false) {
+    if (!this.authService.isAuthenticated && this.authService.isAuthenticated === false) {
       this.authService.login();
     }
 

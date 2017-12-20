@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TokenAuthService } from './token-auth.service';
+import { AccessTokenAuthService } from './access-token-auth.service';
 import {
   JsonSchemaService,
   ContentService,
@@ -33,7 +33,7 @@ import {
     ShareService,
     TransferService,
     ServiceProviderService,
-    { provide: AuthService, useClass: TokenAuthService }
+    { provide: AuthService, useClass: AccessTokenAuthService }
   ]
 })
 export class PictureparkModule {

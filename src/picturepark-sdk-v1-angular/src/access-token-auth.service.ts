@@ -5,7 +5,7 @@ import { PictureparkConfiguration } from './picturepark.config';
 import { AuthService, PICTUREPARK_API_URL } from './picturepark.services';
 
 @Injectable()
-export class TokenAuthService extends AuthService {
+export class AccessTokenAuthService extends AuthService {
   private _isAuthorizing = false;
   private _isAuthorized = false;
   private _token: string | undefined = undefined;
@@ -13,11 +13,11 @@ export class TokenAuthService extends AuthService {
 
   constructor(
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
-    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkTokenAuthConfiguration) {
+    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration) {
     super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl!);
   }
 
-  get isAuthorized(): boolean {
+  get isAuthenticated(): boolean {
     return this.pictureparkConfiguration &&
       this.pictureparkConfiguration.accessToken &&
       this.pictureparkConfiguration.accessToken !== '' ? true : false;
@@ -37,6 +37,6 @@ export class TokenAuthService extends AuthService {
   }
 }
 
-export interface PictureparkTokenAuthConfiguration extends PictureparkConfiguration {
+export interface PictureparkAccessTokenAuthConfiguration extends PictureparkConfiguration {
   accessToken?: string;
 }
