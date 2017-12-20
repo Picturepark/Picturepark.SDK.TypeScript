@@ -1,7 +1,7 @@
 <h1>picturepark-sdk-v1-angular</h1>
 
-<button (click)="search()" *ngIf="authService.isAuthorized">Search</button>
-<div *ngIf="authService.isAuthorized">
+<button (click)="search()" *ngIf="authService.isAuthenticated">Search</button>
+<div *ngIf="authService.isAuthenticated">
   <p>
     Data:
   </p>

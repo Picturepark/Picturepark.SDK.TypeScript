@@ -7,7 +7,7 @@
     <div class="panel-body">{{authService.apiServer}}</div>
   </div>
 
-  <button *ngIf="!authService.isAuthorized" (click)="login()">Login</button>
+  <button *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
   <!-- <pp-login></pp-login> -->
   <pp-logout></pp-logout>
 

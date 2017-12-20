@@ -6,11 +6,6 @@ import { AuthService, PICTUREPARK_API_URL } from './picturepark.services';
 
 @Injectable()
 export class AccessTokenAuthService extends AuthService {
-  private _isAuthorizing = false;
-  private _isAuthorized = false;
-  private _token: string | undefined = undefined;
-  private _username: string | undefined = undefined;
-
   constructor(
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,
     @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration) {
