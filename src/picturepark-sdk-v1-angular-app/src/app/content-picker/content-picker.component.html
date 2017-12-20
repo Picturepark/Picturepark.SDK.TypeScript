@@ -3,11 +3,11 @@
   </pp-content-picker-details>
 </div>
 <div class="container-fluid" [style.display]="detailsItemId ? 'none' : ''">
-  <div *ngIf="!authService.isAuthorized">
+  <div *ngIf="!authService.isAuthenticated">
     Authorization...
   </div>
   
-  <div *ngIf="authService.isAuthorized">
+  <div *ngIf="authService.isAuthenticated">
     <div class="row" style="padding-top: 10px">
       <!-- Channel Picker -->
       <div class="col-md-3">

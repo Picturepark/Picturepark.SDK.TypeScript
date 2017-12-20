@@ -47,7 +47,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onWindowUnload = () => {
-    if (this.authService.isAuthorized && !this.messagePosted && window.opener) {
+    if (this.authService.isAuthenticated && !this.messagePosted && window.opener) {
       window.opener.postMessage('undefined', '*');
     }
   };
@@ -57,7 +57,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   };
 
   ngOnInit() {
-    if (!this.authService.isAuthorized) {
+    if (!this.authService.isAuthenticated) {
       this.authService.login('/content-picker');
     }
 

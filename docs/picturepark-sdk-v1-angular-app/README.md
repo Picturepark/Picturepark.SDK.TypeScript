@@ -7,7 +7,7 @@ Dependencies:
 - @angular/*
 - @picturepark/picturepark-sdk-v1-angular
 - @picturepark/picturepark-sdk-v1-angular-oidc
-    - [angular-auth-oidc-client](https://www.npmjs.com/package/angular-auth-oidc-client)
+    - [oidc-client](https://www.npmjs.com/package/oidc-client)
 - @picturepark/picturepark-sdk-v1-angular-ui
     - [angular2-virtual-scroll](https://www.npmjs.com/package/angular2-virtual-scroll)
 
@@ -19,7 +19,9 @@ In the Picturepark backend, create a new API Client on the "Settings" > "API Cli
 
 - Authorization Flow: Implicit
 - Allowed Scopes: all_scopes
-- Redirect URIs: http://localhost:4200/* (use the correct development port, same as in `picturepark-redirect-server`)
+- Redirect URIs: (use the correct development port, same as in `picturepark-redirect-server`) 
+    - `http://localhost:4200`
+    - `http://localhost:4200/*`
 - Enabled: Checked
 
 After creating the client, open [src/picturepark-sdk-v1-angular-app/src/index.html](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/src/picturepark-sdk-v1-angular-app/src/index.html) and update the configuration: 

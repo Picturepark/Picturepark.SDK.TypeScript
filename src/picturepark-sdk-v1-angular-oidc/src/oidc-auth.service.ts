@@ -4,8 +4,8 @@ import { UserManager, UserManagerSettings, User } from 'oidc-client';
 
 @Injectable()
 export class OidcAuthService extends AuthService {
-  private _isAuthorizing = false;
-  private _isAuthorized = false;
+  private _isAuthenticating = false;
+  private _isAuthenticated = false;
   private _accessToken: string | undefined = undefined;
   private _username: string | undefined = undefined;
   private _signinRedirectCallbackPromise: Promise<boolean>;
@@ -24,12 +24,12 @@ export class OidcAuthService extends AuthService {
     return this._username;
   }
 
-  get isAuthorizing() {
-    return this._isAuthorizing;
+  get isAuthenticating() {
+    return this._isAuthenticating;
   }
 
-  get isAuthorized() {
-    return this._isAuthorized;
+  get isAuthenticated() {
+    return this._isAuthenticated;
   }
 
   /**
@@ -61,11 +61,11 @@ export class OidcAuthService extends AuthService {
 
   /** Processes an identity server redirect result if available, returns false if no redirect has happened. */
   processAuthorizationRedirect() {
-    this._isAuthorizing = true;
+    this._isAuthenticating = true;
 
     const manager = this.createOidcManager();
     this._signinRedirectCallbackPromise = manager.signinRedirectCallback().then(user => {
-      this._isAuthorizing = false;
+      this._isAuthenticating = false;
 
       this.userChanged(user);
       if (window.history.pushState) {
@@ -75,7 +75,7 @@ export class OidcAuthService extends AuthService {
 
       return true;
     }, error => {
-      this._isAuthorizing = false;
+      this._isAuthenticating = false;
       return false;
     });
 
@@ -125,12 +125,12 @@ export class OidcAuthService extends AuthService {
     this._username = user && user.profile && user.profile.name ? <string>user.profile.name : undefined;
     this._accessToken = user.access_token;
 
-    if (!this._isAuthorized && this._accessToken) {
-      this._isAuthorized = true;
-      this.isAuthorizedChanged.emit(this._isAuthorized);
-    } else if (this._isAuthorized) {
-      this._isAuthorized = false;
-      this.isAuthorizedChanged.emit(this._isAuthorized);
+    if (!this._isAuthenticated && this._accessToken) {
+      this._isAuthenticated = true;
+      this.isAuthorizedChanged.emit(this._isAuthenticated);
+    } else if (this._isAuthenticated) {
+      this._isAuthenticated = false;
+      this.isAuthorizedChanged.emit(this._isAuthenticated);
     }
   }
 
