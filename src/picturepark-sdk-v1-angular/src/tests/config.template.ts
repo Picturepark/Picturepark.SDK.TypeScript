@@ -5,8 +5,6 @@ import { PICTUREPARK_API_URL } from '../picturepark.services';
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '../../index';
 
 export const testUrl = '{Server}';
-export const testUsername = '{Username}';
-export const testPassword = '{Password}';
 export const testAccessToken = '{AccessToken}';
 export const testCustomerAlias = '{CustomerAlias}';
 
