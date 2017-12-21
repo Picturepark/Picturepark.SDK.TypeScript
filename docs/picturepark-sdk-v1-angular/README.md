@@ -2,27 +2,32 @@
 
 ## picturepark-sdk-v1-angular
 
-Dependencies: 
+Dependencies:
 
 - @angular/*
 
-The `@picturepark/sdk-v1-angular` package provides Angular (4.3+) service classes to access the Picturepark API. 
+The `@picturepark/sdk-v1-angular` package provides Angular (4.3+) service classes to access the Picturepark API.
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-angular/api/index.html)
 
 ### Usage
 
+To use the clients with authentication, check out one of the [AuthService](AuthService.md) implementations:
+
+- [AccessTokenAuthService](AccessTokenAuthService.md): Authenticates with an access token
+- [OidcAuthService](../picturepark-sdk-v1-angular-oidc/OidcAuthService.md): Authenticates with the OpenID Connect implicit flow
+
 **1. Installation**
 
-Install the following NPM package:
+Install the NPM package:
 
-- [@picturepark/sdk-v1-angular](https://www.npmjs.com/package/@picturepark/sdk-v1-angular): The client proxies to access the Picturepark API
+    @picturepark/sdk-v1-angular
 
 **2. Module registration**
 
-Register the Picturepark SDK module in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
+Register the Picturepark module in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
 
-```ts
+```typescript
 import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angular';
 
 @NgModule({
@@ -34,7 +39,7 @@ import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angu
     PictureparkModule
   ],
   providers: [
-    { provide: PICTUREPARK_API_URL, useValue: "https://devnext.preview-picturepark.com" }
+    { provide: PICTUREPARK_API_URL, useValue: "https://devnext-api.preview-picturepark.com" }
   ],
   bootstrap: [ AppComponent ]
 })
@@ -43,45 +48,27 @@ export class AppModule { }
 
 **3. Inject services**
 
-Now, all required services are registered in the dependency injection container and can be used via constructor injection: 
+All required services are now registered in the dependency injection container and can be used via constructor injection: 
 
-```ts
+```typescript
 import { Component, AfterViewInit } from '@angular/core';
-import { AuthService, ContentService, ContentSearchRequest } from '@picturepark/sdk-v1-angular';
+import { PublicAccessClient } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements AfterViewInit {
-  constructor(
-    public authService: AuthService,
-    public contentService: ContentService) {
-
+  constructor(public publicAccessClient: PublicAccessClient) {
   }
 
-  async ngAfterViewInit() {
-    let username = prompt('Username: ');
-    let password = prompt('Password: ');
-
-    if (username && password) {
-      await this.authService.login(username, password);
-
-      const request = new ContentSearchRequest();
-      request.searchString = 'm';
-
-      this.contentService.search(request).subscribe(response => {
-        alert(JSON.stringify(response));
-      });
-    }
+  ngAfterViewInit() {
+    this.publicAccessClient.getShare("myShareToken").subscribe(share => {
+      alert(JSON.stringify(share));
+    });
   }
 }
-
 ```
-
-## Classes
-
-- [AuthService](AuthService.md): Authenticates the user on the Picturepark server.
 
 ## Sample
 
