@@ -8,6 +8,10 @@ The `picturepark-pickers.js` library provides methods to open the Picturepark co
 
 ### Downloads
 
+NPM Package:
+
+- [@picturepark/sdk-v1-pickers](https://www.npmjs.com/package/@picturepark/sdk-v1-pickers)
+
 Latest version from master branch (use for development only): 
 
 - [picturepark-pickers.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js)
@@ -27,6 +31,8 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 ## Usage
 
 Load the required JavaScript library: 
+
+### Global module
 
 ```Html
 <script src="picturepark-pickers.js"></script>
@@ -65,4 +71,12 @@ The `result` is undefined if the user clicked cancel or looks like:
     }
   ]
 }
+```
+
+### AMD module
+
+Install the NPM package: 
+
+```
+npm install @picturepark/sdk-v1-pickers
 ```

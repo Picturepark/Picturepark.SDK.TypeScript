@@ -10,7 +10,8 @@ import {
   AggregationResult,
   AggregationResultItem,
   ContentSearchType,
-  OrFilter
+  OrFilter,
+  BrokenDependenciesFilter
 } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -52,6 +53,7 @@ export class AggregationFilterComponent implements OnChanges {
       this.isLoading = true;
       const request = new ContentAggregationRequest({
         searchString: this.query,
+        brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
         lifeCycleFilter: 0

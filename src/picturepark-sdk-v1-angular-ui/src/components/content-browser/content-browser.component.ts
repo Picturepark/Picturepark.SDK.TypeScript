@@ -8,7 +8,7 @@ import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 import {
   ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
-  FilterBase, SortInfo, SortDirection, Content, ContentSearchType
+  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter
 } from '@picturepark/sdk-v1-angular';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
@@ -94,13 +94,14 @@ export class ContentBrowserComponent implements OnChanges {
       this.isLoading = true;
       const request = new ContentSearchRequest({
         debugMode: false,
+        start: this.items.length,
+        brokenDependenciesFilter: BrokenDependenciesFilter.All,
         filter: new AndFilter({ filters: this.filters }),
         channelIds: [this.channel],
         lifeCycleFilter: 0,
         limit: 50,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
-        start: this.items.length,
         sort: [
           new SortInfo({
             field: 'audit.creationDate',

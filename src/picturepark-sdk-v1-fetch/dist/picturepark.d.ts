@@ -38,6 +38,12 @@ declare module "picturepark" {
         getMany(ids: string[] | null, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail[]>;
         protected processGetMany(response: Response): Promise<ContentDetail[]>;
         /**
+         * Create - many
+         * @contentCreateRequests The content create requests.
+         */
+        createMany(contentCreateRequests: ContentCreateRequest[] | null): Promise<BusinessProcess>;
+        protected processCreateMany(response: Response): Promise<BusinessProcess>;
+        /**
          * Search
          * @contentSearchRequest The content search request.
          * @return ContentSearchResult
@@ -102,21 +108,21 @@ declare module "picturepark" {
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          */
-        createContent(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
-        protected processCreateContent(response: Response): Promise<ContentDetail>;
+        create(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        protected processCreate(response: Response): Promise<ContentDetail>;
         /**
          * Deactivate - single
          * @contentId the id of the content to deactivate
          * @timeout Maximum time to wait for the business process completed state.
          */
-        deactivate(contentId: string, timeout: string | null): Promise<void>;
-        protected processDeactivate(response: Response): Promise<void>;
+        deactivate(contentId: string, timeout: string | null): Promise<ContentDetail>;
+        protected processDeactivate(response: Response): Promise<ContentDetail>;
         /**
-         * Dactivate - many
-         * @deactivationRequest The deactivation request
+         * Deactivate - many
+         * @deactivateRequest The deactivate request
          * @return BusinessProcess
          */
-        deactivateMany(deactivationRequest: ContentDeactivationRequest | null): Promise<BusinessProcess>;
+        deactivateMany(deactivateRequest: ContentDeactivateRequest | null): Promise<BusinessProcess>;
         protected processDeactivateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Reactivate - single
@@ -130,10 +136,10 @@ declare module "picturepark" {
         protected processReactivate(response: Response): Promise<ContentDetail>;
         /**
          * Reactivate - many
-         * @reactivationRequest The content reactivation request.
+         * @reactivateRequest The content reactivate request.
          * @return BusinessProcess
          */
-        reactivateMany(reactivationRequest: ContentReactivationRequest | null): Promise<BusinessProcess>;
+        reactivateMany(reactivateRequest: ContentReactivateRequest | null): Promise<BusinessProcess>;
         protected processReactivateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update file - single
@@ -147,26 +153,13 @@ declare module "picturepark" {
          * @contentId The content id.
          * @updateRequest The metadata update request.
          * @resolve Resolves the data of referenced list items into the contents's content.
+         * @allowMissingDependencies (optional) Allow storing references to missing list items
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processUpdateMetadata(response: Response): Promise<ContentDetail>;
-        /**
-         * Update metadata - many
-         * @updateRequest The metadata update request.
-         * @return BusinessProcess
-         */
-        updateMetadataMany(updateRequest: ContentsMetadataUpdateRequest | null): Promise<BusinessProcess>;
-        protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess>;
-        /**
-         * Update metadata - by filter
-         * @updateRequest The metadata update request.
-         * @return BusinessProcess
-         */
-        updateMetadataByFilter(updateRequest: FilterContentsMetadataUpdateRequest | null): Promise<BusinessProcess>;
-        protected processUpdateMetadataByFilter(response: Response): Promise<BusinessProcess>;
         /**
          * Update permissions - single
          * @contentId The content id.
@@ -178,6 +171,13 @@ declare module "picturepark" {
          */
         updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processUpdatePermissions(response: Response): Promise<ContentDetail>;
+        /**
+         * Update metadata - many
+         * @updateRequest The metadata update requests.
+         * @return BusinessProcess
+         */
+        updateMetadataMany(updateRequest: ContentMetadataUpdateManyRequest | null): Promise<BusinessProcess>;
+        protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update permissions - many
          * @updateRequest The permissions update request.
@@ -201,6 +201,20 @@ declare module "picturepark" {
          */
         transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | null): Promise<BusinessProcess>;
         protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Batch update fields - by ids
+         * @updateRequest The metadata update request.
+         * @return BusinessProcess
+         */
+        batchUpdateFieldsByIds(updateRequest: ContentFieldsUpdateRequest | null): Promise<BusinessProcess>;
+        protected processBatchUpdateFieldsByIds(response: Response): Promise<BusinessProcess>;
+        /**
+         * Batch update fields - by filter
+         * @updateRequest The metadata update request.
+         * @return BusinessProcess
+         */
+        batchUpdateFieldsByFilter(updateRequest: ContentFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
+        protected processBatchUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
     }
     export class BusinessProcessClient extends PictureparkClientBase {
         private http;
@@ -331,13 +345,6 @@ declare module "picturepark" {
         update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processUpdate(response: Response): Promise<ListItemDetail>;
         /**
-         * Delete - single
-         * @listItemId The list item id.
-         * @timeout (optional) Maximum time to wait for the business process completed state.
-         */
-        delete(listItemId: string, timeout?: string | null | undefined): Promise<void>;
-        protected processDelete(response: Response): Promise<void>;
-        /**
          * Search
          * @listItemSearchRequest The list item search request.
          * @return List item result set.
@@ -353,20 +360,20 @@ declare module "picturepark" {
         protected processAggregate(response: Response): Promise<ObjectAggregationResult>;
         /**
          * Create - single
-         * @listItem List item create request.
+         * @listItemCreateRequest List item create request.
          * @resolve Resolves the data of referenced list items into the list item's content.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItem: ListItemCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        create(listItemCreateRequest: ListItemCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processCreate(response: Response): Promise<ListItemDetail>;
         /**
          * Create - many
-         * @objects A list of ListItemCreateRequests.
+         * @listItemCreateRequests A list of ListItemCreateRequests.
          * @return BusinessProcess
          */
-        createMany(objects: ListItemCreateRequest[] | null): Promise<BusinessProcess>;
+        createMany(listItemCreateRequests: ListItemCreateRequest[] | null): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update - many
@@ -376,26 +383,49 @@ declare module "picturepark" {
         updateMany(objects: ListItemUpdateRequest[] | null): Promise<BusinessProcess>;
         protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
-         * Delete - many
-         * @ids (optional) The list item id list.
+         * Deactivate - single
+         * @listItemId the id of the list item to deactivate
+         * @timeout Maximum time to wait for the business process completed state.
+         */
+        deactivate(listItemId: string, timeout: string | null): Promise<ListItemDetail>;
+        protected processDeactivate(response: Response): Promise<ListItemDetail>;
+        /**
+         * Deactivate - many
+         * @deactivateRequest The list items deactivate request
          * @return BusinessProcess
          */
-        deleteMany(ids?: string[] | null | undefined): Promise<BusinessProcess>;
-        protected processDeleteMany(response: Response): Promise<BusinessProcess>;
+        deactivateMany(deactivateRequest: ListItemDeactivateRequest | null): Promise<BusinessProcess>;
+        protected processDeactivateMany(response: Response): Promise<BusinessProcess>;
         /**
-         * Update fields
+         * Reactivate - single
+         * @listItemId The list item id.
+         * @timeout (optional) Maximum time to wait for the business process completed state.
+         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+         * @return ListItemDetail
+         */
+        reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        protected processReactivate(response: Response): Promise<ListItemDetail>;
+        /**
+         * Reactivate - many
+         * @reactivateRequest The list items reactivate request.
+         * @return BusinessProcess
+         */
+        reactivateMany(reactivateRequest: ListItemReactivateRequest | null): Promise<BusinessProcess>;
+        protected processReactivateMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Batch update fields - by ids
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        updateFields(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess>;
-        protected processUpdateFields(response: Response): Promise<BusinessProcess>;
+        batchUpdateFieldsByIds(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess>;
+        protected processBatchUpdateFieldsByIds(response: Response): Promise<BusinessProcess>;
         /**
-         * Update by filter - Fields
+         * Batch update fields - by filter
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        updateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
-        protected processUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
+        batchUpdateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
+        protected processBatchUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
     }
     export class LiveStreamClient extends PictureparkClientBase {
         private http;
@@ -506,6 +536,12 @@ declare module "picturepark" {
          */
         getSchemaPermissionSet(permissionSetId: string): Promise<SchemaPermissionSetDetail>;
         protected processGetSchemaPermissionSet(response: Response): Promise<SchemaPermissionSetDetail>;
+        /**
+         * Get User rights
+         * @return list of user permissions
+         */
+        getUserRights(): Promise<UserRight[]>;
+        protected processGetUserRights(response: Response): Promise<UserRight[]>;
         /**
          * Has UserRight
          * @userRight The UserRight to validate
@@ -811,6 +847,9 @@ declare module "picturepark" {
     export interface PictureparkArgumentNullException extends PictureparkBusinessException {
         argumentName?: string | undefined;
     }
+    export interface ContentsNotFoundException extends PictureparkBusinessException {
+        contentIds?: string[] | undefined;
+    }
     export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
         processDefinitionIds?: string[] | undefined;
     }
@@ -1107,6 +1146,8 @@ declare module "picturepark" {
         filter?: FilterBase | undefined;
         /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** Filter the returned contents that have or not have broken references */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Limits the content document result set to specific ContentRights the user has */
         rightsFilter?: ContentRight[] | undefined;
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
@@ -1262,6 +1303,12 @@ declare module "picturepark" {
         ActiveOnly,
         All,
         InactiveOnly,
+        ActiveInactiveOnly,
+    }
+    export enum BrokenDependenciesFilter {
+        All,
+        NotBrokenOnly,
+        BrokenOnly,
     }
     export enum ContentRight {
         View,
@@ -1300,6 +1347,12 @@ declare module "picturepark" {
             [key: string]: string;
         } | undefined;
         id?: string | undefined;
+        /** All the ids of the broken references (tagboxes) */
+        brokenReferenceIds?: string[] | undefined;
+        /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+        brokenIndirectReferenceIds?: string[] | undefined;
+        /** All the ids of the broken relations */
+        brokenRelationIds?: string[] | undefined;
     }
     export interface QueryDebugInformation {
         general?: string | undefined;
@@ -1328,6 +1381,8 @@ declare module "picturepark" {
         collectionId?: string | undefined;
         /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** Filter the content document result set to those that have or not have broken references */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
         searchType: ContentSearchType;
     }
@@ -1459,9 +1514,6 @@ declare module "picturepark" {
         /** An optional id list of content permission sets.  */
         contentPermissionSetIds?: string[] | undefined;
     }
-    export interface ContentDeactivationRequest {
-        contentIds?: string[] | undefined;
-    }
     export interface BusinessProcess {
         id?: string | undefined;
         processDefinitionId?: string | undefined;
@@ -1513,8 +1565,16 @@ declare module "picturepark" {
         succeeded: boolean;
         status: number;
     }
-    export interface ContentReactivationRequest {
+    export interface ContentDeactivateRequest {
         contentIds?: string[] | undefined;
+        resolve: boolean;
+        displayPatternIds?: string[] | undefined;
+        forceReferenceRemoval: boolean;
+    }
+    export interface ContentReactivateRequest {
+        contentIds?: string[] | undefined;
+        resolve: boolean;
+        displayPatternIds?: string[] | undefined;
     }
     export interface ContentFileUpdateRequest {
         contentId?: string | undefined;
@@ -1528,11 +1588,36 @@ declare module "picturepark" {
         /** The dynamic data structure matching the field schematics of the schemas with schema type content or layer. */
         metadata?: DataDictionary | undefined;
     }
+    export interface ContentPermissionsUpdateRequest {
+        /** The content id. */
+        contentId?: string | undefined;
+        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
+        contentPermissionSetIds?: string[] | undefined;
+    }
+    /** Update many contents metadata */
+    export interface ContentMetadataUpdateManyRequest {
+        /** Allow storing references to missing list items */
+        allowMissingDependencies: boolean;
+        /** Update requests */
+        requests?: ContentMetadataUpdateRequest[] | undefined;
+    }
+    export interface ContentOwnershipTransferRequest {
+        /** The content id. */
+        contentId?: string | undefined;
+        /** The id of the user to whom the content document has to be transfered to. */
+        transferUserId?: string | undefined;
+    }
+    export interface ContentsOwnershipTransferRequest {
+        /** The content ids. */
+        contentIds?: string[] | undefined;
+        /** The id of user to whom the content documents have to be transfered to. */
+        transferUserId?: string | undefined;
+    }
     export interface MetadataValuesChangeRequestBase {
         /** A container for all change commads. */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     }
-    export interface ContentsMetadataUpdateRequest extends MetadataValuesChangeRequestBase {
+    export interface ContentFieldsUpdateRequest extends MetadataValuesChangeRequestBase {
         /** The ids of the content documents. */
         contentIds?: string[] | undefined;
     }
@@ -1577,7 +1662,7 @@ declare module "picturepark" {
         /** The id of the list item to be removed. */
         referenceId?: string | undefined;
     }
-    export interface FilterContentsMetadataUpdateRequest extends MetadataValuesChangeRequestBase {
+    export interface ContentFieldsFilterUpdateRequest extends MetadataValuesChangeRequestBase {
         contentFilterRequest?: ContentFilterRequest | undefined;
         totalItemsCount: number;
     }
@@ -1600,24 +1685,6 @@ declare module "picturepark" {
         lifeCycleFilter: LifeCycleFilter;
         /** Limits the content document result set to specific ContentRights the user has */
         rightsFilter?: ContentRight[] | undefined;
-    }
-    export interface ContentPermissionsUpdateRequest {
-        /** The content id. */
-        contentId?: string | undefined;
-        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-        contentPermissionSetIds?: string[] | undefined;
-    }
-    export interface ContentOwnershipTransferRequest {
-        /** The content id. */
-        contentId?: string | undefined;
-        /** The id of the user to whom the content document has to be transfered to. */
-        transferUserId?: string | undefined;
-    }
-    export interface ContentsOwnershipTransferRequest {
-        /** The content ids. */
-        contentIds?: string[] | undefined;
-        /** The id of user to whom the content documents have to be transfered to. */
-        transferUserId?: string | undefined;
     }
     export interface BusinessProcessSearchRequest {
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
@@ -1750,6 +1817,8 @@ declare module "picturepark" {
         displayLanguage?: string | undefined;
         /** Limits the display values included in the search response. Defaults to all display values. */
         displayPatternIds?: string[] | undefined;
+        /** Filter the returned list items that have or not have broken references */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Define the display values included in the search response for the referenced fields. Defaults to no display value. */
         referencedFieldsDisplayPatternIds?: string[] | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
@@ -1758,6 +1827,8 @@ declare module "picturepark" {
         includeMetadata: boolean;
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
         debugMode: boolean;
+        /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
+        lifeCycleFilter: LifeCycleFilter;
     }
     export interface BaseResultOfListItem {
         totalResults: number;
@@ -1792,12 +1863,16 @@ declare module "picturepark" {
         aggregators?: AggregatorBase[] | undefined;
         /** Broadens the aggregation and include all schema descendant list items. */
         includeAllSchemaChildren: boolean;
+        /** Filter the list items document result set to those that have or not have broken references */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Limits the aggregation to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
         /** Defines the return language of translation values. Defaults to x-default. */
         displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
+        /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
+        lifeCycleFilter: LifeCycleFilter;
     }
     /** A request structure for creating a list item document. */
     export interface ListItemCreateRequest {
@@ -1814,6 +1889,13 @@ declare module "picturepark" {
         content?: any | undefined;
         /** The list item id. */
         id?: string | undefined;
+    }
+    export interface ListItemDeactivateRequest {
+        listItemIds?: string[] | undefined;
+        forceReferenceRemoval: boolean;
+    }
+    export interface ListItemReactivateRequest {
+        listItemIds?: string[] | undefined;
     }
     export interface ListItemFieldsUpdateRequest {
         /** The ids of the list items whose fields need to be updated */
