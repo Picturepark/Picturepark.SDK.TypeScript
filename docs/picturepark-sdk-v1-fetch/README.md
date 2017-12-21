@@ -13,7 +13,7 @@ The `@picturepark/sdk-v1-fetch` package / `picturepark.js` library provides clie
 
 ### Downloads
 
-NPM Package: 
+NPM Package:
 
 - [@picturepark/sdk-v1-fetch](https://www.npmjs.com/package/@picturepark/sdk-v1-fetch)
 
@@ -66,7 +66,7 @@ client.getShare('4rgTsG52').then(function(result) {
 Install the NPM package: 
 
 ```
-npm i @picturepark/sdk-v1-fetch
+npm install @picturepark/sdk-v1-fetch
 ```
 
 Import and instantiate the client:
