@@ -2,6 +2,7 @@ import * as React from 'react';
 import './Hello.css';
 import { ContentDetail } from '@picturepark/sdk-v1-fetch';
 import { StoreState } from '../types/index';
+import { showContentPicker } from '@picturepark/sdk-v1-pickers';
 
 export interface Props {
   loading?: boolean;
@@ -40,6 +41,16 @@ class Hello extends React.Component<Props, StoreState> {
     });
   }
 
+  pickContent = () => {
+    showContentPicker('https://devnext.preview-picturepark.com').then(share => {
+      if (share.items && share.items[0].token) {
+        this.setState({
+          token: share.items[0].token
+        });
+      }
+    });
+  }
+
   render() {
     return (
       <div className="hello">
@@ -57,6 +68,7 @@ class Hello extends React.Component<Props, StoreState> {
         <p>
           <button onClick={this.requestShare} disabled={!this.state.token}>Load share</button>
           <button onClick={this.requestContent} disabled={!this.state.token}>Load content</button>
+          <button onClick={this.pickContent}>Pick content</button>
         </p>
         <p>
           <strong>Access Token: </strong><br />
