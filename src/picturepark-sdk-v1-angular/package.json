@@ -5,7 +5,7 @@
   "scripts": {
     "init": "npm i",
     "start": "npm run init && ng serve",
-    "build": "npm run init && ng-packagr -p ng-package.json",
+    "build": "npm run init && npm run packagr",
     "test": "npm run init && ng test",
     "lint": "npm run init && ng lint",
     "e2e": "npm run init && ng e2e"

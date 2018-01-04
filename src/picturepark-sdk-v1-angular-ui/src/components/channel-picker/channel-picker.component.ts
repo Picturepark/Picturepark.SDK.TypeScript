@@ -33,7 +33,7 @@ export class ChannelPickerComponent implements OnInit, OnChanges {
     return this.userService.getChannels().toPromise().then(channels => {
       this.channels = channels;
       if (this.channels) {
-        this.setChannel(this.channels[0].id!);
+        this.changeChannel(this.channels[0].id!);
       }
       this.isLoading = false;
     }, error => {
@@ -48,25 +48,27 @@ export class ChannelPickerComponent implements OnInit, OnChanges {
         const index = this.channels.indexOf(this.channels.filter(c => c.id === this.channel)[0]);
         if (this.currentIndex !== index) {
           this.currentIndex = index;
-          setTimeout(() => { this.select.nativeElement.selectedIndex = index; }, 0);
+          setTimeout(() => {
+            this.select.nativeElement.selectedIndex = index;
+          }, 0);
         }
       }
     }
   }
 
-  onChange(event: Event) {
+  onChannelChanged(event: Event) {
     const index = (<any>event.currentTarget).selectedIndex;
     if (index !== -1) {
       if (index !== this.currentIndex) {
         this.currentIndex = index;
         if (this.channels) {
-          this.setChannel(index >= 0 ? this.channels[index].id! : null);
+          this.changeChannel(index >= 0 ? this.channels[index].id! : null);
         }
       }
     }
   }
 
-  private setChannel(channel: string | null) {
+  private changeChannel(channel: string | null) {
     this.channel = channel;
     this.channelChange.emit(channel);
   }

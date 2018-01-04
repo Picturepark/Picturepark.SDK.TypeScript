@@ -6,7 +6,7 @@
     "link": "npm link @picturepark/sdk-v1-angular",
     "init": "cmd /c if exist \"../picturepark-sdk-v1-angular/node_modules\" rmdir \"../picturepark-sdk-v1-angular/node_modules\" /s /q && npm i && npm run link",
     "start": "npm run init && ng serve",
-    "build": "npm run init && ng-packagr -p ng-package.json",
+    "build": "npm run init && npm run packagr",
     "test": "npm run init && ng test",
     "lint": "npm run init && ng lint",
     "e2e": "npm run init && ng e2e",
