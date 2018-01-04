@@ -10,10 +10,13 @@ export class OidcAuthService extends AuthService {
   private _username: string | undefined = undefined;
   private _signinRedirectCallbackPromise: Promise<boolean>;
 
+  @Output()
+  isAuthenticatedChanged = new EventEmitter<boolean>();
+
   constructor(
     @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration: PictureparkOidcAuthConfiguration,
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string) {
-    super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? 
+    super(pictureparkConfiguration && pictureparkConfiguration.apiServer ?
       pictureparkConfiguration.apiServer : pictureparkApiUrl!);
   }
 
@@ -29,17 +32,14 @@ export class OidcAuthService extends AuthService {
     return this._isAuthenticated;
   }
 
-  @Output()
-  isAuthenticatedChanged = new EventEmitter<boolean>();
-
   /**
-   * Redirects the user to the identity server to authenticate. 
+   * Redirects the user to the identity server to authenticate.
    * Does nothing and returns false if a user is already logged in.
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   login(redirectRoute?: string) {
     return this._signinRedirectCallbackPromise.then((result) => {
-      if (result == false) {
+      if (result === false) {
         const manager = this.createOidcManager(redirectRoute);
         manager.signinRedirect();
         return true;
@@ -49,7 +49,7 @@ export class OidcAuthService extends AuthService {
   }
 
   /**
-   * Redirects the user to the identity server to logout. 
+   * Redirects the user to the identity server to logout.
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   logout(redirectRoute?: string) {
