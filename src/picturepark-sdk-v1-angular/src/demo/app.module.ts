@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
   providers: [
     {
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
+        apiServer: 'https://devnext-api.preview-picturepark.com',
         accessToken: 'foobar',
         customerAlias: 'dev'
       }
