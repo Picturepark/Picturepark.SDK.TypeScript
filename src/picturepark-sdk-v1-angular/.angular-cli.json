@@ -6,8 +6,10 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
-      "assets": [],
+      "outDir": "dist-app",
+      "assets": [
+        "assets"
+      ], 
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -15,7 +17,9 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "styles": [],
+      "styles": [
+        "styles.css"
+      ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {

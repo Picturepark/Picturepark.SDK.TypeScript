@@ -1,0 +1,4 @@
+<div *ngIf="authService.isAuthenticated">
+  <p>{{'Logout.TextLoggedInAs' | pptranslate}} <strong>{{authService.username}}</strong>. </p>
+  <div class="btn btn-default" (click)="logout()">{{'Logout.ButtonLogout' | pptranslate}}</div>
+</div>

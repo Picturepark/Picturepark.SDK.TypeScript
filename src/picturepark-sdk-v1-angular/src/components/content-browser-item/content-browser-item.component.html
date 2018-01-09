@@ -1,0 +1,11 @@
+<div class="picturepark-content-browser-item" 
+     (click)="itemModel.parent.toggleSelected(itemModel)"
+     (dblclick)="itemModel.parent.onDoubleClicked(itemModel)"
+     [class.picturepark-content-browser-item-selected]="itemModel.isSelected">
+  <div class="picturepark-content-browser-item-thumbnail">
+    <img *ngIf="thumbnailUrl" [src]="thumbnailUrl" />
+  </div>
+  <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+    {{itemModel.item.displayValues ? itemModel.item.displayValues['name'] : 'n/a'}}&nbsp;
+  </div>
+</div>
