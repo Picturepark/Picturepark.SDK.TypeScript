@@ -89,9 +89,11 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#aggregationfilters" class="tsd-kind-icon">aggregation<wbr>Filters</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#aggregators" class="tsd-kind-icon">aggregators</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#brokendependenciesfilter" class="tsd-kind-icon">broken<wbr>Dependencies<wbr>Filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#displaylanguage" class="tsd-kind-icon">display<wbr>Language</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#includeallschemachildren" class="tsd-kind-icon">include<wbr>All<wbr>Schema<wbr>Children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistitemaggregationrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a></li>
@@ -106,10 +108,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="aggregationfilters" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Filters</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters<span class="tsd-signature-symbol">:</span> <a href="iaggregationfilter.html" class="tsd-signature-type">IAggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters<span class="tsd-signature-symbol">:</span> <a href="../classes/aggregationfilter.html" class="tsd-signature-type">AggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15148">src/picturepark.services.ts:15148</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15705">src/services/picturepark.services.ts:15705</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -121,10 +123,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="aggregators" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregators</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="iaggregatorbase.html" class="tsd-signature-type">IAggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="../classes/aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15150">src/picturepark.services.ts:15150</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15707">src/services/picturepark.services.ts:15707</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,12 +136,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="brokendependenciesfilter" class="tsd-anchor"></a>
+					<h3>broken<wbr>Dependencies<wbr>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Dependencies<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/brokendependenciesfilter.html" class="tsd-signature-type">BrokenDependenciesFilter</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15711">src/services/picturepark.services.ts:15711</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Filter the list items document result set to those that have or not have broken references</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="displaylanguage" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Language</h3>
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15156">src/picturepark.services.ts:15156</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15715">src/services/picturepark.services.ts:15715</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -151,10 +168,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="filter" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
-					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="ifilterbase.html" class="tsd-signature-type">IFilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../classes/filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15146">src/picturepark.services.ts:15146</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15703">src/services/picturepark.services.ts:15703</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -169,7 +186,7 @@
 					<div class="tsd-signature tsd-kind-icon">include<wbr>All<wbr>Schema<wbr>Children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15152">src/picturepark.services.ts:15152</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15709">src/services/picturepark.services.ts:15709</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,12 +196,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="lifecyclefilter" class="tsd-anchor"></a>
+					<h3>life<wbr>Cycle<wbr>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">life<wbr>Cycle<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/lifecyclefilter.html" class="tsd-signature-type">LifeCycleFilter</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15719">src/services/picturepark.services.ts:15719</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the list item document result set to that life cycle state. Defaults to ActiveOnly.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="schemaids" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schema<wbr>Ids</h3>
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15154">src/picturepark.services.ts:15154</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15713">src/services/picturepark.services.ts:15713</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -199,7 +231,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviours<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehaviour.html" class="tsd-signature-type">SearchBehaviour</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15144">src/picturepark.services.ts:15144</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15701">src/services/picturepark.services.ts:15701</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -214,7 +246,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Languages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15158">src/picturepark.services.ts:15158</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15717">src/services/picturepark.services.ts:15717</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -229,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L15142">src/picturepark.services.ts:15142</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L15699">src/services/picturepark.services.ts:15699</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -262,6 +294,9 @@
 								<a href="ilistitemaggregationrequest.html#aggregators" class="tsd-kind-icon">aggregators</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ilistitemaggregationrequest.html#brokendependenciesfilter" class="tsd-kind-icon">broken<wbr>Dependencies<wbr>Filter</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ilistitemaggregationrequest.html#displaylanguage" class="tsd-kind-icon">display<wbr>Language</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -269,6 +304,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ilistitemaggregationrequest.html#includeallschemachildren" class="tsd-kind-icon">include<wbr>All<wbr>Schema<wbr>Children</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ilistitemaggregationrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ilistitemaggregationrequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a>

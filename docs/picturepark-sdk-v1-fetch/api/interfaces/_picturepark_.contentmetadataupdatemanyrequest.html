@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ContentsMetadataUpdateRequest | picturepark-sdk-v1-fetch API</title>
+	<title>ContentMetadataUpdateManyRequest | picturepark-sdk-v1-fetch API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,26 +59,28 @@
 					<a href="../modules/_picturepark_.html">&quot;picturepark&quot;</a>
 				</li>
 				<li>
-					<a href="_picturepark_.contentsmetadataupdaterequest.html">ContentsMetadataUpdateRequest</a>
+					<a href="_picturepark_.contentmetadataupdatemanyrequest.html">ContentMetadataUpdateManyRequest</a>
 				</li>
 			</ul>
-			<h1>Interface ContentsMetadataUpdateRequest</h1>
+			<h1>Interface ContentMetadataUpdateManyRequest</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Update many contents metadata</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_picturepark_.metadatavalueschangerequestbase.html" class="tsd-signature-type">MetadataValuesChangeRequestBase</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">ContentsMetadataUpdateRequest</span>
-							</li>
-						</ul>
+						<span class="target">ContentMetadataUpdateManyRequest</span>
 					</li>
 				</ul>
 			</section>
@@ -89,8 +91,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentsmetadataupdaterequest.html#changecommands" class="tsd-kind-icon">change<wbr>Commands</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentsmetadataupdaterequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmetadataupdatemanyrequest.html#allowmissingdependencies" class="tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmetadataupdatemanyrequest.html#requests" class="tsd-kind-icon">requests</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,34 +100,33 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="changecommands" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change<wbr>Commands</h3>
-					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.metadatavalueschangecommandbase.html" class="tsd-signature-type">MetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="allowmissingdependencies" class="tsd-anchor"></a>
+					<h3>allow<wbr>Missing<wbr>Dependencies</h3>
+					<div class="tsd-signature tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_picturepark_.metadatavalueschangerequestbase.html">MetadataValuesChangeRequestBase</a>.<a href="_picturepark_.metadatavalueschangerequestbase.html#changecommands">changeCommands</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1533</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1600</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A container for all change commads.</p>
+							<p>Allow storing references to missing list items</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="requests" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> requests</h3>
+					<div class="tsd-signature tsd-kind-icon">requests<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.contentmetadataupdaterequest.html" class="tsd-signature-type">ContentMetadataUpdateRequest</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1537</li>
+							<li>Defined in docs/temp/picturepark.d.ts:1602</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The ids of the content documents.</p>
+							<p>Update requests</p>
 						</div>
 					</div>
 				</section>
@@ -147,13 +148,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_picturepark_.contentsmetadataupdaterequest.html" class="tsd-kind-icon">Contents<wbr>Metadata<wbr>Update<wbr>Request</a>
+						<a href="_picturepark_.contentmetadataupdatemanyrequest.html" class="tsd-kind-icon">Content<wbr>Metadata<wbr>Update<wbr>Many<wbr>Request</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_picturepark_.contentsmetadataupdaterequest.html#changecommands" class="tsd-kind-icon">change<wbr>Commands</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentmetadataupdatemanyrequest.html#allowmissingdependencies" class="tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.contentsmetadataupdaterequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a>
+								<a href="_picturepark_.contentmetadataupdatemanyrequest.html#requests" class="tsd-kind-icon">requests</a>
 							</li>
 						</ul>
 					</li>

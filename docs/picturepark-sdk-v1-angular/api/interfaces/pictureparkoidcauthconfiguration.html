@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IContentsMetadataUpdateRequest | @picturepark/sdk-v1-angular API</title>
+	<title>PictureparkOidcAuthConfiguration | @picturepark/sdk-v1-angular API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="icontentsmetadataupdaterequest.html">IContentsMetadataUpdateRequest</a>
+					<a href="pictureparkoidcauthconfiguration.html">PictureparkOidcAuthConfiguration</a>
 				</li>
 			</ul>
-			<h1>Interface IContentsMetadataUpdateRequest</h1>
+			<h1>Interface PictureparkOidcAuthConfiguration</h1>
 		</div>
 	</div>
 </header>
@@ -70,19 +70,13 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="imetadatavalueschangerequestbase.html" class="tsd-signature-type">IMetadataValuesChangeRequestBase</a>
+						<a href="pictureparkconfiguration.html" class="tsd-signature-type">PictureparkConfiguration</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">IContentsMetadataUpdateRequest</span>
+								<span class="target">PictureparkOidcAuthConfiguration</span>
 							</li>
 						</ul>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/contentsmetadataupdaterequest.html" class="tsd-signature-type">ContentsMetadataUpdateRequest</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -92,8 +86,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="icontentsmetadataupdaterequest.html#changecommands" class="tsd-kind-icon">change<wbr>Commands</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontentsmetadataupdaterequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pictureparkoidcauthconfiguration.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pictureparkoidcauthconfiguration.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pictureparkoidcauthconfiguration.html#customeralias" class="tsd-kind-icon">customer<wbr>Alias</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pictureparkoidcauthconfiguration.html#customerid" class="tsd-kind-icon">customer<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pictureparkoidcauthconfiguration.html#redirectserver" class="tsd-kind-icon">redirect<wbr>Server</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pictureparkoidcauthconfiguration.html#scope" class="tsd-kind-icon">scope</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pictureparkoidcauthconfiguration.html#stsserver" class="tsd-kind-icon">sts<wbr>Server</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,35 +101,76 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="changecommands" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change<wbr>Commands</h3>
-					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="imetadatavalueschangecommandbase.html" class="tsd-signature-type">IMetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="apiserver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> api<wbr>Server</h3>
+					<div class="tsd-signature tsd-kind-icon">api<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="imetadatavalueschangerequestbase.html">IMetadataValuesChangeRequestBase</a>.<a href="imetadatavalueschangerequestbase.html#changecommands">changeCommands</a></p>
+						<p>Inherited from <a href="pictureparkconfiguration.html">PictureparkConfiguration</a>.<a href="pictureparkconfiguration.html#apiserver">apiServer</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13259">src/picturepark.services.ts:13259</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/configuration.ts#L2">src/services/configuration.ts:2</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A container for all change commads.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="clientid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> client<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L13302">src/picturepark.services.ts:13302</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/oidc-auth.service.ts#L150">src/auth/oidc-auth.service.ts:150</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The ids of the content documents.</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="customeralias" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> customer<wbr>Alias</h3>
+					<div class="tsd-signature tsd-kind-icon">customer<wbr>Alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="pictureparkconfiguration.html">PictureparkConfiguration</a>.<a href="pictureparkconfiguration.html#customeralias">customerAlias</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/configuration.ts#L3">src/services/configuration.ts:3</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="customerid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> customer<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">customer<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/oidc-auth.service.ts#L149">src/auth/oidc-auth.service.ts:149</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="redirectserver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> redirect<wbr>Server</h3>
+					<div class="tsd-signature tsd-kind-icon">redirect<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/oidc-auth.service.ts#L148">src/auth/oidc-auth.service.ts:148</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="scope" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scope</h3>
+					<div class="tsd-signature tsd-kind-icon">scope<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/oidc-auth.service.ts#L151">src/auth/oidc-auth.service.ts:151</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="stsserver" class="tsd-anchor"></a>
+					<h3>sts<wbr>Server</h3>
+					<div class="tsd-signature tsd-kind-icon">sts<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/oidc-auth.service.ts#L147">src/auth/oidc-auth.service.ts:147</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -147,13 +187,28 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="icontentsmetadataupdaterequest.html" class="tsd-kind-icon">IContents<wbr>Metadata<wbr>Update<wbr>Request</a>
+						<a href="pictureparkoidcauthconfiguration.html" class="tsd-kind-icon">Picturepark<wbr>Oidc<wbr>Auth<wbr>Configuration</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="icontentsmetadataupdaterequest.html#changecommands" class="tsd-kind-icon">change<wbr>Commands</a>
+								<a href="pictureparkoidcauthconfiguration.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="icontentsmetadataupdaterequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a>
+								<a href="pictureparkoidcauthconfiguration.html#clientid" class="tsd-kind-icon">client<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="pictureparkoidcauthconfiguration.html#customeralias" class="tsd-kind-icon">customer<wbr>Alias</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="pictureparkoidcauthconfiguration.html#customerid" class="tsd-kind-icon">customer<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="pictureparkoidcauthconfiguration.html#redirectserver" class="tsd-kind-icon">redirect<wbr>Server</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="pictureparkoidcauthconfiguration.html#scope" class="tsd-kind-icon">scope</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="pictureparkoidcauthconfiguration.html#stsserver" class="tsd-kind-icon">sts<wbr>Server</a>
 							</li>
 						</ul>
 					</li>

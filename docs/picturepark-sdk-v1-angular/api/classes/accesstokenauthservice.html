@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TokenAuthService | @picturepark/sdk-v1-angular API</title>
+	<title>AccessTokenAuthService | @picturepark/sdk-v1-angular API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="tokenauthservice.html">TokenAuthService</a>
+					<a href="accesstokenauthservice.html">AccessTokenAuthService</a>
 				</li>
 			</ul>
-			<h1>Class TokenAuthService</h1>
+			<h1>Class AccessTokenAuthService</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 						<a href="authservice.html" class="tsd-signature-type">AuthService</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">TokenAuthService</span>
+								<span class="target">AccessTokenAuthService</span>
 							</li>
 						</ul>
 					</li>
@@ -86,20 +86,20 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="tokenauthservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="accesstokenauthservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="tokenauthservice.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="tokenauthservice.html#isauthorized" class="tsd-kind-icon">is<wbr>Authorized</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="accesstokenauthservice.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="accesstokenauthservice.html#isauthenticated" class="tsd-kind-icon">is<wbr>Authenticated</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="tokenauthservice.html#transformhttprequestoptions" class="tsd-kind-icon">transform<wbr>Http<wbr>Request<wbr>Options</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="accesstokenauthservice.html#transformhttprequestoptions" class="tsd-kind-icon">transform<wbr>Http<wbr>Request<wbr>Options</a></li>
 							</ul>
 						</section>
 					</div>
@@ -111,14 +111,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Token<wbr>Auth<wbr>Service<span class="tsd-signature-symbol">(</span>pictureparkApiUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, pictureparkConfiguration<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pictureparktokenauthconfiguration.html" class="tsd-signature-type">PictureparkTokenAuthConfiguration</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="tokenauthservice.html" class="tsd-signature-type">TokenAuthService</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Access<wbr>Token<wbr>Auth<wbr>Service<span class="tsd-signature-symbol">(</span>pictureparkApiUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, pictureparkConfiguration<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pictureparkaccesstokenauthconfiguration.html" class="tsd-signature-type">PictureparkAccessTokenAuthConfiguration</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="accesstokenauthservice.html" class="tsd-signature-type">AccessTokenAuthService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="authservice.html">AuthService</a>.<a href="authservice.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/token-auth.service.ts#L12">src/token-auth.service.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/access-token-auth.service.ts#L8">src/auth/access-token-auth.service.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -127,10 +127,10 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> pictureparkApiUrl: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> pictureparkConfiguration: <a href="../interfaces/pictureparktokenauthconfiguration.html" class="tsd-signature-type">PictureparkTokenAuthConfiguration</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> pictureparkConfiguration: <a href="../interfaces/pictureparkaccesstokenauthconfiguration.html" class="tsd-signature-type">PictureparkAccessTokenAuthConfiguration</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="tokenauthservice.html" class="tsd-signature-type">TokenAuthService</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="accesstokenauthservice.html" class="tsd-signature-type">AccessTokenAuthService</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -148,7 +148,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="authservice.html">AuthService</a>.<a href="authservice.html#apiserver">apiServer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L31">src/picturepark.services.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L31">src/services/picturepark.services.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -156,17 +156,17 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
-					<a name="isauthorized" class="tsd-anchor"></a>
-					<h3>is<wbr>Authorized</h3>
+					<a name="isauthenticated" class="tsd-anchor"></a>
+					<h3>is<wbr>Authenticated</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isAuthorized<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isAuthenticated<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="authservice.html">AuthService</a>.<a href="authservice.html#isauthorized">isAuthorized</a></p>
+								<p>Overrides <a href="authservice.html">AuthService</a>.<a href="authservice.html#isauthenticated">isAuthenticated</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/token-auth.service.ts#L20">src/token-auth.service.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/access-token-auth.service.ts#L15">src/auth/access-token-auth.service.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -187,7 +187,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="authservice.html">AuthService</a>.<a href="authservice.html#transformhttprequestoptions">transformHttpRequestOptions</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/token-auth.service.ts#L26">src/token-auth.service.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/auth/access-token-auth.service.ts#L21">src/auth/access-token-auth.service.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,19 +215,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="tokenauthservice.html" class="tsd-kind-icon">Token<wbr>Auth<wbr>Service</a>
+						<a href="accesstokenauthservice.html" class="tsd-kind-icon">Access<wbr>Token<wbr>Auth<wbr>Service</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="tokenauthservice.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="accesstokenauthservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="tokenauthservice.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a>
+								<a href="accesstokenauthservice.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
-								<a href="tokenauthservice.html#isauthorized" class="tsd-kind-icon">is<wbr>Authorized</a>
+								<a href="accesstokenauthservice.html#isauthenticated" class="tsd-kind-icon">is<wbr>Authenticated</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="tokenauthservice.html#transformhttprequestoptions" class="tsd-kind-icon">transform<wbr>Http<wbr>Request<wbr>Options</a>
+								<a href="accesstokenauthservice.html#transformhttprequestoptions" class="tsd-kind-icon">transform<wbr>Http<wbr>Request<wbr>Options</a>
 							</li>
 						</ul>
 					</li>

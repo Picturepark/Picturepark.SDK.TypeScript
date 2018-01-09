@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ContentDeactivationRequest | @picturepark/sdk-v1-angular API</title>
+	<title>ShareCardComponent | @picturepark/sdk-v1-angular API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="contentdeactivationrequest.html">ContentDeactivationRequest</a>
+					<a href="sharecardcomponent.html">ShareCardComponent</a>
 				</li>
 			</ul>
-			<h1>Class ContentDeactivationRequest</h1>
+			<h1>Class ShareCardComponent</h1>
 		</div>
 	</div>
 </header>
@@ -70,14 +70,15 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ContentDeactivationRequest</span>
+						<span class="target">ShareCardComponent</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/icontentdeactivationrequest.html" class="tsd-signature-type">IContentDeactivationRequest</a></li>
+					<li><span class="tsd-signature-type">OnInit</span></li>
+					<li><span class="tsd-signature-type">OnChanges</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -87,21 +88,24 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="contentdeactivationrequest.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="sharecardcomponent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="contentdeactivationrequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="sharecardcomponent.html#imageurls" class="tsd-kind-icon">image<wbr>Urls</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="sharecardcomponent.html#isloading" class="tsd-kind-icon">is<wbr>Loading</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="sharecardcomponent.html#publicaccessservice" class="tsd-kind-icon">public<wbr>Access<wbr>Service</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="sharecardcomponent.html#share" class="tsd-kind-icon">share</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="sharecardcomponent.html#token" class="tsd-kind-icon">token</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="contentdeactivationrequest.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="contentdeactivationrequest.html#tojson" class="tsd-kind-icon">toJSON</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="contentdeactivationrequest.html#fromjs" class="tsd-kind-icon">fromJS</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sharecardcomponent.html#ngonchanges" class="tsd-kind-icon">ng<wbr>OnChanges</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sharecardcomponent.html#ngoninit" class="tsd-kind-icon">ng<wbr>OnInit</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,22 +117,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Content<wbr>Deactivation<wbr>Request<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontentdeactivationrequest.html" class="tsd-signature-type">IContentDeactivationRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="contentdeactivationrequest.html" class="tsd-signature-type">ContentDeactivationRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Share<wbr>Card<wbr>Component<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ActivatedRoute</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sharecardcomponent.html" class="tsd-signature-type">ShareCardComponent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L12663">src/picturepark.services.ts:12663</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/app/share-card/share-card.component.ts#L8">src/app/share-card/share-card.component.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="../interfaces/icontentdeactivationrequest.html" class="tsd-signature-type">IContentDeactivationRequest</a></h5>
+									<h5>route: <span class="tsd-signature-type">ActivatedRoute</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="contentdeactivationrequest.html" class="tsd-signature-type">ContentDeactivationRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="sharecardcomponent.html" class="tsd-signature-type">ShareCardComponent</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -136,13 +140,53 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="imageurls" class="tsd-anchor"></a>
+					<h3>image<wbr>Urls</h3>
+					<div class="tsd-signature tsd-kind-icon">image<wbr>Urls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/icontentdeactivationrequest.html">IContentDeactivationRequest</a>.<a href="../interfaces/icontentdeactivationrequest.html#contentids">contentIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L12663">src/picturepark.services.ts:12663</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/components/share-card/share-card.component.ts#L18">src/components/share-card/share-card.component.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="isloading" class="tsd-anchor"></a>
+					<h3>is<wbr>Loading</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/components/share-card/share-card.component.ts#L11">src/components/share-card/share-card.component.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="publicaccessservice" class="tsd-anchor"></a>
+					<h3>public<wbr>Access<wbr>Service</h3>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Access<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="publicaccessservice.html" class="tsd-signature-type">PublicAccessService</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/components/share-card/share-card.component.ts#L20">src/components/share-card/share-card.component.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="share" class="tsd-anchor"></a>
+					<h3>share</h3>
+					<div class="tsd-signature tsd-kind-icon">share<span class="tsd-signature-symbol">:</span> <a href="sharedetail.html" class="tsd-signature-type">ShareDetail</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/components/share-card/share-card.component.ts#L17">src/components/share-card/share-card.component.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="token" class="tsd-anchor"></a>
+					<h3>token</h3>
+					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/app/share-card/share-card.component.ts#L8">src/app/share-card/share-card.component.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/components/share-card/share-card.component.ts#L15">src/components/share-card/share-card.component.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -150,22 +194,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="init" class="tsd-anchor"></a>
-					<h3>init</h3>
+					<a name="ngonchanges" class="tsd-anchor"></a>
+					<h3>ng<wbr>OnChanges</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">ng<wbr>OnChanges<span class="tsd-signature-symbol">(</span>changes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SimpleChanges</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L12674">src/picturepark.services.ts:12674</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/components/share-card/share-card.component.ts#L23">src/components/share-card/share-card.component.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">any</span></h5>
+									<h5>changes: <span class="tsd-signature-type">SimpleChanges</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -173,48 +217,19 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="tojson" class="tsd-anchor"></a>
-					<h3>toJSON</h3>
+					<a name="ngoninit" class="tsd-anchor"></a>
+					<h3>ng<wbr>OnInit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">ng<wbr>OnInit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L12690">src/picturepark.services.ts:12690</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/app/share-card/share-card.component.ts#L13">src/app/share-card/share-card.component.ts:13</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="fromjs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> fromJS</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">fromJS<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="contentdeactivationrequest.html" class="tsd-signature-type">ContentDeactivationRequest</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L12684">src/picturepark.services.ts:12684</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>data: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="contentdeactivationrequest.html" class="tsd-signature-type">ContentDeactivationRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -233,22 +248,31 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="contentdeactivationrequest.html" class="tsd-kind-icon">Content<wbr>Deactivation<wbr>Request</a>
+						<a href="sharecardcomponent.html" class="tsd-kind-icon">Share<wbr>Card<wbr>Component</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="contentdeactivationrequest.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="sharecardcomponent.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="contentdeactivationrequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a>
+								<a href="sharecardcomponent.html#imageurls" class="tsd-kind-icon">image<wbr>Urls</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="sharecardcomponent.html#isloading" class="tsd-kind-icon">is<wbr>Loading</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="sharecardcomponent.html#publicaccessservice" class="tsd-kind-icon">public<wbr>Access<wbr>Service</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="sharecardcomponent.html#share" class="tsd-kind-icon">share</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="sharecardcomponent.html#token" class="tsd-kind-icon">token</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="contentdeactivationrequest.html#init" class="tsd-kind-icon">init</a>
+								<a href="sharecardcomponent.html#ngonchanges" class="tsd-kind-icon">ng<wbr>OnChanges</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="contentdeactivationrequest.html#tojson" class="tsd-kind-icon">toJSON</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="contentdeactivationrequest.html#fromjs" class="tsd-kind-icon">fromJS</a>
+								<a href="sharecardcomponent.html#ngoninit" class="tsd-kind-icon">ng<wbr>OnInit</a>
 							</li>
 						</ul>
 					</li>

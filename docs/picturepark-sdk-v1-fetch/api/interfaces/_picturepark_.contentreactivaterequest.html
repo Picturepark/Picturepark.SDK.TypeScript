@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PictureparkTokenAuthConfiguration | @picturepark/sdk-v1-angular API</title>
+	<title>ContentReactivateRequest | picturepark-sdk-v1-fetch API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@picturepark/sdk-v1-angular API</a>
+					<a href="../index.html" class="title">picturepark-sdk-v1-fetch API</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,10 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="pictureparktokenauthconfiguration.html">PictureparkTokenAuthConfiguration</a>
+					<a href="../modules/_picturepark_.html">&quot;picturepark&quot;</a>
+				</li>
+				<li>
+					<a href="_picturepark_.contentreactivaterequest.html">ContentReactivateRequest</a>
 				</li>
 			</ul>
-			<h1>Interface PictureparkTokenAuthConfiguration</h1>
+			<h1>Interface ContentReactivateRequest</h1>
 		</div>
 	</div>
 </header>
@@ -70,12 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="pictureparkconfiguration.html" class="tsd-signature-type">PictureparkConfiguration</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">PictureparkTokenAuthConfiguration</span>
-							</li>
-						</ul>
+						<span class="target">ContentReactivateRequest</span>
 					</li>
 				</ul>
 			</section>
@@ -86,9 +84,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pictureparktokenauthconfiguration.html#accesstoken" class="tsd-kind-icon">access<wbr>Token</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pictureparktokenauthconfiguration.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pictureparktokenauthconfiguration.html#customeralias" class="tsd-kind-icon">customer<wbr>Alias</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentreactivaterequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentreactivaterequest.html#displaypatternids" class="tsd-kind-icon">display<wbr>Pattern<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentreactivaterequest.html#resolve" class="tsd-kind-icon">resolve</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,34 +95,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="accesstoken" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> access<wbr>Token</h3>
-					<div class="tsd-signature tsd-kind-icon">access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="contentids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/token-auth.service.ts#L41">src/token-auth.service.ts:41</a></li>
+							<li>Defined in docs/temp/picturepark.d.ts:1575</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="apiserver" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> api<wbr>Server</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="displaypatternids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Pattern<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">display<wbr>Pattern<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="pictureparkconfiguration.html">PictureparkConfiguration</a>.<a href="pictureparkconfiguration.html#apiserver">apiServer</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.config.ts#L2">src/picturepark.config.ts:2</a></li>
+							<li>Defined in docs/temp/picturepark.d.ts:1577</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="customeralias" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> customer<wbr>Alias</h3>
-					<div class="tsd-signature tsd-kind-icon">customer<wbr>Alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resolve" class="tsd-anchor"></a>
+					<h3>resolve</h3>
+					<div class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="pictureparkconfiguration.html">PictureparkConfiguration</a>.<a href="pictureparkconfiguration.html#customeralias">customerAlias</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.config.ts#L3">src/picturepark.config.ts:3</a></li>
+							<li>Defined in docs/temp/picturepark.d.ts:1576</li>
 						</ul>
 					</aside>
 				</section>
@@ -136,23 +132,26 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="current tsd-kind-module tsd-is-not-exported">
+						<a href="../modules/_picturepark_.html">"picturepark"</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="pictureparktokenauthconfiguration.html" class="tsd-kind-icon">Picturepark<wbr>Token<wbr>Auth<wbr>Configuration</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="_picturepark_.contentreactivaterequest.html" class="tsd-kind-icon">Content<wbr>Reactivate<wbr>Request</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="pictureparktokenauthconfiguration.html#accesstoken" class="tsd-kind-icon">access<wbr>Token</a>
+								<a href="_picturepark_.contentreactivaterequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="pictureparktokenauthconfiguration.html#apiserver" class="tsd-kind-icon">api<wbr>Server</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentreactivaterequest.html#displaypatternids" class="tsd-kind-icon">display<wbr>Pattern<wbr>Ids</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="pictureparktokenauthconfiguration.html#customeralias" class="tsd-kind-icon">customer<wbr>Alias</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentreactivaterequest.html#resolve" class="tsd-kind-icon">resolve</a>
 							</li>
 						</ul>
 					</li>
