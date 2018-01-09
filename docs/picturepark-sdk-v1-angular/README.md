@@ -119,7 +119,14 @@ The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you 
 
 The `picturepark-sdk-v1-angular` also contains an Angular app which renders a content picker to select content items and create an embedded share. The app is usually distributed alongside a Picturepark server instance. 
 
-### Local testing
+**Start project:**
+
+In the project directory `src/picturepark-sdk-v1-angular`:
+
+- Run `npm start` to start the Angular project
+- Open the URL `http://localhost:4200` in the browser
+
+### Enable testing with authentication
 
 In the Picturepark backend, create a new API Client on the "Settings" > "API Clients" page with the following settings: 
 

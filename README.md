@@ -13,34 +13,27 @@ Links:
 
 ## Projects
 
-### Vanilla JavaScript and TypeScript
-
-**[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
-
-Contains client classes to access the Picturepark API with `window.fetch`. 
-
-**[picturepark-sdk-v1-pickers](docs/picturepark-sdk-v1-pickers/README.md)**
-
-Provides functions to show a content picker to select existing assets in 3rd party applications.
-
-**[picturepark-sdk-v1-widgets](docs/picturepark-sdk-v1-widgets/README.md)**
-
-Contains widgets to embed Picturepark content into other websites.
-
-### Angular (picturepark-sdk-v1-angular)
-
-**Run project:**
-
-In the project directory (i.e. `src/picturepark-sdk-v1-angular`):
-
-- Run `npm start` to start the Angular project
-- Open the URL `http://localhost:4200` in the browser
-
 **[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
 
 Contains Angular service classes and UI components to access the Picturepark API.
 
 NPM package: `@picturepark/sdk-v1-angular`
+
+**[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
+
+Contains client classes to access the Picturepark API with `window.fetch`. 
+
+NPM package: `@picturepark/sdk-v1-fetch`
+
+**[picturepark-sdk-v1-pickers](docs/picturepark-sdk-v1-pickers/README.md)**
+
+Provides functions to show a content picker to select existing assets in 3rd party applications.
+
+NPM package: `@picturepark/sdk-v1-pickers`
+
+**[picturepark-sdk-v1-widgets](docs/picturepark-sdk-v1-widgets/README.md)**
+
+Contains widgets to embed Picturepark content into other websites.
 
 ## SDK Development
 
