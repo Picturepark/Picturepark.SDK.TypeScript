@@ -10,11 +10,17 @@ Dependencies:
 - [angular2-virtual-scroll](https://www.npmjs.com/package/angular2-virtual-scroll)
 - [oidc-client](https://www.npmjs.com/package/oidc-client)
 
-The `@picturepark/sdk-v1-angular` package provides Angular (4.3+) service classes and UI components to access the Picturepark API.
+The `@picturepark/sdk-v1-angular` package provides Angular (5.0+) service classes and UI components to access the Picturepark API.
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-angular/api/index.html)
 
-Modules: 
+### Installation
+
+1. Install the NPM package:
+
+    @picturepark/sdk-v1-angular
+
+2. Register one of the Picturepark modules: 
 
 - PictureparkModule
 - PictureparkOidcModule
@@ -24,18 +30,12 @@ Modules:
 
 To use the clients with authentication, check out one of the [AuthService](auth/AuthService.md) implementations:
 
-- [AccessTokenAuthService](auth/AccessTokenAuthService.md): Authenticates with an access token
-- [OidcAuthService](auth/OidcAuthService.md): Authenticates with the OpenID Connect implicit flow
+- [AccessTokenAuthService](auth/AccessTokenAuthService.md): Authenticates with an access token (`PictureparkModule`)
+- [OidcAuthService](auth/OidcAuthService.md): Authenticates with the OpenID Connect implicit flow (`PictureparkOidcModule`)
 
-**1. Installation**
+**1. Module registration**
 
-Install the NPM package:
-
-    @picturepark/sdk-v1-angular
-
-**2. Module registration**
-
-Register the Picturepark module in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
+Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
 
 ```typescript
 import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angular';
@@ -56,7 +56,7 @@ import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angu
 export class AppModule { }
 ```
 
-**3. Inject services**
+**2. Inject services**
 
 All required services are now registered in the dependency injection container and can be used via constructor injection: 
 
@@ -82,7 +82,7 @@ export class AppComponent implements AfterViewInit {
 
 ### Use the UI components
 
-Register the Picturepark SDK modules in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
+Register the `PictureparkUiModule` in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
 
 ```ts
 import { PICTUREPARK_API_URL, PictureparkUiModule } from '@picturepark/sdk-v1-angular';

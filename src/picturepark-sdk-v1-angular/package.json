@@ -3,10 +3,11 @@
   "version": "0.1.7",
   "license": "MIT",
   "scripts": {
-    "init": "npm i",
+    "init": "npm install",
     "start": "npm run init && ng serve",
     "build": "npm run init && ng-packagr -p ng-package.json && ng build --prod",
-    "test": "npm run init && ng test",
+    "test": "npm run init && ng test --prod",
+    "test-nowatch": "npm run init && ng test --prod --watch=false",
     "lint": "npm run init && ng lint",
     "e2e": "npm run init && ng e2e"
   },
