@@ -80,3 +80,15 @@ Install the NPM package:
 ```
 npm install @picturepark/sdk-v1-pickers
 ```
+
+Next, import the `` function and call it: 
+
+```javascript
+import { showContentPicker } from '@picturepark/sdk-v1-pickers';
+
+showContentPicker('https://devnext.preview-picturepark.com').then(share => {
+  if (share.items && share.items[0].token) {
+    ...
+  }
+});
+```

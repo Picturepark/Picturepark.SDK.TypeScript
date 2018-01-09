@@ -106,14 +106,14 @@ For authenticating with the OIDC implicit flow, you can use the JavaScript libra
 npm install oidc-client
 ```
 
-For this sample, import the Picturepark OIDC settings helper, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
+For this sample, import the Picturepark OIDC settings helper `OidcClientSettings`, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
 
 ```js
 import { OidcClientSettings, AccessTokenAuthClient, ContentClient } from '@picturepark/sdk-v1-fetch';
 import { UserManager } from 'oidc-client';
 ```
 
-Initialize the settings: 
+Next, initialize the settings: 
 
 ```js
 let serverUrl = 'http://localhost:3000';
