@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-angular",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "scripts": {
     "init": "npm i",
@@ -8,7 +8,8 @@
     "build": "npm run init && npm run packagr",
     "test": "npm run init && ng test",
     "lint": "npm run init && ng lint",
-    "e2e": "npm run init && ng e2e"
+    "e2e": "npm run init && ng e2e",
+    "packagr": "ng-packagr -p ng-package.json"
   },
   "dependencies": {
     "@angular/common": "^4.3.0",
@@ -40,6 +41,6 @@
     "protractor": "~5.1.1",
     "ts-node": "~3.0.2",
     "tslint": "~5.1.0",
-    "typescript": "~2.2.0"
+    "typescript": "~2.5.3"
   }
 }
