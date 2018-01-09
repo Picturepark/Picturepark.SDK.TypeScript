@@ -1,7 +1,7 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { UserService } from '../picturepark.services';
+import { UserService } from '../services/picturepark.services';
 import { configureTest } from './config';
 
 describe('UserService', () => {

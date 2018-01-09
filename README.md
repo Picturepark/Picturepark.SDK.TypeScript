@@ -13,62 +13,27 @@ Links:
 
 ## Projects
 
-### Vanilla JavaScript and TypeScript
+**[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
+
+Contains Angular service classes and UI components to access the Picturepark API.
+
+NPM package: `@picturepark/sdk-v1-angular`
 
 **[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
 
 Contains client classes to access the Picturepark API with `window.fetch`. 
 
+NPM package: `@picturepark/sdk-v1-fetch`
+
 **[picturepark-sdk-v1-pickers](docs/picturepark-sdk-v1-pickers/README.md)**
 
 Provides functions to show a content picker to select existing assets in 3rd party applications.
 
+NPM package: `@picturepark/sdk-v1-pickers`
+
 **[picturepark-sdk-v1-widgets](docs/picturepark-sdk-v1-widgets/README.md)**
 
 Contains widgets to embed Picturepark content into other websites.
-
-### Angular
-
-**Run Projects:**
-
-In the repository directory:
-
-- Run `npm install`
-- Run `npm run link` to locally link all Angular projects
-
-In the project directory (e.g. in `src/picturepark-sdk-v1-angular-app`):
-
-- Run `npm install`
-- Run `npm start` to start the Angular project
-- Open the URL `http://localhost:4200` in the browser
-
-The following diagram shows the Angular packages, the Angular modules and their dependencies: 
-
-![](assets/angular-diagram.png)
-
-**[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
-
-Contains Angular service components to access the public Picturepark API.
-
-NPM package: `@picturepark/sdk-v1-angular`
-
-**[picturepark-sdk-v1-angular-oidc](docs/picturepark-sdk-v1-angular-oidc/README.md)** 
-
-Contains the Open ID Connect `OidcAuthService` to authenticate with the implicit flow.
-
-NPM package: `@picturepark/sdk-v1-angular-oidc`
-
-**[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular-ui/README.md)** 
-
-Contains reusable Angular UI components
-
-NPM package: `@picturepark/sdk-v1-angular-ui`
-
-**[picturepark-sdk-v1-angular-app](docs/picturepark-sdk-v1-angular-app/README.md)** 
-
-Contains embeddable UI components. This app is usually distributed alongside a Picturepark server instance.
-
-NPM package: `@picturepark/sdk-v1-angular-app`
 
 ## SDK Development
 

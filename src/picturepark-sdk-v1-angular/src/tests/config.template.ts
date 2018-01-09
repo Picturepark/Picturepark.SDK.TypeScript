@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PictureparkModule } from '../picturepark.module';
-import { PICTUREPARK_API_URL } from '../picturepark.services';
+import { PictureparkModule } from '../modules/picturepark.module';
+import { PICTUREPARK_API_URL } from '../services/picturepark.services';
 import { PICTUREPARK_CONFIGURATION, PictureparkConfiguration } from '../../index';
 
 export const testUrl = '{Server}';
