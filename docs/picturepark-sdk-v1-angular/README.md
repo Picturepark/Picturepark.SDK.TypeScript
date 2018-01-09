@@ -2,15 +2,23 @@
 
 ## picturepark-sdk-v1-angular
 
+**NPM Package:** @picturepark/sdk-v1-angular
+
 Dependencies:
 
 - @angular/*
 - [angular2-virtual-scroll](https://www.npmjs.com/package/angular2-virtual-scroll)
 - [oidc-client](https://www.npmjs.com/package/oidc-client)
 
-The `@picturepark/sdk-v1-angular` package provides Angular (4.3+) service classes to access the Picturepark API.
+The `@picturepark/sdk-v1-angular` package provides Angular (4.3+) service classes and UI components to access the Picturepark API.
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-angular/api/index.html)
+
+Modules: 
+
+- PictureparkModule
+- PictureparkOidcModule
+- PictureparkUiModule
 
 ### Use only the API services
 
@@ -77,7 +85,7 @@ export class AppComponent implements AfterViewInit {
 Register the Picturepark SDK modules in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
 
 ```ts
-import { PICTUREPARK_API_URL, PictureparkUiModule } from '@picturepark/sdk-v1-angulaui';
+import { PICTUREPARK_API_URL, PictureparkUiModule } from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
@@ -95,11 +103,9 @@ import { PICTUREPARK_API_URL, PictureparkUiModule } from '@picturepark/sdk-v1-an
 export class AppModule { }
 ```
 
-The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you do not need the UI components, just install `@picturepark/sdk-v1-angular` and import `PictureparkModule`.
+The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you do not need the UI components, just import `PictureparkModule`.
 
 #### Components
-
-**NPM Package:** @picturepark/sdk-v1-angular-ui
 
 - [pp-aggregation-filter](pp-aggregation-filter.md)
 - [pp-channel-picker](pp-channel-picker.md)
