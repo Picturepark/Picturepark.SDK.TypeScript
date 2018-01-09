@@ -94,6 +94,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#audit" class="tsd-kind-icon">audit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#brokenindirectreferenceids" class="tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#brokenreferenceids" class="tsd-kind-icon">broken<wbr>Reference<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#brokenrelationids" class="tsd-kind-icon">broken<wbr>Relation<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#displayvalues" class="tsd-kind-icon">display<wbr>Values</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="content.html#id" class="tsd-kind-icon">id</a></li>
@@ -123,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11434">src/picturepark.services.ts:11434</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11897">src/services/picturepark.services.ts:11897</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -146,9 +149,57 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#audit">audit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11427">src/picturepark.services.ts:11427</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11884">src/services/picturepark.services.ts:11884</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="brokenindirectreferenceids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Indirect<wbr>Reference<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#brokenindirectreferenceids">brokenIndirectReferenceIds</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11895">src/services/picturepark.services.ts:11895</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="brokenreferenceids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Reference<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Reference<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#brokenreferenceids">brokenReferenceIds</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11893">src/services/picturepark.services.ts:11893</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the ids of the broken references (tagboxes)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="brokenrelationids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Relation<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Relation<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#brokenrelationids">brokenRelationIds</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11897">src/services/picturepark.services.ts:11897</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the ids of the broken relations</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="contentschemaid" class="tsd-anchor"></a>
@@ -157,7 +208,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#contentschemaid">contentSchemaId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11429">src/picturepark.services.ts:11429</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11886">src/services/picturepark.services.ts:11886</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,7 +224,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#displayvalues">displayValues</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11433">src/picturepark.services.ts:11433</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11890">src/services/picturepark.services.ts:11890</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -189,7 +240,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11434">src/picturepark.services.ts:11434</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11891">src/services/picturepark.services.ts:11891</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +251,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontent.html">IContent</a>.<a href="../interfaces/icontent.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11431">src/picturepark.services.ts:11431</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11888">src/services/picturepark.services.ts:11888</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -222,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11446">src/picturepark.services.ts:11446</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11909">src/services/picturepark.services.ts:11909</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -245,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11472">src/picturepark.services.ts:11472</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11950">src/services/picturepark.services.ts:11950</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -268,7 +319,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/da3398b6/src/picturepark-sdk-v1-angular/src/picturepark.services.ts#L11466">src/picturepark.services.ts:11466</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/02b852c8/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L11944">src/services/picturepark.services.ts:11944</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,6 +354,15 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="content.html#audit" class="tsd-kind-icon">audit</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="content.html#brokenindirectreferenceids" class="tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="content.html#brokenreferenceids" class="tsd-kind-icon">broken<wbr>Reference<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="content.html#brokenrelationids" class="tsd-kind-icon">broken<wbr>Relation<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="content.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a>

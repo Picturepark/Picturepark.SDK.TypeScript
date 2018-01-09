@@ -105,8 +105,11 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#aggregate" class="tsd-kind-icon">aggregate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#aggregatebychannel" class="tsd-kind-icon">aggregate<wbr>ByChannel</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#createcontent" class="tsd-kind-icon">create<wbr>Content</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#batchupdatefieldsbyfilter" class="tsd-kind-icon">batch<wbr>Update<wbr>Fields<wbr>ByFilter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#batchupdatefieldsbyids" class="tsd-kind-icon">batch<wbr>Update<wbr>Fields<wbr>ByIds</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#createdownloadlink" class="tsd-kind-icon">create<wbr>Download<wbr>Link</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#createmany" class="tsd-kind-icon">create<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#deactivate" class="tsd-kind-icon">deactivate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#deactivatemany" class="tsd-kind-icon">deactivate<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#download" class="tsd-kind-icon">download</a></li>
@@ -123,7 +126,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.contentclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatefile" class="tsd-kind-icon">update<wbr>File</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatemetadata" class="tsd-kind-icon">update<wbr>Metadata</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatemetadatabyfilter" class="tsd-kind-icon">update<wbr>Metadata<wbr>ByFilter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatemetadatamany" class="tsd-kind-icon">update<wbr>Metadata<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatepermissions" class="tsd-kind-icon">update<wbr>Permissions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.contentclient.html#updatepermissionsmany" class="tsd-kind-icon">update<wbr>Permissions<wbr>Many</a></li>
@@ -236,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:60</li>
+									<li>Defined in docs/temp/picturepark.d.ts:66</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -270,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:68</li>
+									<li>Defined in docs/temp/picturepark.d.ts:74</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -301,16 +303,84 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="createcontent" class="tsd-anchor"></a>
-					<h3>create<wbr>Content</h3>
+					<a name="batchupdatefieldsbyfilter" class="tsd-anchor"></a>
+					<h3>batch<wbr>Update<wbr>Fields<wbr>ByFilter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Content<span class="tsd-signature-symbol">(</span>contentCreateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentcreaterequest.html" class="tsd-signature-type">ContentCreateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, patterns<span class="tsd-signature-symbol">?: </span><a href="../enums/_picturepark_.displaypatterntype.html" class="tsd-signature-type">DisplayPatternType</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">batch<wbr>Update<wbr>Fields<wbr>ByFilter<span class="tsd-signature-symbol">(</span>updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentfieldsfilterupdaterequest.html" class="tsd-signature-type">ContentFieldsFilterUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:105</li>
+									<li>Defined in docs/temp/picturepark.d.ts:216</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Batch update fields - by filter</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>updaterequest</dt>
+									<dd><p>The metadata update request.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>updateRequest: <a href="../interfaces/_picturepark_.contentfieldsfilterupdaterequest.html" class="tsd-signature-type">ContentFieldsFilterUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="batchupdatefieldsbyids" class="tsd-anchor"></a>
+					<h3>batch<wbr>Update<wbr>Fields<wbr>ByIds</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">batch<wbr>Update<wbr>Fields<wbr>ByIds<span class="tsd-signature-symbol">(</span>updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentfieldsupdaterequest.html" class="tsd-signature-type">ContentFieldsUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:209</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Batch update fields - by ids</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>updaterequest</dt>
+									<dd><p>The metadata update request.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>updateRequest: <a href="../interfaces/_picturepark_.contentfieldsupdaterequest.html" class="tsd-signature-type">ContentFieldsUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>contentCreateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentcreaterequest.html" class="tsd-signature-type">ContentCreateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, patterns<span class="tsd-signature-symbol">?: </span><a href="../enums/_picturepark_.displaypatterntype.html" class="tsd-signature-type">DisplayPatternType</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:111</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -361,7 +431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:75</li>
+									<li>Defined in docs/temp/picturepark.d.ts:81</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,16 +456,49 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="deactivate" class="tsd-anchor"></a>
-					<h3>deactivate</h3>
+					<a name="createmany" class="tsd-anchor"></a>
+					<h3>create<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">deactivate<span class="tsd-signature-symbol">(</span>contentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Many<span class="tsd-signature-symbol">(</span>contentCreateRequests<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentcreaterequest.html" class="tsd-signature-type">ContentCreateRequest</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:112</li>
+									<li>Defined in docs/temp/picturepark.d.ts:44</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create - many</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>contentcreaterequests</dt>
+									<dd><p>The content create requests.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contentCreateRequests: <a href="../interfaces/_picturepark_.contentcreaterequest.html" class="tsd-signature-type">ContentCreateRequest</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deactivate" class="tsd-anchor"></a>
+					<h3>deactivate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">deactivate<span class="tsd-signature-symbol">(</span>contentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -420,7 +523,7 @@
 									<h5>timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -428,29 +531,29 @@
 					<a name="deactivatemany" class="tsd-anchor"></a>
 					<h3>deactivate<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">deactivate<wbr>Many<span class="tsd-signature-symbol">(</span>deactivationRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentdeactivationrequest.html" class="tsd-signature-type">ContentDeactivationRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">deactivate<wbr>Many<span class="tsd-signature-symbol">(</span>deactivateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentdeactivaterequest.html" class="tsd-signature-type">ContentDeactivateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:119</li>
+									<li>Defined in docs/temp/picturepark.d.ts:125</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dactivate - many</p>
+									<p>Deactivate - many</p>
 								</div>
 								<dl class="tsd-comment-tags">
-									<dt>deactivationrequest</dt>
-									<dd><p>The deactivation request</p>
+									<dt>deactivaterequest</dt>
+									<dd><p>The deactivate request</p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>deactivationRequest: <a href="../interfaces/_picturepark_.contentdeactivationrequest.html" class="tsd-signature-type">ContentDeactivationRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>deactivateRequest: <a href="../interfaces/_picturepark_.contentdeactivaterequest.html" class="tsd-signature-type">ContentDeactivateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -468,7 +571,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:86</li>
+									<li>Defined in docs/temp/picturepark.d.ts:92</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -526,7 +629,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:96</li>
+									<li>Defined in docs/temp/picturepark.d.ts:102</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -694,7 +797,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:129</li>
+									<li>Defined in docs/temp/picturepark.d.ts:135</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -740,13 +843,13 @@
 					<a name="reactivatemany" class="tsd-anchor"></a>
 					<h3>reactivate<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">reactivate<wbr>Many<span class="tsd-signature-symbol">(</span>reactivationRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentreactivationrequest.html" class="tsd-signature-type">ContentReactivationRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">reactivate<wbr>Many<span class="tsd-signature-symbol">(</span>reactivateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentreactivaterequest.html" class="tsd-signature-type">ContentReactivateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:136</li>
+									<li>Defined in docs/temp/picturepark.d.ts:142</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -754,15 +857,15 @@
 									<p>Reactivate - many</p>
 								</div>
 								<dl class="tsd-comment-tags">
-									<dt>reactivationrequest</dt>
-									<dd><p>The content reactivation request.</p>
+									<dt>reactivaterequest</dt>
+									<dd><p>The content reactivate request.</p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>reactivationRequest: <a href="../interfaces/_picturepark_.contentreactivationrequest.html" class="tsd-signature-type">ContentReactivationRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>reactivateRequest: <a href="../interfaces/_picturepark_.contentreactivaterequest.html" class="tsd-signature-type">ContentReactivateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -780,7 +883,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:45</li>
+									<li>Defined in docs/temp/picturepark.d.ts:51</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -814,7 +917,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:53</li>
+									<li>Defined in docs/temp/picturepark.d.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -958,7 +1061,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:143</li>
+									<li>Defined in docs/temp/picturepark.d.ts:149</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -991,13 +1094,13 @@
 					<a name="updatemetadata" class="tsd-anchor"></a>
 					<h3>update<wbr>Metadata</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Metadata<span class="tsd-signature-symbol">(</span>contentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentmetadataupdaterequest.html" class="tsd-signature-type">ContentMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, patterns<span class="tsd-signature-symbol">?: </span><a href="../enums/_picturepark_.displaypatterntype.html" class="tsd-signature-type">DisplayPatternType</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Metadata<span class="tsd-signature-symbol">(</span>contentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentmetadataupdaterequest.html" class="tsd-signature-type">ContentMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, allowMissingDependencies<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, patterns<span class="tsd-signature-symbol">?: </span><a href="../enums/_picturepark_.displaypatterntype.html" class="tsd-signature-type">DisplayPatternType</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.contentdetail.html" class="tsd-signature-type">ContentDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:154</li>
+									<li>Defined in docs/temp/picturepark.d.ts:161</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1013,6 +1116,9 @@
 									</dd>
 									<dt>resolve</dt>
 									<dd><p>Resolves the data of referenced list items into the contents&#39;s content.</p>
+									</dd>
+									<dt>allowmissingdependencies</dt>
+									<dd><p>(optional) Allow storing references to missing list items</p>
 									</dd>
 									<dt>timeout</dt>
 									<dd><p>(optional) Maximum time to wait for the business process completed state.</p>
@@ -1034,6 +1140,9 @@
 									<h5>resolve: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> allowMissingDependencies: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								</li>
+								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 								<li>
@@ -1046,50 +1155,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="updatemetadatabyfilter" class="tsd-anchor"></a>
-					<h3>update<wbr>Metadata<wbr>ByFilter</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Metadata<wbr>ByFilter<span class="tsd-signature-symbol">(</span>updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filtercontentsmetadataupdaterequest.html" class="tsd-signature-type">FilterContentsMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:168</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Update metadata - by filter</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>updaterequest</dt>
-									<dd><p>The metadata update request.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>updateRequest: <a href="../interfaces/_picturepark_.filtercontentsmetadataupdaterequest.html" class="tsd-signature-type">FilterContentsMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>BusinessProcess</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="updatemetadatamany" class="tsd-anchor"></a>
 					<h3>update<wbr>Metadata<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Metadata<wbr>Many<span class="tsd-signature-symbol">(</span>updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentsmetadataupdaterequest.html" class="tsd-signature-type">ContentsMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Metadata<wbr>Many<span class="tsd-signature-symbol">(</span>updateRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.contentmetadataupdatemanyrequest.html" class="tsd-signature-type">ContentMetadataUpdateManyRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:161</li>
+									<li>Defined in docs/temp/picturepark.d.ts:179</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1098,14 +1173,14 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>updaterequest</dt>
-									<dd><p>The metadata update request.</p>
+									<dd><p>The metadata update requests.</p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>updateRequest: <a href="../interfaces/_picturepark_.contentsmetadataupdaterequest.html" class="tsd-signature-type">ContentsMetadataUpdateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>updateRequest: <a href="../interfaces/_picturepark_.contentmetadataupdatemanyrequest.html" class="tsd-signature-type">ContentMetadataUpdateManyRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1123,7 +1198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:179</li>
+									<li>Defined in docs/temp/picturepark.d.ts:172</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1244,10 +1319,19 @@
 								<a href="_picturepark_.contentclient.html#aggregatebychannel" class="tsd-kind-icon">aggregate<wbr>ByChannel</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.contentclient.html#createcontent" class="tsd-kind-icon">create<wbr>Content</a>
+								<a href="_picturepark_.contentclient.html#batchupdatefieldsbyfilter" class="tsd-kind-icon">batch<wbr>Update<wbr>Fields<wbr>ByFilter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.contentclient.html#batchupdatefieldsbyids" class="tsd-kind-icon">batch<wbr>Update<wbr>Fields<wbr>ByIds</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.contentclient.html#create" class="tsd-kind-icon">create</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#createdownloadlink" class="tsd-kind-icon">create<wbr>Download<wbr>Link</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.contentclient.html#createmany" class="tsd-kind-icon">create<wbr>Many</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#deactivate" class="tsd-kind-icon">deactivate</a>
@@ -1296,9 +1380,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#updatemetadata" class="tsd-kind-icon">update<wbr>Metadata</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.contentclient.html#updatemetadatabyfilter" class="tsd-kind-icon">update<wbr>Metadata<wbr>ByFilter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.contentclient.html#updatemetadatamany" class="tsd-kind-icon">update<wbr>Metadata<wbr>Many</a>
