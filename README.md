@@ -49,7 +49,7 @@ Run the following commands to regenerate the clients based on the Swagger specif
     npm install
 	npm run nswag
 
-### Bump package versions
+### Release new package versions
 
 1. Change package versions in the following projects and delete all `package-lock.json` files: 
 
@@ -61,7 +61,7 @@ Run the following commands to regenerate the clients based on the Swagger specif
 
     npm run build
 
-3. Commit and push changes, then merge into the "release" branch
+3. Commit and push changes, then merge into the "release" branch. The NPM packages are now [automatically published by AppVeyor](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript).
 
 ### CI Builds
 
