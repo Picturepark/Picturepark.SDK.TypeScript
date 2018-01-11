@@ -12,17 +12,17 @@ The `@picturepark/sdk-v1-angular` package provides Angular 4.3+ service classes 
 
 1. Install the NPM package:
 
-    @picturepark/sdk-v1-angular
+    `@picturepark/sdk-v1-angular`
 
 2. Register one of the Picturepark modules: 
 
-- PictureparkModule
-- PictureparkOidcModule
-- PictureparkUiModule
+- **PictureparkModule:** Registers the client services to access the Picturepark API.
+- **PictureparkOidcModule:** Registers the [OidcAuthService](auth/OidcAuthService.md) to authenticate using the OIDC implict flow. 
+- **PictureparkUiModule:** Registers the UI components.
 
 ### Use the API services
 
-To use the clients with authentication, check out one of the [AuthService](auth/AuthService.md) implementations:
+To use the client service classes with authentication, you need to use one of the [AuthService](auth/AuthService.md) implementations:
 
 - [AccessTokenAuthService](auth/AccessTokenAuthService.md): Authenticates with an access token (`PictureparkModule`)
 - [OidcAuthService](auth/OidcAuthService.md): Authenticates with the OpenID Connect implicit flow (`PictureparkOidcModule`)
@@ -57,7 +57,7 @@ export class AppModule { }
 
 **2. Inject services**
 
-All required services are now registered in the dependency injection container and can be used via constructor injection: 
+All required services are now registered in the Angular's dependency injection container and can be used via constructor injection: 
 
 ```typescript
 import { Component, AfterViewInit } from '@angular/core';
@@ -104,7 +104,7 @@ export class AppModule { }
 
 The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you do not need the UI components, just import `PictureparkModule`.
 
-#### Components
+The package provides the following Angular components for your views: 
 
 - [pp-aggregation-filter](pp-aggregation-filter.md)
 - [pp-channel-picker](pp-channel-picker.md)
