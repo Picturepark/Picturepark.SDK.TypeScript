@@ -8,8 +8,8 @@
 Links:
 
 - [Picturepark Website](https://picturepark.com/)
+- [Available NPM packages](https://www.npmjs.com/~picturepark)
 - [Sources](src/)
-- [All NPM packages](https://www.npmjs.com/~picturepark)
 
 ## Projects
 
@@ -42,12 +42,14 @@ Links:
 - [Build scripts](SCRIPTS.md)
 - [Sources](src/)
 
-### Client generation
+### Regenerate clients from Swagger specification
 
 Run the following commands to regenerate the clients based on the Swagger specifications in `/swagger`: 
 
     npm install
-	npm run nswag
+  	npm run nswag
+
+For more information, see [NSwag](http://nswag.org).
 
 ### Release new package versions
 
@@ -67,7 +69,6 @@ Run the following commands to regenerate the clients based on the Swagger specif
 
 Branch: master
 
-- NPM CI Feed: tbd
 - AppVeyor CI Build: https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-hgo7c
 
 ### Release Builds
