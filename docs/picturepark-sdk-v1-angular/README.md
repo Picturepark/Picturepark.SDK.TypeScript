@@ -2,13 +2,7 @@
 
 ## picturepark-sdk-v1-angular
 
-**NPM Package:** @picturepark/sdk-v1-angular
-
-Dependencies:
-
-- @angular/*
-- [angular2-virtual-scroll](https://www.npmjs.com/package/angular2-virtual-scroll)
-- [oidc-client](https://www.npmjs.com/package/oidc-client)
+**NPM Package:** [@picturepark/sdk-v1-angular](https://www.npmjs.com/package/@picturepark/sdk-v1-angular)
 
 The `@picturepark/sdk-v1-angular` package provides Angular 4.3+ service classes and UI components to access the Picturepark API.
 
