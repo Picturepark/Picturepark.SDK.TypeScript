@@ -156,6 +156,7 @@ After creating the client, open [src/picturepark-sdk-v1-angular-app/src/index.ht
 
 The `picturepark-customer-id` can be retrieved by navigating to "Settings" > "System Information" in your Picturepark backend.
 
-## Sample
+## Samples
 
 - [picturepark-sdk-v1-sample-angular4](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular4)
+- [picturepark-sdk-v1-sample-angular5](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular5)
