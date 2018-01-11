@@ -26,7 +26,7 @@ The `@picturepark/sdk-v1-angular` package provides Angular (5.0+) service classe
 - PictureparkOidcModule
 - PictureparkUiModule
 
-### Use only the API services
+### Use the API services
 
 To use the clients with authentication, check out one of the [AuthService](auth/AuthService.md) implementations:
 
@@ -35,10 +35,10 @@ To use the clients with authentication, check out one of the [AuthService](auth/
 
 **1. Module registration**
 
-Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
+Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app module and define the Picturepark configuration with the `PICTUREPARK_CONFIGURATION` token:
 
 ```typescript
-import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_CONFIGURATION, PictureparkModule, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,12 @@ import { PICTUREPARK_API_URL, PictureparkModule } from '@picturepark/sdk-v1-angu
     PictureparkModule
   ],
   providers: [
-    { provide: PICTUREPARK_API_URL, useValue: "https://devnext-api.preview-picturepark.com" }
+    {
+      provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
+        apiServer: 'https://devnext-api.preview-picturepark.com',
+        customerAlias: 'dev'
+      }
+    }
   ],
   bootstrap: [ AppComponent ]
 })
@@ -82,10 +87,10 @@ export class AppComponent implements AfterViewInit {
 
 ### Use the UI components
 
-Register the `PictureparkUiModule` in your Angular app module and define the Picturepark server URL with the `PICTUREPARK_API_URL` token:
+Register the `PictureparkUiModule` in your Angular app module:
 
 ```ts
-import { PICTUREPARK_API_URL, PictureparkUiModule } from '@picturepark/sdk-v1-angular';
+import { PictureparkUiModule } from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
@@ -96,7 +101,7 @@ import { PICTUREPARK_API_URL, PictureparkUiModule } from '@picturepark/sdk-v1-an
     PictureparkUiModule
   ],
   providers: [
-    { provide: PICTUREPARK_API_URL, useValue: "https://devnext.preview-picturepark.com" }
+    ...
   ],
   bootstrap: [ AppComponent ]
 })
@@ -153,4 +158,4 @@ The `picturepark-customer-id` can be retrieved by navigating to "Settings" > "Sy
 
 ## Sample
 
-- [picturepark-sdk-v1-sample-angular](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular)
+- [picturepark-sdk-v1-sample-angular4](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular4)
