@@ -4,7 +4,12 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-import { PICTUREPARK_CONFIGURATION, PictureparkModule, PictureparkUiModule, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
+import {
+  PICTUREPARK_CONFIGURATION,
+  PictureparkModule,
+  PictureparkUiModule,
+  PictureparkConfiguration
+} from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
