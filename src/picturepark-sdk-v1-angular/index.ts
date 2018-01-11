@@ -1,7 +1,8 @@
 // exports
-export { PictureparkConfiguration } from './src/services/configuration';
-export { PICTUREPARK_CONFIGURATION } from './src/services/picturepark.servicebase';
-export { AccessTokenAuthService, PictureparkAccessTokenAuthConfiguration } from './src/auth/access-token-auth.service';
+export * from './src/services/configuration';
+export * from './src/services/picturepark.servicebase';
+export * from './src/auth/access-token-auth.service';
+export * from './src/auth/oidc-auth.service';
 
 // services
 export * from './src/services/picturepark.services';

@@ -10,8 +10,8 @@ export class AppComponent {
   searchText = '';
 
   constructor(
-      public authService: AuthService, 
-      public contentService: ContentService) {
+    public authService: AuthService,
+    public contentService: ContentService) {
   }
 
   async search() {
