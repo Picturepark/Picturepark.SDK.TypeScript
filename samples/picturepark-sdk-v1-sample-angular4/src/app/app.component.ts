@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, Inject } from '@angular/core';
-import { OidcAuthService, AuthService, ContentService, ContentSearchRequest } from '@picturepark/sdk-v1-angular';
+import { AuthService, PublicAccessService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
@@ -7,22 +7,26 @@ import { OidcAuthService, AuthService, ContentService, ContentSearchRequest } fr
 })
 export class AppComponent {
   output: string;
-  searchText = '';
+
+  token = '';
+  currentToken = '';
 
   constructor(
-    @Inject(AuthService) public authService: OidcAuthService,
-    public contentService: ContentService) {
+    public authService: AuthService,
+    public publicAccessService: PublicAccessService) {
   }
 
-  async search() {
-    const request = new ContentSearchRequest();
-    request.searchString = this.searchText;
-
+  async load() {
     this.output = 'Loading...';
-    this.contentService.search(request).subscribe(response => {
-      this.output = JSON.stringify(response, null, 4);
-    }, error => {
-      this.output = error.toString();
-    });
+    this.currentToken = this.token;
+    if (this.currentToken) {
+      this.publicAccessService.getShare(this.currentToken).subscribe(response => {
+        this.output = JSON.stringify(response, null, 4);
+      }, error => {
+        this.output = error.toString();
+      });
+    } else {
+      this.output = '';
+    }
   }
 }
