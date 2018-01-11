@@ -8,8 +8,8 @@
     "redux-thunk": "^2.2.0"
   },
   "dependencies": {
-    "@picturepark/sdk-v1-fetch": "^0.1.6",
-    "@picturepark/sdk-v1-pickers": "^0.1.6",
+    "@picturepark/sdk-v1-fetch": "^0.1.9",
+    "@picturepark/sdk-v1-pickers": "^0.1.9",
     "@types/enzyme": "^2.7.2",
     "@types/jest": "^18.1.1",
     "@types/node": "^7.0.5",

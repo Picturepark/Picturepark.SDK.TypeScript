@@ -22,7 +22,7 @@ let oidcSettings = OidcClientSettings.create({
   stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
   clientId: 'TestRico',
   customerAlias: 'dev',
-  customerId: 'dd97b507e2e54576b3d50233e08b77f3',
+  customerId: '0a720a0f623b4e90baafeb71e14d9fcd',
   scope: 'openid profile picturepark_api all_scopes'
 });
 
