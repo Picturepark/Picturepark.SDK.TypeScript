@@ -1,5 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { AuthService, ContentService, ContentSearchRequest } from '@picturepark/sdk-v1-angular';
+import { Component, AfterViewInit, Inject } from '@angular/core';
+import { OidcAuthService, AuthService, ContentService, ContentSearchRequest } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ export class AppComponent {
   searchText = '';
 
   constructor(
-    public authService: AuthService,
+    @Inject(AuthService) public authService: OidcAuthService,
     public contentService: ContentService) {
   }
 
