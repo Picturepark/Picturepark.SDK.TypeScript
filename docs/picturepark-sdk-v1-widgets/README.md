@@ -13,6 +13,10 @@ Latest version from master branch (use for development only):
 - [picturepark-widgets.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js)
 - [picturepark-widgets.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.d.ts)
 
+Latest released version: 
+
+- [AppVeyor Release Artifacts](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript/build/artifacts)
+
 ### Browser support
 
 - pictureparkWidgets.processScriptTag(): 

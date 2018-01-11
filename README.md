@@ -54,8 +54,6 @@ Run the following commands to regenerate the clients based on the Swagger specif
 1. Change package versions in the following projects and delete all `package-lock.json` files: 
 
 - picturepark-sdk-v1-angular
-- picturepark-sdk-v1-angular-oidc
-- picturepark-sdk-v1-angular-ui
 - picturepark-sdk-v1-fetch
 - picturepark-sdk-v1-pickers
 
