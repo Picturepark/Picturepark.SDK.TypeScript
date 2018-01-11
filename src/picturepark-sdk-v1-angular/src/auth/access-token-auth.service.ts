@@ -1,8 +1,8 @@
 import { Output, EventEmitter, Injectable, Inject, Optional } from '@angular/core';
 
-import { PICTUREPARK_CONFIGURATION } from '../services/picturepark.servicebase';
+import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
 import { PictureparkConfiguration } from '../services/configuration';
-import { AuthService, PICTUREPARK_API_URL } from '../services/picturepark.services';
+import { AuthService, PICTUREPARK_API_URL } from '../services/services';
 
 @Injectable()
 export class AccessTokenAuthService extends AuthService {

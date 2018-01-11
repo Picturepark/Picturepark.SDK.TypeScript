@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, LOCALE_ID, Inject } from '@angu
 import { InputConverter, BooleanConverter, StringConverter } from '../converter';
 
 import { translate, TRANSLATIONS } from '../../utilities/translations';
-import { AuthService } from '../../services/picturepark.services';
+import { AuthService } from '../../services/services';
 
 @Component({
   selector: 'pp-login',

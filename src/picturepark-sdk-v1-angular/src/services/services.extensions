@@ -1,9 +1,9 @@
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core'; // ignore
 import { Observable } from 'rxjs/Observable'; // ignore
-import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './picturepark.services'; // ignore
+import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './services'; // ignore
 
-import { PictureparkServiceBase } from './picturepark.servicebase';
-import * as generated from './picturepark.services';
+import { PictureparkServiceBase } from './base.service';
+import * as generated from './services';
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
     translate(locale: string) {

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, LOCALE_ID, Inject } from '@angular/core';
 
 import { translate } from '../utilities/translations';
-import { TranslatedStringDictionary } from '../services/picturepark.services';
+import { TranslatedStringDictionary } from '../services/services';
 
 @Pipe({ name: 'pptranslate' })
 export class TranslatePipe implements PipeTransform {

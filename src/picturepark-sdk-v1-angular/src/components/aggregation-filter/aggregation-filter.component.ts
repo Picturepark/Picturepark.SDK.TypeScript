@@ -12,7 +12,7 @@ import {
   ContentSearchType,
   OrFilter,
   BrokenDependenciesFilter
-} from '../../services/picturepark.services';
+} from '../../services/services';
 
 @Component({
   selector: 'pp-aggregation-filter',

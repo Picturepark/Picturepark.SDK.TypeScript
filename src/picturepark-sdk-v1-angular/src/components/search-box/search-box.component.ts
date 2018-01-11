@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { InputConverter, BooleanConverter, StringConverter } from '../converter';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult } from '../../services/picturepark.services';
+import { ContentService, ContentSearchRequest, ContentSearchResult } from '../../services/services';
 
 @Component({
   selector: 'pp-search-box',

@@ -15,7 +15,7 @@ import {
   TransferService,
   ServiceProviderService,
   AuthService
-} from '../services/picturepark.services';
+} from '../services/services';
 
 @NgModule({
   imports: [

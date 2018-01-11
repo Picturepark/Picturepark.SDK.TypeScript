@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewIni
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { EmbedService } from '../embed.service';
-import { AggregationFilter, Content, AggregationResult, AuthService } from '../../services/picturepark.services';
+import { AggregationFilter, Content, AggregationResult, AuthService } from '../../services/services';
 import { SelectionMode, ContentBrowserComponent } from '../../components/content-browser/content-browser.component';
 import { OidcAuthService } from '../../auth/oidc-auth.service';
 

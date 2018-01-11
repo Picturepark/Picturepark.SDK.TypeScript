@@ -18,7 +18,7 @@ import { FileSizePipe } from 'app/pipes/filesize.pipe';
 import { PictureparkOidcAuthConfiguration } from '../auth/oidc-auth.service';
 import { PictureparkOidcModule } from '../modules/picturepark-oidc.module';
 import { PictureparkUiModule } from '../modules/picturepark-ui.module';
-import { PICTUREPARK_CONFIGURATION } from '../services/picturepark.servicebase';
+import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
