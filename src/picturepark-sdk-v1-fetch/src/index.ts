@@ -902,9 +902,10 @@ export class ContentClient extends PictureparkClientBase {
      * @resolve Resolves the data of referenced list items into the contents's content.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
      * @return ContentDetail
      */
-    reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail> {
+    reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/reactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -917,6 +918,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -2868,9 +2873,10 @@ export class ListItemClient extends PictureparkClientBase {
      * @listItemId The list item id.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
      * @return ListItemDetail
      */
-    reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail> {
+    reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/reactivate?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -2879,6 +2885,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
