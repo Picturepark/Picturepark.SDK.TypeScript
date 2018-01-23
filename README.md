@@ -8,8 +8,8 @@
 Links:
 
 - [Picturepark Website](https://picturepark.com/)
+- [Available NPM packages](https://www.npmjs.com/~picturepark)
 - [Sources](src/)
-- [All NPM packages](https://www.npmjs.com/~picturepark)
 
 ## Projects
 
@@ -42,20 +42,20 @@ Links:
 - [Build scripts](SCRIPTS.md)
 - [Sources](src/)
 
-### Client generation
+### Regenerate clients from Swagger specification
 
 Run the following commands to regenerate the clients based on the Swagger specifications in `/swagger`: 
 
     npm install
-	npm run nswag
+  	npm run nswag
 
-### Bump package versions
+For more information, see [NSwag](http://nswag.org).
+
+### Release new package versions
 
 1. Change package versions in the following projects and delete all `package-lock.json` files: 
 
 - picturepark-sdk-v1-angular
-- picturepark-sdk-v1-angular-oidc
-- picturepark-sdk-v1-angular-ui
 - picturepark-sdk-v1-fetch
 - picturepark-sdk-v1-pickers
 
@@ -63,13 +63,12 @@ Run the following commands to regenerate the clients based on the Swagger specif
 
     npm run build
 
-3. Commit and push changes, then merge into the "release" branch
+3. Commit and push changes, then merge into the "release" branch. The NPM packages are now [automatically published by AppVeyor](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript).
 
 ### CI Builds
 
 Branch: master
 
-- NPM CI Feed: tbd
 - AppVeyor CI Build: https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-hgo7c
 
 ### Release Builds

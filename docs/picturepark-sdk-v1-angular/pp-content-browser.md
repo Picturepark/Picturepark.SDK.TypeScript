@@ -1,7 +1,5 @@
 # pp-content-browser
 
-**NPM Package:** @picturepark/sdk-v1-angular-ui
-
 Renders a list of content items for the given channel, filters and search query.
 
 ```

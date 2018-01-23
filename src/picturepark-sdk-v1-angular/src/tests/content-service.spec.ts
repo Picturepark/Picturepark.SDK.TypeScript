@@ -5,7 +5,7 @@ import {
   ContentService, ContentSearchRequest,
   ThumbnailSize, ContentAggregationRequest,
   ContentNotFoundException
-} from '../services/picturepark.services';
+} from '../services/services';
 import { configureTest } from './config';
 
 describe('ContentService', () => {

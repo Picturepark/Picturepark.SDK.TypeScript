@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, Inject, LOCALE_ID } from '@angular/core';
 import { InputConverter, BooleanConverter, StringConverter } from '../converter';
 
-import { AuthService } from '../../services/picturepark.services';
+import { AuthService } from '../../services/services';
 import { translate, TRANSLATIONS } from '../../utilities/translations';
 
 @Component({

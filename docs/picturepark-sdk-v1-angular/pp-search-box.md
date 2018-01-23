@@ -1,7 +1,5 @@
 # pp-search-box
 
-**NPM Package:** @picturepark/sdk-v1-angular-ui
-
 Renders a search box to enter a search query.
 
 ```

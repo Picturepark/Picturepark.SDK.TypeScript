@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange, ViewChild, ElementRef, OnInit } from '@angular/core';
 
 import { InputConverter, StringConverter } from '../converter';
-import { UserService, Channel } from '../../services/picturepark.services';
+import { UserService, Channel } from '../../services/services';
 
 @Component({
   selector: 'pp-channel-picker',

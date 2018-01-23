@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
 import { InputConverter, StringConverter } from '../converter';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult, ThumbnailSize } from '../../services/picturepark.services';
+import { ContentService, ContentSearchRequest, ContentSearchResult, ThumbnailSize } from '../../services/services';
 import { ContentModel } from '../content-browser/content-browser.component';
 
 @Component({

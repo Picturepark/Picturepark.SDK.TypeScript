@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputConverter, BooleanConverter, StringConverter } from '../converter';
 
-import { PublicAccessService, ShareDetail, ShareDataEmbed, ShareOutputEmbed } from '../../services/picturepark.services';
+import { PublicAccessService, ShareDetail, ShareDataEmbed, ShareOutputEmbed } from '../../services/services';
 
 @Component({
   selector: 'pp-share-card',

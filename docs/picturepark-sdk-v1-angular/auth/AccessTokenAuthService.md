@@ -19,7 +19,11 @@ Install the required NPM package:
 Register the Picturepark OIDC module in your Angular app module and define the `PictureparkAccessTokenAuthConfiguration` configuration:
 
 ```typescript
-import { PictureparkAccessTokenAuthConfiguration, PictureparkModule } from '@picturepark/sdk-v1-angular';
+import {
+  PictureparkModule,
+  PICTUREPARK_CONFIGURATION,
+  PictureparkAccessTokenAuthConfiguration 
+} from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [

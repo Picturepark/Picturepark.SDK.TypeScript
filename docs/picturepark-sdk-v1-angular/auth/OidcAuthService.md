@@ -30,7 +30,11 @@ Install the required NPM package:
 Register the Picturepark OIDC module in your Angular app module and define the `PictureparkOidcAuthConfiguration` configuration:
 
 ```typescript
-import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v1-angular';
+import {
+  PictureparkOidcModule,
+  PICTUREPARK_CONFIGURATION,
+  PictureparkOidcAuthConfiguration
+} from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
@@ -58,9 +62,32 @@ import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@pictur
 export class AppModule { }
 ```
 
-**3. Inject services**
+**3. Authenticate**
 
-All required services are now registered in the dependency injection container and can be used via constructor injection:
+To authenticate and redirect to `/welcome`, inject the `OidcAuthService` instance and call `login()`: 
+
+```typescript
+import { AuthService, OidcAuthService } from '@picturepark/sdk-v1-angular';
+
+@Component({
+  ...
+})
+export class WelcomeComponent implements OnInit {
+  constructor(@Inject(AuthService) public authService: OidcAuthService) {
+  }
+
+  ngOnInit() {
+    if (!this.authService.isAuthenticated) {
+      this.authService.login('/welcome');
+    }
+  }
+
+  ...
+```
+
+**4. Inject API services**
+
+All required services are registered in the dependency injection container and can be used via constructor injection:
 
 ```typescript
 import { Component, AfterViewInit } from '@angular/core';

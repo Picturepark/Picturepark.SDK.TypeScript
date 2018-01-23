@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Content, ShareService, ShareEmbedCreateRequest, OutputAccess, ShareDetail, ShareContent } from '../services/picturepark.services';
+import { Content, ShareService, ShareEmbedCreateRequest, OutputAccess, ShareDetail, ShareContent } from '../services/services';
 
 @Injectable()
 export class EmbedService {

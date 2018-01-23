@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 import {
   ContentService, ContentDetail, AuthService, ThumbnailSize,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink
-} from '../../services/picturepark.services';
+} from '../../services/services';
 import { OidcAuthService } from '../../auth/oidc-auth.service';
 import { ContentPickerComponent } from '../../app/content-picker/content-picker.component';
 

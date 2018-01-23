@@ -14,4 +14,4 @@ Base properties:
 
 Base methods:
 
-- (transformHttpRequestOptions)
+- transformHttpRequestOptions() (private)

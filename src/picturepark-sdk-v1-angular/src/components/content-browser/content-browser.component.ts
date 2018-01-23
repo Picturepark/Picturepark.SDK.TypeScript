@@ -9,7 +9,7 @@ import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 import {
   ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
   FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter
-} from '../../services/picturepark.services';
+} from '../../services/services';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
 @Component({

@@ -3,7 +3,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
 import { PictureparkModule } from './picturepark.module';
-import { AuthService } from '../services/picturepark.services';
+import { AuthService } from '../services/services';
 import { PictureparkConfiguration } from '../services/configuration';
 import { OidcAuthService } from '../auth/oidc-auth.service';
 

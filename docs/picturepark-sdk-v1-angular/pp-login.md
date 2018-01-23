@@ -1,6 +1,6 @@
 # pp-login
 
-**NPM Package:** @picturepark/sdk-v1-angular-ui
+## This component is obsolete with OIDC
 
 Renders a login screen to authenticate with the Picturepark server. The component is only rendered if the user is not logged in.
 

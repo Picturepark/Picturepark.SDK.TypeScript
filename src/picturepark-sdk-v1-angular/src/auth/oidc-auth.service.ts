@@ -1,8 +1,8 @@
 import { Output, EventEmitter, Injectable, Inject, Optional } from '@angular/core';
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 
-import { PICTUREPARK_CONFIGURATION } from '../services/picturepark.servicebase';
-import { PICTUREPARK_API_URL, AuthService } from '../services/picturepark.services';
+import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
+import { PICTUREPARK_API_URL, AuthService } from '../services/services';
 import { PictureparkConfiguration } from '../services/configuration';
 
 @Injectable()

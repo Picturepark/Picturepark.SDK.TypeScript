@@ -1,11 +1,11 @@
 // exports
 export * from './src/services/configuration';
-export * from './src/services/picturepark.servicebase';
+export * from './src/services/base.service';
 export * from './src/auth/access-token-auth.service';
 export * from './src/auth/oidc-auth.service';
 
 // services
-export * from './src/services/picturepark.services';
+export * from './src/services/services';
 
 // modules
 export * from './src/modules/picturepark.module';

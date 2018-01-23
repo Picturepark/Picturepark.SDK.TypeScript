@@ -1,7 +1,5 @@
 # pp-channel-picker
 
-**NPM Package:** @picturepark/sdk-v1-angular-ui
-
 A control to select filters for the content items in the given channel and search text. 
 
 ```
