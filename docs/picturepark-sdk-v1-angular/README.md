@@ -32,7 +32,11 @@ To use the client service classes with authentication, you need to use one of th
 Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app module and define the Picturepark configuration with the `PICTUREPARK_CONFIGURATION` token:
 
 ```typescript
-import { PICTUREPARK_CONFIGURATION, PictureparkModule, PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
+import { 
+  PICTUREPARK_CONFIGURATION, 
+  PictureparkModule, 
+  PictureparkConfiguration } 
+from '@picturepark/sdk-v1-angular';
 
 @NgModule({
   declarations: [
