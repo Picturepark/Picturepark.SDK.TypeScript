@@ -13,26 +13,26 @@ import { UserManager, UserManagerSettings, User } from 'oidc-client';
 
 import './index.css';
 
-// Authenticate
+// Authenticate (implicit OIDC)
 let serverUrl = 'http://localhost:3000';
 let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
 
 let oidcSettings = OidcClientSettings.create({
   serverUrl: serverUrl,
   stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
-  clientId: 'TestRico',
+  clientId: 'TestRico2',
   customerAlias: 'dev',
-  customerId: '0a720a0f623b4e90baafeb71e14d9fcd',
+  customerId: 'bb31716579e84aae8cd3282195ec58aa',
   scope: 'openid profile picturepark_api all_scopes'
 });
 
 let manager = new UserManager(oidcSettings);
 manager.signinRedirectCallback(window.location.href).then(user => {
-  let initialState = { 
-    server: apiServerUrl,    
+  let initialState = {
+    server: apiServerUrl,
     accessToken: user.access_token,
-    loading: false, 
-    share: null, 
+    loading: false,
+    share: null,
   };
 
   window.history.pushState(undefined, '', serverUrl);
@@ -45,7 +45,7 @@ manager.signinRedirectCallback(window.location.href).then(user => {
     </Provider>,
     document.getElementById('root') as HTMLElement
   );
-}, error => {
+}).catch(error => {
   // Redirect to STS server
   manager.signinRedirect();
 });

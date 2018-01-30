@@ -16,8 +16,8 @@ export interface Props {
 }
 
 class Hello extends React.Component<Props, StoreState> {
-  constructor() {
-    super();
+  constructor(props: Props, context?: any) {
+    super(props, context);
     this.state = {
       token: ''
     };
@@ -60,10 +60,12 @@ class Hello extends React.Component<Props, StoreState> {
         </p>
         <p>
           <strong>Share Token or Content ID: </strong><br />
-          <input name="token"
+          <input 
+            name="token"
             value={this.state.token}
             onChange={this.handleChange}
-            style={{ 'width': '100%' }} />
+            style={{ 'width': '100%' }} 
+          />
         </p>
         <p>
           <button onClick={this.requestShare} disabled={!this.state.token}>Load share</button>

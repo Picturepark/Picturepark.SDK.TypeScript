@@ -22,4 +22,11 @@ export function mapDispatchToProps(dispatch: Dispatch<actions.KnownActions>) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Hello);
+export function mergeProps(stateProps: Object, dispatchProps: Object, ownProps: Object) {
+  return Object.assign({}, ownProps, stateProps, dispatchProps);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps)(Hello);
