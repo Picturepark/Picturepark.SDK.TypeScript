@@ -1,0 +1,70 @@
+import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core'; // ignore
+import { Observable } from 'rxjs/Observable'; // ignore
+import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './services'; // ignore
+
+import { PictureparkServiceBase } from './base.service';
+import * as generated from './services';
+
+class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
+    translate(locale: string) {
+        const language = locale.split('-')[0];
+        return this[language] ? this[language] : this[Object.keys(this)[0]];
+    }
+}
+
+class FilterBase extends generated.FilterBase {
+    getDisplayName(locale: string): string | null {
+        return null;
+    }
+}
+
+class DateRangeFilter extends generated.DateRangeFilter {
+    getDisplayName(locale: string) {
+        return this.range && this.range.names ? this.range.names.translate(locale) : 'n/a';
+    }
+}
+
+class AggregationResultItem extends generated.AggregationResultItem {
+    getDisplayName(locale: string) {
+      const displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
+      return displayName ? displayName : this.name;
+    }
+}
+
+class ContentService extends generated.ContentService {
+    private thumbnailCache: { [key: string]: FileResponse | null; } = {};
+
+    /**
+     * Get Thumbnail
+     * @contentId The Content id
+     * @size Thumbnail size. Either small, medium or large
+     * @return HttpResponseMessage
+     */
+    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
+        const key = contentId + ':' + size;
+        if (cache !== false && this.thumbnailCache[key] !== undefined) {
+            return Observable.of(this.thumbnailCache[key]);
+        }
+
+        const response = this.downloadThumbnailCore(contentId, size, null, null);
+        response.subscribe(blob => {
+            this.thumbnailCache[key] = blob;
+        });
+        return response;
+    }
+}
+
+export abstract class AuthService {
+    private _pictureparkApiUrl: string;
+
+    constructor(pictureparkApiUrl: string) {
+        this._pictureparkApiUrl = pictureparkApiUrl;
+    }
+
+    get apiServer() {
+        return this._pictureparkApiUrl;
+    }
+
+    abstract get isAuthenticated(): boolean;
+    abstract transformHttpRequestOptions(options: any): Promise<any>;
+}

@@ -1,8 +1,0 @@
-<div class="form-group has-feedback">
-  <label *ngIf="label !== ''" class="control-label">{{label}}</label>
-  <select class="form-control" (change)="onChange($event)" #select>
-    <option *ngFor="let channel of channels, let i = index" [attr.value]="i">
-      {{ channel.names | pptranslate }}
-    </option>
-  </select>
-</div>

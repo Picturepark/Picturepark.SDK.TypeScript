@@ -45,7 +45,7 @@
         "AggregationResultItem",
         "ContentService"
       ],
-      "extensionCode": "src/picturepark.services.extensions",
+      "extensionCode": "src/services/services.extensions",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
       "handleReferences": false,
@@ -55,7 +55,7 @@
       "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "PICTUREPARK_API_URL",
       "serviceHost": ".",
-      "output": "src/picturepark.services.ts"
+      "output": "src/services/services.ts"
     }
   }
 }

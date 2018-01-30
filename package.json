@@ -1,22 +1,27 @@
 {
   "scripts": {
-    "link": "call \"build/01_LinkNpmPackages.bat\"",
     "nswag": "nswag run \"src/picturepark-sdk-v1-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\"",
     "test": "PowerShell -File \"build/02_RunTests.ps1\"",
+    
     "build:fetch": "call \"build/03_RebuildFetchBundle.bat\"",
     "build:pickers": "call \"build/04_RebuildPickersBundle.bat\"",
     "build:widgets": "call \"build/05_RebuildWidgetsBundle.bat\"",
     "build:ng": "call \"build/06_BuildProduction.bat\"",
+    
     "docs": "call \"build/07_BuildDocs.bat\"",
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng && npm run docs",
+    
     "start:fetch": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090",
     "start:pickers": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-pickers/\" -p 8090",
     "start:widgets": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090",
+    
+    "dev:pickers": "watch \"npm run build:pickers\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-pickers",
     "dev:widgets": "watch \"npm run build:widgets\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-widgets"
   },
   "devDependencies": {
     "http-server": "0.10.0",
-    "nswag": "^11.12.14",
+    "marked": "^0.3.12",
+    "nswag": "^11.12.16",
     "typedoc": "0.8.0",
     "typescript": "^2.4.2",
     "typescript-bundle": "0.8.7",

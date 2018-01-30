@@ -4,53 +4,46 @@ First, install the node modules:
 
     npm install
 
-Then, run one of the following scripts:
-
-    npm run link
-
-Creates local node_modules directory links so that
-
-- picturepark-sdk-v1-angular
-- picturepark-sdk-v1-angular-ui
-
-are locally linked and all projects can be built.
+Regenerate all clients based on the Swagger specifications located in the "/swagger" directory run:
 
     npm run nswag
 
-Regenerates all clients based on the Swagger specifications located in the "/swagger" directory
+Run all unit tests:
 
     npm run tests
 
-Runs all unit tests.
+## Build
+
+Rebuild and minimize the Fetch "picturepark.js" bundle in "src/picturepark-sdk-v1-fetch/dist":
 
     npm run build:fetch
 
-Rebuilds and minimizes the Fetch "picturepark.js" bundle in "src/picturepark-sdk-v1-fetch/dist"
+Rebuild and minimize the pickers "picturepark-pickers.js" bundle in "src/picturepark-sdk-v1-pickers/dist":
 
     npm run build:pickers
 
-Rebuilds and minimizes the pickers "picturepark-pickers.js" bundle in "src/picturepark-sdk-v1-pickers/dist"
+Rebuild and minimize the widgets "picturepark-widgets.js" bundle in "src/picturepark-sdk-v1-widgets/dist":
 
     npm run build:widgets
 
-Rebuilds and minimizes the widgets "picturepark-widgets.js" bundle in "src/picturepark-sdk-v1-widgets/dist"
+Rebuild the Angular project:
 
     npm run build:ng
 
-Rebuilds all Angular projects.
+Rebuild the API documentation for all project:
 
     npm run docs
 
-Rebuilds the API documentation for all projects.
+Run all build scripts (`build:fetch`, `build:widgets`, `build:ng`) and regenererate the API documentation (`docs`):
 
     npm run build
 
-Runs all build scripts (`build:fetch`, `build:widgets`, `build:ng`) and regenererates the API documentation (`docs`).
+## Development
+
+Run a local development server under "src/picturepark-sdk-v1-fetch" and open the Fetch sample page in the browser.
 
     npm run start:fetch
 
-Runs a local development server under "src/picturepark-sdk-v1-fetch" and opens the Fetch sample page in the browser.
+Run a local development server under "src/picturepark-sdk-v1-widgets" and open the widgets sample page in the browser.
 
     npm run start:widgets
-
-Runs a local development server under "src/picturepark-sdk-v1-widgets" and opens the widgets sample page in the browser.

@@ -151,8 +151,14 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       share: share,
       config: config
     }).then(html => {
-      document.getElementById(elementId).outerHTML =
-        '<div class="picturepark-widget picturepark-widget-' + id + ' picturepark-widget-loaded">' + html + '</div>';
+      html = '<div class="picturepark-widget picturepark-widget-' + id + ' picturepark-widget-loaded">' + html + '</div>';
+      document.getElementById(elementId).outerHTML = html;
+
+      // iframe
+      // let frame = document.createElement('iframe');
+      // let elm = document.getElementById(elementId);
+      // elm.appendChild(frame);
+      // frame.contentDocument.write(html + "<script src='http://localhost:8090/dist/picturepark-widgets.js' async />");
 
       // Load movie players
       for (let item of share.items) {

@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>picturepark-sdk-v1-sample-angular4</h1>
+  <p>
+    <label>Share Token:</label>
+    <input type="text" [(ngModel)]="token" />
+    <button class="btn btn-default" (click)="load()">Load Share</button>
+  </p>
+  <p *ngIf="currentToken">
+    <pp-share-card [token]="currentToken"></pp-share-card>
+  </p>
+  <pre>
+    {{currentToken}}
+    {{output}}
+  </pre>
+</div>

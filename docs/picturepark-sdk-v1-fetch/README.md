@@ -2,14 +2,16 @@
 
 ## picturepark-sdk-v1-fetch
 
+**NPM Package:** [@picturepark/sdk-v1-fetch](https://www.npmjs.com/package/@picturepark/sdk-v1-fetch)
+
+The `@picturepark/sdk-v1-fetch` NPM package or `picturepark.js` library provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers (use polyfills for older browsers). The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
+
+- [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-fetch/api/index.html)
+
 Dependencies: 
 
 - [window.fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 - [window.promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-
-The `@picturepark/sdk-v1-fetch` package / `picturepark.js` library provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers (use polyfills for older browsers). The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
-
-- [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-fetch/api/index.html)
 
 ### Downloads
 
@@ -106,14 +108,14 @@ For authenticating with the OIDC implicit flow, you can use the JavaScript libra
 npm install oidc-client
 ```
 
-For this sample, import the Picturepark OIDC settings helper, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
+For this sample, import the Picturepark OIDC settings helper `OidcClientSettings`, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
 
 ```js
 import { OidcClientSettings, AccessTokenAuthClient, ContentClient } from '@picturepark/sdk-v1-fetch';
 import { UserManager } from 'oidc-client';
 ```
 
-Initialize the settings: 
+Next, initialize the settings: 
 
 ```js
 let serverUrl = 'http://localhost:3000';
