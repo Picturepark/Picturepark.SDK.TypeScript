@@ -3,9 +3,11 @@ import * as actions from '../actions/';
 import { StoreState } from '../types/index';
 import { connect, Dispatch } from 'react-redux';
 
-export function mapStateToProps({ server, accessToken, loading, data }: StoreState) {
+export function mapStateToProps({ server, apiServer, customerAlias, accessToken, loading, data }: StoreState) {
   return {
     server,
+    apiServer,
+    customerAlias,
     accessToken,
     loading,
     data
@@ -14,11 +16,11 @@ export function mapStateToProps({ server, accessToken, loading, data }: StoreSta
 
 export function mapDispatchToProps(dispatch: Dispatch<actions.KnownActions>) {
   return {
-    requestShare: (server: string, token: string) =>
-      dispatch(actions.requestShare(server, token)),
+    requestShare: (server: string, token: string, customerAlias: string) =>
+      dispatch(actions.requestShare(server, token, customerAlias)),
 
-    requestContent: (server: string, token: string, accessToken: string) =>
-      dispatch(actions.requestContent(server, token, accessToken)),
+    requestContent: (server: string, token: string, customerAlias: string, accessToken: string) =>
+      dispatch(actions.requestContent(server, token, customerAlias, accessToken)),
   };
 }
 

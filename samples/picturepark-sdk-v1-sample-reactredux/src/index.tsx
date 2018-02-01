@@ -14,28 +14,32 @@ import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import './index.css';
 
 // Authenticate (implicit OIDC)
-let serverUrl = 'http://localhost:3000';
+let appUrl = 'http://localhost:3000';
+let serverUrl = 'https://devnext.preview-picturepark.com';
 let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
+let customerAlias = 'dev';
 
 let oidcSettings = OidcClientSettings.create({
-  serverUrl: serverUrl,
+  serverUrl: appUrl,
   stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
-  clientId: 'TestRico2',
-  customerAlias: 'dev',
-  customerId: 'bb31716579e84aae8cd3282195ec58aa',
+  clientId: 'TestRico',
+  customerAlias: customerAlias,
+  customerId: 'd118995823f243a59a1591fe07571b1a',
   scope: 'openid profile picturepark_api all_scopes'
 });
 
 let manager = new UserManager(oidcSettings);
 manager.signinRedirectCallback(window.location.href).then(user => {
   let initialState = {
-    server: apiServerUrl,
+    server: serverUrl,
+    apiServer: apiServerUrl,
+    customerAlias: customerAlias,
     accessToken: user.access_token,
     loading: false,
-    share: null,
+    share: null
   };
 
-  window.history.pushState(undefined, '', serverUrl);
+  window.history.pushState(undefined, '', appUrl);
 
   // Render UI
   const store = createStore<StoreState>(enthusiasm, initialState, applyMiddleware(thunk));
