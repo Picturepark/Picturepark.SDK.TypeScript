@@ -13,7 +13,7 @@ import { UserManager, UserManagerSettings, User } from 'oidc-client';
 
 import './index.css';
 
-// Authenticate (implicit OIDC)
+// Authenticate (Implicit OIDC)
 let appUrl = 'http://localhost:3000';
 let serverUrl = 'https://devnext.preview-picturepark.com';
 let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
@@ -22,9 +22,9 @@ let customerAlias = 'dev';
 let oidcSettings = OidcClientSettings.create({
   serverUrl: appUrl,
   stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
-  clientId: 'TestRico',
+  clientId: 'TestClient',
   customerAlias: customerAlias,
-  customerId: 'd118995823f243a59a1591fe07571b1a',
+  customerId: 'tbd',
   scope: 'openid profile picturepark_api all_scopes'
 });
 
