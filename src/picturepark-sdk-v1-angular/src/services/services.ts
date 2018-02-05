@@ -1137,9 +1137,10 @@ export class ContentService extends PictureparkServiceBase {
      * @resolve Resolves the data of referenced list items into the contents's content.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
      * @return ContentDetail
      */
-    reactivate(contentId: string, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ContentDetail> {
+    reactivate(contentId: string, resolve: boolean, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined, allowMissingDependencies: boolean | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/reactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1152,6 +1153,10 @@ export class ContentService extends PictureparkServiceBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3595,9 +3600,10 @@ export class ListItemService extends PictureparkServiceBase {
      * @listItemId The list item id.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
      * @return ListItemDetail
      */
-    reactivate(listItemId: string, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined): Observable<ListItemDetail> {
+    reactivate(listItemId: string, timeout: string | null | undefined, patterns: DisplayPatternType[] | null | undefined, allowMissingDependencies: boolean | undefined): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/reactivate?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -3606,6 +3612,10 @@ export class ListItemService extends PictureparkServiceBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13632,6 +13642,7 @@ export class ContentReactivateRequest implements IContentReactivateRequest {
     contentIds?: string[] | undefined;
     resolve: boolean;
     displayPatternIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 
     constructor(data?: IContentReactivateRequest) {
         if (data) {
@@ -13655,6 +13666,7 @@ export class ContentReactivateRequest implements IContentReactivateRequest {
                 for (let item of data["displayPatternIds"])
                     this.displayPatternIds.push(item);
             }
+            this.allowMissingDependencies = data["allowMissingDependencies"];
         }
     }
 
@@ -13677,6 +13689,7 @@ export class ContentReactivateRequest implements IContentReactivateRequest {
             for (let item of this.displayPatternIds)
                 data["displayPatternIds"].push(item);
         }
+        data["allowMissingDependencies"] = this.allowMissingDependencies;
         return data; 
     }
 }
@@ -13685,6 +13698,7 @@ export interface IContentReactivateRequest {
     contentIds?: string[] | undefined;
     resolve: boolean;
     displayPatternIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 }
 
 export class ContentFileUpdateRequest implements IContentFileUpdateRequest {
@@ -16061,6 +16075,7 @@ export interface IListItemDeactivateRequest {
 
 export class ListItemReactivateRequest implements IListItemReactivateRequest {
     listItemIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 
     constructor(data?: IListItemReactivateRequest) {
         if (data) {
@@ -16078,6 +16093,7 @@ export class ListItemReactivateRequest implements IListItemReactivateRequest {
                 for (let item of data["listItemIds"])
                     this.listItemIds.push(item);
             }
+            this.allowMissingDependencies = data["allowMissingDependencies"];
         }
     }
 
@@ -16094,12 +16110,14 @@ export class ListItemReactivateRequest implements IListItemReactivateRequest {
             for (let item of this.listItemIds)
                 data["listItemIds"].push(item);
         }
+        data["allowMissingDependencies"] = this.allowMissingDependencies;
         return data; 
     }
 }
 
 export interface IListItemReactivateRequest {
     listItemIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 }
 
 export class ListItemFieldsUpdateRequest implements IListItemFieldsUpdateRequest {
@@ -16512,6 +16530,8 @@ export class SchemaDetail implements ISchemaDetail {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** Sorts content documents and/or list items. */
     sort?: SortInfo[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
@@ -16587,6 +16607,11 @@ export class SchemaDetail implements ISchemaDetail {
                 for (let item of data["fields"])
                     this.fields.push(FieldBase.fromJS(item));
             }
+            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
+                this.fieldsOverwrite = [];
+                for (let item of data["fieldsOverwrite"])
+                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
+            }
             if (data["sort"] && data["sort"].constructor === Array) {
                 this.sort = [];
                 for (let item of data["sort"])
@@ -16653,6 +16678,11 @@ export class SchemaDetail implements ISchemaDetail {
             for (let item of this.fields)
                 data["fields"].push(item.toJSON());
         }
+        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
+            data["fieldsOverwrite"] = [];
+            for (let item of this.fieldsOverwrite)
+                data["fieldsOverwrite"].push(item.toJSON());
+        }
         if (this.sort && this.sort.constructor === Array) {
             data["sort"] = [];
             for (let item of this.sort)
@@ -16705,6 +16735,8 @@ export interface ISchemaDetail {
     displayPatterns?: IDisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** Sorts content documents and/or list items. */
     sort?: ISortInfo[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
@@ -18430,6 +18462,149 @@ export interface IFieldMultiRelation extends IFieldBase {
     minimumItems?: number | undefined;
 }
 
+/** Base class for overwritten information on a field. */
+export abstract class FieldOverwriteBase implements IFieldOverwriteBase {
+    /** The field id. Can be a slug and must be unique within the schema. */
+    id?: string | undefined;
+    /** Defines if a field value is mandatory or not. */
+    required: boolean;
+
+    protected _discriminator: string;
+
+    constructor(data?: IFieldOverwriteBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "FieldOverwriteBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.required = data["required"];
+        }
+    }
+
+    static fromJS(data: any): FieldOverwriteBase {
+        if (data["kind"] === "FieldOverwriteSingleTagbox") {
+            let result = new FieldOverwriteSingleTagbox();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldOverwriteMultiTagbox") {
+            let result = new FieldOverwriteMultiTagbox();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'FieldOverwriteBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["id"] = this.id;
+        data["required"] = this.required;
+        return data; 
+    }
+}
+
+/** Base class for overwritten information on a field. */
+export interface IFieldOverwriteBase {
+    /** The field id. Can be a slug and must be unique within the schema. */
+    id?: string | undefined;
+    /** Defines if a field value is mandatory or not. */
+    required: boolean;
+}
+
+/** Overwritten information for Single Tagbox field. */
+export class FieldOverwriteSingleTagbox extends FieldOverwriteBase implements IFieldOverwriteSingleTagbox {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+
+    constructor(data?: IFieldOverwriteSingleTagbox) {
+        super(data);
+        this._discriminator = "FieldOverwriteSingleTagbox";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.listItemCreateTemplate = data["listItemCreateTemplate"];
+        }
+    }
+
+    static fromJS(data: any): FieldOverwriteSingleTagbox {
+        let result = new FieldOverwriteSingleTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Overwritten information for Single Tagbox field. */
+export interface IFieldOverwriteSingleTagbox extends IFieldOverwriteBase {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+}
+
+/** Overwritten information for Multi Tagbox field. */
+export class FieldOverwriteMultiTagbox extends FieldOverwriteBase implements IFieldOverwriteMultiTagbox {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+
+    constructor(data?: IFieldOverwriteMultiTagbox) {
+        super(data);
+        this._discriminator = "FieldOverwriteMultiTagbox";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.listItemCreateTemplate = data["listItemCreateTemplate"];
+        }
+    }
+
+    static fromJS(data: any): FieldOverwriteMultiTagbox {
+        let result = new FieldOverwriteMultiTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Overwritten information for Multi Tagbox field. */
+export interface IFieldOverwriteMultiTagbox extends IFieldOverwriteBase {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+}
+
 /** Count info of fields for search operations */
 export class SearchFieldCount implements ISearchFieldCount {
     /** The number of fields generated by the schema in the Search index. */
@@ -18867,6 +19042,8 @@ export class SchemaCreateRequest implements ISchemaCreateRequest {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. Can be empty. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and/or list items. */
     aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
@@ -18928,6 +19105,11 @@ export class SchemaCreateRequest implements ISchemaCreateRequest {
                 for (let item of data["fields"])
                     this.fields.push(FieldBase.fromJS(item));
             }
+            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
+                this.fieldsOverwrite = [];
+                for (let item of data["fieldsOverwrite"])
+                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
+            }
             if (data["aggregations"] && data["aggregations"].constructor === Array) {
                 this.aggregations = [];
                 for (let item of data["aggregations"])
@@ -18985,6 +19167,11 @@ export class SchemaCreateRequest implements ISchemaCreateRequest {
             for (let item of this.fields)
                 data["fields"].push(item.toJSON());
         }
+        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
+            data["fieldsOverwrite"] = [];
+            for (let item of this.fieldsOverwrite)
+                data["fieldsOverwrite"].push(item.toJSON());
+        }
         if (this.aggregations && this.aggregations.constructor === Array) {
             data["aggregations"] = [];
             for (let item of this.aggregations)
@@ -19031,6 +19218,8 @@ export interface ISchemaCreateRequest {
     displayPatterns?: IDisplayPattern[] | undefined;
     /** The schema fields. Can be empty. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and/or list items. */
     aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
@@ -19175,6 +19364,8 @@ export class SchemaUpdateRequest implements ISchemaUpdateRequest {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
     aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
@@ -19231,6 +19422,11 @@ export class SchemaUpdateRequest implements ISchemaUpdateRequest {
                 for (let item of data["fields"])
                     this.fields.push(FieldBase.fromJS(item));
             }
+            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
+                this.fieldsOverwrite = [];
+                for (let item of data["fieldsOverwrite"])
+                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
+            }
             if (data["aggregations"] && data["aggregations"].constructor === Array) {
                 this.aggregations = [];
                 for (let item of data["aggregations"])
@@ -19286,6 +19482,11 @@ export class SchemaUpdateRequest implements ISchemaUpdateRequest {
             for (let item of this.fields)
                 data["fields"].push(item.toJSON());
         }
+        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
+            data["fieldsOverwrite"] = [];
+            for (let item of this.fieldsOverwrite)
+                data["fieldsOverwrite"].push(item.toJSON());
+        }
         if (this.aggregations && this.aggregations.constructor === Array) {
             data["aggregations"] = [];
             for (let item of this.aggregations)
@@ -19331,6 +19532,8 @@ export interface ISchemaUpdateRequest {
     displayPatterns?: IDisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
     aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */

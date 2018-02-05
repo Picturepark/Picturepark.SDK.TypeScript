@@ -902,9 +902,10 @@ export class ContentClient extends PictureparkClientBase {
      * @resolve Resolves the data of referenced list items into the contents's content.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
      * @return ContentDetail
      */
-    reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail> {
+    reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/reactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -917,6 +918,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -2868,9 +2873,10 @@ export class ListItemClient extends PictureparkClientBase {
      * @listItemId The list item id.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
      * @return ListItemDetail
      */
-    reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail> {
+    reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/reactivate?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -2879,6 +2885,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -6759,6 +6769,7 @@ export interface ContentReactivateRequest {
     contentIds?: string[] | undefined;
     resolve: boolean;
     displayPatternIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 }
 
 export interface ContentFileUpdateRequest {
@@ -7139,6 +7150,7 @@ export interface ListItemDeactivateRequest {
 
 export interface ListItemReactivateRequest {
     listItemIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 }
 
 export interface ListItemFieldsUpdateRequest {
@@ -7221,6 +7233,8 @@ export interface SchemaDetail {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** Sorts content documents and/or list items. */
     sort?: SortInfo[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
@@ -7547,6 +7561,30 @@ export interface FieldMultiRelation extends FieldBase {
     minimumItems?: number | undefined;
 }
 
+/** Base class for overwritten information on a field. */
+export interface FieldOverwriteBase {
+    /** The field id. Can be a slug and must be unique within the schema. */
+    id?: string | undefined;
+    /** Defines if a field value is mandatory or not. */
+    required: boolean;
+}
+
+/** Overwritten information for Single Tagbox field. */
+export interface FieldOverwriteSingleTagbox extends FieldOverwriteBase {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+}
+
+/** Overwritten information for Multi Tagbox field. */
+export interface FieldOverwriteMultiTagbox extends FieldOverwriteBase {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+}
+
 /** Count info of fields for search operations */
 export interface SearchFieldCount {
     /** The number of fields generated by the schema in the Search index. */
@@ -7633,6 +7671,8 @@ export interface SchemaCreateRequest {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. Can be empty. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and/or list items. */
     aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */
@@ -7671,6 +7711,8 @@ export interface SchemaUpdateRequest {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
     aggregations?: AggregatorBase[] | undefined;
     /** A simple ordering property for schemas. */

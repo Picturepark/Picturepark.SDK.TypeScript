@@ -39,9 +39,9 @@ declare module "picturepark" {
         protected processGetMany(response: Response): Promise<ContentDetail[]>;
         /**
          * Create - many
-         * @contentCreateRequests The content create requests.
+         * @contentCreateManyRequest The content create many request.
          */
-        createMany(contentCreateRequests: ContentCreateRequest[] | null): Promise<BusinessProcess>;
+        createMany(contentCreateManyRequest: ContentCreateManyRequest | null): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Search
@@ -105,10 +105,11 @@ declare module "picturepark" {
          * Create - single
          * @contentCreateRequest The content create request.
          * @resolve Resolves the data of referenced list items into the contents's content.
+         * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          */
-        create(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        create(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processCreate(response: Response): Promise<ContentDetail>;
         /**
          * Deactivate - single
@@ -338,11 +339,12 @@ declare module "picturepark" {
          * @listItemId The list item id.
          * @updateRequest The list item update request.
          * @resolve Resolves the data of referenced list items into the list item's content.
+         * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processUpdate(response: Response): Promise<ListItemDetail>;
         /**
          * Search
@@ -362,25 +364,26 @@ declare module "picturepark" {
          * Create - single
          * @listItemCreateRequest List item create request.
          * @resolve Resolves the data of referenced list items into the list item's content.
+         * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItemCreateRequest: ListItemCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        create(listItemCreateRequest: ListItemCreateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processCreate(response: Response): Promise<ListItemDetail>;
         /**
          * Create - many
-         * @listItemCreateRequests A list of ListItemCreateRequests.
+         * @listItemCreateManyRequest List item create many request.
          * @return BusinessProcess
          */
-        createMany(listItemCreateRequests: ListItemCreateRequest[] | null): Promise<BusinessProcess>;
+        createMany(listItemCreateManyRequest: ListItemCreateManyRequest | null): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update - many
-         * @objects A list of ListItemUpdateRequests.
+         * @listItemUpdateManyRequest List item update many request.
          * @return BusinessProcess
          */
-        updateMany(objects: ListItemUpdateRequest[] | null): Promise<BusinessProcess>;
+        updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest | null): Promise<BusinessProcess>;
         protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Deactivate - single
@@ -1514,6 +1517,13 @@ declare module "picturepark" {
         /** An optional id list of content permission sets.  */
         contentPermissionSetIds?: string[] | undefined;
     }
+    /** A request structure for creating multiple content documents. */
+    export interface ContentCreateManyRequest {
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create requests */
+        requests?: ContentCreateRequest[] | undefined;
+    }
     export interface BusinessProcess {
         id?: string | undefined;
         processDefinitionId?: string | undefined;
@@ -1575,6 +1585,7 @@ declare module "picturepark" {
         contentIds?: string[] | undefined;
         resolve: boolean;
         displayPatternIds?: string[] | undefined;
+        allowMissingDependencies: boolean;
     }
     export interface ContentFileUpdateRequest {
         contentId?: string | undefined;
@@ -1616,6 +1627,8 @@ declare module "picturepark" {
     export interface MetadataValuesChangeRequestBase {
         /** A container for all change commads. */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
     }
     export interface ContentFieldsUpdateRequest extends MetadataValuesChangeRequestBase {
         /** The ids of the content documents. */
@@ -1664,7 +1677,6 @@ declare module "picturepark" {
     }
     export interface ContentFieldsFilterUpdateRequest extends MetadataValuesChangeRequestBase {
         contentFilterRequest?: ContentFilterRequest | undefined;
-        totalItemsCount: number;
     }
     export interface ContentFilterRequest {
         /** Limits the simple search fields to the fields available in the specified in the channel. */
@@ -1883,6 +1895,13 @@ declare module "picturepark" {
         /** The list item id. When not provided a Guid is generated. */
         listItemId?: string | undefined;
     }
+    /** A request structure for creating multiple list items. */
+    export interface ListItemCreateManyRequest {
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create requests */
+        requests?: ListItemCreateRequest[] | undefined;
+    }
     /** A request structure for updating a list item. */
     export interface ListItemUpdateRequest {
         /** The content data of the list item. */
@@ -1890,18 +1909,28 @@ declare module "picturepark" {
         /** The list item id. */
         id?: string | undefined;
     }
+    /** A request structure for updating multiple list items. */
+    export interface ListItemUpdateManyRequest {
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Update requests */
+        requests?: ListItemUpdateRequest[] | undefined;
+    }
     export interface ListItemDeactivateRequest {
         listItemIds?: string[] | undefined;
         forceReferenceRemoval: boolean;
     }
     export interface ListItemReactivateRequest {
         listItemIds?: string[] | undefined;
+        allowMissingDependencies: boolean;
     }
     export interface ListItemFieldsUpdateRequest {
         /** The ids of the list items whose fields need to be updated */
         listItemIds?: string[] | undefined;
         /** The change commads to be applied to the list items */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
     }
     /** ListItemFieldsFilterUpdateRequest class */
     export interface ListItemFieldsFilterUpdateRequest {
@@ -1909,6 +1938,8 @@ declare module "picturepark" {
         listItemFilterRequest?: ListItemFilterRequest | undefined;
         /** The change commads to be applied to the list items */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
     }
     export interface ListItemFilterRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
@@ -1966,6 +1997,8 @@ declare module "picturepark" {
         displayPatterns?: DisplayPattern[] | undefined;
         /** The schema fields. */
         fields?: FieldBase[] | undefined;
+        /** The schema fields overwrite information. */
+        fieldsOverwrite?: FieldOverwriteBase[] | undefined;
         /** Sorts content documents and/or list items. */
         sort?: SortInfo[] | undefined;
         /** An optional list of aggregations to group content documents and list items. */
@@ -2258,6 +2291,27 @@ declare module "picturepark" {
         /** Dfines the lowest possible item count. */
         minimumItems?: number | undefined;
     }
+    /** Base class for overwritten information on a field. */
+    export interface FieldOverwriteBase {
+        /** The field id. Can be a slug and must be unique within the schema. */
+        id?: string | undefined;
+        /** Defines if a field value is mandatory or not. */
+        required: boolean;
+    }
+    /** Overwritten information for Single Tagbox field. */
+    export interface FieldOverwriteSingleTagbox extends FieldOverwriteBase {
+        /** An optional search filter. Limits the list item result set. */
+        filter?: FilterBase | undefined;
+        /** Json serialized template used for creating new list item */
+        listItemCreateTemplate?: string | undefined;
+    }
+    /** Overwritten information for Multi Tagbox field. */
+    export interface FieldOverwriteMultiTagbox extends FieldOverwriteBase {
+        /** An optional search filter. Limits the list item result set. */
+        filter?: FilterBase | undefined;
+        /** Json serialized template used for creating new list item */
+        listItemCreateTemplate?: string | undefined;
+    }
     /** Count info of fields for search operations */
     export interface SearchFieldCount {
         /** The number of fields generated by the schema in the Search index. */
@@ -2337,6 +2391,8 @@ declare module "picturepark" {
         displayPatterns?: DisplayPattern[] | undefined;
         /** The schema fields. Can be empty. */
         fields?: FieldBase[] | undefined;
+        /** The schema fields overwrite information. */
+        fieldsOverwrite?: FieldOverwriteBase[] | undefined;
         /** An optional list of aggregations to group content documents and/or list items. */
         aggregations?: AggregatorBase[] | undefined;
         /** A simple ordering property for schemas. */
@@ -2371,6 +2427,8 @@ declare module "picturepark" {
         displayPatterns?: DisplayPattern[] | undefined;
         /** The schema fields. */
         fields?: FieldBase[] | undefined;
+        /** The schema fields overwrite information. */
+        fieldsOverwrite?: FieldOverwriteBase[] | undefined;
         /** An optional list of aggregations to group content documents and list items. */
         aggregations?: AggregatorBase[] | undefined;
         /** A simple ordering property for schemas. */
