@@ -1,17 +1,15 @@
 import { NgModule, Inject } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
-import { PictureparkModule } from './picturepark.module';
 import { AuthService } from '../services/services';
 import { PictureparkConfiguration } from '../services/configuration';
 import { OidcAuthService } from '../auth/oidc-auth.service';
 
+// IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
+
 @NgModule({
   imports: [
-    HttpModule,
-    HttpClientModule,
-    PictureparkModule
+    HttpClientModule
   ],
   providers: [
     { provide: AuthService, useClass: OidcAuthService }

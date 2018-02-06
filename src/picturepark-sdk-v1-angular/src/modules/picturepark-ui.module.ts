@@ -14,7 +14,9 @@ import { AggregationFilterComponent } from '../components/aggregation-filter/agg
 import { ContentBrowserItemComponent } from '../components/content-browser-item/content-browser-item.component';
 import { TranslatePipe } from '../pipes/translate.pipe';
 
-import { PictureparkModule } from './picturepark.module';
+import { PictureparkUserModule, PictureparkPublicAccessModule, PictureparkContentModule } from './picturepark.module';
+
+// IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 
 @NgModule({
   declarations: [
@@ -31,19 +33,27 @@ import { PictureparkModule } from './picturepark.module';
   imports: [
     BrowserModule,
     FormsModule,
-    PictureparkModule,
+
+    PictureparkUserModule,
+    PictureparkPublicAccessModule,
+    PictureparkContentModule,
+
     VirtualScrollModule
   ],
   exports: [
-    TranslatePipe,
-    PictureparkModule,
+    PictureparkUserModule,
+    PictureparkPublicAccessModule,
+    PictureparkContentModule,
+
     LoginComponent,
     LogoutComponent,
     ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
-    AggregationFilterComponent
+    AggregationFilterComponent,
+
+    TranslatePipe
   ]
 })
 export class PictureparkUiModule {

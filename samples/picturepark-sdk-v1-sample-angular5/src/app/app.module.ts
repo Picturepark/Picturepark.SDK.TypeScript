@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 
 import {
   PICTUREPARK_CONFIGURATION,
-  PictureparkModule,
-  PictureparkUiModule,
-  PictureparkConfiguration
+  PictureparkPublicAccessModule,
+  PictureparkConfiguration,
+  PictureparkUiModule
 } from '@picturepark/sdk-v1-angular';
 
 @NgModule({
@@ -18,7 +18,7 @@ import {
   imports: [
     BrowserModule,
     FormsModule,
-    PictureparkModule,
+    PictureparkPublicAccessModule,
     PictureparkUiModule
   ],
   providers: [

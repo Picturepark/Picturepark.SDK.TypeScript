@@ -16,9 +16,11 @@ The `@picturepark/sdk-v1-angular` package provides Angular 4.3+ service classes 
 
 2. Register one of the Picturepark modules: 
 
-- **PictureparkModule:** Registers the client services to access the Picturepark API.
+- **PictureparkModule:** Registers the **all** client services to access the Picturepark API.
 - **PictureparkOidcModule:** Registers the [OidcAuthService](auth/OidcAuthService.md) to authenticate using the OIDC implict flow. 
 - **PictureparkUiModule:** Registers the UI components.
+
+**Important:** To improve the final app file distrubution size, you should [only import required modules](modules.md).
 
 ### Use the API services
 
@@ -106,7 +108,7 @@ import { PictureparkUiModule } from '@picturepark/sdk-v1-angular';
 export class AppModule { }
 ```
 
-The `PictureparkUiModule` automatically imports the `PictureparkModule`. If you do not need the UI components, just import `PictureparkModule`.
+The `PictureparkUiModule` automatically imports the required client services. If you do not need the UI components, just import `PictureparkModule`.
 
 The package provides the following Angular components for your views: 
 
