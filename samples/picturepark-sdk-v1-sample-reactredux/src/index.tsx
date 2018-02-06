@@ -13,29 +13,33 @@ import { UserManager, UserManagerSettings, User } from 'oidc-client';
 
 import './index.css';
 
-// Authenticate
-let serverUrl = 'http://localhost:3000';
+// Authenticate (Implicit OIDC)
+let appUrl = 'http://localhost:3000';
+let serverUrl = 'https://devnext.preview-picturepark.com';
 let apiServerUrl = 'https://devnext-api.preview-picturepark.com';
+let customerAlias = 'dev';
 
 let oidcSettings = OidcClientSettings.create({
-  serverUrl: serverUrl,
+  serverUrl: appUrl,
   stsServerUrl: 'https://devnext-identity.preview-picturepark.com',
-  clientId: 'TestRico',
-  customerAlias: 'dev',
-  customerId: '0a720a0f623b4e90baafeb71e14d9fcd',
+  clientId: 'TestClient',
+  customerAlias: customerAlias,
+  customerId: 'tbd',
   scope: 'openid profile picturepark_api all_scopes'
 });
 
 let manager = new UserManager(oidcSettings);
 manager.signinRedirectCallback(window.location.href).then(user => {
-  let initialState = { 
-    server: apiServerUrl,    
+  let initialState = {
+    server: serverUrl,
+    apiServer: apiServerUrl,
+    customerAlias: customerAlias,
     accessToken: user.access_token,
-    loading: false, 
-    share: null, 
+    loading: false,
+    share: null
   };
 
-  window.history.pushState(undefined, '', serverUrl);
+  window.history.pushState(undefined, '', appUrl);
 
   // Render UI
   const store = createStore<StoreState>(enthusiasm, initialState, applyMiddleware(thunk));
@@ -45,7 +49,7 @@ manager.signinRedirectCallback(window.location.href).then(user => {
     </Provider>,
     document.getElementById('root') as HTMLElement
   );
-}, error => {
+}).catch(error => {
   // Redirect to STS server
   manager.signinRedirect();
 });

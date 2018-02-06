@@ -9,29 +9,34 @@ export interface Props {
   data?: string;
 
   server?: string;
+  apiServer?: string;
+  customerAlias?: string;
   accessToken?: string;
 
-  requestShare?: (server: string, token: string) => void;
-  requestContent?: (server: string, token: string, accessToken: string) => void;
+  requestShare?: (server: string, customerAlias: string, token: string) => void;
+  requestContent?: (server: string, token: string, customerAlias: string, accessToken: string) => void;
 }
 
 class Hello extends React.Component<Props, StoreState> {
-  constructor() {
-    super();
+  constructor(props: Props, context?: any) {
+    super(props, context);
     this.state = {
       token: ''
     };
   }
 
   requestShare = () => {
-    if (this.props.requestShare && this.props.server && this.state.token) {
-      this.props.requestShare(this.props.server, this.state.token);
+    if (this.props.requestShare && this.props.apiServer && this.state.token && this.props.customerAlias) {
+      this.props.requestShare(this.props.apiServer, this.state.token, this.props.customerAlias);
     }
   }
 
   requestContent = () => {
-    if (this.props.requestContent && this.props.server && this.state.token && this.props.accessToken) {
-      this.props.requestContent(this.props.server, this.state.token, this.props.accessToken);
+    if (this.props.requestContent && this.props.apiServer &&
+      this.state.token && this.props.customerAlias && this.props.accessToken) {
+
+      this.props.requestContent(this.props.apiServer, this.state.token,
+                                this.props.customerAlias, this.props.accessToken);
     }
   }
 
@@ -42,7 +47,7 @@ class Hello extends React.Component<Props, StoreState> {
   }
 
   pickContent = () => {
-    showContentPicker('https://devnext.preview-picturepark.com').then(share => {
+    showContentPicker(this.props.server!).then(share => {
       if (share.items && share.items[0].token) {
         this.setState({
           token: share.items[0].token
@@ -60,10 +65,12 @@ class Hello extends React.Component<Props, StoreState> {
         </p>
         <p>
           <strong>Share Token or Content ID: </strong><br />
-          <input name="token"
+          <input
+            name="token"
             value={this.state.token}
             onChange={this.handleChange}
-            style={{ 'width': '100%' }} />
+            style={{ 'width': '100%' }}
+          />
         </p>
         <p>
           <button onClick={this.requestShare} disabled={!this.state.token}>Load share</button>

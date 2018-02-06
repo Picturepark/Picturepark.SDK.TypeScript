@@ -11,9 +11,7 @@ export class AppComponent {
   token = '';
   currentToken = '';
 
-  constructor(
-    public authService: AuthService,
-    public publicAccessService: PublicAccessService) {
+  constructor(public publicAccessService: PublicAccessService) {
   }
 
   async load() {

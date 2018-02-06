@@ -24,14 +24,14 @@ export interface ReciveData {
 
 export type KnownActions = RequestShare | RequestContent | ReciveData;
 
-export function requestShare(server: string, token: string) {
+export function requestShare(server: string, token: string, customerAlias: string) {
   return (dispatch: (action: {}) => void) => {
     dispatch({
       type: constants.REQUEST_SHARE,
       payload: token
     });
 
-    let authClient = new AuthClient(server, 'dev');
+    let authClient = new AuthClient(server, customerAlias);
     let publicAccessClient = new PublicAccessClient(authClient);
     publicAccessClient.getShare(token).then((share) => {
       dispatch(receiveData(JSON.stringify(share, null, 2)));
@@ -41,14 +41,14 @@ export function requestShare(server: string, token: string) {
   };
 }
 
-export function requestContent(server: string, token: string, accessToken: string) {
+export function requestContent(server: string, token: string, customerAlias: string, accessToken: string) {
   return (dispatch: (action: {}) => void) => {
     dispatch({
       type: constants.REQUEST_SHARE,
       payload: token
     });
 
-    let authClient = new AccessTokenAuthClient(server, 'dev', accessToken);
+    let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
     let contentClient = new ContentClient(authClient);
     contentClient.get(token, true).then(content => {
       dispatch(receiveData(JSON.stringify(content, null, 2)));
