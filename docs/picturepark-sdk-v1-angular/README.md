@@ -142,7 +142,7 @@ In the Picturepark backend, create a new API Client on the "Settings" > "API Cli
     - `http://localhost:4200/*`
 - Enabled: Checked
 
-After creating the client, open [src/picturepark-sdk-v1-angular-app/src/index.html](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/src/picturepark-sdk-v1-angular-app/src/index.html) and update the configuration: 
+After creating the client, open [src/picturepark-sdk-v1-angular/src/index.html](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/src/picturepark-sdk-v1-angular/src/index.html) and update the configuration: 
 
 ```html
 <app-root picturepark-api-server="https://devnext-api.preview-picturepark.com" 
