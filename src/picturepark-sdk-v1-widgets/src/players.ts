@@ -98,26 +98,24 @@ export class PictureparkPlayers {
   }
 
   static renderVideoPlayer(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, elementId: string, width: any, height: any) {
-    return this.loadVideoPlayer().then((jwplayer) => {
-      let player = jwplayer(elementId);
-      if (player.setup) {
-        return jwplayer(elementId).setup({
-          autostart: false,
-          image: item.previewUrl,
-          file: item.originalUrl,
-          type: item.originalFileExtension.substr(1),
-          width: width,
-          height: height
-        });
-      }
-      return undefined;
+    return this.loadVideoPlayer().then((videojs) => {
+      document.getElementById(elementId).classList.add('video-js');
+      return videojs(elementId, {
+        autoplay: true,
+        controls: true,
+        poster: item.previewUrl,
+        src: item.originalUrl,
+        type: item.originalFileExtension.substr(1),
+        width: width,
+        height: height
+      });
     });
   }
 
   static loadVideoPlayer() {
-    if ((<any>window).jwplayer)
-      return Promise.resolve((<any>window).jwplayer);
-    return this.loadScript("https://content.jwplatform.com/libraries/DbXZPMBQ.js", 'jwplayer');
+    if ((<any>window).videojs)
+      return Promise.resolve((<any>window).videojs);
+    return this.loadScript("http://vjs.zencdn.net/6.6.3/video.js", 'videojs');
   }
 
   static showPdfJsItem(item) {
@@ -366,7 +364,7 @@ interface IShareItem {
   isBinary: boolean;
 
   displayValues: any;
-  previewUrl: string; 
+  previewUrl: string;
 
   originalUrl: string;
   originalFileExtension: string;
