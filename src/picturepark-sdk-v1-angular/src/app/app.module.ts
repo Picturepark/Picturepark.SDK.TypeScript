@@ -13,12 +13,14 @@ import { ContentPickerComponent } from './content-picker/content-picker.componen
 import { ContentPickerDetailsComponent } from './content-picker-details/content-picker-details.component';
 
 import { EmbedService } from './embed.service';
+import { ShareService } from '../services/services'
 import { FileSizePipe } from 'app/pipes/filesize.pipe';
 
 import { PictureparkOidcAuthConfiguration } from '../auth/oidc-auth.service';
 import { PictureparkOidcModule } from '../modules/picturepark-oidc.module';
 import { PictureparkUiModule } from '../modules/picturepark-ui.module';
 import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
+import { AuthService } from 'services/services';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
@@ -62,6 +64,7 @@ export function PictureparkConfigurationFactory() {
     ])
   ],
   providers: [
+    ShareService,
     EmbedService,
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }

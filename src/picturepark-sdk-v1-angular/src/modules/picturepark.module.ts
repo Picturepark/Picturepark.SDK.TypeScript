@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AccessTokenAuthService } from '../auth/access-token-auth.service';
 import {
   JsonSchemaService,
   ContentService,
@@ -24,8 +23,7 @@ import {
     HttpClientModule
   ],
   providers: [
-    JsonSchemaService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    JsonSchemaService
   ]
 })
 export class PictureparkJsonSchemaModule {
@@ -36,8 +34,7 @@ export class PictureparkJsonSchemaModule {
     HttpClientModule
   ],
   providers: [
-    ContentService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    ContentService
   ]
 })
 export class PictureparkContentModule {
@@ -48,8 +45,7 @@ export class PictureparkContentModule {
     HttpClientModule
   ],
   providers: [
-    BusinessProcessService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    BusinessProcessService
   ]
 })
 export class PictureparkBusinessProcessModule {
@@ -60,8 +56,7 @@ export class PictureparkBusinessProcessModule {
     HttpClientModule
   ],
   providers: [
-    DocumentHistoryService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    DocumentHistoryService
   ]
 })
 export class PictureparkDocumentHistoryModule {
@@ -72,8 +67,7 @@ export class PictureparkDocumentHistoryModule {
     HttpClientModule
   ],
   providers: [
-    SchemaService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    SchemaService
   ]
 })
 export class PictureparkSchemaModule {
@@ -84,8 +78,7 @@ export class PictureparkSchemaModule {
     HttpClientModule
   ],
   providers: [
-    UserService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    UserService
   ]
 })
 export class PictureparkUserModule {
@@ -96,8 +89,7 @@ export class PictureparkUserModule {
     HttpClientModule
   ],
   providers: [
-    PermissionService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    PermissionService
   ]
 })
 export class PictureparkPermissionModule {
@@ -108,8 +100,7 @@ export class PictureparkPermissionModule {
     HttpClientModule
   ],
   providers: [
-    PublicAccessService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    PublicAccessService
   ]
 })
 export class PictureparkPublicAccessModule {
@@ -120,8 +111,7 @@ export class PictureparkPublicAccessModule {
     HttpClientModule
   ],
   providers: [
-    ShareService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    ShareService
   ]
 })
 export class PictureparkShareModule {
@@ -132,8 +122,7 @@ export class PictureparkShareModule {
     HttpClientModule
   ],
   providers: [
-    TransferService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    TransferService
   ]
 })
 export class PictureparkTransferModule {
@@ -144,8 +133,7 @@ export class PictureparkTransferModule {
     HttpClientModule
   ],
   providers: [
-    ServiceProviderService,
-    { provide: AuthService, useClass: AccessTokenAuthService }
+    ServiceProviderService
   ]
 })
 export class PictureparkServiceProviderModule {

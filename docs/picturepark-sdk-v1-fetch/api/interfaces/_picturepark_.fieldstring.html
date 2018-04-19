@@ -94,7 +94,6 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#analyzers" class="tsd-kind-icon">analyzers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#boost" class="tsd-kind-icon">boost</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#descriptions" class="tsd-kind-icon">descriptions</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#fieldnamespace" class="tsd-kind-icon">field<wbr>Namespace</a></li>
@@ -102,6 +101,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#grantedvalues" class="tsd-kind-icon">granted<wbr>Values</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#index" class="tsd-kind-icon">index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#indexanalyzers" class="tsd-kind-icon">index<wbr>Analyzers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#indexid" class="tsd-kind-icon">index<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#keepfieldvalue" class="tsd-kind-icon">keep<wbr>Field<wbr>Value</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#maximumlength" class="tsd-kind-icon">maximum<wbr>Length</a></li>
@@ -111,6 +111,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#pattern" class="tsd-kind-icon">pattern</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#required" class="tsd-kind-icon">required</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#simplesearch" class="tsd-kind-icon">simple<wbr>Search</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#simplesearchanalyzers" class="tsd-kind-icon">simple<wbr>Search<wbr>Analyzers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.fieldstring.html#sortable" class="tsd-kind-icon">sortable</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldstring.html#template" class="tsd-kind-icon">template</a></li>
 							</ul>
 						</section>
@@ -120,27 +122,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="analyzers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> analyzers</h3>
-					<div class="tsd-signature tsd-kind-icon">analyzers<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.analyzerbase.html" class="tsd-signature-type">AnalyzerBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2162</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="boost" class="tsd-anchor"></a>
 					<h3>boost</h3>
 					<div class="tsd-signature tsd-kind-icon">boost<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2168</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2756</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,7 +143,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#descriptions">descriptions</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2019</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2601</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -172,7 +159,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#fieldnamespace">fieldNamespace</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2015</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2597</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,7 +175,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#fixed">fixed</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2023</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2605</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,7 +190,7 @@
 					<div class="tsd-signature tsd-kind-icon">granted<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2166</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2754</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,7 +206,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#id">id</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2011</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2593</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -235,12 +222,27 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#index">index</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2025</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2607</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Maps the field in the elastic search index and its values become searchable.</p>
+							<p>Maps the field in the elastic filter index.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="indexanalyzers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> index<wbr>Analyzers</h3>
+					<div class="tsd-signature tsd-kind-icon">index<wbr>Analyzers<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.analyzerbase.html" class="tsd-signature-type">AnalyzerBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2748</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true.</p>
 						</div>
 					</div>
 				</section>
@@ -251,7 +253,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#indexid">indexId</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2013</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2595</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -266,7 +268,7 @@
 					<div class="tsd-signature tsd-kind-icon">keep<wbr>Field<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2154</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2740</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -281,7 +283,7 @@
 					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2160</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2746</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -296,7 +298,7 @@
 					<div class="tsd-signature tsd-kind-icon">minimum<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2158</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2744</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -311,7 +313,7 @@
 					<div class="tsd-signature tsd-kind-icon">multi<wbr>Line<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2164</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2752</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -327,7 +329,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#names">names</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2017</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2599</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -342,7 +344,7 @@
 					<div class="tsd-signature tsd-kind-icon">pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2156</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2742</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -358,7 +360,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#required">required</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2021</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2603</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -374,12 +376,43 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#simplesearch">simpleSearch</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2027</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2609</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Includes fields in the simple search. Index must be true.</p>
+							<p>Includes fields in the simple search.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="simplesearchanalyzers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> simple<wbr>Search<wbr>Analyzers</h3>
+					<div class="tsd-signature tsd-kind-icon">simple<wbr>Search<wbr>Analyzers<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.analyzerbase.html" class="tsd-signature-type">AnalyzerBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2750</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="sortable" class="tsd-anchor"></a>
+					<h3>sortable</h3>
+					<div class="tsd-signature tsd-kind-icon">sortable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.fieldbase.html">FieldBase</a>.<a href="_picturepark_.fieldbase.html#sortable">sortable</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2611</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Field is stored for sorting.</p>
 						</div>
 					</div>
 				</section>
@@ -389,7 +422,7 @@
 					<div class="tsd-signature tsd-kind-icon">template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2152</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2738</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -419,9 +452,6 @@
 						<a href="_picturepark_.fieldstring.html" class="tsd-kind-icon">Field<wbr>String</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.fieldstring.html#analyzers" class="tsd-kind-icon">analyzers</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.fieldstring.html#boost" class="tsd-kind-icon">boost</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -441,6 +471,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.fieldstring.html#index" class="tsd-kind-icon">index</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.fieldstring.html#indexanalyzers" class="tsd-kind-icon">index<wbr>Analyzers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.fieldstring.html#indexid" class="tsd-kind-icon">index<wbr>Id</a>
@@ -468,6 +501,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.fieldstring.html#simplesearch" class="tsd-kind-icon">simple<wbr>Search</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.fieldstring.html#simplesearchanalyzers" class="tsd-kind-icon">simple<wbr>Search<wbr>Analyzers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.fieldstring.html#sortable" class="tsd-kind-icon">sortable</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.fieldstring.html#template" class="tsd-kind-icon">template</a>
