@@ -55,8 +55,8 @@ export function PictureparkConfigurationFactory() {
     HttpModule,
     HttpClientModule,
     AppRoutingModule,
-    PictureparkOidcModule,
     PictureparkUiModule,
+    PictureparkOidcModule,
     RouterModule.forRoot([
       { path: '', component: AppComponent },
       { path: 'details', component: AppComponent },
