@@ -4,7 +4,9 @@ import { async, inject } from '@angular/core/testing';
 import {
   ContentService, ContentSearchRequest,
   ThumbnailSize, ContentAggregationRequest,
-  ContentNotFoundException
+  ContentAggregationOnChannelRequest,
+  ContentNotFoundException,
+  SearchBehaviour
 } from '../services/services';
 import { configureTest } from './config';
 
@@ -18,6 +20,7 @@ describe('ContentService', () => {
       // act
       const request = new ContentSearchRequest();
       request.searchString = 'm';
+      request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
 
@@ -32,6 +35,7 @@ describe('ContentService', () => {
       // act
       const request = new ContentSearchRequest();
       request.searchString = 'm';
+      request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
       const result = await contentService.downloadThumbnail(response!.results![0].id!, ThumbnailSize.Medium, false).toPromise();
@@ -47,6 +51,7 @@ describe('ContentService', () => {
       // act
       const request = new ContentSearchRequest();
       request.searchString = 'm';
+      request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
       const result = await contentService.download(response!.results![0].id!, 'Original', 100, 100, null).toPromise();
@@ -62,6 +67,7 @@ describe('ContentService', () => {
       // act
       const request = new ContentSearchRequest();
       request.searchString = 'm';
+      request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
       const result = await contentService.download(response!.results![0].id!, 'Original', null, null, 'bytes=500-999').toPromise();
@@ -94,6 +100,7 @@ describe('ContentService', () => {
       // act
       const request = new ContentAggregationRequest();
       request.searchString = 'm';
+      request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
 
       const response = await contentService.aggregate(request).toPromise();
 
@@ -106,9 +113,10 @@ describe('ContentService', () => {
       // arrange
 
       // act
-      const request = new ContentAggregationRequest();
+      const request = new ContentAggregationOnChannelRequest();
       request.searchString = 'm';
       request.channelId = 'RootChannel';
+      request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
 
       const response = await contentService.aggregateOnChannel(request).toPromise();
 
