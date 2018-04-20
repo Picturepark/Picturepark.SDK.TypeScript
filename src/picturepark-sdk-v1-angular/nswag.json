@@ -12,7 +12,7 @@
       "className": "{controller}Service",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 2.4,
+      "typeScriptVersion": 2.0,
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
