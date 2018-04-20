@@ -108,8 +108,9 @@ describe('ContentService', () => {
       // act
       const request = new ContentAggregationRequest();
       request.searchString = 'm';
+      request.channelId = 'RootChannel';
 
-      const response = await contentService.aggregateByChannel('RootChannel', request).toPromise();
+      const response = await contentService.aggregateOnChannel(request).toPromise();
 
       // assert
       expect(response!.aggregationResults!.length).toBeGreaterThan(0);
