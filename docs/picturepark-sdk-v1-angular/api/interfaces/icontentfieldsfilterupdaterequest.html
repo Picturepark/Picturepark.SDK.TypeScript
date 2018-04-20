@@ -92,9 +92,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="icontentfieldsfilterupdaterequest.html#allowmissingdependencies" class="tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="icontentfieldsfilterupdaterequest.html#changecommands" class="tsd-kind-icon">change<wbr>Commands</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontentfieldsfilterupdaterequest.html#contentfilterrequest" class="tsd-kind-icon">content<wbr>Filter<wbr>Request</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icontentfieldsfilterupdaterequest.html#totalitemscount" class="tsd-kind-icon">total<wbr>Items<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="icontentfieldsfilterupdaterequest.html#notifyprogress" class="tsd-kind-icon">notify<wbr>Progress</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,13 +104,29 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="allowmissingdependencies" class="tsd-anchor"></a>
+					<h3>allow<wbr>Missing<wbr>Dependencies</h3>
+					<div class="tsd-signature tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="imetadatavalueschangerequestbase.html">IMetadataValuesChangeRequestBase</a>.<a href="imetadatavalueschangerequestbase.html#allowmissingdependencies">allowMissingDependencies</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5267d6cd/src/picturepark-sdk-v1-angular/src/services/services.ts#L22205">src/services/services.ts:22205</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Allow storing references to missing list items / contents</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="changecommands" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change<wbr>Commands</h3>
 					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="../classes/metadatavalueschangecommandbase.html" class="tsd-signature-type">MetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="imetadatavalueschangerequestbase.html">IMetadataValuesChangeRequestBase</a>.<a href="imetadatavalueschangerequestbase.html#changecommands">changeCommands</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/55253994/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L13971">src/services/picturepark.services.ts:13971</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5267d6cd/src/picturepark-sdk-v1-angular/src/services/services.ts#L22203">src/services/services.ts:22203</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -124,19 +141,25 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Filter<wbr>Request<span class="tsd-signature-symbol">:</span> <a href="icontentfilterrequest.html" class="tsd-signature-type">IContentFilterRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/55253994/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L14361">src/services/picturepark.services.ts:14361</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5267d6cd/src/picturepark-sdk-v1-angular/src/services/services.ts#L22636">src/services/services.ts:22636</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="totalitemscount" class="tsd-anchor"></a>
-					<h3>total<wbr>Items<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">total<wbr>Items<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="notifyprogress" class="tsd-anchor"></a>
+					<h3>notify<wbr>Progress</h3>
+					<div class="tsd-signature tsd-kind-icon">notify<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="imetadatavalueschangerequestbase.html">IMetadataValuesChangeRequestBase</a>.<a href="imetadatavalueschangerequestbase.html#notifyprogress">notifyProgress</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/55253994/src/picturepark-sdk-v1-angular/src/services/picturepark.services.ts#L14362">src/services/picturepark.services.ts:14362</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5267d6cd/src/picturepark-sdk-v1-angular/src/services/services.ts#L22207">src/services/services.ts:22207</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Create notification and notify on progress</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -156,13 +179,16 @@
 						<a href="icontentfieldsfilterupdaterequest.html" class="tsd-kind-icon">IContent<wbr>Fields<wbr>Filter<wbr>Update<wbr>Request</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="icontentfieldsfilterupdaterequest.html#allowmissingdependencies" class="tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="icontentfieldsfilterupdaterequest.html#changecommands" class="tsd-kind-icon">change<wbr>Commands</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="icontentfieldsfilterupdaterequest.html#contentfilterrequest" class="tsd-kind-icon">content<wbr>Filter<wbr>Request</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="icontentfieldsfilterupdaterequest.html#totalitemscount" class="tsd-kind-icon">total<wbr>Items<wbr>Count</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="icontentfieldsfilterupdaterequest.html#notifyprogress" class="tsd-kind-icon">notify<wbr>Progress</a>
 							</li>
 						</ul>
 					</li>

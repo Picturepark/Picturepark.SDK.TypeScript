@@ -89,7 +89,7 @@ export class ContentClient extends PictureparkClientBase {
         if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 200) {
@@ -107,6 +107,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -175,6 +191,28 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -231,6 +269,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -290,67 +350,27 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
-        } else if (status === 429) {
+        } else if (status === 405) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
-        } else if (status !== 200 && status !== 204) {
+        } else if (status === 404) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
-        }
-        return Promise.resolve<ContentSearchResult>(<any>null);
-    }
-
-    /**
-     * Search by channel
-     * @channelId The channel id.
-     * @contentSearchRequest The content search request.
-     * @return ContentSearchResult
-     */
-    searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult> {
-        let url_ = this.baseUrl + "/v1/contents/{channelId}/search";
-        if (channelId === undefined || channelId === null)
-            throw new Error("The parameter 'channelId' must be defined.");
-        url_ = url_.replace("{channelId}", encodeURIComponent("" + channelId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(contentSearchRequest);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processSearchByChannel(_response);
-        });
-    }
-
-    protected processSearchByChannel(response: Response): Promise<ContentSearchResult> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
-        if (status === 200) {
+        } else if (status === 409) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <ContentSearchResult>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
-        } else if (status === 500) {
+        } else if (status === 400) {
             return response.text().then((_responseText) => {
-            let result500: any = null;
-            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            });
-        } else if (status === 401) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -410,6 +430,28 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -423,19 +465,15 @@ export class ContentClient extends PictureparkClientBase {
     }
 
     /**
-     * Aggregate by channel
-     * @channelId The channel id
-     * @contentAggregationRequest The content aggregation request.
+     * Aggregate on channel
+     * @contentAggregationOnChannelRequest The content aggregation on channel request.
      * @return ObjectAggregationResult
      */
-    aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v1/contents/{channelId}/aggregate";
-        if (channelId === undefined || channelId === null)
-            throw new Error("The parameter 'channelId' must be defined.");
-        url_ = url_.replace("{channelId}", encodeURIComponent("" + channelId)); 
+    aggregateOnChannel(contentAggregationOnChannelRequest: ContentAggregationOnChannelRequest | null): Promise<ObjectAggregationResult> {
+        let url_ = this.baseUrl + "/v1/contents/aggregateonchannel";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(contentAggregationRequest);
+        const content_ = JSON.stringify(contentAggregationOnChannelRequest);
 
         let options_ = <RequestInit>{
             body: content_,
@@ -449,11 +487,11 @@ export class ContentClient extends PictureparkClientBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processAggregateByChannel(_response);
+            return this.processAggregateOnChannel(_response);
         });
     }
 
-    protected processAggregateByChannel(response: Response): Promise<ObjectAggregationResult> {
+    protected processAggregateOnChannel(response: Response): Promise<ObjectAggregationResult> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
         if (status === 200) {
@@ -471,6 +509,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -529,6 +589,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -594,10 +676,6 @@ export class ContentClient extends PictureparkClientBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -607,6 +685,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -665,10 +765,6 @@ export class ContentClient extends PictureparkClientBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -678,6 +774,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -745,7 +863,7 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -757,6 +875,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -813,7 +947,7 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -825,6 +959,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -884,6 +1034,28 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -902,9 +1074,10 @@ export class ContentClient extends PictureparkClientBase {
      * @resolve Resolves the data of referenced list items into the contents's content.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
      * @return ContentDetail
      */
-    reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail> {
+    reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/reactivate?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -917,6 +1090,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -946,7 +1123,7 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -958,6 +1135,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1016,6 +1209,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1077,6 +1292,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1149,7 +1386,7 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -1161,6 +1398,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1222,7 +1475,7 @@ export class ContentClient extends PictureparkClientBase {
         if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 200) {
@@ -1240,6 +1493,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1292,7 +1561,7 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentsNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 500) {
@@ -1304,6 +1573,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1363,6 +1648,28 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1421,7 +1728,7 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -1433,6 +1740,22 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1492,6 +1815,28 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1550,6 +1895,28 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1607,6 +1974,28 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1678,6 +2067,28 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1745,6 +2156,28 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1806,6 +2239,28 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1863,6 +2318,28 @@ export class BusinessProcessClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -1934,6 +2411,28 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -1991,6 +2490,28 @@ export class DocumentHistoryClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2054,6 +2575,28 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2115,6 +2658,28 @@ export class DocumentHistoryClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2181,6 +2746,28 @@ export class DocumentHistoryClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2252,6 +2839,28 @@ export class JsonSchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2322,7 +2931,7 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ListItemNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 500) {
@@ -2334,6 +2943,22 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2413,6 +3038,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2471,6 +3118,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2528,6 +3197,28 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2596,7 +3287,7 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -2608,6 +3299,22 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2667,6 +3374,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2725,6 +3454,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2741,8 +3492,9 @@ export class ListItemClient extends PictureparkClientBase {
      * Deactivate - single
      * @listItemId the id of the list item to deactivate
      * @timeout Maximum time to wait for the business process completed state.
+     * @forceReferenceRemoval (optional) A value indicating whether references to the listitem should be removed.
      */
-    deactivate(listItemId: string, timeout: string | null): Promise<ListItemDetail> {
+    deactivate(listItemId: string, timeout: string | null, forceReferenceRemoval?: boolean | null | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/deactivate?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -2751,6 +3503,8 @@ export class ListItemClient extends PictureparkClientBase {
             throw new Error("The parameter 'timeout' must be defined.");
         else
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (forceReferenceRemoval !== undefined)
+            url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -2780,7 +3534,7 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -2792,6 +3546,22 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2851,6 +3621,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -2868,9 +3660,10 @@ export class ListItemClient extends PictureparkClientBase {
      * @listItemId The list item id.
      * @timeout (optional) Maximum time to wait for the business process completed state.
      * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+     * @allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
      * @return ListItemDetail
      */
-    reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail> {
+    reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/reactivate?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -2879,6 +3672,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         if (patterns !== undefined)
             patterns && patterns.forEach(item => { url_ += "patterns=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -2908,7 +3705,7 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -2920,6 +3717,22 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -2979,6 +3792,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3036,6 +3871,28 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3095,6 +3952,28 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3105,6 +3984,167 @@ export class ListItemClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Gets the references to a list item.
+     * @listItemId The ID of the list item.
+     * @return MetadataReferences
+     */
+    getReferencesToListItem(listItemId: string): Promise<ListItemReferences> {
+        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/references";
+        if (listItemId === undefined || listItemId === null)
+            throw new Error("The parameter 'listItemId' must be defined.");
+        url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetReferencesToListItem(_response);
+        });
+    }
+
+    protected processGetReferencesToListItem(response: Response): Promise<ListItemReferences> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <ListItemReferences>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ListItemReferences>(<any>null);
+    }
+
+    /**
+     * Gets the references to the specified list items.
+     * @ids The IDs of the list items.
+     * @return A MetadataReferences per list item id.
+     */
+    getReferencesToListItems(ids: string[] | null): Promise<ListItemReferences[]> {
+        let url_ = this.baseUrl + "/v1/listItems/many/references?";
+        if (ids === undefined)
+            throw new Error("The parameter 'ids' must be defined.");
+        else
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetReferencesToListItems(_response);
+        });
+    }
+
+    protected processGetReferencesToListItems(response: Response): Promise<ListItemReferences[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <ListItemReferences[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ListItemReferences[]>(<any>null);
     }
 }
 
@@ -3164,6 +4204,28 @@ export class LiveStreamClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3225,6 +4287,12 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -3234,6 +4302,22 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3290,13 +4374,13 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <SchemaNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -3308,6 +4392,16 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3360,13 +4454,13 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <SchemaNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -3378,6 +4472,16 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3436,6 +4540,28 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3487,7 +4613,7 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -3499,6 +4625,22 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3558,6 +4700,28 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3568,6 +4732,86 @@ export class SchemaClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<SchemaSearchResult>(<any>null);
+    }
+
+    /**
+     * Get index fields
+     * @request The get request.
+     * @return Indexed fields
+     */
+    getIndexFields(request: GetIndexFieldsRequest | null): Promise<IndexField[]> {
+        let url_ = this.baseUrl + "/v1/schemas/indexFields";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetIndexFields(_response);
+        });
+    }
+
+    protected processGetIndexFields(response: Response): Promise<IndexField[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <IndexField[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<IndexField[]>(<any>null);
     }
 
     /**
@@ -3618,6 +4862,28 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3689,6 +4955,28 @@ export class PermissionClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3746,6 +5034,28 @@ export class PermissionClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3805,6 +5115,28 @@ export class PermissionClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3863,6 +5195,28 @@ export class PermissionClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -3916,6 +5270,28 @@ export class PermissionClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -3974,6 +5350,28 @@ export class PermissionClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4041,6 +5439,28 @@ export class PublicAccessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4098,6 +5518,28 @@ export class PublicAccessClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4162,7 +5604,7 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ShareNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 500) {
@@ -4174,6 +5616,22 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4230,7 +5688,7 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessWaitTimeoutException>JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 500) {
@@ -4242,6 +5700,22 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4301,6 +5775,28 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4359,6 +5855,28 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4404,13 +5922,13 @@ export class ShareClient extends PictureparkClientBase {
         if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 403) {
             return response.text().then((_responseText) => {
             let result403: any = null;
-            result403 = _responseText === "" ? null : <PermissionException>JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = _responseText === "" ? null : <PermissionValidationException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result403);
             });
         } else if (status === 200) {
@@ -4428,6 +5946,22 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4487,6 +6021,28 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4556,6 +6112,28 @@ export class ServiceProviderClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4614,6 +6192,28 @@ export class ServiceProviderClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4685,6 +6285,28 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4739,6 +6361,28 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4798,6 +6442,28 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4850,6 +6516,28 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -4909,6 +6597,28 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4966,6 +6676,28 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5025,6 +6757,28 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5078,6 +6832,28 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5136,6 +6912,28 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5199,6 +6997,28 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5259,6 +7079,28 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5344,6 +7186,28 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5414,6 +7278,28 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5471,6 +7357,28 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5530,6 +7438,28 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5582,6 +7512,28 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5653,6 +7605,28 @@ export class OutputClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5698,7 +7672,7 @@ export class OutputClient extends PictureparkClientBase {
         if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <OutputNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
         } else if (status === 200) {
@@ -5716,6 +7690,22 @@ export class OutputClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5783,6 +7773,28 @@ export class ProfileClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5840,6 +7852,28 @@ export class ProfileClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
             });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -5850,6 +7884,186 @@ export class ProfileClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<UserProfile>(<any>null);
+    }
+}
+
+export class SchemaTransferClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Import schemas
+     * @schemaImportRequest The schema import request.
+     * @return Transfer
+     */
+    import(schemaImportRequest: SchemaImportRequest | null): Promise<Transfer> {
+        let url_ = this.baseUrl + "/v1/schematransfers/import";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(schemaImportRequest);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processImport(_response);
+        });
+    }
+
+    protected processImport(response: Response): Promise<Transfer> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Transfer>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Transfer>(<any>null);
+    }
+}
+
+export class InfoClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Get info
+     * @return CustomerInfo
+     */
+    get(): Promise<CustomerInfo> {
+        let url_ = this.baseUrl + "/v1/info";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<CustomerInfo> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <CustomerInfo>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CustomerInfo>(<any>null);
     }
 }
 
@@ -5880,7 +8094,11 @@ export interface PictureparkBusinessException extends PictureparkException {
     userId?: string | undefined;
 }
 
-export interface ContentNotFoundException extends PictureparkBusinessException {
+export interface PictureparkNotFoundException extends PictureparkBusinessException {
+    reference?: string | undefined;
+}
+
+export interface ContentNotFoundException extends PictureparkNotFoundException {
     contentId?: string | undefined;
 }
 
@@ -5892,31 +8110,192 @@ export enum TraceLevel {
     Verbose = <any>"Verbose", 
 }
 
-export interface PictureparkApplicationException extends PictureparkBusinessException {
+export interface PictureparkValidationException extends PictureparkBusinessException {
 }
 
-export interface PictureparkArgumentNullException extends PictureparkBusinessException {
+export interface PictureparkConflictException extends PictureparkBusinessException {
+    reference?: string | undefined;
+}
+
+export interface UserEmailAlreadyExistsException extends PictureparkValidationException {
+    email?: string | undefined;
+}
+
+export interface UserRoleAssignedException extends PictureparkValidationException {
+    userRoleId?: string | undefined;
+}
+
+export interface UserNotFoundException extends PictureparkBusinessException {
+    missingUserId?: string | undefined;
+}
+
+export interface RenderingException extends PictureparkBusinessException {
+}
+
+export interface ServiceProviderDeleteException extends PictureparkException {
+    serviceProviderId?: string | undefined;
+    detailedErrorMessage?: string | undefined;
+}
+
+export interface ServiceProviderCreateException extends PictureparkException {
+    userId?: string | undefined;
+    externalId?: string | undefined;
+    virtualHost?: string | undefined;
+    detailErrorMessage?: string | undefined;
+}
+
+export interface ServiceProviderNotFoundException extends PictureparkException {
+    missingServiceProviderId?: string | undefined;
+}
+
+export interface DocumentVersionNotFoundException extends PictureparkNotFoundException {
+    documentId?: string | undefined;
+    documentVersion?: string | undefined;
+}
+
+export interface DefaultChannelDeleteException extends PictureparkValidationException {
+}
+
+export interface ElasticVersionUpdateException extends PictureparkException {
+    expectedVersion?: string | undefined;
+    actualVersion?: string | undefined;
+}
+
+export interface InvalidVersionException extends PictureparkException {
+    component?: string | undefined;
+    version?: string | undefined;
+}
+
+export interface EnvironmentNotDeactivatedException extends PictureparkException {
+}
+
+export interface EnvironmentNotFoundException extends PictureparkException {
+}
+
+export interface EnvironmentDeactivationException extends PictureparkException {
+    deactivationMessage?: string | undefined;
+}
+
+export interface ShareNotFoundException extends PictureparkNotFoundException {
+    shareId?: string | undefined;
+}
+
+export interface ShareByTokenNotFoundException extends PictureparkNotFoundException {
+    token?: string | undefined;
+}
+
+export interface TokenGenerationException extends PictureparkBusinessException {
+    retries: number;
+}
+
+export interface OutputIdNotFoundException extends PictureparkNotFoundException {
+    outputId?: string | undefined;
+}
+
+export interface OutputNotFoundException extends PictureparkBusinessException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
+export interface DriveCacheExpiredException extends PictureparkBusinessException {
+}
+
+export interface DriveFileNotFoundException extends PictureparkNotFoundException {
+    fileId?: string | undefined;
+}
+
+export interface DriveRequestException extends PictureparkBusinessException {
+}
+
+export interface TokenValidationException extends PictureparkValidationException {
+}
+
+export interface LeaseNotAcquiredException extends PictureparkBusinessException {
+    resourceId?: string | undefined;
+}
+
+export interface OperationInProgressException extends PictureparkBusinessException {
+    leaseResourceType: LeaseResourceType;
+}
+
+export enum LeaseResourceType {
+    SchemaEditing = <any>"SchemaEditing", 
+}
+
+export interface RetryException extends PictureparkBusinessException {
+    retries: number;
+    innerExceptionDetail?: string | undefined;
+}
+
+export interface OwnerTokenNotFoundException extends PictureparkNotFoundException {
+    ownerTokenUserId?: string | undefined;
+}
+
+export interface InvalidStateException extends PictureparkValidationException {
+    resourceId?: string | undefined;
+    state?: string | undefined;
+}
+
+export interface PictureparkArgumentNullException extends PictureparkValidationException {
     argumentName?: string | undefined;
 }
 
-export interface ContentsNotFoundException extends PictureparkBusinessException {
-    contentIds?: string[] | undefined;
+export interface ObjectTypeMismatchException extends PictureparkBusinessException {
+    type?: string | undefined;
 }
 
-export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
-    processDefinitionIds?: string[] | undefined;
+export interface InvalidStateTransitionException extends InvalidStateException {
+    transition?: string | undefined;
 }
 
-export interface BusinessProcessDefinitionNotFoundException extends PictureparkBusinessException {
-    processDefinitionId?: string | undefined;
+export interface FailedToLockException extends PictureparkBusinessException {
+    resourceId?: string | undefined;
 }
 
-export interface BusinessProcessNotFoundException extends PictureparkBusinessException {
-    businessProcessId?: string | undefined;
+export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
 }
 
-export interface BusinessProcessWaitTimeoutException extends PictureparkBusinessException {
-    businessProcessId?: string | undefined;
+export interface PictureparkApplicationException extends PictureparkBusinessException {
+}
+
+export interface MissingCustomerDefaultLanguageException extends PictureparkValidationException {
+    customerDefaultLanguage?: string | undefined;
+}
+
+export interface InvalidArgumentException extends PictureparkValidationException {
+    argumentName?: string | undefined;
+    argumentValue?: string | undefined;
+}
+
+export interface UnknownException extends PictureparkBusinessException {
+    exceptionDetail?: string | undefined;
+}
+
+export interface OwnerTokenInUseException extends PictureparkValidationException {
+    ownerTokenUserId?: string | undefined;
+}
+
+export interface CustomerViolationException extends PictureparkException {
+    expectedCustomerId?: string | undefined;
+    currentCustomerId?: string | undefined;
+}
+
+export interface CustomerAliasNotFoundException extends PictureparkException {
+    customerAlias?: string | undefined;
+}
+
+export interface CustomerAliasInUseException extends PictureparkBusinessException {
+    existingCustomerId?: string | undefined;
+    alias?: string | undefined;
+}
+
+export interface CustomerNotDeactivatedException extends PictureparkException {
+    customerId?: string | undefined;
+}
+
+export interface CustomerDeactivationException extends PictureparkException {
+    customerId?: string | undefined;
+    deactivationMessage?: string | undefined;
 }
 
 export interface CustomerHostNotFoundException extends PictureparkException {
@@ -5927,33 +8306,39 @@ export interface CustomerNotFoundException extends PictureparkException {
     customerId?: string | undefined;
 }
 
-export interface DocumentNotFoundException extends PictureparkBusinessException {
-    documentId?: string | undefined;
+export interface CustomerNotActiveException extends PictureparkException {
+    customerId?: string | undefined;
 }
 
-export interface DocumentVersionNotFoundException extends PictureparkBusinessException {
-    documentId?: string | undefined;
-    documentVersion?: string | undefined;
+export interface ConfigurationIndexNotFoundException extends PictureparkException {
+    configurationIndex?: string | undefined;
 }
 
-export interface DriveRequestException extends PictureparkBusinessException {
+export interface DuplicateSearchIndexDocException extends PictureparkBusinessException {
+    searchIndexDocId?: string | undefined;
 }
 
-export interface DuplicateRightException extends PictureparkBusinessException {
-    permissionSetId?: string | undefined;
+export interface SearchIndexDocNotFoundException extends PictureparkBusinessException {
+    searchIndexDocId?: string | undefined;
 }
 
-export interface DuplicateDocumentException extends PictureparkBusinessException {
-    documentId?: string | undefined;
-    documentType?: string | undefined;
+export interface IndexDocumentNotFoundException extends PictureparkBusinessException {
+    indexId?: string | undefined;
 }
 
-export interface DuplicateAggregatorException extends PictureparkBusinessException {
-    aggregatorName?: string | undefined;
+export interface DuplicateAliasException extends PictureparkException {
+    indexAlias?: string | undefined;
 }
 
-export interface FailedToLockException extends PictureparkBusinessException {
-    resourceId?: string | undefined;
+export interface SearchIndexNotFoundException extends PictureparkBusinessException {
+    searchIndexId?: string | undefined;
+}
+
+export interface DefaultSearchIndexDeleteException extends PictureparkBusinessException {
+}
+
+export interface SearchIndexInUseException extends PictureparkBusinessException {
+    searchIndex?: string | undefined;
 }
 
 export interface IndexException extends PictureparkBusinessException {
@@ -5961,58 +8346,48 @@ export interface IndexException extends PictureparkBusinessException {
     debugInformation?: string | undefined;
 }
 
-export interface InvalidArgumentException extends PictureparkBusinessException {
-    argumentName?: string | undefined;
-    argumentValue?: string | undefined;
-}
-
-export interface InvalidCustomerException extends PictureparkException {
-    customerId?: string | undefined;
-}
-
-export interface PictureparkInvalidMetadataException extends PictureparkBusinessException {
-    metadataErrors?: MetadataError[] | undefined;
-}
-
-export interface MetadataError {
-    errorType?: string | undefined;
-    lineNumber: number;
-    linePosition: number;
-    path?: string | undefined;
-    message?: string | undefined;
-    schemaId?: string | undefined;
-}
-
-export interface InvalidStateException extends PictureparkBusinessException {
-    resourceId?: string | undefined;
-    state?: string | undefined;
-}
-
-export interface InvalidStateTransitionException extends InvalidStateException {
-    transition?: string | undefined;
-}
-
-export interface InvalidUserOrPasswordException extends PictureparkException {
-    customerId?: string | undefined;
-}
-
-export interface PictureparkMappingException extends PictureparkBusinessException {
+export interface IndexMappingException extends PictureparkBusinessException {
     indexName?: string | undefined;
     debugInformation?: string | undefined;
 }
 
-export interface MessagePerformerTaskCanceledException extends PictureparkException {
-    messageId?: string | undefined;
+export interface DuplicatedSearchBehaviourException extends PictureparkValidationException {
+    duplicatedSearchBehaviours?: string | undefined;
+}
+
+export interface SearchStringLeadingWildcardException extends PictureparkValidationException {
+}
+
+export interface DuplicateAggregatorException extends PictureparkValidationException {
+    aggregatorName?: string | undefined;
+}
+
+export interface InvalidDateTimeFormatException extends PictureparkValidationException {
+    value?: string | undefined;
+    expectedFormat?: string | undefined;
+}
+
+export interface InvalidSortFieldException extends PictureparkValidationException {
+    fieldName?: string | undefined;
+}
+
+export interface DocumentVersionConflictException extends PictureparkConflictException {
+    documentId?: string | undefined;
+    documentType?: string | undefined;
+    documentVersion: number;
+}
+
+export interface RedisDatabaseExceededException extends PictureparkException {
     customerId?: string | undefined;
+    customerCount: number;
+    maxCount: number;
+    startIndex: number;
+    redisDatabaseCount: number;
 }
 
-export interface NotFoundException extends PictureparkBusinessException {
-    reference?: string | undefined;
-}
-
-export interface ObjectStoreException extends PictureparkBusinessException {
-    rowErrorMessages?: string | undefined;
-    errorMessage?: string | undefined;
+export interface DuplicateDocumentException extends PictureparkValidationException {
+    documentId?: string | undefined;
+    documentType?: string | undefined;
 }
 
 export interface ObjectStoreResponseException extends PictureparkBusinessException {
@@ -6020,20 +8395,9 @@ export interface ObjectStoreResponseException extends PictureparkBusinessExcepti
     message?: string | undefined;
 }
 
-export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
-}
-
-export interface OperationTimeoutException extends PictureparkBusinessException {
-}
-
-export interface OutputNotFoundException extends PictureparkBusinessException {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
-}
-
-export interface PermissionException extends PictureparkBusinessException {
-    permission?: string | undefined;
-    operation?: string | undefined;
+export interface ObjectStoreException extends PictureparkBusinessException {
+    rowErrorMessages?: string | undefined;
+    errorMessage?: string | undefined;
 }
 
 export interface QueryException extends PictureparkBusinessException {
@@ -6070,49 +8434,447 @@ export interface StorageCausedBy {
     innerCausedBy?: StorageCausedBy | undefined;
 }
 
-export interface RenderingException extends PictureparkBusinessException {
+export interface PermissionOwnershipTransferException extends PictureparkValidationException {
+    transferUserId?: string | undefined;
+    missingUserRight: UserRight;
 }
 
-export interface RenderingJobItemNotSetException extends PictureparkBusinessException {
+export enum UserRight {
+    ManageContent = <any>"ManageContent", 
+    ManageSharings = <any>"ManageSharings", 
+    ManageDrives = <any>"ManageDrives", 
+    ManageTransfer = <any>"ManageTransfer", 
+    ManageChannels = <any>"ManageChannels", 
+    ManageSchemas = <any>"ManageSchemas", 
+    ManageUsers = <any>"ManageUsers", 
+    ManageUserRoles = <any>"ManageUserRoles", 
+    ManagePermissions = <any>"ManagePermissions", 
+    ManageSearchIndexes = <any>"ManageSearchIndexes", 
+    ManageRecipients = <any>"ManageRecipients", 
+    ManageCollections = <any>"ManageCollections", 
+    ManageListItems = <any>"ManageListItems", 
+    ManageServiceProviders = <any>"ManageServiceProviders", 
+    ManageEmbeds = <any>"ManageEmbeds", 
+    ManageTemplates = <any>"ManageTemplates", 
 }
 
-export interface ServiceProviderCreateException extends PictureparkException {
-    userId?: string | undefined;
-    externalId?: string | undefined;
-    virtualHost?: string | undefined;
-    detailErrorMessage?: string | undefined;
+export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
+    permissionSetId?: string | undefined;
 }
 
-export interface ServiceProviderDeleteException extends PictureparkException {
-    serviceProviderId?: string | undefined;
-    detailedErrorMessage?: string | undefined;
+export interface DuplicateRightException extends PictureparkValidationException {
+    permissionSetId?: string | undefined;
 }
 
-export interface ServiceProviderNotFoundException extends PictureparkException {
-    missingServiceProviderId?: string | undefined;
+export interface PermissionValidationException extends PictureparkValidationException {
+    permission?: string | undefined;
+    operation?: string | undefined;
 }
 
-export interface TokenValidationException extends PictureparkBusinessException {
+export interface UnsupportedListItemChangeCommandException extends PictureparkValidationException {
+    commandType?: string | undefined;
 }
 
-export interface UnknownException extends PictureparkBusinessException {
-    exceptionDetail?: string | undefined;
+export interface ListItemLayerException extends PictureparkValidationException {
+    listItemId?: string | undefined;
 }
 
-export interface UserNotFoundException extends PictureparkBusinessException {
-    missingUserId?: string | undefined;
+export interface ListItemNotFoundException extends PictureparkNotFoundException {
+    listItemId?: string | undefined;
 }
 
-export interface UserPermanentlyRemovedException extends PictureparkBusinessException {
-    removedUserId?: string | undefined;
+export interface ListItemCyclicDependencyException extends PictureparkBusinessException {
+    listItemIds?: string[] | undefined;
 }
 
-export interface UserRoleAssignedException extends PictureparkBusinessException {
-    userRoleId?: string | undefined;
+export interface DeleteListItemsWithReferencesException extends PictureparkValidationException {
+    referencesList?: string[] | undefined;
+    references?: string | undefined;
 }
 
-export interface UserRolesRightsAssignedException extends PictureparkBusinessException {
-    contentPermissionSetId?: string | undefined;
+export interface ListItemUpdateManyException extends PictureparkBusinessException {
+    failedItemsCount: number;
+    totalItemsCount: number;
+}
+
+export interface TransferInfoNotFoundException extends PictureparkNotFoundException {
+    transferInfoId?: string | undefined;
+}
+
+export interface FileTransferNotFoundException extends PictureparkNotFoundException {
+    fileTransferId?: string | undefined;
+}
+
+export interface InvalidTransferTypeException extends PictureparkBusinessException {
+    transferType: TransferType;
+}
+
+export enum TransferType {
+    FileUpload = <any>"FileUpload", 
+    FileUploadAutoImport = <any>"FileUploadAutoImport", 
+    DriveImport = <any>"DriveImport", 
+    DriveExport = <any>"DriveExport", 
+    WebDownload = <any>"WebDownload", 
+    SchemaImport = <any>"SchemaImport", 
+}
+
+export interface TransferNotFoundException extends PictureparkNotFoundException {
+    transferId?: string | undefined;
+}
+
+export interface WrongChunkSizeException extends PictureparkValidationException {
+    actual: number;
+    expected: number;
+}
+
+export interface MissingDependenciesException extends PictureparkValidationException {
+    itemIds?: string | undefined;
+}
+
+export interface RelationSelfReferencingException extends PictureparkValidationException {
+    itemId?: string | undefined;
+    itemType?: string | undefined;
+}
+
+export interface InvalidChangeCommandFieldTypeInvalidException extends PictureparkValidationException {
+    commandType?: string | undefined;
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    fieldActualType?: string | undefined;
+    fieldExpectedType?: string | undefined;
+}
+
+export interface InvalidChangeCommandFieldNotFoundException extends PictureparkValidationException {
+    commandTypeName?: string | undefined;
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export interface InvalidChangeCommandSchemaChangeInvalidException extends PictureparkValidationException {
+    commandTypeName?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export interface InvalidMetadataException extends PictureparkValidationException {
+    metadataErrors?: MetadataError[] | undefined;
+}
+
+export interface MetadataError {
+    errorType?: string | undefined;
+    lineNumber: number;
+    linePosition: number;
+    path?: string | undefined;
+    message?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export interface RelationNotFoundException extends PictureparkBusinessException {
+    relationId?: string | undefined;
+}
+
+export interface RelationTypeNotFoundException extends PictureparkBusinessException {
+    relationType?: string | undefined;
+}
+
+export interface RelationTypeTargetDocTypeMismatchException extends PictureparkBusinessException {
+    relationType?: string | undefined;
+    targetDocType?: string | undefined;
+    expectedTargetDocType?: string | undefined;
+}
+
+export interface AggregationFilterInvalidException extends PictureparkValidationException {
+    aggregationFilterNames?: string | undefined;
+}
+
+export interface AggregationNameInvalidException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+    aggregationPrefix?: string | undefined;
+}
+
+export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    fieldOverwriteType?: string | undefined;
+    fieldType?: string | undefined;
+}
+
+export interface SchemaFieldOverwriteIdException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldIdDuplicatedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    relatedFieldId?: string | undefined;
+    relatedOuterFieldId?: string | undefined;
+}
+
+export interface SchemaFieldSchemaIndexInfoNestingException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    relatedFieldId?: string | undefined;
+    relatedOuterFieldId?: string | undefined;
+}
+
+export interface SchemaFieldIdUppercaseException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaIdLowercaseException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaInfoNotFoundException extends PictureparkNotFoundException {
+    schemaId?: string | undefined;
+}
+
+export interface IndexedFieldThresholdExceededException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    indexedFieldCount: number;
+    indexedFieldThreshold: number;
+}
+
+export interface SortableFieldThresholdExceededException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    sortableFieldCount: number;
+    sortableFieldThreshold: number;
+}
+
+export interface DuplicateSchemaInfoException extends PictureparkBusinessException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaFieldNumberRangeException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    propertyName?: string | undefined;
+    minValue: number;
+    maxValue: number;
+}
+
+export interface SchemaInUseContentSchemaException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    contentSchemaIds?: string[] | undefined;
+}
+
+export interface SchemaInUseListItemException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    listItemCount: number;
+}
+
+export interface SchemaInUseContentException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    contentCount: number;
+}
+
+export interface SchemaInUseFieldException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldNamespaces?: string[] | undefined;
+}
+
+export interface SchemaNotFoundInSearchIndexException extends PictureparkValidationException {
+    searchIndexId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export interface DuplicateMetadataDisplayPatternException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    displayPatternId?: string | undefined;
+}
+
+export interface DuplicateSchemaException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaImportEmptyException extends PictureparkValidationException {
+}
+
+export interface SchemaImportVersionMismatchException extends PictureparkValidationException {
+    providedVersion?: string | undefined;
+    expectedVersion?: string | undefined;
+}
+
+export interface SchemaCyclicDependencyException extends PictureparkValidationException {
+    schemaIds?: string[] | undefined;
+}
+
+export interface SchemaInheritanceFieldIndexDeviationException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaInheritanceTypeDeviationException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaValidationException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    exceptions?: PictureparkBusinessException[] | undefined;
+}
+
+export interface SchemaSortFieldException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldIdException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldTypeChangeException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    oldType?: string | undefined;
+    newType?: string | undefined;
+}
+
+export interface SchemaFieldIndexException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldNotSortableException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export interface SchemaNoContentException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaParentChangeException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    oldSchemaParentId?: string | undefined;
+    newSchemaParentId?: string | undefined;
+}
+
+export interface SchemaMissingTypeException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    expectedSchemaTypes?: SchemaType[] | undefined;
+}
+
+export enum SchemaType {
+    Content = <any>"Content", 
+    Layer = <any>"Layer", 
+    List = <any>"List", 
+    Struct = <any>"Struct", 
+}
+
+export interface SchemaPermissionException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaNoLayerException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaIdException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SchemaInUseException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    exceptions?: PictureparkBusinessException[] | undefined;
+}
+
+export interface SchemaNotFoundException extends PictureparkNotFoundException {
+    schemaId?: string | undefined;
+}
+
+export interface SystemSchemaInvalidModificationException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface ContentsNotFoundException extends PictureparkNotFoundException {
+    contentIds?: string[] | undefined;
+}
+
+export interface DeleteContentsWithRelationsException extends PictureparkValidationException {
+    relationList?: string[] | undefined;
+    relations?: string | undefined;
+}
+
+export interface ContentMetadataUpdateManyException extends PictureparkBusinessException {
+    failedItemsCount: number;
+    totalItemsCount: number;
+}
+
+export interface ContentLayerInvalidException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    layerIds?: string | undefined;
+}
+
+export interface PictureparkTimeoutException extends PictureparkBusinessException {
+}
+
+export interface BusinessProcessWaitTimeoutException extends PictureparkTimeoutException {
+    businessProcessId?: string | undefined;
+}
+
+export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
+    businessProcessId?: string | undefined;
+    engineError?: string | undefined;
+}
+
+export interface BusinessProcessNotFoundException extends PictureparkNotFoundException {
+    businessProcessId?: string | undefined;
+}
+
+export interface BusinessProcessDefinitionNotFoundException extends PictureparkNotFoundException {
+    processDefinitionId?: string | undefined;
+}
+
+export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
+    processDefinitionIds?: string[] | undefined;
+}
+
+export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    importingFieldIds?: string | undefined;
+    existingFieldIds?: string | undefined;
+}
+
+export interface SchemaFieldImportRelatedSchemaMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingRelatedSchemaId?: string | undefined;
+    existingRelatedSchemaId?: string | undefined;
+}
+
+export interface SchemaFieldImportTypeMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingFieldType?: string | undefined;
+    existingFieldType?: string | undefined;
+}
+
+export interface SnapshotTimeoutException extends PictureparkTimeoutException {
+}
+
+export interface SnapshotFailedException extends PictureparkBusinessException {
+}
+
+export interface AddMetadataLanguageTimeoutException extends PictureparkTimeoutException {
+    environmentProcessId?: string | undefined;
+}
+
+export interface EnvironmentProcessAlreadyRunningException extends PictureparkValidationException {
+    environmentProcessType?: string | undefined;
+}
+
+export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
+    environmentProcessId?: string | undefined;
+}
+
+export interface EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException {
+    environmentProcessId?: string | undefined;
+    waitedLifecycles?: string | undefined;
 }
 
 /** A content detail. */
@@ -6190,10 +8952,10 @@ export interface Output {
     id?: string | undefined;
     outputFormatId?: string | undefined;
     contentId?: string | undefined;
-    detail?: OutputDetailBase | undefined;
+    detail?: OutputDataBase | undefined;
 }
 
-export interface OutputDetailBase {
+export interface OutputDataBase {
     fileExtension?: string | undefined;
     fileName?: string | undefined;
     filePath?: string | undefined;
@@ -6201,16 +8963,16 @@ export interface OutputDetailBase {
     sha1Hash?: string | undefined;
 }
 
-export interface OutputDetailImage extends OutputDetailBase {
+export interface OutputDataImage extends OutputDataBase {
     width: number;
     height: number;
 }
 
-export interface OutputDetailAudio extends OutputDetailBase {
+export interface OutputDataAudio extends OutputDataBase {
     durationInSeconds?: number | undefined;
 }
 
-export interface OutputDetailVideo extends OutputDetailBase {
+export interface OutputDataVideo extends OutputDataBase {
     durationInSeconds: number;
     width: number;
     height: number;
@@ -6226,11 +8988,11 @@ export interface Sprite {
     end: string;
 }
 
-export interface OutputDetailDocument extends OutputDetailBase {
+export interface OutputDataDocument extends OutputDataBase {
     pageCount: number;
 }
 
-export interface OutputDetailDefault extends OutputDetailBase {
+export interface OutputDataDefault extends OutputDataBase {
 }
 
 export interface OutputDetail extends Output {
@@ -6238,8 +9000,8 @@ export interface OutputDetail extends Output {
 
 export interface ContentSearchRequest {
     /** Limits the simple search fields to the fields available in the specified channel. */
-    channelIds?: string[] | undefined;
-    /** Defines the return language of translation values. Defaults to x-default. */
+    channelId?: string | undefined;
+    /** Defines the return language of translation values. Defaults to customer default language. */
     displayLanguage?: string | undefined;
     /** Limits the display values included in the search response. Defaults to all display values. */
     displayPatternIds?: string[] | undefined;
@@ -6418,7 +9180,7 @@ export interface TermsFilter extends FilterBase {
 export interface AggregationFilter extends FilterBase {
     /** The name of the aggregation this filter is connected to. */
     aggregationName?: string | undefined;
-    /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter and GeoDistanceFilter. */
+    /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter, GeoDistanceFilter and NestedFilter. */
     filter?: FilterBase | undefined;
     temporaryAggregatorRequestId?: string | undefined;
 }
@@ -6496,8 +9258,8 @@ export interface Content {
     brokenReferenceIds?: string[] | undefined;
     /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
     brokenIndirectReferenceIds?: string[] | undefined;
-    /** All the ids of the broken relations */
-    brokenRelationIds?: string[] | undefined;
+    /** All the target ids of the broken relations */
+    brokenRelationTargetIds?: string[] | undefined;
 }
 
 export interface QueryDebugInformation {
@@ -6507,7 +9269,7 @@ export interface QueryDebugInformation {
     response?: any | undefined;
 }
 
-export interface ContentAggregationRequest {
+export interface ContentAggregationOnChannelRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
     /** An optional list of search behaviours. All the passed behaviours will be applied */
@@ -6516,11 +9278,9 @@ export interface ContentAggregationRequest {
     filter?: FilterBase | undefined;
     /** Special filters used to filter down on a specific aggregated value. */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** Defines the aggregation resultset. */
-    aggregators?: AggregatorBase[] | undefined;
-    /** Limits the simple search fields to the fields available in the specified channel. */
+    /** Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it. */
     channelId?: string | undefined;
-    /** Defines the return language of translation values. Defaults to x-default. */
+    /** Defines the return language of translation values. Defaults to customer default language. */
     displayLanguage?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration. */
     searchLanguages?: string[] | undefined;
@@ -6532,6 +9292,11 @@ export interface ContentAggregationRequest {
     brokenDependenciesFilter: BrokenDependenciesFilter;
     /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
     searchType: ContentSearchType;
+}
+
+export interface ContentAggregationRequest extends ContentAggregationOnChannelRequest {
+    /** Defines the aggregation resultset. */
+    aggregators?: AggregatorBase[] | undefined;
 }
 
 /** The AggregatorBase is the base class for all aggregators. */
@@ -6549,13 +9314,17 @@ export interface DateRangeAggregator extends AggregatorBase {
     /** The elastic search index field to execute the aggregation on. */
     field?: string | undefined;
     /** A list of date ranges. Supported pattern: now(+-)(int)(YMDHm). */
-    ranges?: DateRange[] | undefined;
+    ranges?: DateRangeForAggregator[] | undefined;
 }
 
-/** The FilterAggregator is a single bucket aggregation of documents that match a specified filter. */
-export interface FilterAggregator extends AggregatorBase {
-    /** Limits the result set. */
-    filter?: FilterBase | undefined;
+/** The date range class used in aggregators. */
+export interface DateRangeForAggregator {
+    /** Tranlsated range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    from?: string | undefined;
+    /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    to?: string | undefined;
 }
 
 /** The GeoDistanceAggregator is a multi-bucket range aggregation that works on geo_point fields. Each bucket represents a range. */
@@ -6586,7 +9355,16 @@ export interface NumericRangeAggregator extends AggregatorBase {
     /** The elastic search index field to execute the aggregation on. */
     field?: string | undefined;
     /** A list of numeric ranges. */
-    ranges?: NumericRange[] | undefined;
+    ranges?: NumericRangeForAggregator[] | undefined;
+}
+
+export interface NumericRangeForAggregator {
+    /** Tranlsated range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value. */
+    from?: number | undefined;
+    /** The to value. */
+    to?: number | undefined;
 }
 
 /** The TermsAggregator is a multi-bucket value aggregation where buckets are dynamically built - one per unique value. */
@@ -6599,6 +9377,10 @@ export interface TermsAggregator extends AggregatorBase {
     includes?: string[] | undefined;
     /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
     excludes?: string[] | undefined;
+    /** Search string to be used to search within possible aggregation values */
+    searchString?: string | undefined;
+    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used */
+    searchFields?: string[] | undefined;
 }
 
 /** The TermsRelationAggregator is derived from TermsAggregator and used for aggregations on relation item ids. */
@@ -6634,7 +9416,6 @@ export interface ObjectAggregationResult {
 export interface AggregationResult {
     name?: string | undefined;
     sumOtherDocCount?: number | undefined;
-    temporaryRequestId?: string | undefined;
     aggregationResultItems?: AggregationResultItem[] | undefined;
 }
 
@@ -6700,7 +9481,7 @@ export interface BusinessProcess {
     startDate: Date;
     endDate: Date;
     finished: boolean;
-    stateHistory?: BusinessProcessStateItem[] | undefined;
+    stateHistory?: BusinessProcessState[] | undefined;
     currentState?: string | undefined;
     processDefinitionName?: string | undefined;
 }
@@ -6719,7 +9500,7 @@ export enum BusinessProcessLifeCycle {
     Failed = <any>"Failed", 
 }
 
-export interface BusinessProcessStateItem {
+export interface BusinessProcessState {
     state?: string | undefined;
     timestamp: Date;
     error?: ErrorResponse | undefined;
@@ -6743,7 +9524,6 @@ export interface BulkResponseRow {
     id?: string | undefined;
     version: number;
     error?: string | undefined;
-    reason?: string | undefined;
     succeeded: boolean;
     status: number;
 }
@@ -6759,6 +9539,7 @@ export interface ContentReactivateRequest {
     contentIds?: string[] | undefined;
     resolve: boolean;
     displayPatternIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 }
 
 export interface ContentFileUpdateRequest {
@@ -6769,10 +9550,21 @@ export interface ContentFileUpdateRequest {
 export interface ContentMetadataUpdateRequest {
     /** The content id. */
     id?: string | undefined;
-    /** An id list of schemas with schema type content or layer. */
-    schemaIds?: string[] | undefined;
-    /** The dynamic data structure matching the field schematics of the schemas with schema type content or layer. */
+    /** An id list of schemas with schema type layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** The dynamic data structure matching the field schematics of the content schema (ContentSchemaId). */
+    content?: DataDictionary | undefined;
+    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds). */
     metadata?: DataDictionary | undefined;
+    /** Options to modify the behavior for updating schemas. */
+    layerSchemasUpdateOptions: UpdateOption;
+    /** Options to modify the behavior for updating the values of schemas. */
+    schemaFieldsUpdateOptions: UpdateOption;
+}
+
+export enum UpdateOption {
+    Merge = <any>"Merge", 
+    Replace = <any>"Replace", 
 }
 
 export interface ContentPermissionsUpdateRequest {
@@ -6809,6 +9601,8 @@ export interface MetadataValuesChangeRequestBase {
     changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     /** Allow storing references to missing list items / contents */
     allowMissingDependencies: boolean;
+    /** Create notification and notify on progress */
+    notifyProgress: boolean;
 }
 
 export interface ContentFieldsUpdateRequest extends MetadataValuesChangeRequestBase {
@@ -6836,6 +9630,12 @@ export interface MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeC
 
 /** Removes schema values. */
 export interface MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeCommandBase {
+}
+
+/** Replaces schema values. */
+export interface MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeCommandBase {
+    /** The metadata values containing the new values for the schema. All old values will be overwritten. */
+    value?: DataDictionary | undefined;
 }
 
 /** Removes a field and its value from the schema values. */
@@ -6869,11 +9669,11 @@ export interface ContentFieldsFilterUpdateRequest extends MetadataValuesChangeRe
 }
 
 export interface ContentFilterRequest {
-    /** Limits the simple search fields to the fields available in the specified in the channel. */
-    channelIds?: string[] | undefined;
+    /** Limits the simple search fields to the fields available in the specified channel. */
+    channelId?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
     searchLanguages?: string[] | undefined;
-    /** Defines the return language of translation values. Defaults to x-default. */
+    /** Defines the return language of translation values. Defaults to customer default language. */
     displayLanguage?: string | undefined;
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
@@ -6934,6 +9734,42 @@ export interface BusinessProcessDetailsDataBase {
 
 export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
     response?: BulkResponse | undefined;
+}
+
+/** Business process detailed information regarding Schema / ListItems import operation */
+export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
+    /** Result information of a schema import operation */
+    schemaImportResult?: SchemaImportResult | undefined;
+    /** Result information of a list item import operation */
+    listItemImportResult?: ListItemImportResult | undefined;
+}
+
+/** Result information of a schema import operation */
+export interface SchemaImportResult {
+    /** Number of schemas imported */
+    importedSchemaCount: number;
+    /** Number of schema skipped during import phase because they were already found in the system */
+    skippedSchemaCount: number;
+    /** Total number of schemas requested to be imported */
+    totalSchemaCount: number;
+    /** Ids of the schemas that were not imported because already found in the system */
+    skippedSchemaIds?: string[] | undefined;
+    /** Ids of the schemas that were successfully imported */
+    importedSchemaIds?: string[] | undefined;
+}
+
+/** Result information of a list item import operation */
+export interface ListItemImportResult {
+    /** Number of list items imported */
+    importedListItemCount: number;
+    /** Number of list items skipped during import phase because they were already found in the system */
+    skippedListItemCount: number;
+    /** Total number of list items requested to be imported */
+    totalListItemCount: number;
+    /** Ids of the list items that were not imported because already found in the system */
+    skippedListItemIds?: string[] | undefined;
+    /** Ids of the list items that were successfully imported */
+    importedListItemIds?: string[] | undefined;
 }
 
 export interface DocumentHistorySearchRequest {
@@ -7011,10 +9847,6 @@ export interface ListItemDetail {
     id?: string | undefined;
 }
 
-export interface ListItemNotFoundException extends PictureparkBusinessException {
-    listItemId?: string | undefined;
-}
-
 export interface ListItemSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
@@ -7032,7 +9864,7 @@ export interface ListItemSearchRequest {
     includeAllSchemaChildren: boolean;
     /** Limits the search to list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Defines the return language of translation values. Defaults to x-default. */
+    /** Defines the return language of translation values. Defaults to customer default language. */
     displayLanguage?: string | undefined;
     /** Limits the display values included in the search response. Defaults to all display values. */
     displayPatternIds?: string[] | undefined;
@@ -7043,7 +9875,7 @@ export interface ListItemSearchRequest {
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
     searchLanguages?: string[] | undefined;
     /** When set to true the content data is included in the result items. */
-    includeMetadata: boolean;
+    includeContentData: boolean;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
     debugMode: boolean;
     /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
@@ -7090,7 +9922,7 @@ export interface ListItemAggregationRequest {
     brokenDependenciesFilter: BrokenDependenciesFilter;
     /** Limits the aggregation to list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Defines the return language of translation values. Defaults to x-default. */
+    /** Defines the return language of translation values. Defaults to customer default language. */
     displayLanguage?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
     searchLanguages?: string[] | undefined;
@@ -7139,6 +9971,7 @@ export interface ListItemDeactivateRequest {
 
 export interface ListItemReactivateRequest {
     listItemIds?: string[] | undefined;
+    allowMissingDependencies: boolean;
 }
 
 export interface ListItemFieldsUpdateRequest {
@@ -7148,6 +9981,8 @@ export interface ListItemFieldsUpdateRequest {
     changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     /** Allow storing references to missing list items / contents */
     allowMissingDependencies: boolean;
+    /** Create notification and notify on progress */
+    notifyProgress: boolean;
 }
 
 /** ListItemFieldsFilterUpdateRequest class */
@@ -7158,6 +9993,8 @@ export interface ListItemFieldsFilterUpdateRequest {
     changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     /** Allow storing references to missing list items / contents */
     allowMissingDependencies: boolean;
+    /** Create notification and notify on progress */
+    notifyProgress: boolean;
 }
 
 export interface ListItemFilterRequest {
@@ -7169,10 +10006,25 @@ export interface ListItemFilterRequest {
     includeAllSchemaChildren: boolean;
     /** Limits the search to list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Defines the return language of translation values. Defaults to x-default. */
+    /** Defines the return language of translation values. Defaults to customer default language. */
     displayLanguage?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
     searchLanguages?: string[] | undefined;
+}
+
+export interface ReferencesBase {
+    targetMetadataItemId?: string | undefined;
+    references?: MetadataReference[] | undefined;
+    isReferencedByRestrictedItem: boolean;
+}
+
+export interface ListItemReferences extends ReferencesBase {
+}
+
+export interface MetadataReference {
+    targetDocType?: string | undefined;
+    sourceId?: string | undefined;
+    sourceDocType?: string | undefined;
 }
 
 export interface LiveStreamSearchRequest {
@@ -7221,12 +10073,12 @@ export interface SchemaDetail {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** Sorts content documents and/or list items. */
     sort?: SortInfo[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
     aggregations?: AggregatorBase[] | undefined;
-    /** A simple ordering property for schemas. */
-    sortOrder: number;
     /** Is true when schema is system provided. */
     system: boolean;
     /** The owner token id. Defines the schema owner. */
@@ -7242,13 +10094,6 @@ export interface SchemaDetail {
     audit?: UserAudit | undefined;
     /** The number of fields generated by the schema for the Search operations. */
     searchFieldCount?: SearchFieldCount | undefined;
-}
-
-export enum SchemaType {
-    Content = <any>"Content", 
-    Layer = <any>"Layer", 
-    List = <any>"List", 
-    Struct = <any>"Struct", 
 }
 
 export interface DisplayPattern {
@@ -7280,10 +10125,12 @@ export interface FieldBase {
     required: boolean;
     /** Defines if the field can be edited or not. */
     fixed: boolean;
-    /** Maps the field in the elastic search index and its values become searchable. */
+    /** Maps the field in the elastic filter index. */
     index: boolean;
-    /** Includes fields in the simple search. Index must be true. */
+    /** Includes fields in the simple search. */
     simpleSearch: boolean;
+    /** Field is stored for sorting. */
+    sortable: boolean;
 }
 
 export interface FieldBoolean extends FieldBase {
@@ -7376,6 +10223,8 @@ export interface FieldIndexingInfo {
     index: boolean;
     /** Includes fields in the simple search. Index must be true. */
     simpleSearch: boolean;
+    /** Include the field for the sort index. */
+    sortable: boolean;
     /** Priorizes search results. SimpleSearch must be true. */
     boost: number;
     /** Indexing information of fields of the schema related to this field (if existing) */
@@ -7435,7 +10284,9 @@ export interface FieldString extends FieldBase {
     /** Defines the maximal string length. */
     maximumLength?: number | undefined;
     /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    analyzers?: AnalyzerBase[] | undefined;
+    indexAnalyzers?: AnalyzerBase[] | undefined;
+    /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
+    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
     /** Displays the field value in a multiline component. */
     multiLine: boolean;
     /** Similar to an enumeration valid field values are limited to values of this list. */
@@ -7446,8 +10297,6 @@ export interface FieldString extends FieldBase {
 
 /** The analyzer base class. */
 export interface AnalyzerBase {
-    /** Includes the analyzed field in the simple search. */
-    simpleSearch: boolean;
 }
 
 /** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
@@ -7490,7 +10339,9 @@ export interface FieldTranslatedString extends FieldBase {
     /** Defines the maximal string length. */
     maximumLength?: number | undefined;
     /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    analyzers?: AnalyzerBase[] | undefined;
+    indexAnalyzers?: AnalyzerBase[] | undefined;
+    /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
+    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
     /** Displays the field value in a multiline component. */
     multiLine: boolean;
     /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
@@ -7520,16 +10371,9 @@ export interface RelationType {
     /** Language specific relation names. */
     names?: TranslatedStringDictionary | undefined;
     /** Defines the valid target context. */
-    targetContext: TargetContext;
+    targetDocType?: string | undefined;
     /** An optional search filter. Limits the content or the list item result set depending on the relation's target context. */
     filter?: FilterBase | undefined;
-}
-
-export enum TargetContext {
-    Content = <any>"Content", 
-    ListItem = <any>"ListItem", 
-    User = <any>"User", 
-    Custom = <any>"Custom", 
 }
 
 export interface FieldMultiRelation extends FieldBase {
@@ -7547,14 +10391,56 @@ export interface FieldMultiRelation extends FieldBase {
     minimumItems?: number | undefined;
 }
 
+/** Base class for overwritten information on a field. */
+export interface FieldOverwriteBase {
+    /** The field id. Can be a slug and must be unique within the schema. */
+    id?: string | undefined;
+    /** Defines if a field value is mandatory or not. */
+    required: boolean;
+    /** Defines if the required property of the field is overwritten */
+    overwriteRequired: boolean;
+}
+
+/** Overwritten information for Single Tagbox field. */
+export interface FieldOverwriteSingleTagbox extends FieldOverwriteBase {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Defines if the Filter property of the field is overwritten */
+    overwriteFilter: boolean;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+    /** Defines if the ListItemCreateTemplate property of the field is overwritten */
+    overwriteListItemCreateTemplate: boolean;
+}
+
+/** Overwritten information for Multi Tagbox field. */
+export interface FieldOverwriteMultiTagbox extends FieldOverwriteBase {
+    /** An optional search filter. Limits the list item result set. */
+    filter?: FilterBase | undefined;
+    /** Defines if the Filter property of the field is overwritten */
+    overwriteFilter: boolean;
+    /** Json serialized template used for creating new list item */
+    listItemCreateTemplate?: string | undefined;
+    /** Defines if the ListItemCreateTemplate property of the field is overwritten */
+    overwriteListItemCreateTemplate: boolean;
+    /** Defines the highest possible item count. */
+    maximumItems?: number | undefined;
+    /** Defines if the MaximumItems property of the field is overwritten */
+    overwriteMaximumItems: boolean;
+    /** Defines the lowest possible item count. */
+    minimumItems?: number | undefined;
+    /** Defines if the MinimumItems property of the field is overwritten */
+    overwriteMinimumItems: boolean;
+}
+
 /** Count info of fields for search operations */
 export interface SearchFieldCount {
-    /** The number of fields generated by the schema in the Search index. */
-    dataField: number;
     /** The number of indexed fields generated by the schema in the Search index. */
     indexedField: number;
     /** The number of fields to be queried in the simple search for the schema. */
     simpleSearchField: number;
+    /** The number of fields that have sorting information stored in the search index. */
+    sortableField: number;
 }
 
 export interface SchemaSearchRequest {
@@ -7612,6 +10498,32 @@ export interface Schema {
     system: boolean;
 }
 
+export interface GetIndexFieldsRequest {
+    schemaIds?: string[] | undefined;
+}
+
+/** Contains compiled field information. */
+export interface IndexField {
+    id?: string | undefined;
+    /** The field id. */
+    fieldId?: string | undefined;
+    /** The field's type name. */
+    type?: string | undefined;
+    /** Contains all index field name variants of the field. */
+    indexFields?: { [key: string] : string; } | undefined;
+    /** Contains all simple search field name variants of the field.
+The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
+    simpleSearchFields?: string[] | undefined;
+    /** Contains the fields boost value. */
+    boost: number;
+    /** Not to be returned for search query, but only used for mapping purposes */
+    ignoreForSearch: boolean;
+    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
+    nestedPath?: string | undefined;
+    /** Path to the sorting information in the DataSortValuesField sort index. */
+    sortField?: string | undefined;
+}
+
 /** Response that tells if exists */
 export interface ExistsResponse {
     /** Gets or sets a value indicating whether it exists */
@@ -7633,10 +10545,10 @@ export interface SchemaCreateRequest {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. Can be empty. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and/or list items. */
     aggregations?: AggregatorBase[] | undefined;
-    /** A simple ordering property for schemas. */
-    sortOrder: number;
     /** Sorts content documents and/or list items. */
     sort?: SortInfo[] | undefined;
     /** Opens list item document accessibility. If true SchemaPermissionSetIds must be empty. */
@@ -7649,19 +10561,6 @@ export interface SchemaCreateRequest {
     referencedInContentSchemaIds?: string[] | undefined;
 }
 
-export interface DuplicateSchemaException extends PictureparkBusinessException {
-    schemaId?: string | undefined;
-}
-
-export interface SchemaValidationException extends PictureparkBusinessException {
-    schemaId?: string | undefined;
-    exceptions?: PictureparkBusinessException[] | undefined;
-}
-
-export interface SchemaCyclicDependencyException extends PictureparkBusinessException {
-    schemaIds?: string[] | undefined;
-}
-
 export interface SchemaUpdateRequest {
     /** Language specific schema names. */
     names?: TranslatedStringDictionary | undefined;
@@ -7671,10 +10570,10 @@ export interface SchemaUpdateRequest {
     displayPatterns?: DisplayPattern[] | undefined;
     /** The schema fields. */
     fields?: FieldBase[] | undefined;
+    /** The schema fields overwrite information. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
     /** An optional list of aggregations to group content documents and list items. */
     aggregations?: AggregatorBase[] | undefined;
-    /** A simple ordering property for schemas. */
-    sortOrder: number;
     /** Sorts content documents and/or list items. */
     sort?: SortInfo[] | undefined;
     /** Opens schema accessibility. */
@@ -7687,15 +10586,6 @@ export interface SchemaUpdateRequest {
     referencedInContentSchemaIds?: string[] | undefined;
     /** Types control schema usage. Schema types can only be added, but not removed. */
     types?: SchemaType[] | undefined;
-}
-
-export interface SchemaNotFoundException extends PictureparkBusinessException {
-    schemaId?: string | undefined;
-}
-
-export interface SchemaInUseException extends PictureparkBusinessException {
-    schemaId?: string | undefined;
-    exceptions?: PictureparkBusinessException[] | undefined;
 }
 
 export interface PermissionSetSearchRequest {
@@ -7790,25 +10680,6 @@ export enum MetadataRight {
     Manage = <any>"Manage", 
 }
 
-export enum UserRight {
-    ManageContent = <any>"ManageContent", 
-    ManageSharings = <any>"ManageSharings", 
-    ManageDrives = <any>"ManageDrives", 
-    ManageTransfer = <any>"ManageTransfer", 
-    ManageChannels = <any>"ManageChannels", 
-    ManageSchemas = <any>"ManageSchemas", 
-    ManageUsers = <any>"ManageUsers", 
-    ManageUserRoles = <any>"ManageUserRoles", 
-    ManagePermissions = <any>"ManagePermissions", 
-    ManageSearchIndexes = <any>"ManageSearchIndexes", 
-    ManageRecipients = <any>"ManageRecipients", 
-    ManageCollections = <any>"ManageCollections", 
-    ManageListItems = <any>"ManageListItems", 
-    ManageServiceProviders = <any>"ManageServiceProviders", 
-    ManageEmbeds = <any>"ManageEmbeds", 
-    ManageTemplates = <any>"ManageTemplates", 
-}
-
 /** The version view item for the environment. */
 export interface VersionInfo {
     /** The manual file version of Picturepark.Contract.dll. */
@@ -7867,37 +10738,6 @@ export interface ShareOutputBase {
     detail?: OutputDataBase | undefined;
 }
 
-export interface OutputDataBase {
-    fileExtension?: string | undefined;
-    fileName?: string | undefined;
-    filePath?: string | undefined;
-    fileSizeInBytes?: number | undefined;
-    sha1Hash?: string | undefined;
-}
-
-export interface OutputDataImage extends OutputDataBase {
-    width: number;
-    height: number;
-}
-
-export interface OutputDataAudio extends OutputDataBase {
-    durationInSeconds?: number | undefined;
-}
-
-export interface OutputDataVideo extends OutputDataBase {
-    durationInSeconds: number;
-    width: number;
-    height: number;
-    sprites?: Sprite[] | undefined;
-}
-
-export interface OutputDataDocument extends OutputDataBase {
-    pageCount: number;
-}
-
-export interface OutputDataDefault extends OutputDataBase {
-}
-
 export interface ShareOutputBasic extends ShareOutputBase {
 }
 
@@ -7932,12 +10772,12 @@ export interface UserEmail {
 }
 
 export interface InternalRecipient {
-    recipient?: UserItem | undefined;
+    recipient?: User | undefined;
     token?: string | undefined;
     url?: string | undefined;
 }
 
-export interface UserItem {
+export interface User {
     id?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
@@ -7971,10 +10811,6 @@ export enum OutputAccess {
 export enum ShareType {
     Basic = <any>"Basic", 
     Embed = <any>"Embed", 
-}
-
-export interface ShareNotFoundException extends PictureparkBusinessException {
-    shareId?: string | undefined;
 }
 
 export interface ShareSearchRequest {
@@ -8048,7 +10884,7 @@ export interface ShareContent {
 
 export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
     recipientsEmail?: UserEmail[] | undefined;
-    recipientsUser?: UserItem[] | undefined;
+    recipientsUser?: User[] | undefined;
     recipientsGroup?: UserRole[] | undefined;
     languageCode?: string | undefined;
     mailTemplateId?: string | undefined;
@@ -8135,15 +10971,6 @@ export enum TransferState {
     TransferCleanup = <any>"TransferCleanup", 
 }
 
-export enum TransferType {
-    FileUpload = <any>"FileUpload", 
-    FileUploadAutoImport = <any>"FileUploadAutoImport", 
-    DriveImport = <any>"DriveImport", 
-    DriveExport = <any>"DriveExport", 
-    WebDownload = <any>"WebDownload", 
-    SchemaImport = <any>"SchemaImport", 
-}
-
 export interface TransferSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -8221,7 +11048,7 @@ export interface FileTransferDetail {
     state: FileTransferState;
     fileMetadata?: FileMetadata | undefined;
     driveMetadata?: DriveMetadata | undefined;
-    outputItems?: OutputItem[] | undefined;
+    outputItems?: FileTransferOutput[] | undefined;
     contentId?: string | undefined;
 }
 
@@ -8251,1451 +11078,9 @@ export interface FileMetadata {
     filePath?: string | undefined;
     fileSizeInBytes?: number | undefined;
     sha1Hash?: string | undefined;
-    xmpMetadata?: XmpMetadata | undefined;
-    exifMetadata?: ExifMetadata | undefined;
+    xmpMetadata?: any | undefined;
+    exifMetadata?: any | undefined;
     language?: string | undefined;
-}
-
-export interface XmpMetadata {
-    dc?: Dc | undefined;
-    crs?: Crs | undefined;
-    iptcCore?: IptcCore | undefined;
-    iptcExt?: IptcExt | undefined;
-    iptcIIM?: IptcIIM | undefined;
-    lr?: Lr | undefined;
-    pdf?: Pdf | undefined;
-    photoshop?: Photoshop | undefined;
-    plus?: Plus | undefined;
-    tiff?: Tiff | undefined;
-    xmp?: Xmp | undefined;
-    xmpBJ?: XmpBJ | undefined;
-    xmpDM?: XmpDM | undefined;
-    xmpG?: XmpG | undefined;
-    xmpGImg?: XmpGImg | undefined;
-    xmpidq?: Xmpidq | undefined;
-    xmpMM?: XmpMM | undefined;
-    xmpNote?: XmpNote | undefined;
-    xmpRights?: XmpRights | undefined;
-    xmpTPg?: XmpTPg | undefined;
-}
-
-export interface Dc {
-    contributor?: string[] | undefined;
-    coverage?: string | undefined;
-    creator?: string[] | undefined;
-    date?: Date[] | undefined;
-    description?: { [key: string] : string; } | undefined;
-    format?: string | undefined;
-    identifier?: string | undefined;
-    language?: string[] | undefined;
-    publisher?: string[] | undefined;
-    relation?: string[] | undefined;
-    rights?: { [key: string] : string; } | undefined;
-    source?: string | undefined;
-    subject?: string[] | undefined;
-    title?: { [key: string] : string; } | undefined;
-    type?: string | undefined;
-}
-
-export interface Crs {
-    autoBrightness?: boolean | undefined;
-    autoContrast?: boolean | undefined;
-    autoExposure?: boolean | undefined;
-    autoShadows?: boolean | undefined;
-    blueHue?: number | undefined;
-    blueSaturation?: number | undefined;
-    brightness?: number | undefined;
-    cameraProfile?: string | undefined;
-    chromaticAberrationB?: number | undefined;
-    chromaticAberrationR?: number | undefined;
-    colorNoiseReduction?: number | undefined;
-    contrast?: number | undefined;
-    cropTop?: number | undefined;
-    cropLeft?: number | undefined;
-    cropBottom?: number | undefined;
-    cropRight?: number | undefined;
-    cropAngle?: number | undefined;
-    cropWidth?: number | undefined;
-    cropHeight?: number | undefined;
-    cropUnits?: CropUnit | undefined;
-    exposure?: number | undefined;
-    greenHue?: number | undefined;
-    greenSaturation?: number | undefined;
-    hasCrop?: boolean | undefined;
-    hasSettings?: boolean | undefined;
-    luminanceSmoothing?: number | undefined;
-    rawFileName?: string | undefined;
-    redHue?: number | undefined;
-    redSaturation?: number | undefined;
-    saturation?: number | undefined;
-    shadows?: number | undefined;
-    shadowTint?: number | undefined;
-    sharpness?: number | undefined;
-    temperature?: number | undefined;
-    tint?: number | undefined;
-    toneCurve?: string[] | undefined;
-    toneCurveName?: ToneCurve | undefined;
-    version?: string | undefined;
-    vignetteAmount?: number | undefined;
-    vignetteMidpoint?: number | undefined;
-    whiteBalance?: WhiteBalance | undefined;
-}
-
-/** Corresponds to crs.CropUnitsChoice */
-export enum CropUnit {
-    Pixels = <any>"Pixels", 
-    Inches = <any>"Inches", 
-    Centimeters = <any>"Centimeters", 
-}
-
-/** Corresponds to crs.ToneCurveNameChoice */
-export enum ToneCurve {
-    Linear = <any>"Linear", 
-    MediumContrast = <any>"MediumContrast", 
-    StrongContrast = <any>"StrongContrast", 
-    Custom = <any>"Custom", 
-}
-
-/** Corresponds to crs.WhiteBalanceChoice */
-export enum WhiteBalance {
-    AsShot = <any>"AsShot", 
-    Auto = <any>"Auto", 
-    Daylight = <any>"Daylight", 
-    Cloudy = <any>"Cloudy", 
-    Shade = <any>"Shade", 
-    Tungsten = <any>"Tungsten", 
-    Fluorescent = <any>"Fluorescent", 
-    Flash = <any>"Flash", 
-    Custom = <any>"Custom", 
-}
-
-export interface IptcCore {
-    countryCode?: string | undefined;
-    intellectualGenre?: string | undefined;
-    scene?: string[] | undefined;
-    subjectCode?: string[] | undefined;
-    location?: string | undefined;
-    creatorContactInfo?: CreatorContactInfo | undefined;
-}
-
-export interface CreatorContactInfo {
-    address?: string | undefined;
-    city?: string | undefined;
-    country?: string | undefined;
-    emailAddress?: string | undefined;
-    phoneNumber?: string | undefined;
-    postalCode?: string | undefined;
-    region?: string | undefined;
-    url?: string | undefined;
-}
-
-export interface IptcExt {
-    additionalModelInformation?: string | undefined;
-    artworkOrObject?: ArtworkOrObjectInfo[] | undefined;
-    organisationInImageCode?: string[] | undefined;
-    controlledVocabularyTerm?: string[] | undefined;
-    locationShown?: LocationInfo[] | undefined;
-    modelAge?: number[] | undefined;
-    organisationInImageName?: string[] | undefined;
-    personInImage?: string[] | undefined;
-    digitalImageGUID?: string | undefined;
-    digitalSourceType?: string | undefined;
-    event?: { [key: string] : string; } | undefined;
-    imageRegistryEntry?: RegistryEntryInfo[] | undefined;
-    metadataLastEdited?: Date | undefined;
-    locationCreated?: LocationInfo[] | undefined;
-    maxAvailHeight?: number | undefined;
-    maxAvailWidth?: number | undefined;
-}
-
-/** Corresponds to Xmp.Structure.ArtworkOrObjectDetails */
-export interface ArtworkOrObjectInfo {
-    copyrightNotice?: string | undefined;
-    creator?: string[] | undefined;
-    dateCreated?: Date | undefined;
-    source?: string | undefined;
-    sourceInventoryNumber?: string | undefined;
-    title?: { [key: string] : string; } | undefined;
-}
-
-export interface LocationInfo {
-    city?: string | undefined;
-    countryCode?: string | undefined;
-    countryName?: string | undefined;
-    provinceState?: string | undefined;
-    sublocation?: string | undefined;
-    worldRegion?: string | undefined;
-}
-
-export interface RegistryEntryInfo {
-    registryItemIdentifier?: string | undefined;
-    registryOrganisationIdentifier?: string | undefined;
-}
-
-export interface IptcIIM {
-    modelVersion?: number | undefined;
-    destination?: string[] | undefined;
-    fileFormat?: number | undefined;
-    fileFormatVersion?: number | undefined;
-    serviceIdentifier?: string | undefined;
-    envelopeNumber?: string | undefined;
-    productID?: string[] | undefined;
-    envelopePriority?: number | undefined;
-    dateSent?: Date | undefined;
-    timeSent?: Date | undefined;
-    uno?: string | undefined;
-    recordVersion?: number | undefined;
-    objectTypeReference?: string | undefined;
-    objectAttributeReference?: string | undefined;
-    objectName?: { [key: string] : string; } | undefined;
-    editStatus?: string | undefined;
-    urgency?: number | undefined;
-    subjectReference?: string[] | undefined;
-    category?: string | undefined;
-    supplementalCategory?: string[] | undefined;
-    fixtureIdentifier?: string | undefined;
-    keywords?: string[] | undefined;
-    contentLocationCode?: string[] | undefined;
-    contentLocationName?: string[] | undefined;
-    releaseDate?: Date | undefined;
-    releaseTime?: Date | undefined;
-    expirationDate?: Date | undefined;
-    expirationTime?: Date | undefined;
-    specialInstruction?: string | undefined;
-    actionAdvised?: string | undefined;
-    referenceService?: string | undefined;
-    referenceDate?: Date | undefined;
-    referenceNumber?: string | undefined;
-    dateCreated?: Date | undefined;
-    timeCreated?: Date | undefined;
-    digitalCreationDate?: Date | undefined;
-    digitalCreationTime?: Date | undefined;
-    originatingProgram?: string | undefined;
-    programVersion?: string | undefined;
-    byline?: string[] | undefined;
-    bylineTitle?: string | undefined;
-    city?: string | undefined;
-    sublocation?: string | undefined;
-    provinceState?: string | undefined;
-    countryPrimaryLocationCode?: string | undefined;
-    countryPrimaryLocationName?: string | undefined;
-    originalTransmissionReference?: string | undefined;
-    headline?: string | undefined;
-    credit?: string | undefined;
-    source?: string | undefined;
-    copyrightNotice?: { [key: string] : string; } | undefined;
-    captionAbstract?: { [key: string] : string; } | undefined;
-    writerEditor?: string | undefined;
-    imageType?: string | undefined;
-    imageOrientation?: string | undefined;
-    languageIdentifier?: string | undefined;
-}
-
-export interface Lr {
-    hierarchicalSubject?: string[] | undefined;
-}
-
-export interface Pdf {
-    keywords?: string | undefined;
-    pdfVersion?: string | undefined;
-    producer?: string | undefined;
-    trapped?: boolean | undefined;
-}
-
-export interface Photoshop {
-    authorsPosition?: string | undefined;
-    captionWriter?: string | undefined;
-    category?: string | undefined;
-    city?: string | undefined;
-    colorMode?: ColorMode | undefined;
-    country?: string | undefined;
-    credit?: string | undefined;
-    dateCreated?: Date | undefined;
-    documentAncestors?: string[] | undefined;
-    headline?: string | undefined;
-    history?: string | undefined;
-    iccProfile?: string | undefined;
-    instructions?: string | undefined;
-    source?: string | undefined;
-    state?: string | undefined;
-    supplementalCategories?: string[] | undefined;
-    textLayers?: PhotoshopLayer[] | undefined;
-    transmissionReference?: string | undefined;
-    urgency?: number | undefined;
-    legacyIPTCDigest?: string | undefined;
-}
-
-/** Corresponds to photoshop.ColorModeChoice */
-export enum ColorMode {
-    Bitmap = <any>"Bitmap", 
-    Grayscale = <any>"Grayscale", 
-    Indexed = <any>"Indexed", 
-    RGB = <any>"RGB", 
-    CMYK = <any>"CMYK", 
-    Multichannel = <any>"Multichannel", 
-    Duotone = <any>"Duotone", 
-    LAB = <any>"LAB", 
-}
-
-export interface PhotoshopLayer {
-    layerName?: string | undefined;
-    layerText?: string | undefined;
-}
-
-export interface Plus {
-    version?: string | undefined;
-    licensee?: LicenseeInfo[] | undefined;
-    licenseeID?: string | undefined;
-    licenseeName?: string | undefined;
-    endUser?: EndUserInfo[] | undefined;
-    endUserID?: string | undefined;
-    endUserName?: string | undefined;
-    licensor?: LicensorInfo[] | undefined;
-    licensorNotes?: { [key: string] : string; } | undefined;
-    mediaSummaryCode?: string | undefined;
-    licenseStartDate?: Date | undefined;
-    licenseEndDate?: Date | undefined;
-    mediaConstraints?: { [key: string] : string; } | undefined;
-    regionConstraints?: { [key: string] : string; } | undefined;
-    productOrServiceConstraints?: { [key: string] : string; } | undefined;
-    imageFileConstraints?: string[] | undefined;
-    imageAlterationConstraints?: string[] | undefined;
-    imageDuplicationConstraints?: string | undefined;
-    modelReleaseStatus?: string | undefined;
-    modelReleaseID?: string[] | undefined;
-    minorModelAgeDisclosure?: string | undefined;
-    propertyReleaseStatus?: string | undefined;
-    propertyReleaseID?: string[] | undefined;
-    otherConstraints?: { [key: string] : string; } | undefined;
-    creditLineRequired?: string | undefined;
-    adultContentWarning?: string | undefined;
-    otherLicenseRequirements?: { [key: string] : string; } | undefined;
-    termsAndConditionsText?: { [key: string] : string; } | undefined;
-    termsAndConditionsURL?: string | undefined;
-    otherConditions?: { [key: string] : string; } | undefined;
-    imageType?: string | undefined;
-    licensorImageID?: string | undefined;
-    fileNameAsDelivered?: string | undefined;
-    imageFileFormatAsDelivered?: string | undefined;
-    imageFileSizeAsDelivered?: string | undefined;
-    copyrightStatus?: string | undefined;
-    copyrightRegistrationNumber?: string | undefined;
-    firstPublicationDate?: Date | undefined;
-    copyrightOwner?: CopyrightOwnerInfo[] | undefined;
-    copyrightOwnerImageID?: string | undefined;
-    imageCreator?: ImageCreatorInfo[] | undefined;
-    imageCreatorImageID?: string | undefined;
-    imageSupplier?: ImageSupplierInfo[] | undefined;
-    imageSupplierImageID?: string | undefined;
-    licenseeImageID?: string | undefined;
-    licenseeImageNotes?: { [key: string] : string; } | undefined;
-    otherImageInfo?: { [key: string] : string; } | undefined;
-    licenseID?: string | undefined;
-    licensorTransactionID?: string[] | undefined;
-    licenseeTransactionID?: string[] | undefined;
-    licenseeProjectReference?: string[] | undefined;
-    licenseTransactionDate?: Date | undefined;
-    reuse?: string | undefined;
-    otherLicenseDocuments?: string[] | undefined;
-    otherLicenseInfo?: { [key: string] : string; } | undefined;
-    custom1?: { [key: string] : string; }[] | undefined;
-    custom2?: { [key: string] : string; }[] | undefined;
-    custom3?: { [key: string] : string; }[] | undefined;
-    custom4?: { [key: string] : string; }[] | undefined;
-    custom5?: { [key: string] : string; }[] | undefined;
-    custom6?: { [key: string] : string; }[] | undefined;
-    custom7?: { [key: string] : string; }[] | undefined;
-    custom8?: { [key: string] : string; }[] | undefined;
-    custom9?: { [key: string] : string; }[] | undefined;
-    custom10?: { [key: string] : string; }[] | undefined;
-}
-
-export interface LicenseeInfo {
-    licenseeName?: string | undefined;
-    licenseeID?: string | undefined;
-}
-
-export interface EndUserInfo {
-    endUserName?: string | undefined;
-    endUserID?: string | undefined;
-}
-
-export interface LicensorInfo {
-    licensorName?: string | undefined;
-    licensorID?: string | undefined;
-    licensorStreetAddress?: string | undefined;
-    licensorExtendedAddress?: string | undefined;
-    licensorCity?: string | undefined;
-    licensorRegion?: string | undefined;
-    licensorPostalCode?: string | undefined;
-    licensorCountry?: string | undefined;
-    licensorTelephoneType1?: string | undefined;
-    licensorTelephone1?: string | undefined;
-    licensorTelephoneType2?: string | undefined;
-    licensorTelephone2?: string | undefined;
-    licensorEmail?: string | undefined;
-    licensorURL?: string | undefined;
-}
-
-export interface CopyrightOwnerInfo {
-    copyrightOwnerName?: string | undefined;
-    copyrightOwnerID?: string | undefined;
-}
-
-export interface ImageCreatorInfo {
-    imageCreatorName?: string | undefined;
-    imageCreatorID?: string | undefined;
-}
-
-export interface ImageSupplierInfo {
-    imageSupplierName?: string | undefined;
-    imageSupplierID?: string | undefined;
-}
-
-export interface Tiff {
-    artist?: string | undefined;
-    bitsPerSample?: number[] | undefined;
-    compression?: Compression | undefined;
-    copyright?: { [key: string] : string; } | undefined;
-    dateTime?: Date | undefined;
-    imageDescription?: { [key: string] : string; } | undefined;
-    imageLength?: number | undefined;
-    imageWidth?: number | undefined;
-    make?: string | undefined;
-    model?: string | undefined;
-    orientation?: Orientation | undefined;
-    photometricInterpretation?: PhotometricInterpretation | undefined;
-    planarConfiguration?: PlanarConfiguration | undefined;
-    primaryChromaticities?: string[] | undefined;
-    referenceBlackWhite?: string[] | undefined;
-    resolutionUnit?: ResolutionUnit | undefined;
-    samplesPerPixel?: number | undefined;
-    software?: string | undefined;
-    transferFunction?: number[] | undefined;
-    whitePoint?: string[] | undefined;
-    xResolution?: string | undefined;
-    yResolution?: string | undefined;
-    yCbCrCoefficients?: string[] | undefined;
-    yCbCrPositioning?: YCbCrPositioning | undefined;
-    yCbCrSubSampling?: YCbCrSubSampling | undefined;
-    nativeDigest?: string | undefined;
-}
-
-/** Corresponds to tiff.CompressionChoice */
-export enum Compression {
-    Uncompressed = <any>"Uncompressed", 
-    CCITT = <any>"CCITT", 
-    T4 = <any>"T4", 
-    T6 = <any>"T6", 
-    LZW = <any>"LZW", 
-    OJPEG = <any>"OJPEG", 
-    JPEG = <any>"JPEG", 
-    Deflate = <any>"Deflate", 
-    T82 = <any>"T82", 
-    T43 = <any>"T43", 
-    NeXT = <any>"NeXT", 
-    ARW = <any>"ARW", 
-    RAW = <any>"RAW", 
-    SRW = <any>"SRW", 
-    Group3_1D = <any>"Group3_1D", 
-    PackBits = <any>"PackBits", 
-    ThunderScan = <any>"ThunderScan", 
-    KDC = <any>"KDC", 
-    RasterPadding = <any>"RasterPadding", 
-    LineWork = <any>"LineWork", 
-    HighContinuous = <any>"HighContinuous", 
-    BinaryLineWork = <any>"BinaryLineWork", 
-    PixarFilm = <any>"PixarFilm", 
-    PixarLog = <any>"PixarLog", 
-    DCS = <any>"DCS", 
-    JBIG = <any>"JBIG", 
-    JPEG2000 = <any>"JPEG2000", 
-    NEF = <any>"NEF", 
-    JBIG2 = <any>"JBIG2", 
-    DCR = <any>"DCR", 
-    PEF = <any>"PEF", 
-}
-
-/** Corresponds to tiff.OrientationChoice */
-export enum Orientation {
-    None = <any>"None", 
-    TopRowLeftColumn = <any>"TopRowLeftColumn", 
-    TopRowRightColumn = <any>"TopRowRightColumn", 
-    BottomRowLeftColumn = <any>"BottomRowLeftColumn", 
-    BottomRowRightColumn = <any>"BottomRowRightColumn", 
-    LeftRowTopColumn = <any>"LeftRowTopColumn", 
-    RightRowTopColumn = <any>"RightRowTopColumn", 
-    RightRowBottomColumn = <any>"RightRowBottomColumn", 
-    LeftRowBottomColumn = <any>"LeftRowBottomColumn", 
-    Unknown = <any>"Unknown", 
-}
-
-/** Corresponds to tiff.PhotometricInterpretationChoice */
-export enum PhotometricInterpretation {
-    WhiteIsZero = <any>"WhiteIsZero", 
-    BlackIsZero = <any>"BlackIsZero", 
-    RGB = <any>"RGB", 
-    Palette = <any>"Palette", 
-    TransparencyMask = <any>"TransparencyMask", 
-    CMYK = <any>"CMYK", 
-    YCbCr = <any>"YCbCr", 
-    CIELab = <any>"CIELab", 
-    ICCLab = <any>"ICCLab", 
-    ITULab = <any>"ITULab", 
-    ColorFilterArray = <any>"ColorFilterArray", 
-    LogL = <any>"LogL", 
-    LogLUV = <any>"LogLUV", 
-    LinearRaw = <any>"LinearRaw", 
-}
-
-/** Corresponds to tiff.PlanarConfigurationChoice */
-export enum PlanarConfiguration {
-    Chunky = <any>"Chunky", 
-    Planar = <any>"Planar", 
-    Line = <any>"Line", 
-}
-
-/** Corresponds to exif.FocalPlaneResolutionUnitChoice */
-export enum ResolutionUnit {
-    None = <any>"None", 
-    Inch = <any>"Inch", 
-    Centimeter = <any>"Centimeter", 
-}
-
-/** Corresponds to tiff.YCbCrPositioningChoice */
-export enum YCbCrPositioning {
-    Centered = <any>"Centered", 
-    Cosited = <any>"Cosited", 
-}
-
-/** Corresponds to tiff.YCbCrSubSamplingChoice */
-export enum YCbCrSubSampling {
-    YCbCr111 = <any>"YCbCr111", 
-    YCbCr422 = <any>"YCbCr422", 
-    YCbCr420 = <any>"YCbCr420", 
-}
-
-export interface Xmp {
-    baseURL?: string | undefined;
-    createDate?: Date | undefined;
-    creatorTool?: string | undefined;
-    identifier?: string[] | undefined;
-    label?: string | undefined;
-    metadataDate?: Date | undefined;
-    modifyDate?: Date | undefined;
-    nickname?: string | undefined;
-    rating?: Rating | undefined;
-    thumbnails?: XmpGImg[] | undefined;
-    pageInfo?: XmpGImg[] | undefined;
-}
-
-/** Corresponds to xmp.RatingChoice */
-export enum Rating {
-    Rejected = <any>"Rejected", 
-    Unrated = <any>"Unrated", 
-    One = <any>"One", 
-    Two = <any>"Two", 
-    Three = <any>"Three", 
-    Four = <any>"Four", 
-    Five = <any>"Five", 
-}
-
-export interface XmpGImg {
-    format?: ImgFormat | undefined;
-    width?: number | undefined;
-    height?: number | undefined;
-    image?: string | undefined;
-}
-
-/** Corresponds to xmpGImg.FormatChoice */
-export enum ImgFormat {
-    JPEG = <any>"JPEG", 
-}
-
-export interface XmpBJ {
-    jobRef?: Job[] | undefined;
-}
-
-export interface Job {
-    id?: string | undefined;
-    name?: string | undefined;
-    url?: string | undefined;
-}
-
-export interface XmpDM {
-    absPeakAudioFilePath?: string | undefined;
-    artist?: string | undefined;
-    album?: string | undefined;
-    altTapeName?: string | undefined;
-    altTimecode?: TimeCode | undefined;
-    audioChannelType?: AudioChannelType | undefined;
-    audioCompressor?: string | undefined;
-    audioSampleRate?: number | undefined;
-    audioSampleType?: AudioSampleType | undefined;
-    beatSpliceParams?: BeatSpliceStretch | undefined;
-    cameraAngle?: CameraAngle | undefined;
-    cameraLabel?: string | undefined;
-    cameraModel?: string | undefined;
-    cameraMove?: CameraMove | undefined;
-    client?: string | undefined;
-    comment?: string | undefined;
-    composer?: string | undefined;
-    contributedMedia?: Media[] | undefined;
-    director?: string | undefined;
-    directorPhotography?: string | undefined;
-    duration?: Time | undefined;
-    engineer?: string | undefined;
-    fileDataRate?: string | undefined;
-    genre?: string | undefined;
-    good?: boolean | undefined;
-    instrument?: string | undefined;
-    introTime?: Time | undefined;
-    key?: AudioMusicalKey | undefined;
-    logComment?: string | undefined;
-    loop?: boolean | undefined;
-    numberOfBeats?: number | undefined;
-    markers?: Marker[] | undefined;
-    outCue?: Time | undefined;
-    projectName?: string | undefined;
-    projectRef?: ProjectLink | undefined;
-    pullDown?: VideoPullDown | undefined;
-    relativePeakAudioFilePath?: string | undefined;
-    relativeTimestamp?: Time | undefined;
-    releaseDate?: Date | undefined;
-    resampleParams?: ResampleStretch | undefined;
-    scaleType?: AudioMusicalScaleType | undefined;
-    scene?: string | undefined;
-    shotDate?: Date | undefined;
-    shotDay?: string | undefined;
-    shotLocation?: string | undefined;
-    shotName?: string | undefined;
-    shotNumber?: string | undefined;
-    shotSize?: ShotSize | undefined;
-    speakerPlacement?: string | undefined;
-    startTimecode?: TimeCode | undefined;
-    stretchMode?: AudioStretchMode | undefined;
-    takeNumber?: number | undefined;
-    tapeName?: string | undefined;
-    tempo?: number | undefined;
-    timeScaleParams?: TimeScaleStretch | undefined;
-    timeSignature?: TimeSignature | undefined;
-    trackNumber?: number | undefined;
-    tracks?: Track[] | undefined;
-    videoAlphaMode?: VideoAlphaMode | undefined;
-    videoAlphaPremultipleColor?: XmpG | undefined;
-    videoAlphaUnityIsTransparent?: boolean | undefined;
-    videoColorSpace?: VideoColorSpace | undefined;
-    videoCompressor?: string | undefined;
-    videoFieldOrder?: VideoFieldOrder | undefined;
-    videoFrameRate?: VideoFrameRate | undefined;
-    videoFrameSize?: Dimension | undefined;
-    videoPixelDepth?: VideoPixelDepth | undefined;
-    videoPixelAspectRatio?: string | undefined;
-}
-
-export interface TimeCode {
-    timeFormat?: TimeFormat | undefined;
-    timeValue?: string | undefined;
-}
-
-/** Corresponds to Timecode.TimeFormatChoice */
-export enum TimeFormat {
-    Timecode24 = <any>"Timecode24", 
-    Timecode25 = <any>"Timecode25", 
-    Timecode2997Drop = <any>"Timecode2997Drop", 
-    Timecode2997NonDrop = <any>"Timecode2997NonDrop", 
-    Timecode30 = <any>"Timecode30", 
-    Timecode50 = <any>"Timecode50", 
-    Timecode5994Drop = <any>"Timecode5994Drop", 
-    Timecode5994NonDrop = <any>"Timecode5994NonDrop", 
-    Timecode60 = <any>"Timecode60", 
-    Timecode23976 = <any>"Timecode23976", 
-}
-
-/** Corresponds to xmpDM.AudioChannelTypeChoice */
-export enum AudioChannelType {
-    CHANNEL_MONO = <any>"CHANNEL_MONO", 
-    CHANNEL_STEREO = <any>"CHANNEL_STEREO", 
-    CHANNEL_5_1 = <any>"CHANNEL_5_1", 
-    CHANNEL_7_1 = <any>"CHANNEL_7_1", 
-    CHANNEL_16 = <any>"CHANNEL_16", 
-    CHANNEL_OTHER = <any>"CHANNEL_OTHER", 
-}
-
-/** Corresponds to xmpDM.AudioSampleTypeChoice */
-export enum AudioSampleType {
-    SAMPLE_8_INT = <any>"SAMPLE_8_INT", 
-    SAMPLE_16_INT = <any>"SAMPLE_16_INT", 
-    SAMPLE_24_INT = <any>"SAMPLE_24_INT", 
-    SAMPLE_32_INT = <any>"SAMPLE_32_INT", 
-    SAMPLE_32_FLOAT = <any>"SAMPLE_32_FLOAT", 
-    SAMPLE_COMPRESSED = <any>"SAMPLE_COMPRESSED", 
-    SAMPLE_PACKED = <any>"SAMPLE_PACKED", 
-    SAMPLE_OTHER = <any>"SAMPLE_OTHER", 
-}
-
-export interface BeatSpliceStretch {
-    riseInDecibel?: number | undefined;
-    riseInTimeDuration?: Time | undefined;
-    useFileBeatsMarker?: boolean | undefined;
-}
-
-export interface Time {
-    scale?: string | undefined;
-    value?: number | undefined;
-}
-
-/** Corresponds to xmpDM.CameraAngleChoice */
-export enum CameraAngle {
-    ANGLE_LOW = <any>"ANGLE_LOW", 
-    ANGLE_EYE_LEVEL = <any>"ANGLE_EYE_LEVEL", 
-    ANGLE_HIGH = <any>"ANGLE_HIGH", 
-    ANGLE_OVERHEAD_SHOT = <any>"ANGLE_OVERHEAD_SHOT", 
-    ANGLE_BIRDS_EYE_SHOT = <any>"ANGLE_BIRDS_EYE_SHOT", 
-    ANGLE_DUTCH = <any>"ANGLE_DUTCH", 
-    ANGLE_POV = <any>"ANGLE_POV", 
-    ANGLE_OVER_THE_SHOULDER = <any>"ANGLE_OVER_THE_SHOULDER", 
-    ANGLE_REACTION_SHOT = <any>"ANGLE_REACTION_SHOT", 
-}
-
-/** Corresponds to xmpDM.CameraMoveChoice */
-export enum CameraMove {
-    MOVE_AERIAL = <any>"MOVE_AERIAL", 
-    MOVE_BOOM_UP = <any>"MOVE_BOOM_UP", 
-    MOVE_BOOM_DOWN = <any>"MOVE_BOOM_DOWN", 
-    MOVE_CRANE_UP = <any>"MOVE_CRANE_UP", 
-    MOVE_CRANE_DOWN = <any>"MOVE_CRANE_DOWN", 
-    MOVE_DOLLY_IN = <any>"MOVE_DOLLY_IN", 
-    MOVE_DOLLY_OUT = <any>"MOVE_DOLLY_OUT", 
-    MOVE_PAN_LEFT = <any>"MOVE_PAN_LEFT", 
-    MOVE_PAN_RIGHT = <any>"MOVE_PAN_RIGHT", 
-    MOVE_PEDESTAL_UP = <any>"MOVE_PEDESTAL_UP", 
-    MOVE_PEDESTAL_DOWN = <any>"MOVE_PEDESTAL_DOWN", 
-    MOVE_TILT_UP = <any>"MOVE_TILT_UP", 
-    MOVE_TILT_DOWN = <any>"MOVE_TILT_DOWN", 
-    MOVE_TRACKING = <any>"MOVE_TRACKING", 
-    MOVE_TRUCK_LEFT = <any>"MOVE_TRUCK_LEFT", 
-    MOVE_TRUCK_RIGHT = <any>"MOVE_TRUCK_RIGHT", 
-    MOVE_ZOOM_IN = <any>"MOVE_ZOOM_IN", 
-    MOVE_ZOOM_OUT = <any>"MOVE_ZOOM_OUT", 
-}
-
-export interface Media {
-    duration?: Time | undefined;
-    managed?: boolean | undefined;
-    path?: string | undefined;
-    startTime?: Time | undefined;
-    track?: string | undefined;
-    webStatement?: string | undefined;
-}
-
-/** Corresponds to xmpDM.AudioMusicalKeyChoice */
-export enum AudioMusicalKey {
-    KEY_C = <any>"KEY_C", 
-    KEY_C_SHARP = <any>"KEY_C_SHARP", 
-    KEY_D = <any>"KEY_D", 
-    KEY_D_SHARP = <any>"KEY_D_SHARP", 
-    KEY_E = <any>"KEY_E", 
-    KEY_F = <any>"KEY_F", 
-    KEY_F_SHARP = <any>"KEY_F_SHARP", 
-    KEY_G = <any>"KEY_G", 
-    KEY_G_SHARP = <any>"KEY_G_SHARP", 
-    KEY_A = <any>"KEY_A", 
-    KEY_A_SHARP = <any>"KEY_A_SHARP", 
-    KEY_B = <any>"KEY_B", 
-}
-
-export interface Marker {
-    comment?: string | undefined;
-    cuePointParams?: { [key: string] : string; } | undefined;
-    cuePointType?: string | undefined;
-    duration?: string | undefined;
-    location?: string | undefined;
-    name?: string | undefined;
-    probability?: number | undefined;
-    speaker?: string | undefined;
-    startTime?: string | undefined;
-    target?: string | undefined;
-    type?: MarkerType | undefined;
-}
-
-/** Corresponds to Xmp.Media.Marker.TypeChoice */
-export enum MarkerType {
-    Chapter = <any>"Chapter", 
-    Cue = <any>"Cue", 
-    Index = <any>"Index", 
-    Speech = <any>"Speech", 
-    Track = <any>"Track", 
-}
-
-export interface ProjectLink {
-    path?: string | undefined;
-    type?: ProjectLinkType | undefined;
-}
-
-/** Corresponds to Xmp.Media.ProjectLink.TypeChoice */
-export enum ProjectLinkType {
-    Movie = <any>"Movie", 
-    Still = <any>"Still", 
-    Audio = <any>"Audio", 
-    Custom = <any>"Custom", 
-}
-
-/** Corresponds to xmpDM.VideoPullDownChoice */
-export enum VideoPullDown {
-    PULLDOWN_WSSWW = <any>"PULLDOWN_WSSWW", 
-    PULLDOWN_SSWWW = <any>"PULLDOWN_SSWWW", 
-    PULLDOWN_SWWWS = <any>"PULLDOWN_SWWWS", 
-    PULLDOWN_WWWSS = <any>"PULLDOWN_WWWSS", 
-    PULLDOWN_WWSSW = <any>"PULLDOWN_WWSSW", 
-    PULLDOWN_WWWSW = <any>"PULLDOWN_WWWSW", 
-    PULLDOWN_WWSWW = <any>"PULLDOWN_WWSWW", 
-    PULLDOWN_WSWWW = <any>"PULLDOWN_WSWWW", 
-    PULLDOWN_SWWWW = <any>"PULLDOWN_SWWWW", 
-    PULLDOWN_WWWWS = <any>"PULLDOWN_WWWWS", 
-}
-
-export interface ResampleStretch {
-    quality?: Quality | undefined;
-}
-
-/** Corresponds to Xmp.Media.resampleStretch.QualityChoice and Xmp.Media.timeScaleStretch.QualityChoice */
-export enum Quality {
-    High = <any>"High", 
-    Medium = <any>"Medium", 
-    Low = <any>"Low", 
-}
-
-/** Corresponds to xmpDM.AudioMusicalScaleTypeChoice */
-export enum AudioMusicalScaleType {
-    SCALE_MAJOR = <any>"SCALE_MAJOR", 
-    SCALE_MINOR = <any>"SCALE_MINOR", 
-    SCALE_BOTH = <any>"SCALE_BOTH", 
-    SCALE_NEITHER = <any>"SCALE_NEITHER", 
-}
-
-/** Corresponds to xmpDM.ShotSizeChoice */
-export enum ShotSize {
-    SHOT_ECU = <any>"SHOT_ECU", 
-    SHOT_MCU = <any>"SHOT_MCU", 
-    SHOT_CU = <any>"SHOT_CU", 
-    SHOT_MS = <any>"SHOT_MS", 
-    SHOT_WS = <any>"SHOT_WS", 
-    SHOT_MWS = <any>"SHOT_MWS", 
-    SHOT_EWS = <any>"SHOT_EWS", 
-}
-
-/** Corresponds to xmpDM.AudioStretchModeChoice */
-export enum AudioStretchMode {
-    STRETCH_FIXED_LENGTH = <any>"STRETCH_FIXED_LENGTH", 
-    STRETCH_TIME_SCALE = <any>"STRETCH_TIME_SCALE", 
-    STRETCH_RESAMPLE = <any>"STRETCH_RESAMPLE", 
-    STRETCH_BEAT_SPLICE = <any>"STRETCH_BEAT_SPLICE", 
-    STRETCH_HYBRID = <any>"STRETCH_HYBRID", 
-}
-
-export interface TimeScaleStretch {
-    frameOverlappingPercentage?: number | undefined;
-    frameSize?: number | undefined;
-    quality?: Quality | undefined;
-}
-
-/** Corresponds to xmpDM.TimeSignatureChoice */
-export enum TimeSignature {
-    TIME_2_4 = <any>"TIME_2_4", 
-    TIME_3_4 = <any>"TIME_3_4", 
-    TIME_4_4 = <any>"TIME_4_4", 
-    TIME_5_4 = <any>"TIME_5_4", 
-    TIME_7_4 = <any>"TIME_7_4", 
-    TIME_6_8 = <any>"TIME_6_8", 
-    TIME_9_8 = <any>"TIME_9_8", 
-    TIME_12_8 = <any>"TIME_12_8", 
-    TIME_OTHER = <any>"TIME_OTHER", 
-}
-
-export interface Track {
-    frameRate?: string | undefined;
-    markers?: Marker[] | undefined;
-    trackName?: string | undefined;
-    trackType?: MarkerType | undefined;
-}
-
-/** Corresponds to xmpDM.VideoAlphaModeChoice */
-export enum VideoAlphaMode {
-    ALPHA_MODE_STRAIGHT = <any>"ALPHA_MODE_STRAIGHT", 
-    ALPHA_MODE_PREMULTIPLIED = <any>"ALPHA_MODE_PREMULTIPLIED", 
-    ALPHA_MODE_NONE = <any>"ALPHA_MODE_NONE", 
-}
-
-export interface XmpG {
-    a?: number | undefined;
-    b?: number | undefined;
-    l?: number | undefined;
-    black?: number | undefined;
-    cyan?: number | undefined;
-    magenta?: number | undefined;
-    yellow?: number | undefined;
-    blue?: number | undefined;
-    green?: number | undefined;
-    red?: number | undefined;
-    mode?: ColorantMode | undefined;
-    swatchName?: string | undefined;
-    type?: ColorantType | undefined;
-}
-
-/** Corresponds to xmpG.ModeChoice */
-export enum ColorantMode {
-    CMYK = <any>"CMYK", 
-    RGB = <any>"RGB", 
-    LAB = <any>"LAB", 
-}
-
-/** Corresponds to xmpG.TypeChoice */
-export enum ColorantType {
-    Process = <any>"Process", 
-    Spot = <any>"Spot", 
-}
-
-/** Corresponds to xmpDM.VideoColorSpaceChoice */
-export enum VideoColorSpace {
-    COLOR_SPACE_SRGB = <any>"COLOR_SPACE_SRGB", 
-    COLOR_SPACE_CCIR_601 = <any>"COLOR_SPACE_CCIR_601", 
-    COLOR_SPACE_CCIR_709 = <any>"COLOR_SPACE_CCIR_709", 
-}
-
-/** Corresponds to xmpDM.VideoFieldOrderChoice */
-export enum VideoFieldOrder {
-    FIELD_ORDER_UPPER = <any>"FIELD_ORDER_UPPER", 
-    FIELD_ORDER_LOWER = <any>"FIELD_ORDER_LOWER", 
-    FIELD_ORDER_PROGRESSIVE = <any>"FIELD_ORDER_PROGRESSIVE", 
-}
-
-/** Corresponds to xmpDM.VideoFrameRateChoice */
-export enum VideoFrameRate {
-    FRAME_RATE_24 = <any>"FRAME_RATE_24", 
-    FRAME_RATE_NTSC = <any>"FRAME_RATE_NTSC", 
-    FRAME_RATE_PAL = <any>"FRAME_RATE_PAL", 
-}
-
-export interface Dimension {
-    height?: number | undefined;
-    width?: number | undefined;
-    unit?: Unit | undefined;
-}
-
-/** Corresponds to stDim.UnitChoice */
-export enum Unit {
-    Inch = <any>"Inch", 
-    Millimeter = <any>"Millimeter", 
-    Centimeter = <any>"Centimeter", 
-    Pixel = <any>"Pixel", 
-    Pica = <any>"Pica", 
-    Point = <any>"Point", 
-}
-
-/** Corresponds to xmpDM.VideoPixelDepthChoice */
-export enum VideoPixelDepth {
-    PIXEL_DEPTH_8_INT = <any>"PIXEL_DEPTH_8_INT", 
-    PIXEL_DEPTH_16_INT = <any>"PIXEL_DEPTH_16_INT", 
-    PIXEL_DEPTH_24_INT = <any>"PIXEL_DEPTH_24_INT", 
-    PIXEL_DEPTH_32_INT = <any>"PIXEL_DEPTH_32_INT", 
-    PIXEL_DEPTH_32_FLOAT = <any>"PIXEL_DEPTH_32_FLOAT", 
-    PIXEL_DEPTH_OTHER = <any>"PIXEL_DEPTH_OTHER", 
-}
-
-export interface Xmpidq {
-    scheme?: string | undefined;
-}
-
-export interface XmpMM {
-    derivedFrom?: Reference | undefined;
-    documentID?: string | undefined;
-    history?: Event[] | undefined;
-    ingredients?: Reference[] | undefined;
-    instanceID?: string | undefined;
-    managedFrom?: Reference | undefined;
-    manager?: string | undefined;
-    manageTo?: string | undefined;
-    manageUI?: string | undefined;
-    managerVariant?: string | undefined;
-    originalDocumentID?: string | undefined;
-    renditionClass?: string | undefined;
-    renditionParams?: string | undefined;
-    versionID?: string | undefined;
-    versions?: VersionInfo2[] | undefined;
-}
-
-export interface Reference {
-    alternatePaths?: string[] | undefined;
-    documentID?: string | undefined;
-    filePath?: string | undefined;
-    fromPart?: string | undefined;
-    instanceID?: string | undefined;
-    lastModifyDate?: Date | undefined;
-    manager?: string | undefined;
-    managerVariant?: string | undefined;
-    manageTo?: string | undefined;
-    manageUI?: string | undefined;
-    maskMarkers?: MaskMarkers | undefined;
-    originalDocumentID?: string | undefined;
-    partMapping?: string | undefined;
-    renditionClass?: string | undefined;
-    renditionParams?: string | undefined;
-    toPart?: string | undefined;
-    versionID?: string | undefined;
-}
-
-/** Corresponds to stRef.MaskMarkersChoice */
-export enum MaskMarkers {
-    All = <any>"All", 
-    None = <any>"None", 
-}
-
-export interface Event {
-    action?: EventAction | undefined;
-    changed?: string | undefined;
-    instanceID?: string | undefined;
-    parameters?: string | undefined;
-    softwareAgent?: string | undefined;
-    when?: Date | undefined;
-}
-
-/** Corresponds to stEvt.ActionChoice */
-export enum EventAction {
-    Converted = <any>"Converted", 
-    Copied = <any>"Copied", 
-    Created = <any>"Created", 
-    Cropped = <any>"Cropped", 
-    Edited = <any>"Edited", 
-    Filtered = <any>"Filtered", 
-    Formatted = <any>"Formatted", 
-    VersionUpdated = <any>"VersionUpdated", 
-    Printed = <any>"Printed", 
-    Published = <any>"Published", 
-    Managed = <any>"Managed", 
-    Produced = <any>"Produced", 
-    Resized = <any>"Resized", 
-    Saved = <any>"Saved", 
-    Derived = <any>"Derived", 
-}
-
-export interface VersionInfo2 {
-    comments?: string | undefined;
-    event?: Event | undefined;
-    modifier?: string | undefined;
-    modifyDate?: Date | undefined;
-    version?: string | undefined;
-}
-
-export interface XmpNote {
-    hasExtendedXMP?: string | undefined;
-}
-
-export interface XmpRights {
-    certificate?: string | undefined;
-    marked?: boolean | undefined;
-    owner?: string[] | undefined;
-    usageTerms?: { [key: string] : string; } | undefined;
-    webStatement?: string | undefined;
-}
-
-export interface XmpTPg {
-    colorants?: XmpG[] | undefined;
-    fonts?: Font[] | undefined;
-    maxPageSize?: Dimension | undefined;
-    nPages?: number | undefined;
-    plateNames?: string[] | undefined;
-}
-
-export interface Font {
-    childFontFiles?: string[] | undefined;
-    composite?: boolean | undefined;
-    fontFace?: string | undefined;
-    fontFamily?: string | undefined;
-    fontFileName?: string | undefined;
-    fontName?: string | undefined;
-    fontType?: FontType | undefined;
-    versionString?: string | undefined;
-}
-
-/** Corresponds to stFnt.FontTypeChoice */
-export enum FontType {
-    TrueType = <any>"TrueType", 
-    Type1 = <any>"Type1", 
-    OpenType = <any>"OpenType", 
-    OpenTypeCFF = <any>"OpenTypeCFF", 
-}
-
-export interface ExifMetadata {
-    exif?: Exif | undefined;
-    exifAux?: ExifAux | undefined;
-}
-
-export interface Exif {
-    apertureValue?: string | undefined;
-    brightnessValue?: string | undefined;
-    cfaPattern?: CFAPattern | undefined;
-    colorSpace?: ColorSpace | undefined;
-    componentsConfiguration?: number[] | undefined;
-    compressedBitsPerPixel?: string | undefined;
-    contrast?: Contrast | undefined;
-    customRendered?: CustomRendered | undefined;
-    dateTimeOriginal?: Date | undefined;
-    dateTimeDigitized?: Date | undefined;
-    deviceSettingDescription?: DeviceSettings | undefined;
-    digitalZoomRatio?: string | undefined;
-    exifVersion?: ExifVersion | undefined;
-    exposureBiasValue?: string | undefined;
-    exposureIndex?: string | undefined;
-    exposureMode?: ExposureMode | undefined;
-    exposureProgram?: ExposureProgram | undefined;
-    exposureTime?: string | undefined;
-    fileSource?: FileSource | undefined;
-    flash?: Flash | undefined;
-    flashEnergy?: string | undefined;
-    flashpixVersion?: FlashpixVersion | undefined;
-    fNumber?: string | undefined;
-    focalLength?: string | undefined;
-    focalLengthIn35mmFilm?: number | undefined;
-    focalPlaneResolutionUnit?: FocalPlaneResolutionUnit | undefined;
-    focalPlaneXResolution?: string | undefined;
-    focalPlaneYResolution?: string | undefined;
-    gainControl?: GainControl | undefined;
-    gpsAltitude?: string | undefined;
-    gpsAltitudeRef?: GPSAltitudeRef | undefined;
-    gpsAreaInformation?: string | undefined;
-    gpsDestBearing?: string | undefined;
-    gpsDestBearingRef?: GPSDestBearingRef | undefined;
-    gpsDestDistance?: string | undefined;
-    gpsDestDistanceRef?: GPSDestDistanceRef | undefined;
-    gpsDestLatitude?: string | undefined;
-    gpsDestLongitude?: string | undefined;
-    gpsDifferential?: GPSDifferential | undefined;
-    gpsdop?: string | undefined;
-    gpsImgDirection?: string | undefined;
-    gpsImgDirectionRef?: GPSImgDirectionRef | undefined;
-    gpsCoordinate?: GPSCoordinate | undefined;
-    gpsLatitude?: string | undefined;
-    gpsLongitude?: string | undefined;
-    gpsMapDatum?: string | undefined;
-    gpsMeasureMode?: string | undefined;
-    gpsProcessingMethod?: string | undefined;
-    gpsSatellites?: string | undefined;
-    gpsSpeed?: string | undefined;
-    gpsSpeedRef?: GPSSpeedRef | undefined;
-    gpsStatus?: GPSStatus | undefined;
-    gpsTimeStamp?: Date | undefined;
-    gpsTrack?: string | undefined;
-    gpsTrackRef?: string | undefined;
-    gpsVersionID?: string | undefined;
-    imageUniqueID?: string | undefined;
-    isoSpeedRatings?: number[] | undefined;
-    lightSource?: LightSource | undefined;
-    maxApertureValue?: string | undefined;
-    meteringMode?: MeteringMode | undefined;
-    oecf?: OECF | undefined;
-    pixelXDimension?: number | undefined;
-    pixelYDimension?: number | undefined;
-    relatedSoundFile?: string | undefined;
-    saturation?: Saturation | undefined;
-    sceneCaptureType?: SceneCaptureType | undefined;
-    sceneType?: SceneType | undefined;
-    sensingMethod?: SensingMethod | undefined;
-    sharpness?: Sharpness | undefined;
-    shutterSpeedValue?: string | undefined;
-    spatialFrequencyResponse?: SFR | undefined;
-    spectralSensitivity?: string | undefined;
-    subjectArea?: number[] | undefined;
-    subjectDistance?: string | undefined;
-    subjectDistanceRange?: SubjectDistanceRange | undefined;
-    subjectLocation?: number[] | undefined;
-    userComment?: { [key: string] : string; } | undefined;
-    whiteBalance?: WhiteBalanceExif | undefined;
-    nativeDigest?: string | undefined;
-}
-
-export interface CFAPattern {
-    columns?: number | undefined;
-    rows?: number | undefined;
-    values?: number[] | undefined;
-}
-
-/** Corresponds to exif.ColorSpaceChoice */
-export enum ColorSpace {
-    None = <any>"None", 
-    SRGB = <any>"sRGB", 
-    AdobeRGB = <any>"AdobeRGB", 
-    Uncalibrated = <any>"Uncalibrated", 
-}
-
-/** Corresponds to exif.ContrastChoice */
-export enum Contrast {
-    Normal = <any>"Normal", 
-    Soft = <any>"Soft", 
-    Hard = <any>"Hard", 
-    Unknown = <any>"Unknown", 
-}
-
-/** Corresponds to exif.CustomRenderedChoice */
-export enum CustomRendered {
-    NormalProcess = <any>"NormalProcess", 
-    CustomProcess = <any>"CustomProcess", 
-}
-
-export interface DeviceSettings {
-    columns?: number | undefined;
-    rows?: number | undefined;
-    settings?: string[] | undefined;
-}
-
-/** Corresponds to exif.ExifVersionChoice */
-export enum ExifVersion {
-    V210 = <any>"V210", 
-    V220 = <any>"V220", 
-    V221 = <any>"V221", 
-    V222 = <any>"V222", 
-    V230 = <any>"V230", 
-}
-
-/** Corresponds to exif.ExposureModeChoice */
-export enum ExposureMode {
-    Auto = <any>"Auto", 
-    Manual = <any>"Manual", 
-    AutoBracket = <any>"AutoBracket", 
-}
-
-/** Corresponds to exif.ExposureProgramChoice */
-export enum ExposureProgram {
-    Undefined = <any>"Undefined", 
-    Manual = <any>"Manual", 
-    NormalProgram = <any>"NormalProgram", 
-    AperturePriority = <any>"AperturePriority", 
-    ShutterPriority = <any>"ShutterPriority", 
-    CreativeProgram = <any>"CreativeProgram", 
-    ActionProgram = <any>"ActionProgram", 
-    PortraitMode = <any>"PortraitMode", 
-    LandscapeMode = <any>"LandscapeMode", 
-    Unknown = <any>"Unknown", 
-}
-
-/** Corresponds to exif.FileSourceChoice */
-export enum FileSource {
-    Other = <any>"Other", 
-    TransparentScanner = <any>"TransparentScanner", 
-    ReflexScanner = <any>"ReflexScanner", 
-    DSC = <any>"DSC", 
-}
-
-export interface Flash {
-    fired?: boolean | undefined;
-    return?: FlashReturn | undefined;
-    mode?: FlashMode | undefined;
-    function?: boolean | undefined;
-    redEyeMode?: boolean | undefined;
-}
-
-/** Corresponds to Xmp.Structure.Flash.ReturnChoice */
-export enum FlashReturn {
-    NoStrobeReturnDetection = <any>"NoStrobeReturnDetection", 
-    StrobeReturnLightNotDetected = <any>"StrobeReturnLightNotDetected", 
-    StrobeReturnLightDetected = <any>"StrobeReturnLightDetected", 
-}
-
-/** Corresponds to Xmp.Structure.Flash.ModeChoice */
-export enum FlashMode {
-    Unknown = <any>"Unknown", 
-    CompulsoryFlashFiring = <any>"CompulsoryFlashFiring", 
-    CompulsoryFlashSuppression = <any>"CompulsoryFlashSuppression", 
-    AutoMode = <any>"AutoMode", 
-}
-
-/** Corresponds to exif.FlashpixVersionChoice */
-export enum FlashpixVersion {
-    V100 = <any>"V100", 
-    V101 = <any>"V101", 
-    V110 = <any>"V110", 
-}
-
-/** Corresponds to exif.FocalPlaneResolutionUnitChoice */
-export enum FocalPlaneResolutionUnit {
-    None = <any>"None", 
-    Inch = <any>"Inch", 
-    Meter = <any>"Meter", 
-    Centimeter = <any>"Centimeter", 
-    Millimeter = <any>"Millimeter", 
-    Micrometer = <any>"Micrometer", 
-}
-
-/** Corresponds to exif.GainControlChoice */
-export enum GainControl {
-    None = <any>"None", 
-    LowGainUp = <any>"LowGainUp", 
-    HighGainUp = <any>"HighGainUp", 
-    LowGainDown = <any>"LowGainDown", 
-    HighGainDown = <any>"HighGainDown", 
-}
-
-/** Corresponds to exif.GPSAltitudeRefChoice */
-export enum GPSAltitudeRef {
-    AboveSeaLevel = <any>"AboveSeaLevel", 
-    BelowSeaLevel = <any>"BelowSeaLevel", 
-}
-
-/** Corresponds to exif.GPSDestBearingRefChoice */
-export enum GPSDestBearingRef {
-    TrueDirection = <any>"TrueDirection", 
-    MagneticDirection = <any>"MagneticDirection", 
-}
-
-/** Corresponds to exif.GPSDestDistanceRefChoice */
-export enum GPSDestDistanceRef {
-    Kilometers = <any>"Kilometers", 
-    Miles = <any>"Miles", 
-    Knots = <any>"Knots", 
-}
-
-/** Corresponds to exif.GPSDifferentialChoice */
-export enum GPSDifferential {
-    WithoutCorrection = <any>"WithoutCorrection", 
-    WithCorrection = <any>"WithCorrection", 
-}
-
-/** Corresponds to exif.GPSImgDirectionRefChoice */
-export enum GPSImgDirectionRef {
-    TrueDirection = <any>"TrueDirection", 
-    MagneticDirection = <any>"MagneticDirection", 
-}
-
-export interface GPSCoordinate {
-    lon?: number | undefined;
-    lat?: number | undefined;
-}
-
-/** Corresponds to exif.GPSSpeedRefChoice */
-export enum GPSSpeedRef {
-    KilometersPerHour = <any>"KilometersPerHour", 
-    MilesPerHour = <any>"MilesPerHour", 
-    Knots = <any>"Knots", 
-}
-
-/** Corresponds to exif.GPSStatusChoice */
-export enum GPSStatus {
-    MeasurementInProgress = <any>"MeasurementInProgress", 
-    MeasurementIsInteroperability = <any>"MeasurementIsInteroperability", 
-}
-
-/** Corresponds to exif.LightSourceChoice */
-export enum LightSource {
-    Unidentified = <any>"Unidentified", 
-    Daylight = <any>"Daylight", 
-    Fluorescent = <any>"Fluorescent", 
-    Tungsten = <any>"Tungsten", 
-    Flash = <any>"Flash", 
-    FineWeather = <any>"FineWeather", 
-    CloudyWeather = <any>"CloudyWeather", 
-    Shade = <any>"Shade", 
-    DaylightFluorescent = <any>"DaylightFluorescent", 
-    DayWhiteFluorescent = <any>"DayWhiteFluorescent", 
-    CoolWhiteFluorescent = <any>"CoolWhiteFluorescent", 
-    WhiteFluorescent = <any>"WhiteFluorescent", 
-    StandardIlluminantA = <any>"StandardIlluminantA", 
-    StandardIlluminantB = <any>"StandardIlluminantB", 
-    StandardIlluminantC = <any>"StandardIlluminantC", 
-    D55Illuminant = <any>"D55Illuminant", 
-    D65Illuminant = <any>"D65Illuminant", 
-    D75Illuminant = <any>"D75Illuminant", 
-    D50Illuminant = <any>"D50Illuminant", 
-    ISOStudioTungsten = <any>"ISOStudioTungsten", 
-    Other = <any>"Other", 
-}
-
-/** Corresponds to exif.MeteringModeChoice */
-export enum MeteringMode {
-    Unidentified = <any>"Unidentified", 
-    Average = <any>"Average", 
-    CenterWeightedAverage = <any>"CenterWeightedAverage", 
-    Spot = <any>"Spot", 
-    MultiSpot = <any>"MultiSpot", 
-    Pattern = <any>"Pattern", 
-    Partial = <any>"Partial", 
-    Reserved = <any>"Reserved", 
-    Other = <any>"Other", 
-}
-
-export interface OECF {
-    columns?: number | undefined;
-    rows?: number | undefined;
-    values?: string[] | undefined;
-    names?: string[] | undefined;
-}
-
-/** Corresponds to exif.SaturationChoice */
-export enum Saturation {
-    Normal = <any>"Normal", 
-    Low = <any>"Low", 
-    High = <any>"High", 
-    Unknown = <any>"Unknown", 
-}
-
-/** Corresponds to exif.SceneCaptureTypeChoice */
-export enum SceneCaptureType {
-    Standard = <any>"Standard", 
-    Landscape = <any>"Landscape", 
-    Portrait = <any>"Portrait", 
-    NightScene = <any>"NightScene", 
-}
-
-/** Corresponds to exif.SceneTypeChoice */
-export enum SceneType {
-    DirectlyPhotographedImage = <any>"DirectlyPhotographedImage", 
-}
-
-/** Corresponds to exif.SensingMethodChoice */
-export enum SensingMethod {
-    Undefined = <any>"Undefined", 
-    MonochromeArea = <any>"MonochromeArea", 
-    OneChipColourAreaSensor = <any>"OneChipColourAreaSensor", 
-    TwoChipColourAreaSensor = <any>"TwoChipColourAreaSensor", 
-    ThreeChipColourAreaSensor = <any>"ThreeChipColourAreaSensor", 
-    ColourSequentialAreaSensor = <any>"ColourSequentialAreaSensor", 
-    MonochromeLinearArea = <any>"MonochromeLinearArea", 
-    TrilinearSensor = <any>"TrilinearSensor", 
-    ColourSequentialLinearSensor = <any>"ColourSequentialLinearSensor", 
-}
-
-/** Corresponds to exif.SharpnessChoice */
-export enum Sharpness {
-    Normal = <any>"Normal", 
-    Soft = <any>"Soft", 
-    Hard = <any>"Hard", 
-    Unknown = <any>"Unknown", 
-}
-
-export interface SFR {
-    columns?: number | undefined;
-    rows?: number | undefined;
-    values?: string[] | undefined;
-    names?: string[] | undefined;
-}
-
-/** Corresponds to exif.SubjectDistanceRangeChoice */
-export enum SubjectDistanceRange {
-    Unknown = <any>"Unknown", 
-    Macro = <any>"Macro", 
-    CloseView = <any>"CloseView", 
-    DistantView = <any>"DistantView", 
-}
-
-/** Corresponds to exif.WhiteBalanceChoice */
-export enum WhiteBalanceExif {
-    Auto = <any>"Auto", 
-    Manual = <any>"Manual", 
-    Unknown = <any>"Unknown", 
-}
-
-export interface ExifAux {
-    lens?: string | undefined;
-    serialNumber?: string | undefined;
 }
 
 export interface AudioMetadata extends FileMetadata {
@@ -9812,7 +11197,7 @@ export interface DriveMetadataAudit {
     created?: string | undefined;
 }
 
-export interface OutputItem {
+export interface FileTransferOutput {
     id?: string | undefined;
     filePath?: string | undefined;
     outputSource: OutputSource;
@@ -9896,7 +11281,7 @@ export interface FileTransferCreateItem {
     contentPermissionSetIds?: string[] | undefined;
 }
 
-export interface UserDetail extends UserItem {
+export interface UserDetail extends User {
     userRoles?: UserRole[] | undefined;
     comment?: string | undefined;
     languageCode?: string | undefined;
@@ -9920,6 +11305,13 @@ export interface UserAddress {
 export interface Drive {
     id?: string | undefined;
     name?: string | undefined;
+    driveType: DriveType;
+}
+
+export enum DriveType {
+    GoogleDrive = <any>"GoogleDrive", 
+    OneDrive = <any>"OneDrive", 
+    Dropbox = <any>"Dropbox", 
 }
 
 export interface OwnerToken {
@@ -9953,23 +11345,23 @@ export interface UserSearchRequest {
     debugMode: boolean;
 }
 
-export interface BaseResultOfUser {
+export interface BaseResultOfUserWithRoles {
     totalResults: number;
-    results?: User[] | undefined;
+    results?: UserWithRoles[] | undefined;
     pageToken?: string | undefined;
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
-export interface SearchBehaviourBaseResultOfUser extends BaseResultOfUser {
+export interface SearchBehaviourBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export interface UserSearchResult extends SearchBehaviourBaseResultOfUser {
+export interface UserSearchResult extends SearchBehaviourBaseResultOfUserWithRoles {
     elapsedMilliseconds: number;
 }
 
-export interface User {
+export interface UserWithRoles {
     userRoleIds?: string[] | undefined;
     id?: string | undefined;
     firstName?: string | undefined;
@@ -10010,6 +11402,42 @@ export interface UserProfile {
     languageCode?: string | undefined;
     address?: UserAddress | undefined;
     authorizationState: AuthorizationState;
+}
+
+/** Schema import request */
+export interface SchemaImportRequest {
+    /** Id of the previously uploaded file transfer */
+    fileTransferId?: string | undefined;
+    /** Allow creating list items that refer to list items or contents that don't exist in the system. */
+    allowMissingDependencies: boolean;
+    /** Import the list items for the schema. */
+    importListItems: boolean;
+}
+
+export interface CustomerInfo {
+    customerId?: string | undefined;
+    customerAlias?: string | undefined;
+    identityServerUrl?: string | undefined;
+    languageConfiguration?: LanguageConfiguration | undefined;
+    languages?: Language[] | undefined;
+}
+
+export interface LanguageConfiguration {
+    /** A list of languages serving as system languages. */
+    systemLanguages?: string[] | undefined;
+    /** A list of languages serving as metadata languages. */
+    metadataLanguages?: string[] | undefined;
+    /** The default language. Not the be confused with the metadata fallback language x-default. */
+    defaultLanguage?: string | undefined;
+}
+
+export interface Language {
+    name?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    ietf?: string | undefined;
+    twoLetterISOLanguageName?: string | undefined;
+    threeLetterISOLanguageName?: string | undefined;
+    regionCode?: string | undefined;
 }
 
 export interface FileParameter {
