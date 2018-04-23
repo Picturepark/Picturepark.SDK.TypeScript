@@ -8139,6 +8139,15 @@
         }
       ]
     },
+    "PictureparkTimeoutException": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkBusinessException"
+        }
+      ]
+    },
     "UserEmailAlreadyExistsException": {
       "type": "object",
       "additionalProperties": false,
@@ -10555,15 +10564,6 @@
         }
       ]
     },
-    "PictureparkTimeoutException": {
-      "type": "object",
-      "additionalProperties": false,
-      "allOf": [
-        {
-          "$ref": "#/definitions/PictureparkBusinessException"
-        }
-      ]
-    },
     "BusinessProcessEngineRequestException": {
       "type": "object",
       "additionalProperties": false,
@@ -10727,15 +10727,32 @@
     "EnvironmentProcessAlreadyRunningException": {
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "environmentProcessType"
+      ],
       "properties": {
         "environmentProcessType": {
-          "type": "string"
+          "$ref": "#/definitions/EnvironmentProcessType"
         }
       },
       "allOf": [
         {
           "$ref": "#/definitions/PictureparkValidationException"
         }
+      ]
+    },
+    "EnvironmentProcessType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "AddMetadataLanguage",
+        "CustomerUpdate",
+        "EnvironmentUpdate"
+      ],
+      "enum": [
+        "AddMetadataLanguage",
+        "CustomerUpdate",
+        "EnvironmentUpdate"
       ]
     },
     "EnvironmentProcessNotFoundException": {
@@ -13352,6 +13369,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "docType": {
+          "type": "string"
+        },
         "response": {
           "$ref": "#/definitions/BulkResponse"
         }
@@ -18733,9 +18753,6 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "type": "string"
-        },
-        "names": {
           "$ref": "#/definitions/TranslatedStringDictionary"
         },
         "ietf": {
