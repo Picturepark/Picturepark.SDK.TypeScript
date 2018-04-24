@@ -4,14 +4,15 @@ import { InputConverter, StringConverter } from '../converter';
 import {
   ContentService,
   ObjectAggregationResult,
-  ContentAggregationRequest,
+  ContentAggregationOnChannelRequest,
   AggregationFilter,
   FilterBase,
   AggregationResult,
   AggregationResultItem,
   ContentSearchType,
   OrFilter,
-  BrokenDependenciesFilter
+  BrokenDependenciesFilter,
+  LifeCycleFilter
 } from '../../services/services';
 
 @Component({
@@ -51,15 +52,16 @@ export class AggregationFilterComponent implements OnChanges {
   refresh() {
     if (this.channel) {
       this.isLoading = true;
-      const request = new ContentAggregationRequest({
+      const request = new ContentAggregationOnChannelRequest({
+        channelId: this.channel,
         searchString: this.query,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
-        lifeCycleFilter: 0
+        lifeCycleFilter: LifeCycleFilter.ActiveOnly
       });
 
-      return this.contentService.aggregateByChannel(this.channel, request).toPromise().then(result => {
+      return this.contentService.aggregateOnChannel(request).toPromise().then(result => {
         if (result && result.aggregationResults) {
           this.aggregations = result.aggregationResults.filter(r =>
             r.sumOtherDocCount !== null &&
