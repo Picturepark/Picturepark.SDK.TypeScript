@@ -27,6 +27,6 @@ describe('UserService', () => {
     const channel = channels![0];
 
     // assert
-    expect(channel!.names!.translate('en-US')).toBe('Root categories');
+    expect(channel!.names!.translate('en-US')).toBe('Root Channel');
   })));
 });
