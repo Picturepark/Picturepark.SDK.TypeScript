@@ -39,9 +39,9 @@ declare module "picturepark" {
         protected processGetMany(response: Response): Promise<ContentDetail[]>;
         /**
          * Create - many
-         * @contentCreateRequests The content create requests.
+         * @contentCreateManyRequest The content create many request.
          */
-        createMany(contentCreateRequests: ContentCreateRequest[] | null): Promise<BusinessProcess>;
+        createMany(contentCreateManyRequest: ContentCreateManyRequest | null): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Search
@@ -51,14 +51,6 @@ declare module "picturepark" {
         search(contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult>;
         protected processSearch(response: Response): Promise<ContentSearchResult>;
         /**
-         * Search by channel
-         * @channelId The channel id.
-         * @contentSearchRequest The content search request.
-         * @return ContentSearchResult
-         */
-        searchByChannel(channelId: string, contentSearchRequest: ContentSearchRequest | null): Promise<ContentSearchResult>;
-        protected processSearchByChannel(response: Response): Promise<ContentSearchResult>;
-        /**
          * Aggregate
          * @contentAggregationRequest The aggregation request.
          * @return ObjectAggregationResult
@@ -66,13 +58,12 @@ declare module "picturepark" {
         aggregate(contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult>;
         protected processAggregate(response: Response): Promise<ObjectAggregationResult>;
         /**
-         * Aggregate by channel
-         * @channelId The channel id
-         * @contentAggregationRequest The content aggregation request.
+         * Aggregate on channel
+         * @contentAggregationOnChannelRequest The content aggregation on channel request.
          * @return ObjectAggregationResult
          */
-        aggregateByChannel(channelId: string, contentAggregationRequest: ContentAggregationRequest | null): Promise<ObjectAggregationResult>;
-        protected processAggregateByChannel(response: Response): Promise<ObjectAggregationResult>;
+        aggregateOnChannel(contentAggregationOnChannelRequest: ContentAggregationOnChannelRequest | null): Promise<ObjectAggregationResult>;
+        protected processAggregateOnChannel(response: Response): Promise<ObjectAggregationResult>;
         /**
          * Create download link
          * @request The content download link request
@@ -105,10 +96,11 @@ declare module "picturepark" {
          * Create - single
          * @contentCreateRequest The content create request.
          * @resolve Resolves the data of referenced list items into the contents's content.
+         * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          */
-        create(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        create(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
         protected processCreate(response: Response): Promise<ContentDetail>;
         /**
          * Deactivate - single
@@ -130,9 +122,10 @@ declare module "picturepark" {
          * @resolve Resolves the data of referenced list items into the contents's content.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+         * @allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
          * @return ContentDetail
          */
-        reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ContentDetail>;
         protected processReactivate(response: Response): Promise<ContentDetail>;
         /**
          * Reactivate - many
@@ -338,11 +331,12 @@ declare module "picturepark" {
          * @listItemId The list item id.
          * @updateRequest The list item update request.
          * @resolve Resolves the data of referenced list items into the list item's content.
+         * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processUpdate(response: Response): Promise<ListItemDetail>;
         /**
          * Search
@@ -362,32 +356,34 @@ declare module "picturepark" {
          * Create - single
          * @listItemCreateRequest List item create request.
          * @resolve Resolves the data of referenced list items into the list item's content.
+         * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItemCreateRequest: ListItemCreateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        create(listItemCreateRequest: ListItemCreateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
         protected processCreate(response: Response): Promise<ListItemDetail>;
         /**
          * Create - many
-         * @listItemCreateRequests A list of ListItemCreateRequests.
+         * @listItemCreateManyRequest List item create many request.
          * @return BusinessProcess
          */
-        createMany(listItemCreateRequests: ListItemCreateRequest[] | null): Promise<BusinessProcess>;
+        createMany(listItemCreateManyRequest: ListItemCreateManyRequest | null): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update - many
-         * @objects A list of ListItemUpdateRequests.
+         * @listItemUpdateManyRequest List item update many request.
          * @return BusinessProcess
          */
-        updateMany(objects: ListItemUpdateRequest[] | null): Promise<BusinessProcess>;
+        updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest | null): Promise<BusinessProcess>;
         protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Deactivate - single
          * @listItemId the id of the list item to deactivate
          * @timeout Maximum time to wait for the business process completed state.
+         * @forceReferenceRemoval (optional) A value indicating whether references to the listitem should be removed.
          */
-        deactivate(listItemId: string, timeout: string | null): Promise<ListItemDetail>;
+        deactivate(listItemId: string, timeout: string | null, forceReferenceRemoval?: boolean | null | undefined): Promise<ListItemDetail>;
         protected processDeactivate(response: Response): Promise<ListItemDetail>;
         /**
          * Deactivate - many
@@ -401,9 +397,10 @@ declare module "picturepark" {
          * @listItemId The list item id.
          * @timeout (optional) Maximum time to wait for the business process completed state.
          * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+         * @allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
          * @return ListItemDetail
          */
-        reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ListItemDetail>;
         protected processReactivate(response: Response): Promise<ListItemDetail>;
         /**
          * Reactivate - many
@@ -426,6 +423,20 @@ declare module "picturepark" {
          */
         batchUpdateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
         protected processBatchUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
+        /**
+         * Gets the references to a list item.
+         * @listItemId The ID of the list item.
+         * @return MetadataReferences
+         */
+        getReferencesToListItem(listItemId: string): Promise<ListItemReferences>;
+        protected processGetReferencesToListItem(response: Response): Promise<ListItemReferences>;
+        /**
+         * Gets the references to the specified list items.
+         * @ids The IDs of the list items.
+         * @return A MetadataReferences per list item id.
+         */
+        getReferencesToListItems(ids: string[] | null): Promise<ListItemReferences[]>;
+        protected processGetReferencesToListItems(response: Response): Promise<ListItemReferences[]>;
     }
     export class LiveStreamClient extends PictureparkClientBase {
         private http;
@@ -492,6 +503,13 @@ declare module "picturepark" {
          */
         search(schemaSearchRequest: SchemaSearchRequest | null): Promise<SchemaSearchResult>;
         protected processSearch(response: Response): Promise<SchemaSearchResult>;
+        /**
+         * Get index fields
+         * @request The get request.
+         * @return Indexed fields
+         */
+        getIndexFields(request: GetIndexFieldsRequest | null): Promise<IndexField[]>;
+        protected processGetIndexFields(response: Response): Promise<IndexField[]>;
         /**
          * Exists
          * @schemaId The schema id.
@@ -809,6 +827,35 @@ declare module "picturepark" {
         update(profile: UserProfile | null): Promise<UserProfile>;
         protected processUpdate(response: Response): Promise<UserProfile>;
     }
+    export class SchemaTransferClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Import schemas
+         * @schemaImportRequest The schema import request.
+         * @return Transfer
+         */
+        import(schemaImportRequest: SchemaImportRequest | null): Promise<Transfer>;
+        protected processImport(response: Response): Promise<Transfer>;
+    }
+    export class InfoClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get info
+         * @return CustomerInfo
+         */
+        get(): Promise<CustomerInfo>;
+        protected processGet(response: Response): Promise<CustomerInfo>;
+    }
     export enum DisplayPatternType {
         Thumbnail,
         List,
@@ -832,7 +879,10 @@ declare module "picturepark" {
         customerAlias?: string | undefined;
         userId?: string | undefined;
     }
-    export interface ContentNotFoundException extends PictureparkBusinessException {
+    export interface PictureparkNotFoundException extends PictureparkBusinessException {
+        reference?: string | undefined;
+    }
+    export interface ContentNotFoundException extends PictureparkNotFoundException {
         contentId?: string | undefined;
     }
     export enum TraceLevel {
@@ -842,25 +892,147 @@ declare module "picturepark" {
         Information,
         Verbose,
     }
-    export interface PictureparkApplicationException extends PictureparkBusinessException {
+    export interface PictureparkValidationException extends PictureparkBusinessException {
     }
-    export interface PictureparkArgumentNullException extends PictureparkBusinessException {
+    export interface PictureparkConflictException extends PictureparkBusinessException {
+        reference?: string | undefined;
+    }
+    export interface UserEmailAlreadyExistsException extends PictureparkValidationException {
+        email?: string | undefined;
+    }
+    export interface UserRoleAssignedException extends PictureparkValidationException {
+        userRoleId?: string | undefined;
+    }
+    export interface UserNotFoundException extends PictureparkBusinessException {
+        missingUserId?: string | undefined;
+    }
+    export interface RenderingException extends PictureparkBusinessException {
+    }
+    export interface ServiceProviderDeleteException extends PictureparkException {
+        serviceProviderId?: string | undefined;
+        detailedErrorMessage?: string | undefined;
+    }
+    export interface ServiceProviderCreateException extends PictureparkException {
+        userId?: string | undefined;
+        externalId?: string | undefined;
+        virtualHost?: string | undefined;
+        detailErrorMessage?: string | undefined;
+    }
+    export interface ServiceProviderNotFoundException extends PictureparkException {
+        missingServiceProviderId?: string | undefined;
+    }
+    export interface DocumentVersionNotFoundException extends PictureparkNotFoundException {
+        documentId?: string | undefined;
+        documentVersion?: string | undefined;
+    }
+    export interface DefaultChannelDeleteException extends PictureparkValidationException {
+    }
+    export interface ElasticVersionUpdateException extends PictureparkException {
+        expectedVersion?: string | undefined;
+        actualVersion?: string | undefined;
+    }
+    export interface InvalidVersionException extends PictureparkException {
+        component?: string | undefined;
+        version?: string | undefined;
+    }
+    export interface EnvironmentNotDeactivatedException extends PictureparkException {
+    }
+    export interface EnvironmentNotFoundException extends PictureparkException {
+    }
+    export interface EnvironmentDeactivationException extends PictureparkException {
+        deactivationMessage?: string | undefined;
+    }
+    export interface ShareNotFoundException extends PictureparkNotFoundException {
+        shareId?: string | undefined;
+    }
+    export interface ShareByTokenNotFoundException extends PictureparkNotFoundException {
+        token?: string | undefined;
+    }
+    export interface TokenGenerationException extends PictureparkBusinessException {
+        retries: number;
+    }
+    export interface OutputIdNotFoundException extends PictureparkNotFoundException {
+        outputId?: string | undefined;
+    }
+    export interface OutputNotFoundException extends PictureparkBusinessException {
+        contentId?: string | undefined;
+        outputFormatId?: string | undefined;
+    }
+    export interface DriveCacheExpiredException extends PictureparkBusinessException {
+    }
+    export interface DriveFileNotFoundException extends PictureparkNotFoundException {
+        fileId?: string | undefined;
+    }
+    export interface DriveRequestException extends PictureparkBusinessException {
+    }
+    export interface TokenValidationException extends PictureparkValidationException {
+    }
+    export interface LeaseNotAcquiredException extends PictureparkBusinessException {
+        resourceId?: string | undefined;
+    }
+    export interface OperationInProgressException extends PictureparkBusinessException {
+        leaseResourceType: LeaseResourceType;
+    }
+    export enum LeaseResourceType {
+        SchemaEditing,
+    }
+    export interface RetryException extends PictureparkBusinessException {
+        retries: number;
+        innerExceptionDetail?: string | undefined;
+    }
+    export interface OwnerTokenNotFoundException extends PictureparkNotFoundException {
+        ownerTokenUserId?: string | undefined;
+    }
+    export interface InvalidStateException extends PictureparkValidationException {
+        resourceId?: string | undefined;
+        state?: string | undefined;
+    }
+    export interface PictureparkArgumentNullException extends PictureparkValidationException {
         argumentName?: string | undefined;
     }
-    export interface ContentsNotFoundException extends PictureparkBusinessException {
-        contentIds?: string[] | undefined;
+    export interface ObjectTypeMismatchException extends PictureparkBusinessException {
+        type?: string | undefined;
     }
-    export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
-        processDefinitionIds?: string[] | undefined;
+    export interface InvalidStateTransitionException extends InvalidStateException {
+        transition?: string | undefined;
     }
-    export interface BusinessProcessDefinitionNotFoundException extends PictureparkBusinessException {
-        processDefinitionId?: string | undefined;
+    export interface FailedToLockException extends PictureparkBusinessException {
+        resourceId?: string | undefined;
     }
-    export interface BusinessProcessNotFoundException extends PictureparkBusinessException {
-        businessProcessId?: string | undefined;
+    export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
     }
-    export interface BusinessProcessWaitTimeoutException extends PictureparkBusinessException {
-        businessProcessId?: string | undefined;
+    export interface PictureparkApplicationException extends PictureparkBusinessException {
+    }
+    export interface MissingCustomerDefaultLanguageException extends PictureparkValidationException {
+        customerDefaultLanguage?: string | undefined;
+    }
+    export interface InvalidArgumentException extends PictureparkValidationException {
+        argumentName?: string | undefined;
+        argumentValue?: string | undefined;
+    }
+    export interface UnknownException extends PictureparkBusinessException {
+        exceptionDetail?: string | undefined;
+    }
+    export interface OwnerTokenInUseException extends PictureparkValidationException {
+        ownerTokenUserId?: string | undefined;
+    }
+    export interface CustomerViolationException extends PictureparkException {
+        expectedCustomerId?: string | undefined;
+        currentCustomerId?: string | undefined;
+    }
+    export interface CustomerAliasNotFoundException extends PictureparkException {
+        customerAlias?: string | undefined;
+    }
+    export interface CustomerAliasInUseException extends PictureparkBusinessException {
+        existingCustomerId?: string | undefined;
+        alias?: string | undefined;
+    }
+    export interface CustomerNotDeactivatedException extends PictureparkException {
+        customerId?: string | undefined;
+    }
+    export interface CustomerDeactivationException extends PictureparkException {
+        customerId?: string | undefined;
+        deactivationMessage?: string | undefined;
     }
     export interface CustomerHostNotFoundException extends PictureparkException {
         hostName?: string | undefined;
@@ -868,90 +1040,78 @@ declare module "picturepark" {
     export interface CustomerNotFoundException extends PictureparkException {
         customerId?: string | undefined;
     }
-    export interface DocumentNotFoundException extends PictureparkBusinessException {
-        documentId?: string | undefined;
+    export interface CustomerNotActiveException extends PictureparkException {
+        customerId?: string | undefined;
     }
-    export interface DocumentVersionNotFoundException extends PictureparkBusinessException {
-        documentId?: string | undefined;
-        documentVersion?: string | undefined;
+    export interface ConfigurationIndexNotFoundException extends PictureparkException {
+        configurationIndex?: string | undefined;
     }
-    export interface DriveRequestException extends PictureparkBusinessException {
+    export interface DuplicateSearchIndexDocException extends PictureparkBusinessException {
+        searchIndexDocId?: string | undefined;
     }
-    export interface DuplicateRightException extends PictureparkBusinessException {
-        permissionSetId?: string | undefined;
+    export interface SearchIndexDocNotFoundException extends PictureparkBusinessException {
+        searchIndexDocId?: string | undefined;
     }
-    export interface DuplicateDocumentException extends PictureparkBusinessException {
-        documentId?: string | undefined;
-        documentType?: string | undefined;
+    export interface IndexDocumentNotFoundException extends PictureparkBusinessException {
+        indexId?: string | undefined;
     }
-    export interface DuplicateAggregatorException extends PictureparkBusinessException {
-        aggregatorName?: string | undefined;
+    export interface DuplicateAliasException extends PictureparkException {
+        indexAlias?: string | undefined;
     }
-    export interface FailedToLockException extends PictureparkBusinessException {
-        resourceId?: string | undefined;
+    export interface SearchIndexNotFoundException extends PictureparkBusinessException {
+        searchIndexId?: string | undefined;
+    }
+    export interface DefaultSearchIndexDeleteException extends PictureparkBusinessException {
+    }
+    export interface SearchIndexInUseException extends PictureparkBusinessException {
+        searchIndex?: string | undefined;
     }
     export interface IndexException extends PictureparkBusinessException {
         indexName?: string | undefined;
         debugInformation?: string | undefined;
     }
-    export interface InvalidArgumentException extends PictureparkBusinessException {
-        argumentName?: string | undefined;
-        argumentValue?: string | undefined;
-    }
-    export interface InvalidCustomerException extends PictureparkException {
-        customerId?: string | undefined;
-    }
-    export interface PictureparkInvalidMetadataException extends PictureparkBusinessException {
-        metadataErrors?: MetadataError[] | undefined;
-    }
-    export interface MetadataError {
-        errorType?: string | undefined;
-        lineNumber: number;
-        linePosition: number;
-        path?: string | undefined;
-        message?: string | undefined;
-        schemaId?: string | undefined;
-    }
-    export interface InvalidStateException extends PictureparkBusinessException {
-        resourceId?: string | undefined;
-        state?: string | undefined;
-    }
-    export interface InvalidStateTransitionException extends InvalidStateException {
-        transition?: string | undefined;
-    }
-    export interface InvalidUserOrPasswordException extends PictureparkException {
-        customerId?: string | undefined;
-    }
-    export interface PictureparkMappingException extends PictureparkBusinessException {
+    export interface IndexMappingException extends PictureparkBusinessException {
         indexName?: string | undefined;
         debugInformation?: string | undefined;
     }
-    export interface MessagePerformerTaskCanceledException extends PictureparkException {
-        messageId?: string | undefined;
+    export interface DuplicatedSearchBehaviourException extends PictureparkValidationException {
+        duplicatedSearchBehaviours?: string | undefined;
+    }
+    export interface SearchStringLeadingWildcardException extends PictureparkValidationException {
+    }
+    export interface DuplicateAggregatorException extends PictureparkValidationException {
+        aggregatorName?: string | undefined;
+    }
+    export interface InvalidDateTimeFormatException extends PictureparkValidationException {
+        value?: string | undefined;
+        expectedFormat?: string | undefined;
+    }
+    export interface InvalidSortFieldException extends PictureparkValidationException {
+        fieldName?: string | undefined;
+    }
+    export interface DocumentVersionConflictException extends PictureparkConflictException {
+        documentId?: string | undefined;
+        documentType?: string | undefined;
+        documentVersion: number;
+    }
+    export interface RedisDatabaseExceededException extends PictureparkException {
         customerId?: string | undefined;
+        customerCount: number;
+        maxCount: number;
+        startIndex: number;
+        redisDatabaseCount: number;
     }
-    export interface NotFoundException extends PictureparkBusinessException {
-        reference?: string | undefined;
-    }
-    export interface ObjectStoreException extends PictureparkBusinessException {
-        rowErrorMessages?: string | undefined;
-        errorMessage?: string | undefined;
+    export interface DuplicateDocumentException extends PictureparkValidationException {
+        documentId?: string | undefined;
+        documentType?: string | undefined;
     }
     export interface ObjectStoreResponseException extends PictureparkBusinessException {
         rowErrorMessages?: string | undefined;
         message?: string | undefined;
     }
-    export interface PictureparkOperationCanceledException extends PictureparkBusinessException {
-    }
-    export interface OperationTimeoutException extends PictureparkBusinessException {
-    }
-    export interface OutputNotFoundException extends PictureparkBusinessException {
-        contentId?: string | undefined;
-        outputFormatId?: string | undefined;
-    }
-    export interface PermissionException extends PictureparkBusinessException {
-        permission?: string | undefined;
-        operation?: string | undefined;
+    export interface ObjectStoreException extends PictureparkBusinessException {
+        rowErrorMessages?: string | undefined;
+        errorMessage?: string | undefined;
     }
     export interface QueryException extends PictureparkBusinessException {
         debugInformation?: string | undefined;
@@ -982,39 +1142,360 @@ declare module "picturepark" {
         type?: string | undefined;
         innerCausedBy?: StorageCausedBy | undefined;
     }
-    export interface RenderingException extends PictureparkBusinessException {
+    export interface PermissionOwnershipTransferException extends PictureparkValidationException {
+        transferUserId?: string | undefined;
+        missingUserRight: UserRight;
     }
-    export interface RenderingJobItemNotSetException extends PictureparkBusinessException {
+    export enum UserRight {
+        ManageContent,
+        ManageSharings,
+        ManageDrives,
+        ManageTransfer,
+        ManageChannels,
+        ManageSchemas,
+        ManageUsers,
+        ManageUserRoles,
+        ManagePermissions,
+        ManageSearchIndexes,
+        ManageRecipients,
+        ManageCollections,
+        ManageListItems,
+        ManageServiceProviders,
+        ManageEmbeds,
+        ManageTemplates,
     }
-    export interface ServiceProviderCreateException extends PictureparkException {
-        userId?: string | undefined;
-        externalId?: string | undefined;
-        virtualHost?: string | undefined;
-        detailErrorMessage?: string | undefined;
+    export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
+        permissionSetId?: string | undefined;
     }
-    export interface ServiceProviderDeleteException extends PictureparkException {
-        serviceProviderId?: string | undefined;
-        detailedErrorMessage?: string | undefined;
+    export interface DuplicateRightException extends PictureparkValidationException {
+        permissionSetId?: string | undefined;
     }
-    export interface ServiceProviderNotFoundException extends PictureparkException {
-        missingServiceProviderId?: string | undefined;
+    export interface PermissionValidationException extends PictureparkValidationException {
+        permission?: string | undefined;
+        operation?: string | undefined;
     }
-    export interface TokenValidationException extends PictureparkBusinessException {
+    export interface UnsupportedListItemChangeCommandException extends PictureparkValidationException {
+        commandType?: string | undefined;
     }
-    export interface UnknownException extends PictureparkBusinessException {
-        exceptionDetail?: string | undefined;
+    export interface ListItemLayerException extends PictureparkValidationException {
+        listItemId?: string | undefined;
     }
-    export interface UserNotFoundException extends PictureparkBusinessException {
-        missingUserId?: string | undefined;
+    export interface ListItemNotFoundException extends PictureparkNotFoundException {
+        listItemId?: string | undefined;
     }
-    export interface UserPermanentlyRemovedException extends PictureparkBusinessException {
-        removedUserId?: string | undefined;
+    export interface ListItemCyclicDependencyException extends PictureparkBusinessException {
+        listItemIds?: string[] | undefined;
     }
-    export interface UserRoleAssignedException extends PictureparkBusinessException {
-        userRoleId?: string | undefined;
+    export interface DeleteListItemsWithReferencesException extends PictureparkValidationException {
+        referencesList?: string[] | undefined;
+        references?: string | undefined;
     }
-    export interface UserRolesRightsAssignedException extends PictureparkBusinessException {
-        contentPermissionSetId?: string | undefined;
+    export interface ListItemUpdateManyException extends PictureparkBusinessException {
+        failedItemsCount: number;
+        totalItemsCount: number;
+    }
+    export interface TransferInfoNotFoundException extends PictureparkNotFoundException {
+        transferInfoId?: string | undefined;
+    }
+    export interface FileTransferNotFoundException extends PictureparkNotFoundException {
+        fileTransferId?: string | undefined;
+    }
+    export interface InvalidTransferTypeException extends PictureparkBusinessException {
+        transferType: TransferType;
+    }
+    export enum TransferType {
+        FileUpload,
+        FileUploadAutoImport,
+        DriveImport,
+        DriveExport,
+        WebDownload,
+        SchemaImport,
+    }
+    export interface TransferNotFoundException extends PictureparkNotFoundException {
+        transferId?: string | undefined;
+    }
+    export interface WrongChunkSizeException extends PictureparkValidationException {
+        actual: number;
+        expected: number;
+    }
+    export interface MissingDependenciesException extends PictureparkValidationException {
+        itemIds?: string | undefined;
+    }
+    export interface RelationSelfReferencingException extends PictureparkValidationException {
+        itemId?: string | undefined;
+        itemType?: string | undefined;
+    }
+    export interface InvalidChangeCommandFieldTypeInvalidException extends PictureparkValidationException {
+        commandType?: string | undefined;
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+        fieldActualType?: string | undefined;
+        fieldExpectedType?: string | undefined;
+    }
+    export interface InvalidChangeCommandFieldNotFoundException extends PictureparkValidationException {
+        commandTypeName?: string | undefined;
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+    }
+    export interface InvalidChangeCommandSchemaChangeInvalidException extends PictureparkValidationException {
+        commandTypeName?: string | undefined;
+        schemaId?: string | undefined;
+    }
+    export interface InvalidMetadataException extends PictureparkValidationException {
+        metadataErrors?: MetadataError[] | undefined;
+    }
+    export interface MetadataError {
+        errorType?: string | undefined;
+        lineNumber: number;
+        linePosition: number;
+        path?: string | undefined;
+        message?: string | undefined;
+        schemaId?: string | undefined;
+    }
+    export interface RelationNotFoundException extends PictureparkBusinessException {
+        relationId?: string | undefined;
+    }
+    export interface RelationTypeNotFoundException extends PictureparkBusinessException {
+        relationType?: string | undefined;
+    }
+    export interface RelationTypeTargetDocTypeMismatchException extends PictureparkBusinessException {
+        relationType?: string | undefined;
+        targetDocType?: string | undefined;
+        expectedTargetDocType?: string | undefined;
+    }
+    export interface AggregationFilterInvalidException extends PictureparkValidationException {
+        aggregationFilterNames?: string | undefined;
+    }
+    export interface AggregationNameInvalidException extends PictureparkValidationException {
+        aggregationName?: string | undefined;
+        aggregationPrefix?: string | undefined;
+    }
+    export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        fieldOverwriteType?: string | undefined;
+        fieldType?: string | undefined;
+    }
+    export interface SchemaFieldOverwriteIdException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+    }
+    export interface SchemaFieldIdDuplicatedException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+    }
+    export interface SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        relatedFieldId?: string | undefined;
+        relatedOuterFieldId?: string | undefined;
+    }
+    export interface SchemaFieldSchemaIndexInfoNestingException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        relatedFieldId?: string | undefined;
+        relatedOuterFieldId?: string | undefined;
+    }
+    export interface SchemaFieldIdUppercaseException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+    }
+    export interface SchemaIdLowercaseException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaInfoNotFoundException extends PictureparkNotFoundException {
+        schemaId?: string | undefined;
+    }
+    export interface IndexedFieldThresholdExceededException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        indexedFieldCount: number;
+        indexedFieldThreshold: number;
+    }
+    export interface SortableFieldThresholdExceededException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        sortableFieldCount: number;
+        sortableFieldThreshold: number;
+    }
+    export interface DuplicateSchemaInfoException extends PictureparkBusinessException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaFieldNumberRangeException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        propertyName?: string | undefined;
+        minValue: number;
+        maxValue: number;
+    }
+    export interface SchemaInUseContentSchemaException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        contentSchemaIds?: string[] | undefined;
+    }
+    export interface SchemaInUseListItemException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        listItemCount: number;
+    }
+    export interface SchemaInUseContentException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        contentCount: number;
+    }
+    export interface SchemaInUseFieldException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldNamespaces?: string[] | undefined;
+    }
+    export interface SchemaNotFoundInSearchIndexException extends PictureparkValidationException {
+        searchIndexId?: string | undefined;
+        schemaId?: string | undefined;
+    }
+    export interface DuplicateMetadataDisplayPatternException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        displayPatternId?: string | undefined;
+    }
+    export interface DuplicateSchemaException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaImportEmptyException extends PictureparkValidationException {
+    }
+    export interface SchemaImportVersionMismatchException extends PictureparkValidationException {
+        providedVersion?: string | undefined;
+        expectedVersion?: string | undefined;
+    }
+    export interface SchemaCyclicDependencyException extends PictureparkValidationException {
+        schemaIds?: string[] | undefined;
+    }
+    export interface SchemaInheritanceFieldIndexDeviationException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaInheritanceTypeDeviationException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaValidationException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        exceptions?: PictureparkBusinessException[] | undefined;
+    }
+    export interface SchemaSortFieldException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+    }
+    export interface SchemaFieldIdException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+    }
+    export interface SchemaFieldTypeChangeException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        oldType?: string | undefined;
+        newType?: string | undefined;
+    }
+    export interface SchemaFieldIndexException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+    }
+    export interface SchemaFieldNotSortableException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+    }
+    export interface SchemaNoContentException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaParentChangeException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        oldSchemaParentId?: string | undefined;
+        newSchemaParentId?: string | undefined;
+    }
+    export interface SchemaMissingTypeException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        expectedSchemaTypes?: SchemaType[] | undefined;
+    }
+    export enum SchemaType {
+        Content,
+        Layer,
+        List,
+        Struct,
+    }
+    export interface SchemaPermissionException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaNoLayerException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaIdException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaInUseException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        exceptions?: PictureparkBusinessException[] | undefined;
+    }
+    export interface SchemaNotFoundException extends PictureparkNotFoundException {
+        schemaId?: string | undefined;
+    }
+    export interface SystemSchemaInvalidModificationException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface ContentsNotFoundException extends PictureparkNotFoundException {
+        contentIds?: string[] | undefined;
+    }
+    export interface DeleteContentsWithRelationsException extends PictureparkValidationException {
+        relationList?: string[] | undefined;
+        relations?: string | undefined;
+    }
+    export interface ContentMetadataUpdateManyException extends PictureparkBusinessException {
+        failedItemsCount: number;
+        totalItemsCount: number;
+    }
+    export interface ContentLayerInvalidException extends PictureparkValidationException {
+        contentId?: string | undefined;
+        layerIds?: string | undefined;
+    }
+    export interface PictureparkTimeoutException extends PictureparkBusinessException {
+    }
+    export interface BusinessProcessWaitTimeoutException extends PictureparkTimeoutException {
+        businessProcessId?: string | undefined;
+    }
+    export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
+        businessProcessId?: string | undefined;
+        engineError?: string | undefined;
+    }
+    export interface BusinessProcessNotFoundException extends PictureparkNotFoundException {
+        businessProcessId?: string | undefined;
+    }
+    export interface BusinessProcessDefinitionNotFoundException extends PictureparkNotFoundException {
+        processDefinitionId?: string | undefined;
+    }
+    export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
+        processDefinitionIds?: string[] | undefined;
+    }
+    export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        importingFieldIds?: string | undefined;
+        existingFieldIds?: string | undefined;
+    }
+    export interface SchemaFieldImportRelatedSchemaMismatchException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        importingRelatedSchemaId?: string | undefined;
+        existingRelatedSchemaId?: string | undefined;
+    }
+    export interface SchemaFieldImportTypeMismatchException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        importingFieldType?: string | undefined;
+        existingFieldType?: string | undefined;
+    }
+    export interface SnapshotTimeoutException extends PictureparkTimeoutException {
+    }
+    export interface SnapshotFailedException extends PictureparkBusinessException {
+    }
+    export interface AddMetadataLanguageTimeoutException extends PictureparkTimeoutException {
+        environmentProcessId?: string | undefined;
+    }
+    export interface EnvironmentProcessAlreadyRunningException extends PictureparkValidationException {
+        environmentProcessType?: string | undefined;
+    }
+    export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
+        environmentProcessId?: string | undefined;
+    }
+    export interface EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException {
+        environmentProcessId?: string | undefined;
+        waitedLifecycles?: string | undefined;
     }
     /** A content detail. */
     export interface ContentDetail {
@@ -1084,23 +1565,23 @@ declare module "picturepark" {
         id?: string | undefined;
         outputFormatId?: string | undefined;
         contentId?: string | undefined;
-        detail?: OutputDetailBase | undefined;
+        detail?: OutputDataBase | undefined;
     }
-    export interface OutputDetailBase {
+    export interface OutputDataBase {
         fileExtension?: string | undefined;
         fileName?: string | undefined;
         filePath?: string | undefined;
         fileSizeInBytes?: number | undefined;
         sha1Hash?: string | undefined;
     }
-    export interface OutputDetailImage extends OutputDetailBase {
+    export interface OutputDataImage extends OutputDataBase {
         width: number;
         height: number;
     }
-    export interface OutputDetailAudio extends OutputDetailBase {
+    export interface OutputDataAudio extends OutputDataBase {
         durationInSeconds?: number | undefined;
     }
-    export interface OutputDetailVideo extends OutputDetailBase {
+    export interface OutputDataVideo extends OutputDataBase {
         durationInSeconds: number;
         width: number;
         height: number;
@@ -1114,17 +1595,17 @@ declare module "picturepark" {
         start: string;
         end: string;
     }
-    export interface OutputDetailDocument extends OutputDetailBase {
+    export interface OutputDataDocument extends OutputDataBase {
         pageCount: number;
     }
-    export interface OutputDetailDefault extends OutputDetailBase {
+    export interface OutputDataDefault extends OutputDataBase {
     }
     export interface OutputDetail extends Output {
     }
     export interface ContentSearchRequest {
         /** Limits the simple search fields to the fields available in the specified channel. */
-        channelIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to x-default. */
+        channelId?: string | undefined;
+        /** Defines the return language of translation values. Defaults to customer default language. */
         displayLanguage?: string | undefined;
         /** Limits the display values included in the search response. Defaults to all display values. */
         displayPatternIds?: string[] | undefined;
@@ -1281,7 +1762,7 @@ declare module "picturepark" {
     export interface AggregationFilter extends FilterBase {
         /** The name of the aggregation this filter is connected to. */
         aggregationName?: string | undefined;
-        /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter and GeoDistanceFilter. */
+        /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter, GeoDistanceFilter and NestedFilter. */
         filter?: FilterBase | undefined;
         temporaryAggregatorRequestId?: string | undefined;
     }
@@ -1351,8 +1832,8 @@ declare module "picturepark" {
         brokenReferenceIds?: string[] | undefined;
         /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
         brokenIndirectReferenceIds?: string[] | undefined;
-        /** All the ids of the broken relations */
-        brokenRelationIds?: string[] | undefined;
+        /** All the target ids of the broken relations */
+        brokenRelationTargetIds?: string[] | undefined;
     }
     export interface QueryDebugInformation {
         general?: string | undefined;
@@ -1360,7 +1841,7 @@ declare module "picturepark" {
         request?: any | undefined;
         response?: any | undefined;
     }
-    export interface ContentAggregationRequest {
+    export interface ContentAggregationOnChannelRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
         /** An optional list of search behaviours. All the passed behaviours will be applied */
@@ -1369,11 +1850,9 @@ declare module "picturepark" {
         filter?: FilterBase | undefined;
         /** Special filters used to filter down on a specific aggregated value. */
         aggregationFilters?: AggregationFilter[] | undefined;
-        /** Defines the aggregation resultset. */
-        aggregators?: AggregatorBase[] | undefined;
-        /** Limits the simple search fields to the fields available in the specified channel. */
+        /** Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it. */
         channelId?: string | undefined;
-        /** Defines the return language of translation values. Defaults to x-default. */
+        /** Defines the return language of translation values. Defaults to customer default language. */
         displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration. */
         searchLanguages?: string[] | undefined;
@@ -1385,6 +1864,10 @@ declare module "picturepark" {
         brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
         searchType: ContentSearchType;
+    }
+    export interface ContentAggregationRequest extends ContentAggregationOnChannelRequest {
+        /** Defines the aggregation resultset. */
+        aggregators?: AggregatorBase[] | undefined;
     }
     /** The AggregatorBase is the base class for all aggregators. */
     export interface AggregatorBase {
@@ -1400,12 +1883,16 @@ declare module "picturepark" {
         /** The elastic search index field to execute the aggregation on. */
         field?: string | undefined;
         /** A list of date ranges. Supported pattern: now(+-)(int)(YMDHm). */
-        ranges?: DateRange[] | undefined;
+        ranges?: DateRangeForAggregator[] | undefined;
     }
-    /** The FilterAggregator is a single bucket aggregation of documents that match a specified filter. */
-    export interface FilterAggregator extends AggregatorBase {
-        /** Limits the result set. */
-        filter?: FilterBase | undefined;
+    /** The date range class used in aggregators. */
+    export interface DateRangeForAggregator {
+        /** Tranlsated range names. */
+        names?: TranslatedStringDictionary | undefined;
+        /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+        from?: string | undefined;
+        /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+        to?: string | undefined;
     }
     /** The GeoDistanceAggregator is a multi-bucket range aggregation that works on geo_point fields. Each bucket represents a range. */
     export interface GeoDistanceAggregator extends AggregatorBase {
@@ -1432,7 +1919,15 @@ declare module "picturepark" {
         /** The elastic search index field to execute the aggregation on. */
         field?: string | undefined;
         /** A list of numeric ranges. */
-        ranges?: NumericRange[] | undefined;
+        ranges?: NumericRangeForAggregator[] | undefined;
+    }
+    export interface NumericRangeForAggregator {
+        /** Tranlsated range names. */
+        names?: TranslatedStringDictionary | undefined;
+        /** The from value. */
+        from?: number | undefined;
+        /** The to value. */
+        to?: number | undefined;
     }
     /** The TermsAggregator is a multi-bucket value aggregation where buckets are dynamically built - one per unique value. */
     export interface TermsAggregator extends AggregatorBase {
@@ -1444,6 +1939,10 @@ declare module "picturepark" {
         includes?: string[] | undefined;
         /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
         excludes?: string[] | undefined;
+        /** Search string to be used to search within possible aggregation values */
+        searchString?: string | undefined;
+        /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used */
+        searchFields?: string[] | undefined;
     }
     /** The TermsRelationAggregator is derived from TermsAggregator and used for aggregations on relation item ids. */
     export interface TermsRelationAggregator extends TermsAggregator {
@@ -1474,7 +1973,6 @@ declare module "picturepark" {
     export interface AggregationResult {
         name?: string | undefined;
         sumOtherDocCount?: number | undefined;
-        temporaryRequestId?: string | undefined;
         aggregationResultItems?: AggregationResultItem[] | undefined;
     }
     export interface AggregationResultItem {
@@ -1514,6 +2012,13 @@ declare module "picturepark" {
         /** An optional id list of content permission sets.  */
         contentPermissionSetIds?: string[] | undefined;
     }
+    /** A request structure for creating multiple content documents. */
+    export interface ContentCreateManyRequest {
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create requests */
+        requests?: ContentCreateRequest[] | undefined;
+    }
     export interface BusinessProcess {
         id?: string | undefined;
         processDefinitionId?: string | undefined;
@@ -1525,7 +2030,7 @@ declare module "picturepark" {
         startDate: Date;
         endDate: Date;
         finished: boolean;
-        stateHistory?: BusinessProcessStateItem[] | undefined;
+        stateHistory?: BusinessProcessState[] | undefined;
         currentState?: string | undefined;
         processDefinitionName?: string | undefined;
     }
@@ -1541,7 +2046,7 @@ declare module "picturepark" {
         CancellationInProgress,
         Failed,
     }
-    export interface BusinessProcessStateItem {
+    export interface BusinessProcessState {
         state?: string | undefined;
         timestamp: Date;
         error?: ErrorResponse | undefined;
@@ -1561,7 +2066,6 @@ declare module "picturepark" {
         id?: string | undefined;
         version: number;
         error?: string | undefined;
-        reason?: string | undefined;
         succeeded: boolean;
         status: number;
     }
@@ -1575,6 +2079,7 @@ declare module "picturepark" {
         contentIds?: string[] | undefined;
         resolve: boolean;
         displayPatternIds?: string[] | undefined;
+        allowMissingDependencies: boolean;
     }
     export interface ContentFileUpdateRequest {
         contentId?: string | undefined;
@@ -1583,10 +2088,20 @@ declare module "picturepark" {
     export interface ContentMetadataUpdateRequest {
         /** The content id. */
         id?: string | undefined;
-        /** An id list of schemas with schema type content or layer. */
-        schemaIds?: string[] | undefined;
-        /** The dynamic data structure matching the field schematics of the schemas with schema type content or layer. */
+        /** An id list of schemas with schema type layer. */
+        layerSchemaIds?: string[] | undefined;
+        /** The dynamic data structure matching the field schematics of the content schema (ContentSchemaId). */
+        content?: DataDictionary | undefined;
+        /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds). */
         metadata?: DataDictionary | undefined;
+        /** Options to modify the behavior for updating schemas. */
+        layerSchemasUpdateOptions: UpdateOption;
+        /** Options to modify the behavior for updating the values of schemas. */
+        schemaFieldsUpdateOptions: UpdateOption;
+    }
+    export enum UpdateOption {
+        Merge,
+        Replace,
     }
     export interface ContentPermissionsUpdateRequest {
         /** The content id. */
@@ -1616,6 +2131,10 @@ declare module "picturepark" {
     export interface MetadataValuesChangeRequestBase {
         /** A container for all change commads. */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create notification and notify on progress */
+        notifyProgress: boolean;
     }
     export interface ContentFieldsUpdateRequest extends MetadataValuesChangeRequestBase {
         /** The ids of the content documents. */
@@ -1638,6 +2157,11 @@ declare module "picturepark" {
     }
     /** Removes schema values. */
     export interface MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeCommandBase {
+    }
+    /** Replaces schema values. */
+    export interface MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeCommandBase {
+        /** The metadata values containing the new values for the schema. All old values will be overwritten. */
+        value?: DataDictionary | undefined;
     }
     /** Removes a field and its value from the schema values. */
     export interface MetadataValuesFieldRemoveCommand extends MetadataValuesChangeCommandBase {
@@ -1664,14 +2188,13 @@ declare module "picturepark" {
     }
     export interface ContentFieldsFilterUpdateRequest extends MetadataValuesChangeRequestBase {
         contentFilterRequest?: ContentFilterRequest | undefined;
-        totalItemsCount: number;
     }
     export interface ContentFilterRequest {
-        /** Limits the simple search fields to the fields available in the specified in the channel. */
-        channelIds?: string[] | undefined;
+        /** Limits the simple search fields to the fields available in the specified channel. */
+        channelId?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to x-default. */
+        /** Defines the return language of translation values. Defaults to customer default language. */
         displayLanguage?: string | undefined;
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
@@ -1724,6 +2247,39 @@ declare module "picturepark" {
     }
     export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
         response?: BulkResponse | undefined;
+    }
+    /** Business process detailed information regarding Schema / ListItems import operation */
+    export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
+        /** Result information of a schema import operation */
+        schemaImportResult?: SchemaImportResult | undefined;
+        /** Result information of a list item import operation */
+        listItemImportResult?: ListItemImportResult | undefined;
+    }
+    /** Result information of a schema import operation */
+    export interface SchemaImportResult {
+        /** Number of schemas imported */
+        importedSchemaCount: number;
+        /** Number of schema skipped during import phase because they were already found in the system */
+        skippedSchemaCount: number;
+        /** Total number of schemas requested to be imported */
+        totalSchemaCount: number;
+        /** Ids of the schemas that were not imported because already found in the system */
+        skippedSchemaIds?: string[] | undefined;
+        /** Ids of the schemas that were successfully imported */
+        importedSchemaIds?: string[] | undefined;
+    }
+    /** Result information of a list item import operation */
+    export interface ListItemImportResult {
+        /** Number of list items imported */
+        importedListItemCount: number;
+        /** Number of list items skipped during import phase because they were already found in the system */
+        skippedListItemCount: number;
+        /** Total number of list items requested to be imported */
+        totalListItemCount: number;
+        /** Ids of the list items that were not imported because already found in the system */
+        skippedListItemIds?: string[] | undefined;
+        /** Ids of the list items that were successfully imported */
+        importedListItemIds?: string[] | undefined;
     }
     export interface DocumentHistorySearchRequest {
         /** Limits the start date of the search request. Default to last 1 year. */
@@ -1793,9 +2349,6 @@ declare module "picturepark" {
         /** The list item id. */
         id?: string | undefined;
     }
-    export interface ListItemNotFoundException extends PictureparkBusinessException {
-        listItemId?: string | undefined;
-    }
     export interface ListItemSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
@@ -1813,7 +2366,7 @@ declare module "picturepark" {
         includeAllSchemaChildren: boolean;
         /** Limits the search to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to x-default. */
+        /** Defines the return language of translation values. Defaults to customer default language. */
         displayLanguage?: string | undefined;
         /** Limits the display values included in the search response. Defaults to all display values. */
         displayPatternIds?: string[] | undefined;
@@ -1824,7 +2377,7 @@ declare module "picturepark" {
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
         /** When set to true the content data is included in the result items. */
-        includeMetadata: boolean;
+        includeContentData: boolean;
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
         debugMode: boolean;
         /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
@@ -1867,7 +2420,7 @@ declare module "picturepark" {
         brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Limits the aggregation to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to x-default. */
+        /** Defines the return language of translation values. Defaults to customer default language. */
         displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
@@ -1883,6 +2436,13 @@ declare module "picturepark" {
         /** The list item id. When not provided a Guid is generated. */
         listItemId?: string | undefined;
     }
+    /** A request structure for creating multiple list items. */
+    export interface ListItemCreateManyRequest {
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create requests */
+        requests?: ListItemCreateRequest[] | undefined;
+    }
     /** A request structure for updating a list item. */
     export interface ListItemUpdateRequest {
         /** The content data of the list item. */
@@ -1890,18 +2450,30 @@ declare module "picturepark" {
         /** The list item id. */
         id?: string | undefined;
     }
+    /** A request structure for updating multiple list items. */
+    export interface ListItemUpdateManyRequest {
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Update requests */
+        requests?: ListItemUpdateRequest[] | undefined;
+    }
     export interface ListItemDeactivateRequest {
         listItemIds?: string[] | undefined;
         forceReferenceRemoval: boolean;
     }
     export interface ListItemReactivateRequest {
         listItemIds?: string[] | undefined;
+        allowMissingDependencies: boolean;
     }
     export interface ListItemFieldsUpdateRequest {
         /** The ids of the list items whose fields need to be updated */
         listItemIds?: string[] | undefined;
         /** The change commads to be applied to the list items */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create notification and notify on progress */
+        notifyProgress: boolean;
     }
     /** ListItemFieldsFilterUpdateRequest class */
     export interface ListItemFieldsFilterUpdateRequest {
@@ -1909,6 +2481,10 @@ declare module "picturepark" {
         listItemFilterRequest?: ListItemFilterRequest | undefined;
         /** The change commads to be applied to the list items */
         changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
+        /** Allow storing references to missing list items / contents */
+        allowMissingDependencies: boolean;
+        /** Create notification and notify on progress */
+        notifyProgress: boolean;
     }
     export interface ListItemFilterRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
@@ -1919,10 +2495,22 @@ declare module "picturepark" {
         includeAllSchemaChildren: boolean;
         /** Limits the search to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to x-default. */
+        /** Defines the return language of translation values. Defaults to customer default language. */
         displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
+    }
+    export interface ReferencesBase {
+        targetMetadataItemId?: string | undefined;
+        references?: MetadataReference[] | undefined;
+        isReferencedByRestrictedItem: boolean;
+    }
+    export interface ListItemReferences extends ReferencesBase {
+    }
+    export interface MetadataReference {
+        targetDocType?: string | undefined;
+        sourceId?: string | undefined;
+        sourceDocType?: string | undefined;
     }
     export interface LiveStreamSearchRequest {
         /** Limits the start date of the search request. */
@@ -1966,12 +2554,12 @@ declare module "picturepark" {
         displayPatterns?: DisplayPattern[] | undefined;
         /** The schema fields. */
         fields?: FieldBase[] | undefined;
+        /** The schema fields overwrite information. */
+        fieldsOverwrite?: FieldOverwriteBase[] | undefined;
         /** Sorts content documents and/or list items. */
         sort?: SortInfo[] | undefined;
         /** An optional list of aggregations to group content documents and list items. */
         aggregations?: AggregatorBase[] | undefined;
-        /** A simple ordering property for schemas. */
-        sortOrder: number;
         /** Is true when schema is system provided. */
         system: boolean;
         /** The owner token id. Defines the schema owner. */
@@ -1987,12 +2575,6 @@ declare module "picturepark" {
         audit?: UserAudit | undefined;
         /** The number of fields generated by the schema for the Search operations. */
         searchFieldCount?: SearchFieldCount | undefined;
-    }
-    export enum SchemaType {
-        Content,
-        Layer,
-        List,
-        Struct,
     }
     export interface DisplayPattern {
         /** Defines the template engine for parsing the templates. */
@@ -2021,10 +2603,12 @@ declare module "picturepark" {
         required: boolean;
         /** Defines if the field can be edited or not. */
         fixed: boolean;
-        /** Maps the field in the elastic search index and its values become searchable. */
+        /** Maps the field in the elastic filter index. */
         index: boolean;
-        /** Includes fields in the simple search. Index must be true. */
+        /** Includes fields in the simple search. */
         simpleSearch: boolean;
+        /** Field is stored for sorting. */
+        sortable: boolean;
     }
     export interface FieldBoolean extends FieldBase {
         /** Priorizes search results. SimpleSearch must be true. */
@@ -2104,6 +2688,8 @@ declare module "picturepark" {
         index: boolean;
         /** Includes fields in the simple search. Index must be true. */
         simpleSearch: boolean;
+        /** Include the field for the sort index. */
+        sortable: boolean;
         /** Priorizes search results. SimpleSearch must be true. */
         boost: number;
         /** Indexing information of fields of the schema related to this field (if existing) */
@@ -2159,7 +2745,9 @@ declare module "picturepark" {
         /** Defines the maximal string length. */
         maximumLength?: number | undefined;
         /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-        analyzers?: AnalyzerBase[] | undefined;
+        indexAnalyzers?: AnalyzerBase[] | undefined;
+        /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
+        simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
         /** Displays the field value in a multiline component. */
         multiLine: boolean;
         /** Similar to an enumeration valid field values are limited to values of this list. */
@@ -2169,8 +2757,6 @@ declare module "picturepark" {
     }
     /** The analyzer base class. */
     export interface AnalyzerBase {
-        /** Includes the analyzed field in the simple search. */
-        simpleSearch: boolean;
     }
     /** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
     export interface EdgeNGramAnalyzer extends AnalyzerBase {
@@ -2206,7 +2792,9 @@ declare module "picturepark" {
         /** Defines the maximal string length. */
         maximumLength?: number | undefined;
         /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-        analyzers?: AnalyzerBase[] | undefined;
+        indexAnalyzers?: AnalyzerBase[] | undefined;
+        /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
+        simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
         /** Displays the field value in a multiline component. */
         multiLine: boolean;
         /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
@@ -2234,15 +2822,9 @@ declare module "picturepark" {
         /** Language specific relation names. */
         names?: TranslatedStringDictionary | undefined;
         /** Defines the valid target context. */
-        targetContext: TargetContext;
+        targetDocType?: string | undefined;
         /** An optional search filter. Limits the content or the list item result set depending on the relation's target context. */
         filter?: FilterBase | undefined;
-    }
-    export enum TargetContext {
-        Content,
-        ListItem,
-        User,
-        Custom,
     }
     export interface FieldMultiRelation extends FieldBase {
         /** The id of the schema with type struct. */
@@ -2258,14 +2840,53 @@ declare module "picturepark" {
         /** Dfines the lowest possible item count. */
         minimumItems?: number | undefined;
     }
+    /** Base class for overwritten information on a field. */
+    export interface FieldOverwriteBase {
+        /** The field id. Can be a slug and must be unique within the schema. */
+        id?: string | undefined;
+        /** Defines if a field value is mandatory or not. */
+        required: boolean;
+        /** Defines if the required property of the field is overwritten */
+        overwriteRequired: boolean;
+    }
+    /** Overwritten information for Single Tagbox field. */
+    export interface FieldOverwriteSingleTagbox extends FieldOverwriteBase {
+        /** An optional search filter. Limits the list item result set. */
+        filter?: FilterBase | undefined;
+        /** Defines if the Filter property of the field is overwritten */
+        overwriteFilter: boolean;
+        /** Json serialized template used for creating new list item */
+        listItemCreateTemplate?: string | undefined;
+        /** Defines if the ListItemCreateTemplate property of the field is overwritten */
+        overwriteListItemCreateTemplate: boolean;
+    }
+    /** Overwritten information for Multi Tagbox field. */
+    export interface FieldOverwriteMultiTagbox extends FieldOverwriteBase {
+        /** An optional search filter. Limits the list item result set. */
+        filter?: FilterBase | undefined;
+        /** Defines if the Filter property of the field is overwritten */
+        overwriteFilter: boolean;
+        /** Json serialized template used for creating new list item */
+        listItemCreateTemplate?: string | undefined;
+        /** Defines if the ListItemCreateTemplate property of the field is overwritten */
+        overwriteListItemCreateTemplate: boolean;
+        /** Defines the highest possible item count. */
+        maximumItems?: number | undefined;
+        /** Defines if the MaximumItems property of the field is overwritten */
+        overwriteMaximumItems: boolean;
+        /** Defines the lowest possible item count. */
+        minimumItems?: number | undefined;
+        /** Defines if the MinimumItems property of the field is overwritten */
+        overwriteMinimumItems: boolean;
+    }
     /** Count info of fields for search operations */
     export interface SearchFieldCount {
-        /** The number of fields generated by the schema in the Search index. */
-        dataField: number;
         /** The number of indexed fields generated by the schema in the Search index. */
         indexedField: number;
         /** The number of fields to be queried in the simple search for the schema. */
         simpleSearchField: number;
+        /** The number of fields that have sorting information stored in the search index. */
+        sortableField: number;
     }
     export interface SchemaSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -2317,6 +2938,32 @@ declare module "picturepark" {
         /** Is true when schema is system provided. */
         system: boolean;
     }
+    export interface GetIndexFieldsRequest {
+        schemaIds?: string[] | undefined;
+    }
+    /** Contains compiled field information. */
+    export interface IndexField {
+        id?: string | undefined;
+        /** The field id. */
+        fieldId?: string | undefined;
+        /** The field's type name. */
+        type?: string | undefined;
+        /** Contains all index field name variants of the field. */
+        indexFields?: {
+            [key: string]: string;
+        } | undefined;
+        /** Contains all simple search field name variants of the field.
+    The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
+        simpleSearchFields?: string[] | undefined;
+        /** Contains the fields boost value. */
+        boost: number;
+        /** Not to be returned for search query, but only used for mapping purposes */
+        ignoreForSearch: boolean;
+        /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
+        nestedPath?: string | undefined;
+        /** Path to the sorting information in the DataSortValuesField sort index. */
+        sortField?: string | undefined;
+    }
     /** Response that tells if exists */
     export interface ExistsResponse {
         /** Gets or sets a value indicating whether it exists */
@@ -2337,10 +2984,10 @@ declare module "picturepark" {
         displayPatterns?: DisplayPattern[] | undefined;
         /** The schema fields. Can be empty. */
         fields?: FieldBase[] | undefined;
+        /** The schema fields overwrite information. */
+        fieldsOverwrite?: FieldOverwriteBase[] | undefined;
         /** An optional list of aggregations to group content documents and/or list items. */
         aggregations?: AggregatorBase[] | undefined;
-        /** A simple ordering property for schemas. */
-        sortOrder: number;
         /** Sorts content documents and/or list items. */
         sort?: SortInfo[] | undefined;
         /** Opens list item document accessibility. If true SchemaPermissionSetIds must be empty. */
@@ -2352,16 +2999,6 @@ declare module "picturepark" {
         /** An optional id list of schemas with type content for a schema with type layer. */
         referencedInContentSchemaIds?: string[] | undefined;
     }
-    export interface DuplicateSchemaException extends PictureparkBusinessException {
-        schemaId?: string | undefined;
-    }
-    export interface SchemaValidationException extends PictureparkBusinessException {
-        schemaId?: string | undefined;
-        exceptions?: PictureparkBusinessException[] | undefined;
-    }
-    export interface SchemaCyclicDependencyException extends PictureparkBusinessException {
-        schemaIds?: string[] | undefined;
-    }
     export interface SchemaUpdateRequest {
         /** Language specific schema names. */
         names?: TranslatedStringDictionary | undefined;
@@ -2371,10 +3008,10 @@ declare module "picturepark" {
         displayPatterns?: DisplayPattern[] | undefined;
         /** The schema fields. */
         fields?: FieldBase[] | undefined;
+        /** The schema fields overwrite information. */
+        fieldsOverwrite?: FieldOverwriteBase[] | undefined;
         /** An optional list of aggregations to group content documents and list items. */
         aggregations?: AggregatorBase[] | undefined;
-        /** A simple ordering property for schemas. */
-        sortOrder: number;
         /** Sorts content documents and/or list items. */
         sort?: SortInfo[] | undefined;
         /** Opens schema accessibility. */
@@ -2387,13 +3024,6 @@ declare module "picturepark" {
         referencedInContentSchemaIds?: string[] | undefined;
         /** Types control schema usage. Schema types can only be added, but not removed. */
         types?: SchemaType[] | undefined;
-    }
-    export interface SchemaNotFoundException extends PictureparkBusinessException {
-        schemaId?: string | undefined;
-    }
-    export interface SchemaInUseException extends PictureparkBusinessException {
-        schemaId?: string | undefined;
-        exceptions?: PictureparkBusinessException[] | undefined;
     }
     export interface PermissionSetSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -2473,24 +3103,6 @@ declare module "picturepark" {
         Edit,
         Manage,
     }
-    export enum UserRight {
-        ManageContent,
-        ManageSharings,
-        ManageDrives,
-        ManageTransfer,
-        ManageChannels,
-        ManageSchemas,
-        ManageUsers,
-        ManageUserRoles,
-        ManagePermissions,
-        ManageSearchIndexes,
-        ManageRecipients,
-        ManageCollections,
-        ManageListItems,
-        ManageServiceProviders,
-        ManageEmbeds,
-        ManageTemplates,
-    }
     /** The version view item for the environment. */
     export interface VersionInfo {
         /** The manual file version of Picturepark.Contract.dll. */
@@ -2544,31 +3156,6 @@ declare module "picturepark" {
         url?: string | undefined;
         detail?: OutputDataBase | undefined;
     }
-    export interface OutputDataBase {
-        fileExtension?: string | undefined;
-        fileName?: string | undefined;
-        filePath?: string | undefined;
-        fileSizeInBytes?: number | undefined;
-        sha1Hash?: string | undefined;
-    }
-    export interface OutputDataImage extends OutputDataBase {
-        width: number;
-        height: number;
-    }
-    export interface OutputDataAudio extends OutputDataBase {
-        durationInSeconds?: number | undefined;
-    }
-    export interface OutputDataVideo extends OutputDataBase {
-        durationInSeconds: number;
-        width: number;
-        height: number;
-        sprites?: Sprite[] | undefined;
-    }
-    export interface OutputDataDocument extends OutputDataBase {
-        pageCount: number;
-    }
-    export interface OutputDataDefault extends OutputDataBase {
-    }
     export interface ShareOutputBasic extends ShareOutputBase {
     }
     export interface ShareOutputEmbed extends ShareOutputBase {
@@ -2596,11 +3183,11 @@ declare module "picturepark" {
         emailAddress?: string | undefined;
     }
     export interface InternalRecipient {
-        recipient?: UserItem | undefined;
+        recipient?: User | undefined;
         token?: string | undefined;
         url?: string | undefined;
     }
-    export interface UserItem {
+    export interface User {
         id?: string | undefined;
         firstName?: string | undefined;
         lastName?: string | undefined;
@@ -2628,9 +3215,6 @@ declare module "picturepark" {
     export enum ShareType {
         Basic,
         Embed,
-    }
-    export interface ShareNotFoundException extends PictureparkBusinessException {
-        shareId?: string | undefined;
     }
     export interface ShareSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -2695,7 +3279,7 @@ declare module "picturepark" {
     }
     export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
         recipientsEmail?: UserEmail[] | undefined;
-        recipientsUser?: UserItem[] | undefined;
+        recipientsUser?: User[] | undefined;
         recipientsGroup?: UserRole[] | undefined;
         languageCode?: string | undefined;
         mailTemplateId?: string | undefined;
@@ -2771,14 +3355,6 @@ declare module "picturepark" {
         FileDeleteInProgress,
         TransferCleanup,
     }
-    export enum TransferType {
-        FileUpload,
-        FileUploadAutoImport,
-        DriveImport,
-        DriveExport,
-        WebDownload,
-        SchemaImport,
-    }
     export interface TransferSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
@@ -2846,7 +3422,7 @@ declare module "picturepark" {
         state: FileTransferState;
         fileMetadata?: FileMetadata | undefined;
         driveMetadata?: DriveMetadata | undefined;
-        outputItems?: OutputItem[] | undefined;
+        outputItems?: FileTransferOutput[] | undefined;
         contentId?: string | undefined;
     }
     export enum FileTransferState {
@@ -2874,1397 +3450,9 @@ declare module "picturepark" {
         filePath?: string | undefined;
         fileSizeInBytes?: number | undefined;
         sha1Hash?: string | undefined;
-        xmpMetadata?: XmpMetadata | undefined;
-        exifMetadata?: ExifMetadata | undefined;
+        xmpMetadata?: any | undefined;
+        exifMetadata?: any | undefined;
         language?: string | undefined;
-    }
-    export interface XmpMetadata {
-        dc?: Dc | undefined;
-        crs?: Crs | undefined;
-        iptcCore?: IptcCore | undefined;
-        iptcExt?: IptcExt | undefined;
-        iptcIIM?: IptcIIM | undefined;
-        lr?: Lr | undefined;
-        pdf?: Pdf | undefined;
-        photoshop?: Photoshop | undefined;
-        plus?: Plus | undefined;
-        tiff?: Tiff | undefined;
-        xmp?: Xmp | undefined;
-        xmpBJ?: XmpBJ | undefined;
-        xmpDM?: XmpDM | undefined;
-        xmpG?: XmpG | undefined;
-        xmpGImg?: XmpGImg | undefined;
-        xmpidq?: Xmpidq | undefined;
-        xmpMM?: XmpMM | undefined;
-        xmpNote?: XmpNote | undefined;
-        xmpRights?: XmpRights | undefined;
-        xmpTPg?: XmpTPg | undefined;
-    }
-    export interface Dc {
-        contributor?: string[] | undefined;
-        coverage?: string | undefined;
-        creator?: string[] | undefined;
-        date?: Date[] | undefined;
-        description?: {
-            [key: string]: string;
-        } | undefined;
-        format?: string | undefined;
-        identifier?: string | undefined;
-        language?: string[] | undefined;
-        publisher?: string[] | undefined;
-        relation?: string[] | undefined;
-        rights?: {
-            [key: string]: string;
-        } | undefined;
-        source?: string | undefined;
-        subject?: string[] | undefined;
-        title?: {
-            [key: string]: string;
-        } | undefined;
-        type?: string | undefined;
-    }
-    export interface Crs {
-        autoBrightness?: boolean | undefined;
-        autoContrast?: boolean | undefined;
-        autoExposure?: boolean | undefined;
-        autoShadows?: boolean | undefined;
-        blueHue?: number | undefined;
-        blueSaturation?: number | undefined;
-        brightness?: number | undefined;
-        cameraProfile?: string | undefined;
-        chromaticAberrationB?: number | undefined;
-        chromaticAberrationR?: number | undefined;
-        colorNoiseReduction?: number | undefined;
-        contrast?: number | undefined;
-        cropTop?: number | undefined;
-        cropLeft?: number | undefined;
-        cropBottom?: number | undefined;
-        cropRight?: number | undefined;
-        cropAngle?: number | undefined;
-        cropWidth?: number | undefined;
-        cropHeight?: number | undefined;
-        cropUnits?: CropUnit | undefined;
-        exposure?: number | undefined;
-        greenHue?: number | undefined;
-        greenSaturation?: number | undefined;
-        hasCrop?: boolean | undefined;
-        hasSettings?: boolean | undefined;
-        luminanceSmoothing?: number | undefined;
-        rawFileName?: string | undefined;
-        redHue?: number | undefined;
-        redSaturation?: number | undefined;
-        saturation?: number | undefined;
-        shadows?: number | undefined;
-        shadowTint?: number | undefined;
-        sharpness?: number | undefined;
-        temperature?: number | undefined;
-        tint?: number | undefined;
-        toneCurve?: string[] | undefined;
-        toneCurveName?: ToneCurve | undefined;
-        version?: string | undefined;
-        vignetteAmount?: number | undefined;
-        vignetteMidpoint?: number | undefined;
-        whiteBalance?: WhiteBalance | undefined;
-    }
-    /** Corresponds to crs.CropUnitsChoice */
-    export enum CropUnit {
-        Pixels,
-        Inches,
-        Centimeters,
-    }
-    /** Corresponds to crs.ToneCurveNameChoice */
-    export enum ToneCurve {
-        Linear,
-        MediumContrast,
-        StrongContrast,
-        Custom,
-    }
-    /** Corresponds to crs.WhiteBalanceChoice */
-    export enum WhiteBalance {
-        AsShot,
-        Auto,
-        Daylight,
-        Cloudy,
-        Shade,
-        Tungsten,
-        Fluorescent,
-        Flash,
-        Custom,
-    }
-    export interface IptcCore {
-        countryCode?: string | undefined;
-        intellectualGenre?: string | undefined;
-        scene?: string[] | undefined;
-        subjectCode?: string[] | undefined;
-        location?: string | undefined;
-        creatorContactInfo?: CreatorContactInfo | undefined;
-    }
-    export interface CreatorContactInfo {
-        address?: string | undefined;
-        city?: string | undefined;
-        country?: string | undefined;
-        emailAddress?: string | undefined;
-        phoneNumber?: string | undefined;
-        postalCode?: string | undefined;
-        region?: string | undefined;
-        url?: string | undefined;
-    }
-    export interface IptcExt {
-        additionalModelInformation?: string | undefined;
-        artworkOrObject?: ArtworkOrObjectInfo[] | undefined;
-        organisationInImageCode?: string[] | undefined;
-        controlledVocabularyTerm?: string[] | undefined;
-        locationShown?: LocationInfo[] | undefined;
-        modelAge?: number[] | undefined;
-        organisationInImageName?: string[] | undefined;
-        personInImage?: string[] | undefined;
-        digitalImageGUID?: string | undefined;
-        digitalSourceType?: string | undefined;
-        event?: {
-            [key: string]: string;
-        } | undefined;
-        imageRegistryEntry?: RegistryEntryInfo[] | undefined;
-        metadataLastEdited?: Date | undefined;
-        locationCreated?: LocationInfo[] | undefined;
-        maxAvailHeight?: number | undefined;
-        maxAvailWidth?: number | undefined;
-    }
-    /** Corresponds to Xmp.Structure.ArtworkOrObjectDetails */
-    export interface ArtworkOrObjectInfo {
-        copyrightNotice?: string | undefined;
-        creator?: string[] | undefined;
-        dateCreated?: Date | undefined;
-        source?: string | undefined;
-        sourceInventoryNumber?: string | undefined;
-        title?: {
-            [key: string]: string;
-        } | undefined;
-    }
-    export interface LocationInfo {
-        city?: string | undefined;
-        countryCode?: string | undefined;
-        countryName?: string | undefined;
-        provinceState?: string | undefined;
-        sublocation?: string | undefined;
-        worldRegion?: string | undefined;
-    }
-    export interface RegistryEntryInfo {
-        registryItemIdentifier?: string | undefined;
-        registryOrganisationIdentifier?: string | undefined;
-    }
-    export interface IptcIIM {
-        modelVersion?: number | undefined;
-        destination?: string[] | undefined;
-        fileFormat?: number | undefined;
-        fileFormatVersion?: number | undefined;
-        serviceIdentifier?: string | undefined;
-        envelopeNumber?: string | undefined;
-        productID?: string[] | undefined;
-        envelopePriority?: number | undefined;
-        dateSent?: Date | undefined;
-        timeSent?: Date | undefined;
-        uno?: string | undefined;
-        recordVersion?: number | undefined;
-        objectTypeReference?: string | undefined;
-        objectAttributeReference?: string | undefined;
-        objectName?: {
-            [key: string]: string;
-        } | undefined;
-        editStatus?: string | undefined;
-        urgency?: number | undefined;
-        subjectReference?: string[] | undefined;
-        category?: string | undefined;
-        supplementalCategory?: string[] | undefined;
-        fixtureIdentifier?: string | undefined;
-        keywords?: string[] | undefined;
-        contentLocationCode?: string[] | undefined;
-        contentLocationName?: string[] | undefined;
-        releaseDate?: Date | undefined;
-        releaseTime?: Date | undefined;
-        expirationDate?: Date | undefined;
-        expirationTime?: Date | undefined;
-        specialInstruction?: string | undefined;
-        actionAdvised?: string | undefined;
-        referenceService?: string | undefined;
-        referenceDate?: Date | undefined;
-        referenceNumber?: string | undefined;
-        dateCreated?: Date | undefined;
-        timeCreated?: Date | undefined;
-        digitalCreationDate?: Date | undefined;
-        digitalCreationTime?: Date | undefined;
-        originatingProgram?: string | undefined;
-        programVersion?: string | undefined;
-        byline?: string[] | undefined;
-        bylineTitle?: string | undefined;
-        city?: string | undefined;
-        sublocation?: string | undefined;
-        provinceState?: string | undefined;
-        countryPrimaryLocationCode?: string | undefined;
-        countryPrimaryLocationName?: string | undefined;
-        originalTransmissionReference?: string | undefined;
-        headline?: string | undefined;
-        credit?: string | undefined;
-        source?: string | undefined;
-        copyrightNotice?: {
-            [key: string]: string;
-        } | undefined;
-        captionAbstract?: {
-            [key: string]: string;
-        } | undefined;
-        writerEditor?: string | undefined;
-        imageType?: string | undefined;
-        imageOrientation?: string | undefined;
-        languageIdentifier?: string | undefined;
-    }
-    export interface Lr {
-        hierarchicalSubject?: string[] | undefined;
-    }
-    export interface Pdf {
-        keywords?: string | undefined;
-        pdfVersion?: string | undefined;
-        producer?: string | undefined;
-        trapped?: boolean | undefined;
-    }
-    export interface Photoshop {
-        authorsPosition?: string | undefined;
-        captionWriter?: string | undefined;
-        category?: string | undefined;
-        city?: string | undefined;
-        colorMode?: ColorMode | undefined;
-        country?: string | undefined;
-        credit?: string | undefined;
-        dateCreated?: Date | undefined;
-        documentAncestors?: string[] | undefined;
-        headline?: string | undefined;
-        history?: string | undefined;
-        iccProfile?: string | undefined;
-        instructions?: string | undefined;
-        source?: string | undefined;
-        state?: string | undefined;
-        supplementalCategories?: string[] | undefined;
-        textLayers?: PhotoshopLayer[] | undefined;
-        transmissionReference?: string | undefined;
-        urgency?: number | undefined;
-        legacyIPTCDigest?: string | undefined;
-    }
-    /** Corresponds to photoshop.ColorModeChoice */
-    export enum ColorMode {
-        Bitmap,
-        Grayscale,
-        Indexed,
-        RGB,
-        CMYK,
-        Multichannel,
-        Duotone,
-        LAB,
-    }
-    export interface PhotoshopLayer {
-        layerName?: string | undefined;
-        layerText?: string | undefined;
-    }
-    export interface Plus {
-        version?: string | undefined;
-        licensee?: LicenseeInfo[] | undefined;
-        licenseeID?: string | undefined;
-        licenseeName?: string | undefined;
-        endUser?: EndUserInfo[] | undefined;
-        endUserID?: string | undefined;
-        endUserName?: string | undefined;
-        licensor?: LicensorInfo[] | undefined;
-        licensorNotes?: {
-            [key: string]: string;
-        } | undefined;
-        mediaSummaryCode?: string | undefined;
-        licenseStartDate?: Date | undefined;
-        licenseEndDate?: Date | undefined;
-        mediaConstraints?: {
-            [key: string]: string;
-        } | undefined;
-        regionConstraints?: {
-            [key: string]: string;
-        } | undefined;
-        productOrServiceConstraints?: {
-            [key: string]: string;
-        } | undefined;
-        imageFileConstraints?: string[] | undefined;
-        imageAlterationConstraints?: string[] | undefined;
-        imageDuplicationConstraints?: string | undefined;
-        modelReleaseStatus?: string | undefined;
-        modelReleaseID?: string[] | undefined;
-        minorModelAgeDisclosure?: string | undefined;
-        propertyReleaseStatus?: string | undefined;
-        propertyReleaseID?: string[] | undefined;
-        otherConstraints?: {
-            [key: string]: string;
-        } | undefined;
-        creditLineRequired?: string | undefined;
-        adultContentWarning?: string | undefined;
-        otherLicenseRequirements?: {
-            [key: string]: string;
-        } | undefined;
-        termsAndConditionsText?: {
-            [key: string]: string;
-        } | undefined;
-        termsAndConditionsURL?: string | undefined;
-        otherConditions?: {
-            [key: string]: string;
-        } | undefined;
-        imageType?: string | undefined;
-        licensorImageID?: string | undefined;
-        fileNameAsDelivered?: string | undefined;
-        imageFileFormatAsDelivered?: string | undefined;
-        imageFileSizeAsDelivered?: string | undefined;
-        copyrightStatus?: string | undefined;
-        copyrightRegistrationNumber?: string | undefined;
-        firstPublicationDate?: Date | undefined;
-        copyrightOwner?: CopyrightOwnerInfo[] | undefined;
-        copyrightOwnerImageID?: string | undefined;
-        imageCreator?: ImageCreatorInfo[] | undefined;
-        imageCreatorImageID?: string | undefined;
-        imageSupplier?: ImageSupplierInfo[] | undefined;
-        imageSupplierImageID?: string | undefined;
-        licenseeImageID?: string | undefined;
-        licenseeImageNotes?: {
-            [key: string]: string;
-        } | undefined;
-        otherImageInfo?: {
-            [key: string]: string;
-        } | undefined;
-        licenseID?: string | undefined;
-        licensorTransactionID?: string[] | undefined;
-        licenseeTransactionID?: string[] | undefined;
-        licenseeProjectReference?: string[] | undefined;
-        licenseTransactionDate?: Date | undefined;
-        reuse?: string | undefined;
-        otherLicenseDocuments?: string[] | undefined;
-        otherLicenseInfo?: {
-            [key: string]: string;
-        } | undefined;
-        custom1?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom2?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom3?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom4?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom5?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom6?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom7?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom8?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom9?: {
-            [key: string]: string;
-        }[] | undefined;
-        custom10?: {
-            [key: string]: string;
-        }[] | undefined;
-    }
-    export interface LicenseeInfo {
-        licenseeName?: string | undefined;
-        licenseeID?: string | undefined;
-    }
-    export interface EndUserInfo {
-        endUserName?: string | undefined;
-        endUserID?: string | undefined;
-    }
-    export interface LicensorInfo {
-        licensorName?: string | undefined;
-        licensorID?: string | undefined;
-        licensorStreetAddress?: string | undefined;
-        licensorExtendedAddress?: string | undefined;
-        licensorCity?: string | undefined;
-        licensorRegion?: string | undefined;
-        licensorPostalCode?: string | undefined;
-        licensorCountry?: string | undefined;
-        licensorTelephoneType1?: string | undefined;
-        licensorTelephone1?: string | undefined;
-        licensorTelephoneType2?: string | undefined;
-        licensorTelephone2?: string | undefined;
-        licensorEmail?: string | undefined;
-        licensorURL?: string | undefined;
-    }
-    export interface CopyrightOwnerInfo {
-        copyrightOwnerName?: string | undefined;
-        copyrightOwnerID?: string | undefined;
-    }
-    export interface ImageCreatorInfo {
-        imageCreatorName?: string | undefined;
-        imageCreatorID?: string | undefined;
-    }
-    export interface ImageSupplierInfo {
-        imageSupplierName?: string | undefined;
-        imageSupplierID?: string | undefined;
-    }
-    export interface Tiff {
-        artist?: string | undefined;
-        bitsPerSample?: number[] | undefined;
-        compression?: Compression | undefined;
-        copyright?: {
-            [key: string]: string;
-        } | undefined;
-        dateTime?: Date | undefined;
-        imageDescription?: {
-            [key: string]: string;
-        } | undefined;
-        imageLength?: number | undefined;
-        imageWidth?: number | undefined;
-        make?: string | undefined;
-        model?: string | undefined;
-        orientation?: Orientation | undefined;
-        photometricInterpretation?: PhotometricInterpretation | undefined;
-        planarConfiguration?: PlanarConfiguration | undefined;
-        primaryChromaticities?: string[] | undefined;
-        referenceBlackWhite?: string[] | undefined;
-        resolutionUnit?: ResolutionUnit | undefined;
-        samplesPerPixel?: number | undefined;
-        software?: string | undefined;
-        transferFunction?: number[] | undefined;
-        whitePoint?: string[] | undefined;
-        xResolution?: string | undefined;
-        yResolution?: string | undefined;
-        yCbCrCoefficients?: string[] | undefined;
-        yCbCrPositioning?: YCbCrPositioning | undefined;
-        yCbCrSubSampling?: YCbCrSubSampling | undefined;
-        nativeDigest?: string | undefined;
-    }
-    /** Corresponds to tiff.CompressionChoice */
-    export enum Compression {
-        Uncompressed,
-        CCITT,
-        T4,
-        T6,
-        LZW,
-        OJPEG,
-        JPEG,
-        Deflate,
-        T82,
-        T43,
-        NeXT,
-        ARW,
-        RAW,
-        SRW,
-        Group3_1D,
-        PackBits,
-        ThunderScan,
-        KDC,
-        RasterPadding,
-        LineWork,
-        HighContinuous,
-        BinaryLineWork,
-        PixarFilm,
-        PixarLog,
-        DCS,
-        JBIG,
-        JPEG2000,
-        NEF,
-        JBIG2,
-        DCR,
-        PEF,
-    }
-    /** Corresponds to tiff.OrientationChoice */
-    export enum Orientation {
-        None,
-        TopRowLeftColumn,
-        TopRowRightColumn,
-        BottomRowLeftColumn,
-        BottomRowRightColumn,
-        LeftRowTopColumn,
-        RightRowTopColumn,
-        RightRowBottomColumn,
-        LeftRowBottomColumn,
-        Unknown,
-    }
-    /** Corresponds to tiff.PhotometricInterpretationChoice */
-    export enum PhotometricInterpretation {
-        WhiteIsZero,
-        BlackIsZero,
-        RGB,
-        Palette,
-        TransparencyMask,
-        CMYK,
-        YCbCr,
-        CIELab,
-        ICCLab,
-        ITULab,
-        ColorFilterArray,
-        LogL,
-        LogLUV,
-        LinearRaw,
-    }
-    /** Corresponds to tiff.PlanarConfigurationChoice */
-    export enum PlanarConfiguration {
-        Chunky,
-        Planar,
-        Line,
-    }
-    /** Corresponds to exif.FocalPlaneResolutionUnitChoice */
-    export enum ResolutionUnit {
-        None,
-        Inch,
-        Centimeter,
-    }
-    /** Corresponds to tiff.YCbCrPositioningChoice */
-    export enum YCbCrPositioning {
-        Centered,
-        Cosited,
-    }
-    /** Corresponds to tiff.YCbCrSubSamplingChoice */
-    export enum YCbCrSubSampling {
-        YCbCr111,
-        YCbCr422,
-        YCbCr420,
-    }
-    export interface Xmp {
-        baseURL?: string | undefined;
-        createDate?: Date | undefined;
-        creatorTool?: string | undefined;
-        identifier?: string[] | undefined;
-        label?: string | undefined;
-        metadataDate?: Date | undefined;
-        modifyDate?: Date | undefined;
-        nickname?: string | undefined;
-        rating?: Rating | undefined;
-        thumbnails?: XmpGImg[] | undefined;
-        pageInfo?: XmpGImg[] | undefined;
-    }
-    /** Corresponds to xmp.RatingChoice */
-    export enum Rating {
-        Rejected,
-        Unrated,
-        One,
-        Two,
-        Three,
-        Four,
-        Five,
-    }
-    export interface XmpGImg {
-        format?: ImgFormat | undefined;
-        width?: number | undefined;
-        height?: number | undefined;
-        image?: string | undefined;
-    }
-    /** Corresponds to xmpGImg.FormatChoice */
-    export enum ImgFormat {
-        JPEG,
-    }
-    export interface XmpBJ {
-        jobRef?: Job[] | undefined;
-    }
-    export interface Job {
-        id?: string | undefined;
-        name?: string | undefined;
-        url?: string | undefined;
-    }
-    export interface XmpDM {
-        absPeakAudioFilePath?: string | undefined;
-        artist?: string | undefined;
-        album?: string | undefined;
-        altTapeName?: string | undefined;
-        altTimecode?: TimeCode | undefined;
-        audioChannelType?: AudioChannelType | undefined;
-        audioCompressor?: string | undefined;
-        audioSampleRate?: number | undefined;
-        audioSampleType?: AudioSampleType | undefined;
-        beatSpliceParams?: BeatSpliceStretch | undefined;
-        cameraAngle?: CameraAngle | undefined;
-        cameraLabel?: string | undefined;
-        cameraModel?: string | undefined;
-        cameraMove?: CameraMove | undefined;
-        client?: string | undefined;
-        comment?: string | undefined;
-        composer?: string | undefined;
-        contributedMedia?: Media[] | undefined;
-        director?: string | undefined;
-        directorPhotography?: string | undefined;
-        duration?: Time | undefined;
-        engineer?: string | undefined;
-        fileDataRate?: string | undefined;
-        genre?: string | undefined;
-        good?: boolean | undefined;
-        instrument?: string | undefined;
-        introTime?: Time | undefined;
-        key?: AudioMusicalKey | undefined;
-        logComment?: string | undefined;
-        loop?: boolean | undefined;
-        numberOfBeats?: number | undefined;
-        markers?: Marker[] | undefined;
-        outCue?: Time | undefined;
-        projectName?: string | undefined;
-        projectRef?: ProjectLink | undefined;
-        pullDown?: VideoPullDown | undefined;
-        relativePeakAudioFilePath?: string | undefined;
-        relativeTimestamp?: Time | undefined;
-        releaseDate?: Date | undefined;
-        resampleParams?: ResampleStretch | undefined;
-        scaleType?: AudioMusicalScaleType | undefined;
-        scene?: string | undefined;
-        shotDate?: Date | undefined;
-        shotDay?: string | undefined;
-        shotLocation?: string | undefined;
-        shotName?: string | undefined;
-        shotNumber?: string | undefined;
-        shotSize?: ShotSize | undefined;
-        speakerPlacement?: string | undefined;
-        startTimecode?: TimeCode | undefined;
-        stretchMode?: AudioStretchMode | undefined;
-        takeNumber?: number | undefined;
-        tapeName?: string | undefined;
-        tempo?: number | undefined;
-        timeScaleParams?: TimeScaleStretch | undefined;
-        timeSignature?: TimeSignature | undefined;
-        trackNumber?: number | undefined;
-        tracks?: Track[] | undefined;
-        videoAlphaMode?: VideoAlphaMode | undefined;
-        videoAlphaPremultipleColor?: XmpG | undefined;
-        videoAlphaUnityIsTransparent?: boolean | undefined;
-        videoColorSpace?: VideoColorSpace | undefined;
-        videoCompressor?: string | undefined;
-        videoFieldOrder?: VideoFieldOrder | undefined;
-        videoFrameRate?: VideoFrameRate | undefined;
-        videoFrameSize?: Dimension | undefined;
-        videoPixelDepth?: VideoPixelDepth | undefined;
-        videoPixelAspectRatio?: string | undefined;
-    }
-    export interface TimeCode {
-        timeFormat?: TimeFormat | undefined;
-        timeValue?: string | undefined;
-    }
-    /** Corresponds to Timecode.TimeFormatChoice */
-    export enum TimeFormat {
-        Timecode24,
-        Timecode25,
-        Timecode2997Drop,
-        Timecode2997NonDrop,
-        Timecode30,
-        Timecode50,
-        Timecode5994Drop,
-        Timecode5994NonDrop,
-        Timecode60,
-        Timecode23976,
-    }
-    /** Corresponds to xmpDM.AudioChannelTypeChoice */
-    export enum AudioChannelType {
-        CHANNEL_MONO,
-        CHANNEL_STEREO,
-        CHANNEL_5_1,
-        CHANNEL_7_1,
-        CHANNEL_16,
-        CHANNEL_OTHER,
-    }
-    /** Corresponds to xmpDM.AudioSampleTypeChoice */
-    export enum AudioSampleType {
-        SAMPLE_8_INT,
-        SAMPLE_16_INT,
-        SAMPLE_24_INT,
-        SAMPLE_32_INT,
-        SAMPLE_32_FLOAT,
-        SAMPLE_COMPRESSED,
-        SAMPLE_PACKED,
-        SAMPLE_OTHER,
-    }
-    export interface BeatSpliceStretch {
-        riseInDecibel?: number | undefined;
-        riseInTimeDuration?: Time | undefined;
-        useFileBeatsMarker?: boolean | undefined;
-    }
-    export interface Time {
-        scale?: string | undefined;
-        value?: number | undefined;
-    }
-    /** Corresponds to xmpDM.CameraAngleChoice */
-    export enum CameraAngle {
-        ANGLE_LOW,
-        ANGLE_EYE_LEVEL,
-        ANGLE_HIGH,
-        ANGLE_OVERHEAD_SHOT,
-        ANGLE_BIRDS_EYE_SHOT,
-        ANGLE_DUTCH,
-        ANGLE_POV,
-        ANGLE_OVER_THE_SHOULDER,
-        ANGLE_REACTION_SHOT,
-    }
-    /** Corresponds to xmpDM.CameraMoveChoice */
-    export enum CameraMove {
-        MOVE_AERIAL,
-        MOVE_BOOM_UP,
-        MOVE_BOOM_DOWN,
-        MOVE_CRANE_UP,
-        MOVE_CRANE_DOWN,
-        MOVE_DOLLY_IN,
-        MOVE_DOLLY_OUT,
-        MOVE_PAN_LEFT,
-        MOVE_PAN_RIGHT,
-        MOVE_PEDESTAL_UP,
-        MOVE_PEDESTAL_DOWN,
-        MOVE_TILT_UP,
-        MOVE_TILT_DOWN,
-        MOVE_TRACKING,
-        MOVE_TRUCK_LEFT,
-        MOVE_TRUCK_RIGHT,
-        MOVE_ZOOM_IN,
-        MOVE_ZOOM_OUT,
-    }
-    export interface Media {
-        duration?: Time | undefined;
-        managed?: boolean | undefined;
-        path?: string | undefined;
-        startTime?: Time | undefined;
-        track?: string | undefined;
-        webStatement?: string | undefined;
-    }
-    /** Corresponds to xmpDM.AudioMusicalKeyChoice */
-    export enum AudioMusicalKey {
-        KEY_C,
-        KEY_C_SHARP,
-        KEY_D,
-        KEY_D_SHARP,
-        KEY_E,
-        KEY_F,
-        KEY_F_SHARP,
-        KEY_G,
-        KEY_G_SHARP,
-        KEY_A,
-        KEY_A_SHARP,
-        KEY_B,
-    }
-    export interface Marker {
-        comment?: string | undefined;
-        cuePointParams?: {
-            [key: string]: string;
-        } | undefined;
-        cuePointType?: string | undefined;
-        duration?: string | undefined;
-        location?: string | undefined;
-        name?: string | undefined;
-        probability?: number | undefined;
-        speaker?: string | undefined;
-        startTime?: string | undefined;
-        target?: string | undefined;
-        type?: MarkerType | undefined;
-    }
-    /** Corresponds to Xmp.Media.Marker.TypeChoice */
-    export enum MarkerType {
-        Chapter,
-        Cue,
-        Index,
-        Speech,
-        Track,
-    }
-    export interface ProjectLink {
-        path?: string | undefined;
-        type?: ProjectLinkType | undefined;
-    }
-    /** Corresponds to Xmp.Media.ProjectLink.TypeChoice */
-    export enum ProjectLinkType {
-        Movie,
-        Still,
-        Audio,
-        Custom,
-    }
-    /** Corresponds to xmpDM.VideoPullDownChoice */
-    export enum VideoPullDown {
-        PULLDOWN_WSSWW,
-        PULLDOWN_SSWWW,
-        PULLDOWN_SWWWS,
-        PULLDOWN_WWWSS,
-        PULLDOWN_WWSSW,
-        PULLDOWN_WWWSW,
-        PULLDOWN_WWSWW,
-        PULLDOWN_WSWWW,
-        PULLDOWN_SWWWW,
-        PULLDOWN_WWWWS,
-    }
-    export interface ResampleStretch {
-        quality?: Quality | undefined;
-    }
-    /** Corresponds to Xmp.Media.resampleStretch.QualityChoice and Xmp.Media.timeScaleStretch.QualityChoice */
-    export enum Quality {
-        High,
-        Medium,
-        Low,
-    }
-    /** Corresponds to xmpDM.AudioMusicalScaleTypeChoice */
-    export enum AudioMusicalScaleType {
-        SCALE_MAJOR,
-        SCALE_MINOR,
-        SCALE_BOTH,
-        SCALE_NEITHER,
-    }
-    /** Corresponds to xmpDM.ShotSizeChoice */
-    export enum ShotSize {
-        SHOT_ECU,
-        SHOT_MCU,
-        SHOT_CU,
-        SHOT_MS,
-        SHOT_WS,
-        SHOT_MWS,
-        SHOT_EWS,
-    }
-    /** Corresponds to xmpDM.AudioStretchModeChoice */
-    export enum AudioStretchMode {
-        STRETCH_FIXED_LENGTH,
-        STRETCH_TIME_SCALE,
-        STRETCH_RESAMPLE,
-        STRETCH_BEAT_SPLICE,
-        STRETCH_HYBRID,
-    }
-    export interface TimeScaleStretch {
-        frameOverlappingPercentage?: number | undefined;
-        frameSize?: number | undefined;
-        quality?: Quality | undefined;
-    }
-    /** Corresponds to xmpDM.TimeSignatureChoice */
-    export enum TimeSignature {
-        TIME_2_4,
-        TIME_3_4,
-        TIME_4_4,
-        TIME_5_4,
-        TIME_7_4,
-        TIME_6_8,
-        TIME_9_8,
-        TIME_12_8,
-        TIME_OTHER,
-    }
-    export interface Track {
-        frameRate?: string | undefined;
-        markers?: Marker[] | undefined;
-        trackName?: string | undefined;
-        trackType?: MarkerType | undefined;
-    }
-    /** Corresponds to xmpDM.VideoAlphaModeChoice */
-    export enum VideoAlphaMode {
-        ALPHA_MODE_STRAIGHT,
-        ALPHA_MODE_PREMULTIPLIED,
-        ALPHA_MODE_NONE,
-    }
-    export interface XmpG {
-        a?: number | undefined;
-        b?: number | undefined;
-        l?: number | undefined;
-        black?: number | undefined;
-        cyan?: number | undefined;
-        magenta?: number | undefined;
-        yellow?: number | undefined;
-        blue?: number | undefined;
-        green?: number | undefined;
-        red?: number | undefined;
-        mode?: ColorantMode | undefined;
-        swatchName?: string | undefined;
-        type?: ColorantType | undefined;
-    }
-    /** Corresponds to xmpG.ModeChoice */
-    export enum ColorantMode {
-        CMYK,
-        RGB,
-        LAB,
-    }
-    /** Corresponds to xmpG.TypeChoice */
-    export enum ColorantType {
-        Process,
-        Spot,
-    }
-    /** Corresponds to xmpDM.VideoColorSpaceChoice */
-    export enum VideoColorSpace {
-        COLOR_SPACE_SRGB,
-        COLOR_SPACE_CCIR_601,
-        COLOR_SPACE_CCIR_709,
-    }
-    /** Corresponds to xmpDM.VideoFieldOrderChoice */
-    export enum VideoFieldOrder {
-        FIELD_ORDER_UPPER,
-        FIELD_ORDER_LOWER,
-        FIELD_ORDER_PROGRESSIVE,
-    }
-    /** Corresponds to xmpDM.VideoFrameRateChoice */
-    export enum VideoFrameRate {
-        FRAME_RATE_24,
-        FRAME_RATE_NTSC,
-        FRAME_RATE_PAL,
-    }
-    export interface Dimension {
-        height?: number | undefined;
-        width?: number | undefined;
-        unit?: Unit | undefined;
-    }
-    /** Corresponds to stDim.UnitChoice */
-    export enum Unit {
-        Inch,
-        Millimeter,
-        Centimeter,
-        Pixel,
-        Pica,
-        Point,
-    }
-    /** Corresponds to xmpDM.VideoPixelDepthChoice */
-    export enum VideoPixelDepth {
-        PIXEL_DEPTH_8_INT,
-        PIXEL_DEPTH_16_INT,
-        PIXEL_DEPTH_24_INT,
-        PIXEL_DEPTH_32_INT,
-        PIXEL_DEPTH_32_FLOAT,
-        PIXEL_DEPTH_OTHER,
-    }
-    export interface Xmpidq {
-        scheme?: string | undefined;
-    }
-    export interface XmpMM {
-        derivedFrom?: Reference | undefined;
-        documentID?: string | undefined;
-        history?: Event[] | undefined;
-        ingredients?: Reference[] | undefined;
-        instanceID?: string | undefined;
-        managedFrom?: Reference | undefined;
-        manager?: string | undefined;
-        manageTo?: string | undefined;
-        manageUI?: string | undefined;
-        managerVariant?: string | undefined;
-        originalDocumentID?: string | undefined;
-        renditionClass?: string | undefined;
-        renditionParams?: string | undefined;
-        versionID?: string | undefined;
-        versions?: VersionInfo2[] | undefined;
-    }
-    export interface Reference {
-        alternatePaths?: string[] | undefined;
-        documentID?: string | undefined;
-        filePath?: string | undefined;
-        fromPart?: string | undefined;
-        instanceID?: string | undefined;
-        lastModifyDate?: Date | undefined;
-        manager?: string | undefined;
-        managerVariant?: string | undefined;
-        manageTo?: string | undefined;
-        manageUI?: string | undefined;
-        maskMarkers?: MaskMarkers | undefined;
-        originalDocumentID?: string | undefined;
-        partMapping?: string | undefined;
-        renditionClass?: string | undefined;
-        renditionParams?: string | undefined;
-        toPart?: string | undefined;
-        versionID?: string | undefined;
-    }
-    /** Corresponds to stRef.MaskMarkersChoice */
-    export enum MaskMarkers {
-        All,
-        None,
-    }
-    export interface Event {
-        action?: EventAction | undefined;
-        changed?: string | undefined;
-        instanceID?: string | undefined;
-        parameters?: string | undefined;
-        softwareAgent?: string | undefined;
-        when?: Date | undefined;
-    }
-    /** Corresponds to stEvt.ActionChoice */
-    export enum EventAction {
-        Converted,
-        Copied,
-        Created,
-        Cropped,
-        Edited,
-        Filtered,
-        Formatted,
-        VersionUpdated,
-        Printed,
-        Published,
-        Managed,
-        Produced,
-        Resized,
-        Saved,
-        Derived,
-    }
-    export interface VersionInfo2 {
-        comments?: string | undefined;
-        event?: Event | undefined;
-        modifier?: string | undefined;
-        modifyDate?: Date | undefined;
-        version?: string | undefined;
-    }
-    export interface XmpNote {
-        hasExtendedXMP?: string | undefined;
-    }
-    export interface XmpRights {
-        certificate?: string | undefined;
-        marked?: boolean | undefined;
-        owner?: string[] | undefined;
-        usageTerms?: {
-            [key: string]: string;
-        } | undefined;
-        webStatement?: string | undefined;
-    }
-    export interface XmpTPg {
-        colorants?: XmpG[] | undefined;
-        fonts?: Font[] | undefined;
-        maxPageSize?: Dimension | undefined;
-        nPages?: number | undefined;
-        plateNames?: string[] | undefined;
-    }
-    export interface Font {
-        childFontFiles?: string[] | undefined;
-        composite?: boolean | undefined;
-        fontFace?: string | undefined;
-        fontFamily?: string | undefined;
-        fontFileName?: string | undefined;
-        fontName?: string | undefined;
-        fontType?: FontType | undefined;
-        versionString?: string | undefined;
-    }
-    /** Corresponds to stFnt.FontTypeChoice */
-    export enum FontType {
-        TrueType,
-        Type1,
-        OpenType,
-        OpenTypeCFF,
-    }
-    export interface ExifMetadata {
-        exif?: Exif | undefined;
-        exifAux?: ExifAux | undefined;
-    }
-    export interface Exif {
-        apertureValue?: string | undefined;
-        brightnessValue?: string | undefined;
-        cfaPattern?: CFAPattern | undefined;
-        colorSpace?: ColorSpace | undefined;
-        componentsConfiguration?: number[] | undefined;
-        compressedBitsPerPixel?: string | undefined;
-        contrast?: Contrast | undefined;
-        customRendered?: CustomRendered | undefined;
-        dateTimeOriginal?: Date | undefined;
-        dateTimeDigitized?: Date | undefined;
-        deviceSettingDescription?: DeviceSettings | undefined;
-        digitalZoomRatio?: string | undefined;
-        exifVersion?: ExifVersion | undefined;
-        exposureBiasValue?: string | undefined;
-        exposureIndex?: string | undefined;
-        exposureMode?: ExposureMode | undefined;
-        exposureProgram?: ExposureProgram | undefined;
-        exposureTime?: string | undefined;
-        fileSource?: FileSource | undefined;
-        flash?: Flash | undefined;
-        flashEnergy?: string | undefined;
-        flashpixVersion?: FlashpixVersion | undefined;
-        fNumber?: string | undefined;
-        focalLength?: string | undefined;
-        focalLengthIn35mmFilm?: number | undefined;
-        focalPlaneResolutionUnit?: FocalPlaneResolutionUnit | undefined;
-        focalPlaneXResolution?: string | undefined;
-        focalPlaneYResolution?: string | undefined;
-        gainControl?: GainControl | undefined;
-        gpsAltitude?: string | undefined;
-        gpsAltitudeRef?: GPSAltitudeRef | undefined;
-        gpsAreaInformation?: string | undefined;
-        gpsDestBearing?: string | undefined;
-        gpsDestBearingRef?: GPSDestBearingRef | undefined;
-        gpsDestDistance?: string | undefined;
-        gpsDestDistanceRef?: GPSDestDistanceRef | undefined;
-        gpsDestLatitude?: string | undefined;
-        gpsDestLongitude?: string | undefined;
-        gpsDifferential?: GPSDifferential | undefined;
-        gpsdop?: string | undefined;
-        gpsImgDirection?: string | undefined;
-        gpsImgDirectionRef?: GPSImgDirectionRef | undefined;
-        gpsCoordinate?: GPSCoordinate | undefined;
-        gpsLatitude?: string | undefined;
-        gpsLongitude?: string | undefined;
-        gpsMapDatum?: string | undefined;
-        gpsMeasureMode?: string | undefined;
-        gpsProcessingMethod?: string | undefined;
-        gpsSatellites?: string | undefined;
-        gpsSpeed?: string | undefined;
-        gpsSpeedRef?: GPSSpeedRef | undefined;
-        gpsStatus?: GPSStatus | undefined;
-        gpsTimeStamp?: Date | undefined;
-        gpsTrack?: string | undefined;
-        gpsTrackRef?: string | undefined;
-        gpsVersionID?: string | undefined;
-        imageUniqueID?: string | undefined;
-        isoSpeedRatings?: number[] | undefined;
-        lightSource?: LightSource | undefined;
-        maxApertureValue?: string | undefined;
-        meteringMode?: MeteringMode | undefined;
-        oecf?: OECF | undefined;
-        pixelXDimension?: number | undefined;
-        pixelYDimension?: number | undefined;
-        relatedSoundFile?: string | undefined;
-        saturation?: Saturation | undefined;
-        sceneCaptureType?: SceneCaptureType | undefined;
-        sceneType?: SceneType | undefined;
-        sensingMethod?: SensingMethod | undefined;
-        sharpness?: Sharpness | undefined;
-        shutterSpeedValue?: string | undefined;
-        spatialFrequencyResponse?: SFR | undefined;
-        spectralSensitivity?: string | undefined;
-        subjectArea?: number[] | undefined;
-        subjectDistance?: string | undefined;
-        subjectDistanceRange?: SubjectDistanceRange | undefined;
-        subjectLocation?: number[] | undefined;
-        userComment?: {
-            [key: string]: string;
-        } | undefined;
-        whiteBalance?: WhiteBalanceExif | undefined;
-        nativeDigest?: string | undefined;
-    }
-    export interface CFAPattern {
-        columns?: number | undefined;
-        rows?: number | undefined;
-        values?: number[] | undefined;
-    }
-    /** Corresponds to exif.ColorSpaceChoice */
-    export enum ColorSpace {
-        None,
-        SRGB,
-        AdobeRGB,
-        Uncalibrated,
-    }
-    /** Corresponds to exif.ContrastChoice */
-    export enum Contrast {
-        Normal,
-        Soft,
-        Hard,
-        Unknown,
-    }
-    /** Corresponds to exif.CustomRenderedChoice */
-    export enum CustomRendered {
-        NormalProcess,
-        CustomProcess,
-    }
-    export interface DeviceSettings {
-        columns?: number | undefined;
-        rows?: number | undefined;
-        settings?: string[] | undefined;
-    }
-    /** Corresponds to exif.ExifVersionChoice */
-    export enum ExifVersion {
-        V210,
-        V220,
-        V221,
-        V222,
-        V230,
-    }
-    /** Corresponds to exif.ExposureModeChoice */
-    export enum ExposureMode {
-        Auto,
-        Manual,
-        AutoBracket,
-    }
-    /** Corresponds to exif.ExposureProgramChoice */
-    export enum ExposureProgram {
-        Undefined,
-        Manual,
-        NormalProgram,
-        AperturePriority,
-        ShutterPriority,
-        CreativeProgram,
-        ActionProgram,
-        PortraitMode,
-        LandscapeMode,
-        Unknown,
-    }
-    /** Corresponds to exif.FileSourceChoice */
-    export enum FileSource {
-        Other,
-        TransparentScanner,
-        ReflexScanner,
-        DSC,
-    }
-    export interface Flash {
-        fired?: boolean | undefined;
-        return?: FlashReturn | undefined;
-        mode?: FlashMode | undefined;
-        function?: boolean | undefined;
-        redEyeMode?: boolean | undefined;
-    }
-    /** Corresponds to Xmp.Structure.Flash.ReturnChoice */
-    export enum FlashReturn {
-        NoStrobeReturnDetection,
-        StrobeReturnLightNotDetected,
-        StrobeReturnLightDetected,
-    }
-    /** Corresponds to Xmp.Structure.Flash.ModeChoice */
-    export enum FlashMode {
-        Unknown,
-        CompulsoryFlashFiring,
-        CompulsoryFlashSuppression,
-        AutoMode,
-    }
-    /** Corresponds to exif.FlashpixVersionChoice */
-    export enum FlashpixVersion {
-        V100,
-        V101,
-        V110,
-    }
-    /** Corresponds to exif.FocalPlaneResolutionUnitChoice */
-    export enum FocalPlaneResolutionUnit {
-        None,
-        Inch,
-        Meter,
-        Centimeter,
-        Millimeter,
-        Micrometer,
-    }
-    /** Corresponds to exif.GainControlChoice */
-    export enum GainControl {
-        None,
-        LowGainUp,
-        HighGainUp,
-        LowGainDown,
-        HighGainDown,
-    }
-    /** Corresponds to exif.GPSAltitudeRefChoice */
-    export enum GPSAltitudeRef {
-        AboveSeaLevel,
-        BelowSeaLevel,
-    }
-    /** Corresponds to exif.GPSDestBearingRefChoice */
-    export enum GPSDestBearingRef {
-        TrueDirection,
-        MagneticDirection,
-    }
-    /** Corresponds to exif.GPSDestDistanceRefChoice */
-    export enum GPSDestDistanceRef {
-        Kilometers,
-        Miles,
-        Knots,
-    }
-    /** Corresponds to exif.GPSDifferentialChoice */
-    export enum GPSDifferential {
-        WithoutCorrection,
-        WithCorrection,
-    }
-    /** Corresponds to exif.GPSImgDirectionRefChoice */
-    export enum GPSImgDirectionRef {
-        TrueDirection,
-        MagneticDirection,
-    }
-    export interface GPSCoordinate {
-        lon?: number | undefined;
-        lat?: number | undefined;
-    }
-    /** Corresponds to exif.GPSSpeedRefChoice */
-    export enum GPSSpeedRef {
-        KilometersPerHour,
-        MilesPerHour,
-        Knots,
-    }
-    /** Corresponds to exif.GPSStatusChoice */
-    export enum GPSStatus {
-        MeasurementInProgress,
-        MeasurementIsInteroperability,
-    }
-    /** Corresponds to exif.LightSourceChoice */
-    export enum LightSource {
-        Unidentified,
-        Daylight,
-        Fluorescent,
-        Tungsten,
-        Flash,
-        FineWeather,
-        CloudyWeather,
-        Shade,
-        DaylightFluorescent,
-        DayWhiteFluorescent,
-        CoolWhiteFluorescent,
-        WhiteFluorescent,
-        StandardIlluminantA,
-        StandardIlluminantB,
-        StandardIlluminantC,
-        D55Illuminant,
-        D65Illuminant,
-        D75Illuminant,
-        D50Illuminant,
-        ISOStudioTungsten,
-        Other,
-    }
-    /** Corresponds to exif.MeteringModeChoice */
-    export enum MeteringMode {
-        Unidentified,
-        Average,
-        CenterWeightedAverage,
-        Spot,
-        MultiSpot,
-        Pattern,
-        Partial,
-        Reserved,
-        Other,
-    }
-    export interface OECF {
-        columns?: number | undefined;
-        rows?: number | undefined;
-        values?: string[] | undefined;
-        names?: string[] | undefined;
-    }
-    /** Corresponds to exif.SaturationChoice */
-    export enum Saturation {
-        Normal,
-        Low,
-        High,
-        Unknown,
-    }
-    /** Corresponds to exif.SceneCaptureTypeChoice */
-    export enum SceneCaptureType {
-        Standard,
-        Landscape,
-        Portrait,
-        NightScene,
-    }
-    /** Corresponds to exif.SceneTypeChoice */
-    export enum SceneType {
-        DirectlyPhotographedImage,
-    }
-    /** Corresponds to exif.SensingMethodChoice */
-    export enum SensingMethod {
-        Undefined,
-        MonochromeArea,
-        OneChipColourAreaSensor,
-        TwoChipColourAreaSensor,
-        ThreeChipColourAreaSensor,
-        ColourSequentialAreaSensor,
-        MonochromeLinearArea,
-        TrilinearSensor,
-        ColourSequentialLinearSensor,
-    }
-    /** Corresponds to exif.SharpnessChoice */
-    export enum Sharpness {
-        Normal,
-        Soft,
-        Hard,
-        Unknown,
-    }
-    export interface SFR {
-        columns?: number | undefined;
-        rows?: number | undefined;
-        values?: string[] | undefined;
-        names?: string[] | undefined;
-    }
-    /** Corresponds to exif.SubjectDistanceRangeChoice */
-    export enum SubjectDistanceRange {
-        Unknown,
-        Macro,
-        CloseView,
-        DistantView,
-    }
-    /** Corresponds to exif.WhiteBalanceChoice */
-    export enum WhiteBalanceExif {
-        Auto,
-        Manual,
-        Unknown,
-    }
-    export interface ExifAux {
-        lens?: string | undefined;
-        serialNumber?: string | undefined;
     }
     export interface AudioMetadata extends FileMetadata {
         audioStreams?: AudioStream[] | undefined;
@@ -4371,7 +3559,7 @@ declare module "picturepark" {
         opened?: string | undefined;
         created?: string | undefined;
     }
-    export interface OutputItem {
+    export interface FileTransferOutput {
         id?: string | undefined;
         filePath?: string | undefined;
         outputSource: OutputSource;
@@ -4442,7 +3630,7 @@ declare module "picturepark" {
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
         contentPermissionSetIds?: string[] | undefined;
     }
-    export interface UserDetail extends UserItem {
+    export interface UserDetail extends User {
         userRoles?: UserRole[] | undefined;
         comment?: string | undefined;
         languageCode?: string | undefined;
@@ -4464,6 +3652,12 @@ declare module "picturepark" {
     export interface Drive {
         id?: string | undefined;
         name?: string | undefined;
+        driveType: DriveType;
+    }
+    export enum DriveType {
+        GoogleDrive,
+        OneDrive,
+        Dropbox,
     }
     export interface OwnerToken {
         /** The ownertoken id. */
@@ -4493,20 +3687,20 @@ declare module "picturepark" {
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
         debugMode: boolean;
     }
-    export interface BaseResultOfUser {
+    export interface BaseResultOfUserWithRoles {
         totalResults: number;
-        results?: User[] | undefined;
+        results?: UserWithRoles[] | undefined;
         pageToken?: string | undefined;
         queryDebugInformation?: QueryDebugInformation | undefined;
     }
-    export interface SearchBehaviourBaseResultOfUser extends BaseResultOfUser {
+    export interface SearchBehaviourBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles {
         searchString?: string | undefined;
         isSearchStringRewritten: boolean;
     }
-    export interface UserSearchResult extends SearchBehaviourBaseResultOfUser {
+    export interface UserSearchResult extends SearchBehaviourBaseResultOfUserWithRoles {
         elapsedMilliseconds: number;
     }
-    export interface User {
+    export interface UserWithRoles {
         userRoleIds?: string[] | undefined;
         id?: string | undefined;
         firstName?: string | undefined;
@@ -4544,6 +3738,38 @@ declare module "picturepark" {
         languageCode?: string | undefined;
         address?: UserAddress | undefined;
         authorizationState: AuthorizationState;
+    }
+    /** Schema import request */
+    export interface SchemaImportRequest {
+        /** Id of the previously uploaded file transfer */
+        fileTransferId?: string | undefined;
+        /** Allow creating list items that refer to list items or contents that don't exist in the system. */
+        allowMissingDependencies: boolean;
+        /** Import the list items for the schema. */
+        importListItems: boolean;
+    }
+    export interface CustomerInfo {
+        customerId?: string | undefined;
+        customerAlias?: string | undefined;
+        identityServerUrl?: string | undefined;
+        languageConfiguration?: LanguageConfiguration | undefined;
+        languages?: Language[] | undefined;
+    }
+    export interface LanguageConfiguration {
+        /** A list of languages serving as system languages. */
+        systemLanguages?: string[] | undefined;
+        /** A list of languages serving as metadata languages. */
+        metadataLanguages?: string[] | undefined;
+        /** The default language. Not the be confused with the metadata fallback language x-default. */
+        defaultLanguage?: string | undefined;
+    }
+    export interface Language {
+        name?: string | undefined;
+        names?: TranslatedStringDictionary | undefined;
+        ietf?: string | undefined;
+        twoLetterISOLanguageName?: string | undefined;
+        threeLetterISOLanguageName?: string | undefined;
+        regionCode?: string | undefined;
     }
     export interface FileParameter {
         data: any;

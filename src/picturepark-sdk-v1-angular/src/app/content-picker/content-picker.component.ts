@@ -22,7 +22,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
 
   loading = false;
   messagePosted = false;
-  postUrl: string;
+  postUrl = '';
 
   @ViewChild('contentBrowser')
   private contentBrowser: ContentBrowserComponent;
@@ -48,12 +48,12 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
   };
 
   ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/content-picker');
-    }
-
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
+    }
+
+    if (!this.authService.isAuthenticated) {
+      this.authService.login('/content-picker?postUrl=' + encodeURI(this.postUrl));
     }
 
     window.addEventListener('unload', this.onWindowUnload, false);

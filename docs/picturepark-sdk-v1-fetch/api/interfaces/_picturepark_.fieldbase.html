@@ -147,6 +147,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldbase.html#names" class="tsd-kind-icon">names</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldbase.html#required" class="tsd-kind-icon">required</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldbase.html#simplesearch" class="tsd-kind-icon">simple<wbr>Search</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.fieldbase.html#sortable" class="tsd-kind-icon">sortable</a></li>
 							</ul>
 						</section>
 					</div>
@@ -160,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">descriptions<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2019</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2601</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -175,7 +176,7 @@
 					<div class="tsd-signature tsd-kind-icon">field<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2015</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2597</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,7 +191,7 @@
 					<div class="tsd-signature tsd-kind-icon">fixed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2023</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2605</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -205,7 +206,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2011</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2593</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -220,12 +221,12 @@
 					<div class="tsd-signature tsd-kind-icon">index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2025</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2607</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Maps the field in the elastic search index and its values become searchable.</p>
+							<p>Maps the field in the elastic filter index.</p>
 						</div>
 					</div>
 				</section>
@@ -235,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">index<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2013</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2595</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -250,7 +251,7 @@
 					<div class="tsd-signature tsd-kind-icon">names<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2017</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2599</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -265,7 +266,7 @@
 					<div class="tsd-signature tsd-kind-icon">required<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2021</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2603</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -280,12 +281,27 @@
 					<div class="tsd-signature tsd-kind-icon">simple<wbr>Search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2027</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2609</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Includes fields in the simple search. Index must be true.</p>
+							<p>Includes fields in the simple search.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="sortable" class="tsd-anchor"></a>
+					<h3>sortable</h3>
+					<div class="tsd-signature tsd-kind-icon">sortable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2611</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Field is stored for sorting.</p>
 						</div>
 					</div>
 				</section>
@@ -335,6 +351,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.fieldbase.html#simplesearch" class="tsd-kind-icon">simple<wbr>Search</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.fieldbase.html#sortable" class="tsd-kind-icon">sortable</a>
 							</li>
 						</ul>
 					</li>

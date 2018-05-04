@@ -8,7 +8,7 @@ import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 import {
   ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
-  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter
+  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter
 } from '../../services/services';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
@@ -97,8 +97,8 @@ export class ContentBrowserComponent implements OnChanges {
         start: this.items.length,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         filter: new AndFilter({ filters: this.filters }),
-        channelIds: [this.channel],
-        lifeCycleFilter: 0,
+        channelId: this.channel,
+        lifeCycleFilter: LifeCycleFilter.ActiveOnly,
         limit: 50,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
@@ -110,7 +110,7 @@ export class ContentBrowserComponent implements OnChanges {
         ]
       });
 
-      return this.contentService.searchByChannel(this.channel, request).toPromise().then(result => {
+      return this.contentService.search(request).toPromise().then(result => {
         if (result) {
           this.totalResults = result.totalResults;
           if (result.results) {
