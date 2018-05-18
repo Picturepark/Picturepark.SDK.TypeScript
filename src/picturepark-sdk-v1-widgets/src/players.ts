@@ -130,7 +130,7 @@ export class PictureparkPlayers {
     let savedOverflow = document.body.style.overflow;
     let keydownCallback = (e: KeyboardEvent) => {
       let event = e || <KeyboardEvent>window.event;
-      let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : (event.keyCode == 27);
+      let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : ((<any>event).keyCode == 27);
       if (isEscape) {
         closeCallback();
       }
