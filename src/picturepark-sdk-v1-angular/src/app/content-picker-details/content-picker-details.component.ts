@@ -5,9 +5,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
-
 import {
   ContentService, ContentDetail, AuthService, ThumbnailSize,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink

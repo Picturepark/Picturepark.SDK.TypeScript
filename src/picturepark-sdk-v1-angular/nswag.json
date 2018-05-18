@@ -54,6 +54,7 @@
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "PICTUREPARK_API_URL",
+      "queryNullValue": "",
       "serviceHost": ".",
       "output": "src/services/services.ts"
     }
