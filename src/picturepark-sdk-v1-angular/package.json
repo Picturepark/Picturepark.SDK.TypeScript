@@ -11,11 +11,9 @@
     "lint": "npm run init && ng lint",
     "e2e": "npm run init && ng e2e"
   },
-  "dependencies": {
-    "oidc-client": "^1.4.1",
-    "angular2-virtual-scroll": "^0.3.1"
-  },
   "peerDependencies": {
+    "oidc-client": "^1.4.1",
+    "angular2-virtual-scroll": "^0.3.1",
     "@angular/common": "^6.0.2",
     "@angular/compiler": "^6.0.2",
     "@angular/core": "^6.0.2",
@@ -28,6 +26,8 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "oidc-client": "^1.4.1",
+    "angular2-virtual-scroll": "^0.3.1",
     "@angular/cli": "^6.0.3",
     "@angular/common": "^6.0.2",
     "@angular/compiler": "^6.0.2",
