@@ -43,7 +43,7 @@ class ContentService extends generated.ContentService {
     downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
         const key = contentId + ':' + size;
         if (cache !== false && this.thumbnailCache[key] !== undefined) {
-            return observableOf(this.thumbnailCache[key]);
+            return _observableOf(this.thumbnailCache[key]);
         }
 
         const response = this.downloadThumbnailCore(contentId, size, null, null);
