@@ -8117,9 +8117,6 @@ export interface PictureparkConflictException extends PictureparkBusinessExcepti
     reference?: string | undefined;
 }
 
-export interface PictureparkTimeoutException extends PictureparkBusinessException {
-}
-
 export interface UserEmailAlreadyExistsException extends PictureparkValidationException {
     email?: string | undefined;
 }
@@ -8813,7 +8810,7 @@ export interface ContentLayerInvalidException extends PictureparkValidationExcep
     layerIds?: string | undefined;
 }
 
-export interface BusinessProcessWaitTimeoutException extends PictureparkTimeoutException {
+export interface BusinessProcessWaitTimeoutException extends PictureparkBusinessException {
     businessProcessId?: string | undefined;
 }
 
@@ -8854,33 +8851,10 @@ export interface SchemaFieldImportTypeMismatchException extends PictureparkValid
     existingFieldType?: string | undefined;
 }
 
-export interface SnapshotTimeoutException extends PictureparkTimeoutException {
+export interface SnapshotTimeoutException extends PictureparkBusinessException {
 }
 
 export interface SnapshotFailedException extends PictureparkBusinessException {
-}
-
-export interface AddMetadataLanguageTimeoutException extends PictureparkTimeoutException {
-    environmentProcessId?: string | undefined;
-}
-
-export interface EnvironmentProcessAlreadyRunningException extends PictureparkValidationException {
-    environmentProcessType: EnvironmentProcessType;
-}
-
-export enum EnvironmentProcessType {
-    AddMetadataLanguage = <any>"AddMetadataLanguage", 
-    CustomerUpdate = <any>"CustomerUpdate", 
-    EnvironmentUpdate = <any>"EnvironmentUpdate", 
-}
-
-export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
-    environmentProcessId?: string | undefined;
-}
-
-export interface EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException {
-    environmentProcessId?: string | undefined;
-    waitedLifecycles?: string | undefined;
 }
 
 /** A content detail. */
@@ -9739,7 +9713,6 @@ export interface BusinessProcessDetailsDataBase {
 }
 
 export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
-    docType?: string | undefined;
     response?: BulkResponse | undefined;
 }
 
@@ -11439,7 +11412,8 @@ export interface LanguageConfiguration {
 }
 
 export interface Language {
-    name?: TranslatedStringDictionary | undefined;
+    name?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
     ietf?: string | undefined;
     twoLetterISOLanguageName?: string | undefined;
     threeLetterISOLanguageName?: string | undefined;

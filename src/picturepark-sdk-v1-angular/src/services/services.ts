@@ -10071,11 +10071,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "ContentsNotFoundException") {
             let result = new ContentsNotFoundException();
             result.init(data);
@@ -10801,26 +10796,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
-            let result = new AddMetadataLanguageTimeoutException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessAlreadyRunningException") {
-            let result = new EnvironmentProcessAlreadyRunningException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessNotFoundException") {
-            let result = new EnvironmentProcessNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
-            let result = new EnvironmentProcessWaitTimeoutException();
-            result.init(data);
-            return result;
-        }
         let result = new PictureparkException();
         result.init(data);
         return result;
@@ -10888,11 +10863,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessWaitTimeoutException") {
             let result = new BusinessProcessWaitTimeoutException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -11531,26 +11501,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
-            let result = new AddMetadataLanguageTimeoutException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessAlreadyRunningException") {
-            let result = new EnvironmentProcessAlreadyRunningException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessNotFoundException") {
-            let result = new EnvironmentProcessNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
-            let result = new EnvironmentProcessWaitTimeoutException();
-            result.init(data);
-            return result;
-        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -11671,11 +11621,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "BusinessProcessDefinitionNotFoundException") {
             let result = new BusinessProcessDefinitionNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessNotFoundException") {
-            let result = new EnvironmentProcessNotFoundException();
             result.init(data);
             return result;
         }
@@ -12113,11 +12058,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "EnvironmentProcessAlreadyRunningException") {
-            let result = new EnvironmentProcessAlreadyRunningException();
-            result.init(data);
-            return result;
-        }
         let result = new PictureparkValidationException();
         result.init(data);
         return result;
@@ -12170,56 +12110,6 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
 export interface IPictureparkConflictException extends IPictureparkBusinessException {
     reference?: string | undefined;
-}
-
-export class PictureparkTimeoutException extends PictureparkBusinessException implements IPictureparkTimeoutException {
-
-    constructor(data?: IPictureparkTimeoutException) {
-        super(data);
-        this._discriminator = "PictureparkTimeoutException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): PictureparkTimeoutException {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
-            let result = new BusinessProcessWaitTimeoutException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SnapshotTimeoutException") {
-            let result = new SnapshotTimeoutException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
-            let result = new AddMetadataLanguageTimeoutException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
-            let result = new EnvironmentProcessWaitTimeoutException();
-            result.init(data);
-            return result;
-        }
-        let result = new PictureparkTimeoutException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IPictureparkTimeoutException extends IPictureparkBusinessException {
 }
 
 export class UserEmailAlreadyExistsException extends PictureparkValidationException implements IUserEmailAlreadyExistsException {
@@ -17536,7 +17426,7 @@ export interface IContentLayerInvalidException extends IPictureparkValidationExc
     layerIds?: string | undefined;
 }
 
-export class BusinessProcessWaitTimeoutException extends PictureparkTimeoutException implements IBusinessProcessWaitTimeoutException {
+export class BusinessProcessWaitTimeoutException extends PictureparkBusinessException implements IBusinessProcessWaitTimeoutException {
     businessProcessId?: string | undefined;
 
     constructor(data?: IBusinessProcessWaitTimeoutException) {
@@ -17566,7 +17456,7 @@ export class BusinessProcessWaitTimeoutException extends PictureparkTimeoutExcep
     }
 }
 
-export interface IBusinessProcessWaitTimeoutException extends IPictureparkTimeoutException {
+export interface IBusinessProcessWaitTimeoutException extends IPictureparkBusinessException {
     businessProcessId?: string | undefined;
 }
 
@@ -17852,7 +17742,7 @@ export interface ISchemaFieldImportTypeMismatchException extends IPictureparkVal
     existingFieldType?: string | undefined;
 }
 
-export class SnapshotTimeoutException extends PictureparkTimeoutException implements ISnapshotTimeoutException {
+export class SnapshotTimeoutException extends PictureparkBusinessException implements ISnapshotTimeoutException {
 
     constructor(data?: ISnapshotTimeoutException) {
         super(data);
@@ -17879,7 +17769,7 @@ export class SnapshotTimeoutException extends PictureparkTimeoutException implem
     }
 }
 
-export interface ISnapshotTimeoutException extends IPictureparkTimeoutException {
+export interface ISnapshotTimeoutException extends IPictureparkBusinessException {
 }
 
 export class SnapshotFailedException extends PictureparkBusinessException implements ISnapshotFailedException {
@@ -17910,152 +17800,6 @@ export class SnapshotFailedException extends PictureparkBusinessException implem
 }
 
 export interface ISnapshotFailedException extends IPictureparkBusinessException {
-}
-
-export class AddMetadataLanguageTimeoutException extends PictureparkTimeoutException implements IAddMetadataLanguageTimeoutException {
-    environmentProcessId?: string | undefined;
-
-    constructor(data?: IAddMetadataLanguageTimeoutException) {
-        super(data);
-        this._discriminator = "AddMetadataLanguageTimeoutException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.environmentProcessId = data["environmentProcessId"];
-        }
-    }
-
-    static fromJS(data: any): AddMetadataLanguageTimeoutException {
-        data = typeof data === 'object' ? data : {};
-        let result = new AddMetadataLanguageTimeoutException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IAddMetadataLanguageTimeoutException extends IPictureparkTimeoutException {
-    environmentProcessId?: string | undefined;
-}
-
-export class EnvironmentProcessAlreadyRunningException extends PictureparkValidationException implements IEnvironmentProcessAlreadyRunningException {
-    environmentProcessType: EnvironmentProcessType;
-
-    constructor(data?: IEnvironmentProcessAlreadyRunningException) {
-        super(data);
-        this._discriminator = "EnvironmentProcessAlreadyRunningException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.environmentProcessType = data["environmentProcessType"];
-        }
-    }
-
-    static fromJS(data: any): EnvironmentProcessAlreadyRunningException {
-        data = typeof data === 'object' ? data : {};
-        let result = new EnvironmentProcessAlreadyRunningException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessType"] = this.environmentProcessType;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IEnvironmentProcessAlreadyRunningException extends IPictureparkValidationException {
-    environmentProcessType: EnvironmentProcessType;
-}
-
-export enum EnvironmentProcessType {
-    AddMetadataLanguage = <any>"AddMetadataLanguage", 
-    CustomerUpdate = <any>"CustomerUpdate", 
-    EnvironmentUpdate = <any>"EnvironmentUpdate", 
-}
-
-export class EnvironmentProcessNotFoundException extends PictureparkNotFoundException implements IEnvironmentProcessNotFoundException {
-    environmentProcessId?: string | undefined;
-
-    constructor(data?: IEnvironmentProcessNotFoundException) {
-        super(data);
-        this._discriminator = "EnvironmentProcessNotFoundException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.environmentProcessId = data["environmentProcessId"];
-        }
-    }
-
-    static fromJS(data: any): EnvironmentProcessNotFoundException {
-        data = typeof data === 'object' ? data : {};
-        let result = new EnvironmentProcessNotFoundException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IEnvironmentProcessNotFoundException extends IPictureparkNotFoundException {
-    environmentProcessId?: string | undefined;
-}
-
-export class EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException implements IEnvironmentProcessWaitTimeoutException {
-    environmentProcessId?: string | undefined;
-    waitedLifecycles?: string | undefined;
-
-    constructor(data?: IEnvironmentProcessWaitTimeoutException) {
-        super(data);
-        this._discriminator = "EnvironmentProcessWaitTimeoutException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.environmentProcessId = data["environmentProcessId"];
-            this.waitedLifecycles = data["waitedLifecycles"];
-        }
-    }
-
-    static fromJS(data: any): EnvironmentProcessWaitTimeoutException {
-        data = typeof data === 'object' ? data : {};
-        let result = new EnvironmentProcessWaitTimeoutException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        data["waitedLifecycles"] = this.waitedLifecycles;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IEnvironmentProcessWaitTimeoutException extends IPictureparkTimeoutException {
-    environmentProcessId?: string | undefined;
-    waitedLifecycles?: string | undefined;
 }
 
 /** A content detail. */
@@ -23365,7 +23109,6 @@ export interface IBusinessProcessDetailsDataBase {
 }
 
 export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBulkResponse {
-    docType?: string | undefined;
     response?: BulkResponse | undefined;
 
     constructor(data?: IBusinessProcessDetailsDataBulkResponse) {
@@ -23376,7 +23119,6 @@ export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetai
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.docType = data["docType"];
             this.response = data["response"] ? BulkResponse.fromJS(data["response"]) : <any>undefined;
         }
     }
@@ -23390,7 +23132,6 @@ export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetai
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["docType"] = this.docType;
         data["response"] = this.response ? this.response.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
@@ -23398,7 +23139,6 @@ export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetai
 }
 
 export interface IBusinessProcessDetailsDataBulkResponse extends IBusinessProcessDetailsDataBase {
-    docType?: string | undefined;
     response?: IBulkResponse | undefined;
 }
 
@@ -34257,7 +33997,8 @@ export interface ILanguageConfiguration {
 }
 
 export class Language implements ILanguage {
-    name?: TranslatedStringDictionary | undefined;
+    name?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
     ietf?: string | undefined;
     twoLetterISOLanguageName?: string | undefined;
     threeLetterISOLanguageName?: string | undefined;
@@ -34269,13 +34010,14 @@ export class Language implements ILanguage {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.name = data.name && !(<any>data.name).toJSON ? new TranslatedStringDictionary(data.name) : <TranslatedStringDictionary>this.name; 
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : <any>undefined;
+            this.name = data["name"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.ietf = data["ietf"];
             this.twoLetterISOLanguageName = data["twoLetterISOLanguageName"];
             this.threeLetterISOLanguageName = data["threeLetterISOLanguageName"];
@@ -34292,7 +34034,8 @@ export class Language implements ILanguage {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
+        data["name"] = this.name;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["ietf"] = this.ietf;
         data["twoLetterISOLanguageName"] = this.twoLetterISOLanguageName;
         data["threeLetterISOLanguageName"] = this.threeLetterISOLanguageName;
@@ -34302,7 +34045,8 @@ export class Language implements ILanguage {
 }
 
 export interface ILanguage {
-    name?: ITranslatedStringDictionary | undefined;
+    name?: string | undefined;
+    names?: ITranslatedStringDictionary | undefined;
     ietf?: string | undefined;
     twoLetterISOLanguageName?: string | undefined;
     threeLetterISOLanguageName?: string | undefined;
