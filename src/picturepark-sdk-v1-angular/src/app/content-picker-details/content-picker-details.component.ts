@@ -20,11 +20,10 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   @Input()
   contentId: string | undefined;
 
-  content: ContentDetail;
-
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
 
+  content: ContentDetail;
   windowHeight: string;
 
   constructor(private contentService: ContentService,
