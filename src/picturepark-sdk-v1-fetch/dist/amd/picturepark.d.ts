@@ -897,6 +897,8 @@
     export interface PictureparkConflictException extends PictureparkBusinessException {
         reference?: string | undefined;
     }
+    export interface PictureparkTimeoutException extends PictureparkBusinessException {
+    }
     export interface UserEmailAlreadyExistsException extends PictureparkValidationException {
         email?: string | undefined;
     }
@@ -1445,8 +1447,6 @@
         contentId?: string | undefined;
         layerIds?: string | undefined;
     }
-    export interface PictureparkTimeoutException extends PictureparkBusinessException {
-    }
     export interface BusinessProcessWaitTimeoutException extends PictureparkTimeoutException {
         businessProcessId?: string | undefined;
     }
@@ -1488,7 +1488,12 @@
         environmentProcessId?: string | undefined;
     }
     export interface EnvironmentProcessAlreadyRunningException extends PictureparkValidationException {
-        environmentProcessType?: string | undefined;
+        environmentProcessType: EnvironmentProcessType;
+    }
+    export enum EnvironmentProcessType {
+        AddMetadataLanguage,
+        CustomerUpdate,
+        EnvironmentUpdate,
     }
     export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
         environmentProcessId?: string | undefined;
@@ -2246,6 +2251,7 @@
     export interface BusinessProcessDetailsDataBase {
     }
     export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
+        docType?: string | undefined;
         response?: BulkResponse | undefined;
     }
     /** Business process detailed information regarding Schema / ListItems import operation */
@@ -3764,8 +3770,7 @@
         defaultLanguage?: string | undefined;
     }
     export interface Language {
-        name?: string | undefined;
-        names?: TranslatedStringDictionary | undefined;
+        name?: TranslatedStringDictionary | undefined;
         ietf?: string | undefined;
         twoLetterISOLanguageName?: string | undefined;
         threeLetterISOLanguageName?: string | undefined;
