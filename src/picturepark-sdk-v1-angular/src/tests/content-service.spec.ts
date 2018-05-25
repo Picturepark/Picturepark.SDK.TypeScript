@@ -6,7 +6,8 @@ import {
   ThumbnailSize, ContentAggregationRequest,
   ContentAggregationOnChannelRequest,
   ContentNotFoundException,
-  SearchBehaviour
+  SearchBehaviour,
+  TermsAggregator
 } from '../services/services';
 import { configureTest } from './config';
 
@@ -101,6 +102,11 @@ describe('ContentService', () => {
       const request = new ContentAggregationRequest();
       request.searchString = 'm';
       request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
+      request.aggregators = [new TermsAggregator({
+        field: "fileMetadata.fileSize",
+        name: "fileSize",
+        size: 10
+      })];
 
       const response = await contentService.aggregate(request).toPromise();
 

@@ -5,9 +5,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
-
 import {
   ContentService, ContentDetail, AuthService, ThumbnailSize,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink
@@ -23,11 +20,10 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
   @Input()
   contentId: string | undefined;
 
-  content: ContentDetail;
-
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
 
+  content: ContentDetail;
   windowHeight: string;
 
   constructor(private contentService: ContentService,

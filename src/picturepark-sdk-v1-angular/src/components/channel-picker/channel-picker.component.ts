@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange, ViewChild, ElementRef, OnInit } from '@angular/core';
 
 import { InputConverter, StringConverter } from '../converter';
-import { UserService, Channel } from '../../services/services';
+import { ChannelService, Channel } from '../../services/services';
 
 @Component({
   selector: 'pp-channel-picker',
@@ -25,12 +25,12 @@ export class ChannelPickerComponent implements OnInit, OnChanges {
   @ViewChild('select')
   select: ElementRef;
 
-  constructor(private userService: UserService) {
+  constructor(private channelService: ChannelService) {
   }
 
   ngOnInit() {
     this.isLoading = true;
-    return this.userService.getChannels().toPromise().then(channels => {
+    return this.channelService.getChannels().toPromise().then(channels => {
       this.channels = channels;
       if (this.channels) {
         this.changeChannel(this.channels[0].id!);
