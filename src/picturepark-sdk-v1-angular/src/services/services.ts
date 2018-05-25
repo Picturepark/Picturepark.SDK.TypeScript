@@ -1069,7 +1069,7 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -1172,7 +1172,7 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -1386,7 +1386,7 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -1706,7 +1706,7 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -1813,7 +1813,7 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 200) {
@@ -2124,7 +2124,7 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -4037,7 +4037,7 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -4341,7 +4341,7 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -4550,7 +4550,7 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -7020,7 +7020,7 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkBusinessException.fromJS(resultData400) : <any>null;
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
@@ -9211,104 +9211,6 @@ export class UserService extends PictureparkServiceBase {
         }
         return _observableOf<UserDetail>(<any>null);
     }
-
-    /**
-     * Get list of channels
-     */
-    getChannels(): Observable<Channel[]> {
-        let url_ = this.baseUrl + "/v1/users/channels";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetChannels(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetChannels(<any>response_);
-                } catch (e) {
-                    return <Observable<Channel[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<Channel[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetChannels(response: HttpResponseBase): Observable<Channel[]> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(Channel.fromJS(item));
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<Channel[]>(<any>null);
-    }
 }
 
 @Injectable({
@@ -9960,6 +9862,119 @@ export class InfoService extends PictureparkServiceBase {
     }
 }
 
+@Injectable({
+    providedIn: 'root'
+})
+export class ChannelService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Get list of channels
+     */
+    getChannels(): Observable<Channel[]> {
+        let url_ = this.baseUrl + "/v1/channels";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetChannels(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChannels(<any>response_);
+                } catch (e) {
+                    return <Observable<Channel[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Channel[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChannels(response: HttpResponseBase): Observable<Channel[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(Channel.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Channel[]>(<any>null);
+    }
+}
+
 export enum DisplayPatternType {
     Thumbnail = <any>"Thumbnail", 
     List = <any>"List", 
@@ -10071,6 +10086,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ContentsNotFoundException") {
             let result = new ContentsNotFoundException();
             result.init(data);
@@ -10131,6 +10151,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkForbiddenException") {
+            let result = new PictureparkForbiddenException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserEmailAlreadyExistsException") {
             let result = new UserEmailAlreadyExistsException();
             result.init(data);
@@ -10143,6 +10168,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "UserNotFoundException") {
             let result = new UserNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserInactiveOrDeletedException") {
+            let result = new UserInactiveOrDeletedException();
             result.init(data);
             return result;
         }
@@ -10213,26 +10243,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "OutputIdNotFoundException") {
             let result = new OutputIdNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DriveCacheExpiredException") {
-            let result = new DriveCacheExpiredException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DriveFileNotFoundException") {
-            let result = new DriveFileNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DriveRequestException") {
-            let result = new DriveRequestException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TokenValidationException") {
-            let result = new TokenValidationException();
             result.init(data);
             return result;
         }
@@ -10556,11 +10566,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "AggregationFilterInvalidException") {
-            let result = new AggregationFilterInvalidException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "AggregationNameInvalidException") {
             let result = new AggregationNameInvalidException();
             result.init(data);
@@ -10701,6 +10706,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldNotSearchableException") {
+            let result = new SchemaFieldNotSearchableException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaNoContentException") {
             let result = new SchemaNoContentException();
             result.init(data);
@@ -10751,6 +10761,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContentFileReplaceTypeMismatchException") {
+            let result = new ContentFileReplaceTypeMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessEngineRequestException") {
             let result = new BusinessProcessEngineRequestException();
             result.init(data);
@@ -10793,6 +10808,26 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SnapshotFailedException") {
             let result = new SnapshotFailedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
+            let result = new AddMetadataLanguageTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessAlreadyRunningException") {
+            let result = new EnvironmentProcessAlreadyRunningException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessNotFoundException") {
+            let result = new EnvironmentProcessNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
+            let result = new EnvironmentProcessWaitTimeoutException();
             result.init(data);
             return result;
         }
@@ -10866,6 +10901,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ContentsNotFoundException") {
             let result = new ContentsNotFoundException();
             result.init(data);
@@ -10926,6 +10966,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkForbiddenException") {
+            let result = new PictureparkForbiddenException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserEmailAlreadyExistsException") {
             let result = new UserEmailAlreadyExistsException();
             result.init(data);
@@ -10938,6 +10983,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UserNotFoundException") {
             let result = new UserNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserInactiveOrDeletedException") {
+            let result = new UserInactiveOrDeletedException();
             result.init(data);
             return result;
         }
@@ -10968,26 +11018,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "OutputIdNotFoundException") {
             let result = new OutputIdNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DriveCacheExpiredException") {
-            let result = new DriveCacheExpiredException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DriveFileNotFoundException") {
-            let result = new DriveFileNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DriveRequestException") {
-            let result = new DriveRequestException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TokenValidationException") {
-            let result = new TokenValidationException();
             result.init(data);
             return result;
         }
@@ -11261,11 +11291,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "AggregationFilterInvalidException") {
-            let result = new AggregationFilterInvalidException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "AggregationNameInvalidException") {
             let result = new AggregationNameInvalidException();
             result.init(data);
@@ -11406,6 +11431,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldNotSearchableException") {
+            let result = new SchemaFieldNotSearchableException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaNoContentException") {
             let result = new SchemaNoContentException();
             result.init(data);
@@ -11456,6 +11486,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContentFileReplaceTypeMismatchException") {
+            let result = new ContentFileReplaceTypeMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessEngineRequestException") {
             let result = new BusinessProcessEngineRequestException();
             result.init(data);
@@ -11498,6 +11533,26 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SnapshotFailedException") {
             let result = new SnapshotFailedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
+            let result = new AddMetadataLanguageTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessAlreadyRunningException") {
+            let result = new EnvironmentProcessAlreadyRunningException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessNotFoundException") {
+            let result = new EnvironmentProcessNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
+            let result = new EnvironmentProcessWaitTimeoutException();
             result.init(data);
             return result;
         }
@@ -11584,11 +11639,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DriveFileNotFoundException") {
-            let result = new DriveFileNotFoundException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "OwnerTokenNotFoundException") {
             let result = new OwnerTokenNotFoundException();
             result.init(data);
@@ -11621,6 +11671,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "BusinessProcessDefinitionNotFoundException") {
             let result = new BusinessProcessDefinitionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessNotFoundException") {
+            let result = new EnvironmentProcessNotFoundException();
             result.init(data);
             return result;
         }
@@ -11698,6 +11753,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
 
     static fromJS(data: any): PictureparkValidationException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
+            let result = new BusinessProcessWaitTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "PictureparkArgumentNullException") {
             let result = new PictureparkArgumentNullException();
             result.init(data);
@@ -11740,11 +11805,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "DefaultChannelDeleteException") {
             let result = new DefaultChannelDeleteException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TokenValidationException") {
-            let result = new TokenValidationException();
             result.init(data);
             return result;
         }
@@ -11860,11 +11920,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationFilterInvalidException") {
-            let result = new AggregationFilterInvalidException();
             result.init(data);
             return result;
         }
@@ -11998,6 +12053,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldNotSearchableException") {
+            let result = new SchemaFieldNotSearchableException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaNoContentException") {
             let result = new SchemaNoContentException();
             result.init(data);
@@ -12043,6 +12103,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContentFileReplaceTypeMismatchException") {
+            let result = new ContentFileReplaceTypeMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldImportMismatchException") {
             let result = new SchemaFieldImportMismatchException();
             result.init(data);
@@ -12055,6 +12120,26 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
             let result = new SchemaFieldImportTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SnapshotTimeoutException") {
+            let result = new SnapshotTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
+            let result = new AddMetadataLanguageTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessAlreadyRunningException") {
+            let result = new EnvironmentProcessAlreadyRunningException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
+            let result = new EnvironmentProcessWaitTimeoutException();
             result.init(data);
             return result;
         }
@@ -12110,6 +12195,91 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
 export interface IPictureparkConflictException extends IPictureparkBusinessException {
     reference?: string | undefined;
+}
+
+export class PictureparkTimeoutException extends PictureparkValidationException implements IPictureparkTimeoutException {
+
+    constructor(data?: IPictureparkTimeoutException) {
+        super(data);
+        this._discriminator = "PictureparkTimeoutException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): PictureparkTimeoutException {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
+            let result = new BusinessProcessWaitTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SnapshotTimeoutException") {
+            let result = new SnapshotTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AddMetadataLanguageTimeoutException") {
+            let result = new AddMetadataLanguageTimeoutException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentProcessWaitTimeoutException") {
+            let result = new EnvironmentProcessWaitTimeoutException();
+            result.init(data);
+            return result;
+        }
+        let result = new PictureparkTimeoutException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPictureparkTimeoutException extends IPictureparkValidationException {
+}
+
+export class PictureparkForbiddenException extends PictureparkBusinessException implements IPictureparkForbiddenException {
+
+    constructor(data?: IPictureparkForbiddenException) {
+        super(data);
+        this._discriminator = "PictureparkForbiddenException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): PictureparkForbiddenException {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "UserInactiveOrDeletedException") {
+            let result = new UserInactiveOrDeletedException();
+            result.init(data);
+            return result;
+        }
+        let result = new PictureparkForbiddenException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPictureparkForbiddenException extends IPictureparkBusinessException {
 }
 
 export class UserEmailAlreadyExistsException extends PictureparkValidationException implements IUserEmailAlreadyExistsException {
@@ -12212,6 +12382,36 @@ export class UserNotFoundException extends PictureparkBusinessException implemen
 
 export interface IUserNotFoundException extends IPictureparkBusinessException {
     missingUserId?: string | undefined;
+}
+
+export class UserInactiveOrDeletedException extends PictureparkForbiddenException implements IUserInactiveOrDeletedException {
+
+    constructor(data?: IUserInactiveOrDeletedException) {
+        super(data);
+        this._discriminator = "UserInactiveOrDeletedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): UserInactiveOrDeletedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserInactiveOrDeletedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserInactiveOrDeletedException extends IPictureparkForbiddenException {
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -12772,130 +12972,6 @@ export class OutputNotFoundException extends PictureparkBusinessException implem
 export interface IOutputNotFoundException extends IPictureparkBusinessException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
-}
-
-export class DriveCacheExpiredException extends PictureparkBusinessException implements IDriveCacheExpiredException {
-
-    constructor(data?: IDriveCacheExpiredException) {
-        super(data);
-        this._discriminator = "DriveCacheExpiredException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): DriveCacheExpiredException {
-        data = typeof data === 'object' ? data : {};
-        let result = new DriveCacheExpiredException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IDriveCacheExpiredException extends IPictureparkBusinessException {
-}
-
-export class DriveFileNotFoundException extends PictureparkNotFoundException implements IDriveFileNotFoundException {
-    fileId?: string | undefined;
-
-    constructor(data?: IDriveFileNotFoundException) {
-        super(data);
-        this._discriminator = "DriveFileNotFoundException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.fileId = data["fileId"];
-        }
-    }
-
-    static fromJS(data: any): DriveFileNotFoundException {
-        data = typeof data === 'object' ? data : {};
-        let result = new DriveFileNotFoundException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileId"] = this.fileId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IDriveFileNotFoundException extends IPictureparkNotFoundException {
-    fileId?: string | undefined;
-}
-
-export class DriveRequestException extends PictureparkBusinessException implements IDriveRequestException {
-
-    constructor(data?: IDriveRequestException) {
-        super(data);
-        this._discriminator = "DriveRequestException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): DriveRequestException {
-        data = typeof data === 'object' ? data : {};
-        let result = new DriveRequestException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IDriveRequestException extends IPictureparkBusinessException {
-}
-
-export class TokenValidationException extends PictureparkValidationException implements ITokenValidationException {
-
-    constructor(data?: ITokenValidationException) {
-        super(data);
-        this._discriminator = "TokenValidationException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): TokenValidationException {
-        data = typeof data === 'object' ? data : {};
-        let result = new TokenValidationException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ITokenValidationException extends IPictureparkValidationException {
 }
 
 export class LeaseNotAcquiredException extends PictureparkBusinessException implements ILeaseNotAcquiredException {
@@ -14718,7 +14794,6 @@ export interface IPermissionOwnershipTransferException extends IPictureparkValid
 export enum UserRight {
     ManageContent = <any>"ManageContent", 
     ManageSharings = <any>"ManageSharings", 
-    ManageDrives = <any>"ManageDrives", 
     ManageTransfer = <any>"ManageTransfer", 
     ManageChannels = <any>"ManageChannels", 
     ManageSchemas = <any>"ManageSchemas", 
@@ -14726,7 +14801,6 @@ export enum UserRight {
     ManageUserRoles = <any>"ManageUserRoles", 
     ManagePermissions = <any>"ManagePermissions", 
     ManageSearchIndexes = <any>"ManageSearchIndexes", 
-    ManageRecipients = <any>"ManageRecipients", 
     ManageCollections = <any>"ManageCollections", 
     ManageListItems = <any>"ManageListItems", 
     ManageServiceProviders = <any>"ManageServiceProviders", 
@@ -15173,8 +15247,6 @@ export interface IInvalidTransferTypeException extends IPictureparkBusinessExcep
 export enum TransferType {
     FileUpload = <any>"FileUpload", 
     FileUploadAutoImport = <any>"FileUploadAutoImport", 
-    DriveImport = <any>"DriveImport", 
-    DriveExport = <any>"DriveExport", 
     WebDownload = <any>"WebDownload", 
     SchemaImport = <any>"SchemaImport", 
 }
@@ -15659,40 +15731,6 @@ export interface IRelationTypeTargetDocTypeMismatchException extends IPicturepar
     relationType?: string | undefined;
     targetDocType?: string | undefined;
     expectedTargetDocType?: string | undefined;
-}
-
-export class AggregationFilterInvalidException extends PictureparkValidationException implements IAggregationFilterInvalidException {
-    aggregationFilterNames?: string | undefined;
-
-    constructor(data?: IAggregationFilterInvalidException) {
-        super(data);
-        this._discriminator = "AggregationFilterInvalidException";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.aggregationFilterNames = data["aggregationFilterNames"];
-        }
-    }
-
-    static fromJS(data: any): AggregationFilterInvalidException {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationFilterInvalidException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationFilterNames"] = this.aggregationFilterNames;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IAggregationFilterInvalidException extends IPictureparkValidationException {
-    aggregationFilterNames?: string | undefined;
 }
 
 export class AggregationNameInvalidException extends PictureparkValidationException implements IAggregationNameInvalidException {
@@ -16917,6 +16955,44 @@ export interface ISchemaFieldNotSortableException extends IPictureparkValidation
     schemaId?: string | undefined;
 }
 
+export class SchemaFieldNotSearchableException extends PictureparkValidationException implements ISchemaFieldNotSearchableException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaFieldNotSearchableException) {
+        super(data);
+        this._discriminator = "SchemaFieldNotSearchableException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldId = data["fieldId"];
+            this.schemaId = data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldNotSearchableException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldNotSearchableException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldNotSearchableException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
 export class SchemaNoContentException extends PictureparkValidationException implements ISchemaNoContentException {
     schemaId?: string | undefined;
 
@@ -17426,7 +17502,73 @@ export interface IContentLayerInvalidException extends IPictureparkValidationExc
     layerIds?: string | undefined;
 }
 
-export class BusinessProcessWaitTimeoutException extends PictureparkBusinessException implements IBusinessProcessWaitTimeoutException {
+export class ContentFileReplaceTypeMismatchException extends PictureparkValidationException implements IContentFileReplaceTypeMismatchException {
+    contentId?: string | undefined;
+    originalContentType: ContentType;
+    newContentType: ContentType;
+
+    constructor(data?: IContentFileReplaceTypeMismatchException) {
+        super(data);
+        this._discriminator = "ContentFileReplaceTypeMismatchException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentId = data["contentId"];
+            this.originalContentType = data["originalContentType"];
+            this.newContentType = data["newContentType"];
+        }
+    }
+
+    static fromJS(data: any): ContentFileReplaceTypeMismatchException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentFileReplaceTypeMismatchException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["originalContentType"] = this.originalContentType;
+        data["newContentType"] = this.newContentType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentFileReplaceTypeMismatchException extends IPictureparkValidationException {
+    contentId?: string | undefined;
+    originalContentType: ContentType;
+    newContentType: ContentType;
+}
+
+export enum ContentType {
+    Unknown = <any>"Unknown", 
+    Bitmap = <any>"Bitmap", 
+    VectorGraphic = <any>"VectorGraphic", 
+    RawImage = <any>"RawImage", 
+    InterchangeDocument = <any>"InterchangeDocument", 
+    WordProcessingDocument = <any>"WordProcessingDocument", 
+    TextDocument = <any>"TextDocument", 
+    DesktopPublishingDocument = <any>"DesktopPublishingDocument", 
+    Presentation = <any>"Presentation", 
+    Spreadsheet = <any>"Spreadsheet", 
+    Archive = <any>"Archive", 
+    Audio = <any>"Audio", 
+    Video = <any>"Video", 
+    Font = <any>"Font", 
+    Multimedia = <any>"Multimedia", 
+    Application = <any>"Application", 
+    SourceCode = <any>"SourceCode", 
+    Database = <any>"Database", 
+    Cad = <any>"Cad", 
+    Model3d = <any>"Model3d", 
+    ContentItem = <any>"ContentItem", 
+}
+
+export class BusinessProcessWaitTimeoutException extends PictureparkTimeoutException implements IBusinessProcessWaitTimeoutException {
     businessProcessId?: string | undefined;
 
     constructor(data?: IBusinessProcessWaitTimeoutException) {
@@ -17456,7 +17598,7 @@ export class BusinessProcessWaitTimeoutException extends PictureparkBusinessExce
     }
 }
 
-export interface IBusinessProcessWaitTimeoutException extends IPictureparkBusinessException {
+export interface IBusinessProcessWaitTimeoutException extends IPictureparkTimeoutException {
     businessProcessId?: string | undefined;
 }
 
@@ -17742,7 +17884,7 @@ export interface ISchemaFieldImportTypeMismatchException extends IPictureparkVal
     existingFieldType?: string | undefined;
 }
 
-export class SnapshotTimeoutException extends PictureparkBusinessException implements ISnapshotTimeoutException {
+export class SnapshotTimeoutException extends PictureparkTimeoutException implements ISnapshotTimeoutException {
 
     constructor(data?: ISnapshotTimeoutException) {
         super(data);
@@ -17769,7 +17911,7 @@ export class SnapshotTimeoutException extends PictureparkBusinessException imple
     }
 }
 
-export interface ISnapshotTimeoutException extends IPictureparkBusinessException {
+export interface ISnapshotTimeoutException extends IPictureparkTimeoutException {
 }
 
 export class SnapshotFailedException extends PictureparkBusinessException implements ISnapshotFailedException {
@@ -17800,6 +17942,152 @@ export class SnapshotFailedException extends PictureparkBusinessException implem
 }
 
 export interface ISnapshotFailedException extends IPictureparkBusinessException {
+}
+
+export class AddMetadataLanguageTimeoutException extends PictureparkTimeoutException implements IAddMetadataLanguageTimeoutException {
+    environmentProcessId?: string | undefined;
+
+    constructor(data?: IAddMetadataLanguageTimeoutException) {
+        super(data);
+        this._discriminator = "AddMetadataLanguageTimeoutException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.environmentProcessId = data["environmentProcessId"];
+        }
+    }
+
+    static fromJS(data: any): AddMetadataLanguageTimeoutException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AddMetadataLanguageTimeoutException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["environmentProcessId"] = this.environmentProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAddMetadataLanguageTimeoutException extends IPictureparkTimeoutException {
+    environmentProcessId?: string | undefined;
+}
+
+export class EnvironmentProcessAlreadyRunningException extends PictureparkValidationException implements IEnvironmentProcessAlreadyRunningException {
+    environmentProcessType: EnvironmentProcessType;
+
+    constructor(data?: IEnvironmentProcessAlreadyRunningException) {
+        super(data);
+        this._discriminator = "EnvironmentProcessAlreadyRunningException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.environmentProcessType = data["environmentProcessType"];
+        }
+    }
+
+    static fromJS(data: any): EnvironmentProcessAlreadyRunningException {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnvironmentProcessAlreadyRunningException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["environmentProcessType"] = this.environmentProcessType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IEnvironmentProcessAlreadyRunningException extends IPictureparkValidationException {
+    environmentProcessType: EnvironmentProcessType;
+}
+
+export enum EnvironmentProcessType {
+    AddMetadataLanguage = <any>"AddMetadataLanguage", 
+    CustomerUpdate = <any>"CustomerUpdate", 
+    EnvironmentUpdate = <any>"EnvironmentUpdate", 
+}
+
+export class EnvironmentProcessNotFoundException extends PictureparkNotFoundException implements IEnvironmentProcessNotFoundException {
+    environmentProcessId?: string | undefined;
+
+    constructor(data?: IEnvironmentProcessNotFoundException) {
+        super(data);
+        this._discriminator = "EnvironmentProcessNotFoundException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.environmentProcessId = data["environmentProcessId"];
+        }
+    }
+
+    static fromJS(data: any): EnvironmentProcessNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnvironmentProcessNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["environmentProcessId"] = this.environmentProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IEnvironmentProcessNotFoundException extends IPictureparkNotFoundException {
+    environmentProcessId?: string | undefined;
+}
+
+export class EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException implements IEnvironmentProcessWaitTimeoutException {
+    environmentProcessId?: string | undefined;
+    waitedLifecycles?: string | undefined;
+
+    constructor(data?: IEnvironmentProcessWaitTimeoutException) {
+        super(data);
+        this._discriminator = "EnvironmentProcessWaitTimeoutException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.environmentProcessId = data["environmentProcessId"];
+            this.waitedLifecycles = data["waitedLifecycles"];
+        }
+    }
+
+    static fromJS(data: any): EnvironmentProcessWaitTimeoutException {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnvironmentProcessWaitTimeoutException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["environmentProcessId"] = this.environmentProcessId;
+        data["waitedLifecycles"] = this.waitedLifecycles;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IEnvironmentProcessWaitTimeoutException extends IPictureparkTimeoutException {
+    environmentProcessId?: string | undefined;
+    waitedLifecycles?: string | undefined;
 }
 
 /** A content detail. */
@@ -17985,30 +18273,6 @@ export interface IUserAudit {
     modifiedByUser?: string | undefined;
 }
 
-export enum ContentType {
-    Unknown = <any>"Unknown", 
-    Bitmap = <any>"Bitmap", 
-    VectorGraphic = <any>"VectorGraphic", 
-    RawImage = <any>"RawImage", 
-    InterchangeDocument = <any>"InterchangeDocument", 
-    WordProcessingDocument = <any>"WordProcessingDocument", 
-    TextDocument = <any>"TextDocument", 
-    DesktopPublishingDocument = <any>"DesktopPublishingDocument", 
-    Presentation = <any>"Presentation", 
-    Spreadsheet = <any>"Spreadsheet", 
-    Archive = <any>"Archive", 
-    Audio = <any>"Audio", 
-    Video = <any>"Video", 
-    Font = <any>"Font", 
-    Multimedia = <any>"Multimedia", 
-    Application = <any>"Application", 
-    SourceCode = <any>"SourceCode", 
-    Database = <any>"Database", 
-    Cad = <any>"Cad", 
-    Model3d = <any>"Model3d", 
-    ContentItem = <any>"ContentItem", 
-}
-
 export class DisplayValueDictionary implements IDisplayValueDictionary {
 
     [key: string]: string | any; 
@@ -18053,7 +18317,6 @@ export interface IDisplayValueDictionary {
     [key: string]: string | any; 
 }
 
-/** A custom implementation of Dictionary{string, object} */
 export class DataDictionary implements IDataDictionary {
 
     [key: string]: any; 
@@ -18093,7 +18356,6 @@ export class DataDictionary implements IDataDictionary {
     }
 }
 
-/** A custom implementation of Dictionary{string, object} */
 export interface IDataDictionary {
 
     [key: string]: any; 
@@ -23109,6 +23371,7 @@ export interface IBusinessProcessDetailsDataBase {
 }
 
 export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBulkResponse {
+    docType?: string | undefined;
     response?: BulkResponse | undefined;
 
     constructor(data?: IBusinessProcessDetailsDataBulkResponse) {
@@ -23119,6 +23382,7 @@ export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetai
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.docType = data["docType"];
             this.response = data["response"] ? BulkResponse.fromJS(data["response"]) : <any>undefined;
         }
     }
@@ -23132,6 +23396,7 @@ export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetai
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
         data["response"] = this.response ? this.response.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
@@ -23139,6 +23404,7 @@ export class BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetai
 }
 
 export interface IBusinessProcessDetailsDataBulkResponse extends IBusinessProcessDetailsDataBase {
+    docType?: string | undefined;
     response?: IBulkResponse | undefined;
 }
 
@@ -26353,8 +26619,6 @@ export interface IFieldMultiTagbox extends IFieldBase {
 export class FieldString extends FieldBase implements IFieldString {
     /** It is a DotLiquid template. */
     template?: string | undefined;
-    /** If true the Template will only render on item creation otherwise it will render on each update. */
-    keepFieldValue: boolean;
     /** Contains a regex validation pattern. */
     pattern?: string | undefined;
     /** Defines the minimal string length. */
@@ -26381,7 +26645,6 @@ export class FieldString extends FieldBase implements IFieldString {
         super.init(data);
         if (data) {
             this.template = data["template"];
-            this.keepFieldValue = data["keepFieldValue"];
             this.pattern = data["pattern"];
             this.minimumLength = data["minimumLength"];
             this.maximumLength = data["maximumLength"];
@@ -26420,7 +26683,6 @@ export class FieldString extends FieldBase implements IFieldString {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["template"] = this.template;
-        data["keepFieldValue"] = this.keepFieldValue;
         data["pattern"] = this.pattern;
         data["minimumLength"] = this.minimumLength;
         data["maximumLength"] = this.maximumLength;
@@ -26449,8 +26711,6 @@ export class FieldString extends FieldBase implements IFieldString {
 export interface IFieldString extends IFieldBase {
     /** It is a DotLiquid template. */
     template?: string | undefined;
-    /** If true the Template will only render on item creation otherwise it will render on each update. */
-    keepFieldValue: boolean;
     /** Contains a regex validation pattern. */
     pattern?: string | undefined;
     /** Defines the minimal string length. */
@@ -26773,8 +27033,6 @@ If Required is false, the field can be left empty, but as soon as a value is ent
     requiredMetadataLanguages?: string[] | undefined;
     /** It is a DotLiquid template. */
     template?: string | undefined;
-    /** If true the Template will only render on item creation otherwise it will render on each update. */
-    keepFieldValue: boolean;
     /** Priorizes search results. SimpleSearch must be true. */
     boost: number;
 
@@ -26806,7 +27064,6 @@ If Required is false, the field can be left empty, but as soon as a value is ent
                     this.requiredMetadataLanguages.push(item);
             }
             this.template = data["template"];
-            this.keepFieldValue = data["keepFieldValue"];
             this.boost = data["boost"];
         }
     }
@@ -26840,7 +27097,6 @@ If Required is false, the field can be left empty, but as soon as a value is ent
                 data["requiredMetadataLanguages"].push(item);
         }
         data["template"] = this.template;
-        data["keepFieldValue"] = this.keepFieldValue;
         data["boost"] = this.boost;
         super.toJSON(data);
         return data; 
@@ -26866,8 +27122,6 @@ If Required is false, the field can be left empty, but as soon as a value is ent
     requiredMetadataLanguages?: string[] | undefined;
     /** It is a DotLiquid template. */
     template?: string | undefined;
-    /** If true the Template will only render on item creation otherwise it will render on each update. */
-    keepFieldValue: boolean;
     /** Priorizes search results. SimpleSearch must be true. */
     boost: number;
 }
@@ -27703,7 +27957,7 @@ export class IndexField implements IIndexField {
     indexFields?: { [key: string] : string; } | undefined;
     /** Contains all simple search field name variants of the field.
 The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: string[] | undefined;
+    simpleSearchFields?: { [key: string] : string; } | undefined;
     /** Contains the fields boost value. */
     boost: number;
     /** Not to be returned for search query, but only used for mapping purposes */
@@ -27734,10 +27988,12 @@ The amount of simple search fields can be equal or less to the amount of IndexFi
                         this.indexFields[key] = data["indexFields"][key];
                 }
             }
-            if (data["simpleSearchFields"] && data["simpleSearchFields"].constructor === Array) {
-                this.simpleSearchFields = [];
-                for (let item of data["simpleSearchFields"])
-                    this.simpleSearchFields.push(item);
+            if (data["simpleSearchFields"]) {
+                this.simpleSearchFields = {};
+                for (let key in data["simpleSearchFields"]) {
+                    if (data["simpleSearchFields"].hasOwnProperty(key))
+                        this.simpleSearchFields[key] = data["simpleSearchFields"][key];
+                }
             }
             this.boost = data["boost"];
             this.ignoreForSearch = data["ignoreForSearch"];
@@ -27765,10 +28021,12 @@ The amount of simple search fields can be equal or less to the amount of IndexFi
                     data["indexFields"][key] = this.indexFields[key];
             }
         }
-        if (this.simpleSearchFields && this.simpleSearchFields.constructor === Array) {
-            data["simpleSearchFields"] = [];
-            for (let item of this.simpleSearchFields)
-                data["simpleSearchFields"].push(item);
+        if (this.simpleSearchFields) {
+            data["simpleSearchFields"] = {};
+            for (let key in this.simpleSearchFields) {
+                if (this.simpleSearchFields.hasOwnProperty(key))
+                    data["simpleSearchFields"][key] = this.simpleSearchFields[key];
+            }
         }
         data["boost"] = this.boost;
         data["ignoreForSearch"] = this.ignoreForSearch;
@@ -27789,7 +28047,7 @@ export interface IIndexField {
     indexFields?: { [key: string] : string; } | undefined;
     /** Contains all simple search field name variants of the field.
 The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: string[] | undefined;
+    simpleSearchFields?: { [key: string] : string; } | undefined;
     /** Contains the fields boost value. */
     boost: number;
     /** Not to be returned for search query, but only used for mapping purposes */
@@ -28335,6 +28593,7 @@ export interface IPermissionSetSearchRequest {
 
 export enum PermissionSetRight {
     Apply = <any>"Apply", 
+    Manage = <any>"Manage", 
 }
 
 export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
@@ -28527,6 +28786,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
+    ownerTokenId?: string | undefined;
 
     constructor(data?: IPermissionSetDetailOfContentRight) {
         if (data) {
@@ -28568,6 +28828,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
                     this.userRolesPermissionSetRights.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
             }
             this.exclusive = data["exclusive"];
+            this.ownerTokenId = data["ownerTokenId"];
         }
     }
 
@@ -28592,6 +28853,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
                 data["userRolesPermissionSetRights"].push(item.toJSON());
         }
         data["exclusive"] = this.exclusive;
+        data["ownerTokenId"] = this.ownerTokenId;
         return data; 
     }
 }
@@ -28603,6 +28865,7 @@ export interface IPermissionSetDetailOfContentRight {
     userRolesRights?: IPermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
+    ownerTokenId?: string | undefined;
 }
 
 export class ContentPermissionSetDetail extends PermissionSetDetailOfContentRight implements IContentPermissionSetDetail {
@@ -28747,6 +29010,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
     userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
+    ownerTokenId?: string | undefined;
 
     constructor(data?: IPermissionSetDetailOfMetadataRight) {
         if (data) {
@@ -28788,6 +29052,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
                     this.userRolesPermissionSetRights.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
             }
             this.exclusive = data["exclusive"];
+            this.ownerTokenId = data["ownerTokenId"];
         }
     }
 
@@ -28812,6 +29077,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
                 data["userRolesPermissionSetRights"].push(item.toJSON());
         }
         data["exclusive"] = this.exclusive;
+        data["ownerTokenId"] = this.ownerTokenId;
         return data; 
     }
 }
@@ -28823,6 +29089,7 @@ export interface IPermissionSetDetailOfMetadataRight {
     userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
+    ownerTokenId?: string | undefined;
 }
 
 export class SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRight implements ISchemaPermissionSetDetail {
@@ -31241,7 +31508,6 @@ export class CreateTransferRequest implements ICreateTransferRequest {
     name?: string | undefined;
     transferType: TransferType;
     files?: TransferUploadFile[] | undefined;
-    driveFiles?: TransferDriveFile[] | undefined;
     webLinks?: TransferWebLink[] | undefined;
     collectionName?: string | undefined;
     createCollection: boolean;
@@ -31257,13 +31523,6 @@ export class CreateTransferRequest implements ICreateTransferRequest {
                 for (let i = 0; i < data.files.length; i++) {
                     let item = data.files[i];
                     this.files[i] = item && !(<any>item).toJSON ? new TransferUploadFile(item) : <TransferUploadFile>item;
-                }
-            }
-            if (data.driveFiles) {
-                this.driveFiles = [];
-                for (let i = 0; i < data.driveFiles.length; i++) {
-                    let item = data.driveFiles[i];
-                    this.driveFiles[i] = item && !(<any>item).toJSON ? new TransferDriveFile(item) : <TransferDriveFile>item;
                 }
             }
             if (data.webLinks) {
@@ -31284,11 +31543,6 @@ export class CreateTransferRequest implements ICreateTransferRequest {
                 this.files = [];
                 for (let item of data["files"])
                     this.files.push(TransferUploadFile.fromJS(item));
-            }
-            if (data["driveFiles"] && data["driveFiles"].constructor === Array) {
-                this.driveFiles = [];
-                for (let item of data["driveFiles"])
-                    this.driveFiles.push(TransferDriveFile.fromJS(item));
             }
             if (data["webLinks"] && data["webLinks"].constructor === Array) {
                 this.webLinks = [];
@@ -31316,11 +31570,6 @@ export class CreateTransferRequest implements ICreateTransferRequest {
             for (let item of this.files)
                 data["files"].push(item.toJSON());
         }
-        if (this.driveFiles && this.driveFiles.constructor === Array) {
-            data["driveFiles"] = [];
-            for (let item of this.driveFiles)
-                data["driveFiles"].push(item.toJSON());
-        }
         if (this.webLinks && this.webLinks.constructor === Array) {
             data["webLinks"] = [];
             for (let item of this.webLinks)
@@ -31336,7 +31585,6 @@ export interface ICreateTransferRequest {
     name?: string | undefined;
     transferType: TransferType;
     files?: ITransferUploadFile[] | undefined;
-    driveFiles?: ITransferDriveFile[] | undefined;
     webLinks?: ITransferWebLink[] | undefined;
     collectionName?: string | undefined;
     createCollection: boolean;
@@ -31409,51 +31657,6 @@ export interface ITransferUploadFile extends ITransferFile {
     fileName?: string | undefined;
 }
 
-export class TransferDriveFile extends TransferFile implements ITransferDriveFile {
-    driveId?: string | undefined;
-    fileId?: string | undefined;
-    name?: string | undefined;
-    externalOutputFolderId?: string | undefined;
-
-    constructor(data?: ITransferDriveFile) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.driveId = data["driveId"];
-            this.fileId = data["fileId"];
-            this.name = data["name"];
-            this.externalOutputFolderId = data["externalOutputFolderId"];
-        }
-    }
-
-    static fromJS(data: any): TransferDriveFile {
-        data = typeof data === 'object' ? data : {};
-        let result = new TransferDriveFile();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["driveId"] = this.driveId;
-        data["fileId"] = this.fileId;
-        data["name"] = this.name;
-        data["externalOutputFolderId"] = this.externalOutputFolderId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ITransferDriveFile extends ITransferFile {
-    driveId?: string | undefined;
-    fileId?: string | undefined;
-    name?: string | undefined;
-    externalOutputFolderId?: string | undefined;
-}
-
 export class TransferWebLink extends TransferFile implements ITransferWebLink {
     url?: string | undefined;
 
@@ -31496,7 +31699,6 @@ export class FileTransferDetail implements IFileTransferDetail {
     transferId?: string | undefined;
     state: FileTransferState;
     fileMetadata?: FileMetadata | undefined;
-    driveMetadata?: DriveMetadata | undefined;
     outputItems?: FileTransferOutput[] | undefined;
     contentId?: string | undefined;
 
@@ -31507,7 +31709,6 @@ export class FileTransferDetail implements IFileTransferDetail {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
-            this.driveMetadata = data.driveMetadata && !(<any>data.driveMetadata).toJSON ? new DriveMetadata(data.driveMetadata) : <DriveMetadata>this.driveMetadata; 
             if (data.outputItems) {
                 this.outputItems = [];
                 for (let i = 0; i < data.outputItems.length; i++) {
@@ -31528,7 +31729,6 @@ export class FileTransferDetail implements IFileTransferDetail {
             this.transferId = data["transferId"];
             this.state = data["state"];
             this.fileMetadata = data["fileMetadata"] ? FileMetadata.fromJS(data["fileMetadata"]) : <any>undefined;
-            this.driveMetadata = data["driveMetadata"] ? DriveMetadata.fromJS(data["driveMetadata"]) : <any>undefined;
             if (data["outputItems"] && data["outputItems"].constructor === Array) {
                 this.outputItems = [];
                 for (let item of data["outputItems"])
@@ -31555,7 +31755,6 @@ export class FileTransferDetail implements IFileTransferDetail {
         data["transferId"] = this.transferId;
         data["state"] = this.state;
         data["fileMetadata"] = this.fileMetadata ? this.fileMetadata.toJSON() : <any>undefined;
-        data["driveMetadata"] = this.driveMetadata ? this.driveMetadata.toJSON() : <any>undefined;
         if (this.outputItems && this.outputItems.constructor === Array) {
             data["outputItems"] = [];
             for (let item of this.outputItems)
@@ -31575,7 +31774,6 @@ export interface IFileTransferDetail {
     transferId?: string | undefined;
     state: FileTransferState;
     fileMetadata?: FileMetadata | undefined;
-    driveMetadata?: IDriveMetadata | undefined;
     outputItems?: IFileTransferOutput[] | undefined;
     contentId?: string | undefined;
 }
@@ -32276,103 +32474,6 @@ export interface IVideoStream {
     rotation?: number | undefined;
 }
 
-export class DriveMetadata implements IDriveMetadata {
-    location?: string | undefined;
-    fileType?: string | undefined;
-    audit?: DriveMetadataAudit | undefined;
-    description?: string | undefined;
-
-    constructor(data?: IDriveMetadata) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new DriveMetadataAudit(data.audit) : <DriveMetadataAudit>this.audit; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.location = data["location"];
-            this.fileType = data["fileType"];
-            this.audit = data["audit"] ? DriveMetadataAudit.fromJS(data["audit"]) : <any>undefined;
-            this.description = data["description"];
-        }
-    }
-
-    static fromJS(data: any): DriveMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new DriveMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["location"] = this.location;
-        data["fileType"] = this.fileType;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["description"] = this.description;
-        return data; 
-    }
-}
-
-export interface IDriveMetadata {
-    location?: string | undefined;
-    fileType?: string | undefined;
-    audit?: IDriveMetadataAudit | undefined;
-    description?: string | undefined;
-}
-
-export class DriveMetadataAudit implements IDriveMetadataAudit {
-    owner?: string | undefined;
-    modified?: string | undefined;
-    opened?: string | undefined;
-    created?: string | undefined;
-
-    constructor(data?: IDriveMetadataAudit) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.owner = data["owner"];
-            this.modified = data["modified"];
-            this.opened = data["opened"];
-            this.created = data["created"];
-        }
-    }
-
-    static fromJS(data: any): DriveMetadataAudit {
-        data = typeof data === 'object' ? data : {};
-        let result = new DriveMetadataAudit();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["owner"] = this.owner;
-        data["modified"] = this.modified;
-        data["opened"] = this.opened;
-        data["created"] = this.created;
-        return data; 
-    }
-}
-
-export interface IDriveMetadataAudit {
-    owner?: string | undefined;
-    modified?: string | undefined;
-    opened?: string | undefined;
-    created?: string | undefined;
-}
-
 export class FileTransferOutput implements IFileTransferOutput {
     id?: string | undefined;
     filePath?: string | undefined;
@@ -33032,7 +33133,6 @@ export class UserDetail extends User implements IUserDetail {
     comment?: string | undefined;
     languageCode?: string | undefined;
     address?: UserAddress | undefined;
-    drives?: Drive[] | undefined;
     ownerTokens?: OwnerToken[] | undefined;
     authorizationState: AuthorizationState;
 
@@ -33051,11 +33151,6 @@ export class UserDetail extends User implements IUserDetail {
             this.comment = data["comment"];
             this.languageCode = data["languageCode"];
             this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
-            if (data["drives"] && data["drives"].constructor === Array) {
-                this.drives = [];
-                for (let item of data["drives"])
-                    this.drives.push(Drive.fromJS(item));
-            }
             if (data["ownerTokens"] && data["ownerTokens"].constructor === Array) {
                 this.ownerTokens = [];
                 for (let item of data["ownerTokens"])
@@ -33082,11 +33177,6 @@ export class UserDetail extends User implements IUserDetail {
         data["comment"] = this.comment;
         data["languageCode"] = this.languageCode;
         data["address"] = this.address ? this.address.toJSON() : <any>undefined;
-        if (this.drives && this.drives.constructor === Array) {
-            data["drives"] = [];
-            for (let item of this.drives)
-                data["drives"].push(item.toJSON());
-        }
         if (this.ownerTokens && this.ownerTokens.constructor === Array) {
             data["ownerTokens"] = [];
             for (let item of this.ownerTokens)
@@ -33103,7 +33193,6 @@ export interface IUserDetail extends IUser {
     comment?: string | undefined;
     languageCode?: string | undefined;
     address?: IUserAddress | undefined;
-    drives?: IDrive[] | undefined;
     ownerTokens?: IOwnerToken[] | undefined;
     authorizationState: AuthorizationState;
 }
@@ -33170,56 +33259,6 @@ export interface IUserAddress {
     city?: string | undefined;
     phone?: string | undefined;
     countryCode?: string | undefined;
-}
-
-export class Drive implements IDrive {
-    id?: string | undefined;
-    name?: string | undefined;
-    driveType: DriveType;
-
-    constructor(data?: IDrive) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.name = data["name"];
-            this.driveType = data["driveType"];
-        }
-    }
-
-    static fromJS(data: any): Drive {
-        data = typeof data === 'object' ? data : {};
-        let result = new Drive();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["driveType"] = this.driveType;
-        return data; 
-    }
-}
-
-export interface IDrive {
-    id?: string | undefined;
-    name?: string | undefined;
-    driveType: DriveType;
-}
-
-export enum DriveType {
-    GoogleDrive = <any>"GoogleDrive", 
-    OneDrive = <any>"OneDrive", 
-    Dropbox = <any>"Dropbox", 
 }
 
 export class OwnerToken implements IOwnerToken {
@@ -33576,135 +33615,6 @@ export interface IUserWithRoles {
     emailAddress?: string | undefined;
 }
 
-export class Channel implements IChannel {
-    id?: string | undefined;
-    sortOrder: number;
-    /** The search index id. */
-    searchIndexId?: string | undefined;
-    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
-The search by filters and aggregations are unaffected. */
-    schemaIds?: string[] | undefined;
-    /** An optional search filter. Limits the content document result set on each search and aggregation request. */
-    filter?: FilterBase | undefined;
-    /** Language specific names. */
-    names?: TranslatedStringDictionary | undefined;
-    sort?: SortInfo[] | undefined;
-    /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
-    extendedSimpleSearchFields?: string[] | undefined;
-    /** Display pattern to use for rendering details when 0 results are returned */
-    missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
-
-    constructor(data?: IChannel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-            this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.sortOrder = data["sortOrder"];
-            this.searchIndexId = data["searchIndexId"];
-            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
-                this.schemaIds = [];
-                for (let item of data["schemaIds"])
-                    this.schemaIds.push(item);
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            if (data["aggregations"] && data["aggregations"].constructor === Array) {
-                this.aggregations = [];
-                for (let item of data["aggregations"])
-                    this.aggregations.push(AggregatorBase.fromJS(item));
-            }
-            if (data["extendedSimpleSearchFields"] && data["extendedSimpleSearchFields"].constructor === Array) {
-                this.extendedSimpleSearchFields = [];
-                for (let item of data["extendedSimpleSearchFields"])
-                    this.extendedSimpleSearchFields.push(item);
-            }
-            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Channel {
-        data = typeof data === 'object' ? data : {};
-        let result = new Channel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["sortOrder"] = this.sortOrder;
-        data["searchIndexId"] = this.searchIndexId;
-        if (this.schemaIds && this.schemaIds.constructor === Array) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        if (this.aggregations && this.aggregations.constructor === Array) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        if (this.extendedSimpleSearchFields && this.extendedSimpleSearchFields.constructor === Array) {
-            data["extendedSimpleSearchFields"] = [];
-            for (let item of this.extendedSimpleSearchFields)
-                data["extendedSimpleSearchFields"].push(item);
-        }
-        data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IChannel {
-    id?: string | undefined;
-    sortOrder: number;
-    /** The search index id. */
-    searchIndexId?: string | undefined;
-    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
-The search by filters and aggregations are unaffected. */
-    schemaIds?: string[] | undefined;
-    /** An optional search filter. Limits the content document result set on each search and aggregation request. */
-    filter?: FilterBase | undefined;
-    /** Language specific names. */
-    names?: ITranslatedStringDictionary | undefined;
-    sort?: ISortInfo[] | undefined;
-    /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
-    extendedSimpleSearchFields?: string[] | undefined;
-    /** Display pattern to use for rendering details when 0 results are returned */
-    missingResultsDisplayPatterns?: ITranslatedStringDictionary | undefined;
-}
-
 export class ContentsByIdsRequest implements IContentsByIdsRequest {
     contentIds?: string[] | undefined;
 
@@ -33997,8 +33907,7 @@ export interface ILanguageConfiguration {
 }
 
 export class Language implements ILanguage {
-    name?: string | undefined;
-    names?: TranslatedStringDictionary | undefined;
+    name?: TranslatedStringDictionary | undefined;
     ietf?: string | undefined;
     twoLetterISOLanguageName?: string | undefined;
     threeLetterISOLanguageName?: string | undefined;
@@ -34010,14 +33919,13 @@ export class Language implements ILanguage {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.name = data.name && !(<any>data.name).toJSON ? new TranslatedStringDictionary(data.name) : <TranslatedStringDictionary>this.name; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.name = data["name"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : <any>undefined;
             this.ietf = data["ietf"];
             this.twoLetterISOLanguageName = data["twoLetterISOLanguageName"];
             this.threeLetterISOLanguageName = data["threeLetterISOLanguageName"];
@@ -34034,8 +33942,7 @@ export class Language implements ILanguage {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
         data["ietf"] = this.ietf;
         data["twoLetterISOLanguageName"] = this.twoLetterISOLanguageName;
         data["threeLetterISOLanguageName"] = this.threeLetterISOLanguageName;
@@ -34045,12 +33952,159 @@ export class Language implements ILanguage {
 }
 
 export interface ILanguage {
-    name?: string | undefined;
-    names?: ITranslatedStringDictionary | undefined;
+    name?: ITranslatedStringDictionary | undefined;
     ietf?: string | undefined;
     twoLetterISOLanguageName?: string | undefined;
     threeLetterISOLanguageName?: string | undefined;
     regionCode?: string | undefined;
+}
+
+export class Channel implements IChannel {
+    id?: string | undefined;
+    sortOrder: number;
+    /** The search index id. */
+    searchIndexId?: string | undefined;
+    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+The search by filters and aggregations are unaffected. */
+    schemaIds?: string[] | undefined;
+    /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+    filter?: FilterBase | undefined;
+    /** Language specific names. */
+    names?: TranslatedStringDictionary | undefined;
+    sort?: SortInfo[] | undefined;
+    /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+    extendedSimpleSearchFields?: string[] | undefined;
+    /** User roles granted access to the channel. */
+    grantedUserRoleIds?: string[] | undefined;
+    /** Display pattern to use for rendering details when 0 results are returned */
+    missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+    audit?: UserAudit | undefined;
+
+    constructor(data?: IChannel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+            this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.sortOrder = data["sortOrder"];
+            this.searchIndexId = data["searchIndexId"];
+            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
+                this.schemaIds = [];
+                for (let item of data["schemaIds"])
+                    this.schemaIds.push(item);
+            }
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            if (data["aggregations"] && data["aggregations"].constructor === Array) {
+                this.aggregations = [];
+                for (let item of data["aggregations"])
+                    this.aggregations.push(AggregatorBase.fromJS(item));
+            }
+            if (data["extendedSimpleSearchFields"] && data["extendedSimpleSearchFields"].constructor === Array) {
+                this.extendedSimpleSearchFields = [];
+                for (let item of data["extendedSimpleSearchFields"])
+                    this.extendedSimpleSearchFields.push(item);
+            }
+            if (data["grantedUserRoleIds"] && data["grantedUserRoleIds"].constructor === Array) {
+                this.grantedUserRoleIds = [];
+                for (let item of data["grantedUserRoleIds"])
+                    this.grantedUserRoleIds.push(item);
+            }
+            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : <any>undefined;
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Channel {
+        data = typeof data === 'object' ? data : {};
+        let result = new Channel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["sortOrder"] = this.sortOrder;
+        data["searchIndexId"] = this.searchIndexId;
+        if (this.schemaIds && this.schemaIds.constructor === Array) {
+            data["schemaIds"] = [];
+            for (let item of this.schemaIds)
+                data["schemaIds"].push(item);
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        if (this.aggregations && this.aggregations.constructor === Array) {
+            data["aggregations"] = [];
+            for (let item of this.aggregations)
+                data["aggregations"].push(item.toJSON());
+        }
+        if (this.extendedSimpleSearchFields && this.extendedSimpleSearchFields.constructor === Array) {
+            data["extendedSimpleSearchFields"] = [];
+            for (let item of this.extendedSimpleSearchFields)
+                data["extendedSimpleSearchFields"].push(item);
+        }
+        if (this.grantedUserRoleIds && this.grantedUserRoleIds.constructor === Array) {
+            data["grantedUserRoleIds"] = [];
+            for (let item of this.grantedUserRoleIds)
+                data["grantedUserRoleIds"].push(item);
+        }
+        data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IChannel {
+    id?: string | undefined;
+    sortOrder: number;
+    /** The search index id. */
+    searchIndexId?: string | undefined;
+    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+The search by filters and aggregations are unaffected. */
+    schemaIds?: string[] | undefined;
+    /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+    filter?: FilterBase | undefined;
+    /** Language specific names. */
+    names?: ITranslatedStringDictionary | undefined;
+    sort?: ISortInfo[] | undefined;
+    /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+    extendedSimpleSearchFields?: string[] | undefined;
+    /** User roles granted access to the channel. */
+    grantedUserRoleIds?: string[] | undefined;
+    /** Display pattern to use for rendering details when 0 results are returned */
+    missingResultsDisplayPatterns?: ITranslatedStringDictionary | undefined;
+    audit?: IUserAudit | undefined;
 }
 
 export interface FileParameter {
