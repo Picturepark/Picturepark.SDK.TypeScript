@@ -16,7 +16,9 @@
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
+      "useSingletonProvider": true,
       "injectionTokenType": "InjectionToken",
+      "rxJsVersion": 6.0,
       "dateTimeType": "Date",
       "nullValue": "Undefined",
       "generateClientClasses": true,
@@ -54,6 +56,7 @@
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "PICTUREPARK_API_URL",
+      "queryNullValue": "",
       "serviceHost": ".",
       "output": "src/services/services.ts"
     }
