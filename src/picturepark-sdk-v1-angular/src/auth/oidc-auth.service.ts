@@ -5,7 +5,7 @@ import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
 import { PICTUREPARK_API_URL, AuthService } from '../services/services';
 import { PictureparkConfiguration } from '../services/configuration';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class OidcAuthService extends AuthService {
   private _isAuthenticating = false;
   private _isAuthenticated = false;
