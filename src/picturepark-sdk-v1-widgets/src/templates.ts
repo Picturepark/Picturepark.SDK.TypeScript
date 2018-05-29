@@ -182,8 +182,8 @@ export class PictureparkTemplates {
             <div class="picturepark-widget-card-gallery picturepark-widget-card-gallery-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
               {% if selection.isMovie %}
-              <div id="player_{{ forloop.index0 }}_{{ id }}">
-              </div>
+              <video class="video-js" id="player_{{ forloop.index0 }}_{{ id }}">
+              </video>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
                {% if selection.isBinary == false %}

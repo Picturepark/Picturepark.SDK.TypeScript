@@ -51,12 +51,13 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
     elementId + '>' + loadingTemplate + '</div>';
 
-  return window.fetch(initialConfig.server + '/service/publicAccess/shares/' + initialConfig.token).then(response => {
+  const options = { headers: { 'Accept': 'application/json' } };
+  return window.fetch(initialConfig.server + '/service/publicAccess/shares/' + initialConfig.token, options).then(response => {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
     var config = shareDetail.template as any;
-    switch(config.kind) {
+    switch (config.kind) {
       case "BasicTemplate":
         config.template = "gallery";
         break;
@@ -71,7 +72,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });
-    
+
     // Fallback to card templates
     if (contentTemplate === '') {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
@@ -121,11 +122,11 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
           isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
           isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : false,
-          isBinary: 
-            s.contentSchemaId === "ImageMetadata" || 
-            s.contentSchemaId === "VideoMetadata" || 
-            s.contentSchemaId === "AudioMetadata" || 
-            s.contentSchemaId === "FileMetadata" || 
+          isBinary:
+            s.contentSchemaId === "ImageMetadata" ||
+            s.contentSchemaId === "VideoMetadata" ||
+            s.contentSchemaId === "AudioMetadata" ||
+            s.contentSchemaId === "FileMetadata" ||
             s.contentSchemaId === "DocumentMetadata",
 
           previewUrl: previewOutput ? previewOutput.url : null,

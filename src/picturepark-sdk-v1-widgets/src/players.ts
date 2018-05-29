@@ -99,15 +99,20 @@ export class PictureparkPlayers {
 
   static renderVideoPlayer(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, elementId: string, width: any, height: any) {
     return this.loadVideoPlayer().then((videojs) => {
-      document.getElementById(elementId).classList.add('video-js');
-      return videojs(elementId, {
-        autoplay: true,
-        controls: true,
-        poster: item.previewUrl,
-        src: item.originalUrl,
-        type: item.originalFileExtension.substr(1),
-        width: width,
-        height: height
+      return new Promise((resolve) => {
+        var player = videojs(elementId, {
+          autoplay: false,
+          controls: true,
+          poster: item.previewUrl,
+          width: width,
+          height: height,
+          preload: 'auto'
+        }, () => {
+          resolve();
+        });
+
+        player.src({ type: 'video/mp4', src: item.originalUrl });
+        return player;
       });
     });
   }
@@ -115,7 +120,7 @@ export class PictureparkPlayers {
   static loadVideoPlayer() {
     if ((<any>window).videojs)
       return Promise.resolve((<any>window).videojs);
-    return this.loadScript("http://vjs.zencdn.net/6.6.3/video.js", 'videojs');
+    return this.loadScript("https://vjs.zencdn.net/7.0.3/video.js", 'videojs');
   }
 
   static showPdfJsItem(item) {
@@ -175,7 +180,7 @@ export class PictureparkPlayers {
           };
         } else if (i.isMovie) {
           return {
-            html: '<div id="jwplayer_' + i.id + '"></div>'
+            html: '<video class="video-js" id="jwplayer_' + i.id + '"></video>'
           };
         } else if (!i.isBinary) {
           return {
@@ -207,12 +212,12 @@ export class PictureparkPlayers {
             PictureparkPlayers.loadVideoPlayer().then(() => {
               for (let i of shareItems.filter(i => i.isMovie)) {
                 PictureparkPlayers.renderVideoPlayer(i, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
-                  if (player) {
-                    players.push(player);
-                    let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
-                    resizeCallbacks.push(resizeCallback);
-                    window.addEventListener('resize', resizeCallback, false);
-                  }
+                  // if (player) {
+                  //   players.push(player);
+                  //   let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
+                  //   resizeCallbacks.push(resizeCallback);
+                  //   window.addEventListener('resize', resizeCallback, false);
+                  // }
                 });
               }
             });

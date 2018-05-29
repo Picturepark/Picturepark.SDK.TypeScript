@@ -10,7 +10,7 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
 
-        <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">    <!--
+        <link href="https://vjs.zencdn.net/7.0.3/video-js.css" rel="stylesheet">    <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script>
     -->
 </head>
@@ -32,104 +32,12 @@ data-show-footer="false"
 data-show-logo="false"</pre>
         <script src="../dist/picturepark-widgets.js" async 
                 data-picturepark-server="https://devnext.preview-picturepark.com" 
-                data-token="upEeygkq"
+                data-token="U4jIHHy2"
                 data-template="card"
                 data-show-overlay="true"
                 data-show-footer="false"
                 data-show-logo="false"
                 data-width="640"></script>
-      </div>
-    </div>
-
-    <!-- "card" template -->
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <h3>"card" template: </h3>
-        <pre>data-template="card"
-data-show-overlay="false"
-data-show-footer="true"
-data-show-logo="true"</pre>
-        <script src="../dist/picturepark-widgets.js" async 
-                data-picturepark-server="https://devnext.preview-picturepark.com" 
-                data-token="BFIm96Ye"
-                data-template="card"
-                data-show-overlay="false"
-                data-show-footer="true"
-                data-show-logo="true"
-                data-width="350" 
-                data-height="350"></script>
-      </div>
-    </div>
-    
-    <!-- "card" template -->
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <h3>"card" template: </h3>
-        <script src="../dist/picturepark-widgets.js" async 
-                data-picturepark-server="https://devnext.preview-picturepark.com" 
-                data-token="BFIm96Ye"
-                data-template="card"
-                data-width="350" 
-                data-height="350"></script>
-      </div>
-    </div>
-
-    <!-- "list" template -->
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <h3>"list" template: </h3>
-        <script src="../dist/picturepark-widgets.js" async 
-                data-picturepark-server="https://devnext.preview-picturepark.com" 
-                data-token="BFIm96Ye"
-                data-template="list"
-                data-width="350" 
-                data-height="350"></script>
-      </div>
-    </div>
-
-    <!-- "gallery" template -->
-    <h3>"gallery" template:</h3>
-    <script src="../dist/picturepark-widgets.js" async 
-            data-picturepark-server="https://devnext.preview-picturepark.com" 
-            data-token="BFIm96Ye"
-            data-template="gallery"
-            data-show-overlay="true"
-            data-show-footer="false"
-            data-show-logo="false"
-            data-show-players="false"
-            data-width="200"></script>
-
-    <!-- Custom template -->
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <h3>Custom template:</h3>
-
-        <script type="text/template" 
-                data-picturepark-server="https://devnext.preview-picturepark.com" 
-                data-token="BFIm96Ye">
-          <template id="loading">
-            Custom loading template.
-          </template>
-          <template id="content">
-            <div class="picturepark-widget-share-inner" style="width: 250px">
-              <div class="picturepark-widget-share-legend">
-                <div class="picturepark-widget-share-title">{{ share.name }}</div>
-                <div class="picturepark-widget-share-description">{{ share.description }}</div>
-              </div>
-              {% for item in share.items %}
-              <div class="picturepark-widget-share-media">
-                <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ item.id }}')">
-                    <img src="{% resizeById item.id 'Preview' 250 250 %}" />
-                  </a>
-              </div>
-              {% endfor %}
-            </div>
-          </template>
-          <template id="error">
-            Custom error template.
-          </template>
-        </script>
-        <script src="../dist/picturepark-widgets.js" async></script>
       </div>
     </div>
   </div>
