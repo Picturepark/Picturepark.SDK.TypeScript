@@ -779,11 +779,6 @@ declare module "picturepark" {
          */
         getByOwnerToken(tokenId: string): Promise<UserDetail>;
         protected processGetByOwnerToken(response: Response): Promise<UserDetail>;
-        /**
-         * Get list of channels
-         */
-        getChannels(): Promise<Channel[]>;
-        protected processGetChannels(response: Response): Promise<Channel[]>;
     }
     export class OutputClient extends PictureparkClientBase {
         private http;
@@ -856,6 +851,19 @@ declare module "picturepark" {
         get(): Promise<CustomerInfo>;
         protected processGet(response: Response): Promise<CustomerInfo>;
     }
+    export class ChannelClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get list of channels
+         */
+        getChannels(): Promise<Channel[]>;
+        protected processGetChannels(response: Response): Promise<Channel[]>;
+    }
     export enum DisplayPatternType {
         Thumbnail,
         List,
@@ -897,7 +905,9 @@ declare module "picturepark" {
     export interface PictureparkConflictException extends PictureparkBusinessException {
         reference?: string | undefined;
     }
-    export interface PictureparkTimeoutException extends PictureparkBusinessException {
+    export interface PictureparkTimeoutException extends PictureparkValidationException {
+    }
+    export interface PictureparkForbiddenException extends PictureparkBusinessException {
     }
     export interface UserEmailAlreadyExistsException extends PictureparkValidationException {
         email?: string | undefined;
@@ -907,6 +917,8 @@ declare module "picturepark" {
     }
     export interface UserNotFoundException extends PictureparkBusinessException {
         missingUserId?: string | undefined;
+    }
+    export interface UserInactiveOrDeletedException extends PictureparkForbiddenException {
     }
     export interface RenderingException extends PictureparkBusinessException {
     }
@@ -959,15 +971,6 @@ declare module "picturepark" {
     export interface OutputNotFoundException extends PictureparkBusinessException {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
-    }
-    export interface DriveCacheExpiredException extends PictureparkBusinessException {
-    }
-    export interface DriveFileNotFoundException extends PictureparkNotFoundException {
-        fileId?: string | undefined;
-    }
-    export interface DriveRequestException extends PictureparkBusinessException {
-    }
-    export interface TokenValidationException extends PictureparkValidationException {
     }
     export interface LeaseNotAcquiredException extends PictureparkBusinessException {
         resourceId?: string | undefined;
@@ -1151,7 +1154,6 @@ declare module "picturepark" {
     export enum UserRight {
         ManageContent,
         ManageSharings,
-        ManageDrives,
         ManageTransfer,
         ManageChannels,
         ManageSchemas,
@@ -1159,7 +1161,6 @@ declare module "picturepark" {
         ManageUserRoles,
         ManagePermissions,
         ManageSearchIndexes,
-        ManageRecipients,
         ManageCollections,
         ManageListItems,
         ManageServiceProviders,
@@ -1208,8 +1209,6 @@ declare module "picturepark" {
     export enum TransferType {
         FileUpload,
         FileUploadAutoImport,
-        DriveImport,
-        DriveExport,
         WebDownload,
         SchemaImport,
     }
@@ -1264,9 +1263,6 @@ declare module "picturepark" {
         relationType?: string | undefined;
         targetDocType?: string | undefined;
         expectedTargetDocType?: string | undefined;
-    }
-    export interface AggregationFilterInvalidException extends PictureparkValidationException {
-        aggregationFilterNames?: string | undefined;
     }
     export interface AggregationNameInvalidException extends PictureparkValidationException {
         aggregationName?: string | undefined;
@@ -1395,6 +1391,10 @@ declare module "picturepark" {
         fieldId?: string | undefined;
         schemaId?: string | undefined;
     }
+    export interface SchemaFieldNotSearchableException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+    }
     export interface SchemaNoContentException extends PictureparkValidationException {
         schemaId?: string | undefined;
     }
@@ -1446,6 +1446,34 @@ declare module "picturepark" {
     export interface ContentLayerInvalidException extends PictureparkValidationException {
         contentId?: string | undefined;
         layerIds?: string | undefined;
+    }
+    export interface ContentFileReplaceTypeMismatchException extends PictureparkValidationException {
+        contentId?: string | undefined;
+        originalContentType: ContentType;
+        newContentType: ContentType;
+    }
+    export enum ContentType {
+        Unknown,
+        Bitmap,
+        VectorGraphic,
+        RawImage,
+        InterchangeDocument,
+        WordProcessingDocument,
+        TextDocument,
+        DesktopPublishingDocument,
+        Presentation,
+        Spreadsheet,
+        Archive,
+        Audio,
+        Video,
+        Font,
+        Multimedia,
+        Application,
+        SourceCode,
+        Database,
+        Cad,
+        Model3d,
+        ContentItem,
     }
     export interface BusinessProcessWaitTimeoutException extends PictureparkTimeoutException {
         businessProcessId?: string | undefined;
@@ -1536,33 +1564,9 @@ declare module "picturepark" {
         createdByUser?: string | undefined;
         modifiedByUser?: string | undefined;
     }
-    export enum ContentType {
-        Unknown,
-        Bitmap,
-        VectorGraphic,
-        RawImage,
-        InterchangeDocument,
-        WordProcessingDocument,
-        TextDocument,
-        DesktopPublishingDocument,
-        Presentation,
-        Spreadsheet,
-        Archive,
-        Audio,
-        Video,
-        Font,
-        Multimedia,
-        Application,
-        SourceCode,
-        Database,
-        Cad,
-        Model3d,
-        ContentItem,
-    }
     export interface DisplayValueDictionary {
         [key: string]: string | any;
     }
-    /** A custom implementation of Dictionary{string, object} */
     export interface DataDictionary {
         [key: string]: any;
     }
@@ -2742,8 +2746,6 @@ declare module "picturepark" {
     export interface FieldString extends FieldBase {
         /** It is a DotLiquid template. */
         template?: string | undefined;
-        /** If true the Template will only render on item creation otherwise it will render on each update. */
-        keepFieldValue: boolean;
         /** Contains a regex validation pattern. */
         pattern?: string | undefined;
         /** Defines the minimal string length. */
@@ -2809,8 +2811,6 @@ declare module "picturepark" {
         requiredMetadataLanguages?: string[] | undefined;
         /** It is a DotLiquid template. */
         template?: string | undefined;
-        /** If true the Template will only render on item creation otherwise it will render on each update. */
-        keepFieldValue: boolean;
         /** Priorizes search results. SimpleSearch must be true. */
         boost: number;
     }
@@ -2960,7 +2960,9 @@ declare module "picturepark" {
         } | undefined;
         /** Contains all simple search field name variants of the field.
     The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-        simpleSearchFields?: string[] | undefined;
+        simpleSearchFields?: {
+            [key: string]: string;
+        } | undefined;
         /** Contains the fields boost value. */
         boost: number;
         /** Not to be returned for search query, but only used for mapping purposes */
@@ -3048,6 +3050,7 @@ declare module "picturepark" {
     }
     export enum PermissionSetRight {
         Apply,
+        Manage,
     }
     export interface BaseResultOfPermissionSet {
         totalResults: number;
@@ -3076,6 +3079,7 @@ declare module "picturepark" {
         userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
+        ownerTokenId?: string | undefined;
     }
     export interface ContentPermissionSetDetail extends PermissionSetDetailOfContentRight {
     }
@@ -3096,6 +3100,7 @@ declare module "picturepark" {
         userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
+        ownerTokenId?: string | undefined;
     }
     export interface SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRight {
     }
@@ -3398,7 +3403,6 @@ declare module "picturepark" {
         name?: string | undefined;
         transferType: TransferType;
         files?: TransferUploadFile[] | undefined;
-        driveFiles?: TransferDriveFile[] | undefined;
         webLinks?: TransferWebLink[] | undefined;
         collectionName?: string | undefined;
         createCollection: boolean;
@@ -3408,12 +3412,6 @@ declare module "picturepark" {
     }
     export interface TransferUploadFile extends TransferFile {
         fileName?: string | undefined;
-    }
-    export interface TransferDriveFile extends TransferFile {
-        driveId?: string | undefined;
-        fileId?: string | undefined;
-        name?: string | undefined;
-        externalOutputFolderId?: string | undefined;
     }
     export interface TransferWebLink extends TransferFile {
         url?: string | undefined;
@@ -3427,7 +3425,6 @@ declare module "picturepark" {
         transferId?: string | undefined;
         state: FileTransferState;
         fileMetadata?: FileMetadata | undefined;
-        driveMetadata?: DriveMetadata | undefined;
         outputItems?: FileTransferOutput[] | undefined;
         contentId?: string | undefined;
     }
@@ -3553,18 +3550,6 @@ declare module "picturepark" {
         width?: number | undefined;
         rotation?: number | undefined;
     }
-    export interface DriveMetadata {
-        location?: string | undefined;
-        fileType?: string | undefined;
-        audit?: DriveMetadataAudit | undefined;
-        description?: string | undefined;
-    }
-    export interface DriveMetadataAudit {
-        owner?: string | undefined;
-        modified?: string | undefined;
-        opened?: string | undefined;
-        created?: string | undefined;
-    }
     export interface FileTransferOutput {
         id?: string | undefined;
         filePath?: string | undefined;
@@ -3641,7 +3626,6 @@ declare module "picturepark" {
         comment?: string | undefined;
         languageCode?: string | undefined;
         address?: UserAddress | undefined;
-        drives?: Drive[] | undefined;
         ownerTokens?: OwnerToken[] | undefined;
         authorizationState: AuthorizationState;
     }
@@ -3654,16 +3638,6 @@ declare module "picturepark" {
         city?: string | undefined;
         phone?: string | undefined;
         countryCode?: string | undefined;
-    }
-    export interface Drive {
-        id?: string | undefined;
-        name?: string | undefined;
-        driveType: DriveType;
-    }
-    export enum DriveType {
-        GoogleDrive,
-        OneDrive,
-        Dropbox,
     }
     export interface OwnerToken {
         /** The ownertoken id. */
@@ -3713,26 +3687,6 @@ declare module "picturepark" {
         lastName?: string | undefined;
         emailAddress?: string | undefined;
     }
-    export interface Channel {
-        id?: string | undefined;
-        sortOrder: number;
-        /** The search index id. */
-        searchIndexId?: string | undefined;
-        /** An id list of schemas with schema type content whose content documents should be found by the simple search.
-    The search by filters and aggregations are unaffected. */
-        schemaIds?: string[] | undefined;
-        /** An optional search filter. Limits the content document result set on each search and aggregation request. */
-        filter?: FilterBase | undefined;
-        /** Language specific names. */
-        names?: TranslatedStringDictionary | undefined;
-        sort?: SortInfo[] | undefined;
-        /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
-        aggregations?: AggregatorBase[] | undefined;
-        /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
-        extendedSimpleSearchFields?: string[] | undefined;
-        /** Display pattern to use for rendering details when 0 results are returned */
-        missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
-    }
     export interface ContentsByIdsRequest {
         contentIds?: string[] | undefined;
     }
@@ -3775,6 +3729,29 @@ declare module "picturepark" {
         twoLetterISOLanguageName?: string | undefined;
         threeLetterISOLanguageName?: string | undefined;
         regionCode?: string | undefined;
+    }
+    export interface Channel {
+        id?: string | undefined;
+        sortOrder: number;
+        /** The search index id. */
+        searchIndexId?: string | undefined;
+        /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+    The search by filters and aggregations are unaffected. */
+        schemaIds?: string[] | undefined;
+        /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+        filter?: FilterBase | undefined;
+        /** Language specific names. */
+        names?: TranslatedStringDictionary | undefined;
+        sort?: SortInfo[] | undefined;
+        /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+        aggregations?: AggregatorBase[] | undefined;
+        /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+        extendedSimpleSearchFields?: string[] | undefined;
+        /** User roles granted access to the channel. */
+        grantedUserRoleIds?: string[] | undefined;
+        /** Display pattern to use for rendering details when 0 results are returned */
+        missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+        audit?: UserAudit | undefined;
     }
     export interface FileParameter {
         data: any;

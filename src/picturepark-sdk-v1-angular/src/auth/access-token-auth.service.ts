@@ -4,7 +4,7 @@ import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
 import { PictureparkConfiguration } from '../services/configuration';
 import { AuthService, PICTUREPARK_API_URL } from '../services/services';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AccessTokenAuthService extends AuthService {
   constructor(
     @Optional() @Inject(PICTUREPARK_API_URL) private pictureparkApiUrl?: string,

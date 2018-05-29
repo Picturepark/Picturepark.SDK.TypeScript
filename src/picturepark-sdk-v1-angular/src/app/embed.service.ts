@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Content, ShareService, ShareEmbedCreateRequest, OutputAccess, ShareDetail, ShareContent } from '../services/services';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EmbedService {
   constructor(private shareService: ShareService) {
   }
