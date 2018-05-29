@@ -1,6 +1,6 @@
 # picturepark-sdk-v1-angular
 
-![logo](https://raw.githubusercontent.com/Picturepark/Picturepark.SDK.TypeScript/master/assets/logo.png)
+![logo](https://raw.githubusercontent.com/Picturepark/Picturepark.SDK.TypeScript/master/assets/picturepark-logo.svg)
 
 Contains Angular service classes and UI components to access the public Picturepark API.
 
