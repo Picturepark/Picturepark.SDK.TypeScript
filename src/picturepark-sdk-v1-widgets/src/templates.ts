@@ -16,6 +16,7 @@ export class PictureparkTemplates {
   private static getGallery(): string {
     return `
       {% if config.renderStyles %}
+      <link href="https://vjs.zencdn.net/7.0.3/video-js.css" rel="stylesheet">
       <style>
        .picturepark-widget-content-preview {
          background-color: white;
@@ -75,6 +76,7 @@ export class PictureparkTemplates {
   private static getCard(): string {
     return `
       {% if config.renderStyles %}
+      <link href="https://vjs.zencdn.net/7.0.3/video-js.css" rel="stylesheet">
       <style>
        .picturepark-widget-content-preview {
          background-color: white;
@@ -257,6 +259,7 @@ export class PictureparkTemplates {
   private static getList(): string {
     return `
       {% if config.renderStyles %}
+      <link href="https://vjs.zencdn.net/7.0.3/video-js.css" rel="stylesheet">
       <style>
         .picturepark-widget-{{id}} {
           all: initial;
