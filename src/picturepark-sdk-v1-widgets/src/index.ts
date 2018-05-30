@@ -164,7 +164,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       // Load movie players
       for (let item of share.items) {
         if (item.isMovie) {
-          let elementId = 'player_' + item.index + "_" + id;
+          let elementId = 'vjsplayer_' + item.index + "_" + id;
           setTimeout(() => {
             if (document.getElementById(elementId)) {
               PictureparkPlayers.renderVideoPlayer(item, elementId, config.width, config.height).then(player => {

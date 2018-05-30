@@ -55,8 +55,8 @@ export class PictureparkTemplates {
         {% for selection in share.items %}
           <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
             {% if selection.isMovie and config.showPlayers != 'no' and config.showPlayers != 'false' %}
-            <div id="player_{{ forloop.index0 }}_{{ id }}">
-            </div>
+            <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
+            </video>
             {% else %}
             <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
               {% if selection.isBinary == false %}
@@ -182,7 +182,7 @@ export class PictureparkTemplates {
             <div class="picturepark-widget-card-gallery picturepark-widget-card-gallery-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
               {% if selection.isMovie %}
-              <video class="video-js" id="player_{{ forloop.index0 }}_{{ id }}">
+              <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
               </video>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">

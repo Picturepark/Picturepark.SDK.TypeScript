@@ -180,7 +180,7 @@ export class PictureparkPlayers {
           };
         } else if (i.isMovie) {
           return {
-            html: '<video class="video-js" id="jwplayer_' + i.id + '"></video>'
+            html: '<video class="video-js" id="vjsplayer_' + i.id + '"></video>'
           };
         } else if (!i.isBinary) {
           return {
@@ -211,7 +211,7 @@ export class PictureparkPlayers {
             // TODO: Only update if not already initialized
             PictureparkPlayers.loadVideoPlayer().then(() => {
               for (let i of shareItems.filter(i => i.isMovie)) {
-                PictureparkPlayers.renderVideoPlayer(i, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
+                PictureparkPlayers.renderVideoPlayer(i, "vjsplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
                   // if (player) {
                   //   players.push(player);
                   //   let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
