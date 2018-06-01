@@ -1,6 +1,6 @@
 import {
   Component, EventEmitter, Input, Output, OnInit, OnDestroy,
-  AfterViewInit, ViewChild, ElementRef, Inject, SimpleChanges, OnChanges, forwardRef
+  AfterViewInit, ViewChild, Inject, SimpleChanges, OnChanges, forwardRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
