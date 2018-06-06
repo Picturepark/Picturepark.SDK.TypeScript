@@ -102,7 +102,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           outputFormatId: string;
           fileExtension: string;
           url: string;
-          detail: picturepark.OutputDetailBase;
+          detail: picturepark.OutputDataBase;
         };
 
         for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original", "Preview"]) {
