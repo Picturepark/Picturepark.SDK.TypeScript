@@ -51,7 +51,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
     elementId + '>' + loadingTemplate + '</div>';
 
-  return window.fetch(initialConfig.server + '/j/' + initialConfig.token).then(response => {
+  return window.fetch(initialConfig.server + '/json/' + initialConfig.token).then(response => {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
