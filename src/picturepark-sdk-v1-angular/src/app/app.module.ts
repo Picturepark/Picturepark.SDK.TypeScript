@@ -11,6 +11,8 @@ import { ShareCardComponent } from './share-card/share-card.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
 import { ContentPickerDetailsComponent } from './content-picker-details/content-picker-details.component';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 import { FileSizePipe } from 'app/pipes/filesize.pipe';
 
 import { PictureparkOidcAuthConfiguration } from '../auth/oidc-auth.service';
@@ -50,6 +52,9 @@ export function PictureparkConfigurationFactory() {
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+
+    MatToolbarModule,
+
     PictureparkUiModule,
     PictureparkOidcModule,
     RouterModule.forRoot([

@@ -2,17 +2,18 @@ import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewIni
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { EmbedService } from '../embed.service';
-import { AggregationFilter, Content, AggregationResult, AuthService } from '../../services/services';
+import { AggregationFilter, Content, AggregationResult, AuthService, Channel, FilterBase } from '../../services/services';
 import { SelectionMode, ContentBrowserComponent } from '../../components/content-browser/content-browser.component';
 import { OidcAuthService } from '../../auth/oidc-auth.service';
 
 @Component({
-  templateUrl: './content-picker.component.html'
+  templateUrl: './content-picker.component.html',
+  styleUrls: ['./content-picker.component.scss']
 })
 export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   searchText = '';
-  selectedChannel = '';
-  selectedFilters: AggregationFilter[] = [];
+  selectedChannel: Channel | null = null;
+  selectedFilter: FilterBase | null = null;
   selectionMode = SelectionMode.Multiple;
 
   selectedItems: Content[] = [];
@@ -36,6 +37,11 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
     private embedService: EmbedService,
     @Inject(AuthService) public authService: OidcAuthService) {
   }
+
+  public filterChange(changes: any) {
+    this.selectedFilter = changes;
+  }
+
 
   onWindowUnload = () => {
     if (this.authService.isAuthenticated && !this.messagePosted && window.opener) {
@@ -97,10 +103,6 @@ export class ContentPickerComponent implements OnInit, OnDestroy, AfterViewInit 
       this.contentBrowserHeight = (windowHeight - 160 + 20) + 'px';
       this.contentBrowserColumns = Math.floor(windowWidth / 250) - 1;
       this.aggregationFilterHeight = (windowHeight - 188 + 20) + 'px';
-
-      if (this.contentBrowser) {
-        this.contentBrowser.refresh();
-      }
     }
   }
 

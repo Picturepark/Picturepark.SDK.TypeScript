@@ -1,0 +1,14 @@
+<mat-expansion-panel [expanded]="expandedAggregationResult?.aggregationResultItems?.length > 0" [disabled]="expandedAggregationResult?.aggregationResultItems?.length === 0">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ expandedAggregator?.names | pptranslate}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
+    <mat-list-option *ngFor="let item of expandedAggregationResult?.aggregationResultItems" checkboxPosition="before" [selected]="item.active"
+      [value]="item">
+      {{item.getDisplayName(locale)}} ({{item.count}})
+    </mat-list-option>
+  </mat-selection-list>
+</mat-expansion-panel>

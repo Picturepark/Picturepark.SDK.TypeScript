@@ -1,18 +1,34 @@
-<div class="picturepark-content-browser">
+<div class="some" [style.min-width]="columns * 200 + 'px'" cdkScrollable>
+
+
+
+
+  <mat-grid-list gutterSize="10px" [cols]="columns" rowHeight="6:5">
+    <mat-grid-tile *ngFor="let itemModel of items">
+      <pp-content-browser-item [itemModel]="itemModel">
+      </pp-content-browser-item>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+
+
+  <!--
   <virtual-scroll #virtualScroll
                   *ngIf="items.length > 0"
-                  [items]="items" 
-                  (update)="viewPortItems = $event" 
-                  (change)="onListChange($event)" 
-                  [style.height]="height"
+                  [items]="items"
+                  (update)="viewPortItems = $event"
+                  (change)="onListChange($event)"
+                  [style.height]="500"
                   style="display:block">
-    <pp-content-browser-item *ngFor="let itemModel of viewPortItems"
+                  [style.cursor]="selectionMode !== 'none' ? 'pointer' : ''"
+    <pp-content-browser-item *ngFor="let itemModel of items"
                              style="display: inline-block"
-                             [style.cursor]="selectionMode !== 'none' ? 'pointer' : ''"
-                             [itemModel]="itemModel" 
+                             [itemModel]="itemModel"
                              [style.width]="(100 / columns) + '%'">
     </pp-content-browser-item>
   </virtual-scroll>
+
+  -->
   <div *ngIf="items.length === 0 && !isLoading">
     {{'ContentBrowser.TextNoItems' | pptranslate}}
   </div>

@@ -1,0 +1,32 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.container {
+    display: flex;
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.filters {
+    width: 550px;
+    max-width: 100%;
+}
+
+.content {
+  flex-grow: 1;
+  flex-basis: 0;
+  overflow: auto;
+
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

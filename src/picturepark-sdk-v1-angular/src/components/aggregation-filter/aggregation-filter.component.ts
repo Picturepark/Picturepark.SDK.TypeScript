@@ -1,117 +1,123 @@
-import { Component, Input, OnChanges, SimpleChange, LOCALE_ID, Inject, Output, EventEmitter } from '@angular/core';
-import { InputConverter, StringConverter } from '../converter';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 import {
-  ContentService,
-  ObjectAggregationResult,
-  ContentAggregationOnChannelRequest,
-  AggregationFilter,
-  FilterBase,
-  AggregationResult,
-  AggregationResultItem,
-  ContentSearchType,
-  OrFilter,
-  BrokenDependenciesFilter,
-  LifeCycleFilter
+  ContentService, ContentAggregationOnChannelRequest, AggregationFilter, AggregationResult,
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, AggregatorBase, FilterBase, OrFilter, AndFilter
 } from '../../services/services';
+
 
 @Component({
   selector: 'pp-aggregation-filter',
-  templateUrl: './aggregation-filter.component.html'
+  templateUrl: './aggregation-filter.component.html',
+  styleUrls: ['./aggregation-filter.component.scss']
 })
 export class AggregationFilterComponent implements OnChanges {
-  isLoading = true;
+  // TODO: aggregationFilters as input.
+  @Input()
+  public channel: Channel;
 
-  aggregations: AggregationResult[] = [];
+  @Input()
+  public query = '';
+
+  // Filter used for search. E.g.: Nested filter,And filter,Or filter.
   @Output()
-  aggregationsChange = new EventEmitter<AggregationResult[]>();
+  public filterChange = new EventEmitter<FilterBase | null>();
 
-  @Input()
-  @InputConverter(StringConverter)
-  channel = '';
+  // Aggregation filters used for Aggregation function.
+  public aggregationFiltersFlat: AggregationFilter[] = [];
 
-  @Input()
-  query = '';
+  // Aggregation filters connected to aggregators by index.
+  private aggregationFilters: Array<AggregationFilter[]> = [];
 
-  @Input()
-  filters: FilterBase[] | null = null;
-  @Output()
-  filtersChange = new EventEmitter<AggregationFilter[]>();
+  public isLoading = true;
 
-  aggregationFilters: AggregationFilter[];
+  public aggregators: AggregatorBase[] = [];
 
-  constructor(private contentService: ContentService, @Inject(LOCALE_ID) private locale: string) {
+  public aggregationResults: AggregationResult[] = [];
+
+  constructor(private contentService: ContentService) {
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['channel'] || changes['query'] || changes['filters']) {
-      this.refresh();
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['channel'] && this.channel) {
+      this.aggregators = this.channel.aggregations || [];
+      this.aggregationResults = []
+      this.aggregationFilters = [];
+      this.aggregationFiltersFlat = [];
+      this.filterChange.emit(null);
+    }
+
+    if (changes['channel'] || changes['query']) {
+      this.fetchData();
     }
   }
 
-  refresh() {
+  public clearFilters(): void {
+    // TODO: implement this.
+  }
+
+  public aggregationFiltersChanged(aggregatorIndex: number, aggregationFilters: AggregationFilter[]): void {
+    this.aggregationFilters[aggregatorIndex] = aggregationFilters;
+
+    // flatten array and remove undefined.
+    this.aggregationFiltersFlat = ([] as AggregationFilter[]).concat(...this.aggregationFilters).filter(item => item);
+    const filter = this.getFilter(this.aggregationFilters);
+    this.filterChange.emit(filter);
+
+    this.fetchData();
+  }
+
+  private getFilter(aggregationFilters: Array<AggregationFilter[]>): FilterBase | null {
+    const preparedFilters = aggregationFilters
+      .map(array => {
+        const filtered = array.filter(aggregationFilter => aggregationFilter.filter)
+          .map(aggregationFilter => aggregationFilter.filter as FilterBase);
+
+        switch (filtered.length) {
+          case 0: return null;
+          case 1: return filtered[0];
+          default: return new OrFilter({ filters: filtered });
+        }
+      })
+      .filter(filter => filter !== null);
+
+    switch (preparedFilters.length) {
+      case 0: return null;
+      case 1: return preparedFilters[0];
+      default: return new AndFilter({ filters: preparedFilters as FilterBase[] })
+    }
+  }
+
+  private fetchData() {
     if (this.channel) {
       this.isLoading = true;
       const request = new ContentAggregationOnChannelRequest({
-        channelId: this.channel,
+        channelId: this.channel.id,
         searchString: this.query,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.aggregationFilters,
+        aggregationFilters: this.aggregationFiltersFlat,
         searchType: ContentSearchType.MetadataAndFullText,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly
       });
 
-      return this.contentService.aggregateOnChannel(request).toPromise().then(result => {
-        if (result && result.aggregationResults) {
-          this.aggregations = result.aggregationResults.filter(r =>
-            r.sumOtherDocCount !== null &&
-            r.aggregationResultItems &&
-            r.aggregationResultItems.length > 0);
-        } else {
-          this.aggregations = [];
-        }
-
+      this.contentService.aggregateOnChannel(request).subscribe(result => {
+        this.processAggregationResults(result.aggregationResults || []);
         this.isLoading = false;
-      }, error => {
-        this.aggregations = [];
+      }, () => {
         this.isLoading = false;
-      }).then(() => {
-        this.aggregationsChange.emit(this.aggregations);
       });
     }
-
-    return Promise.resolve();
   }
 
-  selectionChanged(changedItem: AggregationResultItem) {
-    changedItem.active = !changedItem.active;
+  private processAggregationResults(aggregationResults: AggregationResult[]) {
+    this.aggregationResults = [];
 
-    const filters: FilterBase[] = [];
-    const aggregationFilters: AggregationFilter[] = [];
-    if (this.aggregations) {
-      for (const result of this.aggregations) {
-        const resultFilters: FilterBase[] = [];
+    aggregationResults.forEach(aggregationResult => {
+      const aggregatorIndex = this.aggregators.findIndex(aggregator => aggregator.name === aggregationResult.name);
 
-        if (result.aggregationResultItems) {
-          for (const item of result.aggregationResultItems) {
-            if (item.active && item.filter) {
-              aggregationFilters.push(item.filter);
-              resultFilters.push(item.filter.filter!);
-            }
-          }
-        }
-
-        if (resultFilters.length > 0) {
-          const orFilter = new OrFilter();
-          orFilter.filters = resultFilters;
-          filters.push(orFilter);
-        }
+      if (aggregatorIndex > -1) {
+        this.aggregationResults[aggregatorIndex] = aggregationResult;
       }
-    }
-
-    this.aggregationFilters = aggregationFilters;
-
-    this.filters = filters;
-    this.filtersChange.emit(filters);
+    });
   }
 }

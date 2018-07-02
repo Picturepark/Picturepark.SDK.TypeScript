@@ -1,107 +1,125 @@
+import { Subscription } from 'rxjs';
+
 import {
   Component, Input, Output, OnChanges, SimpleChange,
-  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef
+  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef, SimpleChanges, OnInit, NgZone, OnDestroy
 } from '@angular/core';
 import { InputConverter, StringConverter, NumberConverter } from '../converter';
 
-import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
-
 import {
   ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
-  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter
+  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
 } from '../../services/services';
 import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
+import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
 
+
+// TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 @Component({
   selector: 'pp-content-browser',
-  templateUrl: './content-browser.component.html'
+  templateUrl: './content-browser.component.html',
+  styleUrls: ['./content-browser.component.scss']
 })
-export class ContentBrowserComponent implements OnChanges {
-  private totalResults: number = -1;
+export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
+  private readonly ItemsPerRequest = 50;
+  private totalResults = -1;
 
   isLoading = false;
   items: ContentModel[] = [];
 
   @Input()
-  @InputConverter(StringConverter)
-  height = '500px';
-
-  @Input()
-  @InputConverter(StringConverter)
-  channel = '';
+  channel: Channel | null = null;
 
   @Input()
   query = '';
 
   @Input()
-  filters: FilterBase[] = [];
+  filter: FilterBase | null = null;
 
-  @Input()
-  selectionMode = SelectionMode.Multiple;
+  // @Input()
+  // selectionMode = SelectionMode.Multiple;
 
   @Input()
   @InputConverter(NumberConverter)
   columns = 2;
 
-  @Input()
-  selectedItems: Content[] = [];
-  @Output()
-  selectedItemsChange = new EventEmitter<Content[]>();
+  // @Input()
+  // selectedItems: Content[] = [];
+  // @Output()
+  // selectedItemsChange = new EventEmitter<Content[]>();
 
-  @Output()
-  doubleClick = new EventEmitter<Content>();
+  // @Output()
+  // doubleClick = new EventEmitter<Content>();
 
-  @ViewChild('virtualScroll')
-  private virtualScroll: VirtualScrollComponent;
 
-  constructor(private contentService: ContentService) {
+  private scrollSubscription: Subscription;
+
+  constructor(private contentService: ContentService, private scrollDispatcher: ScrollDispatcher, private ngZone: NgZone) {
+
   }
 
-  toggleSelected(item: ContentModel) {
-    if (this.selectionMode === SelectionMode.Single) {
-      for (const i of this.items) {
-        i.isSelected = i === item ? !i.isSelected : false;
-      }
-    } else if (this.selectionMode === SelectionMode.Multiple) {
-      item.isSelected = !item.isSelected;
-    }
-    this.updateSelectedItems();
+  public ngOnInit(): void {
+    this.scrollSubscription = this.scrollDispatcher.scrolled()
+      .subscribe(scrollable => {
+        if (scrollable) {
+          const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+          const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
+
+          if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
+            this.ngZone.run(() => this.loadData())
+          }
+        }
+      });
   }
 
-  onDoubleClicked(item: ContentModel) {
-    this.doubleClick.emit(item.item);
+  public ngOnDestroy(): void {
+    this.scrollSubscription.unsubscribe();
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['channel'] || changes['filters'] || changes['query']) {
+  // toggleSelected(item: ContentModel) {
+  //   // if (this.selectionMode === SelectionMode.Single) {
+  //   //   for (const i of this.items) {
+  //   //     i.isSelected = i === item ? !i.isSelected : false;
+  //   //   }
+  //   // } else if (this.selectionMode === SelectionMode.Multiple) {
+  //   //   item.isSelected = !item.isSelected;
+  //   // }
+  //   // this.updateSelectedItems();
+  // }
+
+  // onDoubleClicked(item: ContentModel) {
+  //   this.doubleClick.emit(item.item);
+  // }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['channel'] || changes['filter'] || changes['query']) {
+      console.log('changes');
+      console.log(changes);
       this.items = [];
       this.loadData();
-    } else if (changes['selectionMode']) {
-      this.onSelectionModeChanged()
-    } else if (changes['selectedItems']) {
-      this.onSelectedItems();
     }
+    // } else if (changes['selectionMode']) {
+    //   this.onSelectionModeChanged()
+    // } else if (changes['selectedItems']) {
+    //   this.onSelectedItems();
+    // }
   }
 
-  public refresh() {
-    if (this.virtualScroll) {
-      this.virtualScroll.refresh();
-    }
-  }
-
-  protected loadData() {
-    if (this.channel && !this.isLoading) {
+  private loadData() {
+    if (this.channel && this.channel.id && !this.isLoading) {
       this.isLoading = true;
+
       const request = new ContentSearchRequest({
         debugMode: false,
         start: this.items.length,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        filter: new AndFilter({ filters: this.filters }),
-        channelId: this.channel,
+        filter: this.filter ? this.filter : undefined,
+        channelId: this.channel.id,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        limit: 50,
+        limit: this.ItemsPerRequest,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
+        // TODO select sort.
         sort: [
           new SortInfo({
             field: 'audit.creationDate',
@@ -110,66 +128,47 @@ export class ContentBrowserComponent implements OnChanges {
         ]
       });
 
-      return this.contentService.search(request).toPromise().then(result => {
-        if (result) {
-          this.totalResults = result.totalResults;
-          if (result.results) {
-            for (const r of result.results) {
-              this.items.push(new ContentModel(r, this));
-            }
-          }
+      this.contentService.search(request).subscribe(searchResult => {
+        this.totalResults = searchResult.totalResults;
+        if (searchResult.results) {
+          this.items.push(...searchResult.results.map(item => new ContentModel(item, this)));
         }
 
-        this.updateSelectedItems();
-        this.refresh();
+        // this.updateSelectedItems();
         this.isLoading = false;
-      }, error => {
+      }, () => {
         this.totalResults = -1;
         this.isLoading = false;
       });
     }
-
-    return Promise.resolve();
   }
 
-  protected onListChange(event: ChangeEvent) {
-    if (event.end !== this.items.length) {
-      return;
-    }
+  // private updateSelectedItems() {
+  //   this.selectedItems = this.items.filter(i => i.isSelected).map(i => i.item);
+  //   this.selectedItemsChange.emit(this.selectedItems);
+  // }
 
-    if (event.end === this.totalResults) {
-      return;
-    }
+  // private onSelectionModeChanged() {
+  //   if (this.selectionMode === SelectionMode.None) {
+  //     for (const item of this.items) {
+  //       item.isSelected = false;
+  //     }
+  //   } else if (this.selectionMode === SelectionMode.Single) {
+  //     if (this.selectedItems.length > 1) {
+  //       for (const item of this.items) {
+  //         item.isSelected = false;
+  //       }
+  //     }
+  //   }
 
-    this.loadData();
-  }
+  //   setTimeout(() => this.updateSelectedItems(), 0);
+  // }
 
-  private updateSelectedItems() {
-    this.selectedItems = this.items.filter(i => i.isSelected).map(i => i.item);
-    this.selectedItemsChange.emit(this.selectedItems);
-  }
-
-  private onSelectionModeChanged() {
-    if (this.selectionMode === SelectionMode.None) {
-      for (const item of this.items) {
-        item.isSelected = false;
-      }
-    } else if (this.selectionMode === SelectionMode.Single) {
-      if (this.selectedItems.length > 1) {
-        for (const item of this.items) {
-          item.isSelected = false;
-        }
-      }
-    }
-
-    setTimeout(() => this.updateSelectedItems(), 0);
-  }
-
-  private onSelectedItems() {
-    for (const item of this.items) {
-      item.isSelected = this.selectedItems.filter(i => i.id === item.item.id).length > 0;
-    }
-  }
+  // private onSelectedItems() {
+  //   for (const item of this.items) {
+  //     item.isSelected = this.selectedItems.filter(i => i.id === item.item.id).length > 0;
+  //   }
+  // }
 }
 
 export enum SelectionMode {
