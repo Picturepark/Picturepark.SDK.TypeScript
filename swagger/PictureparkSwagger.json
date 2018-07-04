@@ -5940,400 +5940,6 @@
         ]
       }
     },
-    "/v1/shareAccess/json/{token}": {
-      "get": {
-        "tags": [
-          "ShareAccess"
-        ],
-        "summary": "Get Share json",
-        "operationId": "ShareAccess_GetShareJson",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ShareDetail",
-            "schema": {},
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
-    "/v1/shareAccess/d/{token}": {
-      "get": {
-        "tags": [
-          "ShareAccess"
-        ],
-        "summary": "Download Shared outputs",
-        "operationId": "ShareAccess_Download",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The token"
-          },
-          {
-            "type": "integer",
-            "name": "width",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Optional width in pixels to resize image",
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "height",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Optional height in pixels to resize image",
-            "format": "int32"
-          },
-          {
-            "type": "string",
-            "name": "range",
-            "in": "header",
-            "x-nullable": true,
-            "description": "The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "HttpResponseMessage",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": false
-          },
-          "206": {
-            "description": "HttpResponseMessage",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": true
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
-    "/v1/shareAccess/d/{token}/{contentId}": {
-      "get": {
-        "tags": [
-          "ShareAccess"
-        ],
-        "summary": "Download Shared outputs\n            ",
-        "description": "Download single content in a specific outputformat. To resize images on download specify target width &amp; height. To download only a portion of the file, specify the range parameter.",
-        "operationId": "ShareAccess_DownloadWithContentId",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The token"
-          },
-          {
-            "type": "string",
-            "name": "contentId",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The content id"
-          },
-          {
-            "type": "integer",
-            "name": "width",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Optional width in pixels to resize image",
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "height",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Optional height in pixels to resize image",
-            "format": "int32"
-          },
-          {
-            "type": "string",
-            "name": "range",
-            "in": "header",
-            "x-nullable": true,
-            "description": "The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "HttpResponseMessage",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": false
-          },
-          "206": {
-            "description": "HttpResponseMessage",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": true
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
-    "/v1/shareAccess/d/{token}/{contentId}/{outputFormatId}": {
-      "get": {
-        "tags": [
-          "ShareAccess"
-        ],
-        "summary": "Download Shared outputs\n            ",
-        "description": "Download single content in a specific outputformat. To resize images on download specify target width &amp; height. To download only a portion of the file, specify the range parameter.",
-        "operationId": "ShareAccess_DownloadWithOutputFormatId",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The token"
-          },
-          {
-            "type": "string",
-            "name": "contentId",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The content id"
-          },
-          {
-            "type": "string",
-            "name": "outputFormatId",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "description": "The output format id+"
-          },
-          {
-            "type": "integer",
-            "name": "width",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Optional width in pixels to resize image",
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "height",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Optional height in pixels to resize image",
-            "format": "int32"
-          },
-          {
-            "type": "string",
-            "name": "range",
-            "in": "header",
-            "x-nullable": true,
-            "description": "The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "HttpResponseMessage",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": false
-          },
-          "206": {
-            "description": "HttpResponseMessage",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": true
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
     "/v1/shares/{id}": {
       "get": {
         "tags": [
@@ -9705,6 +9311,15 @@
         }
       ]
     },
+    "TermsOfServiceNotNewestException": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkBusinessException"
+        }
+      ]
+    },
     "RenderingException": {
       "type": "object",
       "additionalProperties": false,
@@ -12334,6 +11949,86 @@
         }
       ]
     },
+    "NoTermsOfServiceDefinedException": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkBusinessException"
+        }
+      ]
+    },
+    "BusinessProcessStateNotHitException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "businessProcessId": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actual": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkTimeoutException"
+        }
+      ]
+    },
+    "BusinessProcessLifeCycleNotHitException": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actual"
+      ],
+      "properties": {
+        "businessProcessId": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BusinessProcessLifeCycle"
+          }
+        },
+        "actual": {
+          "$ref": "#/definitions/BusinessProcessLifeCycle"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkTimeoutException"
+        }
+      ]
+    },
+    "BusinessProcessLifeCycle": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Draft",
+        "InProgress",
+        "Succeeded",
+        "Cancelled",
+        "CancellationInProgress",
+        "Failed",
+        "SucceededWithErrors"
+      ],
+      "enum": [
+        "Draft",
+        "InProgress",
+        "Succeeded",
+        "Cancelled",
+        "CancellationInProgress",
+        "Failed",
+        "SucceededWithErrors"
+      ]
+    },
     "ContentDetail": {
       "type": "object",
       "description": "A content detail.",
@@ -12703,10 +12398,6 @@
         "channelId": {
           "type": "string",
           "description": "Limits the simple search fields to the fields available in the specified channel."
-        },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
         },
         "displayPatternIds": {
           "type": "array",
@@ -13836,10 +13527,6 @@
           "type": "string",
           "description": "Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it."
         },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
-        },
         "searchLanguages": {
           "type": "array",
           "description": "Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration.",
@@ -14133,28 +13820,6 @@
       "enum": [
         "System",
         "User"
-      ]
-    },
-    "BusinessProcessLifeCycle": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Draft",
-        "InProgress",
-        "Succeeded",
-        "Cancelled",
-        "CancellationInProgress",
-        "Failed",
-        "SucceededWithErrors"
-      ],
-      "enum": [
-        "Draft",
-        "InProgress",
-        "Succeeded",
-        "Cancelled",
-        "CancellationInProgress",
-        "Failed",
-        "SucceededWithErrors"
       ]
     },
     "BusinessProcessState": {
@@ -14662,10 +14327,6 @@
             "type": "string"
           }
         },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
-        },
         "searchString": {
           "type": "string",
           "description": "Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *."
@@ -14808,26 +14469,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "hasStateHit",
-        "hasLifeCycleHit",
-        "lifeCycleHit",
-        "finished"
+        "lifeCycleHit"
       ],
       "properties": {
-        "hasStateHit": {
-          "type": "boolean"
-        },
         "stateHit": {
           "type": "string"
         },
-        "hasLifeCycleHit": {
-          "type": "boolean"
-        },
         "lifeCycleHit": {
           "$ref": "#/definitions/BusinessProcessLifeCycle"
-        },
-        "finished": {
-          "type": "boolean"
         },
         "businessProcess": {
           "$ref": "#/definitions/BusinessProcess"
@@ -15394,10 +15043,6 @@
             "type": "string"
           }
         },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
-        },
         "displayPatternIds": {
           "type": "array",
           "description": "Limits the display values included in the search response. Defaults to all display values.",
@@ -15566,10 +15211,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
         },
         "searchLanguages": {
           "type": "array",
@@ -15793,10 +15434,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
         },
         "searchLanguages": {
           "type": "array",
@@ -17152,6 +16789,12 @@
         "debugMode": {
           "type": "boolean",
           "description": "Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance."
+        },
+        "searchLanguages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -17596,6 +17239,12 @@
         "debugMode": {
           "type": "boolean",
           "description": "Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance."
+        },
+        "searchLanguages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -18451,9 +18100,6 @@
           "items": {
             "$ref": "#/definitions/AggregatorBase"
           }
-        },
-        "displayLanguage": {
-          "type": "string"
         }
       }
     },
@@ -20099,9 +19745,6 @@
           "items": {
             "$ref": "#/definitions/AggregatorBase"
           }
-        },
-        "displayLanguage": {
-          "type": "string"
         }
       }
     },
@@ -20284,6 +19927,12 @@
           "items": {
             "$ref": "#/definitions/Language"
           }
+        },
+        "outputFormats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OutputFormatInfo"
+          }
         }
       }
     },
@@ -20329,6 +19978,18 @@
         },
         "regionCode": {
           "type": "string"
+        }
+      }
+    },
+    "OutputFormatInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "names": {
+          "$ref": "#/definitions/TranslatedStringDictionary"
         }
       }
     },
