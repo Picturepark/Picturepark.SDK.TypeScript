@@ -17,6 +17,10 @@ export class PictureparkTemplates {
     return `
       {% if config.renderStyles %}
       <style>
+        * {
+          box-sizing: border-box;
+        }
+
        .picturepark-widget-content-preview {
          background-color: white;
          padding: 40px;
@@ -46,6 +50,39 @@ export class PictureparkTemplates {
         .picturepark-widget-gallery-item-thumbnail-{{id}} {
           
         }
+
+        .picturepark-widget-gallery-item-title-{{id}} {
+          opacity: 0;
+          position: absolute;
+          width: 100%;
+          bottom: 0px;
+          background: gray;
+          padding: 4px;
+          color: white;
+        }
+        .picturepark-widget-gallery-item-{{id}}:hover 
+        .picturepark-widget-gallery-item-title-{{id}} {
+          opacity: .8;
+        }
+
+        .picturepark-widget-gallery-item-preview-{{id}} {
+          opacity: 0;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 44px;
+          height: 44px;
+          background-color: gray;
+          border-radius: 50%;
+          color: white;
+          padding: 10px;
+        }
+        .picturepark-widget-gallery-item-{{id}}:hover 
+        .picturepark-widget-gallery-item-preview-{{id}} {
+          opacity: .8;
+        }
+
       </style>
       {% endif %}
 
@@ -54,18 +91,19 @@ export class PictureparkTemplates {
         {% assign height = config.height | plus: -1 %}
         {% for selection in share.items %}
           <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
-            {% if selection.isMovie and config.showPlayers != 'no' and config.showPlayers != 'false' %}
-            <div id="player_{{ forloop.index0 }}_{{ id }}">
-            </div>
-            {% else %}
             <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
               {% if selection.isBinary == false %}
                 <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
               {% else %}
                 <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
+                <div class="picturepark-widget-gallery-item-title picturepark-widget-gallery-item-title-{{id}}">{{selection.displayValues.name}}</div>
               {% endif %}
+              <div class="picturepark-widget-gallery-item-preview picturepark-widget-gallery-item-preview-{{id}}">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="#ffffff" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+              </div>
             </a>
-            {% endif %}
           </div>
         {% endfor %}
     </div>
