@@ -1,35 +1,94 @@
-<div class="some" [style.min-width]="columns * 200 + 'px'" cdkScrollable>
+<div class="content-browser" style="position: relative;" cdkScrollable>
+  <!-- TODO: translations -->
+  <!-- TODO: tooltips for everything. -->
+  <!-- TODO: move styles -->
+  <div class="content-browser__header">
+    <mat-toolbar>
+      <div style="display: flex; width: 100%;">
+        <button mat-button [matMenuTriggerFor]="selectMenu"> Select
+          <mat-icon>more_vert</mat-icon>
+        </button>
 
+        <mat-menu #selectMenu="matMenu">
+          <button mat-menu-item (click)="toggleItems(true); $event.preventDefault();">Select first {{ items.length }}</button>
+          <button mat-menu-item (click)="toggleItems(false); $event.preventDefault();">Deselect all</button>
+        </mat-menu>
 
+        <mat-divider [style.margin]="'0 8px'" [vertical]="true"></mat-divider>
 
+        <button *ngIf="selectedItems.length === 1" mat-icon-button>
+          <mat-icon aria-label="TODO: change this text" (click)="previewItem(selectedItems[0])">open_in_new</mat-icon>
+        </button>
+        <button *ngIf="selectedItems.length > 0" mat-icon-button>
+          <mat-icon aria-label="TODO: change this text">get_app</mat-icon>
+        </button>
 
-  <mat-grid-list gutterSize="10px" [cols]="columns" rowHeight="6:5">
-    <mat-grid-tile *ngFor="let itemModel of items">
-      <pp-content-browser-item [itemModel]="itemModel">
-      </pp-content-browser-item>
-    </mat-grid-tile>
-  </mat-grid-list>
+        <div style="flex-grow: 1;"></div>
+        <span *ngIf="totalResults !== null" style="align-self: center" class="mat-body-1"> {{totalResults}} contents </span>
 
+        <button mat-icon-button [matMenuTriggerFor]="sortMenu">
+          <mat-icon aria-label="TODO: change this text">sort</mat-icon>
+        </button>
 
+        <mat-menu #sortMenu="matMenu">
+          <button mat-menu-item (click)="$event.preventDefault();">
+            <mat-icon>check</mat-icon>
+            <span>Ascending</span>
+          </button>
+          <button mat-menu-item (click)="$event.preventDefault();">Descending</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="$event.preventDefault();">Relevance</button>
+          <button mat-menu-item (click)="$event.preventDefault();">File Name</button>
+          <button mat-menu-item (click)="$event.preventDefault();">
+            <mat-icon>check</mat-icon>
+            <span>Date created</span>
+          </button>
+          <button mat-menu-item (click)="$event.preventDefault();">Date modified</button>
+        </mat-menu>
 
-  <!--
-  <virtual-scroll #virtualScroll
-                  *ngIf="items.length > 0"
-                  [items]="items"
-                  (update)="viewPortItems = $event"
-                  (change)="onListChange($event)"
-                  [style.height]="500"
-                  style="display:block">
-                  [style.cursor]="selectionMode !== 'none' ? 'pointer' : ''"
-    <pp-content-browser-item *ngFor="let itemModel of items"
-                             style="display: inline-block"
-                             [itemModel]="itemModel"
-                             [style.width]="(100 / columns) + '%'">
-    </pp-content-browser-item>
-  </virtual-scroll>
+        <button mat-icon-button [matMenuTriggerFor]="displayStyle">
+          <mat-icon aria-label="TODO: change this text">list</mat-icon>
+        </button>
 
-  -->
-  <div *ngIf="items.length === 0 && !isLoading">
-    {{'ContentBrowser.TextNoItems' | pptranslate}}
+        <mat-menu #displayStyle="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="thumbnailSize">Thumbnail</button>
+          <button mat-menu-item (click)="$event.preventDefault();">List</button>
+        </mat-menu>
+
+        <mat-menu #thumbnailSize="matMenu">
+          <button mat-menu-item (click)="$event.preventDefault();">Small</button>
+          <button mat-menu-item (click)="$event.preventDefault();">Medium</button>
+          <button mat-menu-item (click)="$event.preventDefault();">
+            <mat-icon>check</mat-icon>
+            <span>Large</span>
+          </button>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
+
+  <div *ngIf="totalResults !== 0" class="content-browser__items content-browser__items--large">
+    <div class="content-browser__item-container" *ngFor="let itemModel of items">
+      <pp-content-browser-item class="content-browser__item" [itemModel]="itemModel" (previewItemChange)="previewItem($event)"
+        (click)="itemClicked($event,itemModel)">
+      </pp-content-browser-item>
+    </div>
+  </div>
+
+
+  <!-- TODO: material typography, styling -->
+  <div *ngIf="totalResults === 0">
+    There is no content found using your search string
+    <strong> {{ query}}</strong>
+    <br> You may do the following:
+    <ul>
+      <li>Switch to another channel</li>
+      <li> Change your search string</li>
+    </ul>
+  </div>
+
+  <!-- <div *ngIf="items.length === 0 && !isLoading">
+    {{'ContentBrowser.TextNoItems' | pptranslate}}
+  </div> -->
 </div>

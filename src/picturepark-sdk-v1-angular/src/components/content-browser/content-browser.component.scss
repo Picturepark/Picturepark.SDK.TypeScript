@@ -1,18 +1,57 @@
-.some {
-    height: 100%;
-    overflow: auto;
+mat-grid-tile {
+  overflow: initial;
+}
+
+//TODO: add min-width
+.content-browser {
+  height: 100%;
+  overflow: auto;
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  &__items {
+    &--large {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    &--medium {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+    // image sizes: 120px, 200px, 320px
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-gap: 25px;
+  }
+  &__item-container {
+    position: relative;
+    &:before {
+      content: "";
+      display: inline-block;
+      height: 0;
+      padding-bottom: 100%;
+    }
+  }
+  &__item {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .container {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .item {
-    max-width: 200px;
-    height: 0;
-    &:before {
-        content: '';
-        padding: 50%;
-    }
+  max-width: 200px;
+  height: 0;
+  &:before {
+    content: '';
+    padding: 50%;
+  }
 }

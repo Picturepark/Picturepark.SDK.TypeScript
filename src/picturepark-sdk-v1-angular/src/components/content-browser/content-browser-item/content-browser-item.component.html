@@ -1,0 +1,27 @@
+<!-- TODO: add tooltips -->
+<!-- TODO: remove item text when small and loading spinner -->
+<div class="content-item" [class.content-item--selected]="itemModel.isSelected">
+
+  <mat-icon class="content-item__select-icon" aria-label="todo: set here">done</mat-icon>
+
+  <button class="content-item__basket-icon" mat-mini-fab (click)="toggleInBasket(); $event.stopPropagation()" [class.content-item__basket-icon--selected]="itemModel.isInBasket"
+    [color]="itemModel.isInBasket ? 'accent' : 'basic'">
+    <mat-icon aria-label="TODO: change this text">add</mat-icon>
+  </button>
+
+  <!-- TODO: make it as img. -->
+  <div class="content-item__image" [style.background-image]="thumbnailUrl">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+  <div class="content-item__title mat-title">
+    {{ itemModel.item?.displayValues['name'] || 'n/a'}}
+  </div>
+  <div class="content-item__actions">
+    <button mat-icon-button (click)="previewItem(); $event.stopPropagation()">
+      <mat-icon aria-label="TODO: change this text">open_in_new</mat-icon>
+    </button>
+    <button mat-icon-button (click)="$event.stopPropagation()">
+      <mat-icon aria-label="TODO: change this text">get_app</mat-icon>
+    </button>
+  </div>
+</div>

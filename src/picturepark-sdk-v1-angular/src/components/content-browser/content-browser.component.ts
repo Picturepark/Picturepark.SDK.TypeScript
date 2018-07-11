@@ -1,17 +1,16 @@
+import { BasketService } from './../../services/basket.service';
 import { Subscription } from 'rxjs';
 
 import {
-  Component, Input, Output, OnChanges, SimpleChange,
-  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef, SimpleChanges, OnInit, NgZone, OnDestroy
+  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, OnDestroy
 } from '@angular/core';
-import { InputConverter, StringConverter, NumberConverter } from '../converter';
 
 import {
-  ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
+  ContentService, ContentSearchRequest,
   FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
 } from '../../services/services';
-import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
-import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
+
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
@@ -22,7 +21,12 @@ import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
 })
 export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   private readonly ItemsPerRequest = 50;
-  private totalResults = -1;
+
+  private basketItems: string[] = [];
+
+  public selectedItems: string[] = [];
+
+  public totalResults: number | null = null;
 
   isLoading = false;
   items: ContentModel[] = [];
@@ -36,26 +40,41 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   filter: FilterBase | null = null;
 
-  // @Input()
-  // selectionMode = SelectionMode.Multiple;
-
-  @Input()
-  @InputConverter(NumberConverter)
-  columns = 2;
-
-  // @Input()
-  // selectedItems: Content[] = [];
-  // @Output()
-  // selectedItemsChange = new EventEmitter<Content[]>();
-
-  // @Output()
-  // doubleClick = new EventEmitter<Content>();
-
+  @Output()
+  public previewItemChange = new EventEmitter<string>();
 
   private scrollSubscription: Subscription;
+  private basketSubscription: Subscription;
 
-  constructor(private contentService: ContentService, private scrollDispatcher: ScrollDispatcher, private ngZone: NgZone) {
+  constructor(
+    private basketService: BasketService,
+    private contentService: ContentService,
+    private scrollDispatcher: ScrollDispatcher,
+    private ngZone: NgZone) {
 
+    this.basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
+      this.basketItems = basketItems;
+      this.items.forEach(item => item.isInBasket = basketItems.includes(item.item.id || ''));
+    });
+  }
+
+  public previewItem(id: string) {
+    this.previewItemChange.emit(id);
+  }
+
+  public toggleItems(isSelected: boolean) {
+    this.items.forEach(item => item.isSelected = isSelected);
+  }
+
+  public itemClicked($event: MouseEvent, itemModel: ContentModel) {
+    if ($event.ctrlKey) {
+      itemModel.isSelected = !itemModel.isSelected;
+      this.selectedItems = this.items.filter(item => item.isSelected === true).map(item => item.item.id || '');
+    } else {
+      this.items.forEach(item => item.isSelected = false);
+      itemModel.isSelected = true;
+      this.selectedItems = [itemModel.item.id || ''];
+    }
   }
 
   public ngOnInit(): void {
@@ -74,35 +93,15 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.scrollSubscription.unsubscribe();
+    this.basketSubscription.unsubscribe();
   }
-
-  // toggleSelected(item: ContentModel) {
-  //   // if (this.selectionMode === SelectionMode.Single) {
-  //   //   for (const i of this.items) {
-  //   //     i.isSelected = i === item ? !i.isSelected : false;
-  //   //   }
-  //   // } else if (this.selectionMode === SelectionMode.Multiple) {
-  //   //   item.isSelected = !item.isSelected;
-  //   // }
-  //   // this.updateSelectedItems();
-  // }
-
-  // onDoubleClicked(item: ContentModel) {
-  //   this.doubleClick.emit(item.item);
-  // }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['channel'] || changes['filter'] || changes['query']) {
-      console.log('changes');
-      console.log(changes);
+      this.totalResults = null;
       this.items = [];
       this.loadData();
     }
-    // } else if (changes['selectionMode']) {
-    //   this.onSelectionModeChanged()
-    // } else if (changes['selectedItems']) {
-    //   this.onSelectedItems();
-    // }
   }
 
   private loadData() {
@@ -130,60 +129,32 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
       this.contentService.search(request).subscribe(searchResult => {
         this.totalResults = searchResult.totalResults;
+
         if (searchResult.results) {
-          this.items.push(...searchResult.results.map(item => new ContentModel(item, this)));
+          this.items.push(...searchResult.results.map(item => {
+            const isInBasket = this.basketItems.includes(item.id || '');
+
+            return new ContentModel(item, isInBasket);
+          }));
         }
 
-        // this.updateSelectedItems();
         this.isLoading = false;
       }, () => {
-        this.totalResults = -1;
+        this.totalResults = null;
         this.isLoading = false;
       });
     }
   }
-
-  // private updateSelectedItems() {
-  //   this.selectedItems = this.items.filter(i => i.isSelected).map(i => i.item);
-  //   this.selectedItemsChange.emit(this.selectedItems);
-  // }
-
-  // private onSelectionModeChanged() {
-  //   if (this.selectionMode === SelectionMode.None) {
-  //     for (const item of this.items) {
-  //       item.isSelected = false;
-  //     }
-  //   } else if (this.selectionMode === SelectionMode.Single) {
-  //     if (this.selectedItems.length > 1) {
-  //       for (const item of this.items) {
-  //         item.isSelected = false;
-  //       }
-  //     }
-  //   }
-
-  //   setTimeout(() => this.updateSelectedItems(), 0);
-  // }
-
-  // private onSelectedItems() {
-  //   for (const item of this.items) {
-  //     item.isSelected = this.selectedItems.filter(i => i.id === item.item.id).length > 0;
-  //   }
-  // }
 }
 
-export enum SelectionMode {
-  None = <any>'none',
-  Single = <any>'single',
-  Multiple = <any>'multiple',
-}
-
+// TODO: move this class to separate folder.
 export class ContentModel {
   isSelected = false;
+  isInBasket = false;
   item: Content;
-  parent: ContentBrowserComponent;
 
-  constructor(item: Content, parent: ContentBrowserComponent) {
+  constructor(item: Content, isInBasket: boolean) {
     this.item = item;
-    this.parent = parent;
+    this.isInBasket = isInBasket;
   }
 }

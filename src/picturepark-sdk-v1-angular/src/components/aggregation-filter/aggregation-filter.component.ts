@@ -9,8 +9,9 @@ import {
 @Component({
   selector: 'pp-aggregation-filter',
   templateUrl: './aggregation-filter.component.html',
-  styleUrls: ['./aggregation-filter.component.scss']
+  styleUrls: ['./aggregation-filter.component.scss'],
 })
+// TODO: add basic aggregation component, add inheritance.
 export class AggregationFilterComponent implements OnChanges {
   // TODO: aggregationFilters as input.
   @Input()

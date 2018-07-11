@@ -5,6 +5,7 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
+<!-- TODO add badge -->
   <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
     <mat-list-option *ngFor="let item of expandedAggregationResult?.aggregationResultItems" checkboxPosition="before" [selected]="item.active"
       [value]="item">

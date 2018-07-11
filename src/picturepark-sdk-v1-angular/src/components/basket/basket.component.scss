@@ -1,0 +1,29 @@
+//TODO: add min-width
+.basket {
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+  }
+  &__items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    padding: 20px;
+    grid-gap: 20px;
+  }
+  &__item-container {
+    position: relative;
+    content: "";
+    display: inline-block;
+    height: 0;
+    padding-bottom: 100%;
+  }
+  &__item {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

@@ -1,13 +1,13 @@
 <div class="aggregation-filter">
   <div class="aggregation-filter__filters filters">
-    <mat-card class="filters__active-filters">
+    <mat-toolbar class="filters__active-filters">
       <span *ngIf=" this.aggregationFiltersFlat.length === 0">No active filters </span>
 
       <span *ngIf=" this.aggregationFiltersFlat.length > 0">{{ this.aggregationFiltersFlat.length}} active filters</span>
       <button [style.visibility]=" this.aggregationFiltersFlat.length > 0 ? 'visible' : 'hidden'" (click)="clearFilters()" mat-icon-button>
         <mat-icon aria-label="Clear filters">clear</mat-icon>
       </button>
-    </mat-card>
+    </mat-toolbar>
 
     <mat-accordion displayMode="flat" multi="true">
       <pp-aggregation *ngFor="let aggregator of aggregators, let i=index" [aggregator]="aggregator" [aggregationResult]="aggregationResults[i]"
