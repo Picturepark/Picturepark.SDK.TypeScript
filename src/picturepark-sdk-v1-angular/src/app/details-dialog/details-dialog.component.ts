@@ -6,7 +6,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
   ContentService, ContentDetail, AuthService, ThumbnailSize,
-  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink
+  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehaviour
 } from '../../services/services';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -35,7 +35,11 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
         this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
       });
 
-      this.contentService.get(data, true, []).subscribe((content: ContentDetail) => {
+      this.contentService.get(data, [
+        ContentResolveBehaviour.Content,
+        ContentResolveBehaviour.LinkedListItems,
+        ContentResolveBehaviour.InnerDisplayValueName
+      ]).subscribe((content: ContentDetail) => {
         this.content = content;
       });
     }
@@ -47,7 +51,6 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
 
   }
-
 
   ngOnChanges(changes: SimpleChanges) {
 
