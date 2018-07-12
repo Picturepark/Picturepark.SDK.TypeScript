@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "init": "npm install",
-    "start": "ng serve",
+    "start": "npm run init && ng serve",
     "build": "npm run init && ng build --prod && ng-packagr -p ng-package.json",
     "test": "npm run init && ng test --prod",
     "test-nowatch": "npm run init && ng test --prod --watch=false",
