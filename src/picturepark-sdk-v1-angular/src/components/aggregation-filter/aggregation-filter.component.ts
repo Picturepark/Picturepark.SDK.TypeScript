@@ -40,7 +40,7 @@ export class AggregationFilterComponent implements OnChanges {
 
   aggregationFilters: AggregationFilter[];
 
-  constructor(private contentService: ContentService, @Inject(LOCALE_ID) private locale: string) {
+  constructor(private contentService: ContentService, @Inject(LOCALE_ID) public locale: string) {
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {

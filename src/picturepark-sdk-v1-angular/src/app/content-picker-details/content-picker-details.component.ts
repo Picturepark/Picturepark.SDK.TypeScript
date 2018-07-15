@@ -7,7 +7,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
   ContentService, ContentDetail, AuthService, ThumbnailSize,
-  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink
+  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehaviour
 } from '../../services/services';
 import { OidcAuthService } from '../../auth/oidc-auth.service';
 import { ContentPickerComponent } from '../../app/content-picker/content-picker.component';
@@ -55,7 +55,14 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
         this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
       });
 
-      this.contentService.get(this.contentId, true, []).subscribe((content: ContentDetail) => {
+      this.contentService.get(
+        this.contentId,
+        [
+          ContentResolveBehaviour.Content,
+          ContentResolveBehaviour.LinkedListItems,
+          ContentResolveBehaviour.InnerDisplayValueName
+        ]
+      ).subscribe((content: ContentDetail) => {
         this.content = content;
       });
     }

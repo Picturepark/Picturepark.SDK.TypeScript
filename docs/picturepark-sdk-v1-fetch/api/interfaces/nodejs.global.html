@@ -160,7 +160,7 @@
 					<div class="tsd-signature tsd-kind-icon">Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:447</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:892</li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">Array<wbr>Buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ArrayBufferConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:448</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:893</li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +180,7 @@
 					<div class="tsd-signature tsd-kind-icon">Boolean<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BooleanConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:449</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:894</li>
 						</ul>
 					</aside>
 				</section>
@@ -190,7 +190,7 @@
 					<div class="tsd-signature tsd-kind-icon">Buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:450</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:895</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -210,13 +210,18 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:110</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:326</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Allocates a new buffer containing the given {str}.</p>
 											</div>
+											<dl class="tsd-comment-tags">
+												<dt>deprecated</dt>
+												<dd><p>since v10.0.0 - Use <code>Buffer.from(string[, encoding])</code> instead.</p>
+												</dd>
+											</dl>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
@@ -242,13 +247,18 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:117</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:334</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Allocates a new buffer of {size} octets.</p>
 											</div>
+											<dl class="tsd-comment-tags">
+												<dt>deprecated</dt>
+												<dd><p>since v10.0.0 - Use <code>Buffer.alloc()</code> instead (also see <code>Buffer.allocUnsafe()</code>).</p>
+												</dd>
+											</dl>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
@@ -266,13 +276,18 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:123</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:341</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Allocates a new buffer containing the given {array} of octets.</p>
 											</div>
+											<dl class="tsd-comment-tags">
+												<dt>deprecated</dt>
+												<dd><p>since v10.0.0 - Use <code>Buffer.from(array)</code> instead.</p>
+												</dd>
+											</dl>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
@@ -290,7 +305,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:129</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:348</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -298,6 +313,11 @@
 												<p>Produces a Buffer backed by the same allocated memory as
 												the given {ArrayBuffer}.</p>
 											</div>
+											<dl class="tsd-comment-tags">
+												<dt>deprecated</dt>
+												<dd><p>since v10.0.0 - Use <code>Buffer.from(arrayBuffer[, byteOffset[, length]])</code> instead.</p>
+												</dd>
+											</dl>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
@@ -315,13 +335,18 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:137</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:357</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Allocates a new buffer containing the given {array} of octets.</p>
 											</div>
+											<dl class="tsd-comment-tags">
+												<dt>deprecated</dt>
+												<dd><p>since v10.0.0 - Use <code>Buffer.from(array)</code> instead.</p>
+												</dd>
+											</dl>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
@@ -339,13 +364,18 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:143</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:364</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Copies the passed {buffer} data onto a new {Buffer} instance.</p>
 											</div>
+											<dl class="tsd-comment-tags">
+												<dt>deprecated</dt>
+												<dd><p>since v10.0.0 - Use <code>Buffer.from(buffer)</code> instead.</p>
+												</dd>
+											</dl>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
@@ -362,6 +392,14 @@
 									</li>
 							</ul>        </li>
 							<li class="tsd-parameter">
+								<h5>pool<wbr>Size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>This is the number of bytes used to determine the size of pre-allocated, internal Buffer instances used for pooling. This value may be modified.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
 								<h5>prototype<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 							</li>
 							<li class="tsd-parameter">
@@ -373,7 +411,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:227</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:445</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -415,7 +453,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:234</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:452</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -445,7 +483,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:241</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:459</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -469,13 +507,13 @@
 							<li class="tsd-parameter">
 								<h5>byte<wbr>Length<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">byte<wbr>Length<span class="tsd-signature-symbol">(</span>string<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+									<li class="tsd-signature tsd-kind-icon">byte<wbr>Length<span class="tsd-signature-symbol">(</span>string<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ArrayBufferView</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:202</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:420</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -487,9 +525,9 @@
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>string: <span class="tsd-signature-type">string</span></h5>
+												<h5>string: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ArrayBufferView</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>string to test.</p>
+													<p>string to test. (TypedArray is also allowed, but it is only available starting ES2017)</p>
 												</div>
 											</li>
 											<li>
@@ -505,13 +543,13 @@
 							<li class="tsd-parameter">
 								<h5>compare<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">compare<span class="tsd-signature-symbol">(</span>buf1<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, buf2<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+									<li class="tsd-signature tsd-kind-icon">compare<span class="tsd-signature-symbol">(</span>buf1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, buf2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:218</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:436</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -522,10 +560,10 @@
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>buf1: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+												<h5>buf1: <span class="tsd-signature-type">Uint8Array</span></h5>
 											</li>
 											<li>
-												<h5>buf2: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+												<h5>buf2: <span class="tsd-signature-type">Uint8Array</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -534,13 +572,13 @@
 							<li class="tsd-parameter">
 								<h5>concat<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">concat<span class="tsd-signature-symbol">(</span>list<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">[]</span>, totalLength<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
+									<li class="tsd-signature tsd-kind-icon">concat<span class="tsd-signature-symbol">(</span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span>, totalLength<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:214</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:432</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -554,7 +592,7 @@
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>list: <a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">[]</span></h5>
+												<h5>list: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
 													<p>An array of Buffer objects to concatenate</p>
 												</div>
@@ -573,37 +611,16 @@
 							<li class="tsd-parameter">
 								<h5>from<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
 									<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>arrayBuffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ArrayBuffer</span>, byteOffset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, length<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
-									<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
+									<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
+									<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
 									<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:156</li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Allocates a new Buffer using an {array} of octets.</p>
-											</div>
-										</div>
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>array: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-												</div>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
-									</li>
-									<li class="tsd-description">
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:167</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:381</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -619,7 +636,7 @@
 											<li>
 												<h5>arrayBuffer: <span class="tsd-signature-type">ArrayBuffer</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>The .buffer property of a TypedArray or a new ArrayBuffer()</p>
+													<p>The .buffer property of any TypedArray or a new ArrayBuffer()</p>
 												</div>
 											</li>
 											<li>
@@ -627,8 +644,6 @@
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> length: <span class="tsd-signature-type">number</span></h5>
-												<div class="tsd-comment tsd-typography">
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
@@ -636,19 +651,20 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:173</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:387</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Copies the passed {buffer} data onto a new Buffer instance.</p>
+												<p>Creates a new Buffer using the passed {data}</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>buffer: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+												<h5>data: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
+													<p>data to create a new Buffer</p>
 												</div>
 											</li>
 										</ul>
@@ -657,7 +673,21 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:181</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:388</li>
+											</ul>
+										</aside>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>data: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in node_modules/@types/node/index.d.ts:394</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -671,8 +701,6 @@
 										<ul class="tsd-parameters">
 											<li>
 												<h5>str: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> encoding: <span class="tsd-signature-type">string</span></h5>
@@ -690,7 +718,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:187</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:405</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -713,13 +741,13 @@
 							<li class="tsd-parameter">
 								<h5>is<wbr>Encoding<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">is<wbr>Encoding<span class="tsd-signature-symbol">(</span>encoding<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+									<li class="tsd-signature tsd-kind-icon">is<wbr>Encoding<span class="tsd-signature-symbol">(</span>encoding<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/@types/node/index.d.ts:194</li>
+												<li>Defined in node_modules/@types/node/index.d.ts:412</li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -737,7 +765,36 @@
 												</div>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">undefined</span>
+										</h4>
+									</li>
+							</ul>        </li>
+							<li class="tsd-parameter">
+								<h5>of<span class="tsd-signature-symbol">: </span>function</h5>
+								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon">of<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>items<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in node_modules/@types/node/index.d.ts:399</li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Creates a new Buffer using the passed {data}</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>items: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
 									</li>
 							</ul>        </li>
 						</ul>
@@ -749,7 +806,7 @@
 					<div class="tsd-signature tsd-kind-icon">Data<wbr>View<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DataViewConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:451</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:896</li>
 						</ul>
 					</aside>
 				</section>
@@ -759,7 +816,7 @@
 					<div class="tsd-signature tsd-kind-icon">Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DateConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:452</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:897</li>
 						</ul>
 					</aside>
 				</section>
@@ -769,7 +826,7 @@
 					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:453</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:898</li>
 						</ul>
 					</aside>
 				</section>
@@ -779,7 +836,7 @@
 					<div class="tsd-signature tsd-kind-icon">Eval<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">EvalErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:454</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:899</li>
 						</ul>
 					</aside>
 				</section>
@@ -789,7 +846,7 @@
 					<div class="tsd-signature tsd-kind-icon">Float32<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Float32ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:455</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:900</li>
 						</ul>
 					</aside>
 				</section>
@@ -799,7 +856,7 @@
 					<div class="tsd-signature tsd-kind-icon">Float64<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Float64ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:456</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:901</li>
 						</ul>
 					</aside>
 				</section>
@@ -809,7 +866,7 @@
 					<div class="tsd-signature tsd-kind-icon">Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">FunctionConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:457</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:902</li>
 						</ul>
 					</aside>
 				</section>
@@ -819,7 +876,7 @@
 					<div class="tsd-signature tsd-kind-icon">GLOBAL<span class="tsd-signature-symbol">:</span> <a href="nodejs.global.html" class="tsd-signature-type">Global</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:458</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:903</li>
 						</ul>
 					</aside>
 				</section>
@@ -829,7 +886,7 @@
 					<div class="tsd-signature tsd-kind-icon">Infinity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:459</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:904</li>
 						</ul>
 					</aside>
 				</section>
@@ -839,7 +896,7 @@
 					<div class="tsd-signature tsd-kind-icon">Int16<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Int16ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:460</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:905</li>
 						</ul>
 					</aside>
 				</section>
@@ -849,7 +906,7 @@
 					<div class="tsd-signature tsd-kind-icon">Int32<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Int32ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:461</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:906</li>
 						</ul>
 					</aside>
 				</section>
@@ -859,7 +916,7 @@
 					<div class="tsd-signature tsd-kind-icon">Int8<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Int8ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:462</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:907</li>
 						</ul>
 					</aside>
 				</section>
@@ -869,7 +926,7 @@
 					<div class="tsd-signature tsd-kind-icon">Intl<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Intl</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:463</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:908</li>
 						</ul>
 					</aside>
 				</section>
@@ -879,7 +936,7 @@
 					<div class="tsd-signature tsd-kind-icon">JSON<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">JSON</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:464</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:909</li>
 						</ul>
 					</aside>
 				</section>
@@ -889,7 +946,7 @@
 					<div class="tsd-signature tsd-kind-icon">Map<span class="tsd-signature-symbol">:</span> <a href="mapconstructor.html" class="tsd-signature-type">MapConstructor</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:465</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:910</li>
 						</ul>
 					</aside>
 				</section>
@@ -899,7 +956,7 @@
 					<div class="tsd-signature tsd-kind-icon">Math<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Math</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:466</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:911</li>
 						</ul>
 					</aside>
 				</section>
@@ -909,7 +966,7 @@
 					<div class="tsd-signature tsd-kind-icon">NaN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:467</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:912</li>
 						</ul>
 					</aside>
 				</section>
@@ -919,7 +976,7 @@
 					<div class="tsd-signature tsd-kind-icon">Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NumberConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:468</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:913</li>
 						</ul>
 					</aside>
 				</section>
@@ -929,7 +986,7 @@
 					<div class="tsd-signature tsd-kind-icon">Object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ObjectConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:469</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:914</li>
 						</ul>
 					</aside>
 				</section>
@@ -939,7 +996,7 @@
 					<div class="tsd-signature tsd-kind-icon">Promise<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:470</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:915</li>
 						</ul>
 					</aside>
 				</section>
@@ -949,7 +1006,7 @@
 					<div class="tsd-signature tsd-kind-icon">Range<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RangeErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:471</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:916</li>
 						</ul>
 					</aside>
 				</section>
@@ -959,7 +1016,7 @@
 					<div class="tsd-signature tsd-kind-icon">Reference<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReferenceErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:472</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:917</li>
 						</ul>
 					</aside>
 				</section>
@@ -969,7 +1026,7 @@
 					<div class="tsd-signature tsd-kind-icon">Reg<wbr>Exp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExpConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:473</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:918</li>
 						</ul>
 					</aside>
 				</section>
@@ -979,7 +1036,7 @@
 					<div class="tsd-signature tsd-kind-icon">Set<span class="tsd-signature-symbol">:</span> <a href="setconstructor.html" class="tsd-signature-type">SetConstructor</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:474</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:919</li>
 						</ul>
 					</aside>
 				</section>
@@ -989,7 +1046,7 @@
 					<div class="tsd-signature tsd-kind-icon">String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">StringConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:475</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:920</li>
 						</ul>
 					</aside>
 				</section>
@@ -999,7 +1056,7 @@
 					<div class="tsd-signature tsd-kind-icon">Symbol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:476</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:921</li>
 						</ul>
 					</aside>
 				</section>
@@ -1009,7 +1066,7 @@
 					<div class="tsd-signature tsd-kind-icon">Syntax<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SyntaxErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:477</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:922</li>
 						</ul>
 					</aside>
 				</section>
@@ -1019,7 +1076,7 @@
 					<div class="tsd-signature tsd-kind-icon">Type<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TypeErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:478</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:923</li>
 						</ul>
 					</aside>
 				</section>
@@ -1029,7 +1086,7 @@
 					<div class="tsd-signature tsd-kind-icon">URIError<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">URIErrorConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:479</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:924</li>
 						</ul>
 					</aside>
 				</section>
@@ -1039,7 +1096,7 @@
 					<div class="tsd-signature tsd-kind-icon">Uint16<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint16ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:480</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:925</li>
 						</ul>
 					</aside>
 				</section>
@@ -1049,7 +1106,7 @@
 					<div class="tsd-signature tsd-kind-icon">Uint32<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint32ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:481</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:926</li>
 						</ul>
 					</aside>
 				</section>
@@ -1059,7 +1116,7 @@
 					<div class="tsd-signature tsd-kind-icon">Uint8<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8ArrayConstructor</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:482</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:927</li>
 						</ul>
 					</aside>
 				</section>
@@ -1069,7 +1126,7 @@
 					<div class="tsd-signature tsd-kind-icon">Uint8<wbr>Clamped<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:483</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:928</li>
 						</ul>
 					</aside>
 				</section>
@@ -1079,7 +1136,7 @@
 					<div class="tsd-signature tsd-kind-icon">Weak<wbr>Map<span class="tsd-signature-symbol">:</span> <a href="weakmapconstructor.html" class="tsd-signature-type">WeakMapConstructor</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:484</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:929</li>
 						</ul>
 					</aside>
 				</section>
@@ -1089,7 +1146,7 @@
 					<div class="tsd-signature tsd-kind-icon">Weak<wbr>Set<span class="tsd-signature-symbol">:</span> <a href="weaksetconstructor.html" class="tsd-signature-type">WeakSetConstructor</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:485</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:930</li>
 						</ul>
 					</aside>
 				</section>
@@ -1099,7 +1156,7 @@
 					<div class="tsd-signature tsd-kind-icon">clear<wbr>Immediate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:486</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:931</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1130,7 +1187,7 @@
 					<div class="tsd-signature tsd-kind-icon">clear<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:487</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:932</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1161,7 +1218,7 @@
 					<div class="tsd-signature tsd-kind-icon">clear<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:488</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:933</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1192,7 +1249,7 @@
 					<div class="tsd-signature tsd-kind-icon">console<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Console</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:489</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:934</li>
 						</ul>
 					</aside>
 				</section>
@@ -1202,7 +1259,7 @@
 					<div class="tsd-signature tsd-kind-icon">decodeURI<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">decodeURI</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:490</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:935</li>
 						</ul>
 					</aside>
 				</section>
@@ -1212,7 +1269,7 @@
 					<div class="tsd-signature tsd-kind-icon">decodeURIComponent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">decodeURIComponent</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:491</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:936</li>
 						</ul>
 					</aside>
 				</section>
@@ -1222,7 +1279,7 @@
 					<div class="tsd-signature tsd-kind-icon">encodeURI<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">encodeURI</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:492</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:937</li>
 						</ul>
 					</aside>
 				</section>
@@ -1232,7 +1289,7 @@
 					<div class="tsd-signature tsd-kind-icon">encodeURIComponent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">encodeURIComponent</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:493</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:938</li>
 						</ul>
 					</aside>
 				</section>
@@ -1242,7 +1299,7 @@
 					<div class="tsd-signature tsd-kind-icon">escape<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:494</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:939</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1273,7 +1330,7 @@
 					<div class="tsd-signature tsd-kind-icon">eval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">eval</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:495</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:940</li>
 						</ul>
 					</aside>
 				</section>
@@ -1283,7 +1340,7 @@
 					<div class="tsd-signature tsd-kind-icon">gc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:508</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:953</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1308,7 +1365,7 @@
 					<div class="tsd-signature tsd-kind-icon">global<span class="tsd-signature-symbol">:</span> <a href="nodejs.global.html" class="tsd-signature-type">Global</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:496</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:941</li>
 						</ul>
 					</aside>
 				</section>
@@ -1318,7 +1375,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Finite<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">isFinite</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:497</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:942</li>
 						</ul>
 					</aside>
 				</section>
@@ -1328,7 +1385,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>NaN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">isNaN</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:498</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:943</li>
 						</ul>
 					</aside>
 				</section>
@@ -1338,7 +1395,7 @@
 					<div class="tsd-signature tsd-kind-icon">parse<wbr>Float<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">parseFloat</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:499</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:944</li>
 						</ul>
 					</aside>
 				</section>
@@ -1348,7 +1405,7 @@
 					<div class="tsd-signature tsd-kind-icon">parse<wbr>Int<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">parseInt</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:500</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:945</li>
 						</ul>
 					</aside>
 				</section>
@@ -1358,7 +1415,7 @@
 					<div class="tsd-signature tsd-kind-icon">process<span class="tsd-signature-symbol">:</span> <a href="nodejs.process.html" class="tsd-signature-type">Process</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:501</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:946</li>
 						</ul>
 					</aside>
 				</section>
@@ -1368,7 +1425,7 @@
 					<div class="tsd-signature tsd-kind-icon">root<span class="tsd-signature-symbol">:</span> <a href="nodejs.global.html" class="tsd-signature-type">Global</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:502</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:947</li>
 						</ul>
 					</aside>
 				</section>
@@ -1378,7 +1435,7 @@
 					<div class="tsd-signature tsd-kind-icon">set<wbr>Immediate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:503</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:948</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1430,7 +1487,7 @@
 					<div class="tsd-signature tsd-kind-icon">set<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:504</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:949</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1485,7 +1542,7 @@
 					<div class="tsd-signature tsd-kind-icon">set<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:505</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:950</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1540,7 +1597,7 @@
 					<div class="tsd-signature tsd-kind-icon">undefined<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:506</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:951</li>
 						</ul>
 					</aside>
 				</section>
@@ -1550,7 +1607,7 @@
 					<div class="tsd-signature tsd-kind-icon">unescape<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:507</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:952</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -1581,7 +1638,7 @@
 					<div class="tsd-signature tsd-kind-icon">v8debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:509</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:954</li>
 						</ul>
 					</aside>
 				</section>
@@ -1602,6 +1659,15 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external">
 						<a href="../classes/nodejs.eventemitter.html" class="tsd-kind-icon">Event<wbr>Emitter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external">
+						<a href="../classes/nodejs.module.html" class="tsd-kind-icon">Module</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+						<a href="nodejs.callsite.html" class="tsd-kind-icon">Call<wbr>Site</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+						<a href="nodejs.consoleconstructor.html" class="tsd-kind-icon">Console<wbr>Constructor</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="nodejs.cpuusage.html" class="tsd-kind-icon">Cpu<wbr>Usage</a>
@@ -1823,6 +1889,9 @@
 						<a href="nodejs.process.html" class="tsd-kind-icon">Process</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+						<a href="nodejs.processenv.html" class="tsd-kind-icon">Process<wbr>Env</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="nodejs.processversions.html" class="tsd-kind-icon">Process<wbr>Versions</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
@@ -1847,10 +1916,43 @@
 						<a href="nodejs.writestream.html" class="tsd-kind-icon">Write<wbr>Stream</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#beforeexitlistener" class="tsd-kind-icon">Before<wbr>Exit<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#disconnectlistener" class="tsd-kind-icon">Disconnect<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#exitlistener" class="tsd-kind-icon">Exit<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#messagelistener" class="tsd-kind-icon">Message<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#newlistenerlistener" class="tsd-kind-icon">New<wbr>Listener<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="../modules/nodejs.html#platform" class="tsd-kind-icon">Platform</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
-						<a href="../modules/nodejs.html#console" class="tsd-kind-icon">Console</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#rejectionhandledlistener" class="tsd-kind-icon">Rejection<wbr>Handled<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#removelistenerlistener" class="tsd-kind-icon">Remove<wbr>Listener<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#signals" class="tsd-kind-icon">Signals</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#signalslistener" class="tsd-kind-icon">Signals<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#uncaughtexceptionlistener" class="tsd-kind-icon">Uncaught<wbr>Exception<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#unhandledrejectionlistener" class="tsd-kind-icon">Unhandled<wbr>Rejection<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/nodejs.html#warninglistener" class="tsd-kind-icon">Warning<wbr>Listener</a>
 					</li>
 				</ul>
 			</nav>

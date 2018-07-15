@@ -51,7 +51,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
     elementId + '>' + loadingTemplate + '</div>';
 
-  return window.fetch(initialConfig.server + '/service/publicAccess/shares/' + initialConfig.token).then(response => {
+  return window.fetch(initialConfig.server + '/json/' + initialConfig.token).then(response => {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
@@ -102,7 +102,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           outputFormatId: string;
           fileExtension: string;
           url: string;
-          detail: picturepark.OutputDetailBase;
+          detail: picturepark.OutputDataBase;
         };
 
         for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original", "Preview"]) {

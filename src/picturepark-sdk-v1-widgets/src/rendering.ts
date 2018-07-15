@@ -33,9 +33,9 @@ export class PictureparkRenderEngine {
         try {
           let item = share.items.filter(i => i.id === id)[0];
           if (outputFormatId === "Preview" && item.previewUrl) {
-            return item.previewUrl + `/${width}/${height}`;
+            return item.previewUrl + `?width=${width}&height=${height}`;
           } else {
-            return item.originalUrl + `/${width}/${height}`;
+            return item.originalUrl + `?width=${width}&height=${height}`;
           }
         } catch (ex) {
           console.log(ex);
