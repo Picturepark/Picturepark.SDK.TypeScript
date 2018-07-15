@@ -184,5 +184,4 @@ export class PictureparkServiceProviderModule {
   ],
   providers: []
 })
-export class PictureparkModule {
-}
+export class PictureparkModule {}
