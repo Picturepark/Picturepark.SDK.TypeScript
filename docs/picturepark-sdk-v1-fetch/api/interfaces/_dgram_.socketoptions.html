@@ -81,35 +81,119 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="_dgram_.socketoptions.html#reuseaddr" class="tsd-kind-icon">reuse<wbr>Addr</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="_dgram_.socketoptions.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_dgram_.socketoptions.html#lookup" class="tsd-kind-icon">lookup</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_dgram_.socketoptions.html#recvbuffersize" class="tsd-kind-icon">recv<wbr>Buffer<wbr>Size</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_dgram_.socketoptions.html#reuseaddr" class="tsd-kind-icon">reuse<wbr>Addr</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_dgram_.socketoptions.html#sendbuffersize" class="tsd-kind-icon">send<wbr>Buffer<wbr>Size</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_dgram_.socketoptions.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="lookup" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> lookup</h3>
+					<div class="tsd-signature tsd-kind-icon">lookup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2994</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>hostname<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="_dns_.lookuponeoptions.html" class="tsd-signature-type">LookupOneOptions</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>hostname: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>options: <a href="_dns_.lookuponeoptions.html" class="tsd-signature-type">LookupOneOptions</a></h5>
+											</li>
+											<li>
+												<h5>callback: <span class="tsd-signature-type">function</span></h5>
+												<ul class="tsd-parameters">
+													<li class="tsd-parameter-siganture">
+														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><a href="nodejs.errnoexception.html" class="tsd-signature-type">ErrnoException</a>, address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, family<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+														</ul>
+														<ul class="tsd-descriptions">
+															<li class="tsd-description">
+																<h4 class="tsd-parameters-title">Parameters</h4>
+																<ul class="tsd-parameters">
+																	<li>
+																		<h5>err: <a href="nodejs.errnoexception.html" class="tsd-signature-type">ErrnoException</a></h5>
+																	</li>
+																	<li>
+																		<h5>address: <span class="tsd-signature-type">string</span></h5>
+																	</li>
+																	<li>
+																		<h5>family: <span class="tsd-signature-type">number</span></h5>
+																	</li>
+																</ul>
+																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="recvbuffersize" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> recv<wbr>Buffer<wbr>Size</h3>
+					<div class="tsd-signature tsd-kind-icon">recv<wbr>Buffer<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2992</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="reuseaddr" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reuse<wbr>Addr</h3>
 					<div class="tsd-signature tsd-kind-icon">reuse<wbr>Addr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:2168</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2991</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"udp4"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"udp6"</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sendbuffersize" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> send<wbr>Buffer<wbr>Size</h3>
+					<div class="tsd-signature tsd-kind-icon">send<wbr>Buffer<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:2167</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2993</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../modules/_dgram_.html#sockettype" class="tsd-signature-type">SocketType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2990</li>
 						</ul>
 					</aside>
 				</section>
@@ -128,33 +212,42 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="_dgram_.addressinfo.html" class="tsd-kind-icon">Address<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="_dgram_.bindoptions.html" class="tsd-kind-icon">Bind<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="_dgram_.remoteinfo.html" class="tsd-kind-icon">Remote<wbr>Info</a>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external">
+						<a href="../classes/_dgram_.socket.html" class="tsd-kind-icon">Socket</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
-						<a href="_dgram_.socket.html" class="tsd-kind-icon">Socket</a>
+						<a href="_dgram_.bindoptions.html" class="tsd-kind-icon">Bind<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+						<a href="_dgram_.remoteinfo.html" class="tsd-kind-icon">Remote<wbr>Info</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="_dgram_.socketoptions.html" class="tsd-kind-icon">Socket<wbr>Options</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_dgram_.socketoptions.html#lookup" class="tsd-kind-icon">lookup</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_dgram_.socketoptions.html#recvbuffersize" class="tsd-kind-icon">recv<wbr>Buffer<wbr>Size</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="_dgram_.socketoptions.html#reuseaddr" class="tsd-kind-icon">reuse<wbr>Addr</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_dgram_.socketoptions.html#sendbuffersize" class="tsd-kind-icon">send<wbr>Buffer<wbr>Size</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="_dgram_.socketoptions.html#type" class="tsd-kind-icon">type</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/_dgram_.html#sockettype" class="tsd-kind-icon">Socket<wbr>Type</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external">
 						<a href="../modules/_dgram_.html#createsocket" class="tsd-kind-icon">create<wbr>Socket</a>
 					</li>
