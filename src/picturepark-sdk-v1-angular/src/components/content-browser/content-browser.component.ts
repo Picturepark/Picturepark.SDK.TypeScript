@@ -54,6 +54,8 @@ export class ContentBrowserComponent implements OnChanges {
   @ViewChild('virtualScroll')
   private virtualScroll: VirtualScrollComponent;
 
+  viewPortItems: ContentModel[];
+
   constructor(private contentService: ContentService) {
   }
 
@@ -132,7 +134,7 @@ export class ContentBrowserComponent implements OnChanges {
     return Promise.resolve();
   }
 
-  protected onListChange(event: ChangeEvent) {
+  public onListChange(event: ChangeEvent) {
     if (event.end !== this.items.length) {
       return;
     }
@@ -173,9 +175,9 @@ export class ContentBrowserComponent implements OnChanges {
 }
 
 export enum SelectionMode {
-  None = <any>'none',
-  Single = <any>'single',
-  Multiple = <any>'multiple',
+  None = 'none',
+  Single = 'single',
+  Multiple = 'multiple'
 }
 
 export class ContentModel {

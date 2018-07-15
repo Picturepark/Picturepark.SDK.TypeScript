@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
-import { LoginComponent } from '../components/login/login.component';
-import { LogoutComponent } from '../components/logout/logout.component';
 import { ShareCardComponent } from '../components/share-card/share-card.component';
 import { ChannelPickerComponent } from '../components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from '../components/content-browser/content-browser.component';
@@ -18,8 +16,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    LogoutComponent,
     ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
@@ -35,8 +31,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
     VirtualScrollModule
   ],
   exports: [
-    LoginComponent,
-    LogoutComponent,
     ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
