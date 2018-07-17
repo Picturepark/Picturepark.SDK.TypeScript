@@ -1,5 +1,7 @@
-import { BasketService } from './../../services/basket.service';
 import { Component, Output, EventEmitter } from '@angular/core';
+
+import { ContentService, ContentDownloadLinkCreateRequest } from 'services/services';
+import { BasketService } from 'services/basket.service';
 
 @Component({
   selector: 'pp-basket',
@@ -13,12 +15,24 @@ export class BasketComponent {
   public previewItemChange = new EventEmitter<string>();
 
 
-  constructor(private basketService: BasketService) {
+  constructor(private contentService: ContentService, private basketService: BasketService) {
     this.basketService.basketChange.subscribe((items) => this.basketItems = items);
   }
 
   public previewItem(itemId: string) {
     this.previewItemChange.emit(itemId);
+  }
+
+  public downloadItems() {
+    const request = new ContentDownloadLinkCreateRequest({
+      contents: this.basketItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
+    });
+
+    this.contentService.createDownloadLink(request).subscribe(data => {
+      if (data.downloadUrl) {
+        window.open(data.downloadUrl);
+      }
+    })
   }
 
   public clearBasket() {

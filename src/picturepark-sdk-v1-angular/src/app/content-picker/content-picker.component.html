@@ -18,8 +18,8 @@
       <div class="filters">
         <mat-tab-group style="height: 100%;">
           <mat-tab label="Filters">
-            <pp-aggregation-filter [query]="searchText" [channel]="selectedChannel" (filterChange)="selectedFilter = $event">
-            </pp-aggregation-filter>
+            <pp-content-aggregation-list [query]="searchText" [channel]="selectedChannel" (filterChange)="selectedFilter = $event">
+            </pp-content-aggregation-list>
           </mat-tab>
           <mat-tab>
             <ng-template mat-tab-label>

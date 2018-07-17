@@ -1,13 +1,12 @@
 <div class="basket">
   <mat-toolbar class="basket__header" *ngIf="basketItems.length > 0">
-    <!-- TODO: add tooltips -->
-    <!-- TODO: add download ability -->
-    <button mat-icon-button>
-      <mat-icon aria-label="TODO: change this text">get_app</mat-icon>
+    <!-- TODO: translation for tooltips. -->
+    <button mat-icon-button [matTooltip]="'Download'" (click)="downloadItems()">
+      <mat-icon aria-label="Download items" >get_app</mat-icon>
     </button>
     <div style="flex-grow: 1;"></div>
-    <button mat-icon-button (click)="clearBasket(); ">
-      <mat-icon aria-label="TODO: change this text">clear</mat-icon>
+    <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Clear basket'">
+      <mat-icon aria-label="Clear basket">clear</mat-icon>
     </button>
   </mat-toolbar>
   <div class="basket__items" *ngIf="basketItems.length > 0">

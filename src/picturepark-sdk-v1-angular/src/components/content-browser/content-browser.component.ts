@@ -1,3 +1,5 @@
+import { ThumbnailSize, ContentDownloadLinkCreateRequest } from './../../services/services';
+import { SortingType } from './models/sorting-type';
 import { BasketService } from './../../services/basket.service';
 import { Subscription } from 'rxjs';
 
@@ -11,6 +13,7 @@ import {
 } from '../../services/services';
 
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { ContentModel } from './models/content-model';
 
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
@@ -20,7 +23,7 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
   styleUrls: ['./content-browser.component.scss']
 })
 export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
-  private readonly ItemsPerRequest = 50;
+  private readonly ItemsPerRequest = 75;
 
   private basketItems: string[] = [];
 
@@ -28,17 +31,30 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
   public totalResults: number | null = null;
 
-  isLoading = false;
-  items: ContentModel[] = [];
+  public isLoading = false;
+
+  public items: ContentModel[] = [];
+
+  public isAscending: boolean | null = null;
+
+  public thumbnailSizes = ThumbnailSize;
+
+  public activeThumbnailSize: ThumbnailSize | null = ThumbnailSize.Medium;
+
+  public isListView = false;
+
+  public sortingTypes = SortingType;
+
+  public activeSortingType = SortingType.relevance;
 
   @Input()
-  channel: Channel | null = null;
+  public channel: Channel | null = null;
 
   @Input()
-  query = '';
+  public query = '';
 
   @Input()
-  filter: FilterBase | null = null;
+  public filter: FilterBase | null = null;
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
@@ -58,25 +74,6 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  public previewItem(id: string) {
-    this.previewItemChange.emit(id);
-  }
-
-  public toggleItems(isSelected: boolean) {
-    this.items.forEach(item => item.isSelected = isSelected);
-  }
-
-  public itemClicked($event: MouseEvent, itemModel: ContentModel) {
-    if ($event.ctrlKey) {
-      itemModel.isSelected = !itemModel.isSelected;
-      this.selectedItems = this.items.filter(item => item.isSelected === true).map(item => item.item.id || '');
-    } else {
-      this.items.forEach(item => item.isSelected = false);
-      itemModel.isSelected = true;
-      this.selectedItems = [itemModel.item.id || ''];
-    }
-  }
-
   public ngOnInit(): void {
     this.scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {
@@ -91,18 +88,77 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
       });
   }
 
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['channel'] || changes['filter'] || changes['query']) {
+      this.update();
+    }
+  }
+
   public ngOnDestroy(): void {
     this.scrollSubscription.unsubscribe();
     this.basketSubscription.unsubscribe();
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    if (changes['channel'] || changes['filter'] || changes['query']) {
-      this.totalResults = null;
-      this.items = [];
-      this.loadData();
+
+  public setSortingType(newValue: SortingType) {
+    if (newValue === SortingType.relevance) {
+      this.isAscending = null;
+    } else if (this.isAscending === null) {
+      this.isAscending = true;
     }
+
+    this.activeSortingType = newValue;
+    this.update();
   }
+
+  public update() {
+    this.totalResults = null;
+    this.items = [];
+    this.loadData();
+  }
+
+
+  public previewItem(id: string) {
+    this.previewItemChange.emit(id);
+  }
+
+  public downloadItems() {
+    const request = new ContentDownloadLinkCreateRequest({
+      contents: this.selectedItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
+    });
+
+    this.contentService.createDownloadLink(request).subscribe(data => {
+      if (data.downloadUrl) {
+        window.open(data.downloadUrl);
+      }
+    });
+  }
+
+  public toggleItems(isSelected: boolean) {
+    this.items.forEach(item => item.isSelected = isSelected);
+    this.selectedItems = this.items.filter(item => item.isSelected === true).map(item => item.item.id || '');
+  }
+
+  public itemClicked($event: MouseEvent, itemModel: ContentModel) {
+    if ($event.ctrlKey) {
+      itemModel.isSelected = !itemModel.isSelected;
+    } else if ($event.shiftKey) {
+      itemModel.isSelected = true;
+
+      const firsIndex = this.items.findIndex(item => item.isSelected === true);
+      const lastIndexReversed = this.items.slice().reverse().findIndex(item => item.isSelected === true);
+      const lastIndex = lastIndexReversed >= 0 ? this.items.length - lastIndexReversed : lastIndexReversed;
+
+      this.items.slice(firsIndex, lastIndex).forEach(item => item.isSelected = true);
+    } else {
+      this.items.forEach(item => item.isSelected = false);
+      itemModel.isSelected = true;
+    }
+
+    this.selectedItems = this.items.filter(item => item.isSelected === true).map(item => item.item.id || '');
+  }
+
+
 
   private loadData() {
     if (this.channel && this.channel.id && !this.isLoading) {
@@ -119,10 +175,10 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
         // TODO select sort.
-        sort: [
+        sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
           new SortInfo({
-            field: 'audit.creationDate',
-            direction: SortDirection.Desc
+            field: this.activeSortingType,
+            direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
           })
         ]
       });
@@ -144,17 +200,5 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         this.isLoading = false;
       });
     }
-  }
-}
-
-// TODO: move this class to separate folder.
-export class ContentModel {
-  isSelected = false;
-  isInBasket = false;
-  item: Content;
-
-  constructor(item: Content, isInBasket: boolean) {
-    this.item = item;
-    this.isInBasket = isInBasket;
   }
 }

@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-// TODO: should it be user specific?
+// TODO: make it user specific.
 export class BasketService {
   private basketSubject: BehaviorSubject<string[]>;
 

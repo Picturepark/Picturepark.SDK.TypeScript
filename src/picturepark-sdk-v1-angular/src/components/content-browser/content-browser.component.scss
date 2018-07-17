@@ -1,7 +1,3 @@
-mat-grid-tile {
-  overflow: initial;
-}
-
 //TODO: add min-width
 .content-browser {
   height: 100%;
@@ -12,16 +8,19 @@ mat-grid-tile {
     z-index: 2;
   }
   &__items {
+    &--list {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 100px;
+    }
     &--large {
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
     &--medium {
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    }
-    // image sizes: 120px, 200px, 320px
+    } // image sizes: 120px, 200px, 320px
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     padding: 25px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     grid-gap: 25px;
   }
   &__item-container {
@@ -34,6 +33,7 @@ mat-grid-tile {
     }
   }
   &__item {
+    user-select: none;
     position: absolute;
     top: 0;
     bottom: 0;

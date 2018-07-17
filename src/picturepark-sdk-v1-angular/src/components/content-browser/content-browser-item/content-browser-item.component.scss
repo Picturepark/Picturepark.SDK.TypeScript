@@ -11,6 +11,20 @@
   width: 100%;
   @include mat-elevation-transition;
   @include mat-elevation(2);
+  &--list-view {
+    flex-direction: row;
+    padding: 5px;
+    #{ $self }__image-slot {
+      flex-grow: 0;
+      flex-basis: 120px;
+    }
+    #{ $self }__title {
+      flex-grow: 1;
+    }
+    #{ $self }__actions {
+     align-self: flex-end;
+    }
+  }
   &--selected {
     // use primary color.
     box-shadow: 0 0 0 4px #6f6f6f;
@@ -50,7 +64,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
     top: -10px;
     left: -10px;
     position: absolute;
@@ -59,14 +72,23 @@
     @include mat-elevation-transition;
     @include mat-elevation(2);
   }
-  &__image {
+  &__image-slot {
     flex-grow: 1;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    position: relative;
+  }
+  &__image-container {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  &__image {
+    max-width: 100%;
+    max-height: 100%;
   }
   &__title {
     white-space: nowrap;

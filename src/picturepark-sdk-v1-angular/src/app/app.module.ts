@@ -8,7 +8,6 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ShareCardComponent } from './share-card/share-card.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -47,7 +46,6 @@ export function PictureparkConfigurationFactory() {
     AppComponent,
     HomeComponent,
 
-    ShareCardComponent,
     ContentPickerComponent,
     DetailsDialogComponent,
     FileSizePipe

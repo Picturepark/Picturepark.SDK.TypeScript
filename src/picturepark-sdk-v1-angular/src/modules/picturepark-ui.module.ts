@@ -1,3 +1,5 @@
+import { ContentAggregationComponent } from './../components/content-aggregation-list/content-aggregation/content-aggregation.component';
+import { ContentAggregationListComponent } from './../components/content-aggregation-list/content-aggregation-list.component';
 import { BasketItemComponent } from './../components/basket/basket-item/basket-item.component';
 // TODO: Reorder it.
 
@@ -6,7 +8,7 @@ import { BasketService } from './../services/basket.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,12 +18,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+
 
 import { LoginComponent } from '../components/login/login.component';
 import { LogoutComponent } from '../components/logout/logout.component';
@@ -29,10 +34,9 @@ import { ShareCardComponent } from '../components/share-card/share-card.componen
 import { ChannelPickerComponent } from '../components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from '../components/content-browser/content-browser.component';
 import { SearchBoxComponent } from '../components/search-box/search-box.component';
-import { AggregationFilterComponent } from '../components/aggregation-filter/aggregation-filter.component';
 import { ContentBrowserItemComponent } from '../components/content-browser/content-browser-item/content-browser-item.component';
 import { TranslatePipe } from '../pipes/translate.pipe';
-import { AggregationComponent } from '../components/aggregation-filter/aggregation/aggregation.component';
+
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 
@@ -44,8 +48,8 @@ import { AggregationComponent } from '../components/aggregation-filter/aggregati
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
-    AggregationComponent,
-    AggregationFilterComponent,
+    ContentAggregationComponent,
+    ContentAggregationListComponent,
     ContentBrowserItemComponent,
     BasketComponent,
     BasketItemComponent,
@@ -58,10 +62,13 @@ import { AggregationComponent } from '../components/aggregation-filter/aggregati
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatButtonModule,
     MatInputModule,
     MatExpansionModule,
+    MatAutocompleteModule,
+    MatTooltipModule,
     MatIconModule,
     MatListModule,
     MatSelectModule,
@@ -80,7 +87,7 @@ import { AggregationComponent } from '../components/aggregation-filter/aggregati
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
-    AggregationFilterComponent,
+    ContentAggregationListComponent,
     BasketComponent,
     TranslatePipe
   ]

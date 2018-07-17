@@ -16,7 +16,7 @@ export * from './src/modules/picturepark-oidc.module';
 export * from './src/modules/picturepark-ui.module';
 
 // components
-export * from './src/components/aggregation-filter/aggregation-filter.component';
+//export * from './src/components/aggregation-filter/aggregation-filter.component';
 export * from './src/components/channel-picker/channel-picker.component';
 export * from './src/components/content-browser/content-browser.component';
 export * from './src/components/login/login.component';

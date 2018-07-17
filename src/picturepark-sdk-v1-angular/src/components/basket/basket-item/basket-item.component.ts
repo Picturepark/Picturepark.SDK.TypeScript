@@ -2,8 +2,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { BasketService } from 'services/basket.service';
-import { ContentService } from '../../../..';
-import { ThumbnailSize } from 'services/services';
+import { ThumbnailSize, ContentService } from 'services/services';
 
 @Component({
   selector: 'pp-basket-item',
@@ -17,12 +16,10 @@ export class BasketItemComponent implements OnInit {
   public imageUrl: SafeUrl;
 
   constructor(private basketService: BasketService, private contentService: ContentService, private sanitizer: DomSanitizer) {
-
   }
 
-  // TODO: error handling;
   public ngOnInit(): void {
-    this.contentService.downloadThumbnail(this.itemId, ThumbnailSize.Large).subscribe(result => {
+    this.contentService.downloadThumbnail(this.itemId, ThumbnailSize.Small).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
       }

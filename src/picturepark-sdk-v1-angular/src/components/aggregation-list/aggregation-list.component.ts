@@ -1,19 +1,13 @@
-import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 import {
-  ContentService, ContentAggregationOnChannelRequest, AggregationFilter, AggregationResult,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, AggregatorBase, FilterBase, OrFilter, AndFilter
+  AggregationFilter, AggregationResult, ObjectAggregationResult,
+  Channel, AggregatorBase, FilterBase, OrFilter, AndFilter
 } from '../../services/services';
 
-
-@Component({
-  selector: 'pp-aggregation-filter',
-  templateUrl: './aggregation-filter.component.html',
-  styleUrls: ['./aggregation-filter.component.scss'],
-})
-// TODO: add basic aggregation component, add inheritance.
-export class AggregationFilterComponent implements OnChanges {
-  // TODO: aggregationFilters as input.
+export abstract class AggregationListComponent implements OnChanges {
   @Input()
   public channel: Channel;
 
@@ -36,9 +30,6 @@ export class AggregationFilterComponent implements OnChanges {
 
   public aggregationResults: AggregationResult[] = [];
 
-  constructor(private contentService: ContentService) {
-  }
-
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['channel'] && this.channel) {
       this.aggregators = this.channel.aggregations || [];
@@ -49,12 +40,17 @@ export class AggregationFilterComponent implements OnChanges {
     }
 
     if (changes['channel'] || changes['query']) {
-      this.fetchData();
+      this.updateData();
     }
   }
 
+  protected abstract fetchData(): Observable<ObjectAggregationResult | null>;
+
   public clearFilters(): void {
-    // TODO: implement this.
+    this.aggregationFilters = [];
+    this.aggregationFiltersFlat = [];
+    this.filterChange.emit(null);
+    this.updateData();
   }
 
   public aggregationFiltersChanged(aggregatorIndex: number, aggregationFilters: AggregationFilter[]): void {
@@ -62,10 +58,19 @@ export class AggregationFilterComponent implements OnChanges {
 
     // flatten array and remove undefined.
     this.aggregationFiltersFlat = ([] as AggregationFilter[]).concat(...this.aggregationFilters).filter(item => item);
-    const filter = this.getFilter(this.aggregationFilters);
-    this.filterChange.emit(filter);
+    const resultFilter = this.getFilter(this.aggregationFilters);
+    this.filterChange.emit(resultFilter);
 
-    this.fetchData();
+    this.updateData();
+  }
+
+  private updateData() {
+    this.fetchData()
+      .pipe(filter((result) => result !== null))
+      .subscribe((result: ObjectAggregationResult) => {
+        this.processAggregationResults(result.aggregationResults || []);
+        this.isLoading = false;
+      });
   }
 
   private getFilter(aggregationFilters: Array<AggregationFilter[]>): FilterBase | null {
@@ -80,33 +85,12 @@ export class AggregationFilterComponent implements OnChanges {
           default: return new OrFilter({ filters: filtered });
         }
       })
-      .filter(filter => filter !== null);
+      .filter(value => value !== null);
 
     switch (preparedFilters.length) {
       case 0: return null;
       case 1: return preparedFilters[0];
       default: return new AndFilter({ filters: preparedFilters as FilterBase[] })
-    }
-  }
-
-  private fetchData() {
-    if (this.channel) {
-      this.isLoading = true;
-      const request = new ContentAggregationOnChannelRequest({
-        channelId: this.channel.id,
-        searchString: this.query,
-        brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.aggregationFiltersFlat,
-        searchType: ContentSearchType.MetadataAndFullText,
-        lifeCycleFilter: LifeCycleFilter.ActiveOnly
-      });
-
-      this.contentService.aggregateOnChannel(request).subscribe(result => {
-        this.processAggregationResults(result.aggregationResults || []);
-        this.isLoading = false;
-      }, () => {
-        this.isLoading = false;
-      });
     }
   }
 
@@ -122,3 +106,4 @@ export class AggregationFilterComponent implements OnChanges {
     });
   }
 }
+

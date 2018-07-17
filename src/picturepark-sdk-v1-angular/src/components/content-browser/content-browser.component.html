@@ -1,5 +1,5 @@
 <div class="content-browser" style="position: relative;" cdkScrollable>
-  <!-- TODO: translations -->
+  <!-- TODO: translations, translate tooltips -->
   <!-- TODO: tooltips for everything. -->
   <!-- TODO: move styles -->
   <div class="content-browser__header">
@@ -10,56 +10,77 @@
         </button>
 
         <mat-menu #selectMenu="matMenu">
-          <button mat-menu-item (click)="toggleItems(true); $event.preventDefault();">Select first {{ items.length }}</button>
-          <button mat-menu-item (click)="toggleItems(false); $event.preventDefault();">Deselect all</button>
+          <button mat-menu-item (click)="toggleItems(true);">Select first {{ items.length }}</button>
+          <button mat-menu-item (click)="toggleItems(false);">Deselect all</button>
         </mat-menu>
 
         <mat-divider [style.margin]="'0 8px'" [vertical]="true"></mat-divider>
 
-        <button *ngIf="selectedItems.length === 1" mat-icon-button>
-          <mat-icon aria-label="TODO: change this text" (click)="previewItem(selectedItems[0])">open_in_new</mat-icon>
+        <button *ngIf="selectedItems.length === 1" mat-icon-button [matTooltip]="'Preview'">
+          <mat-icon aria-label="Preview item" (click)="previewItem(selectedItems[0])">open_in_new</mat-icon>
         </button>
-        <button *ngIf="selectedItems.length > 0" mat-icon-button>
-          <mat-icon aria-label="TODO: change this text">get_app</mat-icon>
+        <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="downloadItems()" [matTooltip]="'Download'">
+          <mat-icon aria-label="Download selected items">get_app</mat-icon>
         </button>
 
         <div style="flex-grow: 1;"></div>
         <span *ngIf="totalResults !== null" style="align-self: center" class="mat-body-1"> {{totalResults}} contents </span>
 
-        <button mat-icon-button [matMenuTriggerFor]="sortMenu">
-          <mat-icon aria-label="TODO: change this text">sort</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'Sort'">
+          <mat-icon aria-label="Select sorting">sort</mat-icon>
         </button>
 
         <mat-menu #sortMenu="matMenu">
-          <button mat-menu-item (click)="$event.preventDefault();">
-            <mat-icon>check</mat-icon>
+          <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = true; update();">
+            <mat-icon *ngIf="isAscending === true">check</mat-icon>
             <span>Ascending</span>
           </button>
-          <button mat-menu-item (click)="$event.preventDefault();">Descending</button>
+          <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = false; update();">
+            <mat-icon *ngIf="isAscending === false">check</mat-icon>
+            <span>Descending</span>
+          </button>
           <mat-divider></mat-divider>
-          <button mat-menu-item (click)="$event.preventDefault();">Relevance</button>
-          <button mat-menu-item (click)="$event.preventDefault();">File Name</button>
-          <button mat-menu-item (click)="$event.preventDefault();">
-            <mat-icon>check</mat-icon>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.relevance)">
+            <mat-icon *ngIf="activeSortingType === sortingTypes.relevance">check</mat-icon>
+            <span>Relevance</span>
+          </button>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.fileName)">
+            <mat-icon *ngIf="activeSortingType === sortingTypes.fileName">check</mat-icon>
+            <span>File Name</span>
+          </button>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.dateCreated)">
+            <mat-icon *ngIf="activeSortingType === sortingTypes.dateCreated">check</mat-icon>
             <span>Date created</span>
           </button>
-          <button mat-menu-item (click)="$event.preventDefault();">Date modified</button>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.dateModified)">
+            <mat-icon *ngIf="activeSortingType === sortingTypes.dateModified">check</mat-icon>
+            <span>Date modified</span>
+          </button>
         </mat-menu>
 
-        <button mat-icon-button [matMenuTriggerFor]="displayStyle">
-          <mat-icon aria-label="TODO: change this text">list</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="displayStyle" [matTooltip]="'View type'">
+          <mat-icon aria-label="Select view type">list</mat-icon>
         </button>
 
         <mat-menu #displayStyle="matMenu">
-          <button mat-menu-item [matMenuTriggerFor]="thumbnailSize">Thumbnail</button>
-          <button mat-menu-item (click)="$event.preventDefault();">List</button>
+          <button mat-menu-item [matMenuTriggerFor]="thumbnailSizeMenu">Thumbnail</button>
+          <button mat-menu-item (click)="activeThumbnailSize = null; isListView = true;">
+            <mat-icon *ngIf="isListView === true">check</mat-icon>
+            <span>List</span>
+          </button>
         </mat-menu>
 
-        <mat-menu #thumbnailSize="matMenu">
-          <button mat-menu-item (click)="$event.preventDefault();">Small</button>
-          <button mat-menu-item (click)="$event.preventDefault();">Medium</button>
-          <button mat-menu-item (click)="$event.preventDefault();">
-            <mat-icon>check</mat-icon>
+        <mat-menu #thumbnailSizeMenu="matMenu">
+          <button mat-menu-item (click)="isListView = false; activeThumbnailSize = thumbnailSizes.Small">
+            <mat-icon *ngIf="activeThumbnailSize === thumbnailSizes.Small">check</mat-icon>
+            <span>Small</span>
+          </button>
+          <button mat-menu-item (click)="isListView = false; activeThumbnailSize = thumbnailSizes.Medium">
+            <mat-icon *ngIf="activeThumbnailSize === thumbnailSizes.Medium">check</mat-icon>
+            <span>Medium</span>
+          </button>
+          <button mat-menu-item (click)="isListView = false; activeThumbnailSize = thumbnailSizes.Large">
+            <mat-icon *ngIf="activeThumbnailSize === thumbnailSizes.Large">check</mat-icon>
             <span>Large</span>
           </button>
         </mat-menu>
@@ -68,10 +89,11 @@
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
 
-  <div *ngIf="totalResults !== 0" class="content-browser__items content-browser__items--large">
+  <div *ngIf="totalResults !== 0" class="content-browser__items" [class.content-browser__items--list]="isListView" [class.content-browser__items--large]=" activeThumbnailSize === thumbnailSizes.Large"
+    [class.content-browser__items--medium]=" activeThumbnailSize === thumbnailSizes.Medium">
     <div class="content-browser__item-container" *ngFor="let itemModel of items">
       <pp-content-browser-item class="content-browser__item" [itemModel]="itemModel" (previewItemChange)="previewItem($event)"
-        (click)="itemClicked($event,itemModel)">
+        [thumbnailSize]="activeThumbnailSize" [isListView]="isListView" (click)="itemClicked($event,itemModel)" (dblclick)="previewItem(itemModel.item.id)">
       </pp-content-browser-item>
     </div>
   </div>
