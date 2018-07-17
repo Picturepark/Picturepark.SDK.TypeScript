@@ -1848,17 +1848,14 @@
         "operationId": "Content_UpdatePermissionsMany",
         "parameters": [
           {
-            "name": "updateRequest",
+            "name": "updateManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ContentPermissionsUpdateRequest"
-              }
+              "$ref": "#/definitions/ContentPermissionsUpdateManyRequest"
             },
             "x-nullable": true,
-            "description": "The permissions update request."
+            "description": "The permissions update many request."
           }
         ],
         "responses": {
@@ -2021,7 +2018,7 @@
         ]
       }
     },
-    "/v1/contents/many/ownership/transfer": {
+    "/v1/contents/many/ownership": {
       "put": {
         "tags": [
           "Content"
@@ -2031,14 +2028,14 @@
         "operationId": "Content_TransferOwnershipMany",
         "parameters": [
           {
-            "name": "contentsOwnershipTransferRequest",
+            "name": "contentOwnershipTransferManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentsOwnershipTransferRequest"
+              "$ref": "#/definitions/ContentOwnershipTransferManyRequest"
             },
             "x-nullable": true,
-            "description": "The content ownership transfer request."
+            "description": "The content ownership transfer many request."
           }
         ],
         "responses": {
@@ -2110,7 +2107,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentFieldsUpdateRequest"
+              "$ref": "#/definitions/ContentFieldsBatchUpdateRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -2185,7 +2182,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentFieldsFilterUpdateRequest"
+              "$ref": "#/definitions/ContentFieldsBatchUpdateFilterRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -4141,7 +4138,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemFieldsUpdateRequest"
+              "$ref": "#/definitions/ListItemFieldsBatchUpdateRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -4216,7 +4213,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemFieldsFilterUpdateRequest"
+              "$ref": "#/definitions/ListItemFieldsBatchUpdateFilterRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -5230,14 +5227,14 @@
         ]
       }
     },
-    "/v1/permission/contentPermissionSets/search": {
+    "/v1/contentPermissionSets/search": {
       "post": {
         "tags": [
-          "Permission"
+          "ContentPermissionSet"
         ],
-        "summary": "Search Content Permissions",
+        "summary": "Search Content Permission Sets",
         "description": "Searches content permission sets as specified in the search request.",
-        "operationId": "Permission_SearchContentPermissionSets",
+        "operationId": "ContentPermissionSet_SearchContentPermissionSets",
         "parameters": [
           {
             "name": "request",
@@ -5305,14 +5302,14 @@
         ]
       }
     },
-    "/v1/permission/contentPermissionSets/{permissionSetId}": {
+    "/v1/contentPermissionSets/{permissionSetId}": {
       "get": {
         "tags": [
-          "Permission"
+          "ContentPermissionSet"
         ],
-        "summary": "Get Content Permission - single",
+        "summary": "Get Content Permission Set - single",
         "description": "Gets the content permission set detail information by the content permission set id.",
-        "operationId": "Permission_GetContentPermissionSet",
+        "operationId": "ContentPermissionSet_GetContentPermissionSet",
         "parameters": [
           {
             "type": "string",
@@ -5378,14 +5375,14 @@
         ]
       }
     },
-    "/v1/permission/schemaPermissionSets/search": {
+    "/v1/schemaPermissionSets/search": {
       "post": {
         "tags": [
-          "Permission"
+          "SchemaPermissionSet"
         ],
-        "summary": "Search Schema PermissionSets",
+        "summary": "Search Schema Permission Sets",
         "description": "Searches schema permission sets as specified in the search request.",
-        "operationId": "Permission_SearchSchemaPermissionSets",
+        "operationId": "SchemaPermissionSet_SearchSchemaPermissionSets",
         "parameters": [
           {
             "name": "request",
@@ -5453,14 +5450,14 @@
         ]
       }
     },
-    "/v1/permission/schemaPermissionSets/{permissionSetId}": {
+    "/v1/schemaPermissionSets/{permissionSetId}": {
       "get": {
         "tags": [
-          "Permission"
+          "SchemaPermissionSet"
         ],
-        "summary": "Get Schema PermissionSets - single",
+        "summary": "Get Schema Permission Sets - single",
         "description": "Gets the schema permission set detail information by the schema permission set id.",
-        "operationId": "Permission_GetSchemaPermissionSet",
+        "operationId": "SchemaPermissionSet_GetSchemaPermissionSet",
         "parameters": [
           {
             "type": "string",
@@ -5476,166 +5473,6 @@
             "description": "SchemaPermissionSetDetail",
             "schema": {
               "$ref": "#/definitions/SchemaPermissionSetDetail"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "permission_read"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/permission/userPermissions": {
-      "get": {
-        "tags": [
-          "Permission"
-        ],
-        "summary": "Get User rights",
-        "description": "Get all UserRights the current user has",
-        "operationId": "Permission_GetUserRights",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "list of user permissions",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserRight"
-              }
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "permission_read"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/permission/userPermissions/{userRight}": {
-      "get": {
-        "tags": [
-          "Permission"
-        ],
-        "summary": "Has UserRight",
-        "description": "Validates if the User has a given UserRight",
-        "operationId": "Permission_HasUserRight",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "userRight",
-            "in": "path",
-            "required": true,
-            "x-schema": {
-              "$ref": "#/definitions/UserRight"
-            },
-            "x-nullable": false,
-            "description": "The UserRight to validate",
-            "enum": [
-              "ManageContent",
-              "ManageSharings",
-              "ManageTransfer",
-              "ManageChannels",
-              "ManageSchemas",
-              "ManageUsers",
-              "ManageUserRoles",
-              "ManagePermissions",
-              "ManageSearchIndexes",
-              "ManageCollections",
-              "ManageListItems",
-              "ManageServiceProviders",
-              "ManageEmbeds",
-              "ManageTemplates",
-              "ManageTermsOfService"
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Boolean - user has permission",
-            "schema": {
-              "type": "boolean"
             },
             "x-nullable": false
           },
@@ -9059,11 +8896,11 @@
         "operationId": "Profile_Update",
         "parameters": [
           {
-            "name": "profile",
+            "name": "updateRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserProfile"
+              "$ref": "#/definitions/UserProfileUpdateRequest"
             },
             "x-nullable": true
           }
@@ -9892,8 +9729,11 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "ownerTokenUserId": {
-          "type": "string"
+        "ownerTokenUserIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "allOf": [
@@ -14505,6 +14345,19 @@
         }
       }
     },
+    "ContentPermissionsUpdateManyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requests": {
+          "type": "array",
+          "description": "List of Content Permissions update requests",
+          "items": {
+            "$ref": "#/definitions/ContentPermissionsUpdateRequest"
+          }
+        }
+      }
+    },
     "ContentOwnershipTransferRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -14519,24 +14372,20 @@
         }
       }
     },
-    "ContentsOwnershipTransferRequest": {
+    "ContentOwnershipTransferManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentIds": {
+        "requests": {
           "type": "array",
-          "description": "The content ids.",
+          "description": "List of Content Permissions ownership transfer requests",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ContentOwnershipTransferRequest"
           }
-        },
-        "transferUserId": {
-          "type": "string",
-          "description": "The id of user to whom the content documents have to be transfered to."
         }
       }
     },
-    "ContentFieldsUpdateRequest": {
+    "ContentFieldsBatchUpdateRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -14738,7 +14587,7 @@
         }
       ]
     },
-    "ContentFieldsFilterUpdateRequest": {
+    "ContentFieldsBatchUpdateFilterRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -14757,7 +14606,8 @@
       "additionalProperties": false,
       "required": [
         "searchType",
-        "lifeCycleFilter"
+        "lifeCycleFilter",
+        "brokenDependenciesFilter"
       ],
       "properties": {
         "channelId": {
@@ -14800,6 +14650,14 @@
           "allOf": [
             {
               "$ref": "#/definitions/LifeCycleFilter"
+            }
+          ]
+        },
+        "brokenDependenciesFilter": {
+          "description": "Filter the content document result set to those that have or not have broken references",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BrokenDependenciesFilter"
             }
           ]
         },
@@ -15783,7 +15641,7 @@
         }
       }
     },
-    "ListItemFieldsUpdateRequest": {
+    "ListItemFieldsBatchUpdateRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -15815,7 +15673,7 @@
         }
       }
     },
-    "ListItemFieldsFilterUpdateRequest": {
+    "ListItemFieldsBatchUpdateFilterRequest": {
       "type": "object",
       "description": "ListItemFieldsFilterUpdateRequest class",
       "additionalProperties": false,
@@ -15853,7 +15711,8 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "includeAllSchemaChildren"
+        "includeAllSchemaChildren",
+        "brokenDependenciesFilter"
       ],
       "properties": {
         "searchString": {
@@ -15885,6 +15744,14 @@
           "items": {
             "type": "string"
           }
+        },
+        "brokenDependenciesFilter": {
+          "description": "Filter the returned list items that have or not have broken references",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BrokenDependenciesFilter"
+            }
+          ]
         }
       }
     },
@@ -20269,6 +20136,42 @@
         },
         "authorizationState": {
           "$ref": "#/definitions/AuthorizationState"
+        },
+        "userRights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserRight"
+          }
+        },
+        "userRoleIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UserProfileUpdateRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "emailAddress": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/UserAddress"
         }
       }
     },
@@ -20534,8 +20437,12 @@
       "description": "Endpoints to work with schemas.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/SchemaTests.cs)\r\n"
     },
     {
-      "name": "Permission",
-      "description": "Endpoints to work with permissions.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/PermissionTests.cs)\r\n"
+      "name": "ContentPermissionSet",
+      "description": "Endpoints to work with content permission sets.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/ContentPermissionSetTests.cs)\r\n"
+    },
+    {
+      "name": "SchemaPermissionSet",
+      "description": "Endpoints to work with schema permission sets.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/SchemaPermissionSetTests.cs)\r\n"
     },
     {
       "name": "PublicAccess",

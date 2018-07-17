@@ -9,7 +9,8 @@ import {
   DocumentHistoryService,
   SchemaService,
   UserService,
-  PermissionService,
+  ContentPermissionSetService,
+  SchemaPermissionSetService,
   PublicAccessService,
   ShareService,
   TransferService,
@@ -96,11 +97,24 @@ export class PictureparkUserModule {
     HttpClientModule
   ],
   providers: [
-    PermissionService,
+    ContentPermissionSetService,
     { provide: AuthService, useClass: AccessTokenAuthService }
   ]
 })
-export class PictureparkPermissionModule {
+export class PictureparkContentPermissionSetModule {
+}
+
+
+@NgModule({
+  imports: [
+    HttpClientModule
+  ],
+  providers: [
+    SchemaPermissionSetService,
+    { provide: AuthService, useClass: AccessTokenAuthService }
+  ]
+})
+export class PictureparkSchemaPermissionSetModule {
 }
 
 @NgModule({
@@ -161,7 +175,8 @@ export class PictureparkServiceProviderModule {
     PictureparkDocumentHistoryModule,
     PictureparkJsonSchemaModule,
     PictureparkUserModule,
-    PictureparkPermissionModule,
+    PictureparkContentPermissionSetModule,
+    PictureparkSchemaPermissionSetModule,
     PictureparkPublicAccessModule,
     PictureparkShareModule,
     PictureparkTransferModule,
@@ -169,5 +184,4 @@ export class PictureparkServiceProviderModule {
   ],
   providers: []
 })
-export class PictureparkModule {
-}
+export class PictureparkModule {}
