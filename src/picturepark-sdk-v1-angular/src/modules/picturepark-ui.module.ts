@@ -27,8 +27,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
-
-import { ShareCardComponent } from '../components/share-card/share-card.component';
 import { ChannelPickerComponent } from '../components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from '../components/content-browser/content-browser.component';
 import { SearchBoxComponent } from '../components/search-box/search-box.component';
@@ -40,7 +38,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 
 @NgModule({
   declarations: [
-    ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
