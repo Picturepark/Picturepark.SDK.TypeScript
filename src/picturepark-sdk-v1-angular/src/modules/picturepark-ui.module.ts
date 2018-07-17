@@ -74,7 +74,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
     ScrollDispatchModule
   ],
   exports: [
-    ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
