@@ -28,8 +28,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 
-import { LoginComponent } from '../components/login/login.component';
-import { LogoutComponent } from '../components/logout/logout.component';
 import { ShareCardComponent } from '../components/share-card/share-card.component';
 import { ChannelPickerComponent } from '../components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from '../components/content-browser/content-browser.component';
@@ -42,8 +40,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    LogoutComponent,
     ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
@@ -81,8 +77,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
     ScrollDispatchModule
   ],
   exports: [
-    LoginComponent,
-    LogoutComponent,
     ShareCardComponent,
     ChannelPickerComponent,
     ContentBrowserComponent,
