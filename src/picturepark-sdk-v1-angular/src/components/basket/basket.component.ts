@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
-import { ContentService, ContentDownloadLinkCreateRequest } from 'services/services';
-import { BasketService } from 'services/basket.service';
+import { ContentService, ContentDownloadLinkCreateRequest } from '../../services/services';
+import { BasketService } from '../../services/basket.service';
 
 @Component({
   selector: 'pp-basket',

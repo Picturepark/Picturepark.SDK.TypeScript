@@ -6,7 +6,7 @@ import { timer, Observable, from } from 'rxjs';
 import {
   AggregationFilter, AggregationResult, AggregatorBase,
   AggregationResultItem, TermsAggregator, ObjectAggregationResult
-} from 'services/services';
+} from '../../services/services';
 
 
 export abstract class AggregationComponent implements OnChanges {
@@ -149,7 +149,7 @@ export abstract class AggregationComponent implements OnChanges {
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
-    // TODO, verify this magic is valid.
+     // TODO: might be simplified in case contract for arrays will not have undefined.;
     if (aggregator.aggregators && aggregator.aggregators.length > 0) {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
@@ -158,7 +158,7 @@ export abstract class AggregationComponent implements OnChanges {
   }
 
   private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
-    // TODO: Verify that this is correct;
+    // TODO: might be simplified in case contract for arrays will not have undefined.;
     if (
       aggregationResult &&
       aggregationResult.aggregationResultItems &&

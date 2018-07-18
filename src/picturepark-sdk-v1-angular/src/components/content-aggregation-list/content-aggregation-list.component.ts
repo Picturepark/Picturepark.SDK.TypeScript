@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import {
   ContentService, ContentAggregationRequest, BrokenDependenciesFilter,
   ContentSearchType, LifeCycleFilter, ObjectAggregationResult
-} from 'services/services';
+} from '../../services/services';
 
 import { AggregationListComponent } from '../aggregation-list/aggregation-list.component';
 

@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, LOCALE_ID, Inject } from '@angular/core';
 
 import {
   ObjectAggregationResult, ContentAggregationRequest, BrokenDependenciesFilter,
   ContentSearchType, LifeCycleFilter, ContentService
-} from 'services/services';
+} from '../../../services/services';
 
 import { AggregationComponent } from '../../aggregation-list/aggregation.component';
 
@@ -15,7 +15,7 @@ import { AggregationComponent } from '../../aggregation-list/aggregation.compone
 })
 export class ContentAggregationComponent extends AggregationComponent {
 
-  constructor(private contentService: ContentService) {
+  constructor(@Inject(LOCALE_ID) public locale: string, private contentService: ContentService) {
     super();
   }
 

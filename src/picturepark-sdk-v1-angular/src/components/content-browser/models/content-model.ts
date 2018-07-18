@@ -1,4 +1,4 @@
-import { Content } from 'services/services';
+import { Content } from '../../../services/services';
 
 export class ContentModel {
   isSelected = false;

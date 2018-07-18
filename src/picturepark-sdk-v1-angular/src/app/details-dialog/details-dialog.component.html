@@ -1,5 +1,5 @@
-<h1 mat-dialog-title> {{ content?.displayValues['name'] || contentId }}</h1>
 <div mat-dialog-content *ngIf="content">
+  <h1 mat-dialog-title> {{ content?.displayValues['name'] || contentId }}</h1>
   <p>{{content && content.content ? content.content.fileName : ''}}&nbsp;</p>
   <img [src]="thumbnailUrlSafe" (click)="showFullscreen()">
 

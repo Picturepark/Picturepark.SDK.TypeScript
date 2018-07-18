@@ -1,8 +1,8 @@
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { BasketService } from 'services/basket.service';
-import { ThumbnailSize, ContentService } from 'services/services';
+import { BasketService } from '../../../services/basket.service';
+import { ThumbnailSize, ContentService } from '../../../services/services';
 
 @Component({
   selector: 'pp-basket-item',

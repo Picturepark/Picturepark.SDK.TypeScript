@@ -70,7 +70,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
     this.basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
-      this.items.forEach(item => item.isInBasket = basketItems.includes(item.item.id || ''));
+      this.items.forEach(item => item.isInBasket = basketItems.some(basketItem => basketItem === item.item.id));
     });
   }
 
@@ -188,7 +188,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
         if (searchResult.results) {
           this.items.push(...searchResult.results.map(item => {
-            const isInBasket = this.basketItems.includes(item.id || '');
+            const isInBasket = this.basketItems.some(basketItem => basketItem === item.id);
 
             return new ContentModel(item, isInBasket);
           }));
