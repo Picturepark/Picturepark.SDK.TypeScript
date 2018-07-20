@@ -1104,6 +1104,14 @@
             "description": "the id of the content to deactivate"
           },
           {
+            "type": "boolean",
+            "name": "forceReferenceRemoval",
+            "in": "query",
+            "x-nullable": true,
+            "description": "A value indicating whether references to the content should be removed.",
+            "default": false
+          },
+          {
             "type": "string",
             "name": "timeout",
             "in": "query",
@@ -1270,20 +1278,20 @@
             "description": "The content id."
           },
           {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
-          },
-          {
             "type": "boolean",
             "name": "allowMissingDependencies",
             "in": "query",
             "x-nullable": false,
             "description": "Allow reactivating contents that refer to list items or contents that don't exist in the system.",
             "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
@@ -3793,21 +3801,20 @@
             "description": "the id of the list item to deactivate"
           },
           {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "required": true,
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
-          },
-          {
             "type": "boolean",
             "name": "forceReferenceRemoval",
             "in": "query",
             "x-nullable": true,
             "description": "A value indicating whether references to the listitem should be removed.",
             "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
@@ -3968,20 +3975,20 @@
             "description": "The list item id."
           },
           {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
-          },
-          {
             "type": "boolean",
             "name": "allowMissingDependencies",
             "in": "query",
             "x-nullable": false,
             "description": "Allow reactivating list items that refer to list items or contents that don't exist in the system.",
             "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
@@ -4588,7 +4595,7 @@
           "Schema"
         ],
         "summary": "Update - single",
-        "description": "Updates an existing schema.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "description": "Updates an existing schema.\nThe operation can take a lot of time.",
         "operationId": "Schema_Update",
         "parameters": [
           {
@@ -4608,13 +4615,21 @@
             },
             "x-nullable": true,
             "description": "The schema update request."
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the operation to complete.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "SchemaUpdateResult containing the updated schema",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/SchemaUpdateResult"
             },
             "x-nullable": false
           },
@@ -4719,13 +4734,21 @@
             "required": true,
             "x-nullable": false,
             "description": "The schema id."
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the operation to complete.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "SchemaDeleteResult",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/SchemaDeleteResult"
             },
             "x-nullable": false
           },
@@ -4893,7 +4916,7 @@
           "Schema"
         ],
         "summary": "Create - single",
-        "description": "Create a new schema.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "description": "Create a new schema.",
         "operationId": "Schema_Create",
         "parameters": [
           {
@@ -4905,13 +4928,21 @@
             },
             "x-nullable": true,
             "description": "The schema create request."
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the operation to complete.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "SchemaCreateResult containing the created schema.",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/SchemaCreateResult"
             },
             "x-nullable": false
           },
@@ -7626,6 +7657,79 @@
         ]
       }
     },
+    "/v1/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new user (without inviting him)",
+        "operationId": "User_Create",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreateRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserDetail"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/users/{userId}": {
       "get": {
         "tags": [
@@ -7697,12 +7801,12 @@
           }
         ]
       },
-      "delete": {
+      "put": {
         "tags": [
           "User"
         ],
-        "summary": "Deletes a user",
-        "operationId": "User_Delete",
+        "summary": "Updates one or more users",
+        "operationId": "User_Update",
         "parameters": [
           {
             "type": "string",
@@ -7710,6 +7814,15 @@
             "in": "path",
             "required": true,
             "x-nullable": false
+          },
+          {
+            "name": "userUpdatableDetail",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdatableDetail"
+            },
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -7913,8 +8026,8 @@
         ]
       }
     },
-    "/v1/users": {
-      "post": {
+    "/v1/users/many": {
+      "get": {
         "tags": [
           "User"
         ],
@@ -7922,17 +8035,16 @@
         "operationId": "User_GetMany",
         "parameters": [
           {
+            "type": "array",
             "name": "ids",
-            "in": "body",
+            "in": "query",
             "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
             "x-nullable": true,
-            "description": "The user ID's"
+            "collectionFormat": "multi",
+            "description": "The user ID's",
+            "items": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -8066,14 +8178,21 @@
         ]
       }
     },
-    "/v1/users/lock": {
+    "/v1/users/{userId}/lock": {
       "post": {
         "tags": [
           "User"
         ],
         "summary": "Locks or unlocks one or more users",
-        "operationId": "User_LockMany",
+        "operationId": "User_Lock",
         "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
           {
             "name": "userLockRequest",
             "in": "body",
@@ -8086,11 +8205,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BusinessProcess"
-            },
-            "x-nullable": false
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -8139,14 +8254,21 @@
         ]
       }
     },
-    "/v1/users/review": {
+    "/v1/users/{userId}/review": {
       "post": {
         "tags": [
           "User"
         ],
         "summary": "Sets one or more users as reviewed or under review",
-        "operationId": "User_ReviewMany",
+        "operationId": "User_Review",
         "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
           {
             "name": "userReviewRequest",
             "in": "body",
@@ -8159,11 +8281,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BusinessProcess"
-            },
-            "x-nullable": false
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -8212,186 +8330,25 @@
         ]
       }
     },
-    "/v1/users/update": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Updates one or more users",
-        "operationId": "User_UpdateMany",
-        "parameters": [
-          {
-            "name": "userUpdatableDetails",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserUpdatableDetail"
-              }
-            },
-            "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BulkResponse"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "user_write"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/users/validateUserInvites": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Validates if the supplied user create requests would pass the unique email validation",
-        "operationId": "User_ValidateUserInvites",
-        "parameters": [
-          {
-            "name": "userCreateRequests",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserCreateRequest"
-              }
-            },
-            "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BulkResponse"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "user_read"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/users/invite": {
+    "/v1/users/{userId}/invite": {
       "post": {
         "tags": [
           "User"
         ],
         "summary": "Invites (or creates) new users",
-        "operationId": "User_InviteMany",
+        "operationId": "User_Invite",
         "parameters": [
           {
-            "name": "userCreateRequests",
-            "in": "body",
+            "type": "string",
+            "name": "userId",
+            "in": "path",
             "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserCreateRequest"
-              }
-            },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BusinessProcess"
-            },
-            "x-nullable": false
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -8440,31 +8397,34 @@
         ]
       }
     },
-    "/v1/users/delete": {
+    "/v1/users/{userId}/delete": {
       "post": {
         "tags": [
           "User"
         ],
-        "summary": "Deletes multiple users",
-        "operationId": "User_DeleteMany",
+        "summary": "Deletes a user",
+        "operationId": "User_Delete",
         "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
           {
             "name": "userDeactivateRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserDeactivateRequest"
+              "$ref": "#/definitions/UserDeletionRequest"
             },
             "x-nullable": true
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BulkResponse"
-            },
-            "x-nullable": false
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -8531,84 +8491,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/UserDetail"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "user_write"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/users/restore": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Restores multiple previously deleted users",
-        "operationId": "User_RestoreMany",
-        "parameters": [
-          {
-            "name": "userReactivateRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserReactivateRequest"
-            },
-            "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/BulkResponse"
-            },
-            "x-nullable": false
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -11679,6 +11562,46 @@
         }
       ]
     },
+    "SchemaFieldRelationSchemaSystemSchemaException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaId": {
+          "type": "string"
+        },
+        "fieldId": {
+          "type": "string"
+        },
+        "relationSchemaId": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkValidationException"
+        }
+      ]
+    },
+    "SchemaFieldRelationSchemaTypeUnsupportedException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaId": {
+          "type": "string"
+        },
+        "fieldId": {
+          "type": "string"
+        },
+        "relationSchemaId": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkValidationException"
+        }
+      ]
+    },
     "DeleteContentsWithRelationsException": {
       "type": "object",
       "additionalProperties": false,
@@ -13744,9 +13667,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentId": {
-          "type": "string"
-        },
         "shares": {
           "$ref": "#/definitions/PagingRequest"
         }
@@ -14022,9 +13942,9 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items / contents"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Create requests",
+          "description": "Create items",
           "items": {
             "$ref": "#/definitions/ContentCreateRequest"
           }
@@ -14234,9 +14154,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentId": {
-          "type": "string"
-        },
         "fileTransferId": {
           "type": "string"
         }
@@ -14250,10 +14167,6 @@
         "schemaFieldsUpdateOptions"
       ],
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "The content id."
-        },
         "layerSchemaIds": {
           "type": "array",
           "description": "An id list of schemas with schema type layer.",
@@ -14311,10 +14224,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentId": {
-          "type": "string",
-          "description": "The content id."
-        },
         "contentPermissionSetIds": {
           "type": "array",
           "description": "An optional id list of content permission sets. Controls content accessibility outside of content ownership.",
@@ -14336,36 +14245,62 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Update requests",
+          "description": "Update items",
           "items": {
-            "$ref": "#/definitions/ContentMetadataUpdateRequest"
+            "$ref": "#/definitions/ContentMetadataUpdateItem"
           }
         }
       }
+    },
+    "ContentMetadataUpdateItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The content id."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContentMetadataUpdateRequest"
+        }
+      ]
     },
     "ContentPermissionsUpdateManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "List of Content Permissions update requests",
+          "description": "List of Content Permissions update items",
           "items": {
-            "$ref": "#/definitions/ContentPermissionsUpdateRequest"
+            "$ref": "#/definitions/ContentPermissionsUpdateItem"
           }
         }
       }
     },
-    "ContentOwnershipTransferRequest": {
+    "ContentPermissionsUpdateItem": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "contentId": {
           "type": "string",
           "description": "The content id."
-        },
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContentPermissionsUpdateRequest"
+        }
+      ]
+    },
+    "ContentOwnershipTransferRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
         "transferUserId": {
           "type": "string",
           "description": "The id of the user to whom the content document has to be transfered to."
@@ -14376,14 +14311,29 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "requests": {
+        "items": {
           "type": "array",
           "description": "List of Content Permissions ownership transfer requests",
           "items": {
-            "$ref": "#/definitions/ContentOwnershipTransferRequest"
+            "$ref": "#/definitions/ContentOwnershipTransferItem"
           }
         }
       }
+    },
+    "ContentOwnershipTransferItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contentId": {
+          "type": "string",
+          "description": "The content id."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContentOwnershipTransferRequest"
+        }
+      ]
     },
     "ContentFieldsBatchUpdateRequest": {
       "type": "object",
@@ -15561,9 +15511,9 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items / contents"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Create requests",
+          "description": "Create items",
           "items": {
             "$ref": "#/definitions/ListItemCreateRequest"
           }
@@ -15577,10 +15527,6 @@
       "properties": {
         "content": {
           "description": "The content data of the list item."
-        },
-        "id": {
-          "type": "string",
-          "description": "The list item id."
         }
       }
     },
@@ -15596,14 +15542,29 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items / contents"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Update requests",
+          "description": "Update items",
           "items": {
-            "$ref": "#/definitions/ListItemUpdateRequest"
+            "$ref": "#/definitions/ListItemUpdateItem"
           }
         }
       }
+    },
+    "ListItemUpdateItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The list item id."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ListItemUpdateRequest"
+        }
+      ]
     },
     "ListItemDeactivateRequest": {
       "type": "object",
@@ -17374,6 +17335,15 @@
         }
       }
     },
+    "SchemaCreateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "$ref": "#/definitions/SchemaDetail"
+        }
+      }
+    },
     "SchemaUpdateRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -17465,6 +17435,19 @@
           }
         }
       }
+    },
+    "SchemaUpdateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "$ref": "#/definitions/SchemaDetail"
+        }
+      }
+    },
+    "SchemaDeleteResult": {
+      "type": "object",
+      "additionalProperties": false
     },
     "PermissionSetSearchRequest": {
       "type": "object",
@@ -18517,9 +18500,6 @@
         "kind"
       ],
       "properties": {
-        "id": {
-          "type": "string"
-        },
         "name": {
           "type": "string"
         },
@@ -18597,9 +18577,6 @@
       "additionalProperties": false,
       "properties": {
         "customerId": {
-          "type": "string"
-        },
-        "serviceProviderId": {
           "type": "string"
         },
         "settings": {
@@ -19640,9 +19617,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "transferId": {
-          "type": "string"
-        },
         "layerSchemaIds": {
           "type": "array",
           "description": "An optional id list of schemas with type layer.",
@@ -19666,9 +19640,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "transferId": {
-          "type": "string"
-        },
         "items": {
           "type": "array",
           "items": {
@@ -19700,6 +19671,63 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "UserCreateRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emailAddress": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "userRoleIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "address": {
+          "$ref": "#/definitions/UserAddress"
+        }
+      }
+    },
+    "UserAddress": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "alternativeAddress": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
         }
       }
     },
@@ -19781,36 +19809,6 @@
           "$ref": "#/definitions/User"
         }
       ]
-    },
-    "UserAddress": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "company": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "alternativeAddress": {
-          "type": "string"
-        },
-        "department": {
-          "type": "string"
-        },
-        "zip": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "countryCode": {
-          "type": "string"
-        }
-      }
     },
     "UserSearchRequest": {
       "type": "object",
@@ -20011,12 +20009,6 @@
         "lock"
       ],
       "properties": {
-        "userIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "lock": {
           "type": "boolean"
         }
@@ -20029,69 +20021,15 @@
         "reviewed"
       ],
       "properties": {
-        "userIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "reviewed": {
           "type": "boolean"
         }
       }
     },
-    "UserCreateRequest": {
+    "UserDeletionRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "emailAddress": {
-          "type": "string"
-        },
-        "languageCode": {
-          "type": "string"
-        },
-        "userRoleIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "address": {
-          "$ref": "#/definitions/UserAddress"
-        }
-      }
-    },
-    "UserDeactivateRequest": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "userIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "ownerTokenTransferUserId": {
-          "type": "string"
-        }
-      }
-    },
-    "UserReactivateRequest": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "userIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "ownerTokenTransferUserId": {
           "type": "string"
         }

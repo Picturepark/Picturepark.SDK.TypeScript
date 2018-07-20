@@ -37,8 +37,10 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
       this.contentService.get(data, [
         ContentResolveBehaviour.Content,
+        ContentResolveBehaviour.Metadata,
         ContentResolveBehaviour.LinkedListItems,
-        ContentResolveBehaviour.InnerDisplayValueName
+        ContentResolveBehaviour.InnerDisplayValueName,
+        ContentResolveBehaviour.Outputs
       ]).subscribe((content: ContentDetail) => {
         this.content = content;
       });
