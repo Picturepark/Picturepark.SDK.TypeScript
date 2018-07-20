@@ -1,0 +1,107 @@
+@import '~@angular/material/theming';
+//TODO: use theme colors;
+// TODO: add transitions for visibility (using opacity);
+.content-item {
+  $self: &;
+  border-radius: 2px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  @include mat-elevation-transition;
+  @include mat-elevation(2);
+  &--list-view {
+    flex-direction: row;
+    padding: 5px;
+    #{ $self }__image-slot {
+      flex-grow: 0;
+      flex-basis: 120px;
+    }
+    #{ $self }__title {
+      flex-grow: 1;
+    }
+    #{ $self }__actions {
+      align-self: flex-end;
+    }
+  }
+  &--selected {
+    // use primary color.
+    box-shadow: 0 0 0 4px #6f6f6f;
+    #{ $self }__select-icon {
+      visibility: initial;
+      color: white;
+      background: #6f6f6f;
+    }
+    #{ $self }__actions {
+      visibility: initial;
+    }
+  }
+  &:hover {
+    &:not(#{ $self }--selected) {
+      @include mat-elevation(8);
+      #{ $self }__select-icon {
+        visibility: initial;
+      }
+      #{ $self }__actions {
+        visibility: initial;
+      }
+    }
+    #{ $self }__basket-icon {
+      visibility: initial;
+    }
+  }
+  &__basket-icon {
+    visibility: hidden;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    &--selected {
+      visibility: initial;
+    }
+  }
+  &__select-icon {
+    cursor: pointer;
+    visibility: hidden;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -10px;
+    left: -10px;
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    @include mat-elevation-transition;
+    @include mat-elevation(2);
+  }
+  &__image-slot {
+    flex-grow: 1;
+    position: relative;
+  }
+  &__image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  &__image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  &__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 10px;
+  }
+  &__actions {
+    visibility: hidden;
+    display: flex;
+    justify-content: space-around;
+  }
+}

@@ -1,0 +1,18 @@
+<div mat-dialog-content *ngIf="content">
+  <h1 mat-dialog-title> {{ content?.displayValues['name'] || contentId }}</h1>
+  <p>{{content && content.content ? content.content.fileName : ''}}&nbsp;</p>
+  <img [src]="thumbnailUrlSafe" (click)="showFullscreen()">
+
+  <dl>
+    <dt>{{'ContentPickerDetails.LabelFileExtension' | pptranslate}}</dt>
+    <dd>{{content.content.fileExtension}}</dd>
+
+    <dt>{{'ContentPickerDetails.LabelFileSize' | pptranslate}}</dt>
+    <dd>{{content.content.fileSizeInBytes | filesize}}</dd>
+
+    <ng-container *ngIf="content.content.kind === 'ImageMetadata'">
+      <dt>{{'ContentPickerDetails.LabelSize' | pptranslate}}</dt>
+      <dd>{{content.content.width}}px x {{content.content.height}}px</dd>
+    </ng-container>
+  </dl>
+</div>

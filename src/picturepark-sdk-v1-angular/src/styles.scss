@@ -1,0 +1,11 @@
+/* content-browser */
+
+// TODO: move to angular.json
+@import "~normalize.css";
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+ @import "theme.scss";
+
+ @include mat-core();
+
+ @include angular-material-theme($picturepark-app-theme);

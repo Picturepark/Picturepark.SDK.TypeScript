@@ -1,11 +1,9 @@
-<div class="form-group">
-  <label *ngIf="label" for="search">{{label}}</label>
-  <div class="input-group">
-    <input id="search" class="form-control" type="text" [(ngModel)]="query" (keyup.enter)="search()" />
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button" (click)="search()">
-        {{'SearchBox.ButtonSearch' | pptranslate}}
-      </button>
-    </span>
-  </div>
-</div>
+<mat-form-field color="dark">
+  <input matInput [(ngModel)]="query" (keyup.enter)="search()">
+  <button  mat-icon-button *ngIf="!query" matSuffix aria-label="Search">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-icon-button *ngIf="query" matSuffix aria-label="Clear" (click)="clear()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>

@@ -8,10 +8,10 @@ export class EmbedService {
   constructor(private shareService: ShareService) {
   }
 
-  async embed(selectedItems: Content[], postUrl: string) {
+  async embed(selectedItems: string[], postUrl: string) {
     if (selectedItems.length > 0) {
       const contentItems = selectedItems.map(i => new ShareContent({
-        contentId: i.id,
+        contentId: i,
         outputFormatIds: ['Original']
       }));
 
