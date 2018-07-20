@@ -76,7 +76,7 @@ export class ContentBrowserItemComponent implements OnChanges {
 
     this.contentService.createDownloadLink(request).subscribe(data => {
       if (data.downloadUrl) {
-        window.open(data.downloadUrl);
+        window.location.replace(data.downloadUrl)
       }
     })
   }

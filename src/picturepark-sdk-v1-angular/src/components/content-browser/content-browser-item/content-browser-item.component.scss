@@ -22,7 +22,7 @@
       flex-grow: 1;
     }
     #{ $self }__actions {
-     align-self: flex-end;
+      align-self: flex-end;
     }
   }
   &--selected {
@@ -32,6 +32,9 @@
       visibility: initial;
       color: white;
       background: #6f6f6f;
+    }
+    #{ $self }__actions {
+      visibility: initial;
     }
   }
   &:hover {

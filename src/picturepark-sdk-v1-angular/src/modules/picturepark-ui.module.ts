@@ -4,6 +4,7 @@ import { BasketItemComponent } from './../components/basket/basket-item/basket-i
 // TODO: Reorder it.
 
 import { BasketComponent } from './../components/basket/basket.component';
+import { ContentItemSelectionService } from './../services/content-item-selection.service';
 import { BasketService } from './../services/basket.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,7 +50,8 @@ import { TranslatePipe } from '../pipes/translate.pipe';
     TranslatePipe
   ],
   providers: [
-    BasketService
+    BasketService,
+    ContentItemSelectionService
   ],
   imports: [
     BrowserModule,

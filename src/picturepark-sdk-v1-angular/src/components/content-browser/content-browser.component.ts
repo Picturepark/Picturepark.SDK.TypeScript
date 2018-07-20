@@ -1,3 +1,4 @@
+import { ContentItemSelectionService } from '../../services/content-item-selection.service';
 import { ThumbnailSize, ContentDownloadLinkCreateRequest } from './../../services/services';
 import { SortingType } from './models/sorting-type';
 import { BasketService } from './../../services/basket.service';
@@ -39,6 +40,8 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
   public thumbnailSizes = ThumbnailSize;
 
+  public thumbnailSizesArray: string[] = Object.keys(ThumbnailSize).map(key => ThumbnailSize[key]);
+
   public activeThumbnailSize: ThumbnailSize | null = ThumbnailSize.Medium;
 
   public isListView = false;
@@ -61,8 +64,10 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
   private scrollSubscription: Subscription;
   private basketSubscription: Subscription;
+  private contentItemSelectionSubscription: Subscription;
 
   constructor(
+    private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
     private scrollDispatcher: ScrollDispatcher,
@@ -70,7 +75,12 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
     this.basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
-      this.items.forEach(item => item.isInBasket = basketItems.some(basketItem => basketItem === item.item.id));
+      this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
+    });
+
+    this.contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
+      this.selectedItems = items;
+      this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
   }
 
@@ -97,8 +107,8 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.scrollSubscription.unsubscribe();
     this.basketSubscription.unsubscribe();
+    this.contentItemSelectionSubscription.unsubscribe();
   }
-
 
   public setSortingType(newValue: SortingType) {
     if (newValue === SortingType.relevance) {
@@ -117,7 +127,6 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
     this.loadData();
   }
 
-
   public previewItem(id: string) {
     this.previewItemChange.emit(id);
   }
@@ -129,36 +138,42 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
     this.contentService.createDownloadLink(request).subscribe(data => {
       if (data.downloadUrl) {
-        window.open(data.downloadUrl);
+        window.location.replace(data.downloadUrl)
       }
     });
   }
 
   public toggleItems(isSelected: boolean) {
-    this.items.forEach(item => item.isSelected = isSelected);
-    this.selectedItems = this.items.filter(item => item.isSelected === true).map(item => item.item.id || '');
+    if (isSelected === true) {
+      this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
+    } else {
+      this.contentItemSelectionService.clear();
+    }
   }
 
   public itemClicked($event: MouseEvent, itemModel: ContentModel) {
     if ($event.ctrlKey) {
-      itemModel.isSelected = !itemModel.isSelected;
+      if (itemModel.isSelected === true) {
+        this.contentItemSelectionService.removeItem(itemModel.item.id || '');
+      } else {
+        this.contentItemSelectionService.addItem(itemModel.item.id || '');
+      }
     } else if ($event.shiftKey) {
       itemModel.isSelected = true;
 
-      const firsIndex = this.items.findIndex(item => item.isSelected === true);
+      const firstIndex = this.items.findIndex(item => item.isSelected === true);
       const lastIndexReversed = this.items.slice().reverse().findIndex(item => item.isSelected === true);
       const lastIndex = lastIndexReversed >= 0 ? this.items.length - lastIndexReversed : lastIndexReversed;
 
-      this.items.slice(firsIndex, lastIndex).forEach(item => item.isSelected = true);
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex).map(model => model.item.id || '');
+
+      this.contentItemSelectionService.addItems(itemsToAdd);
+
     } else {
-      this.items.forEach(item => item.isSelected = false);
-      itemModel.isSelected = true;
+      this.contentItemSelectionService.clear();
+      this.contentItemSelectionService.addItem(itemModel.item.id || '');
     }
-
-    this.selectedItems = this.items.filter(item => item.isSelected === true).map(item => item.item.id || '');
   }
-
-
 
   private loadData() {
     if (this.channel && this.channel.id && !this.isLoading) {

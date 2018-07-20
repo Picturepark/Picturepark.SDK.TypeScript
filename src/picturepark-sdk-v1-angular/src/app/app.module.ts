@@ -22,6 +22,7 @@ import { PictureparkOidcAuthConfiguration } from '../auth/oidc-auth.service';
 import { PictureparkOidcModule } from '../modules/picturepark-oidc.module';
 import { PictureparkUiModule } from '../modules/picturepark-ui.module';
 import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
+import { MatButtonModule } from '../../node_modules/@angular/material/button';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
@@ -58,6 +59,7 @@ export function PictureparkConfigurationFactory() {
 
     MatToolbarModule,
     MatTabsModule,
+    MatButtonModule,
     MatDialogModule,
     MatBadgeModule,
     LayoutModule,

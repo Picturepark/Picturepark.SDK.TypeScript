@@ -32,29 +32,29 @@
 
         <mat-menu #sortMenu="matMenu">
           <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = true; update();">
-            <mat-icon *ngIf="isAscending === true">check</mat-icon>
             <span>Ascending</span>
+            <mat-icon *ngIf="isAscending === true">check</mat-icon>
           </button>
           <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = false; update();">
-            <mat-icon *ngIf="isAscending === false">check</mat-icon>
             <span>Descending</span>
+            <mat-icon *ngIf="isAscending === false">check</mat-icon>
           </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="setSortingType(sortingTypes.relevance)">
-            <mat-icon *ngIf="activeSortingType === sortingTypes.relevance">check</mat-icon>
             <span>Relevance</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.relevance">check</mat-icon>
           </button>
           <button mat-menu-item (click)="setSortingType(sortingTypes.fileName)">
-            <mat-icon *ngIf="activeSortingType === sortingTypes.fileName">check</mat-icon>
             <span>File Name</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.fileName">check</mat-icon>
           </button>
           <button mat-menu-item (click)="setSortingType(sortingTypes.dateCreated)">
-            <mat-icon *ngIf="activeSortingType === sortingTypes.dateCreated">check</mat-icon>
             <span>Date created</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.dateCreated">check</mat-icon>
           </button>
           <button mat-menu-item (click)="setSortingType(sortingTypes.dateModified)">
-            <mat-icon *ngIf="activeSortingType === sortingTypes.dateModified">check</mat-icon>
             <span>Date modified</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.dateModified">check</mat-icon>
           </button>
         </mat-menu>
 
@@ -71,17 +71,9 @@
         </mat-menu>
 
         <mat-menu #thumbnailSizeMenu="matMenu">
-          <button mat-menu-item (click)="isListView = false; activeThumbnailSize = thumbnailSizes.Small">
-            <mat-icon *ngIf="activeThumbnailSize === thumbnailSizes.Small">check</mat-icon>
-            <span>Small</span>
-          </button>
-          <button mat-menu-item (click)="isListView = false; activeThumbnailSize = thumbnailSizes.Medium">
-            <mat-icon *ngIf="activeThumbnailSize === thumbnailSizes.Medium">check</mat-icon>
-            <span>Medium</span>
-          </button>
-          <button mat-menu-item (click)="isListView = false; activeThumbnailSize = thumbnailSizes.Large">
-            <mat-icon *ngIf="activeThumbnailSize === thumbnailSizes.Large">check</mat-icon>
-            <span>Large</span>
+          <button *ngFor="let size of thumbnailSizesArray" mat-menu-item (click)="isListView = false; activeThumbnailSize = size">
+            <span>{{size}}</span>
+            <mat-icon *ngIf="activeThumbnailSize === size">check</mat-icon>
           </button>
         </mat-menu>
       </div>

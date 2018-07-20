@@ -1,32 +1,44 @@
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
 }
 
 .container {
-    display: flex;
-    position: absolute;
-    top: 64px;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  display: flex;
+  position: absolute;
+  top: 64px;
+  bottom: 64px;
+  left: 0;
+  right: 0;
 }
 
 .filters {
-    width: 550px;
-    max-width: 100%;
+  width: 550px;
+  max-width: 100%;
 }
 
 .content {
   flex-grow: 1;
   flex-basis: 0;
   overflow: auto;
+}
 
+.footer {
+  background-color: lightgray;
+  height: 64px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
 .spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }

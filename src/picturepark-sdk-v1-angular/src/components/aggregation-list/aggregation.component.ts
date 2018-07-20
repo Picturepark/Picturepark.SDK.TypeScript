@@ -12,10 +12,6 @@ import {
 export abstract class AggregationComponent implements OnChanges {
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
-  public channelId: string | undefined;
-
-  // Used for performing aggregate request (autocomplete functionality).
-  @Input()
   public query = '';
 
   // Used for performing aggregate request (autocomplete functionality).

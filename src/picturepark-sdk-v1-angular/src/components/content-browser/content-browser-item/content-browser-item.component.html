@@ -13,16 +13,16 @@
       <img *ngIf="!isLoading" class="content-item__image" [src]="thumbnailUrl" alt="There is no image." />
     </div>
   </div>
-  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="content-item__title mat-title">
+  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="content-item__title mat-subheading-2">
     <div>{{ itemModel.item?.displayValues['name'] || 'n/a'}}</div>
-    <div class="mat-subheading-2" *ngIf="isListView">{{ itemModel.item?.displayValues['list'] || 'n/a'}}</div>
+    <div class="mat-subheading-1" *ngIf="isListView">{{ itemModel.item?.displayValues['list'] || 'n/a'}}</div>
   </div>
   <div class="content-item__actions">
     <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'Preview'">
-      <mat-icon aria-label="TODO: change this text">open_in_new</mat-icon>
+      <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
     </button>
     <button mat-icon-button (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'Download'">
-      <mat-icon aria-label="TODO: change this text">get_app</mat-icon>
+      <mat-icon aria-label="Download content item">get_app</mat-icon>
     </button>
   </div>
 
