@@ -43,9 +43,7 @@ export class ContentPickerComponent implements OnInit {
   }
 
   public openDetails(itemId: string) {
-
     this.dialog.open(DetailsDialogComponent, { data: itemId })
-    console.log('open item' + itemId);
   }
 
 

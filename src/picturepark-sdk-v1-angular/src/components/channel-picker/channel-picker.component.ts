@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 
 import { ChannelService, Channel } from '../../services/services';
 
@@ -14,15 +14,26 @@ export class ChannelPickerComponent implements OnInit {
 
   public channels: Channel[] = [];
 
-  public constructor(private channelService: ChannelService) {
+  @Output()
+  public channelsChange = new EventEmitter<Channel[]>()
+
+  public constructor(private channelService: ChannelService, private ref: ApplicationRef) {
   }
 
   public ngOnInit(): void {
     this.channelService.getChannels().subscribe(
       (channels) => {
         this.channels = channels;
+
+        this.channelsChange.emit(this.channels);
+
+        // TODO: check whether it can be dangerous.
+        this.ref.tick();
+
         if (this.channels) {
-          this.changeChannel(this.channels[0]);
+          if (!this.channel) {
+            this.changeChannel(this.channels[0]);
+          }
         }
       },
       () => {

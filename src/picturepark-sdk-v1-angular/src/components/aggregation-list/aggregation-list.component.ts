@@ -9,37 +9,39 @@ import {
 
 export abstract class AggregationListComponent implements OnChanges {
   @Input()
-  public channel: Channel;
+  public query = '';
 
   @Input()
-  public query = '';
+  public aggregators: AggregatorBase[] | null = [];
 
   // Filter used for search. E.g.: Nested filter,And filter,Or filter.
   @Output()
   public filterChange = new EventEmitter<FilterBase | null>();
 
+  @Input()
   // Aggregation filters used for Aggregation function.
-  public aggregationFiltersFlat: AggregationFilter[] = [];
+  public aggregationFilters: AggregationFilter[] = [];
 
-  // Aggregation filters connected to aggregators by index.
-  private aggregationFilters: Array<AggregationFilter[]> = [];
+  @Output()
+  public aggregationFiltersChange = new EventEmitter<AggregationFilter[]>();
+
+  // Aggregation filters states connected to aggregators by index.
+  private aggregationFiltersStates: Array<AggregationFilter[]> = [];
 
   public isLoading = true;
-
-  public aggregators: AggregatorBase[] = [];
 
   public aggregationResults: AggregationResult[] = [];
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['channel'] && this.channel) {
-      this.aggregators = this.channel.aggregations || [];
+    if (changes['aggregators'] && changes['aggregators'].previousValue && this.aggregators) {
       this.aggregationResults = []
+      this.aggregationFiltersStates = [];
       this.aggregationFilters = [];
-      this.aggregationFiltersFlat = [];
+      this.aggregationFiltersChange.emit([]);
       this.filterChange.emit(null);
     }
 
-    if (changes['channel'] || changes['query']) {
+    if (changes['aggregators'] || changes['query'] || changes['aggregationFilters']) {
       this.updateData();
     }
   }
@@ -47,18 +49,21 @@ export abstract class AggregationListComponent implements OnChanges {
   protected abstract fetchData(): Observable<ObjectAggregationResult | null>;
 
   public clearFilters(): void {
+    this.aggregationFiltersStates = [];
     this.aggregationFilters = [];
-    this.aggregationFiltersFlat = [];
+    this.aggregationFiltersChange.emit([]);
     this.filterChange.emit(null);
     this.updateData();
   }
 
   public aggregationFiltersChanged(aggregatorIndex: number, aggregationFilters: AggregationFilter[]): void {
-    this.aggregationFilters[aggregatorIndex] = aggregationFilters;
+    this.aggregationFiltersStates[aggregatorIndex] = aggregationFilters;
 
     // flatten array and remove undefined.
-    this.aggregationFiltersFlat = ([] as AggregationFilter[]).concat(...this.aggregationFilters).filter(item => item);
-    const resultFilter = this.getFilter(this.aggregationFilters);
+    this.aggregationFilters = ([] as AggregationFilter[]).concat(...this.aggregationFiltersStates).filter(item => item);
+    const resultFilter = this.getFilter(this.aggregationFiltersStates);
+
+    this.aggregationFiltersChange.emit(this.aggregationFilters);
     this.filterChange.emit(resultFilter);
 
     this.updateData();
@@ -98,7 +103,7 @@ export abstract class AggregationListComponent implements OnChanges {
     this.aggregationResults = [];
 
     aggregationResults.forEach(aggregationResult => {
-      const aggregatorIndex = this.aggregators.findIndex(aggregator => aggregator.name === aggregationResult.name);
+      const aggregatorIndex = this.aggregators!.findIndex(aggregator => aggregator.name === aggregationResult.name);
 
       if (aggregatorIndex > -1) {
         this.aggregationResults[aggregatorIndex] = aggregationResult;

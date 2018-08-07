@@ -9,6 +9,7 @@ export * from './src/auth/oidc-auth.service';
 
 // services
 export * from './src/services/services';
+export * from './src/services/basket.service';
 
 // modules
 export * from './src/modules/picturepark.module';

@@ -2,6 +2,7 @@ import { ContentDownloadLinkCreateRequest } from './../../../services/services';
 import { Component, Input, Output, OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 
+// TODO: remove links
 import { BasketService } from './../../../services/basket.service';
 import { ContentService, ThumbnailSize } from '../../../services/services';
 import { ContentModel } from '../models/content-model';
