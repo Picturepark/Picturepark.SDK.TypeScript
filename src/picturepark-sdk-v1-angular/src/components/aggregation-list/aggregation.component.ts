@@ -145,7 +145,6 @@ export abstract class AggregationComponent implements OnChanges {
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
-     // TODO: might be simplified in case contract for arrays will not have undefined.;
     if (aggregator.aggregators && aggregator.aggregators.length > 0) {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
@@ -154,7 +153,6 @@ export abstract class AggregationComponent implements OnChanges {
   }
 
   private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
-    // TODO: might be simplified in case contract for arrays will not have undefined.;
     if (
       aggregationResult &&
       aggregationResult.aggregationResultItems &&

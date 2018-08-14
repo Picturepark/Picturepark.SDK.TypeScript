@@ -3,6 +3,7 @@
   @include mat-elevation(1);
   position: relative;
   height: 100%;
+  display: block;
 
   &__loading-spinner {
     z-index: 2;

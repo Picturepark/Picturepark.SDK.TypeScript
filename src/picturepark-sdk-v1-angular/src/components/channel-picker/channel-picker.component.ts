@@ -27,7 +27,6 @@ export class ChannelPickerComponent implements OnInit {
 
         this.channelsChange.emit(this.channels);
 
-        // TODO: check whether it can be dangerous.
         this.ref.tick();
 
         if (this.channels) {

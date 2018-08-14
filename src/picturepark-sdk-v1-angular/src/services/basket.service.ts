@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root',
 })
-// TODO: make it user specific.
 export class BasketService {
   private basketSubject: BehaviorSubject<string[]>;
 
