@@ -20,6 +20,8 @@ export class PictureparkConfig {
       var attribute = element.attributes[i];
       if (attribute.name === 'data-token')
         configuration['token'] = attribute.value;
+      else if (attribute.name === 'data-template')
+        configuration['template'] = attribute.value;
       else if (attribute.name === 'data-picturepark-server')
         configuration['server'] = attribute.value;
       else if (attribute.name === 'data-render-styles')
