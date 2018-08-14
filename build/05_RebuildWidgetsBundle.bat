@@ -8,4 +8,4 @@ REM Rename global Liquid to PictureparkLiquid
 cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js') | ForEach-Object { $_ -replace 'Liquid', 'PictureparkLiquid' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js'}"
 
 REM Compress JS
-REM cmd /c call "node_modules/.bin/uglifyjs" --compress --mangle -o "%~dp0/../src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js" -- "%~dp0/../src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
+cmd /c call "node_modules/.bin/uglifyjs" --compress --mangle -o "%~dp0/../src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js" -- "%~dp0/../src/picturepark-sdk-v1-widgets/dist/picturepark-widgets.js"
