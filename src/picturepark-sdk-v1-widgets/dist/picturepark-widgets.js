@@ -96,7 +96,7 @@ var pictureparkWidgets = (function () {
       define([], e);
   else {
       var r;
-      r = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : this, r.Liquid = e();
+      r = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : this, r.PictureparkLiquid = e();
   } }(function () {
       return function e(r, t, n) { function s(o, u) { if (!t[o]) {
           if (!r[o]) {
@@ -124,7 +124,7 @@ var pictureparkWidgets = (function () {
                   a.filters = g, r.exports = a;
               }, { "./src/syntax.js": 13, "./src/util/strftime.js": 20, "./src/util/underscore.js": 21 }], 2: [function (e, r) {
                   "use strict";
-                  function t(e) { e = i.assign({ root: ["."], cache: !1, extname: ".liquid", trim_right: !1, trim_left: !1, strict_filters: !1, strict_variables: !1 }, e), e.root = n(e.root); var r = Object.create(b); return r.init(h(), g(e), e), r; }
+                  function t(e) { e = i.assign({ root: ["."], cache: !1, extname: ".PictureparkLiquid", trim_right: !1, trim_left: !1, strict_filters: !1, strict_variables: !1 }, e), e.root = n(e.root); var r = Object.create(b); return r.init(h(), g(e), e), r; }
                   function n(e) { return i.isArray(e) ? e : i.isString(e) ? [e] : []; }
                   var s = e("./src/scope"), i = e("./src/util/underscore.js"), o = e("./src/util/assert.js"), u = e("./src/tokenizer.js"), a = e("./src/util/fs.js").statFileAsync, c = e("./src/util/fs.js").readFileAsync, l = e("path"), f = e("./src/render.js"), p = e("./src/lexical.js"), h = e("./src/tag.js"), g = e("./src/filter.js"), d = e("./src/parser"), v = e("./src/syntax.js"), m = e("./tags"), y = e("./filters"), j = e("any-promise"), w = e("./src/util/promise.js").anySeries, x = e("./src/util/error.js"), b = { init: function (e, r, t) { return t.cache && (this.cache = {}), this.options = t, this.tag = e, this.filter = r, this.parser = d(e, r), this.renderer = f(), m(this), y(this), this; }, parse: function (e, r) { var t = u.parse(e, r, this.options); return this.parser.parse(t); }, render: function (e, r, t) { t = i.assign({}, this.options, t); var n = s.factory(r, t); return this.renderer.renderTemplates(e, n); }, parseAndRender: function (e, r, t) { var n = this; return j.resolve().then(function () { return n.parse(e); }).then(function (e) { return n.render(e, r, t); })["catch"](function (e) { if (e instanceof x.RenderBreakError)
                           return e.html; throw e; }); }, renderFile: function (e, r, t) { var n = this; return t = i.assign({}, t), this.getTemplate(e, t.root).then(function (e) { return n.render(e, r, t); }); }, evalOutput: function (e, r) { var t = this.parser.parseOutput(e.trim()); return this.renderer.evalOutput(t, r); }, registerFilter: function (e, r) { return this.filter.register(e, r); }, registerTag: function (e, r) { return this.tag.register(e, r); }, lookup: function (e, r) { r = this.options.root.concat(r || []), r = i.uniq(r); var t = r.map(function (r) { return l.resolve(r, e); }); return w(t, function (e) { return a(e).then(function () { return e; }); })["catch"](function (t) { throw "ENOENT" === t.code && (t.message = "Failed to lookup " + e + " in: " + r), t; }); }, getTemplate: function (e, r) { var t = this; return l.extname(e) || (e += this.options.extname), this.lookup(e, r).then(function (e) { if (t.options.cache) {
@@ -239,7 +239,7 @@ var pictureparkWidgets = (function () {
                           }
                           else
                               "." === e[s] ? (r.push(t), t = "") : t += e[s]; return t.length && r.push(t), r; } };
-                  t.factory = function (e, r) { r = s.assign({ strict_variables: !1, strict_filters: !1, blocks: {}, root: [] }, r), e = s.assign(e, { liquid: r }); var t = Object.create(a); return t.opts = r, t.scopes = [e], t; };
+                  t.factory = function (e, r) { r = s.assign({ strict_variables: !1, strict_filters: !1, blocks: {}, root: [] }, r), e = s.assign(e, { PictureparkLiquid: r }); var t = Object.create(a); return t.opts = r, t.scopes = [e], t; };
               }, { "./lexical.js": 8, "./util/assert.js": 16, "./util/underscore.js": 21 }], 13: [function (e, r) {
                   "use strict";
                   function t(e, r) { a(r, "unable to evalExp: scope undefined"); for (var s, i = u.operators, c = 0; c < i.length; c++) {
@@ -377,7 +377,7 @@ var pictureparkWidgets = (function () {
                   "use strict";
                   var t = e(".."), n = e("any-promise"), s = t.lexical, i = new RegExp("^(?:(" + s.value.source + ")\\s*:\\s*)?(.*)$"), o = new RegExp(s.value.source, "g"), u = e("../src/util/assert.js");
                   r.exports = function (e) { e.registerTag("cycle", { parse: function (e) { var r = i.exec(e.args); u(r, "illegal tag: " + e.raw), this.group = r[1] || ""; var t = r[2]; for (this.candidates = []; r = o.exec(t);)
-                          this.candidates.push(r[0]); u(this.candidates.length, "empty candidates: " + e.raw); }, render: function (e) { var r = t.evalValue(this.group, e), s = "cycle:" + r + ":" + this.candidates.join(","), i = e.get("liquid"), o = i[s]; void 0 === o && (o = i[s] = 0); var u = this.candidates[o]; return o = (o + 1) % this.candidates.length, i[s] = o, n.resolve(t.evalValue(u, e)); } }); };
+                          this.candidates.push(r[0]); u(this.candidates.length, "empty candidates: " + e.raw); }, render: function (e) { var r = t.evalValue(this.group, e), s = "cycle:" + r + ":" + this.candidates.join(","), i = e.get("PictureparkLiquid"), o = i[s]; void 0 === o && (o = i[s] = 0); var u = this.candidates[o]; return o = (o + 1) % this.candidates.length, i[s] = o, n.resolve(t.evalValue(u, e)); } }); };
               }, { "..": 2, "../src/util/assert.js": 16, "any-promise": 3 }], 27: [function (e, r) {
                   "use strict";
                   var t = e(".."), n = t.lexical, s = e("../src/util/assert.js");
@@ -402,7 +402,7 @@ var pictureparkWidgets = (function () {
                   var t = e(".."), n = t.lexical, s = new RegExp("with\\s+(" + n.value.source + ")"), i = e("../src/util/assert.js");
                   r.exports = function (e) {
                       e.registerTag("include", { parse: function (e) { var r = n.value.exec(e.args); i(r, "illegal token " + e.raw), this.value = r[0], r = s.exec(e.args), r && (this["with"] = r[1]); }, render: function (r, n) {
-                              var s = t.evalValue(this.value, r), i = r.get("liquid"), o = i.blocks;
+                              var s = t.evalValue(this.value, r), i = r.get("PictureparkLiquid"), o = i.blocks;
                               return i.blocks = {}, this["with"] && (n[s] = t.evalValue(this["with"], r)), e.getTemplate(s, i.root).then(function (t) { return r.push(n), e.renderer.renderTemplates(t, r); }).then(function (e) { return r.pop(), i.blocks = o, e; });
                           } });
                   };
@@ -416,7 +416,7 @@ var pictureparkWidgets = (function () {
               }, { "./assign.js": 22, "./capture.js": 23, "./case.js": 24, "./comment.js": 25, "./cycle.js": 26, "./decrement.js": 27, "./for.js": 28, "./if.js": 29, "./include.js": 30, "./increment.js": 31, "./layout.js": 33, "./raw.js": 34, "./tablerow.js": 35, "./unless.js": 36 }], 33: [function (e, r) {
                   "use strict";
                   var t = e(".."), n = e("any-promise"), s = t.lexical, i = e("../src/util/assert.js");
-                  r.exports = function (e) { e.registerTag("layout", { parse: function (r, t) { var n = s.value.exec(r.args); i(n, "illegal token " + r.raw), this.layout = n[0], this.tpls = e.parser.parse(t); }, render: function (r, n) { var s = t.evalValue(this.layout, r), i = r.get("liquid"); return e.renderer.renderTemplates(this.tpls, r).then(function () { return e.getTemplate(s, i.root); }).then(function (e) { return r.push(n), e; }).then(function (t) { return e.renderer.renderTemplates(t, r); }).then(function (e) { return r.pop(), e; }); } }), e.registerTag("block", { parse: function (r, t) { var n = this, s = /\w+/.exec(r.args); this.block = s ? s[0] : "anonymous", this.tpls = []; var i = e.parser.parseStream(t).on("tag:endblock", function () { return i.stop(); }).on("template", function (e) { return n.tpls.push(e); }).on("end", function () { throw new Error("tag " + r.raw + " not closed"); }); i.start(); }, render: function (r) { var t = this, s = r.get("liquid"), i = s.blocks[this.block]; return void 0 === i ? e.renderer.renderTemplates(this.tpls, r).then(function (e) { return s.blocks[t.block] = e, e; }) : (s.blocks[this.block] = i, n.resolve(i)); } }); };
+                  r.exports = function (e) { e.registerTag("layout", { parse: function (r, t) { var n = s.value.exec(r.args); i(n, "illegal token " + r.raw), this.layout = n[0], this.tpls = e.parser.parse(t); }, render: function (r, n) { var s = t.evalValue(this.layout, r), i = r.get("PictureparkLiquid"); return e.renderer.renderTemplates(this.tpls, r).then(function () { return e.getTemplate(s, i.root); }).then(function (e) { return r.push(n), e; }).then(function (t) { return e.renderer.renderTemplates(t, r); }).then(function (e) { return r.pop(), e; }); } }), e.registerTag("block", { parse: function (r, t) { var n = this, s = /\w+/.exec(r.args); this.block = s ? s[0] : "anonymous", this.tpls = []; var i = e.parser.parseStream(t).on("tag:endblock", function () { return i.stop(); }).on("template", function (e) { return n.tpls.push(e); }).on("end", function () { throw new Error("tag " + r.raw + " not closed"); }); i.start(); }, render: function (r) { var t = this, s = r.get("PictureparkLiquid"), i = s.blocks[this.block]; return void 0 === i ? e.renderer.renderTemplates(this.tpls, r).then(function (e) { return s.blocks[t.block] = e, e; }) : (s.blocks[this.block] = i, n.resolve(i)); } }); };
               }, { "..": 2, "../src/util/assert.js": 16, "any-promise": 3 }], 34: [function (e, r) {
                   "use strict";
                   var t = e("any-promise");
@@ -922,14 +922,14 @@ var pictureparkWidgets = (function () {
           function PictureparkRenderEngine() {
           }
           PictureparkRenderEngine.create = function () {
-              var engine = Liquid();
+              var engine = PictureparkLiquid();
               engine.registerTag('translate', {
                   parse: function (token) {
                       this.token = token;
                   },
                   render: function (scope, hash) {
                       var args = this.token.args.split(' ');
-                      var key = Liquid.evalExp(args[0], scope);
+                      var key = PictureparkLiquid.evalExp(args[0], scope);
                       var locale = navigator.language || navigator.userLanguage;
                       return translations_1.translate(key, locale);
                   }
@@ -941,17 +941,17 @@ var pictureparkWidgets = (function () {
                   render: function (scope, hash) {
                       var args = this.token.args.split(' ');
                       var share = scope.scopes[0].share;
-                      var id = Liquid.evalExp(args[0], scope);
-                      var outputFormatId = Liquid.evalExp(args[1], scope);
-                      var width = Liquid.evalExp(args[2], scope);
-                      var height = Liquid.evalExp(args[3], scope);
+                      var id = PictureparkLiquid.evalExp(args[0], scope);
+                      var outputFormatId = PictureparkLiquid.evalExp(args[1], scope);
+                      var width = PictureparkLiquid.evalExp(args[2], scope);
+                      var height = PictureparkLiquid.evalExp(args[3], scope);
                       try {
                           var item = share.items.filter(function (i) { return i.id === id; })[0];
                           if (outputFormatId === "Preview" && item.previewUrl) {
-                              return item.previewUrl + ("/" + width + "/" + height);
+                              return item.previewUrl + ("?width=" + width + "&height=" + height);
                           }
                           else {
-                              return item.originalUrl + ("/" + width + "/" + height);
+                              return item.originalUrl + ("?width=" + width + "&height=" + height);
                           }
                       }
                       catch (ex) {
@@ -1016,7 +1016,7 @@ var pictureparkWidgets = (function () {
   });
   /// <reference path="typings/es6-promise.d.ts" />
   /// <reference path="../../picturepark-sdk-v1-fetch/dist/picturepark.d.ts" />
-  define("index", ["require", "exports", "templates", "players", "rendering", "config", "players", "libraries/promise.min", "libraries/liquid.min", "./libraries/fetch.min.js"], function (require, exports, templates_1, players_2, rendering_1, config_1, players_3) {
+  define("index", ["require", "exports", "templates", "players", "rendering", "config", "players"], function (require, exports, templates_1, players_2, rendering_1, config_1, players_3) {
       "use strict";
       exports.__esModule = true;
       exports.players = players_3.PictureparkPlayers;
