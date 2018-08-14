@@ -1,7 +1,7 @@
 
     export class AuthClient {
         private pictureparkApiUrl;
-        private customerAlias;
+        private customerAlias?;
         constructor(pictureparkApiUrl: string, customerAlias?: string);
         getBaseUrl(defaultUrl: string): string;
         transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
@@ -22,20 +22,18 @@
         /**
          * Get detail - single
          * @contentId The content id.
-         * @resolve Resolves the data of referenced list items into the contents's content.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+         * @resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
          * @return ContentDetail
          */
-        get(contentId: string, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail | null>;
+        get(contentId: string, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined): Promise<ContentDetail | null>;
         protected processGet(response: Response): Promise<ContentDetail | null>;
         /**
          * Get detail - many
          * @ids List of contentIds
-         * @resolve Resolves the data of referenced list items into the contents's content.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
+         * @resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
          * @return List of ContentDetail
          */
-        getMany(ids: string[] | null, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail[]>;
+        getMany(ids: string[] | null, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined): Promise<ContentDetail[]>;
         protected processGetMany(response: Response): Promise<ContentDetail[]>;
         /**
          * Create - many
@@ -64,6 +62,18 @@
          */
         aggregateOnChannel(contentAggregationOnChannelRequest: ContentAggregationOnChannelRequest | null): Promise<ObjectAggregationResult>;
         protected processAggregateOnChannel(response: Response): Promise<ObjectAggregationResult>;
+        /**
+         * Get references
+         * @return ContentReferencesResult
+         */
+        getReferences(contentId: string, contentReferencesRequest: ContentReferencesRequest | null): Promise<ContentReferencesResult>;
+        protected processGetReferences(response: Response): Promise<ContentReferencesResult>;
+        /**
+         * Get references - many
+         * @return ContentReferencesResult
+         */
+        getReferencesMany(contentManyReferencesRequest: ContentManyReferencesRequest | null): Promise<ContentReferencesResult>;
+        protected processGetReferencesMany(response: Response): Promise<ContentReferencesResult>;
         /**
          * Create download link
          * @request The content download link request
@@ -95,20 +105,19 @@
         /**
          * Create - single
          * @contentCreateRequest The content create request.
-         * @resolve Resolves the data of referenced list items into the contents's content.
+         * @resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
          * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          */
-        create(contentCreateRequest: ContentCreateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        create(contentCreateRequest: ContentCreateRequest | null, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail>;
         protected processCreate(response: Response): Promise<ContentDetail>;
         /**
          * Deactivate - single
          * @contentId the id of the content to deactivate
-         * @timeout Maximum time to wait for the business process completed state.
+         * @timeout (optional) Maximum time to wait for the business process completed state.
          */
-        deactivate(contentId: string, timeout: string | null): Promise<ContentDetail>;
-        protected processDeactivate(response: Response): Promise<ContentDetail>;
+        deactivate(contentId: string, timeout?: string | null | undefined): Promise<void>;
+        protected processDeactivate(response: Response): Promise<void>;
         /**
          * Deactivate - many
          * @deactivateRequest The deactivate request
@@ -119,14 +128,12 @@
         /**
          * Reactivate - single
          * @contentId The content id.
-         * @resolve Resolves the data of referenced list items into the contents's content.
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
-         * @return ContentDetail
+         * @return Void
          */
-        reactivate(contentId: string, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ContentDetail>;
-        protected processReactivate(response: Response): Promise<ContentDetail>;
+        reactivate(contentId: string, timeout?: string | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<void>;
+        protected processReactivate(response: Response): Promise<void>;
         /**
          * Reactivate - many
          * @reactivateRequest The content reactivate request.
@@ -145,24 +152,22 @@
          * Update metadata - single
          * @contentId The content id.
          * @updateRequest The metadata update request.
-         * @resolve Resolves the data of referenced list items into the contents's content.
+         * @resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
          * @allowMissingDependencies (optional) Allow storing references to missing list items
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest | null, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail>;
         protected processUpdateMetadata(response: Response): Promise<ContentDetail>;
         /**
          * Update permissions - single
          * @contentId The content id.
          * @updateRequest The content permission update request.
-         * @resolve Resolves the data of referenced list items into the contents's content.
+         * @resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @return ContentDetail
          */
-        updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolve: boolean, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ContentDetail>;
+        updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest | null, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined, timeout?: string | null | undefined): Promise<ContentDetail>;
         protected processUpdatePermissions(response: Response): Promise<ContentDetail>;
         /**
          * Update metadata - many
@@ -173,10 +178,10 @@
         protected processUpdateMetadataMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update permissions - many
-         * @updateRequest The permissions update request.
+         * @updateManyRequest The permissions update many request.
          * @return BusinessProcess
          */
-        updatePermissionsMany(updateRequest: ContentPermissionsUpdateRequest[] | null): Promise<BusinessProcess>;
+        updatePermissionsMany(updateManyRequest: ContentPermissionsUpdateManyRequest | null): Promise<BusinessProcess>;
         protected processUpdatePermissionsMany(response: Response): Promise<BusinessProcess>;
         /**
          * Transfer ownership - single
@@ -189,24 +194,24 @@
         protected processTransferOwnership(response: Response): Promise<ContentDetail>;
         /**
          * Transfer ownership - many
-         * @contentsOwnershipTransferRequest The content ownership transfer request.
+         * @contentOwnershipTransferManyRequest The content ownership transfer many request.
          * @return BusinessProcess
          */
-        transferOwnershipMany(contentsOwnershipTransferRequest: ContentsOwnershipTransferRequest | null): Promise<BusinessProcess>;
+        transferOwnershipMany(contentOwnershipTransferManyRequest: ContentOwnershipTransferManyRequest | null): Promise<BusinessProcess>;
         protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess>;
         /**
          * Batch update fields - by ids
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        batchUpdateFieldsByIds(updateRequest: ContentFieldsUpdateRequest | null): Promise<BusinessProcess>;
+        batchUpdateFieldsByIds(updateRequest: ContentFieldsBatchUpdateRequest | null): Promise<BusinessProcess>;
         protected processBatchUpdateFieldsByIds(response: Response): Promise<BusinessProcess>;
         /**
          * Batch update fields - by filter
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        batchUpdateFieldsByFilter(updateRequest: ContentFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
+        batchUpdateFieldsByFilter(updateRequest: ContentFieldsBatchUpdateFilterRequest | null): Promise<BusinessProcess>;
         protected processBatchUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
     }
     export class BusinessProcessClient extends PictureparkClientBase {
@@ -319,25 +324,46 @@
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Get - single
+         * Get detail - single
          * @listItemId The list item id.
-         * @resolve Resolves the data of referenced list items into the list item's content.
-         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
+         * @resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
+         * @return List item detail
          */
-        get(listItemId: string, resolve: boolean, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        get(listItemId: string, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined): Promise<ListItemDetail>;
         protected processGet(response: Response): Promise<ListItemDetail>;
         /**
          * Update - single
          * @listItemId The list item id.
          * @updateRequest The list item update request.
-         * @resolve Resolves the data of referenced list items into the list item's content.
+         * @resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
          * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest | null, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail>;
         protected processUpdate(response: Response): Promise<ListItemDetail>;
+        /**
+         * Get detail - many
+         * @ids List of list item ids
+         * @resolveBehaviours (optional) List of enum that control which parts of the list items are resolved and returned
+         * @return List of list item details
+         */
+        getMany(ids: string[] | null, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined): Promise<ListItemDetail[]>;
+        protected processGetMany(response: Response): Promise<ListItemDetail[]>;
+        /**
+         * Create - many
+         * @listItemCreateManyRequest List item create many request.
+         * @return BusinessProcess
+         */
+        createMany(listItemCreateManyRequest: ListItemCreateManyRequest | null): Promise<BusinessProcess>;
+        protected processCreateMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Update - many
+         * @listItemUpdateManyRequest List item update many request.
+         * @return BusinessProcess
+         */
+        updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest | null): Promise<BusinessProcess>;
+        protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Search
          * @listItemSearchRequest The list item search request.
@@ -355,36 +381,22 @@
         /**
          * Create - single
          * @listItemCreateRequest List item create request.
-         * @resolve Resolves the data of referenced list items into the list item's content.
+         * @resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
          * @allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.
          * @return ListItemDetail
          */
-        create(listItemCreateRequest: ListItemCreateRequest | null, resolve: boolean, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined): Promise<ListItemDetail>;
+        create(listItemCreateRequest: ListItemCreateRequest | null, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail>;
         protected processCreate(response: Response): Promise<ListItemDetail>;
-        /**
-         * Create - many
-         * @listItemCreateManyRequest List item create many request.
-         * @return BusinessProcess
-         */
-        createMany(listItemCreateManyRequest: ListItemCreateManyRequest | null): Promise<BusinessProcess>;
-        protected processCreateMany(response: Response): Promise<BusinessProcess>;
-        /**
-         * Update - many
-         * @listItemUpdateManyRequest List item update many request.
-         * @return BusinessProcess
-         */
-        updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest | null): Promise<BusinessProcess>;
-        protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Deactivate - single
          * @listItemId the id of the list item to deactivate
          * @timeout Maximum time to wait for the business process completed state.
          * @forceReferenceRemoval (optional) A value indicating whether references to the listitem should be removed.
+         * @return Void
          */
-        deactivate(listItemId: string, timeout: string | null, forceReferenceRemoval?: boolean | null | undefined): Promise<ListItemDetail>;
-        protected processDeactivate(response: Response): Promise<ListItemDetail>;
+        deactivate(listItemId: string, timeout: string | null, forceReferenceRemoval?: boolean | null | undefined): Promise<void>;
+        protected processDeactivate(response: Response): Promise<void>;
         /**
          * Deactivate - many
          * @deactivateRequest The list items deactivate request
@@ -396,12 +408,11 @@
          * Reactivate - single
          * @listItemId The list item id.
          * @timeout (optional) Maximum time to wait for the business process completed state.
-         * @patterns (optional) List of display pattern types. Resolves display values of referenced list items where the display pattern matches.
          * @allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
-         * @return ListItemDetail
+         * @return Void
          */
-        reactivate(listItemId: string, timeout?: string | null | undefined, patterns?: DisplayPatternType[] | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<ListItemDetail>;
-        protected processReactivate(response: Response): Promise<ListItemDetail>;
+        reactivate(listItemId: string, timeout?: string | null | undefined, allowMissingDependencies?: boolean | undefined): Promise<void>;
+        protected processReactivate(response: Response): Promise<void>;
         /**
          * Reactivate - many
          * @reactivateRequest The list items reactivate request.
@@ -414,14 +425,14 @@
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        batchUpdateFieldsByIds(updateRequest: ListItemFieldsUpdateRequest | null): Promise<BusinessProcess>;
+        batchUpdateFieldsByIds(updateRequest: ListItemFieldsBatchUpdateRequest | null): Promise<BusinessProcess>;
         protected processBatchUpdateFieldsByIds(response: Response): Promise<BusinessProcess>;
         /**
          * Batch update fields - by filter
          * @updateRequest The metadata update request.
          * @return BusinessProcess
          */
-        batchUpdateFieldsByFilter(updateRequest: ListItemFieldsFilterUpdateRequest | null): Promise<BusinessProcess>;
+        batchUpdateFieldsByFilter(updateRequest: ListItemFieldsBatchUpdateFilterRequest | null): Promise<BusinessProcess>;
         protected processBatchUpdateFieldsByFilter(response: Response): Promise<BusinessProcess>;
         /**
          * Gets the references to a list item.
@@ -519,7 +530,7 @@
         exists(schemaId: string, fieldId?: string | null | undefined): Promise<ExistsResponse>;
         protected processExists(response: Response): Promise<ExistsResponse>;
     }
-    export class PermissionClient extends PictureparkClientBase {
+    export class ContentPermissionSetClient extends PictureparkClientBase {
         private http;
         private baseUrl;
         protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
@@ -527,46 +538,41 @@
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Search Content Permissions
+         * Search Content Permission Sets
          * @request The permission search request.
          * @return PermissionSetSearchResult
          */
         searchContentPermissionSets(request: PermissionSetSearchRequest | null): Promise<PermissionSetSearchResult>;
         protected processSearchContentPermissionSets(response: Response): Promise<PermissionSetSearchResult>;
         /**
-         * Get Content Permission - single
+         * Get Content Permission Set - single
          * @permissionSetId The content permission set id.
          * @return ContentPermissionSetDetail
          */
         getContentPermissionSet(permissionSetId: string): Promise<ContentPermissionSetDetail>;
         protected processGetContentPermissionSet(response: Response): Promise<ContentPermissionSetDetail>;
+    }
+    export class SchemaPermissionSetClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
         /**
-         * Search Schema PermissionSets
+         * Search Schema Permission Sets
          * @request The permission search request.
          * @return PermissionSetSearchResult
          */
         searchSchemaPermissionSets(request: PermissionSetSearchRequest | null): Promise<PermissionSetSearchResult>;
         protected processSearchSchemaPermissionSets(response: Response): Promise<PermissionSetSearchResult>;
         /**
-         * Get Schema PermissionSets - single
+         * Get Schema Permission Sets - single
          * @permissionSetId The schema permission set id.
          * @return SchemaPermissionSetDetail
          */
         getSchemaPermissionSet(permissionSetId: string): Promise<SchemaPermissionSetDetail>;
         protected processGetSchemaPermissionSet(response: Response): Promise<SchemaPermissionSetDetail>;
-        /**
-         * Get User rights
-         * @return list of user permissions
-         */
-        getUserRights(): Promise<UserRight[]>;
-        protected processGetUserRights(response: Response): Promise<UserRight[]>;
-        /**
-         * Has UserRight
-         * @userRight The UserRight to validate
-         * @return Boolean - user has permission
-         */
-        hasUserRight(userRight: UserRight): Promise<boolean>;
-        protected processHasUserRight(response: Response): Promise<boolean>;
     }
     export class PublicAccessClient extends PictureparkClientBase {
         private http;
@@ -588,6 +594,54 @@
          */
         getShare(token: string): Promise<ShareDetail>;
         protected processGetShare(response: Response): Promise<ShareDetail>;
+    }
+    export class ShareAccessClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get Share json
+         * @token The token
+         * @return ShareDetail
+         */
+        getShareJson(token: string): Promise<any>;
+        protected processGetShareJson(response: Response): Promise<any>;
+        /**
+         * Download Shared outputs
+         * @token The token
+         * @width (optional) Optional width in pixels to resize image
+         * @height (optional) Optional height in pixels to resize image
+         * @range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+         * @return HttpResponseMessage
+         */
+        download(token: string, width?: number | null | undefined, height?: number | null | undefined, range?: string | null | undefined): Promise<FileResponse>;
+        protected processDownload(response: Response): Promise<FileResponse>;
+        /**
+         * Download Shared outputs
+         * @token The token
+         * @contentId The content id
+         * @width (optional) Optional width in pixels to resize image
+         * @height (optional) Optional height in pixels to resize image
+         * @range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+         * @return HttpResponseMessage
+         */
+        downloadWithContentId(token: string, contentId: string, width?: number | null | undefined, height?: number | null | undefined, range?: string | null | undefined): Promise<FileResponse>;
+        protected processDownloadWithContentId(response: Response): Promise<FileResponse>;
+        /**
+         * Download Shared outputs
+         * @token The token
+         * @contentId The content id
+         * @outputFormatId The output format id+
+         * @width (optional) Optional width in pixels to resize image
+         * @height (optional) Optional height in pixels to resize image
+         * @range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+         * @return HttpResponseMessage
+         */
+        downloadWithOutputFormatId(token: string, contentId: string, outputFormatId: string, width?: number | null | undefined, height?: number | null | undefined, range?: string | null | undefined): Promise<FileResponse>;
+        protected processDownloadWithOutputFormatId(response: Response): Promise<FileResponse>;
     }
     export class ShareClient extends PictureparkClientBase {
         private http;
@@ -766,6 +820,11 @@
         get(userId: string): Promise<UserDetail>;
         protected processGet(response: Response): Promise<UserDetail>;
         /**
+         * Deletes a user
+         */
+        delete(userId: string): Promise<UserDetail>;
+        protected processDelete(response: Response): Promise<UserDetail>;
+        /**
          * Search for users
          * @searchRequest The user search request
          * @return UserSearchResult
@@ -779,6 +838,58 @@
          */
         getByOwnerToken(tokenId: string): Promise<UserDetail>;
         protected processGetByOwnerToken(response: Response): Promise<UserDetail>;
+        /**
+         * Get multiple user details by supplying their ID's
+         * @ids The user ID's
+         * @return IEnumerable&lt;UserDetail&gt;
+         */
+        getMany(ids: string[] | null): Promise<UserDetail[]>;
+        protected processGetMany(response: Response): Promise<UserDetail[]>;
+        /**
+         * Searches and aggregates users by different attributes
+         */
+        aggregate(userAggregationRequest: UserAggregationRequest | null): Promise<ObjectAggregationResult>;
+        protected processAggregate(response: Response): Promise<ObjectAggregationResult>;
+        /**
+         * Locks or unlocks one or more users
+         */
+        lockMany(userLockRequest: UserLockRequest | null): Promise<BusinessProcess>;
+        protected processLockMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Sets one or more users as reviewed or under review
+         */
+        reviewMany(userReviewRequest: UserReviewRequest | null): Promise<BusinessProcess>;
+        protected processReviewMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Updates one or more users
+         */
+        updateMany(userUpdatableDetails: UserUpdatableDetail[] | null): Promise<BulkResponse>;
+        protected processUpdateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Validates if the supplied user create requests would pass the unique email validation
+         */
+        validateUserInvites(userCreateRequests: UserCreateRequest[] | null): Promise<BulkResponse>;
+        protected processValidateUserInvites(response: Response): Promise<BulkResponse>;
+        /**
+         * Invites (or creates) new users
+         */
+        inviteMany(userCreateRequests: UserCreateRequest[] | null): Promise<BusinessProcess>;
+        protected processInviteMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Deletes multiple users
+         */
+        deleteMany(userDeactivateRequest: UserDeactivateRequest | null): Promise<BulkResponse>;
+        protected processDeleteMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Restores a previously deleted user
+         */
+        restore(userId: string): Promise<UserDetail>;
+        protected processRestore(response: Response): Promise<UserDetail>;
+        /**
+         * Restores multiple previously deleted users
+         */
+        restoreMany(userReactivateRequest: UserReactivateRequest | null): Promise<BulkResponse>;
+        protected processRestoreMany(response: Response): Promise<BulkResponse>;
     }
     export class OutputClient extends PictureparkClientBase {
         private http;
@@ -819,7 +930,7 @@
          * Update
          * @return UserProfile
          */
-        update(profile: UserProfile | null): Promise<UserProfile>;
+        update(updateRequest: UserProfileUpdateRequest | null): Promise<UserProfile>;
         protected processUpdate(response: Response): Promise<UserProfile>;
     }
     export class SchemaTransferClient extends PictureparkClientBase {
@@ -864,11 +975,15 @@
         getChannels(): Promise<Channel[]>;
         protected processGetChannels(response: Response): Promise<Channel[]>;
     }
-    export enum DisplayPatternType {
-        Thumbnail,
-        List,
-        Detail,
-        Name,
+    export enum ContentResolveBehaviour {
+        Content,
+        LinkedListItems,
+        Metadata,
+        Outputs,
+        InnerDisplayValueThumbnail,
+        InnerDisplayValueList,
+        InnerDisplayValueDetail,
+        InnerDisplayValueName
     }
     export interface Exception {
         message?: string | undefined;
@@ -891,14 +1006,14 @@
         reference?: string | undefined;
     }
     export interface ContentNotFoundException extends PictureparkNotFoundException {
-        contentId?: string | undefined;
+        contentIds?: string[] | undefined;
     }
     export enum TraceLevel {
         Critical,
         Error,
         Warning,
         Information,
-        Verbose,
+        Verbose
     }
     export interface PictureparkValidationException extends PictureparkBusinessException {
     }
@@ -919,6 +1034,8 @@
         missingUserId?: string | undefined;
     }
     export interface UserInactiveOrDeletedException extends PictureparkForbiddenException {
+    }
+    export interface TermsOfServiceNotNewestException extends PictureparkBusinessException {
     }
     export interface RenderingException extends PictureparkBusinessException {
     }
@@ -979,14 +1096,14 @@
         leaseResourceType: LeaseResourceType;
     }
     export enum LeaseResourceType {
-        SchemaEditing,
+        SchemaEditing
     }
     export interface RetryException extends PictureparkBusinessException {
         retries: number;
         innerExceptionDetail?: string | undefined;
     }
     export interface OwnerTokenNotFoundException extends PictureparkNotFoundException {
-        ownerTokenUserId?: string | undefined;
+        ownerTokenUserIds?: string[] | undefined;
     }
     export interface InvalidStateException extends PictureparkValidationException {
         resourceId?: string | undefined;
@@ -1166,9 +1283,10 @@
         ManageServiceProviders,
         ManageEmbeds,
         ManageTemplates,
+        ManageTermsOfService
     }
     export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
-        permissionSetId?: string | undefined;
+        permissionSetIds?: string[] | undefined;
     }
     export interface DuplicateRightException extends PictureparkValidationException {
         permissionSetId?: string | undefined;
@@ -1184,7 +1302,7 @@
         listItemId?: string | undefined;
     }
     export interface ListItemNotFoundException extends PictureparkNotFoundException {
-        listItemId?: string | undefined;
+        listItemIds?: string[] | undefined;
     }
     export interface ListItemCyclicDependencyException extends PictureparkBusinessException {
         listItemIds?: string[] | undefined;
@@ -1210,7 +1328,7 @@
         FileUpload,
         FileUploadAutoImport,
         WebDownload,
-        SchemaImport,
+        SchemaImport
     }
     export interface TransferNotFoundException extends PictureparkNotFoundException {
         transferId?: string | undefined;
@@ -1411,7 +1529,7 @@
         Content,
         Layer,
         List,
-        Struct,
+        Struct
     }
     export interface SchemaPermissionException extends PictureparkValidationException {
         schemaId?: string | undefined;
@@ -1431,9 +1549,6 @@
     }
     export interface SystemSchemaInvalidModificationException extends PictureparkValidationException {
         schemaId?: string | undefined;
-    }
-    export interface ContentsNotFoundException extends PictureparkNotFoundException {
-        contentIds?: string[] | undefined;
     }
     export interface DeleteContentsWithRelationsException extends PictureparkValidationException {
         relationList?: string[] | undefined;
@@ -1473,7 +1588,7 @@
         Database,
         Cad,
         Model3d,
-        ContentItem,
+        ContentItem
     }
     export interface BusinessProcessWaitTimeoutException extends PictureparkTimeoutException {
         businessProcessId?: string | undefined;
@@ -1521,7 +1636,7 @@
     export enum EnvironmentProcessType {
         AddMetadataLanguage,
         CustomerUpdate,
-        EnvironmentUpdate,
+        EnvironmentUpdate
     }
     export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
         environmentProcessId?: string | undefined;
@@ -1529,6 +1644,27 @@
     export interface EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException {
         environmentProcessId?: string | undefined;
         waitedLifecycles?: string | undefined;
+    }
+    export interface NoTermsOfServiceDefinedException extends PictureparkBusinessException {
+    }
+    export interface BusinessProcessStateNotHitException extends PictureparkTimeoutException {
+        businessProcessId?: string | undefined;
+        expected?: string[] | undefined;
+        actual?: string | undefined;
+    }
+    export interface BusinessProcessLifeCycleNotHitException extends PictureparkTimeoutException {
+        businessProcessId?: string | undefined;
+        expected?: BusinessProcessLifeCycle[] | undefined;
+        actual: BusinessProcessLifeCycle;
+    }
+    export enum BusinessProcessLifeCycle {
+        Draft,
+        InProgress,
+        Succeeded,
+        Cancelled,
+        CancellationInProgress,
+        Failed,
+        SucceededWithErrors
     }
     /** A content detail. */
     export interface ContentDetail {
@@ -1574,7 +1710,15 @@
         id?: string | undefined;
         outputFormatId?: string | undefined;
         contentId?: string | undefined;
+        renderingState: OutputRenderingState;
         detail?: OutputDataBase | undefined;
+        backupTimestamp?: Date | undefined;
+    }
+    export enum OutputRenderingState {
+        InProgress,
+        Completed,
+        Failed,
+        Skipped
     }
     export interface OutputDataBase {
         fileExtension?: string | undefined;
@@ -1614,8 +1758,6 @@
     export interface ContentSearchRequest {
         /** Limits the simple search fields to the fields available in the specified channel. */
         channelId?: string | undefined;
-        /** Defines the return language of translation values. Defaults to customer default language. */
-        displayLanguage?: string | undefined;
         /** Limits the display values included in the search response. Defaults to all display values. */
         displayPatternIds?: string[] | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
@@ -1647,7 +1789,7 @@
     }
     export enum SearchBehaviour {
         DropInvalidCharactersOnFailure,
-        WildcardOnSingleTerm,
+        WildcardOnSingleTerm
     }
     export interface SortInfo {
         /** The elastic search index field to sort on. */
@@ -1657,7 +1799,7 @@
     }
     export enum SortDirection {
         Asc,
-        Desc,
+        Desc
     }
     /** The FilterBase is the base class for all filters. */
     export interface FilterBase {
@@ -1793,12 +1935,12 @@
         ActiveOnly,
         All,
         InactiveOnly,
-        ActiveInactiveOnly,
+        ActiveInactiveOnly
     }
     export enum BrokenDependenciesFilter {
         All,
         NotBrokenOnly,
-        BrokenOnly,
+        BrokenOnly
     }
     export enum ContentRight {
         View,
@@ -1806,12 +1948,12 @@
         Edit,
         Update,
         Manage,
-        Trash,
+        Trash
     }
     export enum ContentSearchType {
         Metadata,
         FullText,
-        MetadataAndFullText,
+        MetadataAndFullText
     }
     export interface BaseResultOfContent {
         totalResults: number;
@@ -1861,8 +2003,6 @@
         aggregationFilters?: AggregationFilter[] | undefined;
         /** Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it. */
         channelId?: string | undefined;
-        /** Defines the return language of translation values. Defaults to customer default language. */
-        displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration. */
         searchLanguages?: string[] | undefined;
         /** The collection id. */
@@ -1964,7 +2104,7 @@
         Schema,
         User,
         ContentPermissionSet,
-        Owner,
+        Owner
     }
     /** The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values. */
     export interface TermsEnumAggregator extends TermsAggregator {
@@ -1991,6 +2131,54 @@
         active: boolean;
         aggregationResults?: AggregationResult[] | undefined;
     }
+    export interface ContentReferencesRequest {
+        contentId?: string | undefined;
+        shares?: PagingRequest | undefined;
+    }
+    export interface PagingRequest {
+        start: number;
+        limit: number;
+    }
+    export interface ContentReferencesResult {
+        metadataReferences?: ContentReferences[] | undefined;
+        shareReferences?: ContentShareReferenceResult | undefined;
+    }
+    export interface ReferencesBase {
+        targetMetadataItemId?: string | undefined;
+        references?: MetadataReference[] | undefined;
+        isReferencedByRestrictedItem: boolean;
+    }
+    export interface ContentReferences extends ReferencesBase {
+        relations?: MetadataReference[] | undefined;
+    }
+    export interface MetadataReference {
+        targetDocType?: string | undefined;
+        sourceId?: string | undefined;
+        sourceDocType?: string | undefined;
+    }
+    export interface BaseResultOfContentShareReference {
+        totalResults: number;
+        results?: ContentShareReference[] | undefined;
+        pageToken?: string | undefined;
+        queryDebugInformation?: QueryDebugInformation | undefined;
+    }
+    export interface ContentShareReferenceResult extends BaseResultOfContentShareReference {
+    }
+    export interface ContentShareReference {
+        id?: string | undefined;
+        name?: string | undefined;
+        audit?: UserAudit | undefined;
+        shareType: ShareType;
+        emailAddress?: string | undefined;
+    }
+    export enum ShareType {
+        Basic,
+        Embed
+    }
+    export interface ContentManyReferencesRequest {
+        contentIds?: string[] | undefined;
+        shares?: PagingRequest | undefined;
+    }
     export interface ContentDownloadLinkCreateRequest {
         contents?: ContentDownloadRequestItem[] | undefined;
     }
@@ -2006,7 +2194,7 @@
     export enum ThumbnailSize {
         Small,
         Medium,
-        Large,
+        Large
     }
     /** A request structure for creating a content document. */
     export interface ContentCreateRequest {
@@ -2045,15 +2233,7 @@
     }
     export enum BusinessProcessScope {
         System,
-        User,
-    }
-    export enum BusinessProcessLifeCycle {
-        Draft,
-        InProgress,
-        Succeeded,
-        Cancelled,
-        CancellationInProgress,
-        Failed,
+        User
     }
     export interface BusinessProcessState {
         state?: string | undefined;
@@ -2080,14 +2260,10 @@
     }
     export interface ContentDeactivateRequest {
         contentIds?: string[] | undefined;
-        resolve: boolean;
-        displayPatternIds?: string[] | undefined;
         forceReferenceRemoval: boolean;
     }
     export interface ContentReactivateRequest {
         contentIds?: string[] | undefined;
-        resolve: boolean;
-        displayPatternIds?: string[] | undefined;
         allowMissingDependencies: boolean;
     }
     export interface ContentFileUpdateRequest {
@@ -2110,7 +2286,7 @@
     }
     export enum UpdateOption {
         Merge,
-        Replace,
+        Replace
     }
     export interface ContentPermissionsUpdateRequest {
         /** The content id. */
@@ -2125,17 +2301,19 @@
         /** Update requests */
         requests?: ContentMetadataUpdateRequest[] | undefined;
     }
+    export interface ContentPermissionsUpdateManyRequest {
+        /** List of Content Permissions update requests */
+        requests?: ContentPermissionsUpdateRequest[] | undefined;
+    }
     export interface ContentOwnershipTransferRequest {
         /** The content id. */
         contentId?: string | undefined;
         /** The id of the user to whom the content document has to be transfered to. */
         transferUserId?: string | undefined;
     }
-    export interface ContentsOwnershipTransferRequest {
-        /** The content ids. */
-        contentIds?: string[] | undefined;
-        /** The id of user to whom the content documents have to be transfered to. */
-        transferUserId?: string | undefined;
+    export interface ContentOwnershipTransferManyRequest {
+        /** List of Content Permissions ownership transfer requests */
+        requests?: ContentOwnershipTransferRequest[] | undefined;
     }
     export interface MetadataValuesChangeRequestBase {
         /** A container for all change commads. */
@@ -2145,7 +2323,7 @@
         /** Create notification and notify on progress */
         notifyProgress: boolean;
     }
-    export interface ContentFieldsUpdateRequest extends MetadataValuesChangeRequestBase {
+    export interface ContentFieldsBatchUpdateRequest extends MetadataValuesChangeRequestBase {
         /** The ids of the content documents. */
         contentIds?: string[] | undefined;
     }
@@ -2195,7 +2373,7 @@
         /** The id of the list item to be removed. */
         referenceId?: string | undefined;
     }
-    export interface ContentFieldsFilterUpdateRequest extends MetadataValuesChangeRequestBase {
+    export interface ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeRequestBase {
         contentFilterRequest?: ContentFilterRequest | undefined;
     }
     export interface ContentFilterRequest {
@@ -2203,8 +2381,6 @@
         channelId?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to customer default language. */
-        displayLanguage?: string | undefined;
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
         searchString?: string | undefined;
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
@@ -2215,6 +2391,8 @@
         filter?: FilterBase | undefined;
         /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** Filter the content document result set to those that have or not have broken references */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Limits the content document result set to specific ContentRights the user has */
         rightsFilter?: ContentRight[] | undefined;
     }
@@ -2226,7 +2404,6 @@
         filter?: FilterBase | undefined;
         searchString?: string | undefined;
         searchBehaviours?: SearchBehaviour[] | undefined;
-        sort?: SortInfo[] | undefined;
     }
     export interface BaseResultOfBusinessProcess {
         totalResults: number;
@@ -2242,11 +2419,8 @@
         elapsedMilliseconds: number;
     }
     export interface BusinessProcessWaitResult {
-        hasStateHit: boolean;
         stateHit?: string | undefined;
-        hasLifeCycleHit: boolean;
         lifeCycleHit: BusinessProcessLifeCycle;
-        finished: boolean;
         businessProcess?: BusinessProcess | undefined;
     }
     export interface BusinessProcessDetails extends BusinessProcess {
@@ -2254,9 +2428,19 @@
     }
     export interface BusinessProcessDetailsDataBase {
     }
-    export interface BusinessProcessDetailsDataBulkResponse extends BusinessProcessDetailsDataBase {
+    export interface BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase {
         docType?: string | undefined;
-        response?: BulkResponse | undefined;
+        response?: BatchResponse | undefined;
+    }
+    export interface BatchResponse {
+        rows?: BatchResponseRow[] | undefined;
+    }
+    export interface BatchResponseRow {
+        id?: string | undefined;
+        succeeded: boolean;
+        status: number;
+        version: number;
+        error?: ErrorResponse | undefined;
     }
     /** Business process detailed information regarding Schema / ListItems import operation */
     export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
@@ -2291,13 +2475,25 @@
         /** Ids of the list items that were successfully imported */
         importedListItemIds?: string[] | undefined;
     }
+    export interface BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDataBase {
+        serializedCdnConfiguration?: string | undefined;
+        jobs?: CdnPurgeJobBase[] | undefined;
+    }
+    export interface CdnPurgeJobBase {
+        success: boolean;
+        retriesLeft: number;
+    }
+    export interface CdnPurgeJobByTag extends CdnPurgeJobBase {
+        tag?: string | undefined;
+    }
+    export interface CdnPurgeJobByUri extends CdnPurgeJobBase {
+        uri?: string | undefined;
+    }
     export interface DocumentHistorySearchRequest {
         /** Limits the start date of the search request. Default to last 1 year. */
         from: Date;
         /** Limits the end date of the search request. Default to now. */
         to: Date;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         /** To get a large amount of data, page token returned from the response can be used to get all data. */
@@ -2339,7 +2535,7 @@
         Update,
         Delete,
         Activate,
-        Deactivate,
+        Deactivate
     }
     export interface DocumentHistoryDifference {
         documentId?: string | undefined;
@@ -2347,6 +2543,14 @@
         newDocumentVersion: number;
         oldValues?: any | undefined;
         newValues?: any | undefined;
+    }
+    export enum ListItemResolveBehaviour {
+        Content,
+        LinkedListItems,
+        InnerDisplayValueThumbnail,
+        InnerDisplayValueList,
+        InnerDisplayValueDetail,
+        InnerDisplayValueName
     }
     /** The detail view item for the list item. */
     export interface ListItemDetail {
@@ -2376,8 +2580,6 @@
         includeAllSchemaChildren: boolean;
         /** Limits the search to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to customer default language. */
-        displayLanguage?: string | undefined;
         /** Limits the display values included in the search response. Defaults to all display values. */
         displayPatternIds?: string[] | undefined;
         /** Filter the returned list items that have or not have broken references */
@@ -2430,8 +2632,6 @@
         brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Limits the aggregation to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to customer default language. */
-        displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
         /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
@@ -2475,7 +2675,7 @@
         listItemIds?: string[] | undefined;
         allowMissingDependencies: boolean;
     }
-    export interface ListItemFieldsUpdateRequest {
+    export interface ListItemFieldsBatchUpdateRequest {
         /** The ids of the list items whose fields need to be updated */
         listItemIds?: string[] | undefined;
         /** The change commads to be applied to the list items */
@@ -2486,7 +2686,7 @@
         notifyProgress: boolean;
     }
     /** ListItemFieldsFilterUpdateRequest class */
-    export interface ListItemFieldsFilterUpdateRequest {
+    export interface ListItemFieldsBatchUpdateFilterRequest {
         /** The search request used to filter the list items on which the change commands must be applied */
         listItemFilterRequest?: ListItemFilterRequest | undefined;
         /** The change commads to be applied to the list items */
@@ -2505,30 +2705,18 @@
         includeAllSchemaChildren: boolean;
         /** Limits the search to list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Defines the return language of translation values. Defaults to customer default language. */
-        displayLanguage?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
-    }
-    export interface ReferencesBase {
-        targetMetadataItemId?: string | undefined;
-        references?: MetadataReference[] | undefined;
-        isReferencedByRestrictedItem: boolean;
+        /** Filter the returned list items that have or not have broken references */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
     }
     export interface ListItemReferences extends ReferencesBase {
-    }
-    export interface MetadataReference {
-        targetDocType?: string | undefined;
-        sourceId?: string | undefined;
-        sourceDocType?: string | undefined;
     }
     export interface LiveStreamSearchRequest {
         /** Limits the start date of the search request. */
         from: Date;
         /** Limits the end date of the search request. */
         to: Date;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
         /** To get a large amount of data, page token returned from the response can be used to get all data. */
@@ -2595,7 +2783,13 @@
         templates?: TranslatedStringDictionary | undefined;
     }
     export enum TemplateEngine {
-        DotLiquid,
+        DotLiquid
+    }
+    export enum DisplayPatternType {
+        Thumbnail,
+        List,
+        Detail,
+        Name
     }
     /** The field base class. */
     export interface FieldBase {
@@ -2638,7 +2832,6 @@
     }
     /** For internal use only (system schemas) */
     export interface FieldDateTimeArray extends FieldDateTime {
-        uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
     }
@@ -2658,7 +2851,6 @@
     }
     /** For internal use only (system schemas) */
     export interface FieldDictionaryArray extends FieldDictionary {
-        uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
     }
@@ -2677,7 +2869,6 @@
     }
     /** For internal use only (system schemas) */
     export interface FieldLongArray extends FieldLong {
-        uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
     }
@@ -2710,8 +2901,6 @@
         schemaId?: string | undefined;
         /** Indexing information of fields of the related schema identified by the SchemaId property */
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-        /** Prevents duplicate values. */
-        uniqueItems: boolean;
         /** Defines the highest possible fieldset count. */
         maximumItems?: number | undefined;
         /** Defines the lowest possible fieldset count. */
@@ -2732,8 +2921,6 @@
         schemaId?: string | undefined;
         /** Indexing information of fields of the related schema identified by the SchemaId property */
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-        /** Prevents duplicate values. */
-        uniqueItems: boolean;
         /** Defines the highest possible item count. */
         maximumItems?: number | undefined;
         /** Defines the lowest possible item count. */
@@ -2788,7 +2975,6 @@
     }
     /** For internal use only (system schemas) */
     export interface FieldStringArray extends FieldString {
-        uniqueItems: boolean;
         maximumItems?: number | undefined;
         minimumItems?: number | undefined;
     }
@@ -2839,8 +3025,6 @@
         schemaIndexingInfo?: SchemaIndexingInfo | undefined;
         /** Defines the relation types supported by the field. */
         relationTypes?: RelationType[] | undefined;
-        /** Prevents duplicate values. */
-        uniqueItems: boolean;
         /** Defines the highest possible item count. */
         maximumItems?: number | undefined;
         /** Dfines the lowest possible item count. */
@@ -2909,6 +3093,7 @@
         filter?: FilterBase | undefined;
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
         debugMode: boolean;
+        searchLanguages?: string[] | undefined;
     }
     export interface BaseResultOfSchema {
         totalResults: number;
@@ -3047,10 +3232,11 @@
         rightFilter?: PermissionSetRight | undefined;
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
         debugMode: boolean;
+        searchLanguages?: string[] | undefined;
     }
     export enum PermissionSetRight {
         Apply,
-        Manage,
+        Manage
     }
     export interface BaseResultOfPermissionSet {
         totalResults: number;
@@ -3112,7 +3298,7 @@
     export enum MetadataRight {
         View,
         Edit,
-        Manage,
+        Manage
     }
     /** The version view item for the environment. */
     export interface VersionInfo {
@@ -3221,11 +3407,7 @@
     export enum OutputAccess {
         Full,
         Preview,
-        None,
-    }
-    export enum ShareType {
-        Basic,
-        Embed,
+        None
     }
     export interface ShareSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -3273,7 +3455,6 @@
         filter?: FilterBase | undefined;
         aggregationFilters?: AggregationFilter[] | undefined;
         aggregators?: AggregatorBase[] | undefined;
-        displayLanguage?: string | undefined;
     }
     export interface ShareBaseCreateRequest {
         name?: string | undefined;
@@ -3345,9 +3526,12 @@
         transferType: TransferType;
         itemProgress: number;
         itemCount: number;
+        fileUploadInProgressCount: number;
+        dataExtractionInProgressCount: number;
         itemsFailed: number;
         itemsCancelled: number;
-        lastProgressStamp: number;
+        lastDataExtractionProgressStamp: number;
+        lastFileUploadProgressStamp: number;
         fileTransferCount: number;
         collectionId?: string | undefined;
     }
@@ -3364,13 +3548,12 @@
         Deleted,
         TransferReady,
         FileDeleteInProgress,
-        TransferCleanup,
+        TransferCleanup
     }
     export interface TransferSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         searchBehaviours?: SearchBehaviour[] | undefined;
-        sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
         /** Limits the document count of the result set. Defaults to 30. */
@@ -3443,7 +3626,7 @@
         DeleteInProgress,
         Deleted,
         CleanupInProgress,
-        CleanupCompleted,
+        CleanupCompleted
     }
     export interface FileMetadata {
         names?: TranslatedStringDictionary | undefined;
@@ -3491,7 +3674,6 @@
         titles?: string[] | undefined;
         imageTitles?: string[] | undefined;
         epsInfo?: EpsMetadata | undefined;
-        embeddedFiles?: FileMetadata[] | undefined;
     }
     export interface EpsMetadata {
         isRasterized: boolean;
@@ -3557,12 +3739,11 @@
     }
     export enum OutputSource {
         Rendered,
-        Embedded,
+        Embedded
     }
     export interface FileTransferSearchRequest {
         searchString?: string | undefined;
         searchBehaviours?: SearchBehaviour[] | undefined;
-        sort?: SortInfo[] | undefined;
         /** Defines the offset from the first result you want to fetch. Defaults to 0. */
         start: number;
         /** Limits the document count of the result set. Defaults to 30. */
@@ -3621,23 +3802,15 @@
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
         contentPermissionSetIds?: string[] | undefined;
     }
-    export interface UserDetail extends User {
+    export interface UserUpdatableDetail extends User {
         userRoles?: UserRole[] | undefined;
         comment?: string | undefined;
         languageCode?: string | undefined;
         address?: UserAddress | undefined;
+    }
+    export interface UserDetail extends UserUpdatableDetail {
         ownerTokens?: OwnerToken[] | undefined;
         authorizationState: AuthorizationState;
-    }
-    export interface UserAddress {
-        company?: string | undefined;
-        address?: string | undefined;
-        alternativeAddress?: string | undefined;
-        department?: string | undefined;
-        zip?: string | undefined;
-        city?: string | undefined;
-        phone?: string | undefined;
-        countryCode?: string | undefined;
     }
     export interface OwnerToken {
         /** The ownertoken id. */
@@ -3649,7 +3822,17 @@
         Active,
         Review,
         Locked,
-        Invited,
+        Invited
+    }
+    export interface UserAddress {
+        company?: string | undefined;
+        address?: string | undefined;
+        alternativeAddress?: string | undefined;
+        department?: string | undefined;
+        zip?: string | undefined;
+        city?: string | undefined;
+        phone?: string | undefined;
+        countryCode?: string | undefined;
     }
     export interface UserSearchRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -3686,6 +3869,41 @@
         firstName?: string | undefined;
         lastName?: string | undefined;
         emailAddress?: string | undefined;
+        authorizationState: AuthorizationState;
+    }
+    export interface UserAggregationRequest {
+        searchString?: string | undefined;
+        /** An optional list of search behaviours. All the passed behaviours will be applied */
+        searchBehaviours?: SearchBehaviour[] | undefined;
+        sort?: SortInfo[] | undefined;
+        /** An optional search filter. Limits the content document result set. */
+        filter?: FilterBase | undefined;
+        aggregationFilters?: AggregationFilter[] | undefined;
+        aggregators?: AggregatorBase[] | undefined;
+    }
+    export interface UserLockRequest {
+        userIds?: string[] | undefined;
+        lock: boolean;
+    }
+    export interface UserReviewRequest {
+        userIds?: string[] | undefined;
+        reviewed: boolean;
+    }
+    export interface UserCreateRequest {
+        firstName?: string | undefined;
+        lastName?: string | undefined;
+        emailAddress?: string | undefined;
+        languageCode?: string | undefined;
+        userRoleIds?: string[] | undefined;
+        address?: UserAddress | undefined;
+    }
+    export interface UserDeactivateRequest {
+        userIds?: string[] | undefined;
+        ownerTokenTransferUserId?: string | undefined;
+    }
+    export interface UserReactivateRequest {
+        userIds?: string[] | undefined;
+        ownerTokenTransferUserId?: string | undefined;
     }
     export interface ContentsByIdsRequest {
         contentIds?: string[] | undefined;
@@ -3698,6 +3916,16 @@
         languageCode?: string | undefined;
         address?: UserAddress | undefined;
         authorizationState: AuthorizationState;
+        userRights?: UserRight[] | undefined;
+        userRoleIds?: string[] | undefined;
+    }
+    export interface UserProfileUpdateRequest {
+        id?: string | undefined;
+        emailAddress?: string | undefined;
+        firstName?: string | undefined;
+        lastName?: string | undefined;
+        languageCode?: string | undefined;
+        address?: UserAddress | undefined;
     }
     /** Schema import request */
     export interface SchemaImportRequest {
@@ -3714,6 +3942,7 @@
         identityServerUrl?: string | undefined;
         languageConfiguration?: LanguageConfiguration | undefined;
         languages?: Language[] | undefined;
+        outputFormats?: OutputFormatInfo[] | undefined;
     }
     export interface LanguageConfiguration {
         /** A list of languages serving as system languages. */
@@ -3729,6 +3958,10 @@
         twoLetterISOLanguageName?: string | undefined;
         threeLetterISOLanguageName?: string | undefined;
         regionCode?: string | undefined;
+    }
+    export interface OutputFormatInfo {
+        id?: string | undefined;
+        names?: TranslatedStringDictionary | undefined;
     }
     export interface Channel {
         id?: string | undefined;

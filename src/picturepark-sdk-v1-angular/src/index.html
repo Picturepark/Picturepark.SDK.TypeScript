@@ -6,19 +6,22 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
 </head>
 <body>
-  <app-root picturepark-api-server="https://devnext-api.preview-picturepark.com" 
-            picturepark-sts-server="https://devnext-identity.preview-picturepark.com"
+  <!-- TODO: move configuration to config file. -->
+  <app-root picturepark-api-server="http://localhost:8085"
+            picturepark-sts-server="http://localhost:8081"
             picturepark-redirect-server="http://localhost:4200"
             picturepark-scope="openid profile picturepark_api all_scopes"
-            picturepark-client-id="2de47ada8fcb4db68b5d187b267afd3d"
-            picturepark-customer-id="c600e13306174a4f91e25397e8807a2e"
-            picturepark-customer-alias="dev">
+            picturepark-client-id="88d5c418fafc4d5b8c8622acbf122ecd"
+            picturepark-customer-id="66368859f05149039f2f6fa09f0e288a"
+            picturepark-customer-alias="bro">
     Loading...
   </app-root>
+
   <script src="/assets/picturepark-sdk-v1-widgets/picturepark-widgets.js" async></script>
 </body>
 </html>

@@ -1,8 +1,15 @@
-<div class="form-group has-feedback">
-  <label *ngIf="label !== ''" class="control-label">{{label}}</label>
-  <select class="form-control" (change)="onChannelChanged($event)" #select>
-    <option *ngFor="let channel of channels, let i = index" [attr.value]="i">
+<mat-form-field>
+  <mat-select [value]="channel" (valueChange)="changeChannel($event)">
+    <mat-option *ngFor="let channel of channels, let i = index" [value]="channel">
       {{ channel.names | pptranslate }}
-    </option>
-  </select>
-</div>
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- // TODO: decide which one looks better -->
+<!-- <button mat-button [matMenuTriggerFor]="channelPicker"> {{ channel?.names | pptranslate }} </button>
+<mat-menu #channelPicker="matMenu">
+  <button *ngFor="let channel of channels, let i = index" [attr.value]="i" (click)="changeChannel(channel)" mat-menu-item>
+    {{ channel.names | pptranslate }}
+  </button>
+</mat-menu> -->

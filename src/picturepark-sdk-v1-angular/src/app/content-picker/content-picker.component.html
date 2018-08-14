@@ -1,79 +1,62 @@
-<div *ngIf="detailsItemId">
-  <pp-content-picker-details [(contentId)]="detailsItemId">
-  </pp-content-picker-details>
-</div>
-<div class="container-fluid" [style.display]="detailsItemId ? 'none' : ''">
+<div [style.display]="detailsItemId ? 'none' : ''">
   <div *ngIf="!authService.isAuthenticated">
     Authorization...
   </div>
-  
+
   <div *ngIf="authService.isAuthenticated">
-    <div class="row" style="padding-top: 10px">
-      <!-- Channel Picker -->
-      <div class="col-md-3">
-        <pp-channel-picker [label]="'ContentPicker.LabelChannel' | pptranslate" [(channel)]="selectedChannel">
-        </pp-channel-picker>
+    <mat-toolbar class="navbar" color="primary">
+      <pp-channel-picker [(channel)]="selectedChannel">
+      </pp-channel-picker>
+
+      <span class="spacer"></span>
+
+      <pp-search-box [(query)]="searchText">
+      </pp-search-box>
+    </mat-toolbar>
+
+    <div class="container">
+      <div class="filters">
+        <mat-tab-group style="height: 100%;">
+          <mat-tab label="Filters">
+            <pp-content-aggregation-list [query]="searchText" [channel]="selectedChannel" (filterChange)="selectedFilter = $event">
+            </pp-content-aggregation-list>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span [matBadge]="basketItemsCount" matBadgeOverlap="false">Basket</span>
+            </ng-template>
+            <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
+          </mat-tab>
+        </mat-tab-group>
       </div>
-      <!-- Search Box -->
-      <div class="col-md-9">
-        <pp-search-box [label]="'ContentPicker.LabelSearch' | pptranslate" [(query)]="searchText">
-        </pp-search-box>
-      </div>
-    </div>
-    <!-- Content Browser -->
-    <div class="row" style="margin-bottom: -22px">
-      <div class="col-md-3">
-        <label class="control-label" *ngIf="aggregations.length > 0">
-          {{'ContentPicker.LabelFilters' | pptranslate}}
-        </label>
-        <div style="height: 500px; overflow-y: auto" [style.height]="aggregationFilterHeight">
-          <pp-aggregation-filter [query]="searchText"
-                                 [channel]="selectedChannel"
-                                 (aggregationsChange)="aggregations = $event"
-                                 [(filters)]="selectedFilters">
-          </pp-aggregation-filter>
-        </div>
-      </div>
-      <div class="col-md-9">
-        <div style="height: 500px; margin-right:-15px;" [style.height]="contentBrowserHeight">
-          <pp-content-browser #contentBrowser
-                              [selectionMode]="selectionMode" 
-                              [channel]="selectedChannel" 
-                              [filters]="selectedFilters" 
-                              [query]="searchText" 
-                              [columns]="contentBrowserColumns" 
-                              [height]="contentBrowserHeight"
-                              (doubleClick)="showDetails($event)"
-                              [(selectedItems)]="selectedItems">
-          </pp-content-browser>
-        </div>
+
+      <div class="content">
+        <pp-content-browser [channel]="selectedChannel" [filter]="selectedFilter" [query]="searchText" (previewItemChange)="openDetails($event)">
+        </pp-content-browser>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="row" style="background-color: lightgray; margin-top: 22px; padding: 10px">
-      <div class="col-md-6">
-        <div style="padding-top: 8px">
-          <ng-container *ngIf="selectedItems.length == 1">  
-              {{'ContentPicker.TextSelectedSingle' | pptranslate:selectedItems.length}}
-          </ng-container>
-          <ng-container *ngIf="selectedItems.length != 1">  
-            {{'ContentPicker.TextSelectedMultiple' | pptranslate:selectedItems.length}}
-          </ng-container>
-        </div>
+    <div class="footer">
+      <div class="mat-typography title">
+        <ng-container *ngIf="selectedItems.length == 1">
+          {{'ContentPicker.TextSelectedSingle' | pptranslate:selectedItems.length}}
+        </ng-container>
+        <ng-container *ngIf="selectedItems.length != 1">
+          {{'ContentPicker.TextSelectedMultiple' | pptranslate:selectedItems.length}}
+        </ng-container>
       </div>
-      <div class="col-md-6" style="text-align: right">
-        <div class="btn btn-default" (click)="cancel()">
+      <div>
+        <button mat-button (click)="cancel()">
           {{'ContentPicker.ButtonCancel' | pptranslate}}
-        </div>
-        <div class="btn btn-primary" [class.disabled]="selectedItems.length == 0 || loading" (click)="embed(selectedItems)">
+        </button>
+        <button mat-button [disabled]="selectedItems.length == 0 || loading" (click)="embed()">
           <ng-container *ngIf="!loading">
             {{'ContentPicker.ButtonChoose' | pptranslate}}
           </ng-container>
-          <ng-container *ngIf="loading"> 
+          <ng-container *ngIf="loading">
             {{'ContentPicker.ButtonLoading' | pptranslate}}
           </ng-container>
-        </div>
+        </button>
       </div>
     </div>
   </div>

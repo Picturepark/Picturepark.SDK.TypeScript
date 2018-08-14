@@ -41,22 +41,14 @@
             "description": "The content id."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
-            "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the contents's content."
-          },
-          {
             "type": "array",
-            "name": "patterns",
+            "name": "resolveBehaviours",
             "in": "query",
             "x-nullable": true,
             "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
+            "description": "List of enum that control which parts of the content are resolved and returned",
             "items": {
-              "$ref": "#/definitions/DisplayPatternType"
+              "$ref": "#/definitions/ContentResolveBehaviour"
             }
           }
         ],
@@ -151,22 +143,14 @@
             }
           },
           {
-            "type": "boolean",
-            "name": "resolve",
-            "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the contents's content."
-          },
-          {
             "type": "array",
-            "name": "patterns",
+            "name": "resolveBehaviours",
             "in": "query",
             "x-nullable": true,
             "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
+            "description": "List of enum that control which parts of the content are resolved and returned",
             "items": {
-              "$ref": "#/definitions/DisplayPatternType"
+              "$ref": "#/definitions/ContentResolveBehaviour"
             }
           }
         ],
@@ -181,6 +165,27 @@
             },
             "x-nullable": false
           },
+          "404": {
+            "description": "One or more contents not found\nor\nEntity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true,
+            "x-expectedSchemas": [
+              {
+                "description": "One or more contents not found",
+                "schema": {
+                  "$ref": "#/definitions/ContentNotFoundException"
+                }
+              },
+              {
+                "description": "Entity not found",
+                "schema": {
+                  "$ref": "#/definitions/PictureparkNotFoundException"
+                }
+              }
+            ]
+          },
           "500": {
             "description": "Internal server error",
             "schema": {
@@ -193,13 +198,6 @@
           },
           "405": {
             "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
           },
           "409": {
             "description": "Version conflict",
@@ -476,6 +474,161 @@
             "description": "ObjectAggregationResult",
             "schema": {
               "$ref": "#/definitions/ObjectAggregationResult"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/contents/{contentId}/references": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Get references",
+        "description": "Gets references (list items, contents, shares) to content documents defined by id.",
+        "operationId": "Content_GetReferences",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "contentId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "contentReferencesRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContentReferencesRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ContentReferencesResult",
+            "schema": {
+              "$ref": "#/definitions/ContentReferencesResult"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/contents/many/references": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Get references - many",
+        "description": "Gets references (list items, contents, shares) to content documents defined by ids.",
+        "operationId": "Content_GetReferencesMany",
+        "parameters": [
+          {
+            "name": "contentManyReferencesRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContentManyReferencesRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ContentReferencesResult",
+            "schema": {
+              "$ref": "#/definitions/ContentReferencesResult"
             },
             "x-nullable": false
           },
@@ -837,12 +990,15 @@
             "description": "The content create request."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
+            "type": "array",
+            "name": "resolveBehaviours",
             "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the contents's content."
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the content are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ContentResolveBehaviour"
+            }
           },
           {
             "type": "boolean",
@@ -859,17 +1015,6 @@
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
           }
         ],
         "responses": {
@@ -942,7 +1087,7 @@
       }
     },
     "/v1/contents/{contentId}/deactivate": {
-      "put": {
+      "post": {
         "tags": [
           "Content"
         ],
@@ -959,10 +1104,17 @@
             "description": "the id of the content to deactivate"
           },
           {
+            "type": "boolean",
+            "name": "forceReferenceRemoval",
+            "in": "query",
+            "x-nullable": true,
+            "description": "A value indicating whether references to the content should be removed.",
+            "default": false
+          },
+          {
             "type": "string",
             "name": "timeout",
             "in": "query",
-            "required": true,
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
@@ -970,11 +1122,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ContentDetail"
-            },
-            "x-nullable": false
+            "description": ""
           },
           "400": {
             "description": "The specified wait timeout exceeded\nor\nValidation exception",
@@ -1113,7 +1261,7 @@
       }
     },
     "/v1/contents/{contentId}/reactivate": {
-      "put": {
+      "post": {
         "tags": [
           "Content"
         ],
@@ -1131,11 +1279,11 @@
           },
           {
             "type": "boolean",
-            "name": "resolve",
+            "name": "allowMissingDependencies",
             "in": "query",
-            "required": true,
             "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the contents's content."
+            "description": "Allow reactivating contents that refer to list items or contents that don't exist in the system.",
+            "default": false
           },
           {
             "type": "string",
@@ -1144,34 +1292,11 @@
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "allowMissingDependencies",
-            "in": "query",
-            "x-nullable": false,
-            "description": "Allow reactivating contents that refer to list items or contents that don't exist in the system.",
-            "default": false
           }
         ],
         "responses": {
           "200": {
-            "description": "ContentDetail",
-            "schema": {
-              "$ref": "#/definitions/ContentDetail"
-            },
-            "x-nullable": false
+            "description": "Void"
           },
           "400": {
             "description": "The specified wait timeout exceeded\nor\nValidation exception",
@@ -1420,12 +1545,15 @@
             "description": "The metadata update request."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
+            "type": "array",
+            "name": "resolveBehaviours",
             "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the contents's content."
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the content are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ContentResolveBehaviour"
+            }
           },
           {
             "type": "boolean",
@@ -1442,17 +1570,6 @@
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
           }
         ],
         "responses": {
@@ -1552,12 +1669,15 @@
             "description": "The content permission update request."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
+            "type": "array",
+            "name": "resolveBehaviours",
             "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the contents's content."
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the content are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ContentResolveBehaviour"
+            }
           },
           {
             "type": "string",
@@ -1566,17 +1686,6 @@
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
           }
         ],
         "responses": {
@@ -1686,7 +1795,7 @@
               {
                 "description": "Not all provided contents could be found",
                 "schema": {
-                  "$ref": "#/definitions/ContentsNotFoundException"
+                  "$ref": "#/definitions/ContentNotFoundException"
                 }
               },
               {
@@ -1747,17 +1856,14 @@
         "operationId": "Content_UpdatePermissionsMany",
         "parameters": [
           {
-            "name": "updateRequest",
+            "name": "updateManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ContentPermissionsUpdateRequest"
-              }
+              "$ref": "#/definitions/ContentPermissionsUpdateManyRequest"
             },
             "x-nullable": true,
-            "description": "The permissions update request."
+            "description": "The permissions update many request."
           }
         ],
         "responses": {
@@ -1920,7 +2026,7 @@
         ]
       }
     },
-    "/v1/contents/many/ownership/transfer": {
+    "/v1/contents/many/ownership": {
       "put": {
         "tags": [
           "Content"
@@ -1930,14 +2036,14 @@
         "operationId": "Content_TransferOwnershipMany",
         "parameters": [
           {
-            "name": "contentsOwnershipTransferRequest",
+            "name": "contentOwnershipTransferManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentsOwnershipTransferRequest"
+              "$ref": "#/definitions/ContentOwnershipTransferManyRequest"
             },
             "x-nullable": true,
-            "description": "The content ownership transfer request."
+            "description": "The content ownership transfer many request."
           }
         ],
         "responses": {
@@ -2009,7 +2115,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentFieldsUpdateRequest"
+              "$ref": "#/definitions/ContentFieldsBatchUpdateRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -2084,7 +2190,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentFieldsFilterUpdateRequest"
+              "$ref": "#/definitions/ContentFieldsBatchUpdateFilterRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -2961,7 +3067,7 @@
         "tags": [
           "ListItem"
         ],
-        "summary": "Get - single",
+        "summary": "Get detail - single",
         "operationId": "ListItem_Get",
         "parameters": [
           {
@@ -2973,42 +3079,34 @@
             "description": "The list item id."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
-            "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the list item's content."
-          },
-          {
             "type": "array",
-            "name": "patterns",
+            "name": "resolveBehaviours",
             "in": "query",
             "x-nullable": true,
             "collectionFormat": "multi",
-            "description": "Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.",
+            "description": "List of enum that control which parts of the list item are resolved and returned",
             "items": {
-              "$ref": "#/definitions/DisplayPatternType"
+              "$ref": "#/definitions/ListItemResolveBehaviour"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "List item detail",
             "schema": {
               "$ref": "#/definitions/ListItemDetail"
             },
             "x-nullable": false
           },
           "404": {
-            "description": "\nor\nEntity not found",
+            "description": "List item not found\nor\nEntity not found",
             "schema": {
               "$ref": "#/definitions/PictureparkNotFoundException"
             },
             "x-nullable": true,
             "x-expectedSchemas": [
               {
-                "description": "",
+                "description": "List item not found",
                 "schema": {
                   "$ref": "#/definitions/ListItemNotFoundException"
                 }
@@ -3087,12 +3185,15 @@
             "description": "The list item update request."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
+            "type": "array",
+            "name": "resolveBehaviours",
             "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the list item's content."
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the list item are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ListItemResolveBehaviour"
+            }
           },
           {
             "type": "boolean",
@@ -3109,17 +3210,6 @@
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
           }
         ],
         "responses": {
@@ -3127,6 +3217,256 @@
             "description": "ListItemDetail",
             "schema": {
               "$ref": "#/definitions/ListItemDetail"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "listitem_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/listItems/many": {
+      "get": {
+        "tags": [
+          "ListItem"
+        ],
+        "summary": "Get detail - many",
+        "operationId": "ListItem_GetMany",
+        "parameters": [
+          {
+            "type": "array",
+            "name": "ids",
+            "in": "query",
+            "required": true,
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of list item ids",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "array",
+            "name": "resolveBehaviours",
+            "in": "query",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the list items are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ListItemResolveBehaviour"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of list item details",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListItemDetail"
+              }
+            },
+            "x-nullable": false
+          },
+          "404": {
+            "description": "One or more list items not found\nor\nEntity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true,
+            "x-expectedSchemas": [
+              {
+                "description": "One or more list items not found",
+                "schema": {
+                  "$ref": "#/definitions/ListItemNotFoundException"
+                }
+              },
+              {
+                "description": "Entity not found",
+                "schema": {
+                  "$ref": "#/definitions/PictureparkNotFoundException"
+                }
+              }
+            ]
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "listitem_read"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ListItem"
+        ],
+        "summary": "Create - many",
+        "description": "Create multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "ListItem_CreateMany",
+        "parameters": [
+          {
+            "name": "listItemCreateManyRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListItemCreateManyRequest"
+            },
+            "x-nullable": true,
+            "description": "List item create many request."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BusinessProcess",
+            "schema": {
+              "$ref": "#/definitions/BusinessProcess"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "listitem_write"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "ListItem"
+        ],
+        "summary": "Update - many",
+        "description": "Updates multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "ListItem_UpdateMany",
+        "parameters": [
+          {
+            "name": "listItemUpdateManyRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListItemUpdateManyRequest"
+            },
+            "x-nullable": true,
+            "description": "List item update many request."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BusinessProcess",
+            "schema": {
+              "$ref": "#/definitions/BusinessProcess"
             },
             "x-nullable": false
           },
@@ -3347,12 +3687,15 @@
             "description": "List item create request."
           },
           {
-            "type": "boolean",
-            "name": "resolve",
+            "type": "array",
+            "name": "resolveBehaviours",
             "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "description": "Resolves the data of referenced list items into the list item's content."
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the list item are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ListItemResolveBehaviour"
+            }
           },
           {
             "type": "boolean",
@@ -3369,17 +3712,6 @@
             "x-nullable": true,
             "description": "Maximum time to wait for the business process completed state.",
             "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "Comma-separated list of display pattern ids. Resolves display values of referenced list items where the display pattern id matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
           }
         ],
         "responses": {
@@ -3451,156 +3783,8 @@
         ]
       }
     },
-    "/v1/listItems/many": {
-      "post": {
-        "tags": [
-          "ListItem"
-        ],
-        "summary": "Create - many",
-        "description": "Create multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "ListItem_CreateMany",
-        "parameters": [
-          {
-            "name": "listItemCreateManyRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ListItemCreateManyRequest"
-            },
-            "x-nullable": true,
-            "description": "List item create many request."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "BusinessProcess",
-            "schema": {
-              "$ref": "#/definitions/BusinessProcess"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "listitem_write"
-            ]
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "ListItem"
-        ],
-        "summary": "Update - many",
-        "description": "Updates multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "ListItem_UpdateMany",
-        "parameters": [
-          {
-            "name": "listItemUpdateManyRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ListItemUpdateManyRequest"
-            },
-            "x-nullable": true,
-            "description": "List item update many request."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "BusinessProcess",
-            "schema": {
-              "$ref": "#/definitions/BusinessProcess"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "listitem_write"
-            ]
-          }
-        ]
-      }
-    },
     "/v1/listItems/{listItemId}/deactivate": {
-      "put": {
+      "post": {
         "tags": [
           "ListItem"
         ],
@@ -3617,30 +3801,25 @@
             "description": "the id of the list item to deactivate"
           },
           {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "required": true,
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
-          },
-          {
             "type": "boolean",
             "name": "forceReferenceRemoval",
             "in": "query",
             "x-nullable": true,
             "description": "A value indicating whether references to the listitem should be removed.",
             "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ListItemDetail"
-            },
-            "x-nullable": false
+            "description": "Void"
           },
           "400": {
             "description": "The specified wait timeout exceeded\nor\nValidation exception",
@@ -3779,7 +3958,7 @@
       }
     },
     "/v1/listItems/{listItemId}/reactivate": {
-      "put": {
+      "post": {
         "tags": [
           "ListItem"
         ],
@@ -3796,40 +3975,25 @@
             "description": "The list item id."
           },
           {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
-          },
-          {
-            "type": "array",
-            "name": "patterns",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of display pattern types. Resolves display values of referenced list items where the display pattern matches.",
-            "items": {
-              "$ref": "#/definitions/DisplayPatternType"
-            }
-          },
-          {
             "type": "boolean",
             "name": "allowMissingDependencies",
             "in": "query",
             "x-nullable": false,
             "description": "Allow reactivating list items that refer to list items or contents that don't exist in the system.",
             "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "ListItemDetail",
-            "schema": {
-              "$ref": "#/definitions/ListItemDetail"
-            },
-            "x-nullable": false
+            "description": "Void"
           },
           "400": {
             "description": "The specified wait timeout exceeded\nor\nValidation exception",
@@ -3981,7 +4145,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemFieldsUpdateRequest"
+              "$ref": "#/definitions/ListItemFieldsBatchUpdateRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -4056,7 +4220,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemFieldsFilterUpdateRequest"
+              "$ref": "#/definitions/ListItemFieldsBatchUpdateFilterRequest"
             },
             "x-nullable": true,
             "description": "The metadata update request."
@@ -4431,7 +4595,7 @@
           "Schema"
         ],
         "summary": "Update - single",
-        "description": "Updates an existing schema.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "description": "Updates an existing schema.\nThe operation can take a lot of time.",
         "operationId": "Schema_Update",
         "parameters": [
           {
@@ -4451,13 +4615,21 @@
             },
             "x-nullable": true,
             "description": "The schema update request."
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the operation to complete.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "SchemaUpdateResult containing the updated schema",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/SchemaUpdateResult"
             },
             "x-nullable": false
           },
@@ -4562,13 +4734,21 @@
             "required": true,
             "x-nullable": false,
             "description": "The schema id."
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the operation to complete.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "SchemaDeleteResult",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/SchemaDeleteResult"
             },
             "x-nullable": false
           },
@@ -4736,7 +4916,7 @@
           "Schema"
         ],
         "summary": "Create - single",
-        "description": "Create a new schema.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "description": "Create a new schema.",
         "operationId": "Schema_Create",
         "parameters": [
           {
@@ -4748,13 +4928,21 @@
             },
             "x-nullable": true,
             "description": "The schema create request."
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the operation to complete.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "SchemaCreateResult containing the created schema.",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/SchemaCreateResult"
             },
             "x-nullable": false
           },
@@ -5070,14 +5258,14 @@
         ]
       }
     },
-    "/v1/permission/contentPermissionSets/search": {
+    "/v1/contentPermissionSets/search": {
       "post": {
         "tags": [
-          "Permission"
+          "ContentPermissionSet"
         ],
-        "summary": "Search Content Permissions",
+        "summary": "Search Content Permission Sets",
         "description": "Searches content permission sets as specified in the search request.",
-        "operationId": "Permission_SearchContentPermissionSets",
+        "operationId": "ContentPermissionSet_SearchContentPermissionSets",
         "parameters": [
           {
             "name": "request",
@@ -5145,14 +5333,14 @@
         ]
       }
     },
-    "/v1/permission/contentPermissionSets/{permissionSetId}": {
+    "/v1/contentPermissionSets/{permissionSetId}": {
       "get": {
         "tags": [
-          "Permission"
+          "ContentPermissionSet"
         ],
-        "summary": "Get Content Permission - single",
+        "summary": "Get Content Permission Set - single",
         "description": "Gets the content permission set detail information by the content permission set id.",
-        "operationId": "Permission_GetContentPermissionSet",
+        "operationId": "ContentPermissionSet_GetContentPermissionSet",
         "parameters": [
           {
             "type": "string",
@@ -5218,14 +5406,14 @@
         ]
       }
     },
-    "/v1/permission/schemaPermissionSets/search": {
+    "/v1/schemaPermissionSets/search": {
       "post": {
         "tags": [
-          "Permission"
+          "SchemaPermissionSet"
         ],
-        "summary": "Search Schema PermissionSets",
+        "summary": "Search Schema Permission Sets",
         "description": "Searches schema permission sets as specified in the search request.",
-        "operationId": "Permission_SearchSchemaPermissionSets",
+        "operationId": "SchemaPermissionSet_SearchSchemaPermissionSets",
         "parameters": [
           {
             "name": "request",
@@ -5293,14 +5481,14 @@
         ]
       }
     },
-    "/v1/permission/schemaPermissionSets/{permissionSetId}": {
+    "/v1/schemaPermissionSets/{permissionSetId}": {
       "get": {
         "tags": [
-          "Permission"
+          "SchemaPermissionSet"
         ],
-        "summary": "Get Schema PermissionSets - single",
+        "summary": "Get Schema Permission Sets - single",
         "description": "Gets the schema permission set detail information by the schema permission set id.",
-        "operationId": "Permission_GetSchemaPermissionSet",
+        "operationId": "SchemaPermissionSet_GetSchemaPermissionSet",
         "parameters": [
           {
             "type": "string",
@@ -5316,165 +5504,6 @@
             "description": "SchemaPermissionSetDetail",
             "schema": {
               "$ref": "#/definitions/SchemaPermissionSetDetail"
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "permission_read"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/permission/userPermissions": {
-      "get": {
-        "tags": [
-          "Permission"
-        ],
-        "summary": "Get User rights",
-        "description": "Get all UserRights the current user has",
-        "operationId": "Permission_GetUserRights",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "list of user permissions",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserRight"
-              }
-            },
-            "x-nullable": false
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "permission_read"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/permission/userPermissions/{userRight}": {
-      "get": {
-        "tags": [
-          "Permission"
-        ],
-        "summary": "Has UserRight",
-        "description": "Validates if the User has a given UserRight",
-        "operationId": "Permission_HasUserRight",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "userRight",
-            "in": "path",
-            "required": true,
-            "x-schema": {
-              "$ref": "#/definitions/UserRight"
-            },
-            "x-nullable": false,
-            "description": "The UserRight to validate",
-            "enum": [
-              "ManageContent",
-              "ManageSharings",
-              "ManageTransfer",
-              "ManageChannels",
-              "ManageSchemas",
-              "ManageUsers",
-              "ManageUserRoles",
-              "ManagePermissions",
-              "ManageSearchIndexes",
-              "ManageCollections",
-              "ManageListItems",
-              "ManageServiceProviders",
-              "ManageEmbeds",
-              "ManageTemplates"
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Boolean - user has permission",
-            "schema": {
-              "type": "boolean"
             },
             "x-nullable": false
           },
@@ -5610,6 +5639,400 @@
               "$ref": "#/definitions/ShareDetail"
             },
             "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/shareAccess/json/{token}": {
+      "get": {
+        "tags": [
+          "ShareAccess"
+        ],
+        "summary": "Get Share json",
+        "operationId": "ShareAccess_GetShareJson",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ShareDetail",
+            "schema": {},
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/shareAccess/d/{token}": {
+      "get": {
+        "tags": [
+          "ShareAccess"
+        ],
+        "summary": "Download Shared outputs",
+        "operationId": "ShareAccess_Download",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The token"
+          },
+          {
+            "type": "integer",
+            "name": "width",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Optional width in pixels to resize image",
+            "format": "int32"
+          },
+          {
+            "type": "integer",
+            "name": "height",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Optional height in pixels to resize image",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "range",
+            "in": "header",
+            "x-nullable": true,
+            "description": "The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HttpResponseMessage",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": false
+          },
+          "206": {
+            "description": "HttpResponseMessage",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/shareAccess/d/{token}/{contentId}": {
+      "get": {
+        "tags": [
+          "ShareAccess"
+        ],
+        "summary": "Download Shared outputs\n            ",
+        "description": "Download single content in a specific outputformat. To resize images on download specify target width &amp; height. To download only a portion of the file, specify the range parameter.",
+        "operationId": "ShareAccess_DownloadWithContentId",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The token"
+          },
+          {
+            "type": "string",
+            "name": "contentId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The content id"
+          },
+          {
+            "type": "integer",
+            "name": "width",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Optional width in pixels to resize image",
+            "format": "int32"
+          },
+          {
+            "type": "integer",
+            "name": "height",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Optional height in pixels to resize image",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "range",
+            "in": "header",
+            "x-nullable": true,
+            "description": "The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HttpResponseMessage",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": false
+          },
+          "206": {
+            "description": "HttpResponseMessage",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/shareAccess/d/{token}/{contentId}/{outputFormatId}": {
+      "get": {
+        "tags": [
+          "ShareAccess"
+        ],
+        "summary": "Download Shared outputs\n            ",
+        "description": "Download single content in a specific outputformat. To resize images on download specify target width &amp; height. To download only a portion of the file, specify the range parameter.",
+        "operationId": "ShareAccess_DownloadWithOutputFormatId",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The token"
+          },
+          {
+            "type": "string",
+            "name": "contentId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The content id"
+          },
+          {
+            "type": "string",
+            "name": "outputFormatId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The output format id+"
+          },
+          {
+            "type": "integer",
+            "name": "width",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Optional width in pixels to resize image",
+            "format": "int32"
+          },
+          {
+            "type": "integer",
+            "name": "height",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Optional height in pixels to resize image",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "range",
+            "in": "header",
+            "x-nullable": true,
+            "description": "The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HttpResponseMessage",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": false
+          },
+          "206": {
+            "description": "HttpResponseMessage",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
           },
           "500": {
             "description": "Internal server error",
@@ -7234,6 +7657,79 @@
         ]
       }
     },
+    "/v1/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new user (without inviting him)",
+        "operationId": "User_Create",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreateRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserDetail"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/users/{userId}": {
       "get": {
         "tags": [
@@ -7301,6 +7797,84 @@
           {
             "Bearer": [
               "user_read"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updates one or more users",
+        "operationId": "User_Update",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "userUpdatableDetail",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdatableDetail"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserDetail"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
             ]
           }
         ]
@@ -7447,6 +8021,520 @@
           {
             "Bearer": [
               "user_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/many": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get multiple user details by supplying their ID's",
+        "operationId": "User_GetMany",
+        "parameters": [
+          {
+            "type": "array",
+            "name": "ids",
+            "in": "query",
+            "required": true,
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "The user ID's",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IEnumerable&lt;UserDetail&gt;",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserDetail"
+              }
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/aggregate": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Searches and aggregates users by different attributes",
+        "operationId": "User_Aggregate",
+        "parameters": [
+          {
+            "name": "userAggregationRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserAggregationRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ObjectAggregationResult"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/{userId}/lock": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Locks or unlocks one or more users",
+        "operationId": "User_Lock",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "userLockRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLockRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/{userId}/review": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Sets one or more users as reviewed or under review",
+        "operationId": "User_Review",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "userReviewRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserReviewRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/{userId}/invite": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Invites (or creates) new users",
+        "operationId": "User_Invite",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/{userId}/delete": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Deletes a user",
+        "operationId": "User_Delete",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "userDeactivateRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserDeletionRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/users/{userId}/restore": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Restores a previously deleted user",
+        "operationId": "User_Restore",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "user_write"
             ]
           }
         ]
@@ -7691,11 +8779,11 @@
         "operationId": "Profile_Update",
         "parameters": [
           {
-            "name": "profile",
+            "name": "updateRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserProfile"
+              "$ref": "#/definitions/UserProfileUpdateRequest"
             },
             "x-nullable": true
           }
@@ -7981,28 +9069,39 @@
     }
   },
   "definitions": {
-    "DisplayPatternType": {
+    "ContentResolveBehaviour": {
       "type": "string",
       "description": "",
       "x-enumNames": [
-        "Thumbnail",
-        "List",
-        "Detail",
-        "Name"
+        "Content",
+        "LinkedListItems",
+        "Metadata",
+        "Outputs",
+        "InnerDisplayValueThumbnail",
+        "InnerDisplayValueList",
+        "InnerDisplayValueDetail",
+        "InnerDisplayValueName"
       ],
       "enum": [
-        "Thumbnail",
-        "List",
-        "Detail",
-        "Name"
+        "Content",
+        "LinkedListItems",
+        "Metadata",
+        "Outputs",
+        "InnerDisplayValueThumbnail",
+        "InnerDisplayValueList",
+        "InnerDisplayValueDetail",
+        "InnerDisplayValueName"
       ]
     },
     "ContentNotFoundException": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentId": {
-          "type": "string"
+        "contentIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "allOf": [
@@ -8203,6 +9302,15 @@
       "allOf": [
         {
           "$ref": "#/definitions/PictureparkForbiddenException"
+        }
+      ]
+    },
+    "TermsOfServiceNotNewestException": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkBusinessException"
         }
       ]
     },
@@ -8504,8 +9612,11 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "ownerTokenUserId": {
-          "type": "string"
+        "ownerTokenUserIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "allOf": [
@@ -9241,7 +10352,8 @@
         "ManageListItems",
         "ManageServiceProviders",
         "ManageEmbeds",
-        "ManageTemplates"
+        "ManageTemplates",
+        "ManageTermsOfService"
       ],
       "enum": [
         "ManageContent",
@@ -9257,15 +10369,19 @@
         "ManageListItems",
         "ManageServiceProviders",
         "ManageEmbeds",
-        "ManageTemplates"
+        "ManageTemplates",
+        "ManageTermsOfService"
       ]
     },
     "PermissionSetNotFoundException": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "permissionSetId": {
-          "type": "string"
+        "permissionSetIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "allOf": [
@@ -9337,8 +10453,11 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "listItemId": {
-          "type": "string"
+        "listItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "allOf": [
@@ -10443,20 +11562,43 @@
         }
       ]
     },
-    "ContentsNotFoundException": {
+    "SchemaFieldRelationSchemaSystemSchemaException": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "schemaId": {
+          "type": "string"
+        },
+        "fieldId": {
+          "type": "string"
+        },
+        "relationSchemaId": {
+          "type": "string"
         }
       },
       "allOf": [
         {
-          "$ref": "#/definitions/PictureparkNotFoundException"
+          "$ref": "#/definitions/PictureparkValidationException"
+        }
+      ]
+    },
+    "SchemaFieldRelationSchemaTypeUnsupportedException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaId": {
+          "type": "string"
+        },
+        "fieldId": {
+          "type": "string"
+        },
+        "relationSchemaId": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkValidationException"
         }
       ]
     },
@@ -10830,6 +11972,86 @@
         }
       ]
     },
+    "NoTermsOfServiceDefinedException": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkBusinessException"
+        }
+      ]
+    },
+    "BusinessProcessStateNotHitException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "businessProcessId": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actual": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkTimeoutException"
+        }
+      ]
+    },
+    "BusinessProcessLifeCycleNotHitException": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actual"
+      ],
+      "properties": {
+        "businessProcessId": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BusinessProcessLifeCycle"
+          }
+        },
+        "actual": {
+          "$ref": "#/definitions/BusinessProcessLifeCycle"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkTimeoutException"
+        }
+      ]
+    },
+    "BusinessProcessLifeCycle": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Draft",
+        "InProgress",
+        "Succeeded",
+        "Cancelled",
+        "CancellationInProgress",
+        "Failed",
+        "SucceededWithErrors"
+      ],
+      "enum": [
+        "Draft",
+        "InProgress",
+        "Succeeded",
+        "Cancelled",
+        "CancellationInProgress",
+        "Failed",
+        "SucceededWithErrors"
+      ]
+    },
     "ContentDetail": {
       "type": "object",
       "description": "A content detail.",
@@ -10964,6 +12186,7 @@
       "discriminator": "kind",
       "additionalProperties": false,
       "required": [
+        "renderingState",
         "kind"
       ],
       "properties": {
@@ -10976,13 +12199,36 @@
         "contentId": {
           "type": "string"
         },
+        "renderingState": {
+          "$ref": "#/definitions/OutputRenderingState"
+        },
         "detail": {
           "$ref": "#/definitions/OutputDataBase"
+        },
+        "backupTimestamp": {
+          "type": "string",
+          "format": "date-time"
         },
         "kind": {
           "type": "string"
         }
       }
+    },
+    "OutputRenderingState": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "InProgress",
+        "Completed",
+        "Failed",
+        "Skipped"
+      ],
+      "enum": [
+        "InProgress",
+        "Completed",
+        "Failed",
+        "Skipped"
+      ]
     },
     "OutputDataBase": {
       "type": "object",
@@ -11175,10 +12421,6 @@
         "channelId": {
           "type": "string",
           "description": "Limits the simple search fields to the fields available in the specified channel."
-        },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
         },
         "displayPatternIds": {
           "type": "array",
@@ -12308,10 +13550,6 @@
           "type": "string",
           "description": "Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it."
         },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
-        },
         "searchLanguages": {
           "type": "array",
           "description": "Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration.",
@@ -12425,6 +13663,187 @@
         }
       }
     },
+    "ContentReferencesRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shares": {
+          "$ref": "#/definitions/PagingRequest"
+        }
+      }
+    },
+    "PagingRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "limit"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ContentReferencesResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metadataReferences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentReferences"
+          }
+        },
+        "shareReferences": {
+          "$ref": "#/definitions/ContentShareReferenceResult"
+        }
+      }
+    },
+    "ContentReferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataReference"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferencesBase"
+        }
+      ]
+    },
+    "MetadataReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "targetDocType": {
+          "type": "string"
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "sourceDocType": {
+          "type": "string"
+        }
+      }
+    },
+    "ReferencesBase": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "isReferencedByRestrictedItem"
+      ],
+      "properties": {
+        "targetMetadataItemId": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataReference"
+          }
+        },
+        "isReferencedByRestrictedItem": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ContentShareReferenceResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseResultOfContentShareReference"
+        }
+      ]
+    },
+    "BaseResultOfContentShareReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "totalResults"
+      ],
+      "properties": {
+        "totalResults": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentShareReference"
+          }
+        },
+        "pageToken": {
+          "type": "string"
+        },
+        "queryDebugInformation": {
+          "$ref": "#/definitions/QueryDebugInformation"
+        }
+      }
+    },
+    "ContentShareReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shareType"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "audit": {
+          "$ref": "#/definitions/UserAudit"
+        },
+        "shareType": {
+          "$ref": "#/definitions/ShareType"
+        },
+        "emailAddress": {
+          "type": "string"
+        }
+      }
+    },
+    "ShareType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Basic",
+        "Embed"
+      ],
+      "enum": [
+        "Basic",
+        "Embed"
+      ]
+    },
+    "ContentManyReferencesRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contentIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shares": {
+          "$ref": "#/definitions/PagingRequest"
+        }
+      }
+    },
     "ContentDownloadLinkCreateRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -12523,9 +13942,9 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items / contents"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Create requests",
+          "description": "Create items",
           "items": {
             "$ref": "#/definitions/ContentCreateRequest"
           }
@@ -12605,26 +14024,6 @@
       "enum": [
         "System",
         "User"
-      ]
-    },
-    "BusinessProcessLifeCycle": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Draft",
-        "InProgress",
-        "Succeeded",
-        "Cancelled",
-        "CancellationInProgress",
-        "Failed"
-      ],
-      "enum": [
-        "Draft",
-        "InProgress",
-        "Succeeded",
-        "Cancelled",
-        "CancellationInProgress",
-        "Failed"
       ]
     },
     "BusinessProcessState": {
@@ -12719,20 +14118,10 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "resolve",
         "forceReferenceRemoval"
       ],
       "properties": {
         "contentIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "resolve": {
-          "type": "boolean"
-        },
-        "displayPatternIds": {
           "type": "array",
           "items": {
             "type": "string"
@@ -12747,20 +14136,10 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "resolve",
         "allowMissingDependencies"
       ],
       "properties": {
         "contentIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "resolve": {
-          "type": "boolean"
-        },
-        "displayPatternIds": {
           "type": "array",
           "items": {
             "type": "string"
@@ -12775,9 +14154,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentId": {
-          "type": "string"
-        },
         "fileTransferId": {
           "type": "string"
         }
@@ -12791,10 +14167,6 @@
         "schemaFieldsUpdateOptions"
       ],
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "The content id."
-        },
         "layerSchemaIds": {
           "type": "array",
           "description": "An id list of schemas with schema type layer.",
@@ -12852,10 +14224,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentId": {
-          "type": "string",
-          "description": "The content id."
-        },
         "contentPermissionSetIds": {
           "type": "array",
           "description": "An optional id list of content permission sets. Controls content accessibility outside of content ownership.",
@@ -12877,47 +14245,97 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Update requests",
+          "description": "Update items",
           "items": {
-            "$ref": "#/definitions/ContentMetadataUpdateRequest"
+            "$ref": "#/definitions/ContentMetadataUpdateItem"
           }
         }
       }
     },
-    "ContentOwnershipTransferRequest": {
+    "ContentMetadataUpdateItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The content id."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContentMetadataUpdateRequest"
+        }
+      ]
+    },
+    "ContentPermissionsUpdateManyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "List of Content Permissions update items",
+          "items": {
+            "$ref": "#/definitions/ContentPermissionsUpdateItem"
+          }
+        }
+      }
+    },
+    "ContentPermissionsUpdateItem": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "contentId": {
           "type": "string",
           "description": "The content id."
-        },
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContentPermissionsUpdateRequest"
+        }
+      ]
+    },
+    "ContentOwnershipTransferRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
         "transferUserId": {
           "type": "string",
           "description": "The id of the user to whom the content document has to be transfered to."
         }
       }
     },
-    "ContentsOwnershipTransferRequest": {
+    "ContentOwnershipTransferManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentIds": {
+        "items": {
           "type": "array",
-          "description": "The content ids.",
+          "description": "List of Content Permissions ownership transfer requests",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ContentOwnershipTransferItem"
           }
-        },
-        "transferUserId": {
-          "type": "string",
-          "description": "The id of user to whom the content documents have to be transfered to."
         }
       }
     },
-    "ContentFieldsUpdateRequest": {
+    "ContentOwnershipTransferItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contentId": {
+          "type": "string",
+          "description": "The content id."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContentOwnershipTransferRequest"
+        }
+      ]
+    },
+    "ContentFieldsBatchUpdateRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -13119,7 +14537,7 @@
         }
       ]
     },
-    "ContentFieldsFilterUpdateRequest": {
+    "ContentFieldsBatchUpdateFilterRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -13138,7 +14556,8 @@
       "additionalProperties": false,
       "required": [
         "searchType",
-        "lifeCycleFilter"
+        "lifeCycleFilter",
+        "brokenDependenciesFilter"
       ],
       "properties": {
         "channelId": {
@@ -13151,10 +14570,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
         },
         "searchString": {
           "type": "string",
@@ -13185,6 +14600,14 @@
           "allOf": [
             {
               "$ref": "#/definitions/LifeCycleFilter"
+            }
+          ]
+        },
+        "brokenDependenciesFilter": {
+          "description": "Filter the content document result set to those that have or not have broken references",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BrokenDependenciesFilter"
             }
           ]
         },
@@ -13227,12 +14650,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/SearchBehaviour"
-          }
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SortInfo"
           }
         }
       }
@@ -13304,26 +14721,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "hasStateHit",
-        "hasLifeCycleHit",
-        "lifeCycleHit",
-        "finished"
+        "lifeCycleHit"
       ],
       "properties": {
-        "hasStateHit": {
-          "type": "boolean"
-        },
         "stateHit": {
           "type": "string"
         },
-        "hasLifeCycleHit": {
-          "type": "boolean"
-        },
         "lifeCycleHit": {
           "$ref": "#/definitions/BusinessProcessLifeCycle"
-        },
-        "finished": {
-          "type": "boolean"
         },
         "businessProcess": {
           "$ref": "#/definitions/BusinessProcess"
@@ -13358,7 +14763,7 @@
         }
       }
     },
-    "BusinessProcessDetailsDataBulkResponse": {
+    "BusinessProcessDetailsDataBatchResponse": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -13366,7 +14771,7 @@
           "type": "string"
         },
         "response": {
-          "$ref": "#/definitions/BulkResponse"
+          "$ref": "#/definitions/BatchResponse"
         }
       },
       "allOf": [
@@ -13374,6 +14779,46 @@
           "$ref": "#/definitions/BusinessProcessDetailsDataBase"
         }
       ]
+    },
+    "BatchResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BatchResponseRow"
+          }
+        }
+      }
+    },
+    "BatchResponseRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "succeeded",
+        "status",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "succeeded": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorResponse"
+        }
+      }
     },
     "BusinessProcessDetailsDataSchemaImport": {
       "type": "object",
@@ -13485,13 +14930,82 @@
         }
       }
     },
+    "BusinessProcessDetailsDataCdnPurge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "serializedCdnConfiguration": {
+          "type": "string"
+        },
+        "jobs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CdnPurgeJobBase"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BusinessProcessDetailsDataBase"
+        }
+      ]
+    },
+    "CdnPurgeJobBase": {
+      "type": "object",
+      "discriminator": "kind",
+      "additionalProperties": false,
+      "required": [
+        "success",
+        "retriesLeft",
+        "kind"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "retriesLeft": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "kind": {
+          "type": "string"
+        }
+      }
+    },
+    "CdnPurgeJobByTag": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tag": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CdnPurgeJobBase"
+        }
+      ]
+    },
+    "CdnPurgeJobByUri": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "uri": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CdnPurgeJobBase"
+        }
+      ]
+    },
     "DocumentHistorySearchRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "from",
         "to",
-        "start",
         "limit",
         "documentVersion"
       ],
@@ -13505,12 +15019,6 @@
           "type": "string",
           "description": "Limits the end date of the search request. Default to now.",
           "format": "date-time"
-        },
-        "start": {
-          "type": "integer",
-          "description": "Defines the offset from the first result you want to fetch. Defaults to 0.",
-          "format": "int32",
-          "default": 0
         },
         "limit": {
           "type": "integer",
@@ -13679,6 +15187,26 @@
         "newValues": {}
       }
     },
+    "ListItemResolveBehaviour": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Content",
+        "LinkedListItems",
+        "InnerDisplayValueThumbnail",
+        "InnerDisplayValueList",
+        "InnerDisplayValueDetail",
+        "InnerDisplayValueName"
+      ],
+      "enum": [
+        "Content",
+        "LinkedListItems",
+        "InnerDisplayValueThumbnail",
+        "InnerDisplayValueList",
+        "InnerDisplayValueDetail",
+        "InnerDisplayValueName"
+      ]
+    },
     "ListItemDetail": {
       "type": "object",
       "description": "The detail view item for the list item.",
@@ -13766,10 +15294,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
         },
         "displayPatternIds": {
           "type": "array",
@@ -13940,10 +15464,6 @@
             "type": "string"
           }
         },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
-        },
         "searchLanguages": {
           "type": "array",
           "description": "Only searches the specified language values. Defaults to all metadata languages of the language configuration.",
@@ -13991,9 +15511,9 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items / contents"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Create requests",
+          "description": "Create items",
           "items": {
             "$ref": "#/definitions/ListItemCreateRequest"
           }
@@ -14007,10 +15527,6 @@
       "properties": {
         "content": {
           "description": "The content data of the list item."
-        },
-        "id": {
-          "type": "string",
-          "description": "The list item id."
         }
       }
     },
@@ -14026,14 +15542,29 @@
           "type": "boolean",
           "description": "Allow storing references to missing list items / contents"
         },
-        "requests": {
+        "items": {
           "type": "array",
-          "description": "Update requests",
+          "description": "Update items",
           "items": {
-            "$ref": "#/definitions/ListItemUpdateRequest"
+            "$ref": "#/definitions/ListItemUpdateItem"
           }
         }
       }
+    },
+    "ListItemUpdateItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The list item id."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ListItemUpdateRequest"
+        }
+      ]
     },
     "ListItemDeactivateRequest": {
       "type": "object",
@@ -14071,7 +15602,7 @@
         }
       }
     },
-    "ListItemFieldsUpdateRequest": {
+    "ListItemFieldsBatchUpdateRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -14103,7 +15634,7 @@
         }
       }
     },
-    "ListItemFieldsFilterUpdateRequest": {
+    "ListItemFieldsBatchUpdateFilterRequest": {
       "type": "object",
       "description": "ListItemFieldsFilterUpdateRequest class",
       "additionalProperties": false,
@@ -14141,7 +15672,8 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "includeAllSchemaChildren"
+        "includeAllSchemaChildren",
+        "brokenDependenciesFilter"
       ],
       "properties": {
         "searchString": {
@@ -14167,16 +15699,20 @@
             "type": "string"
           }
         },
-        "displayLanguage": {
-          "type": "string",
-          "description": "Defines the return language of translation values. Defaults to customer default language."
-        },
         "searchLanguages": {
           "type": "array",
           "description": "Only searches the specified language values. Defaults to all metadata languages of the language configuration.",
           "items": {
             "type": "string"
           }
+        },
+        "brokenDependenciesFilter": {
+          "description": "Filter the returned list items that have or not have broken references",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BrokenDependenciesFilter"
+            }
+          ]
         }
       }
     },
@@ -14189,50 +15725,12 @@
         }
       ]
     },
-    "ReferencesBase": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false,
-      "required": [
-        "isReferencedByRestrictedItem"
-      ],
-      "properties": {
-        "targetMetadataItemId": {
-          "type": "string"
-        },
-        "references": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MetadataReference"
-          }
-        },
-        "isReferencedByRestrictedItem": {
-          "type": "boolean"
-        }
-      }
-    },
-    "MetadataReference": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "targetDocType": {
-          "type": "string"
-        },
-        "sourceId": {
-          "type": "string"
-        },
-        "sourceDocType": {
-          "type": "string"
-        }
-      }
-    },
     "LiveStreamSearchRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "from",
         "to",
-        "start",
         "limit"
       ],
       "properties": {
@@ -14245,12 +15743,6 @@
           "type": "string",
           "description": "Limits the end date of the search request.",
           "format": "date-time"
-        },
-        "start": {
-          "type": "integer",
-          "description": "Defines the offset from the first result you want to fetch. Defaults to 0.",
-          "format": "int32",
-          "default": 0
         },
         "limit": {
           "type": "integer",
@@ -14496,6 +15988,22 @@
         "DotLiquid"
       ]
     },
+    "DisplayPatternType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Thumbnail",
+        "List",
+        "Detail",
+        "Name"
+      ],
+      "enum": [
+        "Thumbnail",
+        "List",
+        "Detail",
+        "Name"
+      ]
+    },
     "FieldBase": {
       "type": "object",
       "discriminator": "kind",
@@ -14633,13 +16141,7 @@
       "type": "object",
       "description": "For internal use only (system schemas)",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
-        "uniqueItems": {
-          "type": "boolean"
-        },
         "maximumItems": {
           "type": "integer",
           "format": "int32"
@@ -14711,13 +16213,7 @@
       "type": "object",
       "description": "For internal use only (system schemas)",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
-        "uniqueItems": {
-          "type": "boolean"
-        },
         "maximumItems": {
           "type": "integer",
           "format": "int32"
@@ -14788,13 +16284,7 @@
       "type": "object",
       "description": "For internal use only (system schemas)",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
-        "uniqueItems": {
-          "type": "boolean"
-        },
         "maximumItems": {
           "type": "integer",
           "format": "int32"
@@ -14890,9 +16380,6 @@
     "FieldMultiFieldset": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
         "schemaId": {
           "type": "string",
@@ -14905,10 +16392,6 @@
               "$ref": "#/definitions/SchemaIndexingInfo"
             }
           ]
-        },
-        "uniqueItems": {
-          "type": "boolean",
-          "description": "Prevents duplicate values."
         },
         "maximumItems": {
           "type": "integer",
@@ -14965,9 +16448,6 @@
     "FieldMultiTagbox": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
         "schemaId": {
           "type": "string",
@@ -14980,10 +16460,6 @@
               "$ref": "#/definitions/SchemaIndexingInfo"
             }
           ]
-        },
-        "uniqueItems": {
-          "type": "boolean",
-          "description": "Prevents duplicate values."
         },
         "maximumItems": {
           "type": "integer",
@@ -15171,13 +16647,7 @@
       "type": "object",
       "description": "For internal use only (system schemas)",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
-        "uniqueItems": {
-          "type": "boolean"
-        },
         "maximumItems": {
           "type": "integer",
           "format": "int32"
@@ -15319,9 +16789,6 @@
     "FieldMultiRelation": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "uniqueItems"
-      ],
       "properties": {
         "schemaId": {
           "type": "string",
@@ -15341,10 +16808,6 @@
           "items": {
             "$ref": "#/definitions/RelationType"
           }
-        },
-        "uniqueItems": {
-          "type": "boolean",
-          "description": "Prevents duplicate values."
         },
         "maximumItems": {
           "type": "integer",
@@ -15561,6 +17024,12 @@
         "debugMode": {
           "type": "boolean",
           "description": "Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance."
+        },
+        "searchLanguages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -15866,6 +17335,15 @@
         }
       }
     },
+    "SchemaCreateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "$ref": "#/definitions/SchemaDetail"
+        }
+      }
+    },
     "SchemaUpdateRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -15958,6 +17436,19 @@
         }
       }
     },
+    "SchemaUpdateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "$ref": "#/definitions/SchemaDetail"
+        }
+      }
+    },
+    "SchemaDeleteResult": {
+      "type": "object",
+      "additionalProperties": false
+    },
     "PermissionSetSearchRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -16005,6 +17496,12 @@
         "debugMode": {
           "type": "boolean",
           "description": "Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance."
+        },
+        "searchLanguages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -16662,18 +18159,6 @@
         "None"
       ]
     },
-    "ShareType": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Basic",
-        "Embed"
-      ],
-      "enum": [
-        "Basic",
-        "Embed"
-      ]
-    },
     "ShareSearchRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -16860,9 +18345,6 @@
           "items": {
             "$ref": "#/definitions/AggregatorBase"
           }
-        },
-        "displayLanguage": {
-          "type": "string"
         }
       }
     },
@@ -17018,9 +18500,6 @@
         "kind"
       ],
       "properties": {
-        "id": {
-          "type": "string"
-        },
         "name": {
           "type": "string"
         },
@@ -17100,9 +18579,6 @@
         "customerId": {
           "type": "string"
         },
-        "serviceProviderId": {
-          "type": "string"
-        },
         "settings": {
           "type": "string"
         },
@@ -17122,9 +18598,12 @@
         "transferType",
         "itemProgress",
         "itemCount",
+        "fileUploadInProgressCount",
+        "dataExtractionInProgressCount",
         "itemsFailed",
         "itemsCancelled",
-        "lastProgressStamp",
+        "lastDataExtractionProgressStamp",
+        "lastFileUploadProgressStamp",
         "fileTransferCount"
       ],
       "properties": {
@@ -17157,6 +18636,14 @@
           "type": "integer",
           "format": "int64"
         },
+        "fileUploadInProgressCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dataExtractionInProgressCount": {
+          "type": "integer",
+          "format": "int64"
+        },
         "itemsFailed": {
           "type": "integer",
           "format": "int64"
@@ -17165,7 +18652,11 @@
           "type": "integer",
           "format": "int64"
         },
-        "lastProgressStamp": {
+        "lastDataExtractionProgressStamp": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastFileUploadProgressStamp": {
           "type": "integer",
           "format": "int64"
         },
@@ -17228,12 +18719,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/SearchBehaviour"
-          }
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SortInfo"
           }
         },
         "start": {
@@ -17677,12 +19162,6 @@
         },
         "epsInfo": {
           "$ref": "#/definitions/EpsMetadata"
-        },
-        "embeddedFiles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/FileMetadata"
-          }
         }
       },
       "allOf": [
@@ -17988,12 +19467,6 @@
             "$ref": "#/definitions/SearchBehaviour"
           }
         },
-        "sort": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SortInfo"
-          }
-        },
         "start": {
           "type": "integer",
           "description": "Defines the offset from the first result you want to fetch. Defaults to 0.",
@@ -18144,9 +19617,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "transferId": {
-          "type": "string"
-        },
         "layerSchemaIds": {
           "type": "array",
           "description": "An optional id list of schemas with type layer.",
@@ -18170,9 +19640,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "transferId": {
-          "type": "string"
-        },
         "items": {
           "type": "array",
           "items": {
@@ -18207,43 +19674,32 @@
         }
       }
     },
-    "UserDetail": {
+    "UserCreateRequest": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "authorizationState"
-      ],
       "properties": {
-        "userRoles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/UserRole"
-          }
+        "firstName": {
+          "type": "string"
         },
-        "comment": {
+        "lastName": {
+          "type": "string"
+        },
+        "emailAddress": {
           "type": "string"
         },
         "languageCode": {
           "type": "string"
         },
-        "address": {
-          "$ref": "#/definitions/UserAddress"
-        },
-        "ownerTokens": {
+        "userRoleIds": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/OwnerToken"
+            "type": "string"
           }
         },
-        "authorizationState": {
-          "$ref": "#/definitions/AuthorizationState"
+        "address": {
+          "$ref": "#/definitions/UserAddress"
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/User"
-        }
-      ]
+      }
     },
     "UserAddress": {
       "type": "object",
@@ -18275,6 +19731,29 @@
         }
       }
     },
+    "UserDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorizationState"
+      ],
+      "properties": {
+        "ownerTokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OwnerToken"
+          }
+        },
+        "authorizationState": {
+          "$ref": "#/definitions/AuthorizationState"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserUpdatableDetail"
+        }
+      ]
+    },
     "OwnerToken": {
       "type": "object",
       "additionalProperties": false,
@@ -18303,6 +19782,32 @@
         "Review",
         "Locked",
         "Invited"
+      ]
+    },
+    "UserUpdatableDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "userRoles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserRole"
+          }
+        },
+        "comment": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/UserAddress"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/User"
+        }
       ]
     },
     "UserSearchRequest": {
@@ -18428,6 +19933,9 @@
     "UserWithRoles": {
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "authorizationState"
+      ],
       "properties": {
         "userRoleIds": {
           "type": "array",
@@ -18445,6 +19953,84 @@
           "type": "string"
         },
         "emailAddress": {
+          "type": "string"
+        },
+        "authorizationState": {
+          "$ref": "#/definitions/AuthorizationState"
+        }
+      }
+    },
+    "UserAggregationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchString": {
+          "type": "string"
+        },
+        "searchBehaviours": {
+          "type": "array",
+          "description": "An optional list of search behaviours. All the passed behaviours will be applied",
+          "items": {
+            "$ref": "#/definitions/SearchBehaviour"
+          }
+        },
+        "sort": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SortInfo"
+          }
+        },
+        "filter": {
+          "description": "An optional search filter. Limits the content document result set.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/FilterBase"
+            }
+          ]
+        },
+        "aggregationFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AggregationFilter"
+          }
+        },
+        "aggregators": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AggregatorBase"
+          }
+        }
+      }
+    },
+    "UserLockRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lock"
+      ],
+      "properties": {
+        "lock": {
+          "type": "boolean"
+        }
+      }
+    },
+    "UserReviewRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewed"
+      ],
+      "properties": {
+        "reviewed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "UserDeletionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ownerTokenTransferUserId": {
           "type": "string"
         }
       }
@@ -18488,6 +20074,42 @@
         },
         "authorizationState": {
           "$ref": "#/definitions/AuthorizationState"
+        },
+        "userRights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserRight"
+          }
+        },
+        "userRoleIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UserProfileUpdateRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "emailAddress": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/UserAddress"
         }
       }
     },
@@ -18535,6 +20157,12 @@
           "items": {
             "$ref": "#/definitions/Language"
           }
+        },
+        "outputFormats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OutputFormatInfo"
+          }
         }
       }
     },
@@ -18580,6 +20208,18 @@
         },
         "regionCode": {
           "type": "string"
+        }
+      }
+    },
+    "OutputFormatInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "names": {
+          "$ref": "#/definitions/TranslatedStringDictionary"
         }
       }
     },
@@ -18735,12 +20375,20 @@
       "description": "Endpoints to work with schemas.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/SchemaTests.cs)\r\n"
     },
     {
-      "name": "Permission",
-      "description": "Endpoints to work with permissions.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/PermissionTests.cs)\r\n"
+      "name": "ContentPermissionSet",
+      "description": "Endpoints to work with content permission sets.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/ContentPermissionSetTests.cs)\r\n"
+    },
+    {
+      "name": "SchemaPermissionSet",
+      "description": "Endpoints to work with schema permission sets.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/SchemaPermissionSetTests.cs)\r\n"
     },
     {
       "name": "PublicAccess",
       "description": "Endpoints to work with public accessable ressources.\r\n\r\nNo need to pass an AccessToken in the header.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/PublicAccessTests.cs)\r\n"
+    },
+    {
+      "name": "ShareAccess",
+      "description": "Endpoints to work with shared resources.\r\n\r\nNo need to pass an AccessToken in the header.\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/PublicAccessTests.cs)\r\n"
     },
     {
       "name": "Share",

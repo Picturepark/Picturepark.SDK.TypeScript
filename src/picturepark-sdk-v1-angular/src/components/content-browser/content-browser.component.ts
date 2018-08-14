@@ -1,190 +1,219 @@
+import { ContentItemSelectionService } from '../../services/content-item-selection.service';
+import { ThumbnailSize, ContentDownloadLinkCreateRequest } from './../../services/services';
+import { SortingType } from './models/sorting-type';
+import { BasketService } from './../../services/basket.service';
+import { Subscription } from 'rxjs';
+
 import {
-  Component, Input, Output, OnChanges, SimpleChange,
-  ViewChildren, QueryList, EventEmitter, ViewChild, ChangeDetectorRef
+  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, OnDestroy
 } from '@angular/core';
-import { InputConverter, StringConverter, NumberConverter } from '../converter';
-
-import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 import {
-  ContentService, ContentSearchRequest, ContentSearchResult, AndFilter,
-  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter
+  ContentService, ContentSearchRequest,
+  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
 } from '../../services/services';
-import { ContentBrowserItemComponent } from '../content-browser-item/content-browser-item.component';
 
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { ContentModel } from './models/content-model';
+
+
+// TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 @Component({
   selector: 'pp-content-browser',
-  templateUrl: './content-browser.component.html'
+  templateUrl: './content-browser.component.html',
+  styleUrls: ['./content-browser.component.scss']
 })
-export class ContentBrowserComponent implements OnChanges {
-  private totalResults: number = -1;
+export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
+  private readonly ItemsPerRequest = 75;
 
-  isLoading = false;
-  items: ContentModel[] = [];
+  private basketItems: string[] = [];
+
+  public selectedItems: string[] = [];
+
+  public totalResults: number | null = null;
+
+  public isLoading = false;
+
+  public items: ContentModel[] = [];
+
+  public isAscending: boolean | null = null;
+
+  public thumbnailSizes = ThumbnailSize;
+
+  public thumbnailSizesArray: string[] = Object.keys(ThumbnailSize).map(key => ThumbnailSize[key]);
+
+  public activeThumbnailSize: ThumbnailSize | null = ThumbnailSize.Medium;
+
+  public isListView = false;
+
+  public sortingTypes = SortingType;
+
+  public activeSortingType = SortingType.relevance;
 
   @Input()
-  @InputConverter(StringConverter)
-  height = '500px';
+  public channel: Channel | null = null;
 
   @Input()
-  @InputConverter(StringConverter)
-  channel = '';
+  public query = '';
 
   @Input()
-  query = '';
+  public filter: FilterBase | null = null;
 
-  @Input()
-  filters: FilterBase[] = [];
-
-  @Input()
-  selectionMode = SelectionMode.Multiple;
-
-  @Input()
-  @InputConverter(NumberConverter)
-  columns = 2;
-
-  @Input()
-  selectedItems: Content[] = [];
   @Output()
-  selectedItemsChange = new EventEmitter<Content[]>();
+  public previewItemChange = new EventEmitter<string>();
 
-  @Output()
-  doubleClick = new EventEmitter<Content>();
+  private scrollSubscription: Subscription;
+  private basketSubscription: Subscription;
+  private contentItemSelectionSubscription: Subscription;
 
-  @ViewChild('virtualScroll')
-  private virtualScroll: VirtualScrollComponent;
+  constructor(
+    private contentItemSelectionService: ContentItemSelectionService,
+    private basketService: BasketService,
+    private contentService: ContentService,
+    private scrollDispatcher: ScrollDispatcher,
+    private ngZone: NgZone) {
 
-  constructor(private contentService: ContentService) {
+    this.basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
+      this.basketItems = basketItems;
+      this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
+    });
+
+    this.contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
+      this.selectedItems = items;
+      this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
+    });
   }
 
-  toggleSelected(item: ContentModel) {
-    if (this.selectionMode === SelectionMode.Single) {
-      for (const i of this.items) {
-        i.isSelected = i === item ? !i.isSelected : false;
+  public ngOnInit(): void {
+    this.scrollSubscription = this.scrollDispatcher.scrolled()
+      .subscribe(scrollable => {
+        if (scrollable) {
+          const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+          const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
+
+          if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
+            this.ngZone.run(() => this.loadData())
+          }
+        }
+      });
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['channel'] || changes['filter'] || changes['query']) {
+      this.update();
+    }
+  }
+
+  public ngOnDestroy(): void {
+    this.scrollSubscription.unsubscribe();
+    this.basketSubscription.unsubscribe();
+    this.contentItemSelectionSubscription.unsubscribe();
+  }
+
+  public setSortingType(newValue: SortingType) {
+    if (newValue === SortingType.relevance) {
+      this.isAscending = null;
+    } else if (this.isAscending === null) {
+      this.isAscending = true;
+    }
+
+    this.activeSortingType = newValue;
+    this.update();
+  }
+
+  public update() {
+    this.totalResults = null;
+    this.items = [];
+    this.loadData();
+  }
+
+  public previewItem(id: string) {
+    this.previewItemChange.emit(id);
+  }
+
+  public downloadItems() {
+    const request = new ContentDownloadLinkCreateRequest({
+      contents: this.selectedItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
+    });
+
+    this.contentService.createDownloadLink(request).subscribe(data => {
+      if (data.downloadUrl) {
+        window.location.replace(data.downloadUrl)
       }
-    } else if (this.selectionMode === SelectionMode.Multiple) {
-      item.isSelected = !item.isSelected;
-    }
-    this.updateSelectedItems();
+    });
   }
 
-  onDoubleClicked(item: ContentModel) {
-    this.doubleClick.emit(item.item);
-  }
-
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['channel'] || changes['filters'] || changes['query']) {
-      this.items = [];
-      this.loadData();
-    } else if (changes['selectionMode']) {
-      this.onSelectionModeChanged()
-    } else if (changes['selectedItems']) {
-      this.onSelectedItems();
+  public toggleItems(isSelected: boolean) {
+    if (isSelected === true) {
+      this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
+    } else {
+      this.contentItemSelectionService.clear();
     }
   }
 
-  public refresh() {
-    if (this.virtualScroll) {
-      this.virtualScroll.refresh();
+  public itemClicked($event: MouseEvent, itemModel: ContentModel) {
+    if ($event.ctrlKey) {
+      if (itemModel.isSelected === true) {
+        this.contentItemSelectionService.removeItem(itemModel.item.id || '');
+      } else {
+        this.contentItemSelectionService.addItem(itemModel.item.id || '');
+      }
+    } else if ($event.shiftKey) {
+      itemModel.isSelected = true;
+
+      const firstIndex = this.items.findIndex(item => item.isSelected === true);
+      const lastIndexReversed = this.items.slice().reverse().findIndex(item => item.isSelected === true);
+      const lastIndex = lastIndexReversed >= 0 ? this.items.length - lastIndexReversed : lastIndexReversed;
+
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex).map(model => model.item.id || '');
+
+      this.contentItemSelectionService.addItems(itemsToAdd);
+
+    } else {
+      this.contentItemSelectionService.clear();
+      this.contentItemSelectionService.addItem(itemModel.item.id || '');
     }
   }
 
-  protected loadData() {
-    if (this.channel && !this.isLoading) {
+  private loadData() {
+    if (this.channel && this.channel.id && !this.isLoading) {
       this.isLoading = true;
+
       const request = new ContentSearchRequest({
         debugMode: false,
         start: this.items.length,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        filter: new AndFilter({ filters: this.filters }),
-        channelId: this.channel,
+        filter: this.filter ? this.filter : undefined,
+        channelId: this.channel.id,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        limit: 50,
+        limit: this.ItemsPerRequest,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
-        sort: [
+        // TODO select sort.
+        sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
           new SortInfo({
-            field: 'audit.creationDate',
-            direction: SortDirection.Desc
+            field: this.activeSortingType,
+            direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
           })
         ]
       });
 
-      return this.contentService.search(request).toPromise().then(result => {
-        if (result) {
-          this.totalResults = result.totalResults;
-          if (result.results) {
-            for (const r of result.results) {
-              this.items.push(new ContentModel(r, this));
-            }
-          }
+      this.contentService.search(request).subscribe(searchResult => {
+        this.totalResults = searchResult.totalResults;
+
+        if (searchResult.results) {
+          this.items.push(...searchResult.results.map(item => {
+            const isInBasket = this.basketItems.some(basketItem => basketItem === item.id);
+
+            return new ContentModel(item, isInBasket);
+          }));
         }
 
-        this.updateSelectedItems();
-        this.refresh();
         this.isLoading = false;
-      }, error => {
-        this.totalResults = -1;
+      }, () => {
+        this.totalResults = null;
         this.isLoading = false;
       });
     }
-
-    return Promise.resolve();
-  }
-
-  protected onListChange(event: ChangeEvent) {
-    if (event.end !== this.items.length) {
-      return;
-    }
-
-    if (event.end === this.totalResults) {
-      return;
-    }
-
-    this.loadData();
-  }
-
-  private updateSelectedItems() {
-    this.selectedItems = this.items.filter(i => i.isSelected).map(i => i.item);
-    this.selectedItemsChange.emit(this.selectedItems);
-  }
-
-  private onSelectionModeChanged() {
-    if (this.selectionMode === SelectionMode.None) {
-      for (const item of this.items) {
-        item.isSelected = false;
-      }
-    } else if (this.selectionMode === SelectionMode.Single) {
-      if (this.selectedItems.length > 1) {
-        for (const item of this.items) {
-          item.isSelected = false;
-        }
-      }
-    }
-
-    setTimeout(() => this.updateSelectedItems(), 0);
-  }
-
-  private onSelectedItems() {
-    for (const item of this.items) {
-      item.isSelected = this.selectedItems.filter(i => i.id === item.item.id).length > 0;
-    }
-  }
-}
-
-export enum SelectionMode {
-  None = <any>'none',
-  Single = <any>'single',
-  Multiple = <any>'multiple',
-}
-
-export class ContentModel {
-  isSelected = false;
-  item: Content;
-  parent: ContentBrowserComponent;
-
-  constructor(item: Content, parent: ContentBrowserComponent) {
-    this.item = item;
-    this.parent = parent;
   }
 }

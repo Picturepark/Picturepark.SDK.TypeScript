@@ -1,19 +1,108 @@
-<div class="picturepark-content-browser">
-  <virtual-scroll #virtualScroll
-                  *ngIf="items.length > 0"
-                  [items]="items" 
-                  (update)="viewPortItems = $event" 
-                  (change)="onListChange($event)" 
-                  [style.height]="height"
-                  style="display:block">
-    <pp-content-browser-item *ngFor="let itemModel of viewPortItems"
-                             style="display: inline-block"
-                             [style.cursor]="selectionMode !== 'none' ? 'pointer' : ''"
-                             [itemModel]="itemModel" 
-                             [style.width]="(100 / columns) + '%'">
-    </pp-content-browser-item>
-  </virtual-scroll>
-  <div *ngIf="items.length === 0 && !isLoading">
-    {{'ContentBrowser.TextNoItems' | pptranslate}}
+<div class="content-browser" style="position: relative;" cdkScrollable>
+  <!-- TODO: translations, translate tooltips -->
+  <!-- TODO: tooltips for everything. -->
+  <!-- TODO: move styles -->
+  <div class="content-browser__header">
+    <mat-toolbar>
+      <div style="display: flex; width: 100%;">
+        <button mat-button [matMenuTriggerFor]="selectMenu"> Select
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #selectMenu="matMenu">
+          <button mat-menu-item (click)="toggleItems(true);">Select first {{ items.length }}</button>
+          <button mat-menu-item (click)="toggleItems(false);">Deselect all</button>
+        </mat-menu>
+
+        <mat-divider [style.margin]="'0 8px'" [vertical]="true"></mat-divider>
+
+        <button *ngIf="selectedItems.length === 1" mat-icon-button [matTooltip]="'Preview'">
+          <mat-icon aria-label="Preview item" (click)="previewItem(selectedItems[0])">open_in_new</mat-icon>
+        </button>
+        <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="downloadItems()" [matTooltip]="'Download'">
+          <mat-icon aria-label="Download selected items">get_app</mat-icon>
+        </button>
+
+        <div style="flex-grow: 1;"></div>
+        <span *ngIf="totalResults !== null" style="align-self: center" class="mat-body-1"> {{totalResults}} contents </span>
+
+        <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'Sort'">
+          <mat-icon aria-label="Select sorting">sort</mat-icon>
+        </button>
+
+        <mat-menu #sortMenu="matMenu">
+          <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = true; update();">
+            <span>Ascending</span>
+            <mat-icon *ngIf="isAscending === true">check</mat-icon>
+          </button>
+          <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = false; update();">
+            <span>Descending</span>
+            <mat-icon *ngIf="isAscending === false">check</mat-icon>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.relevance)">
+            <span>Relevance</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.relevance">check</mat-icon>
+          </button>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.fileName)">
+            <span>File Name</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.fileName">check</mat-icon>
+          </button>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.dateCreated)">
+            <span>Date created</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.dateCreated">check</mat-icon>
+          </button>
+          <button mat-menu-item (click)="setSortingType(sortingTypes.dateModified)">
+            <span>Date modified</span>
+            <mat-icon *ngIf="activeSortingType === sortingTypes.dateModified">check</mat-icon>
+          </button>
+        </mat-menu>
+
+        <button mat-icon-button [matMenuTriggerFor]="displayStyle" [matTooltip]="'View type'">
+          <mat-icon aria-label="Select view type">list</mat-icon>
+        </button>
+
+        <mat-menu #displayStyle="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="thumbnailSizeMenu">Thumbnail</button>
+          <button mat-menu-item (click)="activeThumbnailSize = null; isListView = true;">
+            <mat-icon *ngIf="isListView === true">check</mat-icon>
+            <span>List</span>
+          </button>
+        </mat-menu>
+
+        <mat-menu #thumbnailSizeMenu="matMenu">
+          <button *ngFor="let size of thumbnailSizesArray" mat-menu-item (click)="isListView = false; activeThumbnailSize = size">
+            <span>{{size}}</span>
+            <mat-icon *ngIf="activeThumbnailSize === size">check</mat-icon>
+          </button>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
+
+  <div *ngIf="totalResults !== 0" class="content-browser__items" [class.content-browser__items--list]="isListView" [class.content-browser__items--large]=" activeThumbnailSize === thumbnailSizes.Large"
+    [class.content-browser__items--medium]=" activeThumbnailSize === thumbnailSizes.Medium">
+    <div class="content-browser__item-container" *ngFor="let itemModel of items">
+      <pp-content-browser-item class="content-browser__item" [itemModel]="itemModel" (previewItemChange)="previewItem($event)"
+        [thumbnailSize]="activeThumbnailSize" [isListView]="isListView" (click)="itemClicked($event,itemModel)" (dblclick)="previewItem(itemModel.item.id)">
+      </pp-content-browser-item>
+    </div>
+  </div>
+
+
+  <!-- TODO: material typography, styling -->
+  <div *ngIf="totalResults === 0">
+    There is no content found using your search string
+    <strong> {{ query}}</strong>
+    <br> You may do the following:
+    <ul>
+      <li>Switch to another channel</li>
+      <li> Change your search string</li>
+    </ul>
+  </div>
+
+  <!-- <div *ngIf="items.length === 0 && !isLoading">
+    {{'ContentBrowser.TextNoItems' | pptranslate}}
+  </div> -->
 </div>

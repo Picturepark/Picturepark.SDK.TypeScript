@@ -115,8 +115,6 @@ The package provides the following Angular components for your views:
 - [pp-aggregation-filter](pp-aggregation-filter.md)
 - [pp-channel-picker](pp-channel-picker.md)
 - [pp-content-browser](pp-content-browser.md)
-- [pp-login](pp-login.md)
-- [pp-logout](pp-logout.md)
 - [pp-search-box](pp-search-box.md)
 - [pp-share-card](pp-share-card.md)
 

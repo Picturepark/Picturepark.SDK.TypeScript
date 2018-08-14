@@ -1,42 +1,33 @@
-import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
-import { InputConverter, BooleanConverter, StringConverter } from '../converter';
+import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 
-import { ContentService, ContentSearchRequest, ContentSearchResult } from '../../services/services';
+import { ContentSearchResult } from '../../services/services';
 
 @Component({
   selector: 'pp-search-box',
   templateUrl: './search-box.component.html'
 })
+// TODO: rename to search component.
+// TODO(possibly in next iterations): Add autocomplete here.
 export class SearchBoxComponent implements OnChanges {
-  result: ContentSearchResult | null = null;
+  public result: ContentSearchResult | null = null;
 
   @Input()
-  label = '';
-
-  @Input()
-  query = '';
+  public query = '';
   @Output()
-  queryChange = new EventEmitter<string>();
+  public queryChange = new EventEmitter<string>();
 
-  constructor(private contentService: ContentService) {
-  }
-
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+  public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['query']) {
       this.search(); // TODO: Add throttling
     }
   }
 
-  search() {
+  public search() {
     this.queryChange.emit(this.query);
+  }
 
-    const request = new ContentSearchRequest();
-    request.searchString = this.query;
-
-    return this.contentService.search(request).toPromise().then(result => {
-      this.result = result;
-    }, error => {
-      // TODO: Add error message
-    });
+  public clear() {
+    this.query = '';
+    this.queryChange.emit(this.query);
   }
 }
