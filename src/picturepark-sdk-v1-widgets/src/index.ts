@@ -52,23 +52,25 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     elementId + '>' + loadingTemplate + '</div>';
 
   const options = { headers: { 'Accept': 'application/json' } };
-  return window.fetch(initialConfig.server + '/service/publicAccess/shares/' + initialConfig.token, options).then(response => {
+  return window.fetch(initialConfig.server + '/json/' + initialConfig.token, options).then(response => {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
-    // Merge config with config from server
-    var config = shareDetail.template as any;
-    switch (config.kind) {
-      case "BasicTemplate":
-        config.template = "gallery";
-        break;
-      case "CardTemplate":
-        config.template = "card";
-        break;
-      case "ListTemplate":
-        config.template = "list";
-        break;
-    }
+    // // Merge config with config from server
+    // var config = shareDetail.template as any;
+    // switch (config.kind) {
+    //   case "BasicTemplate":
+    //     config.template = "gallery";
+    //     break;
+    //   case "CardTemplate":
+    //     config.template = "card";
+    //     break;
+    //   case "ListTemplate":
+    //     config.template = "list";
+    //     break;
+    // }
+    // To reenable this feature you need to disable the evaluation of data-template in PictureparkConfig.get()
 
+    var config: any = {};
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });

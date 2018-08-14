@@ -978,6 +978,8 @@ var pictureparkWidgets = (function () {
                   var attribute = element.attributes[i];
                   if (attribute.name === 'data-token')
                       configuration['token'] = attribute.value;
+                  else if (attribute.name === 'data-template')
+                      configuration['template'] = attribute.value;
                   else if (attribute.name === 'data-picturepark-server')
                       configuration['server'] = attribute.value;
                   else if (attribute.name === 'data-render-styles')
@@ -1052,22 +1054,24 @@ var pictureparkWidgets = (function () {
           scriptTag.outerHTML = '<div class="picturepark-widget picturepark-widget-loading" id=' +
               elementId + '>' + loadingTemplate + '</div>';
           var options = { headers: { 'Accept': 'application/json' } };
-          return window.fetch(initialConfig.server + '/service/publicAccess/shares/' + initialConfig.token, options).then(function (response) {
+          return window.fetch(initialConfig.server + '/json/' + initialConfig.token, options).then(function (response) {
               return response.json();
           }).then(function (shareDetail) {
-              // Merge config with config from server
-              var config = shareDetail.template;
-              switch (config.kind) {
-                  case "BasicTemplate":
-                      config.template = "gallery";
-                      break;
-                  case "CardTemplate":
-                      config.template = "card";
-                      break;
-                  case "ListTemplate":
-                      config.template = "list";
-                      break;
-              }
+              // // Merge config with config from server
+              // var config = shareDetail.template as any;
+              // switch (config.kind) {
+              //   case "BasicTemplate":
+              //     config.template = "gallery";
+              //     break;
+              //   case "CardTemplate":
+              //     config.template = "card";
+              //     break;
+              //   case "ListTemplate":
+              //     config.template = "list";
+              //     break;
+              // }
+              // To reenable this feature you need to disable the evaluation of data-template in PictureparkConfig.get()
+              var config = {};
               Object.keys(initialConfig).forEach(function (key) {
                   config[key] = initialConfig[key];
               });
