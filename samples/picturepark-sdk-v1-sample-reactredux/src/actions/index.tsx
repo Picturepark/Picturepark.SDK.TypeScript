@@ -50,7 +50,7 @@ export function requestContent(server: string, token: string, customerAlias: str
 
     let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
     let contentClient = new ContentClient(authClient);
-    contentClient.get(token, true).then(content => {
+    contentClient.get(token, []).then(content => {
       dispatch(receiveData(JSON.stringify(content, null, 2)));
     }).catch(error => {
       dispatch(receiveData('Error: \n\n' + JSON.stringify(error, null, 2)));
