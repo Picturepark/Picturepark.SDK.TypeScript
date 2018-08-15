@@ -6,8 +6,6 @@ import { ContentSearchResult } from '../../services/services';
   selector: 'pp-search-box',
   templateUrl: './search-box.component.html'
 })
-// TODO: rename to search component.
-// TODO(possibly in next iterations): Add autocomplete here.
 export class SearchBoxComponent implements OnChanges {
   public result: ContentSearchResult | null = null;
 
@@ -18,7 +16,7 @@ export class SearchBoxComponent implements OnChanges {
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['query']) {
-      this.search(); // TODO: Add throttling
+      this.search();
     }
   }
 

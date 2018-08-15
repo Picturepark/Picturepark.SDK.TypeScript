@@ -1,9 +1,9 @@
 import { Observable, of } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import {
   ContentService, ContentAggregationRequest, BrokenDependenciesFilter,
-  ContentSearchType, LifeCycleFilter, ObjectAggregationResult
+  ContentSearchType, LifeCycleFilter, ObjectAggregationResult, Channel
 } from '../../services/services';
 
 import { AggregationListComponent } from '../aggregation-list/aggregation-list.component';
@@ -14,20 +14,22 @@ import { AggregationListComponent } from '../aggregation-list/aggregation-list.c
   styleUrls: ['./content-aggregation-list.component.scss'],
 })
 export class ContentAggregationListComponent extends AggregationListComponent {
+  @Input()
+  public channelId: string;
 
   constructor(private contentService: ContentService) {
     super();
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
-    if (this.channel) {
+    if (this.channelId && this.aggregators) {
       this.isLoading = true;
       const request = new ContentAggregationRequest({
         aggregators: this.aggregators,
-        channelId: this.channel.id,
+        channelId: this.channelId,
         searchString: this.query,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.aggregationFiltersFlat,
+        aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly
       });

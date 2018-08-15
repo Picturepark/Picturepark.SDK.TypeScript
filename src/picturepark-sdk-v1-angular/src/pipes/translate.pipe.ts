@@ -8,7 +8,7 @@ export class TranslatePipe implements PipeTransform {
   constructor( @Inject(LOCALE_ID) private locale: string) {
   }
 
-  transform(value: string | TranslatedStringDictionary, replacement?: string): string | null {
+  transform(value: string | TranslatedStringDictionary, replacement?: string | number): string | null {
     if (value instanceof TranslatedStringDictionary) {
       return value.translate(this.locale);
     } else if (typeof value === 'string') {

@@ -15,6 +15,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 import { FileSizePipe } from 'app/pipes/filesize.pipe';
 
@@ -22,7 +24,6 @@ import { PictureparkOidcAuthConfiguration } from '../auth/oidc-auth.service';
 import { PictureparkOidcModule } from '../modules/picturepark-oidc.module';
 import { PictureparkUiModule } from '../modules/picturepark-ui.module';
 import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
-import { MatButtonModule } from '../../node_modules/@angular/material/button';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
@@ -62,6 +63,8 @@ export function PictureparkConfigurationFactory() {
     MatButtonModule,
     MatDialogModule,
     MatBadgeModule,
+    MatButtonModule,
+    MatCardModule,
     LayoutModule,
 
     PictureparkUiModule,

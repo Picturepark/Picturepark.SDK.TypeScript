@@ -4,19 +4,20 @@
       <span>
         {{ expandedAggregator?.names | pptranslate}}
       </span>
-      <button mat-icon-button *ngIf="aggregationsFiltersCount > 0" [matTooltip]="'Clear filters'">
+      <button mat-icon-button *ngIf="aggregationsFiltersCount > 0" [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate">
         <mat-icon aria-label="Clear filters for this category" (click)="aggregationFiltersChange.emit([]); $event.stopPropagation();">clear</mat-icon>
       </button>
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <!-- TODO translations, tooltip translation -->
   <mat-form-field *ngIf="expandedAggregationResult?.sumOtherDocCount" class="aggregation__search">
-    <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="aggregationQuery" [matAutocomplete]="searchAutocomplete">
+    <input type="text" [placeholder]="'ContentAggregationList.Search' | pptranslate" aria-label="Search" matInput [formControl]="aggregationQuery"
+      [matAutocomplete]="searchAutocomplete">
     <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')">
       <mat-icon>close</mat-icon>
     </button>
-    <mat-autocomplete #searchAutocomplete="matAutocomplete" (optionSelected)="autoCompleteOptionSelected($event.option.value)" [displayWith]="queryDisplay">
+    <mat-autocomplete #searchAutocomplete="matAutocomplete" (optionSelected)="autoCompleteOptionSelected($event.option.value)"
+      [displayWith]="queryDisplay">
       <mat-option *ngFor="let option of autoCompleteOptions | async" [value]="option">
         {{option.name}}
       </mat-option>
@@ -33,8 +34,7 @@
     </mat-list-option>
   </mat-selection-list>
   <div>
-    <button *ngIf="expandedAggregationResult?.sumOtherDocCount" (click)="loadMore()" mat-button>Show more</button>
-    <button *ngIf="expandedAggregationResult?.aggregationResultItems?.length > pagingSize" (click)="loadLess()" mat-button>Show less</button>
+    <button *ngIf="expandedAggregationResult?.sumOtherDocCount" (click)="loadMore()" mat-button>{{ 'ContentAggregationList.ShowMoreFilters' | pptranslate}}</button>
+    <button *ngIf="expandedAggregationResult?.aggregationResultItems?.length > pagingSize" (click)="loadLess()" mat-button>{{ 'ContentAggregationList.ShowLessFilters' | pptranslate}}</button>
   </div>
-
 </mat-expansion-panel>
