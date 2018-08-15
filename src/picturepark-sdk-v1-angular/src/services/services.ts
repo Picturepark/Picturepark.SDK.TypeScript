@@ -174,7 +174,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return List of ContentDetail
      */
     getMany(ids: string[] | null, resolveBehaviours: ContentResolveBehaviour[] | null | undefined): Observable<ContentDetail[]> {
-        let url_ = this.baseUrl + "/v1/contents/many?";
+        let url_ = this.baseUrl + "/v1/contents?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else
@@ -275,14 +275,25 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - many
-     * @param contentCreateManyRequest The content create many request.
+     * Create - single
+     * @param contentCreateRequest The content create request.
+     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
+     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the business process completed state.
      */
-    createMany(contentCreateManyRequest: ContentCreateManyRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/contents/many";
+    create(contentCreateRequest: ContentCreateRequest | null, resolveBehaviours: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<ContentDetail> {
+        let url_ = this.baseUrl + "/v1/contents?";
+        if (resolveBehaviours !== undefined)
+            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(contentCreateManyRequest);
+        const content_ = JSON.stringify(contentCreateRequest);
 
         let options_ : any = {
             body: content_,
@@ -297,20 +308,20 @@ export class ContentService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreateMany(response_);
+            return this.processCreate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateMany(<any>response_);
+                    return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                    return <Observable<ContentDetail>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+                return <Observable<ContentDetail>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+    protected processCreate(response: HttpResponseBase): Observable<ContentDetail> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -321,8 +332,15 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            result200 = resultData200 ? ContentDetail.fromJS(resultData200) : new ContentDetail();
             return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -353,13 +371,6 @@ export class ContentService extends PictureparkServiceBase {
             result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -369,7 +380,7 @@ export class ContentService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BusinessProcess>(<any>null);
+        return _observableOf<ContentDetail>(<any>null);
     }
 
     /**
@@ -1033,6 +1044,10 @@ export class ContentService extends PictureparkServiceBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -1140,6 +1155,10 @@ export class ContentService extends PictureparkServiceBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -1189,122 +1208,13 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - single
-     * @param contentCreateRequest The content create request.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
-     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     */
-    create(contentCreateRequest: ContentCreateRequest | null, resolveBehaviours: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<ContentDetail> {
-        let url_ = this.baseUrl + "/v1/contents?";
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
-        if (allowMissingDependencies === null)
-            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
-        else if (allowMissingDependencies !== undefined)
-            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
-        if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(contentCreateRequest);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<ContentDetail>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ContentDetail>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<ContentDetail> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ContentDetail.fromJS(resultData200) : new ContentDetail();
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ContentDetail>(<any>null);
-    }
-
-    /**
-     * Deactivate - single
-     * @param contentId the id of the content to deactivate
+     * Delete - single
+     * @param contentId the id of the content to delete
      * @param forceReferenceRemoval (optional) A value indicating whether references to the content should be removed.
      * @param timeout (optional) Maximum time to wait for the business process completed state.
      */
-    deactivate(contentId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v1/contents/{contentId}/deactivate?";
+    delete(contentId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/v1/contents/{contentId}/delete?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
@@ -1325,11 +1235,11 @@ export class ContentService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDeactivate(response_);
+            return this.processDelete(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeactivate(<any>response_);
+                    return this.processDelete(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -1338,7 +1248,7 @@ export class ContentService extends PictureparkServiceBase {
         }));
     }
 
-    protected processDeactivate(response: HttpResponseBase): Observable<void> {
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1398,15 +1308,14 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Deactivate - many
-     * @param deactivateRequest The deactivate request
-     * @return BusinessProcess
+     * Create - many
+     * @param contentCreateManyRequest The content create many request.
      */
-    deactivateMany(deactivateRequest: ContentDeactivateRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/contents/many/deactivate";
+    createMany(contentCreateManyRequest: ContentCreateManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/contents/many";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(deactivateRequest);
+        const content_ = JSON.stringify(contentCreateManyRequest);
 
         let options_ : any = {
             body: content_,
@@ -1419,13 +1328,13 @@ export class ContentService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDeactivateMany(response_);
+            return this.processCreateMany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeactivateMany(<any>response_);
+                    return this.processCreateMany(<any>response_);
                 } catch (e) {
                     return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
@@ -1434,7 +1343,7 @@ export class ContentService extends PictureparkServiceBase {
         }));
     }
 
-    protected processDeactivateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1497,14 +1406,113 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Reactivate - single
+     * Delete - many
+     * @param deleteManyRequest The delete many request
+     * @return BusinessProcess
+     */
+    deleteMany(deleteManyRequest: ContentDeleteManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/contents/many/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(deleteManyRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Restore - single
      * @param contentId The content id.
-     * @param allowMissingDependencies (optional) Allow reactivating contents that refer to list items or contents that don't exist in the system.
+     * @param allowMissingDependencies (optional) Allow restoring contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the business process completed state.
      * @return Void
      */
-    reactivate(contentId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v1/contents/{contentId}/reactivate?";
+    restore(contentId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/v1/contents/{contentId}/restore?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
@@ -1527,11 +1535,11 @@ export class ContentService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processReactivate(response_);
+            return this.processRestore(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processReactivate(<any>response_);
+                    return this.processRestore(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -1540,7 +1548,7 @@ export class ContentService extends PictureparkServiceBase {
         }));
     }
 
-    protected processReactivate(response: HttpResponseBase): Observable<void> {
+    protected processRestore(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1600,15 +1608,15 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Reactivate - many
-     * @param reactivateRequest The content reactivate request.
+     * Restore - many
+     * @param restoreManyRequest The content restore many request.
      * @return BusinessProcess
      */
-    reactivateMany(reactivateRequest: ContentReactivateRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/contents/many/reactivate";
+    restoreMany(restoreManyRequest: ContentRestoreManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/contents/many/restore";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(reactivateRequest);
+        const content_ = JSON.stringify(restoreManyRequest);
 
         let options_ : any = {
             body: content_,
@@ -1621,13 +1629,13 @@ export class ContentService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processReactivateMany(response_);
+            return this.processRestoreMany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processReactivateMany(<any>response_);
+                    return this.processRestoreMany(<any>response_);
                 } catch (e) {
                     return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
@@ -1636,7 +1644,7 @@ export class ContentService extends PictureparkServiceBase {
         }));
     }
 
-    protected processReactivateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+    protected processRestoreMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2229,7 +2237,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return ContentDetail
      */
     transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest | null, timeout: string | null | undefined): Observable<ContentDetail> {
-        let url_ = this.baseUrl + "/v1/contents/{contentId}/ownership/transfer?";
+        let url_ = this.baseUrl + "/v1/contents/{contentId}/ownership?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
@@ -2739,20 +2747,17 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     /**
-     * Wait
+     * Wait for lifeCycles
      * @param processId The process id
-     * @param states (optional) The states to wait for
      * @param lifeCycleIds (optional) Business process lifeCycle to wait for
      * @param timeout (optional) The timeout to wait for completion.
-     * @return BusinessProcessWaitResult
+     * @return BusinessProcessWaitForLifeCycleResult
      */
-    wait(processId: string, states: string[] | null | undefined, lifeCycleIds: BusinessProcessLifeCycle[] | null | undefined, timeout: string | null | undefined): Observable<BusinessProcessWaitResult> {
-        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/wait?";
+    waitForLifeCycles(processId: string, lifeCycleIds: BusinessProcessLifeCycle[] | null | undefined, timeout: string | null | undefined): Observable<BusinessProcessWaitForLifeCycleResult> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/waitLifeCycles?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
         url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
-        if (states !== undefined)
-            states && states.forEach(item => { url_ += "states=" + encodeURIComponent("" + item) + "&"; });
         if (lifeCycleIds !== undefined)
             lifeCycleIds && lifeCycleIds.forEach(item => { url_ += "lifeCycleIds=" + encodeURIComponent("" + item) + "&"; });
         if (timeout !== undefined)
@@ -2771,20 +2776,20 @@ export class BusinessProcessService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processWait(response_);
+            return this.processWaitForLifeCycles(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processWait(<any>response_);
+                    return this.processWaitForLifeCycles(<any>response_);
                 } catch (e) {
-                    return <Observable<BusinessProcessWaitResult>><any>_observableThrow(e);
+                    return <Observable<BusinessProcessWaitForLifeCycleResult>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BusinessProcessWaitResult>><any>_observableThrow(response_);
+                return <Observable<BusinessProcessWaitForLifeCycleResult>><any>_observableThrow(response_);
         }));
     }
 
-    protected processWait(response: HttpResponseBase): Observable<BusinessProcessWaitResult> {
+    protected processWaitForLifeCycles(response: HttpResponseBase): Observable<BusinessProcessWaitForLifeCycleResult> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2795,7 +2800,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BusinessProcessWaitResult.fromJS(resultData200) : new BusinessProcessWaitResult();
+            result200 = resultData200 ? BusinessProcessWaitForLifeCycleResult.fromJS(resultData200) : new BusinessProcessWaitForLifeCycleResult();
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -2843,7 +2848,112 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BusinessProcessWaitResult>(<any>null);
+        return _observableOf<BusinessProcessWaitForLifeCycleResult>(<any>null);
+    }
+
+    /**
+     * Wait for states
+     * @param processId The process id
+     * @param states (optional) Business process states to wait for
+     * @param timeout (optional) The timeout to wait for completion.
+     * @return BusinessProcessWaitResult
+     */
+    waitForStates(processId: string, states: string[] | null | undefined, timeout: string | null | undefined): Observable<BusinessProcessWaitForStateResult> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/waitStates?";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        if (states !== undefined)
+            states && states.forEach(item => { url_ += "states=" + encodeURIComponent("" + item) + "&"; });
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processWaitForStates(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processWaitForStates(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcessWaitForStateResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcessWaitForStateResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processWaitForStates(response: HttpResponseBase): Observable<BusinessProcessWaitForStateResult> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BusinessProcessWaitForStateResult.fromJS(resultData200) : new BusinessProcessWaitForStateResult();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcessWaitForStateResult>(<any>null);
     }
 
     /**
@@ -2852,7 +2962,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
-    waitForCompletion(processId: string, timeout: string | null | undefined): Observable<BusinessProcessWaitResult> {
+    waitForCompletion(processId: string, timeout: string | null | undefined): Observable<BusinessProcessWaitForLifeCycleResult> {
         let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/waitCompletion?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
@@ -2879,14 +2989,14 @@ export class BusinessProcessService extends PictureparkServiceBase {
                 try {
                     return this.processWaitForCompletion(<any>response_);
                 } catch (e) {
-                    return <Observable<BusinessProcessWaitResult>><any>_observableThrow(e);
+                    return <Observable<BusinessProcessWaitForLifeCycleResult>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BusinessProcessWaitResult>><any>_observableThrow(response_);
+                return <Observable<BusinessProcessWaitForLifeCycleResult>><any>_observableThrow(response_);
         }));
     }
 
-    protected processWaitForCompletion(response: HttpResponseBase): Observable<BusinessProcessWaitResult> {
+    protected processWaitForCompletion(response: HttpResponseBase): Observable<BusinessProcessWaitForLifeCycleResult> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2897,7 +3007,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BusinessProcessWaitResult.fromJS(resultData200) : new BusinessProcessWaitResult();
+            result200 = resultData200 ? BusinessProcessWaitForLifeCycleResult.fromJS(resultData200) : new BusinessProcessWaitForLifeCycleResult();
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -2945,7 +3055,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BusinessProcessWaitResult>(<any>null);
+        return _observableOf<BusinessProcessWaitForLifeCycleResult>(<any>null);
     }
 
     /**
@@ -3925,7 +4035,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List of list item details
      */
     getMany(ids: string[] | null, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined): Observable<ListItemDetail[]> {
-        let url_ = this.baseUrl + "/v1/listItems/many?";
+        let url_ = this.baseUrl + "/v1/listItems?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else
@@ -4026,15 +4136,26 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - many
-     * @param listItemCreateManyRequest List item create many request.
-     * @return BusinessProcess
+     * Create - single
+     * @param listItemCreateRequest List item create request.
+     * @param resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
+     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the business process completed state.
+     * @return ListItemDetail
      */
-    createMany(listItemCreateManyRequest: ListItemCreateManyRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/listItems/many";
+    create(listItemCreateRequest: ListItemCreateRequest | null, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<ListItemDetail> {
+        let url_ = this.baseUrl + "/v1/listItems?";
+        if (resolveBehaviours !== undefined)
+            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(listItemCreateManyRequest);
+        const content_ = JSON.stringify(listItemCreateRequest);
 
         let options_ : any = {
             body: content_,
@@ -4049,20 +4170,20 @@ export class ListItemService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreateMany(response_);
+            return this.processCreate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateMany(<any>response_);
+                    return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                    return <Observable<ListItemDetail>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+                return <Observable<ListItemDetail>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+    protected processCreate(response: HttpResponseBase): Observable<ListItemDetail> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4073,8 +4194,15 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            result200 = resultData200 ? ListItemDetail.fromJS(resultData200) : new ListItemDetail();
             return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4105,13 +4233,6 @@ export class ListItemService extends PictureparkServiceBase {
             result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("A server error occurred.", status, _responseText, _headers);
@@ -4121,106 +4242,7 @@ export class ListItemService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BusinessProcess>(<any>null);
-    }
-
-    /**
-     * Update - many
-     * @param listItemUpdateManyRequest List item update many request.
-     * @return BusinessProcess
-     */
-    updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/listItems/many";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(listItemUpdateManyRequest);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processUpdateMany(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateMany(<any>response_);
-                } catch (e) {
-                    return <Observable<BusinessProcess>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BusinessProcess>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdateMany(response: HttpResponseBase): Observable<BusinessProcess> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BusinessProcess>(<any>null);
+        return _observableOf<ListItemDetail>(<any>null);
     }
 
     /**
@@ -4422,226 +4444,15 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - single
-     * @param listItemCreateRequest List item create request.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
-     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @return ListItemDetail
-     */
-    create(listItemCreateRequest: ListItemCreateRequest | null, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<ListItemDetail> {
-        let url_ = this.baseUrl + "/v1/listItems?";
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
-        if (allowMissingDependencies === null)
-            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
-        else if (allowMissingDependencies !== undefined)
-            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
-        if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(listItemCreateRequest);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<ListItemDetail>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ListItemDetail>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<ListItemDetail> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListItemDetail.fromJS(resultData200) : new ListItemDetail();
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ListItemDetail>(<any>null);
-    }
-
-    /**
-     * Deactivate - single
-     * @param listItemId the id of the list item to deactivate
-     * @param forceReferenceRemoval (optional) A value indicating whether references to the listitem should be removed.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @return Void
-     */
-    deactivate(listItemId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/deactivate?";
-        if (listItemId === undefined || listItemId === null)
-            throw new Error("The parameter 'listItemId' must be defined.");
-        url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
-        if (forceReferenceRemoval !== undefined)
-            url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
-        if (timeout !== undefined)
-            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDeactivate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDeactivate(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDeactivate(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * Deactivate - many
-     * @param deactivateRequest The list items deactivate request
+     * Create - many
+     * @param listItemCreateManyRequest List item create many request.
      * @return BusinessProcess
      */
-    deactivateMany(deactivateRequest: ListItemDeactivateRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/listItems/many/deactivate";
+    createMany(listItemCreateManyRequest: ListItemCreateManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/listItems/many";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(deactivateRequest);
+        const content_ = JSON.stringify(listItemCreateManyRequest);
 
         let options_ : any = {
             body: content_,
@@ -4654,13 +4465,13 @@ export class ListItemService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDeactivateMany(response_);
+            return this.processCreateMany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeactivateMany(<any>response_);
+                    return this.processCreateMany(<any>response_);
                 } catch (e) {
                     return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
@@ -4669,7 +4480,7 @@ export class ListItemService extends PictureparkServiceBase {
         }));
     }
 
-    protected processDeactivateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4732,21 +4543,118 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Reactivate - single
-     * @param listItemId The list item id.
-     * @param allowMissingDependencies (optional) Allow reactivating list items that refer to list items or contents that don't exist in the system.
+     * Update - many
+     * @param listItemUpdateManyRequest List item update many request.
+     * @return BusinessProcess
+     */
+    updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/listItems/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(listItemUpdateManyRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete - single
+     * @param listItemId The id of the list item to delete
+     * @param forceReferenceRemoval (optional) A value indicating whether references to the listitem should be removed.
      * @param timeout (optional) Maximum time to wait for the business process completed state.
      * @return Void
      */
-    reactivate(listItemId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/reactivate?";
+    delete(listItemId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/delete?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
         url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
-        if (allowMissingDependencies === null)
-            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
-        else if (allowMissingDependencies !== undefined)
-            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
+        if (forceReferenceRemoval !== undefined)
+            url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -4762,11 +4670,11 @@ export class ListItemService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processReactivate(response_);
+            return this.processDelete(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processReactivate(<any>response_);
+                    return this.processDelete(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -4775,7 +4683,7 @@ export class ListItemService extends PictureparkServiceBase {
         }));
     }
 
-    protected processReactivate(response: HttpResponseBase): Observable<void> {
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4835,15 +4743,15 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Reactivate - many
-     * @param reactivateRequest The list items reactivate request.
+     * Delete - many
+     * @param deleteManyRequest The list items delete many request
      * @return BusinessProcess
      */
-    reactivateMany(reactivateRequest: ListItemReactivateRequest | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/listItems/many/reactivate";
+    deleteMany(deleteManyRequest: ListItemDeleteManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/listItems/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(reactivateRequest);
+        const content_ = JSON.stringify(deleteManyRequest);
 
         let options_ : any = {
             body: content_,
@@ -4856,13 +4764,13 @@ export class ListItemService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processReactivateMany(response_);
+            return this.processDeleteMany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processReactivateMany(<any>response_);
+                    return this.processDeleteMany(<any>response_);
                 } catch (e) {
                     return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
@@ -4871,7 +4779,209 @@ export class ListItemService extends PictureparkServiceBase {
         }));
     }
 
-    protected processReactivateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+    protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Restore - single
+     * @param listItemId The list item id.
+     * @param allowMissingDependencies (optional) Allow restoring list items that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the business process completed state.
+     * @return Void
+     */
+    restore(listItemId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/restore?";
+        if (listItemId === undefined || listItemId === null)
+            throw new Error("The parameter 'listItemId' must be defined.");
+        url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
+        if (allowMissingDependencies === null)
+            throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
+        else if (allowMissingDependencies !== undefined)
+            url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRestore(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestore(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRestore(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Restore - many
+     * @param restoreManyRequest The list items restore many request.
+     * @return BusinessProcess
+     */
+    restoreMany(restoreManyRequest: ListItemRestoreManyRequest | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/listItems/many/restore";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(restoreManyRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRestoreMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRestoreMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6078,8 +6188,8 @@ export class SchemaService extends PictureparkServiceBase {
      * @param request The get request.
      * @return Indexed fields
      */
-    getIndexFields(request: GetIndexFieldsRequest | null): Observable<IndexField[]> {
-        let url_ = this.baseUrl + "/v1/schemas/indexFields";
+    getIndexFields(request: IndexFieldsSearchBySchemaIdsRequest | null): Observable<IndexField[]> {
+        let url_ = this.baseUrl + "/v1/schemas/indexFields/searchBySchemaIds";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6294,11 +6404,11 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Search Content Permission Sets
+     * Search
      * @param request The permission search request.
      * @return PermissionSetSearchResult
      */
-    searchContentPermissionSets(request: PermissionSetSearchRequest | null): Observable<PermissionSetSearchResult> {
+    search(request: PermissionSetSearchRequest | null): Observable<PermissionSetSearchResult> {
         let url_ = this.baseUrl + "/v1/contentPermissionSets/search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6317,11 +6427,11 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processSearchContentPermissionSets(response_);
+            return this.processSearch(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processSearchContentPermissionSets(<any>response_);
+                    return this.processSearch(<any>response_);
                 } catch (e) {
                     return <Observable<PermissionSetSearchResult>><any>_observableThrow(e);
                 }
@@ -6330,7 +6440,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         }));
     }
 
-    protected processSearchContentPermissionSets(response: HttpResponseBase): Observable<PermissionSetSearchResult> {
+    protected processSearch(response: HttpResponseBase): Observable<PermissionSetSearchResult> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6393,11 +6503,11 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Content Permission Set - single
+     * Get detail - single
      * @param permissionSetId The content permission set id.
      * @return ContentPermissionSetDetail
      */
-    getContentPermissionSet(permissionSetId: string): Observable<ContentPermissionSetDetail> {
+    get(permissionSetId: string): Observable<ContentPermissionSetDetail> {
         let url_ = this.baseUrl + "/v1/contentPermissionSets/{permissionSetId}";
         if (permissionSetId === undefined || permissionSetId === null)
             throw new Error("The parameter 'permissionSetId' must be defined.");
@@ -6416,11 +6526,11 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetContentPermissionSet(response_);
+            return this.processGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetContentPermissionSet(<any>response_);
+                    return this.processGet(<any>response_);
                 } catch (e) {
                     return <Observable<ContentPermissionSetDetail>><any>_observableThrow(e);
                 }
@@ -6429,7 +6539,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGetContentPermissionSet(response: HttpResponseBase): Observable<ContentPermissionSetDetail> {
+    protected processGet(response: HttpResponseBase): Observable<ContentPermissionSetDetail> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6507,11 +6617,11 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Search Schema Permission Sets
+     * Search
      * @param request The permission search request.
      * @return PermissionSetSearchResult
      */
-    searchSchemaPermissionSets(request: PermissionSetSearchRequest | null): Observable<PermissionSetSearchResult> {
+    search(request: PermissionSetSearchRequest | null): Observable<PermissionSetSearchResult> {
         let url_ = this.baseUrl + "/v1/schemaPermissionSets/search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6530,11 +6640,11 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processSearchSchemaPermissionSets(response_);
+            return this.processSearch(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processSearchSchemaPermissionSets(<any>response_);
+                    return this.processSearch(<any>response_);
                 } catch (e) {
                     return <Observable<PermissionSetSearchResult>><any>_observableThrow(e);
                 }
@@ -6543,7 +6653,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         }));
     }
 
-    protected processSearchSchemaPermissionSets(response: HttpResponseBase): Observable<PermissionSetSearchResult> {
+    protected processSearch(response: HttpResponseBase): Observable<PermissionSetSearchResult> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6606,11 +6716,11 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Schema Permission Sets - single
+     * Get detail - single
      * @param permissionSetId The schema permission set id.
      * @return SchemaPermissionSetDetail
      */
-    getSchemaPermissionSet(permissionSetId: string): Observable<SchemaPermissionSetDetail> {
+    get(permissionSetId: string): Observable<SchemaPermissionSetDetail> {
         let url_ = this.baseUrl + "/v1/schemaPermissionSets/{permissionSetId}";
         if (permissionSetId === undefined || permissionSetId === null)
             throw new Error("The parameter 'permissionSetId' must be defined.");
@@ -6629,11 +6739,11 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetSchemaPermissionSet(response_);
+            return this.processGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetSchemaPermissionSet(<any>response_);
+                    return this.processGet(<any>response_);
                 } catch (e) {
                     return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(e);
                 }
@@ -6642,7 +6752,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGetSchemaPermissionSet(response: HttpResponseBase): Observable<SchemaPermissionSetDetail> {
+    protected processGet(response: HttpResponseBase): Observable<SchemaPermissionSetDetail> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7089,6 +7199,10 @@ export class ShareAccessService extends PictureparkServiceBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -7203,6 +7317,10 @@ export class ShareAccessService extends PictureparkServiceBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -7321,6 +7439,10 @@ export class ShareAccessService extends PictureparkServiceBase {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -7892,18 +8014,17 @@ export class ShareService extends PictureparkServiceBase {
 
     /**
      * Delete - many
-     * @param ids A list of shareIds to delete.
+     * @param deleteManyRequest A delete many request containing the ids of the shares to delete.
      * @return BusinessProcess
      */
-    deleteMany(ids: string[] | null): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v1/shares/many?";
-        if (ids === undefined)
-            throw new Error("The parameter 'ids' must be defined.");
-        else
-            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+    deleteMany(deleteManyRequest: ShareDeleteManyRequest | null): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/shares/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(deleteManyRequest);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
@@ -7913,7 +8034,7 @@ export class ShareService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("delete", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
             return this.processDeleteMany(response_);
         })).pipe(_observableCatch((response_: any) => {
@@ -8529,7 +8650,7 @@ export class TransferService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
             return this.processCancelTransfer(response_);
         })).pipe(_observableCatch((response_: any) => {
@@ -9099,7 +9220,7 @@ export class TransferService extends PictureparkServiceBase {
      * @param request The filetransfer to content create request
      * @return Transfer
      */
-    importTransfer(transferId: string, request: FileTransfer2ContentCreateRequest | null): Observable<Transfer> {
+    importTransfer(transferId: string, request: ImportTransferRequest | null): Observable<Transfer> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/import";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -9201,7 +9322,7 @@ export class TransferService extends PictureparkServiceBase {
      * @param transferId The transfer id
      * @param request The filetransfer partial to content create request
      */
-    partialImport(transferId: string, request: FileTransferPartial2ContentCreateRequest | null): Observable<Transfer> {
+    partialImport(transferId: string, request: ImportTransferPartialRequest | null): Observable<Transfer> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/partialImport";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -11639,6 +11760,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ShareExpiredException") {
+            let result = new ShareExpiredException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OutputIdNotFoundException") {
             let result = new OutputIdNotFoundException();
             result.init(data);
@@ -12154,6 +12280,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaMultipleTypesException") {
+            let result = new SchemaMultipleTypesException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MissingDisplayPatternForCustomerDefaultLanguageException") {
+            let result = new MissingDisplayPatternForCustomerDefaultLanguageException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithRelationsException") {
             let result = new DeleteContentsWithRelationsException();
             result.init(data);
@@ -12436,6 +12572,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "TokenGenerationException") {
             let result = new TokenGenerationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareExpiredException") {
+            let result = new ShareExpiredException();
             result.init(data);
             return result;
         }
@@ -12901,6 +13042,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaFieldRelationSchemaTypeUnsupportedException") {
             let result = new SchemaFieldRelationSchemaTypeUnsupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMultipleTypesException") {
+            let result = new SchemaMultipleTypesException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MissingDisplayPatternForCustomerDefaultLanguageException") {
+            let result = new MissingDisplayPatternForCustomerDefaultLanguageException();
             result.init(data);
             return result;
         }
@@ -13551,6 +13702,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldRelationSchemaTypeUnsupportedException") {
             let result = new SchemaFieldRelationSchemaTypeUnsupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMultipleTypesException") {
+            let result = new SchemaMultipleTypesException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MissingDisplayPatternForCustomerDefaultLanguageException") {
+            let result = new MissingDisplayPatternForCustomerDefaultLanguageException();
             result.init(data);
             return result;
         }
@@ -14411,6 +14572,40 @@ export class TokenGenerationException extends PictureparkBusinessException imple
 
 export interface ITokenGenerationException extends IPictureparkBusinessException {
     retries: number;
+}
+
+export class ShareExpiredException extends PictureparkBusinessException implements IShareExpiredException {
+    token?: string | undefined;
+
+    constructor(data?: IShareExpiredException) {
+        super(data);
+        this._discriminator = "ShareExpiredException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.token = data["token"];
+        }
+    }
+
+    static fromJS(data: any): ShareExpiredException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareExpiredException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IShareExpiredException extends IPictureparkBusinessException {
+    token?: string | undefined;
 }
 
 export class OutputIdNotFoundException extends PictureparkNotFoundException implements IOutputIdNotFoundException {
@@ -18372,8 +18567,8 @@ export interface ISchemaFieldIdException extends IPictureparkValidationException
 export class SchemaFieldTypeChangeException extends PictureparkValidationException implements ISchemaFieldTypeChangeException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
-    oldType?: string | undefined;
-    newType?: string | undefined;
+    oldTypeName?: string | undefined;
+    newTypeName?: string | undefined;
 
     constructor(data?: ISchemaFieldTypeChangeException) {
         super(data);
@@ -18385,8 +18580,8 @@ export class SchemaFieldTypeChangeException extends PictureparkValidationExcepti
         if (data) {
             this.schemaId = data["schemaId"];
             this.fieldId = data["fieldId"];
-            this.oldType = data["oldType"];
-            this.newType = data["newType"];
+            this.oldTypeName = data["oldTypeName"];
+            this.newTypeName = data["newTypeName"];
         }
     }
 
@@ -18401,8 +18596,8 @@ export class SchemaFieldTypeChangeException extends PictureparkValidationExcepti
         data = typeof data === 'object' ? data : {};
         data["schemaId"] = this.schemaId;
         data["fieldId"] = this.fieldId;
-        data["oldType"] = this.oldType;
-        data["newType"] = this.newType;
+        data["oldTypeName"] = this.oldTypeName;
+        data["newTypeName"] = this.newTypeName;
         super.toJSON(data);
         return data; 
     }
@@ -18411,8 +18606,8 @@ export class SchemaFieldTypeChangeException extends PictureparkValidationExcepti
 export interface ISchemaFieldTypeChangeException extends IPictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
-    oldType?: string | undefined;
-    newType?: string | undefined;
+    oldTypeName?: string | undefined;
+    newTypeName?: string | undefined;
 }
 
 export class SchemaFieldIndexException extends PictureparkValidationException implements ISchemaFieldIndexException {
@@ -18956,6 +19151,105 @@ export interface ISchemaFieldRelationSchemaTypeUnsupportedException extends IPic
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     relationSchemaId?: string | undefined;
+}
+
+export class SchemaMultipleTypesException extends PictureparkValidationException implements ISchemaMultipleTypesException {
+    schemaId?: string | undefined;
+    schemaTypes?: string[] | undefined;
+
+    constructor(data?: ISchemaMultipleTypesException) {
+        super(data);
+        this._discriminator = "SchemaMultipleTypesException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            if (data["schemaTypes"] && data["schemaTypes"].constructor === Array) {
+                this.schemaTypes = [];
+                for (let item of data["schemaTypes"])
+                    this.schemaTypes.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaMultipleTypesException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaMultipleTypesException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        if (this.schemaTypes && this.schemaTypes.constructor === Array) {
+            data["schemaTypes"] = [];
+            for (let item of this.schemaTypes)
+                data["schemaTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaMultipleTypesException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    schemaTypes?: string[] | undefined;
+}
+
+export class MissingDisplayPatternForCustomerDefaultLanguageException extends PictureparkValidationException implements IMissingDisplayPatternForCustomerDefaultLanguageException {
+    schemaId?: string | undefined;
+    missingTypes?: DisplayPatternType[] | undefined;
+
+    constructor(data?: IMissingDisplayPatternForCustomerDefaultLanguageException) {
+        super(data);
+        this._discriminator = "MissingDisplayPatternForCustomerDefaultLanguageException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            if (data["missingTypes"] && data["missingTypes"].constructor === Array) {
+                this.missingTypes = [];
+                for (let item of data["missingTypes"])
+                    this.missingTypes.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): MissingDisplayPatternForCustomerDefaultLanguageException {
+        data = typeof data === 'object' ? data : {};
+        let result = new MissingDisplayPatternForCustomerDefaultLanguageException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        if (this.missingTypes && this.missingTypes.constructor === Array) {
+            data["missingTypes"] = [];
+            for (let item of this.missingTypes)
+                data["missingTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IMissingDisplayPatternForCustomerDefaultLanguageException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    missingTypes?: DisplayPatternType[] | undefined;
+}
+
+export enum DisplayPatternType {
+    Thumbnail = <any>"Thumbnail", 
+    List = <any>"List", 
+    Detail = <any>"Detail", 
+    Name = <any>"Name", 
 }
 
 export class DeleteContentsWithRelationsException extends PictureparkValidationException implements IDeleteContentsWithRelationsException {
@@ -24142,11 +24436,11 @@ export interface IBulkResponseRow {
     status: number;
 }
 
-export class ContentDeactivateRequest implements IContentDeactivateRequest {
+export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
     contentIds?: string[] | undefined;
     forceReferenceRemoval: boolean;
 
-    constructor(data?: IContentDeactivateRequest) {
+    constructor(data?: IContentDeleteManyRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -24166,9 +24460,9 @@ export class ContentDeactivateRequest implements IContentDeactivateRequest {
         }
     }
 
-    static fromJS(data: any): ContentDeactivateRequest {
+    static fromJS(data: any): ContentDeleteManyRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new ContentDeactivateRequest();
+        let result = new ContentDeleteManyRequest();
         result.init(data);
         return result;
     }
@@ -24185,16 +24479,16 @@ export class ContentDeactivateRequest implements IContentDeactivateRequest {
     }
 }
 
-export interface IContentDeactivateRequest {
+export interface IContentDeleteManyRequest {
     contentIds?: string[] | undefined;
     forceReferenceRemoval: boolean;
 }
 
-export class ContentReactivateRequest implements IContentReactivateRequest {
+export class ContentRestoreManyRequest implements IContentRestoreManyRequest {
     contentIds?: string[] | undefined;
     allowMissingDependencies: boolean;
 
-    constructor(data?: IContentReactivateRequest) {
+    constructor(data?: IContentRestoreManyRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -24214,9 +24508,9 @@ export class ContentReactivateRequest implements IContentReactivateRequest {
         }
     }
 
-    static fromJS(data: any): ContentReactivateRequest {
+    static fromJS(data: any): ContentRestoreManyRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new ContentReactivateRequest();
+        let result = new ContentRestoreManyRequest();
         result.init(data);
         return result;
     }
@@ -24233,7 +24527,7 @@ export class ContentReactivateRequest implements IContentReactivateRequest {
     }
 }
 
-export interface IContentReactivateRequest {
+export interface IContentRestoreManyRequest {
     contentIds?: string[] | undefined;
     allowMissingDependencies: boolean;
 }
@@ -25183,7 +25477,7 @@ export interface IMetadataValuesSchemaItemRemoveCommand extends IMetadataValuesC
 }
 
 export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeRequestBase implements IContentFieldsBatchUpdateFilterRequest {
-    contentFilterRequest?: ContentFilterRequest | undefined;
+    filterRequest?: ContentFilterRequest | undefined;
 
     constructor(data?: IContentFieldsBatchUpdateFilterRequest) {
         super(data);
@@ -25193,7 +25487,7 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.contentFilterRequest = data["contentFilterRequest"] ? ContentFilterRequest.fromJS(data["contentFilterRequest"]) : <any>undefined;
+            this.filterRequest = data["filterRequest"] ? ContentFilterRequest.fromJS(data["filterRequest"]) : <any>undefined;
         }
     }
 
@@ -25206,14 +25500,14 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["contentFilterRequest"] = this.contentFilterRequest ? this.contentFilterRequest.toJSON() : <any>undefined;
+        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IContentFieldsBatchUpdateFilterRequest extends IMetadataValuesChangeRequestBase {
-    contentFilterRequest?: IContentFilterRequest | undefined;
+    filterRequest?: IContentFilterRequest | undefined;
 }
 
 export class ContentFilterRequest implements IContentFilterRequest {
@@ -25509,12 +25803,51 @@ export interface IBusinessProcessSearchResult extends ISearchBehaviourBaseResult
     elapsedMilliseconds: number;
 }
 
-export class BusinessProcessWaitResult implements IBusinessProcessWaitResult {
-    stateHit?: string | undefined;
+export class BusinessProcessWaitForLifeCycleResult implements IBusinessProcessWaitForLifeCycleResult {
     lifeCycleHit: BusinessProcessLifeCycle;
     businessProcess?: BusinessProcess | undefined;
 
-    constructor(data?: IBusinessProcessWaitResult) {
+    constructor(data?: IBusinessProcessWaitForLifeCycleResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lifeCycleHit = data["lifeCycleHit"];
+            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessWaitForLifeCycleResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessWaitForLifeCycleResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lifeCycleHit"] = this.lifeCycleHit;
+        data["businessProcess"] = this.businessProcess ? this.businessProcess.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBusinessProcessWaitForLifeCycleResult {
+    lifeCycleHit: BusinessProcessLifeCycle;
+    businessProcess?: BusinessProcess | undefined;
+}
+
+export class BusinessProcessWaitForStateResult implements IBusinessProcessWaitForStateResult {
+    stateHit?: string | undefined;
+    businessProcess?: BusinessProcess | undefined;
+
+    constructor(data?: IBusinessProcessWaitForStateResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -25526,14 +25859,13 @@ export class BusinessProcessWaitResult implements IBusinessProcessWaitResult {
     init(data?: any) {
         if (data) {
             this.stateHit = data["stateHit"];
-            this.lifeCycleHit = data["lifeCycleHit"];
             this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): BusinessProcessWaitResult {
+    static fromJS(data: any): BusinessProcessWaitForStateResult {
         data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessWaitResult();
+        let result = new BusinessProcessWaitForStateResult();
         result.init(data);
         return result;
     }
@@ -25541,15 +25873,13 @@ export class BusinessProcessWaitResult implements IBusinessProcessWaitResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["stateHit"] = this.stateHit;
-        data["lifeCycleHit"] = this.lifeCycleHit;
         data["businessProcess"] = this.businessProcess ? this.businessProcess.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-export interface IBusinessProcessWaitResult {
+export interface IBusinessProcessWaitForStateResult {
     stateHit?: string | undefined;
-    lifeCycleHit: BusinessProcessLifeCycle;
     businessProcess?: BusinessProcess | undefined;
 }
 
@@ -27251,11 +27581,11 @@ export interface IListItemUpdateItem extends IListItemUpdateRequest {
     id?: string | undefined;
 }
 
-export class ListItemDeactivateRequest implements IListItemDeactivateRequest {
+export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
     listItemIds?: string[] | undefined;
     forceReferenceRemoval: boolean;
 
-    constructor(data?: IListItemDeactivateRequest) {
+    constructor(data?: IListItemDeleteManyRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -27275,9 +27605,9 @@ export class ListItemDeactivateRequest implements IListItemDeactivateRequest {
         }
     }
 
-    static fromJS(data: any): ListItemDeactivateRequest {
+    static fromJS(data: any): ListItemDeleteManyRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new ListItemDeactivateRequest();
+        let result = new ListItemDeleteManyRequest();
         result.init(data);
         return result;
     }
@@ -27294,16 +27624,16 @@ export class ListItemDeactivateRequest implements IListItemDeactivateRequest {
     }
 }
 
-export interface IListItemDeactivateRequest {
+export interface IListItemDeleteManyRequest {
     listItemIds?: string[] | undefined;
     forceReferenceRemoval: boolean;
 }
 
-export class ListItemReactivateRequest implements IListItemReactivateRequest {
+export class ListItemRestoreManyRequest implements IListItemRestoreManyRequest {
     listItemIds?: string[] | undefined;
     allowMissingDependencies: boolean;
 
-    constructor(data?: IListItemReactivateRequest) {
+    constructor(data?: IListItemRestoreManyRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -27323,9 +27653,9 @@ export class ListItemReactivateRequest implements IListItemReactivateRequest {
         }
     }
 
-    static fromJS(data: any): ListItemReactivateRequest {
+    static fromJS(data: any): ListItemRestoreManyRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new ListItemReactivateRequest();
+        let result = new ListItemRestoreManyRequest();
         result.init(data);
         return result;
     }
@@ -27342,7 +27672,7 @@ export class ListItemReactivateRequest implements IListItemReactivateRequest {
     }
 }
 
-export interface IListItemReactivateRequest {
+export interface IListItemRestoreManyRequest {
     listItemIds?: string[] | undefined;
     allowMissingDependencies: boolean;
 }
@@ -27422,7 +27752,7 @@ export interface IListItemFieldsBatchUpdateRequest {
 /** ListItemFieldsFilterUpdateRequest class */
 export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBatchUpdateFilterRequest {
     /** The search request used to filter the list items on which the change commands must be applied */
-    listItemFilterRequest?: ListItemFilterRequest | undefined;
+    filterRequest?: ListItemFilterRequest | undefined;
     /** The change commads to be applied to the list items */
     changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     /** Allow storing references to missing list items / contents */
@@ -27436,13 +27766,13 @@ export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBa
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.listItemFilterRequest = data.listItemFilterRequest && !(<any>data.listItemFilterRequest).toJSON ? new ListItemFilterRequest(data.listItemFilterRequest) : <ListItemFilterRequest>this.listItemFilterRequest; 
+            this.filterRequest = data.filterRequest && !(<any>data.filterRequest).toJSON ? new ListItemFilterRequest(data.filterRequest) : <ListItemFilterRequest>this.filterRequest; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.listItemFilterRequest = data["listItemFilterRequest"] ? ListItemFilterRequest.fromJS(data["listItemFilterRequest"]) : <any>undefined;
+            this.filterRequest = data["filterRequest"] ? ListItemFilterRequest.fromJS(data["filterRequest"]) : <any>undefined;
             if (data["changeCommands"] && data["changeCommands"].constructor === Array) {
                 this.changeCommands = [];
                 for (let item of data["changeCommands"])
@@ -27462,7 +27792,7 @@ export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBa
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["listItemFilterRequest"] = this.listItemFilterRequest ? this.listItemFilterRequest.toJSON() : <any>undefined;
+        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
         if (this.changeCommands && this.changeCommands.constructor === Array) {
             data["changeCommands"] = [];
             for (let item of this.changeCommands)
@@ -27477,7 +27807,7 @@ export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBa
 /** ListItemFieldsFilterUpdateRequest class */
 export interface IListItemFieldsBatchUpdateFilterRequest {
     /** The search request used to filter the list items on which the change commands must be applied */
-    listItemFilterRequest?: IListItemFilterRequest | undefined;
+    filterRequest?: IListItemFilterRequest | undefined;
     /** The change commads to be applied to the list items */
     changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
     /** Allow storing references to missing list items / contents */
@@ -28077,13 +28407,6 @@ export interface IDisplayPattern {
 
 export enum TemplateEngine {
     DotLiquid = <any>"DotLiquid", 
-}
-
-export enum DisplayPatternType {
-    Thumbnail = <any>"Thumbnail", 
-    List = <any>"List", 
-    Detail = <any>"Detail", 
-    Name = <any>"Name", 
 }
 
 /** The field base class. */
@@ -29226,6 +29549,7 @@ export interface IAnalyzerBase {
 
 /** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
 export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyzer {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 
     constructor(data?: IEdgeNGramAnalyzer) {
@@ -29236,6 +29560,7 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.type = data["type"];
             this.fieldSuffix = data["fieldSuffix"];
         }
     }
@@ -29249,6 +29574,7 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
         data["fieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
         return data; 
@@ -29257,11 +29583,22 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
 
 /** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
 export interface IEdgeNGramAnalyzer extends IAnalyzerBase {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
+}
+
+export enum Analyzer {
+    None = <any>"None", 
+    Simple = <any>"Simple", 
+    Language = <any>"Language", 
+    PathHierarchy = <any>"PathHierarchy", 
+    EdgeNGram = <any>"EdgeNGram", 
+    NGram = <any>"NGram", 
 }
 
 /** An analyzer using a language analyzer. Restricted to the languages supported by elastic search. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html */
 export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 
     constructor(data?: ILanguageAnalyzer) {
@@ -29272,6 +29609,7 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.type = data["type"];
             this.fieldSuffix = data["fieldSuffix"];
         }
     }
@@ -29285,6 +29623,7 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
         data["fieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
         return data; 
@@ -29293,11 +29632,13 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
 
 /** An analyzer using a language analyzer. Restricted to the languages supported by elastic search. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html */
 export interface ILanguageAnalyzer extends IAnalyzerBase {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using the NGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html */
 export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 
     constructor(data?: INGramAnalyzer) {
@@ -29308,6 +29649,7 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.type = data["type"];
             this.fieldSuffix = data["fieldSuffix"];
         }
     }
@@ -29321,6 +29663,7 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
         data["fieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
         return data; 
@@ -29329,11 +29672,13 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
 
 /** An analyzer using the NGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html */
 export interface INGramAnalyzer extends IAnalyzerBase {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using the path hierarchy tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pathhierarchy-tokenizer.html */
 export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarchyAnalyzer {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 
     constructor(data?: IPathHierarchyAnalyzer) {
@@ -29344,6 +29689,7 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.type = data["type"];
             this.fieldSuffix = data["fieldSuffix"];
         }
     }
@@ -29357,6 +29703,7 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
         data["fieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
         return data; 
@@ -29365,11 +29712,13 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
 
 /** An analyzer using the path hierarchy tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pathhierarchy-tokenizer.html */
 export interface IPathHierarchyAnalyzer extends IAnalyzerBase {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 }
 
 /** An analyzer using a custom pattern tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pattern-tokenizer.html */
 export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 
     constructor(data?: ISimpleAnalyzer) {
@@ -29380,6 +29729,7 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.type = data["type"];
             this.fieldSuffix = data["fieldSuffix"];
         }
     }
@@ -29393,6 +29743,7 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
         data["fieldSuffix"] = this.fieldSuffix;
         super.toJSON(data);
         return data; 
@@ -29401,6 +29752,7 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
 
 /** An analyzer using a custom pattern tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pattern-tokenizer.html */
 export interface ISimpleAnalyzer extends IAnalyzerBase {
+    type: Analyzer;
     fieldSuffix?: string | undefined;
 }
 
@@ -30338,10 +30690,10 @@ export interface ISchema {
     system: boolean;
 }
 
-export class GetIndexFieldsRequest implements IGetIndexFieldsRequest {
+export class IndexFieldsSearchBySchemaIdsRequest implements IIndexFieldsSearchBySchemaIdsRequest {
     schemaIds?: string[] | undefined;
 
-    constructor(data?: IGetIndexFieldsRequest) {
+    constructor(data?: IIndexFieldsSearchBySchemaIdsRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -30360,9 +30712,9 @@ export class GetIndexFieldsRequest implements IGetIndexFieldsRequest {
         }
     }
 
-    static fromJS(data: any): GetIndexFieldsRequest {
+    static fromJS(data: any): IndexFieldsSearchBySchemaIdsRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new GetIndexFieldsRequest();
+        let result = new IndexFieldsSearchBySchemaIdsRequest();
         result.init(data);
         return result;
     }
@@ -30378,7 +30730,7 @@ export class GetIndexFieldsRequest implements IGetIndexFieldsRequest {
     }
 }
 
-export interface IGetIndexFieldsRequest {
+export interface IIndexFieldsSearchBySchemaIdsRequest {
     schemaIds?: string[] | undefined;
 }
 
@@ -31287,7 +31639,8 @@ export interface IPermissionSetSearchResult extends ISearchBehaviourBaseResultOf
 export class PermissionSet implements IPermissionSet {
     /** The permission set id. */
     id?: string | undefined;
-    trashed: boolean;
+    /** When true this permission set will derogate all other configured permission sets. */
+    exclusive: boolean;
     /** Language specific permission set names. */
     names?: TranslatedStringDictionary | undefined;
 
@@ -31304,7 +31657,7 @@ export class PermissionSet implements IPermissionSet {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.trashed = data["trashed"];
+            this.exclusive = data["exclusive"];
             this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
         }
     }
@@ -31319,7 +31672,7 @@ export class PermissionSet implements IPermissionSet {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["trashed"] = this.trashed;
+        data["exclusive"] = this.exclusive;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         return data; 
     }
@@ -31328,7 +31681,8 @@ export class PermissionSet implements IPermissionSet {
 export interface IPermissionSet {
     /** The permission set id. */
     id?: string | undefined;
-    trashed: boolean;
+    /** When true this permission set will derogate all other configured permission sets. */
+    exclusive: boolean;
     /** Language specific permission set names. */
     names?: ITranslatedStringDictionary | undefined;
 }
@@ -31803,6 +32157,7 @@ export class ShareDetail implements IShareDetail {
     data?: ShareDataBase | undefined;
     mailTemplateId?: string | undefined;
     expirationDate?: Date | undefined;
+    expired: boolean;
     template?: TemplateBase | undefined;
     outputAccess: OutputAccess;
     shareType: ShareType;
@@ -31845,6 +32200,7 @@ export class ShareDetail implements IShareDetail {
             this.data = data["data"] ? ShareDataBase.fromJS(data["data"]) : <any>undefined;
             this.mailTemplateId = data["mailTemplateId"];
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
+            this.expired = data["expired"];
             this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
             this.outputAccess = data["outputAccess"];
             this.shareType = data["shareType"];
@@ -31878,6 +32234,7 @@ export class ShareDetail implements IShareDetail {
         data["data"] = this.data ? this.data.toJSON() : <any>undefined;
         data["mailTemplateId"] = this.mailTemplateId;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
+        data["expired"] = this.expired;
         data["template"] = this.template ? this.template.toJSON() : <any>undefined;
         data["outputAccess"] = this.outputAccess;
         data["shareType"] = this.shareType;
@@ -31896,6 +32253,7 @@ export interface IShareDetail {
     data?: ShareDataBase | undefined;
     mailTemplateId?: string | undefined;
     expirationDate?: Date | undefined;
+    expired: boolean;
     template?: TemplateBase | undefined;
     outputAccess: OutputAccess;
     shareType: ShareType;
@@ -33547,6 +33905,50 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
 }
 
 export interface IShareEmbedUpdateRequest extends IShareBaseUpdateRequest {
+}
+
+export class ShareDeleteManyRequest implements IShareDeleteManyRequest {
+    ids?: string[] | undefined;
+
+    constructor(data?: IShareDeleteManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["ids"] && data["ids"].constructor === Array) {
+                this.ids = [];
+                for (let item of data["ids"])
+                    this.ids.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareDeleteManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareDeleteManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.ids && this.ids.constructor === Array) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IShareDeleteManyRequest {
+    ids?: string[] | undefined;
 }
 
 export class CustomerServiceProviderConfiguration implements ICustomerServiceProviderConfiguration {
@@ -35434,14 +35836,14 @@ export interface IFileTransferDeleteRequest {
     fileTransferIds?: string[] | undefined;
 }
 
-export class FileTransfer2ContentCreateRequest implements IFileTransfer2ContentCreateRequest {
+export class ImportTransferRequest implements IImportTransferRequest {
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     metadata?: DataDictionary | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 
-    constructor(data?: IFileTransfer2ContentCreateRequest) {
+    constructor(data?: IImportTransferRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -35467,9 +35869,9 @@ export class FileTransfer2ContentCreateRequest implements IFileTransfer2ContentC
         }
     }
 
-    static fromJS(data: any): FileTransfer2ContentCreateRequest {
+    static fromJS(data: any): ImportTransferRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new FileTransfer2ContentCreateRequest();
+        let result = new ImportTransferRequest();
         result.init(data);
         return result;
     }
@@ -35491,7 +35893,7 @@ export class FileTransfer2ContentCreateRequest implements IFileTransfer2ContentC
     }
 }
 
-export interface IFileTransfer2ContentCreateRequest {
+export interface IImportTransferRequest {
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     metadata?: IDataDictionary | undefined;
@@ -35499,10 +35901,10 @@ export interface IFileTransfer2ContentCreateRequest {
     contentPermissionSetIds?: string[] | undefined;
 }
 
-export class FileTransferPartial2ContentCreateRequest implements IFileTransferPartial2ContentCreateRequest {
+export class ImportTransferPartialRequest implements IImportTransferPartialRequest {
     items?: FileTransferCreateItem[] | undefined;
 
-    constructor(data?: IFileTransferPartial2ContentCreateRequest) {
+    constructor(data?: IImportTransferPartialRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -35528,9 +35930,9 @@ export class FileTransferPartial2ContentCreateRequest implements IFileTransferPa
         }
     }
 
-    static fromJS(data: any): FileTransferPartial2ContentCreateRequest {
+    static fromJS(data: any): ImportTransferPartialRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new FileTransferPartial2ContentCreateRequest();
+        let result = new ImportTransferPartialRequest();
         result.init(data);
         return result;
     }
@@ -35546,7 +35948,7 @@ export class FileTransferPartial2ContentCreateRequest implements IFileTransferPa
     }
 }
 
-export interface IFileTransferPartial2ContentCreateRequest {
+export interface IImportTransferPartialRequest {
     items?: IFileTransferCreateItem[] | undefined;
 }
 
@@ -35804,6 +36206,9 @@ export interface IUserUpdatableDetail extends IUser {
 export class UserDetail extends UserUpdatableDetail implements IUserDetail {
     ownerTokens?: OwnerToken[] | undefined;
     authorizationState: AuthorizationState;
+    lifeCycle: LifeCycle;
+    isSupportUser: boolean;
+    isReadOnly: boolean;
 
     constructor(data?: IUserDetail) {
         super(data);
@@ -35818,6 +36223,9 @@ export class UserDetail extends UserUpdatableDetail implements IUserDetail {
                     this.ownerTokens.push(OwnerToken.fromJS(item));
             }
             this.authorizationState = data["authorizationState"];
+            this.lifeCycle = data["lifeCycle"];
+            this.isSupportUser = data["isSupportUser"];
+            this.isReadOnly = data["isReadOnly"];
         }
     }
 
@@ -35836,6 +36244,9 @@ export class UserDetail extends UserUpdatableDetail implements IUserDetail {
                 data["ownerTokens"].push(item.toJSON());
         }
         data["authorizationState"] = this.authorizationState;
+        data["lifeCycle"] = this.lifeCycle;
+        data["isSupportUser"] = this.isSupportUser;
+        data["isReadOnly"] = this.isReadOnly;
         super.toJSON(data);
         return data; 
     }
@@ -35844,6 +36255,9 @@ export class UserDetail extends UserUpdatableDetail implements IUserDetail {
 export interface IUserDetail extends IUserUpdatableDetail {
     ownerTokens?: IOwnerToken[] | undefined;
     authorizationState: AuthorizationState;
+    lifeCycle: LifeCycle;
+    isSupportUser: boolean;
+    isReadOnly: boolean;
 }
 
 export class OwnerToken implements IOwnerToken {
@@ -35895,6 +36309,13 @@ export enum AuthorizationState {
     Review = <any>"Review", 
     Locked = <any>"Locked", 
     Invited = <any>"Invited", 
+}
+
+export enum LifeCycle {
+    Draft = <any>"Draft", 
+    Active = <any>"Active", 
+    Inactive = <any>"Inactive", 
+    Deleted = <any>"Deleted", 
 }
 
 export class UserSearchRequest implements IUserSearchRequest {
@@ -36147,6 +36568,9 @@ export class UserWithRoles implements IUserWithRoles {
     lastName?: string | undefined;
     emailAddress?: string | undefined;
     authorizationState: AuthorizationState;
+    lifeCycle: LifeCycle;
+    isSupportUser: boolean;
+    isReadOnly: boolean;
 
     constructor(data?: IUserWithRoles) {
         if (data) {
@@ -36169,6 +36593,9 @@ export class UserWithRoles implements IUserWithRoles {
             this.lastName = data["lastName"];
             this.emailAddress = data["emailAddress"];
             this.authorizationState = data["authorizationState"];
+            this.lifeCycle = data["lifeCycle"];
+            this.isSupportUser = data["isSupportUser"];
+            this.isReadOnly = data["isReadOnly"];
         }
     }
 
@@ -36191,6 +36618,9 @@ export class UserWithRoles implements IUserWithRoles {
         data["lastName"] = this.lastName;
         data["emailAddress"] = this.emailAddress;
         data["authorizationState"] = this.authorizationState;
+        data["lifeCycle"] = this.lifeCycle;
+        data["isSupportUser"] = this.isSupportUser;
+        data["isReadOnly"] = this.isReadOnly;
         return data; 
     }
 }
@@ -36202,6 +36632,9 @@ export interface IUserWithRoles {
     lastName?: string | undefined;
     emailAddress?: string | undefined;
     authorizationState: AuthorizationState;
+    lifeCycle: LifeCycle;
+    isSupportUser: boolean;
+    isReadOnly: boolean;
 }
 
 export class UserAggregationRequest implements IUserAggregationRequest {
@@ -36465,6 +36898,9 @@ export class UserProfile implements IUserProfile {
     authorizationState: AuthorizationState;
     userRights?: UserRight[] | undefined;
     userRoleIds?: string[] | undefined;
+    termsConsentExpired: boolean;
+    systemUserRoles?: SystemUserRole[] | undefined;
+    isDeveloper: boolean;
 
     constructor(data?: IUserProfile) {
         if (data) {
@@ -36495,6 +36931,13 @@ export class UserProfile implements IUserProfile {
                 for (let item of data["userRoleIds"])
                     this.userRoleIds.push(item);
             }
+            this.termsConsentExpired = data["termsConsentExpired"];
+            if (data["systemUserRoles"] && data["systemUserRoles"].constructor === Array) {
+                this.systemUserRoles = [];
+                for (let item of data["systemUserRoles"])
+                    this.systemUserRoles.push(item);
+            }
+            this.isDeveloper = data["isDeveloper"];
         }
     }
 
@@ -36524,6 +36967,13 @@ export class UserProfile implements IUserProfile {
             for (let item of this.userRoleIds)
                 data["userRoleIds"].push(item);
         }
+        data["termsConsentExpired"] = this.termsConsentExpired;
+        if (this.systemUserRoles && this.systemUserRoles.constructor === Array) {
+            data["systemUserRoles"] = [];
+            for (let item of this.systemUserRoles)
+                data["systemUserRoles"].push(item);
+        }
+        data["isDeveloper"] = this.isDeveloper;
         return data; 
     }
 }
@@ -36538,6 +36988,13 @@ export interface IUserProfile {
     authorizationState: AuthorizationState;
     userRights?: UserRight[] | undefined;
     userRoleIds?: string[] | undefined;
+    termsConsentExpired: boolean;
+    systemUserRoles?: SystemUserRole[] | undefined;
+    isDeveloper: boolean;
+}
+
+export enum SystemUserRole {
+    Administrator = <any>"Administrator", 
 }
 
 export class UserProfileUpdateRequest implements IUserProfileUpdateRequest {
@@ -36651,8 +37108,10 @@ export interface ISchemaImportRequest {
 
 export class CustomerInfo implements ICustomerInfo {
     customerId?: string | undefined;
+    name?: string | undefined;
     customerAlias?: string | undefined;
     identityServerUrl?: string | undefined;
+    enableQueryDetails: boolean;
     languageConfiguration?: LanguageConfiguration | undefined;
     languages?: Language[] | undefined;
     outputFormats?: OutputFormatInfo[] | undefined;
@@ -36684,8 +37143,10 @@ export class CustomerInfo implements ICustomerInfo {
     init(data?: any) {
         if (data) {
             this.customerId = data["customerId"];
+            this.name = data["name"];
             this.customerAlias = data["customerAlias"];
             this.identityServerUrl = data["identityServerUrl"];
+            this.enableQueryDetails = data["enableQueryDetails"];
             this.languageConfiguration = data["languageConfiguration"] ? LanguageConfiguration.fromJS(data["languageConfiguration"]) : <any>undefined;
             if (data["languages"] && data["languages"].constructor === Array) {
                 this.languages = [];
@@ -36710,8 +37171,10 @@ export class CustomerInfo implements ICustomerInfo {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["customerId"] = this.customerId;
+        data["name"] = this.name;
         data["customerAlias"] = this.customerAlias;
         data["identityServerUrl"] = this.identityServerUrl;
+        data["enableQueryDetails"] = this.enableQueryDetails;
         data["languageConfiguration"] = this.languageConfiguration ? this.languageConfiguration.toJSON() : <any>undefined;
         if (this.languages && this.languages.constructor === Array) {
             data["languages"] = [];
@@ -36729,8 +37192,10 @@ export class CustomerInfo implements ICustomerInfo {
 
 export interface ICustomerInfo {
     customerId?: string | undefined;
+    name?: string | undefined;
     customerAlias?: string | undefined;
     identityServerUrl?: string | undefined;
+    enableQueryDetails: boolean;
     languageConfiguration?: ILanguageConfiguration | undefined;
     languages?: ILanguage[] | undefined;
     outputFormats?: IOutputFormatInfo[] | undefined;
