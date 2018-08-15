@@ -121,7 +121,7 @@
         ]
       }
     },
-    "/v1/contents/many": {
+    "/v1/contents": {
       "get": {
         "tags": [
           "Content"
@@ -229,28 +229,76 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create - many",
-        "description": "Create multiple file-less content items. To import files, see [Transfer](#section/Transfer)\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "Content_CreateMany",
+        "summary": "Create - single",
+        "description": "Create a single file-less content item. To import files, see [Transfer](#section/Transfer)",
+        "operationId": "Content_Create",
         "parameters": [
           {
-            "name": "contentCreateManyRequest",
+            "name": "contentCreateRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentCreateManyRequest"
+              "$ref": "#/definitions/ContentCreateRequest"
             },
             "x-nullable": true,
-            "description": "The content create many request."
+            "description": "The content create request."
+          },
+          {
+            "type": "array",
+            "name": "resolveBehaviours",
+            "in": "query",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the content are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ContentResolveBehaviour"
+            }
+          },
+          {
+            "type": "boolean",
+            "name": "allowMissingDependencies",
+            "in": "query",
+            "x-nullable": false,
+            "description": "Allow creating list items that refer to list items or contents that don't exist in the system.",
+            "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/ContentDetail"
             },
             "x-nullable": false
+          },
+          "400": {
+            "description": "The specified wait timeout exceeded\nor\nValidation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true,
+            "x-expectedSchemas": [
+              {
+                "description": "The specified wait timeout exceeded",
+                "schema": {
+                  "$ref": "#/definitions/BusinessProcessWaitTimeoutException"
+                }
+              },
+              {
+                "description": "Validation exception",
+                "schema": {
+                  "$ref": "#/definitions/PictureparkValidationException"
+                }
+              }
+            ]
           },
           "500": {
             "description": "Internal server error",
@@ -276,13 +324,6 @@
             "description": "Version conflict",
             "schema": {
               "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
             },
             "x-nullable": true
           },
@@ -818,6 +859,9 @@
             },
             "x-nullable": true
           },
+          "412": {
+            "description": ""
+          },
           "500": {
             "description": "Internal server error",
             "schema": {
@@ -923,6 +967,9 @@
             },
             "x-nullable": false
           },
+          "412": {
+            "description": ""
+          },
           "500": {
             "description": "Internal server error",
             "schema": {
@@ -970,130 +1017,14 @@
         ]
       }
     },
-    "/v1/contents": {
+    "/v1/contents/{contentId}/delete": {
       "post": {
         "tags": [
           "Content"
         ],
-        "summary": "Create - single",
-        "description": "Create a single file-less content item. To import files, see [Transfer](#section/Transfer)",
-        "operationId": "Content_Create",
-        "parameters": [
-          {
-            "name": "contentCreateRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ContentCreateRequest"
-            },
-            "x-nullable": true,
-            "description": "The content create request."
-          },
-          {
-            "type": "array",
-            "name": "resolveBehaviours",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of enum that control which parts of the content are resolved and returned",
-            "items": {
-              "$ref": "#/definitions/ContentResolveBehaviour"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "allowMissingDependencies",
-            "in": "query",
-            "x-nullable": false,
-            "description": "Allow creating list items that refer to list items or contents that don't exist in the system.",
-            "default": false
-          },
-          {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ContentDetail"
-            },
-            "x-nullable": false
-          },
-          "400": {
-            "description": "The specified wait timeout exceeded\nor\nValidation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true,
-            "x-expectedSchemas": [
-              {
-                "description": "The specified wait timeout exceeded",
-                "schema": {
-                  "$ref": "#/definitions/BusinessProcessWaitTimeoutException"
-                }
-              },
-              {
-                "description": "Validation exception",
-                "schema": {
-                  "$ref": "#/definitions/PictureparkValidationException"
-                }
-              }
-            ]
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "content_write"
-            ]
-          }
-        ]
-      }
-    },
-    "/v1/contents/{contentId}/deactivate": {
-      "post": {
-        "tags": [
-          "Content"
-        ],
-        "summary": "Deactivate - single",
-        "description": "Deactivates a single content. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the content and all files will be deleted.",
-        "operationId": "Content_Deactivate",
+        "summary": "Delete - single",
+        "description": "Delete a single content. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the content and all files will be hard deleted.",
+        "operationId": "Content_Delete",
         "parameters": [
           {
             "type": "string",
@@ -1101,7 +1032,7 @@
             "in": "path",
             "required": true,
             "x-nullable": false,
-            "description": "the id of the content to deactivate"
+            "description": "the id of the content to delete"
           },
           {
             "type": "boolean",
@@ -1185,24 +1116,99 @@
         ]
       }
     },
-    "/v1/contents/many/deactivate": {
-      "put": {
+    "/v1/contents/many": {
+      "post": {
         "tags": [
           "Content"
         ],
-        "summary": "Deactivate - many",
-        "description": "Deactivates multiple contents. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the content and all files will be deleted.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "Content_DeactivateMany",
+        "summary": "Create - many",
+        "description": "Create multiple file-less content items. To import files, see [Transfer](#section/Transfer)\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "Content_CreateMany",
         "parameters": [
           {
-            "name": "deactivateRequest",
+            "name": "contentCreateManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentDeactivateRequest"
+              "$ref": "#/definitions/ContentCreateManyRequest"
             },
             "x-nullable": true,
-            "description": "The deactivate request"
+            "description": "The content create many request."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/BusinessProcess"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/contents/many/delete": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Delete - many",
+        "description": "Delete multiple contents. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the content and all files will be hard deleted.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "Content_DeleteMany",
+        "parameters": [
+          {
+            "name": "deleteManyRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContentDeleteManyRequest"
+            },
+            "x-nullable": true,
+            "description": "The delete many request"
           }
         ],
         "responses": {
@@ -1260,14 +1266,14 @@
         ]
       }
     },
-    "/v1/contents/{contentId}/reactivate": {
+    "/v1/contents/{contentId}/restore": {
       "post": {
         "tags": [
           "Content"
         ],
-        "summary": "Reactivate - single",
-        "description": "Reactivate a previously deactivated content.",
-        "operationId": "Content_Reactivate",
+        "summary": "Restore - single",
+        "description": "Restore a previously deleted content.",
+        "operationId": "Content_Restore",
         "parameters": [
           {
             "type": "string",
@@ -1282,7 +1288,7 @@
             "name": "allowMissingDependencies",
             "in": "query",
             "x-nullable": false,
-            "description": "Allow reactivating contents that refer to list items or contents that don't exist in the system.",
+            "description": "Allow restoring contents that refer to list items or contents that don't exist in the system.",
             "default": false
           },
           {
@@ -1359,24 +1365,24 @@
         ]
       }
     },
-    "/v1/contents/many/reactivate": {
-      "put": {
+    "/v1/contents/many/restore": {
+      "post": {
         "tags": [
           "Content"
         ],
-        "summary": "Reactivate - many",
-        "description": "Reactivate previously deactivated contents.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "Content_ReactivateMany",
+        "summary": "Restore - many",
+        "description": "Restore previously deleted contents.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "Content_RestoreMany",
         "parameters": [
           {
-            "name": "reactivateRequest",
+            "name": "restoreManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ContentReactivateRequest"
+              "$ref": "#/definitions/ContentRestoreManyRequest"
             },
             "x-nullable": true,
-            "description": "The content reactivate request."
+            "description": "The content restore many request."
           }
         ],
         "responses": {
@@ -1921,7 +1927,7 @@
         ]
       }
     },
-    "/v1/contents/{contentId}/ownership/transfer": {
+    "/v1/contents/{contentId}/ownership": {
       "put": {
         "tags": [
           "Content"
@@ -2332,14 +2338,14 @@
         ]
       }
     },
-    "/v1/businessProcesses/{processId}/wait": {
+    "/v1/businessProcesses/{processId}/waitLifeCycles": {
       "get": {
         "tags": [
           "BusinessProcess"
         ],
-        "summary": "Wait",
-        "description": "Wait for given process state or lifeCycle. LifeCycles are the same over all business processes. States depend on specific states of the business process.",
-        "operationId": "BusinessProcess_Wait",
+        "summary": "Wait for lifeCycles",
+        "description": "Wait for given process lifeCycle.",
+        "operationId": "BusinessProcess_WaitForLifeCycles",
         "parameters": [
           {
             "type": "string",
@@ -2348,17 +2354,6 @@
             "required": true,
             "x-nullable": false,
             "description": "The process id"
-          },
-          {
-            "type": "array",
-            "name": "states",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "The states to wait for",
-            "items": {
-              "type": "string"
-            }
           },
           {
             "type": "array",
@@ -2382,9 +2377,101 @@
         ],
         "responses": {
           "200": {
+            "description": "BusinessProcessWaitForLifeCycleResult",
+            "schema": {
+              "$ref": "#/definitions/BusinessProcessWaitForLifeCycleResult"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "businessprocess_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/businessProcesses/{processId}/waitStates": {
+      "get": {
+        "tags": [
+          "BusinessProcess"
+        ],
+        "summary": "Wait for states",
+        "description": "Wait for given process state.",
+        "operationId": "BusinessProcess_WaitForStates",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "processId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "The process id"
+          },
+          {
+            "type": "array",
+            "name": "states",
+            "in": "query",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "Business process states to wait for",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "The timeout to wait for completion.",
+            "format": "time-span"
+          }
+        ],
+        "responses": {
+          "200": {
             "description": "BusinessProcessWaitResult",
             "schema": {
-              "$ref": "#/definitions/BusinessProcessWaitResult"
+              "$ref": "#/definitions/BusinessProcessWaitForStateResult"
             },
             "x-nullable": false
           },
@@ -2465,7 +2552,7 @@
           "200": {
             "description": "BusinessProcessWaitResult",
             "schema": {
-              "$ref": "#/definitions/BusinessProcessWaitResult"
+              "$ref": "#/definitions/BusinessProcessWaitForLifeCycleResult"
             },
             "x-nullable": false
           },
@@ -3267,7 +3354,7 @@
         ]
       }
     },
-    "/v1/listItems/many": {
+    "/v1/listItems": {
       "get": {
         "tags": [
           "ListItem"
@@ -3374,101 +3461,76 @@
         "tags": [
           "ListItem"
         ],
-        "summary": "Create - many",
-        "description": "Create multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "ListItem_CreateMany",
+        "summary": "Create - single",
+        "description": "Create a single list item.",
+        "operationId": "ListItem_Create",
         "parameters": [
           {
-            "name": "listItemCreateManyRequest",
+            "name": "listItemCreateRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemCreateManyRequest"
+              "$ref": "#/definitions/ListItemCreateRequest"
             },
             "x-nullable": true,
-            "description": "List item create many request."
+            "description": "List item create request."
+          },
+          {
+            "type": "array",
+            "name": "resolveBehaviours",
+            "in": "query",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "description": "List of enum that control which parts of the list item are resolved and returned",
+            "items": {
+              "$ref": "#/definitions/ListItemResolveBehaviour"
+            }
+          },
+          {
+            "type": "boolean",
+            "name": "allowMissingDependencies",
+            "in": "query",
+            "x-nullable": false,
+            "description": "Allow creating list items that refer to list items or contents that don't exist in the system.",
+            "default": false
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query",
+            "x-nullable": true,
+            "description": "Maximum time to wait for the business process completed state.",
+            "format": "time-span"
           }
         ],
         "responses": {
           "200": {
-            "description": "BusinessProcess",
+            "description": "ListItemDetail",
             "schema": {
-              "$ref": "#/definitions/BusinessProcess"
+              "$ref": "#/definitions/ListItemDetail"
             },
             "x-nullable": false
           },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/PictureparkException"
-            },
-            "x-nullable": true
-          },
-          "401": {
-            "description": "Not authorized"
-          },
-          "405": {
-            "description": "Method not allowed"
-          },
-          "404": {
-            "description": "Entity not found",
-            "schema": {
-              "$ref": "#/definitions/PictureparkNotFoundException"
-            },
-            "x-nullable": true
-          },
-          "409": {
-            "description": "Version conflict",
-            "schema": {
-              "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
           "400": {
-            "description": "Validation exception",
+            "description": "\nor\nValidation exception",
             "schema": {
               "$ref": "#/definitions/PictureparkValidationException"
             },
-            "x-nullable": true
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "listitem_write"
+            "x-nullable": true,
+            "x-expectedSchemas": [
+              {
+                "description": "",
+                "schema": {
+                  "$ref": "#/definitions/BusinessProcessWaitTimeoutException"
+                }
+              },
+              {
+                "description": "Validation exception",
+                "schema": {
+                  "$ref": "#/definitions/PictureparkValidationException"
+                }
+              }
             ]
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "ListItem"
-        ],
-        "summary": "Update - many",
-        "description": "Updates multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "ListItem_UpdateMany",
-        "parameters": [
-          {
-            "name": "listItemUpdateManyRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ListItemUpdateManyRequest"
-            },
-            "x-nullable": true,
-            "description": "List item update many request."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "BusinessProcess",
-            "schema": {
-              "$ref": "#/definitions/BusinessProcess"
-            },
-            "x-nullable": false
           },
           "500": {
             "description": "Internal server error",
@@ -3494,13 +3556,6 @@
             "description": "Version conflict",
             "schema": {
               "$ref": "#/definitions/PictureparkConflictException"
-            },
-            "x-nullable": true
-          },
-          "400": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
             },
             "x-nullable": true
           },
@@ -3667,81 +3722,33 @@
         ]
       }
     },
-    "/v1/listItems": {
+    "/v1/listItems/many": {
       "post": {
         "tags": [
           "ListItem"
         ],
-        "summary": "Create - single",
-        "description": "Create a single list item.",
-        "operationId": "ListItem_Create",
+        "summary": "Create - many",
+        "description": "Create multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "ListItem_CreateMany",
         "parameters": [
           {
-            "name": "listItemCreateRequest",
+            "name": "listItemCreateManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemCreateRequest"
+              "$ref": "#/definitions/ListItemCreateManyRequest"
             },
             "x-nullable": true,
-            "description": "List item create request."
-          },
-          {
-            "type": "array",
-            "name": "resolveBehaviours",
-            "in": "query",
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "List of enum that control which parts of the list item are resolved and returned",
-            "items": {
-              "$ref": "#/definitions/ListItemResolveBehaviour"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "allowMissingDependencies",
-            "in": "query",
-            "x-nullable": false,
-            "description": "Allow creating list items that refer to list items or contents that don't exist in the system.",
-            "default": false
-          },
-          {
-            "type": "string",
-            "name": "timeout",
-            "in": "query",
-            "x-nullable": true,
-            "description": "Maximum time to wait for the business process completed state.",
-            "format": "time-span"
+            "description": "List item create many request."
           }
         ],
         "responses": {
           "200": {
-            "description": "ListItemDetail",
+            "description": "BusinessProcess",
             "schema": {
-              "$ref": "#/definitions/ListItemDetail"
+              "$ref": "#/definitions/BusinessProcess"
             },
             "x-nullable": false
-          },
-          "400": {
-            "description": "\nor\nValidation exception",
-            "schema": {
-              "$ref": "#/definitions/PictureparkValidationException"
-            },
-            "x-nullable": true,
-            "x-expectedSchemas": [
-              {
-                "description": "",
-                "schema": {
-                  "$ref": "#/definitions/BusinessProcessWaitTimeoutException"
-                }
-              },
-              {
-                "description": "Validation exception",
-                "schema": {
-                  "$ref": "#/definitions/PictureparkValidationException"
-                }
-              }
-            ]
           },
           "500": {
             "description": "Internal server error",
@@ -3770,6 +3777,86 @@
             },
             "x-nullable": true
           },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "listitem_write"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "ListItem"
+        ],
+        "summary": "Update - many",
+        "description": "Updates multiple list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "ListItem_UpdateMany",
+        "parameters": [
+          {
+            "name": "listItemUpdateManyRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListItemUpdateManyRequest"
+            },
+            "x-nullable": true,
+            "description": "List item update many request."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BusinessProcess",
+            "schema": {
+              "$ref": "#/definitions/BusinessProcess"
+            },
+            "x-nullable": false
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/PictureparkException"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "schema": {
+              "$ref": "#/definitions/PictureparkNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "409": {
+            "description": "Version conflict",
+            "schema": {
+              "$ref": "#/definitions/PictureparkConflictException"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/PictureparkValidationException"
+            },
+            "x-nullable": true
+          },
           "429": {
             "description": "Too many requests"
           }
@@ -3783,14 +3870,14 @@
         ]
       }
     },
-    "/v1/listItems/{listItemId}/deactivate": {
+    "/v1/listItems/{listItemId}/delete": {
       "post": {
         "tags": [
           "ListItem"
         ],
-        "summary": "Deactivate - single",
-        "description": "Deactivates a single listitem. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the list item and all files will be deleted.",
-        "operationId": "ListItem_Deactivate",
+        "summary": "Delete - single",
+        "description": "Delete a single listitem. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the list item and all files will be deleted.",
+        "operationId": "ListItem_Delete",
         "parameters": [
           {
             "type": "string",
@@ -3798,7 +3885,7 @@
             "in": "path",
             "required": true,
             "x-nullable": false,
-            "description": "the id of the list item to deactivate"
+            "description": "The id of the list item to delete"
           },
           {
             "type": "boolean",
@@ -3882,24 +3969,24 @@
         ]
       }
     },
-    "/v1/listItems/many/deactivate": {
-      "put": {
+    "/v1/listItems/many/delete": {
+      "post": {
         "tags": [
           "ListItem"
         ],
-        "summary": "Deactivate - many",
-        "description": "Deactivates multiple list items. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the list item and all files will be deleted.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "ListItem_DeactivateMany",
+        "summary": "Delete - many",
+        "description": "Deletes multiple list items. The lifecycle is changed to Inactive. After a customer instance specified time (default 30 days), the list item and all files will be deleted.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "ListItem_DeleteMany",
         "parameters": [
           {
-            "name": "deactivateRequest",
+            "name": "deleteManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemDeactivateRequest"
+              "$ref": "#/definitions/ListItemDeleteManyRequest"
             },
             "x-nullable": true,
-            "description": "The list items deactivate request"
+            "description": "The list items delete many request"
           }
         ],
         "responses": {
@@ -3957,14 +4044,14 @@
         ]
       }
     },
-    "/v1/listItems/{listItemId}/reactivate": {
+    "/v1/listItems/{listItemId}/restore": {
       "post": {
         "tags": [
           "ListItem"
         ],
-        "summary": "Reactivate - single",
-        "description": "Reactivate a previously deactivated list item.",
-        "operationId": "ListItem_Reactivate",
+        "summary": "Restore - single",
+        "description": "Restore a previously deleted list item.",
+        "operationId": "ListItem_Restore",
         "parameters": [
           {
             "type": "string",
@@ -3979,7 +4066,7 @@
             "name": "allowMissingDependencies",
             "in": "query",
             "x-nullable": false,
-            "description": "Allow reactivating list items that refer to list items or contents that don't exist in the system.",
+            "description": "Allow restoring list items that refer to list items or contents that don't exist in the system.",
             "default": false
           },
           {
@@ -4056,24 +4143,24 @@
         ]
       }
     },
-    "/v1/listItems/many/reactivate": {
-      "put": {
+    "/v1/listItems/many/restore": {
+      "post": {
         "tags": [
           "ListItem"
         ],
-        "summary": "Reactivate - many",
-        "description": "Reactivate previously deactivated list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
-        "operationId": "ListItem_ReactivateMany",
+        "summary": "Restore - many",
+        "description": "Restore previously deleted list items.\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "ListItem_RestoreMany",
         "parameters": [
           {
-            "name": "reactivateRequest",
+            "name": "restoreManyRequest",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListItemReactivateRequest"
+              "$ref": "#/definitions/ListItemRestoreManyRequest"
             },
             "x-nullable": true,
-            "description": "The list items reactivate request."
+            "description": "The list items restore many request."
           }
         ],
         "responses": {
@@ -5100,7 +5187,7 @@
         ]
       }
     },
-    "/v1/schemas/indexFields": {
+    "/v1/schemas/indexFields/searchBySchemaIds": {
       "post": {
         "tags": [
           "Schema"
@@ -5114,7 +5201,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/GetIndexFieldsRequest"
+              "$ref": "#/definitions/IndexFieldsSearchBySchemaIdsRequest"
             },
             "x-nullable": true,
             "description": "The get request."
@@ -5263,9 +5350,9 @@
         "tags": [
           "ContentPermissionSet"
         ],
-        "summary": "Search Content Permission Sets",
+        "summary": "Search",
         "description": "Searches content permission sets as specified in the search request.",
-        "operationId": "ContentPermissionSet_SearchContentPermissionSets",
+        "operationId": "ContentPermissionSet_Search",
         "parameters": [
           {
             "name": "request",
@@ -5338,9 +5425,9 @@
         "tags": [
           "ContentPermissionSet"
         ],
-        "summary": "Get Content Permission Set - single",
+        "summary": "Get detail - single",
         "description": "Gets the content permission set detail information by the content permission set id.",
-        "operationId": "ContentPermissionSet_GetContentPermissionSet",
+        "operationId": "ContentPermissionSet_Get",
         "parameters": [
           {
             "type": "string",
@@ -5411,9 +5498,9 @@
         "tags": [
           "SchemaPermissionSet"
         ],
-        "summary": "Search Schema Permission Sets",
+        "summary": "Search",
         "description": "Searches schema permission sets as specified in the search request.",
-        "operationId": "SchemaPermissionSet_SearchSchemaPermissionSets",
+        "operationId": "SchemaPermissionSet_Search",
         "parameters": [
           {
             "name": "request",
@@ -5486,9 +5573,9 @@
         "tags": [
           "SchemaPermissionSet"
         ],
-        "summary": "Get Schema Permission Sets - single",
+        "summary": "Get detail - single",
         "description": "Gets the schema permission set detail information by the schema permission set id.",
-        "operationId": "SchemaPermissionSet_GetSchemaPermissionSet",
+        "operationId": "SchemaPermissionSet_Get",
         "parameters": [
           {
             "type": "string",
@@ -5808,6 +5895,9 @@
             },
             "x-nullable": true
           },
+          "412": {
+            "description": ""
+          },
           "500": {
             "description": "Internal server error",
             "schema": {
@@ -5916,6 +6006,9 @@
               "type": "file"
             },
             "x-nullable": true
+          },
+          "412": {
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -6033,6 +6126,9 @@
               "type": "file"
             },
             "x-nullable": true
+          },
+          "412": {
+            "description": ""
           },
           "500": {
             "description": "Internal server error",
@@ -6507,8 +6603,8 @@
         ]
       }
     },
-    "/v1/shares/many": {
-      "delete": {
+    "/v1/shares/many/delete": {
+      "post": {
         "tags": [
           "Share"
         ],
@@ -6517,16 +6613,14 @@
         "operationId": "Share_DeleteMany",
         "parameters": [
           {
-            "type": "array",
-            "name": "ids",
-            "in": "query",
+            "name": "deleteManyRequest",
+            "in": "body",
             "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShareDeleteManyRequest"
+            },
             "x-nullable": true,
-            "collectionFormat": "multi",
-            "description": "A list of shareIds to delete.",
-            "items": {
-              "type": "string"
-            }
+            "description": "A delete many request containing the ids of the shares to delete."
           }
         ],
         "responses": {
@@ -6948,7 +7042,7 @@
       }
     },
     "/v1/transfers/{transferId}/cancel": {
-      "get": {
+      "post": {
         "tags": [
           "Transfer"
         ],
@@ -7391,7 +7485,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/FileTransfer2ContentCreateRequest"
+              "$ref": "#/definitions/ImportTransferRequest"
             },
             "x-nullable": true,
             "description": "The filetransfer to content create request"
@@ -7473,7 +7567,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/FileTransferPartial2ContentCreateRequest"
+              "$ref": "#/definitions/ImportTransferPartialRequest"
             },
             "x-nullable": true,
             "description": "The filetransfer partial to content create request"
@@ -9515,6 +9609,20 @@
         }
       ]
     },
+    "ShareExpiredException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkBusinessException"
+        }
+      ]
+    },
     "OutputIdNotFoundException": {
       "type": "object",
       "additionalProperties": false,
@@ -11338,10 +11446,10 @@
         "fieldId": {
           "type": "string"
         },
-        "oldType": {
+        "oldTypeName": {
           "type": "string"
         },
-        "newType": {
+        "newTypeName": {
           "type": "string"
         }
       },
@@ -11600,6 +11708,62 @@
         {
           "$ref": "#/definitions/PictureparkValidationException"
         }
+      ]
+    },
+    "SchemaMultipleTypesException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaId": {
+          "type": "string"
+        },
+        "schemaTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkValidationException"
+        }
+      ]
+    },
+    "MissingDisplayPatternForCustomerDefaultLanguageException": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaId": {
+          "type": "string"
+        },
+        "missingTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DisplayPatternType"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PictureparkValidationException"
+        }
+      ]
+    },
+    "DisplayPatternType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Thumbnail",
+        "List",
+        "Detail",
+        "Name"
+      ],
+      "enum": [
+        "Thumbnail",
+        "List",
+        "Detail",
+        "Name"
       ]
     },
     "DeleteContentsWithRelationsException": {
@@ -14114,7 +14278,7 @@
         }
       }
     },
-    "ContentDeactivateRequest": {
+    "ContentDeleteManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -14132,7 +14296,7 @@
         }
       }
     },
-    "ContentReactivateRequest": {
+    "ContentRestoreManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -14541,7 +14705,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "contentFilterRequest": {
+        "filterRequest": {
           "$ref": "#/definitions/ContentFilterRequest"
         }
       },
@@ -14717,18 +14881,27 @@
         }
       }
     },
-    "BusinessProcessWaitResult": {
+    "BusinessProcessWaitForLifeCycleResult": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "lifeCycleHit"
       ],
       "properties": {
-        "stateHit": {
-          "type": "string"
-        },
         "lifeCycleHit": {
           "$ref": "#/definitions/BusinessProcessLifeCycle"
+        },
+        "businessProcess": {
+          "$ref": "#/definitions/BusinessProcess"
+        }
+      }
+    },
+    "BusinessProcessWaitForStateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stateHit": {
+          "type": "string"
         },
         "businessProcess": {
           "$ref": "#/definitions/BusinessProcess"
@@ -15566,7 +15739,7 @@
         }
       ]
     },
-    "ListItemDeactivateRequest": {
+    "ListItemDeleteManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -15584,7 +15757,7 @@
         }
       }
     },
-    "ListItemReactivateRequest": {
+    "ListItemRestoreManyRequest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -15643,7 +15816,7 @@
         "notifyProgress"
       ],
       "properties": {
-        "listItemFilterRequest": {
+        "filterRequest": {
           "description": "The search request used to filter the list items on which the change commands must be applied",
           "allOf": [
             {
@@ -15986,22 +16159,6 @@
       ],
       "enum": [
         "DotLiquid"
-      ]
-    },
-    "DisplayPatternType": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Thumbnail",
-        "List",
-        "Detail",
-        "Name"
-      ],
-      "enum": [
-        "Thumbnail",
-        "List",
-        "Detail",
-        "Name"
       ]
     },
     "FieldBase": {
@@ -16572,7 +16729,13 @@
       "type": "object",
       "description": "An analyzer using the EdgeNGram tokenizer.\nhttps://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html",
       "additionalProperties": false,
+      "required": [
+        "type"
+      ],
       "properties": {
+        "type": {
+          "$ref": "#/definitions/Analyzer"
+        },
         "fieldSuffix": {
           "type": "string"
         }
@@ -16583,11 +16746,37 @@
         }
       ]
     },
+    "Analyzer": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Simple",
+        "Language",
+        "PathHierarchy",
+        "EdgeNGram",
+        "NGram"
+      ],
+      "enum": [
+        "None",
+        "Simple",
+        "Language",
+        "PathHierarchy",
+        "EdgeNGram",
+        "NGram"
+      ]
+    },
     "LanguageAnalyzer": {
       "type": "object",
       "description": "An analyzer using a language analyzer. Restricted to the languages supported by elastic search.\nhttps://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html",
       "additionalProperties": false,
+      "required": [
+        "type"
+      ],
       "properties": {
+        "type": {
+          "$ref": "#/definitions/Analyzer"
+        },
         "fieldSuffix": {
           "type": "string"
         }
@@ -16602,7 +16791,13 @@
       "type": "object",
       "description": "An analyzer using the NGram tokenizer.\nhttps://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html",
       "additionalProperties": false,
+      "required": [
+        "type"
+      ],
       "properties": {
+        "type": {
+          "$ref": "#/definitions/Analyzer"
+        },
         "fieldSuffix": {
           "type": "string"
         }
@@ -16617,7 +16812,13 @@
       "type": "object",
       "description": "An analyzer using the path hierarchy tokenizer.\nhttps://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pathhierarchy-tokenizer.html",
       "additionalProperties": false,
+      "required": [
+        "type"
+      ],
       "properties": {
+        "type": {
+          "$ref": "#/definitions/Analyzer"
+        },
         "fieldSuffix": {
           "type": "string"
         }
@@ -16632,7 +16833,13 @@
       "type": "object",
       "description": "An analyzer using a custom pattern tokenizer.\nhttps://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pattern-tokenizer.html",
       "additionalProperties": false,
+      "required": [
+        "type"
+      ],
       "properties": {
+        "type": {
+          "$ref": "#/definitions/Analyzer"
+        },
         "fieldSuffix": {
           "type": "string"
         }
@@ -17156,7 +17363,7 @@
         }
       }
     },
-    "GetIndexFieldsRequest": {
+    "IndexFieldsSearchBySchemaIdsRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -17584,15 +17791,16 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "trashed"
+        "exclusive"
       ],
       "properties": {
         "id": {
           "type": "string",
           "description": "The permission set id."
         },
-        "trashed": {
-          "type": "boolean"
+        "exclusive": {
+          "type": "boolean",
+          "description": "When true this permission set will derogate all other configured permission sets."
         },
         "names": {
           "description": "Language specific permission set names.",
@@ -17793,6 +18001,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "expired",
         "outputAccess",
         "shareType"
       ],
@@ -17833,6 +18042,9 @@
         "expirationDate": {
           "type": "string",
           "format": "date-time"
+        },
+        "expired": {
+          "type": "boolean"
         },
         "template": {
           "$ref": "#/definitions/TemplateBase"
@@ -18550,6 +18762,18 @@
           "$ref": "#/definitions/ShareBaseUpdateRequest"
         }
       ]
+    },
+    "ShareDeleteManyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "CustomerServiceProviderConfiguration": {
       "type": "object",
@@ -19613,7 +19837,7 @@
         }
       }
     },
-    "FileTransfer2ContentCreateRequest": {
+    "ImportTransferRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -19636,7 +19860,7 @@
         }
       }
     },
-    "FileTransferPartial2ContentCreateRequest": {
+    "ImportTransferPartialRequest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -19735,7 +19959,10 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "authorizationState"
+        "authorizationState",
+        "lifeCycle",
+        "isSupportUser",
+        "isReadOnly"
       ],
       "properties": {
         "ownerTokens": {
@@ -19746,6 +19973,15 @@
         },
         "authorizationState": {
           "$ref": "#/definitions/AuthorizationState"
+        },
+        "lifeCycle": {
+          "$ref": "#/definitions/LifeCycle"
+        },
+        "isSupportUser": {
+          "type": "boolean"
+        },
+        "isReadOnly": {
+          "type": "boolean"
         }
       },
       "allOf": [
@@ -19782,6 +20018,22 @@
         "Review",
         "Locked",
         "Invited"
+      ]
+    },
+    "LifeCycle": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Draft",
+        "Active",
+        "Inactive",
+        "Deleted"
+      ],
+      "enum": [
+        "Draft",
+        "Active",
+        "Inactive",
+        "Deleted"
       ]
     },
     "UserUpdatableDetail": {
@@ -19934,7 +20186,10 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "authorizationState"
+        "authorizationState",
+        "lifeCycle",
+        "isSupportUser",
+        "isReadOnly"
       ],
       "properties": {
         "userRoleIds": {
@@ -19957,6 +20212,15 @@
         },
         "authorizationState": {
           "$ref": "#/definitions/AuthorizationState"
+        },
+        "lifeCycle": {
+          "$ref": "#/definitions/LifeCycle"
+        },
+        "isSupportUser": {
+          "type": "boolean"
+        },
+        "isReadOnly": {
+          "type": "boolean"
         }
       }
     },
@@ -20051,7 +20315,9 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "authorizationState"
+        "authorizationState",
+        "termsConsentExpired",
+        "isDeveloper"
       ],
       "properties": {
         "id": {
@@ -20086,8 +20352,30 @@
           "items": {
             "type": "string"
           }
+        },
+        "termsConsentExpired": {
+          "type": "boolean"
+        },
+        "systemUserRoles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SystemUserRole"
+          }
+        },
+        "isDeveloper": {
+          "type": "boolean"
         }
       }
+    },
+    "SystemUserRole": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Administrator"
+      ],
+      "enum": [
+        "Administrator"
+      ]
     },
     "UserProfileUpdateRequest": {
       "type": "object",
@@ -20139,8 +20427,14 @@
     "CustomerInfo": {
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "enableQueryDetails"
+      ],
       "properties": {
         "customerId": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         },
         "customerAlias": {
@@ -20148,6 +20442,9 @@
         },
         "identityServerUrl": {
           "type": "string"
+        },
+        "enableQueryDetails": {
+          "type": "boolean"
         },
         "languageConfiguration": {
           "$ref": "#/definitions/LanguageConfiguration"
