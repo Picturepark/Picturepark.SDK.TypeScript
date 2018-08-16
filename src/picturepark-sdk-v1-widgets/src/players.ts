@@ -108,7 +108,7 @@ export class PictureparkPlayers {
           height: height,
           preload: 'auto'
         }, () => {
-          resolve();
+          resolve(player);
         });
 
         player.src({ type: 'video/mp4', src: item.originalUrl });
@@ -120,7 +120,13 @@ export class PictureparkPlayers {
   static loadVideoPlayer() {
     if ((<any>window).videojs)
       return Promise.resolve((<any>window).videojs);
-    return this.loadScript("https://vjs.zencdn.net/7.0.3/video.js", 'videojs');
+
+    return Promise.all([
+      this.loadCss("https://vjs.zencdn.net/7.0.3/video-js.css"),
+      this.loadScript("https://vjs.zencdn.net/7.0.3/video.js", "videojs")
+    ]).then(([_, videojs]) => {
+      return videojs;
+    });
   }
 
   static showPdfJsItem(item) {
@@ -213,11 +219,10 @@ export class PictureparkPlayers {
           if (shareItems.filter(i => i.isMovie).length > 0) {
             PictureparkPlayers.loadVideoPlayer().then(() => {
               for (let i of shareItems.filter(i => i.isMovie && loadedPlayerElements.indexOf(i.id) === -1)) {
-                loadedPlayerElements.push(i.id);
-
                 let elementId = "vjsplayer_" + i.id;
                 let element = document.getElementById(elementId);
                 if (element) {
+                  // loadedPlayerElements.push(i.id);
                   PictureparkPlayers.renderVideoPlayer(i, element, window.innerWidth, window.innerHeight).then(player => {
                     if (player) {
                       loadedPlayers.push(player);
