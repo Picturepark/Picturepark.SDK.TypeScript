@@ -1,6 +1,7 @@
-<mat-form-field color="dark">
-  <input matInput [(ngModel)]="query" (keyup.enter)="search()">
-  <button  mat-icon-button *ngIf="!query" matSuffix aria-label="Search">
+<mat-form-field>
+  <!-- TODO: check another style -->
+  <input matInput [(ngModel)]="query" (keyup.enter)="search()" autocomplete="false">
+  <button mat-icon-button *ngIf="!query" matSuffix aria-label="Search">
     <mat-icon>search</mat-icon>
   </button>
   <button mat-icon-button *ngIf="query" matSuffix aria-label="Clear" (click)="clear()">

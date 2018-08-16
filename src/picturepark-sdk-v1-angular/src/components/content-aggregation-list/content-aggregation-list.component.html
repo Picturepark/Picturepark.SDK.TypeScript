@@ -1,21 +1,23 @@
-<!-- TODO: translation, tooltips traslation -->
 <div class="aggregation-filter">
   <div class="aggregation-filter__filters filters">
     <mat-toolbar class="filters__active-filters">
-      <span *ngIf=" this.aggregationFiltersFlat.length === 0">No active filters </span>
+      <span *ngIf="this.aggregationFilters.length === 0">{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
+      <span *ngIf="this.aggregationFilters.length === 1">{{ 'ContentAggregationList.SingleActiveFilter' | pptranslate }}</span>
+      <span *ngIf="this.aggregationFilters.length > 1">{{ 'ContentAggregationList.MultipleActiveFilters' | pptranslate:this.aggregationFilters.length }}</span>
       <!-- TODO: check best way here, verify needed styles -->
-      <span *ngIf=" this.aggregationFiltersFlat.length > 0">{{ this.aggregationFiltersFlat.length}} active filters</span>
-      <button [style.visibility]="this.aggregationFiltersFlat.length > 0 ? 'visible' : 'hidden'" [matTooltip]="'Clear all filters'" (click)="clearFilters()" mat-icon-button>
+      <button [style.visibility]="this.aggregationFilters.length > 0 ? 'visible' : 'hidden'" [matTooltip]="'ContentAggregationList.ClearAllFilters' | pptranslate"
+        (click)="clearFilters()" mat-icon-button>
         <mat-icon aria-label="Clear filters">clear</mat-icon>
       </button>
     </mat-toolbar>
 
     <mat-accordion displayMode="flat" multi="true">
-      <pp-content-aggregation *ngFor="let aggregator of aggregators, let i=index" [query]="query" [channelId]="channel.id" [aggregator]="aggregator"
-        [globalAggregationFilters]="aggregationFiltersFlat" [aggregationResult]="aggregationResults[i]" (aggregationFiltersChange)="aggregationFiltersChanged(i,$event)">
+      <pp-content-aggregation *ngFor="let aggregator of aggregators, let i=index" [query]="query" [channelId]="channelId" [aggregator]="aggregator"
+        [globalAggregationFilters]="aggregationFilters" [aggregationResult]="aggregationResults[i]" (aggregationFiltersChange)="aggregationFiltersChanged(i,$event)">
       </pp-content-aggregation>
     </mat-accordion>
   </div>
+  <!-- TODO: spinner style height -->
   <div *ngIf="isLoading" class="aggregation-filter__loading-spinner">
     <mat-spinner></mat-spinner>
   </div>

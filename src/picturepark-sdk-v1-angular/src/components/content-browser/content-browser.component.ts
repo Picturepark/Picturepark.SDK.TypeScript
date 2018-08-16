@@ -1,29 +1,31 @@
-import { ContentItemSelectionService } from '../../services/content-item-selection.service';
-import { ThumbnailSize, ContentDownloadLinkCreateRequest } from './../../services/services';
-import { SortingType } from './models/sorting-type';
-import { BasketService } from './../../services/basket.service';
+import {
+  Component, Input, Output, OnChanges, EventEmitter,
+  SimpleChanges, OnInit, NgZone, OnDestroy
+} from '@angular/core';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { Subscription } from 'rxjs';
 
-import {
-  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, OnDestroy
-} from '@angular/core';
-
-import {
-  ContentService, ContentSearchRequest,
-  FilterBase, SortInfo, SortDirection, Content, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
-} from '../../services/services';
-
-import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
-
+import { BasketService } from './../../services/basket.service';
+import { ContentItemSelectionService } from './../../services/content-item-selection.service';
+import {
+  ContentService, ThumbnailSize,
+  ContentDownloadLinkCreateRequest,
+  ContentSearchRequest, FilterBase, SortInfo,
+  SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
+} from './../../services/services';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
+// currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
   styleUrls: ['./content-browser.component.scss']
 })
 export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
+  private lastSelectedIndex = 0;
+
   private readonly ItemsPerRequest = 75;
 
   private basketItems: string[] = [];
@@ -151,25 +153,27 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  public itemClicked($event: MouseEvent, itemModel: ContentModel) {
+  public itemClicked($event: MouseEvent, index: number) {
+    const itemModel = this.items[index];
+
     if ($event.ctrlKey) {
+      this.lastSelectedIndex = index;
+
       if (itemModel.isSelected === true) {
         this.contentItemSelectionService.removeItem(itemModel.item.id || '');
       } else {
         this.contentItemSelectionService.addItem(itemModel.item.id || '');
       }
     } else if ($event.shiftKey) {
-      itemModel.isSelected = true;
+      const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
+      const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
-      const firstIndex = this.items.findIndex(item => item.isSelected === true);
-      const lastIndexReversed = this.items.slice().reverse().findIndex(item => item.isSelected === true);
-      const lastIndex = lastIndexReversed >= 0 ? this.items.length - lastIndexReversed : lastIndexReversed;
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(model => model.item.id || '');
 
-      const itemsToAdd = this.items.slice(firstIndex, lastIndex).map(model => model.item.id || '');
-
+      this.contentItemSelectionService.clear();
       this.contentItemSelectionService.addItems(itemsToAdd);
-
     } else {
+      this.lastSelectedIndex = index;
       this.contentItemSelectionService.clear();
       this.contentItemSelectionService.addItem(itemModel.item.id || '');
     }
@@ -189,7 +193,6 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         limit: this.ItemsPerRequest,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
-        // TODO select sort.
         sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
           new SortInfo({
             field: this.activeSortingType,

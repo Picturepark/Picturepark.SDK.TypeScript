@@ -1,16 +1,9 @@
-<!-- TODO: add tooltips -->
-<!-- TODO: remove item text when small and loading spinner -->
-<!-- TODO: typography in the scss -->
-<!-- TODO: translation for tooltips -->
 <div class="content-item" [class.content-item--selected]="itemModel.isSelected" [class.content-item--list-view]="isListView">
-
-
-  <!-- TODO: make it as img. -->
   <div class="content-item__image-slot">
     <div class="content-item__image-container">
       <mat-spinner *ngIf="isLoading" [diameter]="thumbnailSize === thumbnailSizes.Small || isListView ? 50 : 100"></mat-spinner>
-      <!-- TODO: translate alt -->
-      <img *ngIf="!isLoading" class="content-item__image" [src]="thumbnailUrl" alt="There is no image." />
+      <img *ngIf="!isLoading" class="content-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+      />
     </div>
   </div>
   <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="content-item__title mat-subheading-2">
@@ -18,18 +11,18 @@
     <div class="mat-subheading-1" *ngIf="isListView">{{ itemModel.item?.displayValues['list'] || 'n/a'}}</div>
   </div>
   <div class="content-item__actions">
-    <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'Preview'">
+    <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate">
       <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
     </button>
-    <button mat-icon-button (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'Download'">
+    <button mat-icon-button (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate">
       <mat-icon aria-label="Download content item">get_app</mat-icon>
     </button>
   </div>
 
-  <mat-icon class="content-item__select-icon" aria-label="todo: set here" [matTooltip]="'Select item'">done</mat-icon>
+  <mat-icon class="content-item__select-icon" aria-label="Select item" [matTooltip]="'ContentBrowser.SelectItem' | pptranslate">done</mat-icon>
 
   <button class="content-item__basket-icon" mat-mini-fab (click)="toggleInBasket(); $event.stopPropagation()" [class.content-item__basket-icon--selected]="itemModel.isInBasket"
-    [color]="itemModel.isInBasket ? 'accent' : 'basic'" [matTooltip]="itemModel.isInBasket ? 'Remove from basket' : 'Add to basket'">
-    <mat-icon aria-label="TODO: change this text">add</mat-icon>
+    [color]="itemModel.isInBasket ? 'accent' : 'basic'" [matTooltip]="itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket' | pptranslate">
+    <mat-icon aria-label="Add item to basket">add</mat-icon>
   </button>
 </div>
