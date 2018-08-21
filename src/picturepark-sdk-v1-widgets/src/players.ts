@@ -260,6 +260,8 @@ export class PictureparkPlayers {
             player.dispose();
           }
         });
+
+        updatePlayers();
       }
 
       return new Promise((resolve) => {

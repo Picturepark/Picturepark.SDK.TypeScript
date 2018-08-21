@@ -24,6 +24,8 @@ export class PictureparkConfig {
         configuration['template'] = attribute.value;
       else if (attribute.name === 'data-picturepark-server')
         configuration['server'] = attribute.value;
+      else if (attribute.name === 'data-show-players')
+        configuration['showPlayers'] = attribute.value.toLowerCase() !== 'false' && attribute.value.toLowerCase() !== 'no';
       else if (attribute.name === 'data-render-styles')
         configuration['renderStyles'] = attribute.value.toLowerCase() !== 'false' && attribute.value.toLowerCase() !== 'no';
       else if (attribute.name === 'data-width') {
@@ -38,16 +40,16 @@ export class PictureparkConfig {
       }
       else if (attribute.name.indexOf('data-') === 0) {
         let value;
-        switch(attribute.value) {
-            case "false":
-              value = false;
-              break;
-            case "true":
-              value = true;
-              break;
-            default:
-              value = attribute.value;
-              break;
+        switch (attribute.value) {
+          case "false":
+            value = false;
+            break;
+          case "true":
+            value = true;
+            break;
+          default:
+            value = attribute.value;
+            break;
         }
         configuration[attribute.name.substr(5).replace(/-([a-z])/g, g => g[1].toUpperCase())] = value;
       }

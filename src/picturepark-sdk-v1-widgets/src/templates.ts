@@ -91,7 +91,7 @@ export class PictureparkTemplates {
         {% assign height = config.height | plus: -1 %}
         {% for selection in share.items %}
           <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
-            {% if selection.isMovie and config.showPlayers != 'no' and config.showPlayers != 'false' %}
+            {% if selection.isMovie and config.showPlayers != false %}
             <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
             </video>
             {% else %}
@@ -224,7 +224,7 @@ export class PictureparkTemplates {
             {% for selection in share.items %}
             <div class="picturepark-widget-card-gallery picturepark-widget-card-gallery-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
-              {% if selection.isMovie %}
+              {% if selection.isMovie and config.showPlayers != false %}
               <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
               </video>
               {% else %}
