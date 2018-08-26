@@ -186,7 +186,7 @@ export class PictureparkPlayers {
           };
         } else if (i.isMovie) {
           return {
-            html: '<video class="video-js" id="vjsplayer_' + i.id + '"></video>'
+            html: '<video class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></video>'
           };
         } else if (!i.isBinary) {
           return {

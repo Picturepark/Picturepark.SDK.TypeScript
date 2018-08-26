@@ -54,22 +54,20 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
   return window.fetch(initialConfig.server + '/json/' + initialConfig.token).then(response => {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
-    // // Merge config with config from server
-    // var config = shareDetail.template as any;
-    // switch (config.kind) {
-    //   case "BasicTemplate":
-    //     config.template = "gallery";
-    //     break;
-    //   case "CardTemplate":
-    //     config.template = "card";
-    //     break;
-    //   case "ListTemplate":
-    //     config.template = "list";
-    //     break;
-    // }
-    // To reenable this feature you need to disable the evaluation of data-template in PictureparkConfig.get()
+    // Merge config with config from server
+    var config = shareDetail.template as any;
+    switch (config.kind) {
+      case "BasicTemplate":
+        config.template = "gallery";
+        break;
+      case "CardTemplate":
+        config.template = "card";
+        break;
+      case "ListTemplate":
+        config.template = "list";
+        break;
+    }
 
-    var config: any = {};
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });
