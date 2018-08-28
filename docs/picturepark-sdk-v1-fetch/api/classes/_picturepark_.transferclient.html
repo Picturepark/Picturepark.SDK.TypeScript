@@ -135,7 +135,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:718</li>
+									<li>Defined in docs/temp/picturepark.d.ts:814</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -152,19 +152,19 @@
 										<li class="tsd-parameter">
 											<h5>fetch<span class="tsd-signature-symbol">: </span>function</h5>
 											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
+												<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><a href="../interfaces/__debugger_.requestinfo.html" class="tsd-signature-type">RequestInfo</a>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:720</li>
+															<li>Defined in docs/temp/picturepark.d.ts:816</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>url: <span class="tsd-signature-type">RequestInfo</span></h5>
+															<h5>url: <a href="../interfaces/__debugger_.requestinfo.html" class="tsd-signature-type">RequestInfo</a></h5>
 														</li>
 														<li>
 															<h5><span class="tsd-flag ts-flagOptional">Optional</span> init: <span class="tsd-signature-type">RequestInit</span></h5>
@@ -189,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:717</li>
+							<li>Defined in docs/temp/picturepark.d.ts:813</li>
 						</ul>
 					</aside>
 				</section>
@@ -199,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:716</li>
+							<li>Defined in docs/temp/picturepark.d.ts:812</li>
 						</ul>
 					</aside>
 				</section>
@@ -209,7 +209,7 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:718</li>
+							<li>Defined in docs/temp/picturepark.d.ts:814</li>
 						</ul>
 					</aside>
 				</section>
@@ -226,21 +226,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:746</li>
+									<li>Defined in docs/temp/picturepark.d.ts:844</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Cancels a transfer.</p>
+									<p>Cancel transfer</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>transferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of transfer.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>OK</p>
 						</li>
 					</ul>
 				</section>
@@ -248,29 +252,27 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3>create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.createtransferrequest.html" class="tsd-signature-type">CreateTransferRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.createtransferrequest.html" class="tsd-signature-type">CreateTransferRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:753</li>
+									<li>Defined in docs/temp/picturepark.d.ts:851</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create Transfer</p>
+									<p>Create transfer</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>request</dt>
-									<dd><p>The create transfer request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>request: <a href="../interfaces/_picturepark_.createtransferrequest.html" class="tsd-signature-type">CreateTransferRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="../interfaces/_picturepark_.createtransferrequest.html" class="tsd-signature-type">CreateTransferRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The create transfer request</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -288,27 +290,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:734</li>
+									<li>Defined in docs/temp/picturepark.d.ts:830</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Delete Transfer</p>
+									<p>Delete transfer</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>transferid</dt>
-									<dd><p>The tranfer id</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>transferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of transfer.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>Transfer</p>
+							<p>OK</p>
 						</li>
 					</ul>
 				</section>
@@ -316,29 +316,27 @@
 					<a name="deletefiles" class="tsd-anchor"></a>
 					<h3>delete<wbr>Files</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">delete<wbr>Files<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filetransferdeleterequest.html" class="tsd-signature-type">FileTransferDeleteRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Files<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filetransferdeleterequest.html" class="tsd-signature-type">FileTransferDeleteRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:779</li>
+									<li>Defined in docs/temp/picturepark.d.ts:877</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Delete Files</p>
+									<p>Delete files</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>request</dt>
-									<dd><p>The filetransfer delete request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>request: <a href="../interfaces/_picturepark_.filetransferdeleterequest.html" class="tsd-signature-type">FileTransferDeleteRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="../interfaces/_picturepark_.filetransferdeleterequest.html" class="tsd-signature-type">FileTransferDeleteRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The filetransfer delete request</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -355,23 +353,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:727</li>
+									<li>Defined in docs/temp/picturepark.d.ts:823</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get Transferdetail</p>
+									<p>Get transfer details</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>transferid</dt>
-									<dd><p>The tranfer id</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>transferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of transfer.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transferdetail.html" class="tsd-signature-type">TransferDetail</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -413,12 +409,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:773</li>
+									<li>Defined in docs/temp/picturepark.d.ts:871</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get Blacklist</p>
+									<p>Get blacklist</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.blacklist.html" class="tsd-signature-type">Blacklist</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -436,23 +432,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:760</li>
+									<li>Defined in docs/temp/picturepark.d.ts:858</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get File</p>
+									<p>Get file</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>filetransferid</dt>
-									<dd><p>The filetransfer id</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fileTransferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of filetransfer.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.filetransferdetail.html" class="tsd-signature-type">FileTransferDetail</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -464,35 +458,33 @@
 					<a name="importtransfer" class="tsd-anchor"></a>
 					<h3>import<wbr>Transfer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">import<wbr>Transfer<span class="tsd-signature-symbol">(</span>transferId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filetransfer2contentcreaterequest.html" class="tsd-signature-type">FileTransfer2ContentCreateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Transfer<span class="tsd-signature-symbol">(</span>transferId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.importtransferrequest.html" class="tsd-signature-type">ImportTransferRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:787</li>
+									<li>Defined in docs/temp/picturepark.d.ts:885</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Import transfer</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>transferid</dt>
-									<dd><p>The tranfer id</p>
-									</dd>
-									<dt>request</dt>
-									<dd><p>The filetransfer to content create request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>transferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of transfer.</p>
+									</div>
 								</li>
 								<li>
-									<h5>request: <a href="../interfaces/_picturepark_.filetransfer2contentcreaterequest.html" class="tsd-signature-type">FileTransfer2ContentCreateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="../interfaces/_picturepark_.importtransferrequest.html" class="tsd-signature-type">ImportTransferRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ImportTransfer request.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -504,38 +496,37 @@
 					<a name="partialimport" class="tsd-anchor"></a>
 					<h3>partial<wbr>Import</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">partial<wbr>Import<span class="tsd-signature-symbol">(</span>transferId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filetransferpartial2contentcreaterequest.html" class="tsd-signature-type">FileTransferPartial2ContentCreateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">partial<wbr>Import<span class="tsd-signature-symbol">(</span>transferId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.importtransferpartialrequest.html" class="tsd-signature-type">ImportTransferPartialRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:794</li>
+									<li>Defined in docs/temp/picturepark.d.ts:893</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a partial import</p>
+									<p>Import transfer partially</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>transferid</dt>
-									<dd><p>The transfer id</p>
-									</dd>
-									<dt>request</dt>
-									<dd><p>The filetransfer partial to content create request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>transferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of transfer.</p>
+									</div>
 								</li>
 								<li>
-									<h5>request: <a href="../interfaces/_picturepark_.filetransferpartial2contentcreaterequest.html" class="tsd-signature-type">FileTransferPartial2ContentCreateRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="../interfaces/_picturepark_.importtransferpartialrequest.html" class="tsd-signature-type">ImportTransferPartialRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ImportTransferPartial request.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfer.html" class="tsd-signature-type">Transfer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Transfer</p>
 						</li>
 					</ul>
 				</section>
@@ -543,29 +534,27 @@
 					<a name="search" class="tsd-anchor"></a>
 					<h3>search</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.transfersearchrequest.html" class="tsd-signature-type">TransferSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfersearchresult.html" class="tsd-signature-type">TransferSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.transfersearchrequest.html" class="tsd-signature-type">TransferSearchRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfersearchresult.html" class="tsd-signature-type">TransferSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:741</li>
+									<li>Defined in docs/temp/picturepark.d.ts:837</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Search</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>request</dt>
-									<dd><p>The transfer search request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>request: <a href="../interfaces/_picturepark_.transfersearchrequest.html" class="tsd-signature-type">TransferSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="../interfaces/_picturepark_.transfersearchrequest.html" class="tsd-signature-type">TransferSearchRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The transfer search request</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.transfersearchresult.html" class="tsd-signature-type">TransferSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -577,29 +566,27 @@
 					<a name="searchfiles" class="tsd-anchor"></a>
 					<h3>search<wbr>Files</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">search<wbr>Files<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filetransfersearchrequest.html" class="tsd-signature-type">FileTransferSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.filetransfersearchresult.html" class="tsd-signature-type">FileTransferSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">search<wbr>Files<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.filetransfersearchrequest.html" class="tsd-signature-type">FileTransferSearchRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.filetransfersearchresult.html" class="tsd-signature-type">FileTransferSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:767</li>
+									<li>Defined in docs/temp/picturepark.d.ts:865</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Search for files</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>request</dt>
-									<dd><p>The file transfer search request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>request: <a href="../interfaces/_picturepark_.filetransfersearchrequest.html" class="tsd-signature-type">FileTransferSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="../interfaces/_picturepark_.filetransfersearchrequest.html" class="tsd-signature-type">FileTransferSearchRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The filetransfer search request</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.filetransfersearchresult.html" class="tsd-signature-type">FileTransferSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -635,68 +622,73 @@
 					<a name="uploadfile" class="tsd-anchor"></a>
 					<h3>upload<wbr>File</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">upload<wbr>File<span class="tsd-signature-symbol">(</span>transferId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, formFile<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_picturepark_.fileparameter.html" class="tsd-signature-type">FileParameter</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, relativePath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, chunkNumber<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, currentChunkSize<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, totalSize<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, totalChunks<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">upload<wbr>File<span class="tsd-signature-symbol">(</span>relativePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, chunkNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, currentChunkSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, totalSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, totalChunks<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, transferId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, formFile<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_picturepark_.fileparameter.html" class="tsd-signature-type">FileParameter</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:805</li>
+									<li>Defined in docs/temp/picturepark.d.ts:907</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Upload file</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>formfile</dt>
-									<dd><p>(optional) Gets or sets the form file.</p>
-									</dd>
-									<dt>relativepath</dt>
-									<dd><p>(optional) Relative path of the uploading file</p>
-									</dd>
-									<dt>chunknumber</dt>
-									<dd><p>(optional) Current chunk number. starts with 1</p>
-									</dd>
-									<dt>currentchunksize</dt>
-									<dd><p>(optional) Size in bytes of the current chunk</p>
-									</dd>
-									<dt>totalsize</dt>
-									<dd><p>(optional) Total size in bytes of the uploading file</p>
-									</dd>
-									<dt>totalchunks</dt>
-									<dd><p>(optional) Total chunks of the uploading file</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
+									<h5>relativePath: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Relative path of the uploading file.</p>
+									</div>
+								</li>
+								<li>
+									<h5>chunkNumber: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Current chunk number. Starts at 1.</p>
+									</div>
+								</li>
+								<li>
+									<h5>currentChunkSize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Size in bytes of the current chunk.</p>
+									</div>
+								</li>
+								<li>
+									<h5>totalSize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Total size in bytes of the uploading file.</p>
+									</div>
+								</li>
+								<li>
+									<h5>totalChunks: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Total chunks of the uploading file.</p>
+									</div>
+								</li>
+								<li>
 									<h5>transferId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of transfer.</p>
+									</div>
 								</li>
 								<li>
 									<h5>identifier: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Identifier of file.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> formFile: <a href="../interfaces/_picturepark_.fileparameter.html" class="tsd-signature-type">FileParameter</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> relativePath: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> chunkNumber: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> currentChunkSize: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> totalSize: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> totalChunks: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) Gets or sets the form file.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>OK</p>
 						</li>
 					</ul>
 				</section>

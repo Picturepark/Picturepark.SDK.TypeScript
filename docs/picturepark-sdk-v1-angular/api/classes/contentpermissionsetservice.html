@@ -98,11 +98,11 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="contentpermissionsetservice.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="contentpermissionsetservice.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="contentpermissionsetservice.html#getcontentpermissionset" class="tsd-kind-icon">get<wbr>Content<wbr>Permission<wbr>Set</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="contentpermissionsetservice.html#processgetcontentpermissionset" class="tsd-kind-icon">process<wbr>Get<wbr>Content<wbr>Permission<wbr>Set</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="contentpermissionsetservice.html#processsearchcontentpermissionsets" class="tsd-kind-icon">process<wbr>Search<wbr>Content<wbr>Permission<wbr>Sets</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="contentpermissionsetservice.html#searchcontentpermissionsets" class="tsd-kind-icon">search<wbr>Content<wbr>Permission<wbr>Sets</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="contentpermissionsetservice.html#processget" class="tsd-kind-icon">process<wbr>Get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="contentpermissionsetservice.html#processsearch" class="tsd-kind-icon">process<wbr>Search</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="contentpermissionsetservice.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="contentpermissionsetservice.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 							</ul>
 						</section>
@@ -122,7 +122,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pictureparkservicebase.html">PictureparkServiceBase</a>.<a href="pictureparkservicebase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/services.ts#L6278">src/services/services.ts:6278</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/services.ts#L3280">src/services/services.ts:3280</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -150,13 +150,45 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/services.ts#L6278">src/services/services.ts:6278</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/services.ts#L3280">src/services/services.ts:3280</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>permissionSetId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="contentpermissionsetdetail.html" class="tsd-signature-type">ContentPermissionSetDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/services.ts#L3392">src/services/services.ts:3392</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get detail - single</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>permissionSetId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The content permission set id.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="contentpermissionsetdetail.html" class="tsd-signature-type">ContentPermissionSetDetail</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>ContentPermissionSetDetail</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="getbaseurl" class="tsd-anchor"></a>
 					<h3>get<wbr>Base<wbr>Url</h3>
@@ -168,7 +200,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pictureparkservicebase.html">PictureparkServiceBase</a>.<a href="pictureparkservicebase.html#getbaseurl">getBaseUrl</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/base.service.ts#L10">src/services/base.service.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/base.service.ts#L10">src/services/base.service.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -181,51 +213,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getcontentpermissionset" class="tsd-anchor"></a>
-					<h3>get<wbr>Content<wbr>Permission<wbr>Set</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Content<wbr>Permission<wbr>Set<span class="tsd-signature-symbol">(</span>permissionSetId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="contentpermissionsetdetail.html" class="tsd-signature-type">ContentPermissionSetDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/services.ts#L6390">src/services/services.ts:6390</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get Content Permission Set - single</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>permissionsetid</dt>
-									<dd><p>The content permission set id.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>permissionSetId: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="contentpermissionsetdetail.html" class="tsd-signature-type">ContentPermissionSetDetail</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>ContentPermissionSetDetail</p>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="processgetcontentpermissionset" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Get<wbr>Content<wbr>Permission<wbr>Set</h3>
+					<a name="processget" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Get<wbr>Content<wbr>Permission<wbr>Set<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpResponseBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="contentpermissionsetdetail.html" class="tsd-signature-type">ContentPermissionSetDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Get<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpResponseBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="contentpermissionsetdetail.html" class="tsd-signature-type">ContentPermissionSetDetail</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/services.ts#L6422">src/services/services.ts:6422</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/services.ts#L3424">src/services/services.ts:3424</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -239,16 +237,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="processsearchcontentpermissionsets" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Search<wbr>Content<wbr>Permission<wbr>Sets</h3>
+					<a name="processsearch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Search</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Search<wbr>Content<wbr>Permission<wbr>Sets<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpResponseBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="permissionsetsearchresult.html" class="tsd-signature-type">PermissionSetSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Search<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpResponseBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="permissionsetsearchresult.html" class="tsd-signature-type">PermissionSetSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/services.ts#L6323">src/services/services.ts:6323</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/services.ts#L3325">src/services/services.ts:3325</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,32 +260,30 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="searchcontentpermissionsets" class="tsd-anchor"></a>
-					<h3>search<wbr>Content<wbr>Permission<wbr>Sets</h3>
+					<a name="search" class="tsd-anchor"></a>
+					<h3>search</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">search<wbr>Content<wbr>Permission<wbr>Sets<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="permissionsetsearchrequest.html" class="tsd-signature-type">PermissionSetSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="permissionsetsearchresult.html" class="tsd-signature-type">PermissionSetSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="permissionsetsearchrequest.html" class="tsd-signature-type">PermissionSetSearchRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="permissionsetsearchresult.html" class="tsd-signature-type">PermissionSetSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/services.ts#L6291">src/services/services.ts:6291</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/services.ts#L3293">src/services/services.ts:3293</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Search Content Permission Sets</p>
+									<p>Search</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>request</dt>
-									<dd><p>The permission search request.</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>request: <a href="permissionsetsearchrequest.html" class="tsd-signature-type">PermissionSetSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>request: <a href="permissionsetsearchrequest.html" class="tsd-signature-type">PermissionSetSearchRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The permission search request.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="permissionsetsearchresult.html" class="tsd-signature-type">PermissionSetSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -306,7 +302,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pictureparkservicebase.html">PictureparkServiceBase</a>.<a href="pictureparkservicebase.html#transformoptions">transformOptions</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/services/base.service.ts#L14">src/services/base.service.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/services/base.service.ts#L14">src/services/base.service.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -342,20 +338,20 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="contentpermissionsetservice.html#jsonparsereviver" class="tsd-kind-icon">json<wbr>Parse<wbr>Reviver</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="contentpermissionsetservice.html#get" class="tsd-kind-icon">get</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="contentpermissionsetservice.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="contentpermissionsetservice.html#getcontentpermissionset" class="tsd-kind-icon">get<wbr>Content<wbr>Permission<wbr>Set</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="contentpermissionsetservice.html#processget" class="tsd-kind-icon">process<wbr>Get</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="contentpermissionsetservice.html#processgetcontentpermissionset" class="tsd-kind-icon">process<wbr>Get<wbr>Content<wbr>Permission<wbr>Set</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="contentpermissionsetservice.html#processsearchcontentpermissionsets" class="tsd-kind-icon">process<wbr>Search<wbr>Content<wbr>Permission<wbr>Sets</a>
+								<a href="contentpermissionsetservice.html#processsearch" class="tsd-kind-icon">process<wbr>Search</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="contentpermissionsetservice.html#searchcontentpermissionsets" class="tsd-kind-icon">search<wbr>Content<wbr>Permission<wbr>Sets</a>
+								<a href="contentpermissionsetservice.html#search" class="tsd-kind-icon">search</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="contentpermissionsetservice.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a>
