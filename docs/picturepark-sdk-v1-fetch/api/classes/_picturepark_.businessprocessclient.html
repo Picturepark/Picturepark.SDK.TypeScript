@@ -107,8 +107,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#getdetails" class="tsd-kind-icon">get<wbr>Details</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.businessprocessclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#wait" class="tsd-kind-icon">wait</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#waitforcompletion" class="tsd-kind-icon">wait<wbr>For<wbr>Completion</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#waitforlifecycles" class="tsd-kind-icon">wait<wbr>For<wbr>Life<wbr>Cycles</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.businessprocessclient.html#waitforstates" class="tsd-kind-icon">wait<wbr>For<wbr>States</a></li>
 							</ul>
 						</section>
 					</div>
@@ -127,7 +128,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:220</li>
+									<li>Defined in docs/temp/picturepark.d.ts:18</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -144,19 +145,19 @@
 										<li class="tsd-parameter">
 											<h5>fetch<span class="tsd-signature-symbol">: </span>function</h5>
 											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
+												<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><a href="../interfaces/__debugger_.requestinfo.html" class="tsd-signature-type">RequestInfo</a>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:222</li>
+															<li>Defined in docs/temp/picturepark.d.ts:20</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>url: <span class="tsd-signature-type">RequestInfo</span></h5>
+															<h5>url: <a href="../interfaces/__debugger_.requestinfo.html" class="tsd-signature-type">RequestInfo</a></h5>
 														</li>
 														<li>
 															<h5><span class="tsd-flag ts-flagOptional">Optional</span> init: <span class="tsd-signature-type">RequestInit</span></h5>
@@ -181,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:219</li>
+							<li>Defined in docs/temp/picturepark.d.ts:17</li>
 						</ul>
 					</aside>
 				</section>
@@ -191,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:218</li>
+							<li>Defined in docs/temp/picturepark.d.ts:16</li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:220</li>
+							<li>Defined in docs/temp/picturepark.d.ts:18</li>
 						</ul>
 					</aside>
 				</section>
@@ -242,23 +243,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:254</li>
+									<li>Defined in docs/temp/picturepark.d.ts:60</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get details</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>processid</dt>
-									<dd><p>The process id</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>processId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The process id</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocessdetails.html" class="tsd-signature-type">BusinessProcessDetails</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -270,29 +269,27 @@
 					<a name="search" class="tsd-anchor"></a>
 					<h3>search</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>businessProcessSearchRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.businessprocesssearchrequest.html" class="tsd-signature-type">BusinessProcessSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>businessProcessSearchRequest<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.businessprocesssearchrequest.html" class="tsd-signature-type">BusinessProcessSearchRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:229</li>
+									<li>Defined in docs/temp/picturepark.d.ts:27</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Search</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>businessprocesssearchrequest</dt>
-									<dd><p>The business process request</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>businessProcessSearchRequest: <a href="../interfaces/_picturepark_.businessprocesssearchrequest.html" class="tsd-signature-type">BusinessProcessSearchRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>businessProcessSearchRequest: <a href="../interfaces/_picturepark_.businessprocesssearchrequest.html" class="tsd-signature-type">BusinessProcessSearchRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The business process request</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesssearchresult.html" class="tsd-signature-type">BusinessProcessSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -325,93 +322,127 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="wait" class="tsd-anchor"></a>
-					<h3>wait</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span>processId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, states<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, lifeCycleIds<span class="tsd-signature-symbol">?: </span><a href="../enums/_picturepark_.businessprocesslifecycle.html" class="tsd-signature-type">BusinessProcessLifeCycle</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitresult.html" class="tsd-signature-type">BusinessProcessWaitResult</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:239</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Wait</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>processid</dt>
-									<dd><p>The process id</p>
-									</dd>
-									<dt>states</dt>
-									<dd><p>(optional) The states to wait for</p>
-									</dd>
-									<dt>lifecycleids</dt>
-									<dd><p>(optional) Business process lifeCycle to wait for</p>
-									</dd>
-									<dt>timeout</dt>
-									<dd><p>(optional) The timeout to wait for completion.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>processId: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> states: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> lifeCycleIds: <a href="../enums/_picturepark_.businessprocesslifecycle.html" class="tsd-signature-type">BusinessProcessLifeCycle</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitresult.html" class="tsd-signature-type">BusinessProcessWaitResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>BusinessProcessWaitResult</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="waitforcompletion" class="tsd-anchor"></a>
 					<h3>wait<wbr>For<wbr>Completion</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">wait<wbr>For<wbr>Completion<span class="tsd-signature-symbol">(</span>processId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitresult.html" class="tsd-signature-type">BusinessProcessWaitResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait<wbr>For<wbr>Completion<span class="tsd-signature-symbol">(</span>processId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitforlifecycleresult.html" class="tsd-signature-type">BusinessProcessWaitForLifeCycleResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:247</li>
+									<li>Defined in docs/temp/picturepark.d.ts:53</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Wait for completion</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>processid</dt>
-									<dd><p>The process id</p>
-									</dd>
-									<dt>timeout</dt>
-									<dd><p>(optional) The timeout to wait for completion.</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>processId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The process id</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) The timeout to wait for completion.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitresult.html" class="tsd-signature-type">BusinessProcessWaitResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitforlifecycleresult.html" class="tsd-signature-type">BusinessProcessWaitForLifeCycleResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcessWaitResult</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="waitforlifecycles" class="tsd-anchor"></a>
+					<h3>wait<wbr>For<wbr>Life<wbr>Cycles</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">wait<wbr>For<wbr>Life<wbr>Cycles<span class="tsd-signature-symbol">(</span>processId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, lifeCycleIds<span class="tsd-signature-symbol">?: </span><a href="../enums/_picturepark_.businessprocesslifecycle.html" class="tsd-signature-type">BusinessProcessLifeCycle</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitforlifecycleresult.html" class="tsd-signature-type">BusinessProcessWaitForLifeCycleResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:36</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wait for lifeCycles</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>processId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The process id</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> lifeCycleIds: <a href="../enums/_picturepark_.businessprocesslifecycle.html" class="tsd-signature-type">BusinessProcessLifeCycle</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) Business process lifeCycle to wait for</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) The timeout to wait for completion.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitforlifecycleresult.html" class="tsd-signature-type">BusinessProcessWaitForLifeCycleResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcessWaitForLifeCycleResult</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="waitforstates" class="tsd-anchor"></a>
+					<h3>wait<wbr>For<wbr>States</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">wait<wbr>For<wbr>States<span class="tsd-signature-symbol">(</span>processId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, states<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, timeout<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitforstateresult.html" class="tsd-signature-type">BusinessProcessWaitForStateResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:45</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wait for states</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>processId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The process id</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> states: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) Business process states to wait for</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) The timeout to wait for completion.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocesswaitforstateresult.html" class="tsd-signature-type">BusinessProcessWaitForStateResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>BusinessProcessWaitResult</p>
 						</li>
 					</ul>
@@ -461,10 +492,13 @@
 								<a href="_picturepark_.businessprocessclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.businessprocessclient.html#wait" class="tsd-kind-icon">wait</a>
+								<a href="_picturepark_.businessprocessclient.html#waitforcompletion" class="tsd-kind-icon">wait<wbr>For<wbr>Completion</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.businessprocessclient.html#waitforcompletion" class="tsd-kind-icon">wait<wbr>For<wbr>Completion</a>
+								<a href="_picturepark_.businessprocessclient.html#waitforlifecycles" class="tsd-kind-icon">wait<wbr>For<wbr>Life<wbr>Cycles</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.businessprocessclient.html#waitforstates" class="tsd-kind-icon">wait<wbr>For<wbr>States</a>
 							</li>
 						</ul>
 					</li>

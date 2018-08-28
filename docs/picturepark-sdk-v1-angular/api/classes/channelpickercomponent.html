@@ -78,7 +78,6 @@
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
 					<li><span class="tsd-signature-type">OnInit</span></li>
-					<li><span class="tsd-signature-type">OnChanges</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -97,16 +96,14 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="channelpickercomponent.html#channel" class="tsd-kind-icon">channel</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="channelpickercomponent.html#channelchange" class="tsd-kind-icon">channel<wbr>Change</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="channelpickercomponent.html#channels" class="tsd-kind-icon">channels</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="channelpickercomponent.html#label" class="tsd-kind-icon">label</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="channelpickercomponent.html#select" class="tsd-kind-icon">select</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="channelpickercomponent.html#channelschange" class="tsd-kind-icon">channels<wbr>Change</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="channelpickercomponent.html#ngonchanges" class="tsd-kind-icon">ng<wbr>OnChanges</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="channelpickercomponent.html#changechannel" class="tsd-kind-icon">change<wbr>Channel</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="channelpickercomponent.html#ngoninit" class="tsd-kind-icon">ng<wbr>OnInit</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="channelpickercomponent.html#onchannelchanged" class="tsd-kind-icon">on<wbr>Channel<wbr>Changed</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,19 +115,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Channel<wbr>Picker<wbr>Component<span class="tsd-signature-symbol">(</span>channelService<span class="tsd-signature-symbol">: </span><a href="channelservice.html" class="tsd-signature-type">ChannelService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="channelpickercomponent.html" class="tsd-signature-type">ChannelPickerComponent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Channel<wbr>Picker<wbr>Component<span class="tsd-signature-symbol">(</span>channelService<span class="tsd-signature-symbol">: </span><a href="channelservice.html" class="tsd-signature-type">ChannelService</a>, ref<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ApplicationRef</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="channelpickercomponent.html" class="tsd-signature-type">ChannelPickerComponent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L26">src/components/channel-picker/channel-picker.component.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L18">src/components/channel-picker/channel-picker.component.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>channelService: <a href="channelservice.html" class="tsd-signature-type">ChannelService</a></h5>
+								</li>
+								<li>
+									<h5>ref: <span class="tsd-signature-type">ApplicationRef</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="channelpickercomponent.html" class="tsd-signature-type">ChannelPickerComponent</a></h4>
@@ -143,50 +143,40 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="channel" class="tsd-anchor"></a>
 					<h3>channel</h3>
-					<div class="tsd-signature tsd-kind-icon">channel<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">channel<span class="tsd-signature-symbol">:</span> <a href="channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L21">src/components/channel-picker/channel-picker.component.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L11">src/components/channel-picker/channel-picker.component.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="channelchange" class="tsd-anchor"></a>
 					<h3>channel<wbr>Change</h3>
-					<div class="tsd-signature tsd-kind-icon">channel<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new EventEmitter&lt;string | null&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">channel<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><a href="channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new EventEmitter&lt;Channel&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L23">src/components/channel-picker/channel-picker.component.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L13">src/components/channel-picker/channel-picker.component.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="channels" class="tsd-anchor"></a>
 					<h3>channels</h3>
-					<div class="tsd-signature tsd-kind-icon">channels<span class="tsd-signature-symbol">:</span> <a href="channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<div class="tsd-signature tsd-kind-icon">channels<span class="tsd-signature-symbol">:</span> <a href="channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L14">src/components/channel-picker/channel-picker.component.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L15">src/components/channel-picker/channel-picker.component.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="label" class="tsd-anchor"></a>
-					<h3>label</h3>
-					<div class="tsd-signature tsd-kind-icon">label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<a name="channelschange" class="tsd-anchor"></a>
+					<h3>channels<wbr>Change</h3>
+					<div class="tsd-signature tsd-kind-icon">channels<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><a href="channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new EventEmitter&lt;Channel[]&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L17">src/components/channel-picker/channel-picker.component.ts:17</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="select" class="tsd-anchor"></a>
-					<h3>select</h3>
-					<div class="tsd-signature tsd-kind-icon">select<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ElementRef</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L26">src/components/channel-picker/channel-picker.component.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L18">src/components/channel-picker/channel-picker.component.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,27 +184,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ngonchanges" class="tsd-anchor"></a>
-					<h3>ng<wbr>OnChanges</h3>
+					<a name="changechannel" class="tsd-anchor"></a>
+					<h3>change<wbr>Channel</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">ng<wbr>OnChanges<span class="tsd-signature-symbol">(</span>changes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Channel<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><a href="channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L45">src/components/channel-picker/channel-picker.component.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L43">src/components/channel-picker/channel-picker.component.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>changes: <span class="tsd-signature-type">object</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-index-signature">
-											<h5><span class="tsd-signature-symbol">[</span>propertyName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">SimpleChange</span></h5>
-										</li>
-									</ul>
+									<h5>channel: <a href="channel.html" class="tsd-signature-type">Channel</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -225,38 +210,15 @@
 					<a name="ngoninit" class="tsd-anchor"></a>
 					<h3>ng<wbr>OnInit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">ng<wbr>OnInit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">ng<wbr>OnInit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L31">src/components/channel-picker/channel-picker.component.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L23">src/components/channel-picker/channel-picker.component.ts:23</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="onchannelchanged" class="tsd-anchor"></a>
-					<h3>on<wbr>Channel<wbr>Changed</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Channel<wbr>Changed<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/channel-picker/channel-picker.component.ts#L59">src/components/channel-picker/channel-picker.component.ts:59</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">Event</span></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -291,19 +253,13 @@
 								<a href="channelpickercomponent.html#channels" class="tsd-kind-icon">channels</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="channelpickercomponent.html#label" class="tsd-kind-icon">label</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="channelpickercomponent.html#select" class="tsd-kind-icon">select</a>
+								<a href="channelpickercomponent.html#channelschange" class="tsd-kind-icon">channels<wbr>Change</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="channelpickercomponent.html#ngonchanges" class="tsd-kind-icon">ng<wbr>OnChanges</a>
+								<a href="channelpickercomponent.html#changechannel" class="tsd-kind-icon">change<wbr>Channel</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="channelpickercomponent.html#ngoninit" class="tsd-kind-icon">ng<wbr>OnInit</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="channelpickercomponent.html#onchannelchanged" class="tsd-kind-icon">on<wbr>Channel<wbr>Changed</a>
 							</li>
 						</ul>
 					</li>
