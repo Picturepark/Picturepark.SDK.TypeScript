@@ -15,11 +15,11 @@
     "dev:widgets": "watch \"npm run build:widgets\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-widgets"
   },
   "devDependencies": {
-    "http-server": "0.10.0",
+    "http-server": "^0.11.1",
     "marked": "^0.3.19",
-    "nswag": "^11.17.18",
+    "nswag": "^11.18.7",
     "typedoc": "0.8.0",
-    "typescript": "^2.4.2",
+    "typescript": "^2.9.2",
     "typescript-bundle": "0.8.7",
     "uglify-js": "3.0.28",
     "watch": "^1.0.2"

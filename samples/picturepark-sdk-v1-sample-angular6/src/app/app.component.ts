@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PublicAccessService } from '@picturepark/sdk-v1-angular';
+import { ShareAccessService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +12,14 @@ export class AppComponent {
   token = '';
   currentToken = '';
 
-  constructor(public publicAccessService: PublicAccessService) {
+  constructor(public shareAccessService: ShareAccessService) {
   }
 
   async load() {
     this.output = 'Loading...';
     this.currentToken = this.token;
     if (this.currentToken) {
-      this.publicAccessService.getShare(this.currentToken).subscribe(response => {
+      this.shareAccessService.getShareJson(this.currentToken).subscribe(response => {
         this.output = JSON.stringify(response, null, 4);
       }, error => {
         this.output = error.toString();

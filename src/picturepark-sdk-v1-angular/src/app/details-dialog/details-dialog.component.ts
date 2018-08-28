@@ -1,71 +1,61 @@
 import {
-  Component, EventEmitter, Input, Output, OnInit, OnDestroy,
-  AfterViewInit, ViewChild, Inject, SimpleChanges, OnChanges, forwardRef
+  Component, OnInit, OnDestroy,
+  Inject, SimpleChanges, OnChanges
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
   ContentService, ContentDetail, AuthService, ThumbnailSize,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehaviour
 } from '../../services/services';
-import { OidcAuthService } from '../../auth/oidc-auth.service';
-import { ContentPickerComponent } from '../../app/content-picker/content-picker.component';
+
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'pp-content-picker-details',
-  templateUrl: './content-picker-details.component.html'
+  selector: 'pp-details-dialog',
+  templateUrl: './details-dialog.component.html'
 })
-export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-  @Input()
-  contentId: string | undefined;
+export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
 
   content: ContentDetail;
-  windowHeight: string;
+
+  contentId: string;
 
   constructor(private contentService: ContentService,
     private sanitizer: DomSanitizer,
-    @Inject(AuthService) public authService: OidcAuthService,
-    @Inject(forwardRef(() => ContentPickerComponent)) private parent: ContentPickerComponent) {
-    this.recalculateSizes();
-  }
+    @Inject(MAT_DIALOG_DATA) public data: string) {
 
-  ngOnInit() {
-    if (!this.authService.isAuthenticated && this.authService.isAuthenticated === false) {
-      this.authService.login();
-    }
-
-    window.addEventListener('resize', this.onWindowResized, false);
-    document.addEventListener('keydown', this.onKeyDown, false);
-
-    this.recalculateSizes();
-  }
-
-  ngAfterViewInit() {
-    this.recalculateSizes();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.contentId) {
-      this.contentService.downloadThumbnail(this.contentId, ThumbnailSize.Medium).subscribe(response => {
+    this.contentId = data;
+    if (data) {
+      this.contentService.downloadThumbnail(data, ThumbnailSize.Medium).subscribe(response => {
         this.thumbnailUrl = URL.createObjectURL(response!.data!);
         this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
       });
 
-      this.contentService.get(
-        this.contentId,
-        [
-          ContentResolveBehaviour.Content,
-          ContentResolveBehaviour.LinkedListItems,
-          ContentResolveBehaviour.InnerDisplayValueName
-        ]
-      ).subscribe((content: ContentDetail) => {
+      this.contentService.get(data, [
+        ContentResolveBehaviour.Content,
+        ContentResolveBehaviour.Metadata,
+        ContentResolveBehaviour.LinkedListItems,
+        ContentResolveBehaviour.InnerDisplayValueName,
+        ContentResolveBehaviour.Outputs
+      ]).subscribe((content: ContentDetail) => {
         this.content = content;
       });
     }
+
+  }
+
+  ngOnInit() {
+    document.addEventListener('keydown', this.onKeyDown, false);
+
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
   showFullscreen() {
@@ -116,35 +106,19 @@ export class ContentPickerDetailsComponent implements OnInit, OnDestroy, AfterVi
     });
   }
 
-  back() {
-    this.parent.closeDetails();
-  }
-
-  embed() {
-    this.parent.embed([this.content]);
-  }
 
   ngOnDestroy() {
-    window.removeEventListener('resize', this.onWindowResized, false);
     document.removeEventListener('keydown', this.onKeyDown, false);
   }
 
-  onWindowResized = () => {
-    this.recalculateSizes();
-  };
 
   onKeyDown = (e: KeyboardEvent) => {
     if (e.target instanceof HTMLBodyElement && e.keyCode === 27) {
       e.cancelBubble = true;
       e.preventDefault();
 
-      this.back();
+      // Close
     }
-  }
-
-  recalculateSizes() {
-    const windowHeight = window.innerHeight;
-    this.windowHeight = (windowHeight - 96) + 'px';
   }
 }
 

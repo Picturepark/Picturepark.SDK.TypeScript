@@ -1,4 +1,127 @@
 export let TRANSLATIONS = {
+  // TODO: add deutsch translations.
+  Basket: {
+    RemoveItem: {
+      en: 'Remove'
+    },
+    Download: {
+      en: 'Download'
+    },
+    ClearBasket: {
+      en: 'Clear'
+    },
+    EmptyBasket: {
+      en: 'Basket is empty.'
+    }
+  },
+  ChannelPicker: {
+    SelectChannel: {
+      en: 'Select channel'
+    }
+  },
+  ContentAggregationList: {
+    ClearFilters: {
+      en: 'Clear filters'
+    },
+    Search: {
+      en: 'Search'
+    },
+    ShowMoreFilters: {
+      en: 'Show more'
+    },
+    ShowLessFilters: {
+      en: 'Show less'
+    },
+    NoActiveFilters: {
+      en: 'No active filters'
+    },
+    SingleActiveFilter: {
+      en: '1 active filter'
+    },
+    MultipleActiveFilters: {
+      en: '{0} active filters'
+    },
+    ClearAllFilters: {
+      en: 'Clear all filters'
+    }
+  },
+  ContentBrowser: {
+    NoImageForItem: {
+      en: 'There is no image.'
+    },
+    PreviewItem: {
+      en: 'Preview'
+    },
+    DownloadItem: {
+      en: 'Download'
+    },
+    AddToBasket: {
+      en: 'Add to basket'
+    },
+    RemoveFromBasket: {
+      en: 'Remove from basket'
+    },
+    SelectMenu: {
+      en: 'Select'
+    },
+    SelectFirstItems: {
+      en: 'Select first {0}'
+    },
+    DeselectAll: {
+      en: 'Deselect all'
+    },
+    Preview: {
+      en: 'Preview'
+    },
+    Download: {
+      en: 'Download'
+    },
+    ItemsLength: {
+      en: '{0} contents'
+    },
+    SortingMenu: {
+      en: 'Sort'
+    },
+    SortingAscending: {
+      en: 'Ascending'
+    },
+    SortingDescending: {
+      en: 'Descending'
+    },
+    SortingByRelevance: {
+      en: 'Relevance'
+    },
+    SortingByName: {
+      en: 'File name'
+    },
+    SortingByDateCreated: {
+      en: 'Date created'
+    },
+    SortingByDateModified: {
+      en: 'Relevance'
+    },
+    ViewTypeMenu: {
+      en: 'View type'
+    },
+    ViewTypeThumbnail: {
+      en: 'Thumbnail'
+    },
+    ViewTypeList: {
+      en: 'List'
+    },
+    NoItems: {
+      en: 'There is no content found using your search string',
+    },
+    NoItemsHist: {
+      en: 'You may do the following:'
+    },
+    NoItemsActionChannel: {
+      en: 'Switch to another channel'
+    },
+    NoItemsActionSearchString: {
+      en: 'Change your search string'
+    }
+  },
   ContentPicker: {
     LabelChannel: {
       en: 'Channel',
@@ -33,7 +156,6 @@ export let TRANSLATIONS = {
       de: 'Sie haben {0} Elemente ausgewählt.'
     }
   },
-
   ContentPickerDetails: {
     ButtonBack: {
       en: 'Go back',
@@ -56,14 +178,6 @@ export let TRANSLATIONS = {
       de: 'Grösse'
     },
   },
-
-  ContentBrowser: {
-    TextNoItems: {
-      en: 'No content items.',
-      de: 'Keine Inhalte gefunden.'
-    }
-  },
-
   Login: {
     LabelUsername: {
       en: 'Username',
@@ -86,7 +200,6 @@ export let TRANSLATIONS = {
       de: 'Der Benutzername oder das Passwort ist falsch.'
     }
   },
-
   Logout: {
     ButtonLogout: {
       en: 'Logout',
@@ -101,9 +214,8 @@ export let TRANSLATIONS = {
       de: 'Abmeldung ist fehlgeschlagen.'
     }
   },
-
   SearchBox: {
-    ButtonSearch: {
+    Search: {
       en: 'Search',
       de: 'Suchen'
     }

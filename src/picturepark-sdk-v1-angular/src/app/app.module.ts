@@ -1,3 +1,4 @@
+import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -7,9 +8,15 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ShareCardComponent } from './share-card/share-card.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
-import { ContentPickerDetailsComponent } from './content-picker-details/content-picker-details.component';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 import { FileSizePipe } from 'app/pipes/filesize.pipe';
 
@@ -36,13 +43,13 @@ export function PictureparkConfigurationFactory() {
 }
 
 @NgModule({
+  entryComponents: [DetailsDialogComponent],
   declarations: [
     AppComponent,
     HomeComponent,
 
-    ShareCardComponent,
     ContentPickerComponent,
-    ContentPickerDetailsComponent,
+    DetailsDialogComponent,
     FileSizePipe
   ],
   imports: [
@@ -50,6 +57,16 @@ export function PictureparkConfigurationFactory() {
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+
+    MatToolbarModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatBadgeModule,
+    MatButtonModule,
+    MatCardModule,
+    LayoutModule,
+
     PictureparkUiModule,
     PictureparkOidcModule,
     RouterModule.forRoot([

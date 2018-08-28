@@ -1,75 +1,47 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 
-import { InputConverter, StringConverter } from '../converter';
 import { ChannelService, Channel } from '../../services/services';
 
 @Component({
   selector: 'pp-channel-picker',
   templateUrl: './channel-picker.component.html'
 })
-export class ChannelPickerComponent implements OnInit, OnChanges {
-  private isLoading = true;
-  private currentIndex = -1; // used to avoid circular updates
-
-  channels: Channel[] | null;
-
+export class ChannelPickerComponent implements OnInit {
   @Input()
-  label = '';
-
-  @Input()
-  @InputConverter(StringConverter)
-  channel: string | null = '';
+  public channel: Channel | null = null;
   @Output()
-  channelChange = new EventEmitter<string | null>();
+  public channelChange = new EventEmitter<Channel>();
 
-  @ViewChild('select')
-  select: ElementRef;
+  public channels: Channel[] = [];
 
-  constructor(private channelService: ChannelService) {
+  @Output()
+  public channelsChange = new EventEmitter<Channel[]>()
+
+  public constructor(private channelService: ChannelService, private ref: ApplicationRef) {
   }
 
-  ngOnInit() {
-    this.isLoading = true;
-    return this.channelService.getChannels().toPromise().then(channels => {
-      this.channels = channels;
-      if (this.channels) {
-        this.changeChannel(this.channels[0].id!);
-      }
-      this.isLoading = false;
-    }, error => {
-      this.channels = [];
-      this.isLoading = false;
-    });
-  }
+  public ngOnInit(): void {
+    this.channelService.getChannels().subscribe(
+      (channels) => {
+        this.channels = channels;
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (this.select && changes['channel']) {
-      if (this.channels !== null && this.channels !== undefined) {
-        const index = this.channels.indexOf(this.channels.filter(c => c.id === this.channel)[0]);
-        if (this.currentIndex !== index) {
-          this.currentIndex = index;
-          setTimeout(() => {
-            this.select.nativeElement.selectedIndex = index;
-          }, 0);
-        }
-      }
-    }
-  }
+        this.channelsChange.emit(this.channels);
 
-  onChannelChanged(event: Event) {
-    const index = (<any>event.currentTarget).selectedIndex;
-    if (index !== -1) {
-      if (index !== this.currentIndex) {
-        this.currentIndex = index;
+        this.ref.tick();
+
         if (this.channels) {
-          this.changeChannel(index >= 0 ? this.channels[index].id! : null);
+          if (!this.channel) {
+            this.changeChannel(this.channels[0]);
+          }
         }
-      }
-    }
+      },
+      () => {
+        this.channels = [];
+      });
   }
 
-  private changeChannel(channel: string | null) {
+  public changeChannel(channel: Channel): void {
     this.channel = channel;
-    this.channelChange.emit(channel);
+    this.channelChange.emit(this.channel);
   }
 }

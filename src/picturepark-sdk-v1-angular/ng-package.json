@@ -4,8 +4,7 @@
   "lib": {
     "entryFile": "index.ts",
     "externals": {
-      "oidc-client": "oidc-client",
-      "angular2-virtual-scroll": "angular2-virtual-scroll"
+      "oidc-client": "oidc-client"
     }
   }
 }
