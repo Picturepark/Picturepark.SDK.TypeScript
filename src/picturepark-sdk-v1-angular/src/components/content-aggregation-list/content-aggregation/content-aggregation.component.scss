@@ -9,6 +9,12 @@
   &__option-title {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap
+    flex-wrap: nowrap;
+  }
+  &__option-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 10px;
   }
 }

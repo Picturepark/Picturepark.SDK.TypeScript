@@ -1,10 +1,9 @@
-<mat-form-field>
-  <!-- TODO: check another style -->
-  <input matInput [(ngModel)]="query" (keyup.enter)="search()" autocomplete="false">
-  <button mat-icon-button *ngIf="!query" matSuffix aria-label="Search">
-    <mat-icon>search</mat-icon>
+<form class="form" autocomplete="off">
+  <button mat-icon-button (click)="search()">
+    <mat-icon aria-label="Search">search</mat-icon>
   </button>
-  <button mat-icon-button *ngIf="query" matSuffix aria-label="Clear" (click)="clear()">
-    <mat-icon>close</mat-icon>
+  <input [placeholder]="'SearchBox.Search' | pptranslate" [(ngModel)]="query" name="search" (keyup.enter)="search()" />
+  <button mat-icon-button (click)="clear()">
+    <mat-icon aria-label="Clear">clear</mat-icon>
   </button>
-</mat-form-field>
+</form>

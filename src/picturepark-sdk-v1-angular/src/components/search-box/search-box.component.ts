@@ -4,7 +4,8 @@ import { ContentSearchResult } from '../../services/services';
 
 @Component({
   selector: 'pp-search-box',
-  templateUrl: './search-box.component.html'
+  templateUrl: './search-box.component.html',
+  styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent implements OnChanges {
   public result: ContentSearchResult | null = null;

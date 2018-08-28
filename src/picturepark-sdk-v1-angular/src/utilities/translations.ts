@@ -14,6 +14,11 @@ export let TRANSLATIONS = {
       en: 'Basket is empty.'
     }
   },
+  ChannelPicker: {
+    SelectChannel: {
+      en: 'Select channel'
+    }
+  },
   ContentAggregationList: {
     ClearFilters: {
       en: 'Clear filters'
@@ -49,9 +54,6 @@ export let TRANSLATIONS = {
     },
     DownloadItem: {
       en: 'Download'
-    },
-    SelectItem: {
-      en: 'Select item'
     },
     AddToBasket: {
       en: 'Add to basket'
@@ -213,7 +215,7 @@ export let TRANSLATIONS = {
     }
   },
   SearchBox: {
-    ButtonSearch: {
+    Search: {
       en: 'Search',
       de: 'Suchen'
     }

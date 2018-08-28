@@ -2,3 +2,8 @@
 @import "theme.scss";
 @include mat-core();
 @include angular-material-theme($picturepark-app-theme);
+
+
+.filters .mat-tab-label {
+  height: 64px;
+}
