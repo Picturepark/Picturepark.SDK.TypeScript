@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-pickers",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "main": "dist/amd/picturepark-pickers.js",
   "types": "dist/amd/picturepark-pickers.d.ts"
 }
