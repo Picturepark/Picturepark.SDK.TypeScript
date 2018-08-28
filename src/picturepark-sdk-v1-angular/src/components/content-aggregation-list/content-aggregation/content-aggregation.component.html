@@ -27,8 +27,9 @@
   <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
     <mat-list-option *ngFor="let item of expandedAggregationResult?.aggregationResultItems" checkboxPosition="before" [selected]="item.active"
       [value]="item">
-      <div class="aggregation__option-title">
-        <div>{{item.getDisplayName(locale)}} </div>
+      <!-- TODO: dynamic tooltip, based on width. -->
+      <div class="aggregation__option-title" matTooltip="{{item.getDisplayName(locale)}}" [matTooltipDisabled]="false">
+        <div class="aggregation__option-name">{{item.getDisplayName(locale)}} </div>
         <div>{{item.count}} </div>
       </div>
     </mat-list-option>
