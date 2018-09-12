@@ -167,7 +167,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           setTimeout(() => {
             let element = document.getElementById(elementId);
             if (element) {
-              PictureparkPlayers.renderVideoPlayer(item, element, config.width, config.height).then(player => {
+              PictureparkPlayers.renderVideoPlayerIfNeeded(item, element, config.width, config.height).then(player => {
                 (<any>share).player = player;
               });
             }
