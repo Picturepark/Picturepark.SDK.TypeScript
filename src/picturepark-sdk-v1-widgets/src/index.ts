@@ -55,7 +55,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
-    var config = shareDetail.template as any;
+    var config = shareDetail.template as any || {};
     switch (config.kind) {
       case "BasicTemplate":
         config.template = "gallery";
@@ -165,8 +165,9 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
         if (item.isMovie) {
           let elementId = 'vjsplayer_' + item.index + "_" + id;
           setTimeout(() => {
-            if (document.getElementById(elementId)) {
-              PictureparkPlayers.renderVideoPlayer(item, elementId, config.width, config.height).then(player => {
+            let element = document.getElementById(elementId);
+            if (element) {
+              PictureparkPlayers.renderVideoPlayer(item, element, config.width, config.height).then(player => {
                 (<any>share).player = player;
               });
             }

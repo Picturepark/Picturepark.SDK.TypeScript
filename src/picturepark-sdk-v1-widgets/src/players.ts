@@ -97,8 +97,55 @@ export class PictureparkPlayers {
     }
   }
 
-  static renderVideoPlayer(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, element: any, width: any, height: any) {
-    return this.loadVideoPlayer().then((videojs) => {
+  private static loadedPlayers: any[] = [];
+
+  static disposeVideoPlayer(player: any) {
+    let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.player === player)[0];
+    if (existingPlayer) {
+      player.dispose();
+      PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers
+        .filter(p => p.player !== player);
+    }
+
+    console.log('Picturepark Widgets > Disposed videojs player');
+  }
+
+  static renderVideoPlayerIfNeeded(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, element: any, width: any, height: any) {
+    let playerInfo = PictureparkPlayers.loadedPlayers.filter(p => p.element === element.id)[0];
+    if (playerInfo) {
+      return playerInfo.promise.then(player => {
+        let element = document.getElementById(playerInfo.element);
+        if (!element || !element.tagName || element.tagName.toLowerCase() === 'video') {
+          if (player) {
+            PictureparkPlayers.disposeVideoPlayer(player);
+          }
+          return PictureparkPlayers.renderVideoPlayer(element, item, width, height).then((player) => {
+            playerInfo.player = player;
+            console.log('Picturepark Widgets > Reloaded videojs player: ' + element.id);
+            return player;
+          });
+        } else {
+          console.log('Picturepark Widgets > Reused videojs player: ' + element.id);
+          return player;
+        }
+      });
+    }
+
+    PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers.filter(p => p.element !== element.id);
+
+    playerInfo = {
+      element: element.id,
+      promise: PictureparkPlayers.renderVideoPlayer(element, item, width, height).then(player => {
+        console.log('Picturepark Widgets > Created videojs player: ' + element.id);
+      })
+    };
+
+    PictureparkPlayers.loadedPlayers.push(playerInfo);
+    return playerInfo.promise;
+  }
+
+  static renderVideoPlayer(element, item, width, height) {
+    return this.loadVideoPlayerLibraries().then((videojs) => {
       return new Promise<any>((resolve) => {
         var player = videojs(element, {
           autoplay: false,
@@ -117,7 +164,7 @@ export class PictureparkPlayers {
     });
   }
 
-  static loadVideoPlayer() {
+  static loadVideoPlayerLibraries() {
     if ((<any>window).videojs)
       return Promise.resolve((<any>window).videojs);
 
@@ -209,27 +256,20 @@ export class PictureparkPlayers {
         }
       });
 
-      var players = [];
       var resizeCallbacks = [];
-      var loadedPlayerElements = [];
       var loadedPlayers = [];
 
       if (shareItems.filter(i => i.isMovie || i.isPdf).length > 0) {
         var updatePlayers = () => {
           if (shareItems.filter(i => i.isMovie).length > 0) {
-            PictureparkPlayers.loadVideoPlayer().then(() => {
-              for (let i of shareItems.filter(i => i.isMovie && loadedPlayerElements.indexOf(i.id) === -1)) {
-                let elementId = "vjsplayer_" + i.id;
+            PictureparkPlayers.loadVideoPlayerLibraries().then(() => {
+              for (let item of shareItems.filter(i => i.isMovie)) {
+                let elementId = "vjsplayer_" + item.id;
                 let element = document.getElementById(elementId);
                 if (element) {
-                  // loadedPlayerElements.push(i.id);
-                  PictureparkPlayers.renderVideoPlayer(i, element, window.innerWidth, window.innerHeight).then(player => {
+                  PictureparkPlayers.renderVideoPlayerIfNeeded(item, element, window.innerWidth, window.innerHeight).then(player => {
                     if (player) {
                       loadedPlayers.push(player);
-                      // players.push(player);
-                      // let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
-                      // resizeCallbacks.push(resizeCallback);
-                      // window.addEventListener('resize', resizeCallback, false);
                     }
                   });
                 }
@@ -255,21 +295,17 @@ export class PictureparkPlayers {
           photoSwipe.listen('beforeChange', updatePlayers);
         });
 
-        photoSwipe.listen('close', () => {
-          for (let player of loadedPlayers) {
-            player.dispose();
-          }
-        });
-
         updatePlayers();
       }
 
       return new Promise((resolve) => {
         photoSwipe.listen('close', () => {
-          for (let player of players)
-            player.remove();
-          for (let resizeCallback of resizeCallbacks)
+          for (let player of loadedPlayers) {
+            this.disposeVideoPlayer(player);
+          }
+          for (let resizeCallback of resizeCallbacks) {
             window.removeEventListener('resize', resizeCallback, false);
+          }
           resolve();
         });
       });
