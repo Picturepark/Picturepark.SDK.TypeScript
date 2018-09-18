@@ -192,6 +192,7 @@ export class PictureparkPlayers {
 
       var photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: shareItems.indexOf(shareItem) });
       photoSwipe.options.history = false;
+	  photoSwipe.options.shareButtons = [{id:'download', label:'Download image', url:'{{raw_image_url}}', download:true}];
       photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
         let gallery = galleryElementId ? PictureparkPlayers.getGallery(galleryElementId) : undefined;
