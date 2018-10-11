@@ -9097,8 +9097,8 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Transferdetail
-     * @param transferId The tranfer id
+     * Get transfer details
+     * @param transferId ID of transfer.
      * @return TransferDetail
      */
     get(transferId: string): Observable<TransferDetail> {
@@ -9196,9 +9196,9 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete Transfer
-     * @param transferId The tranfer id
-     * @return Transfer
+     * Delete transfer
+     * @param transferId ID of transfer.
+     * @return OK
      */
     delete(transferId: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}";
@@ -9390,7 +9390,9 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Cancels a transfer.
+     * Cancel transfer
+     * @param transferId ID of transfer.
+     * @return OK
      */
     cancelTransfer(transferId: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/cancel";
@@ -9483,7 +9485,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Create Transfer
+     * Create transfer
      * @param request The create transfer request
      * @return Transfer
      */
@@ -9582,8 +9584,8 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Get File
-     * @param fileTransferId The filetransfer id
+     * Get file
+     * @param fileTransferId ID of filetransfer.
      * @return FileTransferDetail
      */
     getFile(fileTransferId: string): Observable<FileTransferDetail> {
@@ -9682,7 +9684,7 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Search for files
-     * @param request The file transfer search request
+     * @param request The filetransfer search request
      * @return FileTransferSearchResult
      */
     searchFiles(request: FileTransferSearchRequest): Observable<FileTransferSearchResult> {
@@ -9780,7 +9782,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Blacklist
+     * Get blacklist
      * @return Blacklist
      */
     getBlacklist(): Observable<Blacklist> {
@@ -9875,7 +9877,7 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete Files
+     * Delete files
      * @param request The filetransfer delete request
      */
     deleteFiles(request: FileTransferDeleteRequest): Observable<void> {
@@ -9970,8 +9972,8 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Import transfer
-     * @param transferId The tranfer id
-     * @param request The filetransfer to content create request
+     * @param transferId ID of transfer.
+     * @param request The ImportTransfer request.
      * @return Transfer
      */
     importTransfer(transferId: string, request: ImportTransferRequest): Observable<Transfer> {
@@ -10072,9 +10074,10 @@ export class TransferService extends PictureparkServiceBase {
     }
 
     /**
-     * Create a partial import
-     * @param transferId The transfer id
-     * @param request The filetransfer partial to content create request
+     * Import transfer partially
+     * @param transferId ID of transfer.
+     * @param request The ImportTransferPartial request.
+     * @return Transfer
      */
     partialImport(transferId: string, request: ImportTransferPartialRequest): Observable<Transfer> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/partialImport";
@@ -10176,13 +10179,16 @@ export class TransferService extends PictureparkServiceBase {
     /**
      * Upload file
      * @param formFile (optional) Gets or sets the form file.
-     * @param relativePath (optional) Relative path of the uploading file
-     * @param chunkNumber (optional) Current chunk number. starts with 1
-     * @param currentChunkSize (optional) Size in bytes of the current chunk
-     * @param totalSize (optional) Total size in bytes of the uploading file
-     * @param totalChunks (optional) Total chunks of the uploading file
+     * @param relativePath Relative path of the uploading file.
+     * @param chunkNumber Current chunk number. Starts at 1.
+     * @param currentChunkSize Size in bytes of the current chunk.
+     * @param totalSize Total size in bytes of the uploading file.
+     * @param totalChunks Total chunks of the uploading file.
+     * @param transferId ID of transfer.
+     * @param identifier Identifier of file.
+     * @return OK
      */
-    uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null | undefined, chunkNumber: number | undefined, currentChunkSize: number | undefined, totalSize: number | undefined, totalChunks: number | undefined, transferId: string, identifier: string): Observable<void> {
+    uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{identifier}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -10190,23 +10196,25 @@ export class TransferService extends PictureparkServiceBase {
         if (identifier === undefined || identifier === null)
             throw new Error("The parameter 'identifier' must be defined.");
         url_ = url_.replace("{identifier}", encodeURIComponent("" + identifier)); 
-        if (relativePath !== undefined)
+        if (relativePath === undefined)
+            throw new Error("The parameter 'relativePath' must be defined.");
+        else
             url_ += "relativePath=" + encodeURIComponent("" + relativePath) + "&"; 
-        if (chunkNumber === null)
-            throw new Error("The parameter 'chunkNumber' cannot be null.");
-        else if (chunkNumber !== undefined)
+        if (chunkNumber === undefined || chunkNumber === null)
+            throw new Error("The parameter 'chunkNumber' must be defined and cannot be null.");
+        else
             url_ += "chunkNumber=" + encodeURIComponent("" + chunkNumber) + "&"; 
-        if (currentChunkSize === null)
-            throw new Error("The parameter 'currentChunkSize' cannot be null.");
-        else if (currentChunkSize !== undefined)
+        if (currentChunkSize === undefined || currentChunkSize === null)
+            throw new Error("The parameter 'currentChunkSize' must be defined and cannot be null.");
+        else
             url_ += "currentChunkSize=" + encodeURIComponent("" + currentChunkSize) + "&"; 
-        if (totalSize === null)
-            throw new Error("The parameter 'totalSize' cannot be null.");
-        else if (totalSize !== undefined)
+        if (totalSize === undefined || totalSize === null)
+            throw new Error("The parameter 'totalSize' must be defined and cannot be null.");
+        else
             url_ += "totalSize=" + encodeURIComponent("" + totalSize) + "&"; 
-        if (totalChunks === null)
-            throw new Error("The parameter 'totalChunks' cannot be null.");
-        else if (totalChunks !== undefined)
+        if (totalChunks === undefined || totalChunks === null)
+            throw new Error("The parameter 'totalChunks' must be defined and cannot be null.");
+        else
             url_ += "totalChunks=" + encodeURIComponent("" + totalChunks) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -34799,13 +34807,21 @@ export interface ISchemaImportRequest {
     importListItems: boolean;
 }
 
+/** Represents a transfer. */
 export class Transfer implements ITransfer {
-    id?: string | undefined;
-    name?: string | undefined;
+    /** ID of transfer. */
+    id: string;
+    /** Name of transfer. */
+    name: string;
+    /** State of transfer. */
     state: TransferState;
+    /** Type of transfer. */
     transferType: TransferType;
+    /** Associated business process ID. */
     businessProcessId?: string | undefined;
+    /** Number of files in transfer. */
     fileTransferCount: number;
+    /** ID of collection created from transfer. */
     collectionId?: string | undefined;
 
     constructor(data?: ITransfer) {
@@ -34849,13 +34865,21 @@ export class Transfer implements ITransfer {
     }
 }
 
+/** Represents a transfer. */
 export interface ITransfer {
-    id?: string | undefined;
-    name?: string | undefined;
+    /** ID of transfer. */
+    id: string;
+    /** Name of transfer. */
+    name: string;
+    /** State of transfer. */
     state: TransferState;
+    /** Type of transfer. */
     transferType: TransferType;
+    /** Associated business process ID. */
     businessProcessId?: string | undefined;
+    /** Number of files in transfer. */
     fileTransferCount: number;
+    /** ID of collection created from transfer. */
     collectionId?: string | undefined;
 }
 
@@ -35927,44 +35951,38 @@ export interface IShareDeleteManyRequest {
     ids?: string[] | undefined;
 }
 
-export class TransferDetail implements ITransferDetail {
-    id?: string | undefined;
-    rev?: string | undefined;
-    audit?: UserAudit | undefined;
-    name?: string | undefined;
-    state: TransferState;
-    businessProcessId?: string | undefined;
-    transferType: TransferType;
+/** Represents a transfer and includes detailed information. */
+export class TransferDetail extends Transfer implements ITransferDetail {
+    /** Audit information. */
+    audit: UserAudit;
+    /** Number of items processed. */
     itemProgress: number;
+    /** Total number of items. */
     itemCount: number;
+    /** Number of items currently being uploaded. */
     fileUploadInProgressCount: number;
+    /** Number of items currently being processed in data extraction. */
     dataExtractionInProgressCount: number;
+    /** Number of items failed. */
     itemsFailed: number;
+    /** Number of items cancelled. */
     itemsCancelled: number;
+    /** Time stamp of last progress update from data extraction. */
     lastDataExtractionProgressStamp: number;
+    /** LastTime stamp of last progress update from upload. */
     lastFileUploadProgressStamp: number;
-    fileTransferCount: number;
-    collectionId?: string | undefined;
 
     constructor(data?: ITransferDetail) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+        super(data);
+        if (!data) {
+            this.audit = new UserAudit();
         }
     }
 
     init(data?: any) {
+        super.init(data);
         if (data) {
-            this.id = data["id"];
-            this.rev = data["rev"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.name = data["name"];
-            this.state = data["state"];
-            this.businessProcessId = data["businessProcessId"];
-            this.transferType = data["transferType"];
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
             this.itemProgress = data["itemProgress"];
             this.itemCount = data["itemCount"];
             this.fileUploadInProgressCount = data["fileUploadInProgressCount"];
@@ -35973,8 +35991,6 @@ export class TransferDetail implements ITransferDetail {
             this.itemsCancelled = data["itemsCancelled"];
             this.lastDataExtractionProgressStamp = data["lastDataExtractionProgressStamp"];
             this.lastFileUploadProgressStamp = data["lastFileUploadProgressStamp"];
-            this.fileTransferCount = data["fileTransferCount"];
-            this.collectionId = data["collectionId"];
         }
     }
 
@@ -35987,13 +36003,7 @@ export class TransferDetail implements ITransferDetail {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["rev"] = this.rev;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["name"] = this.name;
-        data["state"] = this.state;
-        data["businessProcessId"] = this.businessProcessId;
-        data["transferType"] = this.transferType;
         data["itemProgress"] = this.itemProgress;
         data["itemCount"] = this.itemCount;
         data["fileUploadInProgressCount"] = this.fileUploadInProgressCount;
@@ -36002,39 +36012,38 @@ export class TransferDetail implements ITransferDetail {
         data["itemsCancelled"] = this.itemsCancelled;
         data["lastDataExtractionProgressStamp"] = this.lastDataExtractionProgressStamp;
         data["lastFileUploadProgressStamp"] = this.lastFileUploadProgressStamp;
-        data["fileTransferCount"] = this.fileTransferCount;
-        data["collectionId"] = this.collectionId;
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface ITransferDetail {
-    id?: string | undefined;
-    rev?: string | undefined;
-    audit?: IUserAudit | undefined;
-    name?: string | undefined;
-    state: TransferState;
-    businessProcessId?: string | undefined;
-    transferType: TransferType;
+/** Represents a transfer and includes detailed information. */
+export interface ITransferDetail extends ITransfer {
+    /** Audit information. */
+    audit: IUserAudit;
+    /** Number of items processed. */
     itemProgress: number;
+    /** Total number of items. */
     itemCount: number;
+    /** Number of items currently being uploaded. */
     fileUploadInProgressCount: number;
+    /** Number of items currently being processed in data extraction. */
     dataExtractionInProgressCount: number;
+    /** Number of items failed. */
     itemsFailed: number;
+    /** Number of items cancelled. */
     itemsCancelled: number;
+    /** Time stamp of last progress update from data extraction. */
     lastDataExtractionProgressStamp: number;
+    /** LastTime stamp of last progress update from upload. */
     lastFileUploadProgressStamp: number;
-    fileTransferCount: number;
-    collectionId?: string | undefined;
 }
 
+/** Request to search for transfers. */
 export class TransferSearchRequest implements ITransferSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
 
@@ -36083,13 +36092,11 @@ export class TransferSearchRequest implements ITransferSearchRequest {
     }
 }
 
+/** Request to search for transfers. */
 export interface ITransferSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
 }
@@ -36198,7 +36205,9 @@ export interface ISearchBehaviourBaseResultOfTransfer extends IBaseResultOfTrans
     isSearchStringRewritten: boolean;
 }
 
+/** Result from a search for transfers. */
 export class TransferSearchResult extends SearchBehaviourBaseResultOfTransfer implements ITransferSearchResult {
+    /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 
     constructor(data?: ITransferSearchResult) {
@@ -36227,16 +36236,25 @@ export class TransferSearchResult extends SearchBehaviourBaseResultOfTransfer im
     }
 }
 
+/** Result from a search for transfers. */
 export interface ITransferSearchResult extends ISearchBehaviourBaseResultOfTransfer {
+    /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 }
 
+/** Creates a transfer. */
 export class CreateTransferRequest implements ICreateTransferRequest {
-    name?: string | undefined;
+    /** Name of transfer. */
+    name: string;
+    /** Type of transfer. */
     transferType: TransferType;
+    /** Files uploaded in transfer. */
     files?: TransferUploadFile[] | undefined;
+    /** Weblinks downloaded in transfer. */
     webLinks?: TransferWebLink[] | undefined;
+    /** Name of collection created after transfer. */
     collectionName?: string | undefined;
+    /** A value indicating whether to create a Collection after importing the transfer. */
     createCollection: boolean;
 
     constructor(data?: ICreateTransferRequest) {
@@ -36308,17 +36326,26 @@ export class CreateTransferRequest implements ICreateTransferRequest {
     }
 }
 
+/** Creates a transfer. */
 export interface ICreateTransferRequest {
-    name?: string | undefined;
+    /** Name of transfer. */
+    name: string;
+    /** Type of transfer. */
     transferType: TransferType;
+    /** Files uploaded in transfer. */
     files?: ITransferUploadFile[] | undefined;
+    /** Weblinks downloaded in transfer. */
     webLinks?: ITransferWebLink[] | undefined;
+    /** Name of collection created after transfer. */
     collectionName?: string | undefined;
+    /** A value indicating whether to create a Collection after importing the transfer. */
     createCollection: boolean;
 }
 
+/** Represents the base class for transfer items. */
 export abstract class TransferFile implements ITransferFile {
-    identifier?: string | undefined;
+    /** Client generated identifier of the item. */
+    identifier: string;
 
     constructor(data?: ITransferFile) {
         if (data) {
@@ -36347,12 +36374,16 @@ export abstract class TransferFile implements ITransferFile {
     }
 }
 
+/** Represents the base class for transfer items. */
 export interface ITransferFile {
-    identifier?: string | undefined;
+    /** Client generated identifier of the item. */
+    identifier: string;
 }
 
+/** Represents a file being uploaded in a transfer. */
 export class TransferUploadFile extends TransferFile implements ITransferUploadFile {
-    fileName?: string | undefined;
+    /** Target filename of file. */
+    fileName: string;
 
     constructor(data?: ITransferUploadFile) {
         super(data);
@@ -36380,12 +36411,16 @@ export class TransferUploadFile extends TransferFile implements ITransferUploadF
     }
 }
 
+/** Represents a file being uploaded in a transfer. */
 export interface ITransferUploadFile extends ITransferFile {
-    fileName?: string | undefined;
+    /** Target filename of file. */
+    fileName: string;
 }
 
+/** Represents an item being downloaded by URL in a transfer. */
 export class TransferWebLink extends TransferFile implements ITransferWebLink {
-    url?: string | undefined;
+    /** URL of the item. */
+    url: string;
 
     constructor(data?: ITransferWebLink) {
         super(data);
@@ -36413,35 +36448,32 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
     }
 }
 
+/** Represents an item being downloaded by URL in a transfer. */
 export interface ITransferWebLink extends ITransferFile {
-    url?: string | undefined;
+    /** URL of the item. */
+    url: string;
 }
 
-export class FileTransferDetail implements IFileTransferDetail {
-    id?: string | undefined;
-    rev?: string | undefined;
-    name?: string | undefined;
-    identifier?: string | undefined;
-    audit?: UserAudit | undefined;
-    transferId?: string | undefined;
+/** Representation of a file transfer. */
+export class FileTransfer implements IFileTransfer {
+    /** ID of file transfer. */
+    id: string;
+    /** Name of file transfer. */
+    name: string;
+    /** Client provided identifier. */
+    identifier: string;
+    /** ID of transfer. */
+    transferId: string;
+    /** State of file transfer. */
     state: FileTransferState;
-    fileMetadata?: FileMetadata | undefined;
-    outputItems?: FileTransferOutput[] | undefined;
+    /** ID of Content created for file. */
     contentId?: string | undefined;
 
-    constructor(data?: IFileTransferDetail) {
+    constructor(data?: IFileTransfer) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
-            if (data.outputItems) {
-                this.outputItems = [];
-                for (let i = 0; i < data.outputItems.length; i++) {
-                    let item = data.outputItems[i];
-                    this.outputItems[i] = item && !(<any>item).toJSON ? new FileTransferOutput(item) : <FileTransferOutput>item;
-                }
             }
         }
     }
@@ -36449,19 +36481,75 @@ export class FileTransferDetail implements IFileTransferDetail {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.rev = data["rev"];
             this.name = data["name"];
             this.identifier = data["identifier"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
             this.transferId = data["transferId"];
             this.state = data["state"];
+            this.contentId = data["contentId"];
+        }
+    }
+
+    static fromJS(data: any): FileTransfer {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileTransfer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["identifier"] = this.identifier;
+        data["transferId"] = this.transferId;
+        data["state"] = this.state;
+        data["contentId"] = this.contentId;
+        return data; 
+    }
+}
+
+/** Representation of a file transfer. */
+export interface IFileTransfer {
+    /** ID of file transfer. */
+    id: string;
+    /** Name of file transfer. */
+    name: string;
+    /** Client provided identifier. */
+    identifier: string;
+    /** ID of transfer. */
+    transferId: string;
+    /** State of file transfer. */
+    state: FileTransferState;
+    /** ID of Content created for file. */
+    contentId?: string | undefined;
+}
+
+/** Detailed representation of file transfer. */
+export class FileTransferDetail extends FileTransfer implements IFileTransferDetail {
+    /** Audit information. */
+    audit: UserAudit;
+    /** Metadata extracted for file. */
+    fileMetadata?: FileMetadata | undefined;
+    /** Outputs being rendered for file. */
+    outputItems?: FileTransferOutput[] | undefined;
+
+    constructor(data?: IFileTransferDetail) {
+        super(data);
+        if (!data) {
+            this.audit = new UserAudit();
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
             this.fileMetadata = data["fileMetadata"] ? FileMetadata.fromJS(data["fileMetadata"]) : <any>undefined;
             if (data["outputItems"] && data["outputItems"].constructor === Array) {
                 this.outputItems = [];
                 for (let item of data["outputItems"])
                     this.outputItems.push(FileTransferOutput.fromJS(item));
             }
-            this.contentId = data["contentId"];
         }
     }
 
@@ -36474,53 +36562,26 @@ export class FileTransferDetail implements IFileTransferDetail {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["rev"] = this.rev;
-        data["name"] = this.name;
-        data["identifier"] = this.identifier;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["transferId"] = this.transferId;
-        data["state"] = this.state;
         data["fileMetadata"] = this.fileMetadata ? this.fileMetadata.toJSON() : <any>undefined;
         if (this.outputItems && this.outputItems.constructor === Array) {
             data["outputItems"] = [];
             for (let item of this.outputItems)
                 data["outputItems"].push(item.toJSON());
         }
-        data["contentId"] = this.contentId;
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface IFileTransferDetail {
-    id?: string | undefined;
-    rev?: string | undefined;
-    name?: string | undefined;
-    identifier?: string | undefined;
-    audit?: IUserAudit | undefined;
-    transferId?: string | undefined;
-    state: FileTransferState;
+/** Detailed representation of file transfer. */
+export interface IFileTransferDetail extends IFileTransfer {
+    /** Audit information. */
+    audit: IUserAudit;
+    /** Metadata extracted for file. */
     fileMetadata?: FileMetadata | undefined;
+    /** Outputs being rendered for file. */
     outputItems?: IFileTransferOutput[] | undefined;
-    contentId?: string | undefined;
-}
-
-export enum FileTransferState {
-    Draft = <any>"Draft", 
-    UploadInProgress = <any>"UploadInProgress", 
-    UploadCompleted = <any>"UploadCompleted", 
-    DataExtractionInProgress = <any>"DataExtractionInProgress", 
-    DataExtractionDone = <any>"DataExtractionDone", 
-    ImportInProgress = <any>"ImportInProgress", 
-    ImportCompleted = <any>"ImportCompleted", 
-    UploadCancelled = <any>"UploadCancelled", 
-    ImportCancelled = <any>"ImportCancelled", 
-    UploadFailed = <any>"UploadFailed", 
-    ImportFailed = <any>"ImportFailed", 
-    DeleteInProgress = <any>"DeleteInProgress", 
-    Deleted = <any>"Deleted", 
-    CleanupInProgress = <any>"CleanupInProgress", 
-    CleanupCompleted = <any>"CleanupCompleted", 
 }
 
 export class FileMetadata implements IFileMetadata {
@@ -37238,12 +37299,29 @@ export enum OutputSource {
     Embedded = <any>"Embedded", 
 }
 
+export enum FileTransferState {
+    Draft = <any>"Draft", 
+    UploadInProgress = <any>"UploadInProgress", 
+    UploadCompleted = <any>"UploadCompleted", 
+    DataExtractionInProgress = <any>"DataExtractionInProgress", 
+    DataExtractionDone = <any>"DataExtractionDone", 
+    ImportInProgress = <any>"ImportInProgress", 
+    ImportCompleted = <any>"ImportCompleted", 
+    UploadCancelled = <any>"UploadCancelled", 
+    ImportCancelled = <any>"ImportCancelled", 
+    UploadFailed = <any>"UploadFailed", 
+    ImportFailed = <any>"ImportFailed", 
+    DeleteInProgress = <any>"DeleteInProgress", 
+    Deleted = <any>"Deleted", 
+    CleanupInProgress = <any>"CleanupInProgress", 
+    CleanupCompleted = <any>"CleanupCompleted", 
+}
+
+/** Request to search for file transfers. */
 export class FileTransferSearchRequest implements IFileTransferSearchRequest {
     searchString?: string | undefined;
     searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
 
@@ -37292,12 +37370,11 @@ export class FileTransferSearchRequest implements IFileTransferSearchRequest {
     }
 }
 
+/** Request to search for file transfers. */
 export interface IFileTransferSearchRequest {
     searchString?: string | undefined;
     searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
 }
@@ -37406,7 +37483,9 @@ export interface ISearchBehaviourBaseResultOfFileTransfer extends IBaseResultOfF
     isSearchStringRewritten: boolean;
 }
 
+/** Result from a search for file transfers. */
 export class FileTransferSearchResult extends SearchBehaviourBaseResultOfFileTransfer implements IFileTransferSearchResult {
+    /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 
     constructor(data?: IFileTransferSearchResult) {
@@ -37435,68 +37514,16 @@ export class FileTransferSearchResult extends SearchBehaviourBaseResultOfFileTra
     }
 }
 
+/** Result from a search for file transfers. */
 export interface IFileTransferSearchResult extends ISearchBehaviourBaseResultOfFileTransfer {
+    /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 }
 
-export class FileTransfer implements IFileTransfer {
-    id?: string | undefined;
-    name?: string | undefined;
-    identifier?: string | undefined;
-    transferId?: string | undefined;
-    state: FileTransferState;
-    contentId?: string | undefined;
-
-    constructor(data?: IFileTransfer) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.name = data["name"];
-            this.identifier = data["identifier"];
-            this.transferId = data["transferId"];
-            this.state = data["state"];
-            this.contentId = data["contentId"];
-        }
-    }
-
-    static fromJS(data: any): FileTransfer {
-        data = typeof data === 'object' ? data : {};
-        let result = new FileTransfer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["identifier"] = this.identifier;
-        data["transferId"] = this.transferId;
-        data["state"] = this.state;
-        data["contentId"] = this.contentId;
-        return data; 
-    }
-}
-
-export interface IFileTransfer {
-    id?: string | undefined;
-    name?: string | undefined;
-    identifier?: string | undefined;
-    transferId?: string | undefined;
-    state: FileTransferState;
-    contentId?: string | undefined;
-}
-
+/** Blacklist containing file name patterns skipped when uploading. */
 export class Blacklist implements IBlacklist {
-    items?: BlacklistItem[] | undefined;
+    /** Blacklist entries. */
+    items: BlacklistItem[];
 
     constructor(data?: IBlacklist) {
         if (data) {
@@ -37511,6 +37538,9 @@ export class Blacklist implements IBlacklist {
                     this.items[i] = item && !(<any>item).toJSON ? new BlacklistItem(item) : <BlacklistItem>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -37542,13 +37572,18 @@ export class Blacklist implements IBlacklist {
     }
 }
 
+/** Blacklist containing file name patterns skipped when uploading. */
 export interface IBlacklist {
-    items?: IBlacklistItem[] | undefined;
+    /** Blacklist entries. */
+    items: IBlacklistItem[];
 }
 
+/** Entry in the Blacklist. */
 export class BlacklistItem implements IBlacklistItem {
-    name?: string | undefined;
-    match?: string | undefined;
+    /** Friendly name of item. */
+    name: string;
+    /** Pattern a file name must match to be excluded from the transfer. */
+    match: string;
 
     constructor(data?: IBlacklistItem) {
         if (data) {
@@ -37581,14 +37616,20 @@ export class BlacklistItem implements IBlacklistItem {
     }
 }
 
+/** Entry in the Blacklist. */
 export interface IBlacklistItem {
-    name?: string | undefined;
-    match?: string | undefined;
+    /** Friendly name of item. */
+    name: string;
+    /** Pattern a file name must match to be excluded from the transfer. */
+    match: string;
 }
 
+/** Deletes files from transfer. */
 export class FileTransferDeleteRequest implements IFileTransferDeleteRequest {
-    transferId?: string | undefined;
-    fileTransferIds?: string[] | undefined;
+    /** ID of transfer. */
+    transferId: string;
+    /** List of IDs of file transfers to delete. */
+    fileTransferIds: string[];
 
     constructor(data?: IFileTransferDeleteRequest) {
         if (data) {
@@ -37596,6 +37637,9 @@ export class FileTransferDeleteRequest implements IFileTransferDeleteRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.fileTransferIds = [];
         }
     }
 
@@ -37629,9 +37673,12 @@ export class FileTransferDeleteRequest implements IFileTransferDeleteRequest {
     }
 }
 
+/** Deletes files from transfer. */
 export interface IFileTransferDeleteRequest {
-    transferId?: string | undefined;
-    fileTransferIds?: string[] | undefined;
+    /** ID of transfer. */
+    transferId: string;
+    /** List of IDs of file transfers to delete. */
+    fileTransferIds: string[];
 }
 
 export class ImportTransferRequest implements IImportTransferRequest {

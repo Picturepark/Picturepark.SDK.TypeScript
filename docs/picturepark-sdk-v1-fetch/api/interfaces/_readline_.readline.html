@@ -107,7 +107,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#getmaxlisteners" class="tsd-kind-icon">get<wbr>Max<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#listeners" class="tsd-kind-icon">listeners</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="_readline_.readline.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="_readline_.readline.html#once" class="tsd-kind-icon">once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_readline_.readline.html#pause" class="tsd-kind-icon">pause</a></li>
@@ -115,7 +114,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="_readline_.readline.html#prependoncelistener" class="tsd-kind-icon">prepend<wbr>Once<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_readline_.readline.html#prompt" class="tsd-kind-icon">prompt</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_readline_.readline.html#question" class="tsd-kind-icon">question</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#rawlisteners" class="tsd-kind-icon">raw<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_readline_.readline.html#removelistener" class="tsd-kind-icon">remove<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_readline_.readline.html#resume" class="tsd-kind-icon">resume</a></li>
@@ -137,7 +135,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#defaultmaxlisteners">defaultMaxListeners</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1022</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:614</li>
 						</ul>
 					</aside>
 				</section>
@@ -148,7 +146,7 @@
 					<a name="addlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"close"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"line"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"pause"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
@@ -162,7 +160,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2000</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1458</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -185,25 +183,7 @@
 									<h5>event: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -212,7 +192,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2001</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1459</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -242,7 +222,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2002</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1460</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -278,7 +258,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2003</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1461</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -308,7 +288,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2004</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1462</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -338,7 +318,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2005</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1463</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -368,7 +348,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2006</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1464</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -398,7 +378,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2007</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1465</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -436,7 +416,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1986</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1444</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -447,7 +427,7 @@
 					<a name="emit" class="tsd-anchor"></a>
 					<h3>emit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"close"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"line"</span>, input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"pause"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
@@ -461,13 +441,13 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2009</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1467</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
@@ -479,7 +459,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2010</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1468</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -494,7 +474,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2011</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1469</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,7 +492,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2012</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1470</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -527,7 +507,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2013</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1471</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -542,7 +522,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2014</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1472</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -557,7 +537,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2015</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1473</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -572,7 +552,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2016</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1474</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -589,7 +569,7 @@
 					<a name="eventnames" class="tsd-anchor"></a>
 					<h3>event<wbr>Names</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">event<wbr>Names<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">event<wbr>Names<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -597,10 +577,10 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#eventnames">eventNames</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#eventnames">eventNames</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1037</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:627</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -616,7 +596,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#getmaxlisteners">getMaxListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#getmaxlisteners">getMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1033</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:624</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -635,7 +615,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#listenercount">listenerCount</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#listenercount">listenerCount</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1038</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:628</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -660,7 +640,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#listeners">listeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#listeners">listeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1034</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:625</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -673,57 +653,11 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-					<a name="off" class="tsd-anchor"></a>
-					<h3>off</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#off">off</a></p>
-								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#off">off</a></p>
-								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1030</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
-								</li>
-								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"close"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"line"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"pause"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
@@ -737,7 +671,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2018</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1476</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -746,25 +680,7 @@
 									<h5>event: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -773,7 +689,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2019</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1477</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -803,7 +719,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2020</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1478</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -839,7 +755,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2021</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1479</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -869,7 +785,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2022</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1480</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -899,7 +815,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2023</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1481</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -929,7 +845,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2024</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1482</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -959,7 +875,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2025</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1483</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -991,7 +907,7 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"close"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"line"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"pause"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
@@ -1005,7 +921,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2027</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1485</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1014,25 +930,7 @@
 									<h5>event: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -1041,7 +939,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2028</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1486</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1071,7 +969,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2029</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1487</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1107,7 +1005,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2030</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1488</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1137,7 +1035,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2031</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1489</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1167,7 +1065,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2032</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1490</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1197,7 +1095,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2033</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1491</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1227,7 +1125,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2034</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1492</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1259,16 +1157,16 @@
 					<a name="pause" class="tsd-anchor"></a>
 					<h3>pause</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">pause<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_readline_.readline.html" class="tsd-signature-type">ReadLine</a></li>
+						<li class="tsd-signature tsd-kind-icon">pause<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1984</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1442</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_readline_.readline.html" class="tsd-signature-type">ReadLine</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1276,7 +1174,7 @@
 					<a name="prependlistener" class="tsd-anchor"></a>
 					<h3>prepend<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"close"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"line"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"pause"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
@@ -1290,7 +1188,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2036</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1494</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1299,25 +1197,7 @@
 									<h5>event: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -1326,7 +1206,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2037</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1495</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1356,7 +1236,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2038</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1496</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1392,7 +1272,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2039</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1497</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1422,7 +1302,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2040</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1498</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1452,7 +1332,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2041</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1499</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1482,7 +1362,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2042</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1500</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1512,7 +1392,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2043</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1501</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1544,7 +1424,7 @@
 					<a name="prependoncelistener" class="tsd-anchor"></a>
 					<h3>prepend<wbr>Once<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"close"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"line"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"pause"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
@@ -1558,7 +1438,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2045</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1503</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1567,25 +1447,7 @@
 									<h5>event: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -1594,7 +1456,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2046</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1504</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1624,7 +1486,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2047</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1505</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1660,7 +1522,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2048</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1506</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1690,7 +1552,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2049</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1507</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1720,7 +1582,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2050</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1508</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1750,7 +1612,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2051</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1509</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1780,7 +1642,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2052</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1510</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1818,7 +1680,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1982</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1440</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1841,7 +1703,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1983</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1441</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1876,31 +1738,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-					<a name="rawlisteners" class="tsd-anchor"></a>
-					<h3>raw<wbr>Listeners</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">raw<wbr>Listeners<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#rawlisteners">rawListeners</a></p>
-								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#rawlisteners">rawListeners</a></p>
-								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1035</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="removealllisteners" class="tsd-anchor"></a>
 					<h3>remove<wbr>All<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
@@ -1912,7 +1749,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removealllisteners">removeAllListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1031</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:622</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1929,7 +1766,7 @@
 					<a name="removelistener" class="tsd-anchor"></a>
 					<h3>remove<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1937,7 +1774,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1029</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:621</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1946,25 +1783,7 @@
 									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -1975,16 +1794,16 @@
 					<a name="resume" class="tsd-anchor"></a>
 					<h3>resume</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">resume<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_readline_.readline.html" class="tsd-signature-type">ReadLine</a></li>
+						<li class="tsd-signature tsd-kind-icon">resume<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1985</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1443</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_readline_.readline.html" class="tsd-signature-type">ReadLine</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -2000,7 +1819,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#setmaxlisteners">setMaxListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#setmaxlisteners">setMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1032</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:623</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2023,7 +1842,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1981</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1439</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2046,7 +1865,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1987</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1445</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2073,16 +1892,9 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#listenercount-1">listenerCount</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1021</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:613</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd><p>since v4.0.0</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -2111,6 +1923,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+						<a href="_readline_.completer.html" class="tsd-kind-icon">Completer</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="_readline_.key.html" class="tsd-kind-icon">Key</a>
 					</li>
@@ -2143,9 +1958,6 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_readline_.readline.html#listeners" class="tsd-kind-icon">listeners</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-								<a href="_readline_.readline.html#off" class="tsd-kind-icon">off</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
 								<a href="_readline_.readline.html#on" class="tsd-kind-icon">on</a>
 							</li>
@@ -2166,9 +1978,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external">
 								<a href="_readline_.readline.html#question" class="tsd-kind-icon">question</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
-								<a href="_readline_.readline.html#rawlisteners" class="tsd-kind-icon">raw<wbr>Listeners</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_readline_.readline.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a>
@@ -2198,12 +2007,6 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
 						<a href="_readline_.readlineoptions.html" class="tsd-kind-icon">Read<wbr>Line<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="../modules/_readline_.html#asynccompleter" class="tsd-kind-icon">Async<wbr>Completer</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="../modules/_readline_.html#completer" class="tsd-kind-icon">Completer</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
 						<a href="../modules/_readline_.html#completerresult" class="tsd-kind-icon">Completer<wbr>Result</a>
 					</li>
@@ -2218,9 +2021,6 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external">
 						<a href="../modules/_readline_.html#cursorto" class="tsd-kind-icon">cursor<wbr>To</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external">
-						<a href="../modules/_readline_.html#emitkeypressevents" class="tsd-kind-icon">emit<wbr>Keypress<wbr>Events</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external">
 						<a href="../modules/_readline_.html#movecursor" class="tsd-kind-icon">move<wbr>Cursor</a>

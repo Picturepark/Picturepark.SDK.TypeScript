@@ -87,9 +87,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="contentmodel.html#isinbasket" class="tsd-kind-icon">is<wbr>InBasket</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="contentmodel.html#isselected" class="tsd-kind-icon">is<wbr>Selected</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="contentmodel.html#item" class="tsd-kind-icon">item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="contentmodel.html#parent" class="tsd-kind-icon">parent</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,13 +101,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Content<wbr>Model<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="content.html" class="tsd-signature-type">Content</a>, parent<span class="tsd-signature-symbol">: </span><a href="contentbrowsercomponent.html" class="tsd-signature-type">ContentBrowserComponent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="contentmodel.html" class="tsd-signature-type">ContentModel</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Content<wbr>Model<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="content.html" class="tsd-signature-type">Content</a>, isInBasket<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="contentmodel.html" class="tsd-signature-type">ContentModel</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/content-browser/content-browser.component.ts#L184">src/components/content-browser/content-browser.component.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/content-browser/models/content-model.ts#L6">src/components/content-browser/models/content-model.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -116,7 +116,7 @@
 									<h5>item: <a href="content.html" class="tsd-signature-type">Content</a></h5>
 								</li>
 								<li>
-									<h5>parent: <a href="contentbrowsercomponent.html" class="tsd-signature-type">ContentBrowserComponent</a></h5>
+									<h5>isInBasket: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="contentmodel.html" class="tsd-signature-type">ContentModel</a></h4>
@@ -127,12 +127,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="isinbasket" class="tsd-anchor"></a>
+					<h3>is<wbr>InBasket</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>InBasket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/content-browser/models/content-model.ts#L5">src/components/content-browser/models/content-model.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="isselected" class="tsd-anchor"></a>
 					<h3>is<wbr>Selected</h3>
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Selected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/content-browser/content-browser.component.ts#L182">src/components/content-browser/content-browser.component.ts:182</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/content-browser/models/content-model.ts#L4">src/components/content-browser/models/content-model.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -142,17 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <a href="content.html" class="tsd-signature-type">Content</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/content-browser/content-browser.component.ts#L183">src/components/content-browser/content-browser.component.ts:183</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="parent" class="tsd-anchor"></a>
-					<h3>parent</h3>
-					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="contentbrowsercomponent.html" class="tsd-signature-type">ContentBrowserComponent</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/1cad255d/src/picturepark-sdk-v1-angular/src/components/content-browser/content-browser.component.ts#L184">src/components/content-browser/content-browser.component.ts:184</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a59e19b3/src/picturepark-sdk-v1-angular/src/components/content-browser/models/content-model.ts#L6">src/components/content-browser/models/content-model.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,13 +177,13 @@
 								<a href="contentmodel.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="contentmodel.html#isinbasket" class="tsd-kind-icon">is<wbr>InBasket</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="contentmodel.html#isselected" class="tsd-kind-icon">is<wbr>Selected</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="contentmodel.html#item" class="tsd-kind-icon">item</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="contentmodel.html#parent" class="tsd-kind-icon">parent</a>
 							</li>
 						</ul>
 					</li>

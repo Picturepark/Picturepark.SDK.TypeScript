@@ -183,7 +183,7 @@ export class PictureparkPlayers {
     iframeElement.style.top = '0';
     iframeElement.style.width = '100%';
     iframeElement.style.height = '100%';
-    iframeElement.src = PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + item.originalUrl;
+    iframeElement.src = PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + item.originalUrl;
 
     let savedOverflow = document.body.style.overflow;
     let keydownCallback = (e: KeyboardEvent) => {
@@ -229,25 +229,33 @@ export class PictureparkPlayers {
         } else if (i.isPdf) {
           return {
             html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-              'src="' + PictureparkPlayers.scriptsPath + '/pdfjs/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>'
+              'src="' + PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
+              origin: i.originalUrl
           };
         } else if (i.isMovie) {
           return {
-            html: '<video class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></video>'
+            html: '<video class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></video>',
+            origin: i.originalUrl
           };
         } else if (!i.isBinary) {
           return {
-            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + shareItem.displayValues.detail + '</div>'
+            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + shareItem.displayValues.detail + '</div>',
+            origin: i.originalUrl
           };
         } else {
           return {
-            html: '<br /><br /><br /><br />Not supported.'
+            html: '<br /><br /><br /><br />Not supported.',
+            origin: i.originalUrl
           };
         }
       });
 
       var photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: shareItems.indexOf(shareItem) });
       photoSwipe.options.history = false;
+      photoSwipe.options.shareButtons = [{id:'download', label:'Download', url:'{{raw_image_url}}', download:true}];
+      photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
+        return photoSwipe.currItem.src || photoSwipe.currItem.origin || '';
+      },
       photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
         let gallery = galleryElementId ? PictureparkPlayers.getGallery(galleryElementId) : undefined;
@@ -283,7 +291,7 @@ export class PictureparkPlayers {
             let element: any = document.getElementById(elementId);
             if (element) {
               element.onload = () => {
-                if (element.contentWindow.location.href == 'about:blank')
+                if (element.contentWindow.location.href === 'about:blank')
                   photoSwipe.close();
               }
             }

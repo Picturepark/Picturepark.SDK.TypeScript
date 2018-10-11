@@ -10,7 +10,6 @@
   height: 100%;
   width: 100%;
   @include mat-elevation-transition;
-  @include mat-elevation(2);
   &--list-view {
     flex-direction: row;
     padding: 5px;
@@ -28,11 +27,6 @@
   &--selected {
     // use primary color.
     box-shadow: 0 0 0 4px #6f6f6f;
-    #{ $self }__select-icon {
-      visibility: initial;
-      color: white;
-      background: #6f6f6f;
-    }
     #{ $self }__actions {
       visibility: initial;
     }
@@ -40,9 +34,6 @@
   &:hover {
     &:not(#{ $self }--selected) {
       @include mat-elevation(8);
-      #{ $self }__select-icon {
-        visibility: initial;
-      }
       #{ $self }__actions {
         visibility: initial;
       }
@@ -59,21 +50,6 @@
     &--selected {
       visibility: initial;
     }
-  }
-  &__select-icon {
-    cursor: pointer;
-    visibility: hidden;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: -10px;
-    left: -10px;
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    @include mat-elevation-transition;
-    @include mat-elevation(2);
   }
   &__image-slot {
     flex-grow: 1;
@@ -101,7 +77,13 @@
   }
   &__actions {
     visibility: hidden;
+    position: absolute;
     display: flex;
     justify-content: space-around;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // TODO: theme color;
+    background: rgba($color: white, $alpha: 0.5)
   }
 }

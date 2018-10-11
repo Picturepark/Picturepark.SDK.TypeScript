@@ -7376,8 +7376,8 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Get Transferdetail
-     * @param transferId The tranfer id
+     * Get transfer details
+     * @param transferId ID of transfer.
      * @return TransferDetail
      */
     get(transferId: string): Promise<TransferDetail> {
@@ -7456,9 +7456,9 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Delete Transfer
-     * @param transferId The tranfer id
-     * @return Transfer
+     * Delete transfer
+     * @param transferId ID of transfer.
+     * @return OK
      */
     delete(transferId: string): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}";
@@ -7613,7 +7613,9 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Cancels a transfer.
+     * Cancel transfer
+     * @param transferId ID of transfer.
+     * @return OK
      */
     cancelTransfer(transferId: string): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/cancel";
@@ -7688,7 +7690,7 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Create Transfer
+     * Create transfer
      * @param request The create transfer request
      * @return Transfer
      */
@@ -7768,8 +7770,8 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Get File
-     * @param fileTransferId The filetransfer id
+     * Get file
+     * @param fileTransferId ID of filetransfer.
      * @return FileTransferDetail
      */
     getFile(fileTransferId: string): Promise<FileTransferDetail> {
@@ -7849,7 +7851,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Search for files
-     * @param request The file transfer search request
+     * @param request The filetransfer search request
      * @return FileTransferSearchResult
      */
     searchFiles(request: FileTransferSearchRequest): Promise<FileTransferSearchResult> {
@@ -7928,7 +7930,7 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Get Blacklist
+     * Get blacklist
      * @return Blacklist
      */
     getBlacklist(): Promise<Blacklist> {
@@ -8004,7 +8006,7 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Delete Files
+     * Delete files
      * @param request The filetransfer delete request
      */
     deleteFiles(request: FileTransferDeleteRequest): Promise<void> {
@@ -8081,8 +8083,8 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Import transfer
-     * @param transferId The tranfer id
-     * @param request The filetransfer to content create request
+     * @param transferId ID of transfer.
+     * @param request The ImportTransfer request.
      * @return Transfer
      */
     importTransfer(transferId: string, request: ImportTransferRequest): Promise<Transfer> {
@@ -8164,9 +8166,10 @@ export class TransferClient extends PictureparkClientBase {
     }
 
     /**
-     * Create a partial import
-     * @param transferId The transfer id
-     * @param request The filetransfer partial to content create request
+     * Import transfer partially
+     * @param transferId ID of transfer.
+     * @param request The ImportTransferPartial request.
+     * @return Transfer
      */
     partialImport(transferId: string, request: ImportTransferPartialRequest): Promise<Transfer> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/partialImport";
@@ -8248,14 +8251,17 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Upload file
+     * @param relativePath Relative path of the uploading file.
+     * @param chunkNumber Current chunk number. Starts at 1.
+     * @param currentChunkSize Size in bytes of the current chunk.
+     * @param totalSize Total size in bytes of the uploading file.
+     * @param totalChunks Total chunks of the uploading file.
+     * @param transferId ID of transfer.
+     * @param identifier Identifier of file.
      * @param formFile (optional) Gets or sets the form file.
-     * @param relativePath (optional) Relative path of the uploading file
-     * @param chunkNumber (optional) Current chunk number. starts with 1
-     * @param currentChunkSize (optional) Size in bytes of the current chunk
-     * @param totalSize (optional) Total size in bytes of the uploading file
-     * @param totalChunks (optional) Total chunks of the uploading file
+     * @return OK
      */
-    uploadFile(transferId: string, identifier: string, formFile?: FileParameter | null | undefined, relativePath?: string | null | undefined, chunkNumber?: number | undefined, currentChunkSize?: number | undefined, totalSize?: number | undefined, totalChunks?: number | undefined): Promise<void> {
+    uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string, formFile?: FileParameter | null | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{identifier}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -8263,23 +8269,25 @@ export class TransferClient extends PictureparkClientBase {
         if (identifier === undefined || identifier === null)
             throw new Error("The parameter 'identifier' must be defined.");
         url_ = url_.replace("{identifier}", encodeURIComponent("" + identifier)); 
-        if (relativePath !== undefined)
+        if (relativePath === undefined)
+            throw new Error("The parameter 'relativePath' must be defined.");
+        else
             url_ += "relativePath=" + encodeURIComponent("" + relativePath) + "&"; 
-        if (chunkNumber === null)
-            throw new Error("The parameter 'chunkNumber' cannot be null.");
-        else if (chunkNumber !== undefined)
+        if (chunkNumber === undefined || chunkNumber === null)
+            throw new Error("The parameter 'chunkNumber' must be defined and cannot be null.");
+        else
             url_ += "chunkNumber=" + encodeURIComponent("" + chunkNumber) + "&"; 
-        if (currentChunkSize === null)
-            throw new Error("The parameter 'currentChunkSize' cannot be null.");
-        else if (currentChunkSize !== undefined)
+        if (currentChunkSize === undefined || currentChunkSize === null)
+            throw new Error("The parameter 'currentChunkSize' must be defined and cannot be null.");
+        else
             url_ += "currentChunkSize=" + encodeURIComponent("" + currentChunkSize) + "&"; 
-        if (totalSize === null)
-            throw new Error("The parameter 'totalSize' cannot be null.");
-        else if (totalSize !== undefined)
+        if (totalSize === undefined || totalSize === null)
+            throw new Error("The parameter 'totalSize' must be defined and cannot be null.");
+        else
             url_ += "totalSize=" + encodeURIComponent("" + totalSize) + "&"; 
-        if (totalChunks === null)
-            throw new Error("The parameter 'totalChunks' cannot be null.");
-        else if (totalChunks !== undefined)
+        if (totalChunks === undefined || totalChunks === null)
+            throw new Error("The parameter 'totalChunks' must be defined and cannot be null.");
+        else
             url_ += "totalChunks=" + encodeURIComponent("" + totalChunks) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12933,13 +12941,21 @@ export interface SchemaImportRequest {
     importListItems: boolean;
 }
 
+/** Represents a transfer. */
 export interface Transfer {
-    id?: string | undefined;
-    name?: string | undefined;
+    /** ID of transfer. */
+    id: string;
+    /** Name of transfer. */
+    name: string;
+    /** State of transfer. */
     state: TransferState;
+    /** Type of transfer. */
     transferType: TransferType;
+    /** Associated business process ID. */
     businessProcessId?: string | undefined;
+    /** Number of files in transfer. */
     fileTransferCount: number;
+    /** ID of collection created from transfer. */
     collectionId?: string | undefined;
 }
 
@@ -13086,33 +13102,33 @@ export interface ShareDeleteManyRequest {
     ids?: string[] | undefined;
 }
 
-export interface TransferDetail {
-    id?: string | undefined;
-    rev?: string | undefined;
-    audit?: UserAudit | undefined;
-    name?: string | undefined;
-    state: TransferState;
-    businessProcessId?: string | undefined;
-    transferType: TransferType;
+/** Represents a transfer and includes detailed information. */
+export interface TransferDetail extends Transfer {
+    /** Audit information. */
+    audit: UserAudit;
+    /** Number of items processed. */
     itemProgress: number;
+    /** Total number of items. */
     itemCount: number;
+    /** Number of items currently being uploaded. */
     fileUploadInProgressCount: number;
+    /** Number of items currently being processed in data extraction. */
     dataExtractionInProgressCount: number;
+    /** Number of items failed. */
     itemsFailed: number;
+    /** Number of items cancelled. */
     itemsCancelled: number;
+    /** Time stamp of last progress update from data extraction. */
     lastDataExtractionProgressStamp: number;
+    /** LastTime stamp of last progress update from upload. */
     lastFileUploadProgressStamp: number;
-    fileTransferCount: number;
-    collectionId?: string | undefined;
 }
 
+/** Request to search for transfers. */
 export interface TransferSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
 }
@@ -13129,60 +13145,70 @@ export interface SearchBehaviourBaseResultOfTransfer extends BaseResultOfTransfe
     isSearchStringRewritten: boolean;
 }
 
+/** Result from a search for transfers. */
 export interface TransferSearchResult extends SearchBehaviourBaseResultOfTransfer {
+    /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 }
 
+/** Creates a transfer. */
 export interface CreateTransferRequest {
-    name?: string | undefined;
+    /** Name of transfer. */
+    name: string;
+    /** Type of transfer. */
     transferType: TransferType;
+    /** Files uploaded in transfer. */
     files?: TransferUploadFile[] | undefined;
+    /** Weblinks downloaded in transfer. */
     webLinks?: TransferWebLink[] | undefined;
+    /** Name of collection created after transfer. */
     collectionName?: string | undefined;
+    /** A value indicating whether to create a Collection after importing the transfer. */
     createCollection: boolean;
 }
 
+/** Represents the base class for transfer items. */
 export interface TransferFile {
-    identifier?: string | undefined;
+    /** Client generated identifier of the item. */
+    identifier: string;
 }
 
+/** Represents a file being uploaded in a transfer. */
 export interface TransferUploadFile extends TransferFile {
-    fileName?: string | undefined;
+    /** Target filename of file. */
+    fileName: string;
 }
 
+/** Represents an item being downloaded by URL in a transfer. */
 export interface TransferWebLink extends TransferFile {
-    url?: string | undefined;
+    /** URL of the item. */
+    url: string;
 }
 
-export interface FileTransferDetail {
-    id?: string | undefined;
-    rev?: string | undefined;
-    name?: string | undefined;
-    identifier?: string | undefined;
-    audit?: UserAudit | undefined;
-    transferId?: string | undefined;
+/** Representation of a file transfer. */
+export interface FileTransfer {
+    /** ID of file transfer. */
+    id: string;
+    /** Name of file transfer. */
+    name: string;
+    /** Client provided identifier. */
+    identifier: string;
+    /** ID of transfer. */
+    transferId: string;
+    /** State of file transfer. */
     state: FileTransferState;
-    fileMetadata?: FileMetadata | undefined;
-    outputItems?: FileTransferOutput[] | undefined;
+    /** ID of Content created for file. */
     contentId?: string | undefined;
 }
 
-export enum FileTransferState {
-    Draft = <any>"Draft", 
-    UploadInProgress = <any>"UploadInProgress", 
-    UploadCompleted = <any>"UploadCompleted", 
-    DataExtractionInProgress = <any>"DataExtractionInProgress", 
-    DataExtractionDone = <any>"DataExtractionDone", 
-    ImportInProgress = <any>"ImportInProgress", 
-    ImportCompleted = <any>"ImportCompleted", 
-    UploadCancelled = <any>"UploadCancelled", 
-    ImportCancelled = <any>"ImportCancelled", 
-    UploadFailed = <any>"UploadFailed", 
-    ImportFailed = <any>"ImportFailed", 
-    DeleteInProgress = <any>"DeleteInProgress", 
-    Deleted = <any>"Deleted", 
-    CleanupInProgress = <any>"CleanupInProgress", 
-    CleanupCompleted = <any>"CleanupCompleted", 
+/** Detailed representation of file transfer. */
+export interface FileTransferDetail extends FileTransfer {
+    /** Audit information. */
+    audit: UserAudit;
+    /** Metadata extracted for file. */
+    fileMetadata?: FileMetadata | undefined;
+    /** Outputs being rendered for file. */
+    outputItems?: FileTransferOutput[] | undefined;
 }
 
 export interface FileMetadata {
@@ -13308,12 +13334,29 @@ export enum OutputSource {
     Embedded = <any>"Embedded", 
 }
 
+export enum FileTransferState {
+    Draft = <any>"Draft", 
+    UploadInProgress = <any>"UploadInProgress", 
+    UploadCompleted = <any>"UploadCompleted", 
+    DataExtractionInProgress = <any>"DataExtractionInProgress", 
+    DataExtractionDone = <any>"DataExtractionDone", 
+    ImportInProgress = <any>"ImportInProgress", 
+    ImportCompleted = <any>"ImportCompleted", 
+    UploadCancelled = <any>"UploadCancelled", 
+    ImportCancelled = <any>"ImportCancelled", 
+    UploadFailed = <any>"UploadFailed", 
+    ImportFailed = <any>"ImportFailed", 
+    DeleteInProgress = <any>"DeleteInProgress", 
+    Deleted = <any>"Deleted", 
+    CleanupInProgress = <any>"CleanupInProgress", 
+    CleanupCompleted = <any>"CleanupCompleted", 
+}
+
+/** Request to search for file transfers. */
 export interface FileTransferSearchRequest {
     searchString?: string | undefined;
     searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
 }
@@ -13330,31 +13373,32 @@ export interface SearchBehaviourBaseResultOfFileTransfer extends BaseResultOfFil
     isSearchStringRewritten: boolean;
 }
 
+/** Result from a search for file transfers. */
 export interface FileTransferSearchResult extends SearchBehaviourBaseResultOfFileTransfer {
+    /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 }
 
-export interface FileTransfer {
-    id?: string | undefined;
-    name?: string | undefined;
-    identifier?: string | undefined;
-    transferId?: string | undefined;
-    state: FileTransferState;
-    contentId?: string | undefined;
-}
-
+/** Blacklist containing file name patterns skipped when uploading. */
 export interface Blacklist {
-    items?: BlacklistItem[] | undefined;
+    /** Blacklist entries. */
+    items: BlacklistItem[];
 }
 
+/** Entry in the Blacklist. */
 export interface BlacklistItem {
-    name?: string | undefined;
-    match?: string | undefined;
+    /** Friendly name of item. */
+    name: string;
+    /** Pattern a file name must match to be excluded from the transfer. */
+    match: string;
 }
 
+/** Deletes files from transfer. */
 export interface FileTransferDeleteRequest {
-    transferId?: string | undefined;
-    fileTransferIds?: string[] | undefined;
+    /** ID of transfer. */
+    transferId: string;
+    /** List of IDs of file transfers to delete. */
+    fileTransferIds: string[];
 }
 
 export interface ImportTransferRequest {

@@ -25,7 +25,7 @@ export class PictureparkConfig {
       else if (attribute.name === 'data-picturepark-server')
         configuration['server'] = attribute.value;
       else if (attribute.name === 'data-show-players')
-        configuration['showPlayers'] = attribute.value.toLowerCase() === 'true' || attribute.value.toLowerCase() !== 'yes';
+        configuration['showPlayers'] = attribute.value.toLowerCase() === 'true' || attribute.value.toLowerCase() === 'yes';
       else if (attribute.name === 'data-render-styles')
         configuration['renderStyles'] = attribute.value.toLowerCase() !== 'false' && attribute.value.toLowerCase() !== 'no';
       else if (attribute.name === 'data-width') {
