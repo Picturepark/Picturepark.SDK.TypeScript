@@ -9,7 +9,7 @@
     "build-libraries": "ng build picturepark-sdk-v1-angular && ng build picturepark-sdk-v1-angular-oidc && ng build picturepark-sdk-v1-angular-ui",
     "build": "npm run init && npm run build-libraries && ng build --prod",
     "test": "ng test",
-    "test-nowatch": "npm run init && ng test --watch=false",
+    "test-nowatch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
