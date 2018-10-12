@@ -18,12 +18,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-import { FileSizePipe } from 'app/pipes/filesize.pipe';
+import { FileSizePipe } from './pipes/filesize.pipe';
 
-import { PictureparkOidcAuthConfiguration } from '../auth/oidc-auth.service';
-import { PictureparkOidcModule } from '../modules/picturepark-oidc.module';
-import { PictureparkUiModule } from '../modules/picturepark-ui.module';
-import { PICTUREPARK_CONFIGURATION } from '../services/base.service';
+import {
+  PictureparkOidcAuthConfiguration,
+  PictureparkOidcModule
+} from '@picturepark/sdk-v1-angular-oidc';
+import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
+import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
@@ -38,19 +40,19 @@ export function PictureparkConfigurationFactory() {
     redirectServer: appRootTag.getAttribute('picturepark-redirect-server'),
     customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
     clientId: appRootTag.getAttribute('picturepark-client-id'),
-    scope: appRootTag.getAttribute('picturepark-scope'),
-  }
+    scope: appRootTag.getAttribute('picturepark-scope')
+  };
 }
 
 @NgModule({
   entryComponents: [DetailsDialogComponent],
   declarations: [
+    FileSizePipe,
     AppComponent,
     HomeComponent,
 
     ContentPickerComponent,
-    DetailsDialogComponent,
-    FileSizePipe
+    DetailsDialogComponent
   ],
   imports: [
     BrowserModule,
