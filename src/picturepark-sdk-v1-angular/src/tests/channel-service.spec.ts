@@ -10,8 +10,7 @@ describe('ChannelService', () => {
   it('should response with at least one channel', async(inject([AuthService, ChannelService],
     async (authService: AuthService, channelService: ChannelService) => {
     // arrange
-    console.log(authService);
-    console.log(channelService);
+
     // act
     const channels = await channelService.getChannels().toPromise();
 
