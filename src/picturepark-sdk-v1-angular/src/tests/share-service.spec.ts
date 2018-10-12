@@ -4,7 +4,7 @@ import { async, inject } from '@angular/core/testing';
 import {
   ContentService, ContentSearchRequest,
   ShareContent, ShareBasicCreateRequest, ShareService, OutputAccess
-} from '../services/services';
+} from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
 
 describe('ShareService', () => {

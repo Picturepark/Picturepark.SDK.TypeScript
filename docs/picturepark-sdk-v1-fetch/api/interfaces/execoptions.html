@@ -88,6 +88,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="execoptions.html#async" class="tsd-kind-icon">async</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#cwd" class="tsd-kind-icon">cwd</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="execoptions.html#encoding" class="tsd-kind-icon">encoding</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#env" class="tsd-kind-icon">env</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#gid" class="tsd-kind-icon">gid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#killsignal" class="tsd-kind-icon">kill<wbr>Signal</a></li>
@@ -96,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="execoptions.html#silent" class="tsd-kind-icon">silent</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#timeout" class="tsd-kind-icon">timeout</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#uid" class="tsd-kind-icon">uid</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="execoptions.html#windowshide" class="tsd-kind-icon">windows<wbr>Hide</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,9 +111,14 @@
 					<div class="tsd-signature tsd-kind-icon">async<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/shelljs/index.d.ts:466</li>
+							<li>Defined in node_modules/@types/shelljs/index.d.ts:362</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Asynchronous execution. If a callback is provided, it will be set to true, regardless of the passed value (default: false).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="cwd" class="tsd-anchor"></a>
@@ -120,18 +127,33 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#cwd">cwd</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1651</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2310</li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="encoding" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> encoding</h3>
+					<div class="tsd-signature tsd-kind-icon">encoding<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/shelljs/index.d.ts:364</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Character encoding to use. Affects the values returned to stdout and stderr, and what is written to stdout and stderr when not in silent mode (default: &#39;utf8&#39;).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="env" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> env</h3>
-					<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <a href="nodejs.processenv.html" class="tsd-signature-type">ProcessEnv</a></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#env">env</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1652</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2311</li>
 						</ul>
 					</aside>
 				</section>
@@ -142,7 +164,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#gid">gid</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1658</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2317</li>
 						</ul>
 					</aside>
 				</section>
@@ -153,7 +175,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#killsignal">killSignal</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1656</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2315</li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +186,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#maxbuffer">maxBuffer</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1655</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2314</li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +197,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#shell">shell</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1653</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2312</li>
 						</ul>
 					</aside>
 				</section>
@@ -185,9 +207,14 @@
 					<div class="tsd-signature tsd-kind-icon">silent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/shelljs/index.d.ts:465</li>
+							<li>Defined in node_modules/@types/shelljs/index.d.ts:360</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Do not echo program output to console (default: false).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="timeout" class="tsd-anchor"></a>
@@ -196,7 +223,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#timeout">timeout</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1654</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2313</li>
 						</ul>
 					</aside>
 				</section>
@@ -207,7 +234,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#uid">uid</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1657</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2316</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="windowshide" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> windows<wbr>Hide</h3>
+					<div class="tsd-signature tsd-kind-icon">windows<wbr>Hide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_child_process_.execoptions.html">ExecOptions</a>.<a href="_child_process_.execoptions.html#windowshide">windowsHide</a></p>
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2318</li>
 						</ul>
 					</aside>
 				</section>
@@ -234,6 +272,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="execoptions.html#cwd" class="tsd-kind-icon">cwd</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="execoptions.html#encoding" class="tsd-kind-icon">encoding</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="execoptions.html#env" class="tsd-kind-icon">env</a>
 							</li>
@@ -257,6 +298,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="execoptions.html#uid" class="tsd-kind-icon">uid</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="execoptions.html#windowshide" class="tsd-kind-icon">windows<wbr>Hide</a>
 							</li>
 						</ul>
 					</li>

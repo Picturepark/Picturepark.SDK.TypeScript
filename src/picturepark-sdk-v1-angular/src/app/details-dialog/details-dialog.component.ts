@@ -5,14 +5,14 @@ import {
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
-  ContentService, ContentDetail, AuthService, ThumbnailSize,
+  ContentService, ContentDetail, ThumbnailSize,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehaviour
-} from '../../services/services';
+} from '@picturepark/sdk-v1-angular';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'pp-details-dialog',
+  selector: 'app-details-dialog',
   templateUrl: './details-dialog.component.html'
 })
 export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
@@ -139,5 +139,5 @@ interface IShareItem {
   detail: {
     width: number;
     height: number;
-  }
+  };
 }

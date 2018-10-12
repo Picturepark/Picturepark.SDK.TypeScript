@@ -5,10 +5,9 @@ import {
   ContentService, ContentSearchRequest,
   ThumbnailSize, ContentAggregationRequest,
   ContentAggregationOnChannelRequest,
-  ContentNotFoundException,
   SearchBehaviour,
   TermsAggregator
-} from '../services/services';
+} from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
 
 describe('ContentService', () => {
@@ -103,8 +102,8 @@ describe('ContentService', () => {
       request.searchString = 'm';
       request.searchBehaviours = [SearchBehaviour.WildcardOnSingleTerm];
       request.aggregators = [new TermsAggregator({
-        field: "fileMetadata.fileSize",
-        name: "fileSize",
+        field: 'fileMetadata.fileSize',
+        name: 'fileSize',
         size: 10
       })];
 
