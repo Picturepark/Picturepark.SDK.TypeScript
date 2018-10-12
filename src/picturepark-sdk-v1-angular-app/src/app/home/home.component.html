@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <div>Picturepark Content Platform</div>
+  <div style="flex-grow: 1"></div>
+  <div>
+    Server URL : {{authService.apiServer}}
+  </div>
+  <button style="margin: 0 10px;" mat-flat-button color="accent" *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
+</mat-toolbar>
+<mat-toolbar>
+  Embeddable Widgets
+</mat-toolbar>
+
+<mat-card style="max-width: 400px; margin: 20px;">
+  <mat-card-title>content-picker</mat-card-title>
+  <mat-card-content>/content-picker: Shows a content picker</mat-card-content>
+  <mat-card-actions>
+    <button mat-button routerLink="/content-picker">View</button>
+  </mat-card-actions>
+</mat-card>

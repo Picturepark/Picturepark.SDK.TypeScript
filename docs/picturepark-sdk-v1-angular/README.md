@@ -4,7 +4,7 @@
 
 **NPM Package:** [@picturepark/sdk-v1-angular](https://www.npmjs.com/package/@picturepark/sdk-v1-angular)
 
-The `@picturepark/sdk-v1-angular` package provides Angular 4.3+ service classes and UI components to access the Picturepark API.
+The `@picturepark/sdk-v1-angular` package provides Angular 6.1+ service classes and UI components to access the Picturepark API.
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-angular/api/index.html)
 

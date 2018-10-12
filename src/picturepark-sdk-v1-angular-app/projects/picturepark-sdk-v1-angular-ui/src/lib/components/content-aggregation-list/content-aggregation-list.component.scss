@@ -1,0 +1,36 @@
+@import '~@angular/material/theming';
+.aggregation-filter {
+  @include mat-elevation(1);
+  position: relative;
+  height: 100%;
+  display: block;
+
+  &__loading-spinner {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; // Use material scheme somehow, add animation.
+    background: rgba(0, 0, 0, 0.288);
+  }
+  &__filters {
+    overflow: auto;
+    height: 100%;
+  }
+}
+
+.filters {
+  &__active-filters {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+  }
+}
