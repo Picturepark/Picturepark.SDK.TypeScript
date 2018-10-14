@@ -704,10 +704,10 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Get detail - single
-     * @param contentId The content id.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
-     * @return ContentDetail
+     * Get content
+     * @param contentId The content ID.
+     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @return Content detail
      */
     get(contentId: string, resolveBehaviours: ContentResolveBehaviour[] | null | undefined): Observable<ContentDetail | null> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
@@ -806,10 +806,12 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete - single
-     * @param contentId the id of the content to delete
+     * Delete content
+     * @param contentId The ID of the content to delete.
      * @param forceReferenceRemoval (optional) A value indicating whether references to the content should be removed.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @return Ok
      */
     delete(contentId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
@@ -906,10 +908,10 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Get detail - many
-     * @param ids List of contentIds
-     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
-     * @return List of ContentDetail
+     * Get multiple contents
+     * @param ids List of content IDs
+     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @return List of Content detail
      */
     getMany(ids: string[] | null, resolveBehaviours: ContentResolveBehaviour[] | null | undefined): Observable<ContentDetail[]> {
         let url_ = this.baseUrl + "/v1/contents?";
@@ -1013,11 +1015,13 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - single
-     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
-     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @param contentCreateRequest The content create request.
+     * Create content
+     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param allowMissingDependencies (optional) Allows creating contents that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @param contentCreateRequest Content create request.
+     * @return The content details
      */
     create(resolveBehaviours: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents?";
@@ -1122,9 +1126,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Search
-     * @param contentSearchRequest The content search request.
-     * @return ContentSearchResult
+     * Search contents
+     * @param contentSearchRequest Content search request.
+     * @return Content search result
      */
     search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
         let url_ = this.baseUrl + "/v1/contents/search";
@@ -1221,9 +1225,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Aggregate
-     * @param contentAggregationRequest The aggregation request.
-     * @return ObjectAggregationResult
+     * Aggregate contents
+     * @param contentAggregationRequest Content aggregation request.
+     * @return Object aggregation result
      */
     aggregate(contentAggregationRequest: ContentAggregationRequest): Observable<ObjectAggregationResult> {
         let url_ = this.baseUrl + "/v1/contents/aggregate";
@@ -1320,9 +1324,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Aggregate on channel
-     * @param contentAggregationOnChannelRequest The content aggregation on channel request.
-     * @return ObjectAggregationResult
+     * Aggregate contents on channel
+     * @param contentAggregationOnChannelRequest Content aggregation on channel request.
+     * @return Object aggregation result
      */
     aggregateOnChannel(contentAggregationOnChannelRequest: ContentAggregationOnChannelRequest): Observable<ObjectAggregationResult> {
         let url_ = this.baseUrl + "/v1/contents/aggregateonchannel";
@@ -1419,11 +1423,13 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Get references
+     * Get content references
+     * @param contentId The content ID whose references to retrieve.
+     * @param contentReferencesRequest Content references request.
      * @return ContentReferencesResult
      */
     getReferences(contentId: string, contentReferencesRequest: ContentReferencesRequest): Observable<ContentReferencesResult> {
-        let url_ = this.baseUrl + "/v1/contents/{contentId}/references";
+        let url_ = this.baseUrl + "/v1/contents/{contentId}/references/search";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
@@ -1520,11 +1526,12 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Get references - many
-     * @return ContentReferencesResult
+     * Get many content references
+     * @param contentManyReferencesRequest Content many references request.
+     * @return Content references result
      */
     getReferencesMany(contentManyReferencesRequest: ContentManyReferencesRequest): Observable<ContentReferencesResult> {
-        let url_ = this.baseUrl + "/v1/contents/many/references";
+        let url_ = this.baseUrl + "/v1/contents/many/references/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentManyReferencesRequest);
@@ -1619,8 +1626,8 @@ export class ContentService extends PictureparkServiceBase {
 
     /**
      * Create download link
-     * @param request The content download link request
-     * @return ContentBatchDonloadItem
+     * @param request Content download link request
+     * @return Download link
      */
     createDownloadLink(request: ContentDownloadLinkCreateRequest): Observable<DownloadLink> {
         let url_ = this.baseUrl + "/v1/contents/downloadLinks";
@@ -1717,13 +1724,13 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Download output
-     * @param contentId The content id
-     * @param outputFormatId The output format id
-     * @param width (optional) Optional width in pixels to resize image
-     * @param height (optional) Optional height in pixels to resize image
-     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
-     * @return HttpResponseMessage
+     * Download content
+     * @param contentId The content ID.
+     * @param outputFormatId The output format ID.
+     * @param width (optional) Optional width in pixels to resize image.
+     * @param height (optional) Optional height in pixels to resize image.
+     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000).
+     * @return Http response message
      */
     download(contentId: string, outputFormatId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/v1/contents/downloads/{contentId}/{outputFormatId}?";
@@ -1836,11 +1843,11 @@ export class ContentService extends PictureparkServiceBase {
 
     /**
      * Download thumbnail
-     * @param contentId The Content id
-     * @param size Thumbnail size. Either small, medium or large
-     * @param width (optional) Optional width in pixels to resize image
-     * @param height (optional) Optional height in pixels to resize image
-     * @return HttpResponseMessage
+     * @param contentId The content ID.
+     * @param size Thumbnail size. Either small, medium or large.
+     * @param width (optional) Optional width in pixels to resize image.
+     * @param height (optional) Optional height in pixels to resize image.
+     * @return Http response message
      */
     protected downloadThumbnailCore(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/v1/contents/thumbnails/{contentId}/{size}?";
@@ -1946,8 +1953,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - many
-     * @param contentCreateManyRequest The content create many request.
+     * Create multiple contents
+     * @param contentCreateManyRequest Content create many request.
+     * @return Business process
      */
     createMany(contentCreateManyRequest: ContentCreateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/many";
@@ -2044,9 +2052,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete - many
-     * @param deleteManyRequest The delete many request
-     * @return BusinessProcess
+     * Delete multiple contents
+     * @param deleteManyRequest Delete many request
+     * @return Business process
      */
     deleteMany(deleteManyRequest: ContentDeleteManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/many/delete";
@@ -2143,11 +2151,12 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Restore - single
-     * @param contentId The content id.
-     * @param allowMissingDependencies (optional) Allow restoring contents that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @return Void
+     * Restore content
+     * @param contentId The content ID.
+     * @param allowMissingDependencies (optional) Allows restoring contents that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @return Ok
      */
     restore(contentId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/restore?";
@@ -2246,9 +2255,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Restore - many
-     * @param restoreManyRequest The content restore many request.
-     * @return BusinessProcess
+     * Restore multiple contents
+     * @param restoreManyRequest Content restore many request.
+     * @return Business process
      */
     restoreMany(restoreManyRequest: ContentRestoreManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/many/restore";
@@ -2345,9 +2354,10 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Update file - single
-     * @param contentId The id of the content to replace
-     * @param updateRequest Update request
+     * Update content file
+     * @param contentId The ID of the content to replace.
+     * @param updateRequest Content file update request
+     * @return Business process
      */
     updateFile(contentId: string, updateRequest: ContentFileUpdateRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/file";
@@ -2447,13 +2457,14 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Update metadata - single
-     * @param contentId The content id.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
-     * @param allowMissingDependencies (optional) Allow storing references to missing list items
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @param updateRequest The metadata update request.
-     * @return ContentDetail
+     * Update content metadata
+     * @param contentId The content ID.
+     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param allowMissingDependencies (optional) Allows storing references to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @param updateRequest Content metadata update request.
+     * @return Content detail
      */
     updateMetadata(contentId: string, resolveBehaviours: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/metadata?";
@@ -2561,12 +2572,13 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Update permissions - single
-     * @param contentId The content id.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the content are resolved and returned
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @param updateRequest The content permission update request.
-     * @return ContentDetail
+     * Update content permissions
+     * @param contentId The content ID.
+     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @param updateRequest Content permissions update request.
+     * @return Content detail
      */
     updatePermissions(contentId: string, resolveBehaviours: ContentResolveBehaviour[] | null | undefined, timeout: string | null | undefined, updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/permissions?";
@@ -2670,9 +2682,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Update metadata - many
-     * @param updateRequest The metadata update requests.
-     * @return BusinessProcess
+     * Update multiple content metadata
+     * @param updateRequest Content metadata update many request.
+     * @return Business process
      */
     updateMetadataMany(updateRequest: ContentMetadataUpdateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/many/metadata";
@@ -2769,9 +2781,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Update permissions - many
-     * @param updateManyRequest The permissions update many request.
-     * @return BusinessProcess
+     * Update multiple contents permissions
+     * @param updateManyRequest Content permissions update many request.
+     * @return Business process
      */
     updatePermissionsMany(updateManyRequest: ContentPermissionsUpdateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/many/permissions";
@@ -2868,13 +2880,14 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Transfer ownership - single
-     * @param contentId The content id.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @param updateRequest The content ownership transfer request update request.
-     * @return ContentDetail
+     * Transfer content ownership
+     * @param contentId The content ID.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @param updateRequest Content ownership transfer request.
+     * @return Ok
      */
-    transferOwnership(contentId: string, timeout: string | null | undefined, updateRequest: ContentOwnershipTransferRequest): Observable<ContentDetail> {
+    transferOwnership(contentId: string, timeout: string | null | undefined, updateRequest: ContentOwnershipTransferRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/ownership?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -2891,7 +2904,6 @@ export class ContentService extends PictureparkServiceBase {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
-                "Accept": "application/json"
             })
         };
 
@@ -2904,14 +2916,14 @@ export class ContentService extends PictureparkServiceBase {
                 try {
                     return this.processTransferOwnership(<any>response_);
                 } catch (e) {
-                    return <Observable<ContentDetail>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ContentDetail>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processTransferOwnership(response: HttpResponseBase): Observable<ContentDetail> {
+    protected processTransferOwnership(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2920,10 +2932,7 @@ export class ContentService extends PictureparkServiceBase {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ContentDetail.fromJS(resultData200) : new ContentDetail();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2970,13 +2979,13 @@ export class ContentService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ContentDetail>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
     /**
-     * Transfer ownership - many
-     * @param contentOwnershipTransferManyRequest The content ownership transfer many request.
-     * @return BusinessProcess
+     * Transfer multiple contents ownerships
+     * @param contentOwnershipTransferManyRequest Content ownership transfer many request.
+     * @return Business process
      */
     transferOwnershipMany(contentOwnershipTransferManyRequest: ContentOwnershipTransferManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/many/ownership";
@@ -3073,9 +3082,9 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Batch update fields - by ids
-     * @param updateRequest The metadata update request.
-     * @return BusinessProcess
+     * Batch update content fields - by IDs
+     * @param updateRequest Content fields batch update request.
+     * @return Business process
      */
     batchUpdateFieldsByIds(updateRequest: ContentFieldsBatchUpdateRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/batches/fields/ids";
@@ -3173,8 +3182,8 @@ export class ContentService extends PictureparkServiceBase {
 
     /**
      * Batch update fields - by filter
-     * @param updateRequest The metadata update request.
-     * @return BusinessProcess
+     * @param updateRequest Content fields batch update filter request. It contains the changes that need to be applied to the contents and the filter request to identify the contents.
+     * @return Business process
      */
     batchUpdateFieldsByFilter(updateRequest: ContentFieldsBatchUpdateFilterRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/contents/batches/fields/filter";
@@ -3286,9 +3295,9 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Search
-     * @param request The permission search request.
-     * @return PermissionSetSearchResult
+     * Search content permissions sets
+     * @param request The permission set search request.
+     * @return Permission set search result
      */
     search(request: PermissionSetSearchRequest): Observable<PermissionSetSearchResult> {
         let url_ = this.baseUrl + "/v1/contentPermissionSets/search";
@@ -3385,9 +3394,9 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Get detail - single
-     * @param permissionSetId The content permission set id.
-     * @return ContentPermissionSetDetail
+     * Get permission set
+     * @param permissionSetId The content permission set ID.
+     * @return Content permission set detail
      */
     get(permissionSetId: string): Observable<ContentPermissionSetDetail> {
         let url_ = this.baseUrl + "/v1/contentPermissionSets/{permissionSetId}";
@@ -4028,8 +4037,8 @@ export class InfoService extends PictureparkServiceBase {
      * Get info
      * @return CustomerInfo
      */
-    get(): Observable<CustomerInfo> {
-        let url_ = this.baseUrl + "/v1/info";
+    getInfo(): Observable<CustomerInfo> {
+        let url_ = this.baseUrl + "/v1/info/customer";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4044,11 +4053,11 @@ export class InfoService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGet(response_);
+            return this.processGetInfo(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(<any>response_);
+                    return this.processGetInfo(<any>response_);
                 } catch (e) {
                     return <Observable<CustomerInfo>><any>_observableThrow(e);
                 }
@@ -4057,7 +4066,7 @@ export class InfoService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<CustomerInfo> {
+    protected processGetInfo(response: HttpResponseBase): Observable<CustomerInfo> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4118,6 +4127,101 @@ export class InfoService extends PictureparkServiceBase {
         }
         return _observableOf<CustomerInfo>(<any>null);
     }
+
+    /**
+     * Get Version
+     * @return VersionInfo
+     */
+    getVersion(): Observable<VersionInfo> {
+        let url_ = this.baseUrl + "/v1/info/version";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetVersion(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVersion(<any>response_);
+                } catch (e) {
+                    return <Observable<VersionInfo>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<VersionInfo>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVersion(response: HttpResponseBase): Observable<VersionInfo> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? VersionInfo.fromJS(resultData200) : new VersionInfo();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<VersionInfo>(<any>null);
+    }
 }
 
 @Injectable({
@@ -4135,9 +4239,9 @@ export class JsonSchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Json Schema
-     * @param schemaId Schema Id
-     * @return JsonSchemaViewItem
+     * Get json schema
+     * @param schemaId The ID of the schema whose json schema to retrieve.
+     * @return Json schema view item: almost a 1:1 representation of the Newtonsoft json schema.
      */
     get(schemaId: string): Observable<any> {
         let url_ = this.baseUrl + "/v1/jsonSchemas/{schemaId}";
@@ -4249,9 +4353,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Get detail - single
-     * @param listItemId The list item id.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
+     * Get list item
+     * @param listItemId The list item ID.
+     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
      * @return List item detail
      */
     get(listItemId: string, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined): Observable<ListItemDetail> {
@@ -4351,13 +4455,14 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Update - single
-     * @param listItemId The list item id.
-     * @param resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
-     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
+     * Update list item
+     * @param listItemId The list item ID.
+     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
      * @param updateRequest The list item update request.
-     * @return ListItemDetail
+     * @return List item detail
      */
     update(listItemId: string, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ListItemUpdateRequest): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
@@ -4465,11 +4570,12 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete - single
-     * @param listItemId The id of the list item to delete
-     * @param forceReferenceRemoval (optional) A value indicating whether references to the listitem should be removed.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @return Void
+     * Delete list item
+     * @param listItemId The ID of the list item to delete.
+     * @param forceReferenceRemoval (optional) A value indicating whether references to the list item should be removed.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @return Ok
      */
     delete(listItemId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
@@ -4566,9 +4672,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Get detail - many
-     * @param ids List of list item ids
-     * @param resolveBehaviours (optional) List of enum that control which parts of the list items are resolved and returned
+     * Get multiple list items
+     * @param ids List of list item IDs.
+     * @param resolveBehaviours (optional) List of enums that control which parts of the list items are resolved and returned.
      * @return List of list item details
      */
     getMany(ids: string[] | null, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined): Observable<ListItemDetail[]> {
@@ -4673,12 +4779,13 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - single
-     * @param resolveBehaviours (optional) List of enum that control which parts of the list item are resolved and returned
-     * @param allowMissingDependencies (optional) Allow creating list items that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
+     * Create list item
+     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
      * @param listItemCreateRequest List item create request.
-     * @return ListItemDetail
+     * @return List item detail
      */
     create(resolveBehaviours: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, listItemCreateRequest: ListItemCreateRequest): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems?";
@@ -4783,9 +4890,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Search
+     * Search list items
      * @param listItemSearchRequest The list item search request.
-     * @return List item result set.
+     * @return List item search result
      */
     search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
         let url_ = this.baseUrl + "/v1/listItems/search";
@@ -4882,9 +4989,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Aggregate
+     * Aggregate list items
      * @param listItemAggregationRequest The list item aggregation request.
-     * @return ObjectAggregationResult
+     * @return Object aggregation result
      */
     aggregate(listItemAggregationRequest: ListItemAggregationRequest): Observable<ObjectAggregationResult> {
         let url_ = this.baseUrl + "/v1/listItems/aggregate";
@@ -4981,9 +5088,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - many
+     * Create multiple list items
      * @param listItemCreateManyRequest List item create many request.
-     * @return BusinessProcess
+     * @return Business process
      */
     createMany(listItemCreateManyRequest: ListItemCreateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/many";
@@ -5080,9 +5187,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Update - many
+     * Update multiple list items
      * @param listItemUpdateManyRequest List item update many request.
-     * @return BusinessProcess
+     * @return Business process
      */
     updateMany(listItemUpdateManyRequest: ListItemUpdateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/many";
@@ -5179,9 +5286,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete - many
-     * @param deleteManyRequest The list items delete many request
-     * @return BusinessProcess
+     * Delete multiple list items
+     * @param deleteManyRequest List item delete many request.
+     * @return Business process
      */
     deleteMany(deleteManyRequest: ListItemDeleteManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/many/delete";
@@ -5278,11 +5385,12 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Restore - single
-     * @param listItemId The list item id.
-     * @param allowMissingDependencies (optional) Allow restoring list items that refer to list items or contents that don't exist in the system.
-     * @param timeout (optional) Maximum time to wait for the business process completed state.
-     * @return Void
+     * Restore list item
+     * @param listItemId The list item ID.
+     * @param allowMissingDependencies (optional) Allows restoring list items that refer to list items or contents that don't exist in the system.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @return Ok
      */
     restore(listItemId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/restore?";
@@ -5381,9 +5489,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Restore - many
-     * @param restoreManyRequest The list items restore many request.
-     * @return BusinessProcess
+     * Restore multiple list items
+     * @param restoreManyRequest List item restore many request.
+     * @return Business process
      */
     restoreMany(restoreManyRequest: ListItemRestoreManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/many/restore";
@@ -5480,9 +5588,9 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Batch update fields - by ids
-     * @param updateRequest The metadata update request.
-     * @return BusinessProcess
+     * Batch update fields - by IDs
+     * @param updateRequest List item fields batch update request.
+     * @return Business process
      */
     batchUpdateFieldsByIds(updateRequest: ListItemFieldsBatchUpdateRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/batches/fields/ids";
@@ -5580,8 +5688,8 @@ export class ListItemService extends PictureparkServiceBase {
 
     /**
      * Batch update fields - by filter
-     * @param updateRequest The metadata update request.
-     * @return BusinessProcess
+     * @param updateRequest List item fields batch update by filter request.
+     * @return Business process
      */
     batchUpdateFieldsByFilter(updateRequest: ListItemFieldsBatchUpdateFilterRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/listItems/batches/fields/filter";
@@ -5678,18 +5786,22 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     /**
-     * Gets the references to a list item.
+     * Get list item references
      * @param listItemId The ID of the list item.
-     * @return MetadataReferences
+     * @param listItemReferencesRequest Request options to specify how many references to fetch.
+     * @return List item references
      */
-    getReferencesToListItem(listItemId: string): Observable<ListItemReferences> {
-        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/references";
+    getReferencesToListItem(listItemId: string, listItemReferencesRequest: ListItemReferencesRequest): Observable<ListItemReferencesResult> {
+        let url_ = this.baseUrl + "/v1/listItems/{listItemId}/references/search";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
         url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(listItemReferencesRequest);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
@@ -5699,7 +5811,7 @@ export class ListItemService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
             return this.processGetReferencesToListItem(response_);
         })).pipe(_observableCatch((response_: any) => {
@@ -5707,14 +5819,14 @@ export class ListItemService extends PictureparkServiceBase {
                 try {
                     return this.processGetReferencesToListItem(<any>response_);
                 } catch (e) {
-                    return <Observable<ListItemReferences>><any>_observableThrow(e);
+                    return <Observable<ListItemReferencesResult>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListItemReferences>><any>_observableThrow(response_);
+                return <Observable<ListItemReferencesResult>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetReferencesToListItem(response: HttpResponseBase): Observable<ListItemReferences> {
+    protected processGetReferencesToListItem(response: HttpResponseBase): Observable<ListItemReferencesResult> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -5725,7 +5837,7 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListItemReferences.fromJS(resultData200) : new ListItemReferences();
+            result200 = resultData200 ? ListItemReferencesResult.fromJS(resultData200) : new ListItemReferencesResult();
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -5773,23 +5885,22 @@ export class ListItemService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListItemReferences>(<any>null);
+        return _observableOf<ListItemReferencesResult>(<any>null);
     }
 
     /**
-     * Gets the references to the specified list items.
-     * @param ids The IDs of the list items.
-     * @return A MetadataReferences per list item id.
+     * Get multiple list items references
+     * @param listItemManyReferencesRequest ListItemManyReferencesRequest
+     * @return A list of references per list item.
      */
-    getReferencesToListItems(ids: string[] | null): Observable<ListItemReferences[]> {
-        let url_ = this.baseUrl + "/v1/listItems/many/references?";
-        if (ids === undefined)
-            throw new Error("The parameter 'ids' must be defined.");
-        else
-            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+    getReferencesToListItems(listItemManyReferencesRequest: ListItemManyReferencesRequest): Observable<ListItemReferencesResult> {
+        let url_ = this.baseUrl + "/v1/listItems/many/references/search";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(listItemManyReferencesRequest);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
@@ -5799,7 +5910,7 @@ export class ListItemService extends PictureparkServiceBase {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
             return this.processGetReferencesToListItems(response_);
         })).pipe(_observableCatch((response_: any) => {
@@ -5807,14 +5918,14 @@ export class ListItemService extends PictureparkServiceBase {
                 try {
                     return this.processGetReferencesToListItems(<any>response_);
                 } catch (e) {
-                    return <Observable<ListItemReferences[]>><any>_observableThrow(e);
+                    return <Observable<ListItemReferencesResult>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListItemReferences[]>><any>_observableThrow(response_);
+                return <Observable<ListItemReferencesResult>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetReferencesToListItems(response: HttpResponseBase): Observable<ListItemReferences[]> {
+    protected processGetReferencesToListItems(response: HttpResponseBase): Observable<ListItemReferencesResult> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -5825,11 +5936,7 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(ListItemReferences.fromJS(item));
-            }
+            result200 = resultData200 ? ListItemReferencesResult.fromJS(resultData200) : new ListItemReferencesResult();
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -5877,7 +5984,7 @@ export class ListItemService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListItemReferences[]>(<any>null);
+        return _observableOf<ListItemReferencesResult>(<any>null);
     }
 }
 
@@ -5992,6 +6099,102 @@ export class LiveStreamService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<ObjectSearchResult>(<any>null);
+    }
+
+    /**
+     * This endpoint cannot be used. It is kept to generate LiveStream message contracts
+     * @return OK
+     * @deprecated
+     */
+    getMessage(): Observable<LiveStreamMessage> {
+        let url_ = this.baseUrl + "/v1/liveStream/message";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetMessage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMessage(<any>response_);
+                } catch (e) {
+                    return <Observable<LiveStreamMessage>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LiveStreamMessage>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMessage(response: HttpResponseBase): Observable<LiveStreamMessage> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LiveStreamMessage.fromJS(resultData200) : new LiveStreamMessage();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LiveStreamMessage>(<any>null);
     }
 }
 
@@ -6224,7 +6427,7 @@ export class ProfileService extends PictureparkServiceBase {
 
     /**
      * Get
-     * @return UserProfile
+     * @return User profile
      */
     get(): Observable<UserProfile> {
         let url_ = this.baseUrl + "/v1/profile";
@@ -6319,7 +6522,7 @@ export class ProfileService extends PictureparkServiceBase {
 
     /**
      * Update
-     * @return UserProfile
+     * @return Updated user profile
      */
     update(updateRequest: UserProfileUpdateRequest): Observable<UserProfile> {
         let url_ = this.baseUrl + "/v1/profile";
@@ -6414,28 +6617,13 @@ export class ProfileService extends PictureparkServiceBase {
         }
         return _observableOf<UserProfile>(<any>null);
     }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class PublicAccessService extends PictureparkServiceBase {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        super(configuration);
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
-    }
 
     /**
-     * Get Version
-     * @return VersionInfo
+     * Request deletion
+     * @return OK
      */
-    getVersion(): Observable<VersionInfo> {
-        let url_ = this.baseUrl + "/v1/publicAccess/version";
+    requestDeletion(): Observable<void> {
+        let url_ = this.baseUrl + "/v1/profile/requestDeletion";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6443,27 +6631,26 @@ export class PublicAccessService extends PictureparkServiceBase {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
-                "Accept": "application/json"
             })
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetVersion(response_);
+            return this.processRequestDeletion(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetVersion(<any>response_);
+                    return this.processRequestDeletion(<any>response_);
                 } catch (e) {
-                    return <Observable<VersionInfo>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<VersionInfo>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetVersion(response: HttpResponseBase): Observable<VersionInfo> {
+    protected processRequestDeletion(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6472,10 +6659,7 @@ export class PublicAccessService extends PictureparkServiceBase {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? VersionInfo.fromJS(resultData200) : new VersionInfo();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6522,106 +6706,7 @@ export class PublicAccessService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<VersionInfo>(<any>null);
-    }
-
-    /**
-     * Get Share
-     * @param token The token
-     * @return ShareBaseDetail
-     */
-    getShare(token: string): Observable<ShareDetail> {
-        let url_ = this.baseUrl + "/v1/publicAccess/shares/{token}";
-        if (token === undefined || token === null)
-            throw new Error("The parameter 'token' must be defined.");
-        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetShare(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetShare(<any>response_);
-                } catch (e) {
-                    return <Observable<ShareDetail>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ShareDetail>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetShare(response: HttpResponseBase): Observable<ShareDetail> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ShareDetail.fromJS(resultData200) : new ShareDetail();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ShareDetail>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -6640,9 +6725,9 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Get - single
-     * @param schemaId The schema id.
-     * @return SchemaDetail
+     * Get schema
+     * @param schemaId The schema ID.
+     * @return Schema detail
      */
     get(schemaId: string): Observable<SchemaDetail> {
         let url_ = this.baseUrl + "/v1/schemas/{schemaId}";
@@ -6739,11 +6824,12 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Update - single
-     * @param schemaId The schema id.
-     * @param timeout (optional) Maximum time to wait for the operation to complete.
+     * Update schema
+     * @param schemaId The schema ID.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
      * @param schema The schema update request.
-     * @return SchemaUpdateResult containing the updated schema
+     * @return Schema update result, containing the updated schema
      */
     update(schemaId: string, timeout: string | null | undefined, schema: SchemaUpdateRequest): Observable<SchemaUpdateResult> {
         let url_ = this.baseUrl + "/v1/schemas/{schemaId}?";
@@ -6845,10 +6931,11 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete - single
-     * @param schemaId The schema id.
-     * @param timeout (optional) Maximum time to wait for the operation to complete.
-     * @return SchemaDeleteResult
+     * Delete schema
+     * @param schemaId The schema ID.
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
+     * @return Schema delete result
      */
     delete(schemaId: string, timeout: string | null | undefined): Observable<SchemaDeleteResult> {
         let url_ = this.baseUrl + "/v1/schemas/{schemaId}?";
@@ -6947,9 +7034,9 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Get - many
-     * @param ids (optional) Comma separated list of schema ids
-     * @return SchemaDetail
+     * Get multiple schemas
+     * @param ids (optional) Comma separated list of schema IDs.
+     * @return List of schema details
      */
     getMany(ids: string[] | null | undefined): Observable<SchemaDetail[]> {
         let url_ = this.baseUrl + "/v1/schemas?";
@@ -7049,10 +7136,11 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - single
-     * @param timeout (optional) Maximum time to wait for the operation to complete.
+     * Create schema
+     * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+                Only the waiting is aborted, and the calls returned.
      * @param schema The schema create request.
-     * @return SchemaCreateResult containing the created schema.
+     * @return Schema create result, containing the created schema
      */
     create(timeout: string | null | undefined, schema: SchemaCreateRequest): Observable<SchemaCreateResult> {
         let url_ = this.baseUrl + "/v1/schemas?";
@@ -7151,9 +7239,9 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Search
+     * Search schemas
      * @param schemaSearchRequest The schema search request.
-     * @return Schema result set.
+     * @return Schema search result
      */
     search(schemaSearchRequest: SchemaSearchRequest): Observable<SchemaSearchResult> {
         let url_ = this.baseUrl + "/v1/schemas/search";
@@ -7250,8 +7338,8 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Get index fields
-     * @param request The get request.
+     * Search index fields
+     * @param request The search request.
      * @return Indexed fields
      */
     getIndexFields(request: IndexFieldsSearchBySchemaIdsRequest): Observable<IndexField[]> {
@@ -7353,10 +7441,10 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Exists
-     * @param schemaId The schema id.
-     * @param fieldId (optional) The optional field id.
-     * @return ExistsResponse
+     * Exists schema
+     * @param schemaId The schema ID.
+     * @param fieldId (optional) The optional field ID.
+     * @return Exists response
      */
     exists(schemaId: string, fieldId: string | null | undefined): Observable<ExistsResponse> {
         let url_ = this.baseUrl + "/v1/schemas/{schemaId}/exists?";
@@ -7470,9 +7558,9 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Search
-     * @param request The permission search request.
-     * @return PermissionSetSearchResult
+     * Search schema permission sets
+     * @param request The permission set search request.
+     * @return Permission set search result
      */
     search(request: PermissionSetSearchRequest): Observable<PermissionSetSearchResult> {
         let url_ = this.baseUrl + "/v1/schemaPermissionSets/search";
@@ -7569,9 +7657,9 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Get detail - single
-     * @param permissionSetId The schema permission set id.
-     * @return SchemaPermissionSetDetail
+     * Get schema permission set
+     * @param permissionSetId The schema permission set ID.
+     * @return Schema permission set detail
      */
     get(permissionSetId: string): Observable<SchemaPermissionSetDetail> {
         let url_ = this.baseUrl + "/v1/schemaPermissionSets/{permissionSetId}";
@@ -7991,474 +8079,6 @@ export class ServiceProviderService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<CustomerServiceProviderConfiguration>(<any>null);
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class ShareAccessService extends PictureparkServiceBase {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        super(configuration);
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
-    }
-
-    /**
-     * Get Share json
-     * @param token The token
-     * @return ShareDetail
-     */
-    getShareJson(token: string): Observable<any> {
-        let url_ = this.baseUrl + "/v1/shareAccess/json/{token}";
-        if (token === undefined || token === null)
-            throw new Error("The parameter 'token' must be defined.");
-        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetShareJson(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetShareJson(<any>response_);
-                } catch (e) {
-                    return <Observable<any>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<any>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetShareJson(response: HttpResponseBase): Observable<any> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<any>(<any>null);
-    }
-
-    /**
-     * Download Shared outputs
-     * @param token The token
-     * @param width (optional) Optional width in pixels to resize image
-     * @param height (optional) Optional height in pixels to resize image
-     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
-     * @return HttpResponseMessage
-     */
-    download(token: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v1/shareAccess/d/{token}?";
-        if (token === undefined || token === null)
-            throw new Error("The parameter 'token' must be defined.");
-        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
-        if (width !== undefined)
-            url_ += "width=" + encodeURIComponent("" + width) + "&"; 
-        if (height !== undefined)
-            url_ += "height=" + encodeURIComponent("" + height) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "range": range !== undefined && range !== null ? "" + range : "", 
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDownload(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDownload(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDownload(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status === 412) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileResponse>(<any>null);
-    }
-
-    /**
-     * Download Shared outputs
-     * @param token The token
-     * @param contentId The content id
-     * @param width (optional) Optional width in pixels to resize image
-     * @param height (optional) Optional height in pixels to resize image
-     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
-     * @return HttpResponseMessage
-     */
-    downloadWithContentId(token: string, contentId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v1/shareAccess/d/{token}/{contentId}?";
-        if (token === undefined || token === null)
-            throw new Error("The parameter 'token' must be defined.");
-        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
-        if (contentId === undefined || contentId === null)
-            throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (width !== undefined)
-            url_ += "width=" + encodeURIComponent("" + width) + "&"; 
-        if (height !== undefined)
-            url_ += "height=" + encodeURIComponent("" + height) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "range": range !== undefined && range !== null ? "" + range : "", 
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDownloadWithContentId(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDownloadWithContentId(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDownloadWithContentId(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status === 412) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileResponse>(<any>null);
-    }
-
-    /**
-     * Download Shared outputs
-     * @param token The token
-     * @param contentId The content id
-     * @param outputFormatId The output format id+
-     * @param width (optional) Optional width in pixels to resize image
-     * @param height (optional) Optional height in pixels to resize image
-     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
-     * @return HttpResponseMessage
-     */
-    downloadWithOutputFormatId(token: string, contentId: string, outputFormatId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v1/shareAccess/d/{token}/{contentId}/{outputFormatId}?";
-        if (token === undefined || token === null)
-            throw new Error("The parameter 'token' must be defined.");
-        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
-        if (contentId === undefined || contentId === null)
-            throw new Error("The parameter 'contentId' must be defined.");
-        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (outputFormatId === undefined || outputFormatId === null)
-            throw new Error("The parameter 'outputFormatId' must be defined.");
-        url_ = url_.replace("{outputFormatId}", encodeURIComponent("" + outputFormatId)); 
-        if (width !== undefined)
-            url_ += "width=" + encodeURIComponent("" + width) + "&"; 
-        if (height !== undefined)
-            url_ += "height=" + encodeURIComponent("" + height) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "range": range !== undefined && range !== null ? "" + range : "", 
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processDownloadWithOutputFormatId(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDownloadWithOutputFormatId(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDownloadWithOutputFormatId(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status === 412) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileResponse>(<any>null);
     }
 }
 
@@ -9080,6 +8700,459 @@ export class ShareService extends PictureparkServiceBase {
         }
         return _observableOf<BulkResponse>(<any>null);
     }
+
+    /**
+     * Get Share json
+     * @param token The token
+     * @return ShareDetail
+     */
+    getShareJson(token: string): Observable<any> {
+        let url_ = this.baseUrl + "/v1/shares/json/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetShareJson(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetShareJson(<any>response_);
+                } catch (e) {
+                    return <Observable<any>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<any>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetShareJson(response: HttpResponseBase): Observable<any> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<any>(<any>null);
+    }
+
+    /**
+     * Download Shared outputs
+     * @param token The token
+     * @param width (optional) Optional width in pixels to resize image
+     * @param height (optional) Optional height in pixels to resize image
+     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+     * @return HttpResponseMessage
+     */
+    download(token: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/v1/shares/d/{token}?";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        if (width !== undefined)
+            url_ += "width=" + encodeURIComponent("" + width) + "&"; 
+        if (height !== undefined)
+            url_ += "height=" + encodeURIComponent("" + height) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "range": range !== undefined && range !== null ? "" + range : "", 
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDownload(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownload(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDownload(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    /**
+     * Download Shared outputs
+     * @param token The token
+     * @param contentId The content id
+     * @param width (optional) Optional width in pixels to resize image
+     * @param height (optional) Optional height in pixels to resize image
+     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+     * @return HttpResponseMessage
+     */
+    downloadWithContentId(token: string, contentId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/v1/shares/d/{token}/{contentId}?";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
+        if (width !== undefined)
+            url_ += "width=" + encodeURIComponent("" + width) + "&"; 
+        if (height !== undefined)
+            url_ += "height=" + encodeURIComponent("" + height) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "range": range !== undefined && range !== null ? "" + range : "", 
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDownloadWithContentId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadWithContentId(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDownloadWithContentId(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    /**
+     * Download Shared outputs
+     * @param token The token
+     * @param contentId The content id
+     * @param outputFormatId The output format id+
+     * @param width (optional) Optional width in pixels to resize image
+     * @param height (optional) Optional height in pixels to resize image
+     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+     * @return HttpResponseMessage
+     */
+    downloadWithOutputFormatId(token: string, contentId: string, outputFormatId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/v1/shares/d/{token}/{contentId}/{outputFormatId}?";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
+        if (outputFormatId === undefined || outputFormatId === null)
+            throw new Error("The parameter 'outputFormatId' must be defined.");
+        url_ = url_.replace("{outputFormatId}", encodeURIComponent("" + outputFormatId)); 
+        if (width !== undefined)
+            url_ += "width=" + encodeURIComponent("" + width) + "&"; 
+        if (height !== undefined)
+            url_ += "height=" + encodeURIComponent("" + height) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "range": range !== undefined && range !== null ? "" + range : "", 
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDownloadWithOutputFormatId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadWithOutputFormatId(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDownloadWithOutputFormatId(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
 }
 
 @Injectable({
@@ -9535,6 +9608,13 @@ export class TransferService extends PictureparkServiceBase {
             result200 = resultData200 ? Transfer.fromJS(resultData200) : new Transfer();
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -9563,13 +9643,6 @@ export class TransferService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10321,7 +10394,9 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Create a new user (without inviting him)
+     * Create user
+     * @param request Requested user information.
+     * @return Newly created user
      */
     create(request: UserCreateRequest): Observable<UserDetail> {
         let url_ = this.baseUrl + "/v1/users";
@@ -10418,9 +10493,9 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Get by id
-     * @param userId The user id
-     * @return UserDetail
+     * Get user
+     * @param userId User ID to search for.
+     * @return Requested user details
      */
     get(userId: string): Observable<UserDetail> {
         let url_ = this.baseUrl + "/v1/users/{userId}";
@@ -10517,16 +10592,19 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Updates one or more users
+     * Update user
+     * @param userId User ID to action on.
+     * @param request New user information.
+     * @return User details after the update of the user
      */
-    update(userId: string, userUpdatableDetail: UserUpdateRequest): Observable<UserDetail> {
+    update(userId: string, request: UserUpdateRequest): Observable<UserDetail> {
         let url_ = this.baseUrl + "/v1/users/{userId}";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(userUpdatableDetail);
+        const content_ = JSON.stringify(request);
 
         let options_ : any = {
             body: content_,
@@ -10617,9 +10695,9 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Search for users
-     * @param searchRequest The user search request
-     * @return UserSearchResult
+     * Search users
+     * @param searchRequest User search request.
+     * @return Result of the user search
      */
     search(searchRequest: UserSearchRequest): Observable<UserSearchResult> {
         let url_ = this.baseUrl + "/v1/users/search";
@@ -10716,9 +10794,9 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Get by owner token
-     * @param tokenId The token id
-     * @return UserDetail
+     * Get user by owner token
+     * @param tokenId ID of the owner token.
+     * @return User details of the user referenced by the owner token
      */
     getByOwnerToken(tokenId: string): Observable<UserDetail> {
         let url_ = this.baseUrl + "/v1/users/owner/{tokenId}";
@@ -10815,9 +10893,9 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Get multiple user details by supplying their ID's
-     * @param ids The user ID's
-     * @return IEnumerable&lt;UserDetail&gt;
+     * Get multiple users
+     * @param ids User IDs.
+     * @return Details of all the users who were found
      */
     getMany(ids: string[] | null): Observable<UserDetail[]> {
         let url_ = this.baseUrl + "/v1/users/many?";
@@ -10919,13 +10997,15 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Searches and aggregates users by different attributes
+     * Aggregate users
+     * @param request User aggregation request.
+     * @return Aggregation based on the request
      */
-    aggregate(userAggregationRequest: UserAggregationRequest): Observable<ObjectAggregationResult> {
+    aggregate(request: UserAggregationRequest): Observable<ObjectAggregationResult> {
         let url_ = this.baseUrl + "/v1/users/aggregate";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(userAggregationRequest);
+        const content_ = JSON.stringify(request);
 
         let options_ : any = {
             body: content_,
@@ -11016,16 +11096,19 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Locks or unlocks one or more users
+     * Lock / unlock user
+     * @param userId User ID to action on.
+     * @param request Request detailing if the user should be locked or unlocked.
+     * @return OK
      */
-    lock(userId: string, userLockRequest: UserLockRequest): Observable<void> {
+    lock(userId: string, request: UserLockRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/users/{userId}/lock";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(userLockRequest);
+        const content_ = JSON.stringify(request);
 
         let options_ : any = {
             body: content_,
@@ -11112,16 +11195,19 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Sets one or more users as reviewed or under review
+     * Change user's review state
+     * @param userId User ID to action on.
+     * @param request Request detailing if the user should be set as _reviewed_ or _to be reviewed_.
+     * @return OK
      */
-    review(userId: string, userReviewRequest: UserReviewRequest): Observable<void> {
+    review(userId: string, request: UserReviewRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/users/{userId}/review";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(userReviewRequest);
+        const content_ = JSON.stringify(request);
 
         let options_ : any = {
             body: content_,
@@ -11208,7 +11294,9 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Invites (or creates) new users
+     * Invite user
+     * @param userId User ID to action on.
+     * @return OK
      */
     invite(userId: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/users/{userId}/invite";
@@ -11301,16 +11389,114 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Deletes a user
+     * Reinvite user
+     * @param userId User ID to action on.
+     * @return OK
      */
-    delete(userId: string, userDeactivateRequest: UserDeleteRequest): Observable<void> {
+    reinvite(userId: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/users/{userId}/reinvite";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processReinvite(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReinvite(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processReinvite(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Delete user
+     * @param userId User ID to action on.
+     * @param request Request with details regarding the deletion.
+     * @return OK
+     */
+    delete(userId: string, request: UserDeleteRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/users/{userId}/delete";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(userDeactivateRequest);
+        const content_ = JSON.stringify(request);
 
         let options_ : any = {
             body: content_,
@@ -11397,7 +11583,104 @@ export class UserService extends PictureparkServiceBase {
     }
 
     /**
-     * Restores a previously deleted user
+     * Cancels a user triggered deletion request and returns user to _Reviewed_ state.
+     * @param userId User ID to action on.
+     * @return OK
+     */
+    cancelDeletionRequest(userId: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/users/{userId}/cancelDeletionRequest";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCancelDeletionRequest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCancelDeletionRequest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCancelDeletionRequest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Restore user
+     * @param userId User ID to action on.
+     * @return OK
      */
     restore(userId: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/users/{userId}/restore";
@@ -11505,8 +11788,8 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Get all roles
-     * @return UserDetail
+     * Get all user roles
+     * @return List of all the user roles in the system
      */
     getAll(): Observable<UserRole[]> {
         let url_ = this.baseUrl + "/v1/userRoles";
@@ -11604,8 +11887,9 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Create a new user role
-     * @param request Create request
+     * Create user role
+     * @param request User role creation request.
+     * @return Newly created user role
      */
     create(request: UserRoleCreateRequest): Observable<UserRole> {
         let url_ = this.baseUrl + "/v1/userRoles";
@@ -11702,9 +11986,9 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Get by id
-     * @param userRoleId The user role id
-     * @return UserDetail
+     * Get user role
+     * @param userRoleId The user role ID
+     * @return User role or null if not found
      */
     get(userRoleId: string): Observable<UserRole> {
         let url_ = this.baseUrl + "/v1/userRoles/{userRoleId}";
@@ -11801,9 +12085,9 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Search for user roles
-     * @param searchRequest The user role search request
-     * @return UserRoleSearchResult
+     * Search user roles
+     * @param searchRequest User role search request.
+     * @return Result of the user role search
      */
     search(searchRequest: UserRoleSearchRequest): Observable<UserRoleSearchResult> {
         let url_ = this.baseUrl + "/v1/userRoles/search";
@@ -11900,8 +12184,9 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Create multiple new user roles
-     * @param request Create request
+     * Create multiple user roles
+     * @param request Multiple user role creation request.
+     * @return Bulk response
      */
     createMany(request: UserRoleCreateManyRequest): Observable<BulkResponse> {
         let url_ = this.baseUrl + "/v1/userRoles/many";
@@ -11999,7 +12284,8 @@ export class UserRoleService extends PictureparkServiceBase {
 
     /**
      * Update multiple user roles
-     * @param request Update request
+     * @param request Multiple user role update request.
+     * @return Bulk response
      */
     updateMany(request: UserRoleUpdateManyRequest): Observable<BulkResponse> {
         let url_ = this.baseUrl + "/v1/userRoles/many";
@@ -12096,8 +12382,9 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Deletes multiple user roles
-     * @param request Delete request
+     * Delete multiple user roles
+     * @param request Multiple user role deletion request.
+     * @return Bulk request
      */
     deleteMany(request: UserRoleDeleteManyRequest): Observable<BulkResponse> {
         let url_ = this.baseUrl + "/v1/userRoles/many/delete";
@@ -12194,1067 +12481,6 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 }
 
-export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    searchString?: string | undefined;
-    searchBehaviours?: SearchBehaviour[] | undefined;
-
-    constructor(data?: IBusinessProcessSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): BusinessProcessSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IBusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    searchString?: string | undefined;
-    searchBehaviours?: SearchBehaviour[] | undefined;
-}
-
-/** The FilterBase is the base class for all filters. */
-export class FilterBase implements IFilterBase {
-
-    protected _discriminator: string;
-
-    getDisplayName(locale: string): string | null {
-        return null;
-    }
-
-    constructor(data?: IFilterBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "FilterBase";
-    }
-
-    init(data?: any) {
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): FilterBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "AndFilter") {
-            let result = new AndFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "OrFilter") {
-            let result = new OrFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotFilter") {
-            let result = new NotFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DateRangeFilter") {
-            let result = new DateRangeFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ExistsFilter") {
-            let result = new ExistsFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "GeoBoundingBoxFilter") {
-            let result = new GeoBoundingBoxFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "GeoDistanceFilter") {
-            let result = new GeoDistanceFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NestedFilter") {
-            let result = new NestedFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NumericRangeFilter") {
-            let result = new NumericRangeFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PrefixFilter") {
-            let result = new PrefixFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TermFilter") {
-            let result = new TermFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TermsFilter") {
-            let result = new TermsFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationFilter") {
-            let result = new AggregationFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ChildFilter") {
-            let result = new ChildFilter();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ParentFilter") {
-            let result = new ParentFilter();
-            result.init(data);
-            return result;
-        }
-        let result = new FilterBase();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        return data; 
-    }
-}
-
-/** The FilterBase is the base class for all filters. */
-export interface IFilterBase {
-}
-
-/** The AndFilter&gt; is a compound filter and returns documents that match all of the specified filters. */
-export class AndFilter extends FilterBase implements IAndFilter {
-    /** Accepts all filters. */
-    filters?: FilterBase[] | undefined;
-
-    constructor(data?: IAndFilter) {
-        super(data);
-        this._discriminator = "AndFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["filters"] && data["filters"].constructor === Array) {
-                this.filters = [];
-                for (let item of data["filters"])
-                    this.filters.push(FilterBase.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): AndFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new AndFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.filters && this.filters.constructor === Array) {
-            data["filters"] = [];
-            for (let item of this.filters)
-                data["filters"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The AndFilter&gt; is a compound filter and returns documents that match all of the specified filters. */
-export interface IAndFilter extends IFilterBase {
-    /** Accepts all filters. */
-    filters?: FilterBase[] | undefined;
-}
-
-/** The OrFilter is a compound filter and returns documents that match any of the specified filters. */
-export class OrFilter extends FilterBase implements IOrFilter {
-    /** Accepts all filters. */
-    filters?: FilterBase[] | undefined;
-
-    constructor(data?: IOrFilter) {
-        super(data);
-        this._discriminator = "OrFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["filters"] && data["filters"].constructor === Array) {
-                this.filters = [];
-                for (let item of data["filters"])
-                    this.filters.push(FilterBase.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): OrFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new OrFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.filters && this.filters.constructor === Array) {
-            data["filters"] = [];
-            for (let item of this.filters)
-                data["filters"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The OrFilter is a compound filter and returns documents that match any of the specified filters. */
-export interface IOrFilter extends IFilterBase {
-    /** Accepts all filters. */
-    filters?: FilterBase[] | undefined;
-}
-
-/** The NotFilter is a compound filter and returns documents that do not match the specified filter. */
-export class NotFilter extends FilterBase implements INotFilter {
-    /** Limits the result set. */
-    filter?: FilterBase | undefined;
-
-    constructor(data?: INotFilter) {
-        super(data);
-        this._discriminator = "NotFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): NotFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new NotFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The NotFilter is a compound filter and returns documents that do not match the specified filter. */
-export interface INotFilter extends IFilterBase {
-    /** Limits the result set. */
-    filter?: FilterBase | undefined;
-}
-
-/** The DateRangeFilter returns documents with fields that have date values within a certain range. */
-export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The date range. Supported pattern: now(+-)(int)(YMDHm). */
-    range?: DateRange | undefined;
-
-    getDisplayName(locale: string) {
-        return this.range && this.range.names ? this.range.names.translate(locale) : 'n/a';
-    }
-
-    constructor(data?: IDateRangeFilter) {
-        super(data);
-        this._discriminator = "DateRangeFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            this.range = data["range"] ? DateRange.fromJS(data["range"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): DateRangeFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new DateRangeFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["range"] = this.range ? this.range.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The DateRangeFilter returns documents with fields that have date values within a certain range. */
-export interface IDateRangeFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The date range. Supported pattern: now(+-)(int)(YMDHm). */
-    range?: IDateRange | undefined;
-}
-
-/** The date range class used in aggregators and filters. */
-export class DateRange implements IDateRange {
-    /** Tranlsated range names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    from?: string | undefined;
-    /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    to?: string | undefined;
-
-    constructor(data?: IDateRange) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.from = data["from"];
-            this.to = data["to"];
-        }
-    }
-
-    static fromJS(data: any): DateRange {
-        data = typeof data === 'object' ? data : {};
-        let result = new DateRange();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data; 
-    }
-}
-
-/** The date range class used in aggregators and filters. */
-export interface IDateRange {
-    /** Tranlsated range names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    from?: string | undefined;
-    /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    to?: string | undefined;
-}
-
-/** A custom dictionary type to distinguish language specific class properties. */
-export class TranslatedStringDictionary implements ITranslatedStringDictionary {
-
-    [key: string]: string | any; 
-
-    translate(locale: string) {
-        const language = locale.split('-')[0];
-        return this[language] ? this[language] : this[Object.keys(this)[0]];
-    }
-
-    constructor(data?: ITranslatedStringDictionary) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    this[property] = data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): TranslatedStringDictionary {
-        data = typeof data === 'object' ? data : {};
-        let result = new TranslatedStringDictionary();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data; 
-    }
-}
-
-/** A custom dictionary type to distinguish language specific class properties. */
-export interface ITranslatedStringDictionary {
-
-    [key: string]: string | any; 
-}
-
-/** The ExistsFilter returns documents that have at least one non-null value in the original field. */
-export class ExistsFilter extends FilterBase implements IExistsFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-
-    constructor(data?: IExistsFilter) {
-        super(data);
-        this._discriminator = "ExistsFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-        }
-    }
-
-    static fromJS(data: any): ExistsFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new ExistsFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The ExistsFilter returns documents that have at least one non-null value in the original field. */
-export interface IExistsFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-}
-
-/** The GeoBoundingBoxFilter returns documents that are found based on a point location using a bounding box. */
-export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The top left longitude/latitude configuration. */
-    topLeft?: GeoLocation | undefined;
-    /** The bottom right longitude/latitude configuration. */
-    bottomRight?: GeoLocation | undefined;
-
-    constructor(data?: IGeoBoundingBoxFilter) {
-        super(data);
-        this._discriminator = "GeoBoundingBoxFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            this.topLeft = data["topLeft"] ? GeoLocation.fromJS(data["topLeft"]) : <any>undefined;
-            this.bottomRight = data["bottomRight"] ? GeoLocation.fromJS(data["bottomRight"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): GeoBoundingBoxFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new GeoBoundingBoxFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["topLeft"] = this.topLeft ? this.topLeft.toJSON() : <any>undefined;
-        data["bottomRight"] = this.bottomRight ? this.bottomRight.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The GeoBoundingBoxFilter returns documents that are found based on a point location using a bounding box. */
-export interface IGeoBoundingBoxFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The top left longitude/latitude configuration. */
-    topLeft?: IGeoLocation | undefined;
-    /** The bottom right longitude/latitude configuration. */
-    bottomRight?: IGeoLocation | undefined;
-}
-
-export class GeoLocation implements IGeoLocation {
-    lat: number;
-    lon: number;
-
-    constructor(data?: IGeoLocation) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.lat = data["lat"];
-            this.lon = data["lon"];
-        }
-    }
-
-    static fromJS(data: any): GeoLocation {
-        data = typeof data === 'object' ? data : {};
-        let result = new GeoLocation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lat"] = this.lat;
-        data["lon"] = this.lon;
-        return data; 
-    }
-}
-
-export interface IGeoLocation {
-    lat: number;
-    lon: number;
-}
-
-/** The GeoDistanceFilter returns documents that include only hits that exists within a specific distance from a geo point. */
-export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The longitude/latitude configuration for the point of origin. */
-    location?: GeoLocation | undefined;
-    /** The range distance in meters. */
-    distance: number;
-
-    constructor(data?: IGeoDistanceFilter) {
-        super(data);
-        this._discriminator = "GeoDistanceFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            this.location = data["location"] ? GeoLocation.fromJS(data["location"]) : <any>undefined;
-            this.distance = data["distance"];
-        }
-    }
-
-    static fromJS(data: any): GeoDistanceFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new GeoDistanceFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
-        data["distance"] = this.distance;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The GeoDistanceFilter returns documents that include only hits that exists within a specific distance from a geo point. */
-export interface IGeoDistanceFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The longitude/latitude configuration for the point of origin. */
-    location?: IGeoLocation | undefined;
-    /** The range distance in meters. */
-    distance: number;
-}
-
-/** The NestedFilter is a joining filter and returns documents whose nested objects / documents (see nested mapping) match the specified filter. */
-export class NestedFilter extends FilterBase implements INestedFilter {
-    /** The path pointing to the nested object. */
-    path?: string | undefined;
-    /** Limits the result set. */
-    filter?: FilterBase | undefined;
-
-    constructor(data?: INestedFilter) {
-        super(data);
-        this._discriminator = "NestedFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.path = data["path"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): NestedFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new NestedFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["path"] = this.path;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The NestedFilter is a joining filter and returns documents whose nested objects / documents (see nested mapping) match the specified filter. */
-export interface INestedFilter extends IFilterBase {
-    /** The path pointing to the nested object. */
-    path?: string | undefined;
-    /** Limits the result set. */
-    filter?: FilterBase | undefined;
-}
-
-/** The NumericRangeFilter returns documents with fields that have numeric values within a certain range. */
-export class NumericRangeFilter extends FilterBase implements INumericRangeFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The numeric range with from and to properties. */
-    range?: NumericRange | undefined;
-
-    constructor(data?: INumericRangeFilter) {
-        super(data);
-        this._discriminator = "NumericRangeFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            this.range = data["range"] ? NumericRange.fromJS(data["range"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): NumericRangeFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new NumericRangeFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["range"] = this.range ? this.range.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The NumericRangeFilter returns documents with fields that have numeric values within a certain range. */
-export interface INumericRangeFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The numeric range with from and to properties. */
-    range?: INumericRange | undefined;
-}
-
-export class NumericRange implements INumericRange {
-    /** Tranlsated range names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The from value. */
-    from?: number | undefined;
-    /** The to value. */
-    to?: number | undefined;
-
-    constructor(data?: INumericRange) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.from = data["from"];
-            this.to = data["to"];
-        }
-    }
-
-    static fromJS(data: any): NumericRange {
-        data = typeof data === 'object' ? data : {};
-        let result = new NumericRange();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data; 
-    }
-}
-
-export interface INumericRange {
-    /** Tranlsated range names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** The from value. */
-    from?: number | undefined;
-    /** The to value. */
-    to?: number | undefined;
-}
-
-/** The PrefixFilter returns documents that have fields containing terms with a specified prefix (not analyzed). */
-export class PrefixFilter extends FilterBase implements IPrefixFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The prefix term to filter on. */
-    prefix?: string | undefined;
-
-    constructor(data?: IPrefixFilter) {
-        super(data);
-        this._discriminator = "PrefixFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            this.prefix = data["prefix"];
-        }
-    }
-
-    static fromJS(data: any): PrefixFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new PrefixFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["prefix"] = this.prefix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The PrefixFilter returns documents that have fields containing terms with a specified prefix (not analyzed). */
-export interface IPrefixFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The prefix term to filter on. */
-    prefix?: string | undefined;
-}
-
-/** The TermFilter returns documents that contain the exact term specified in the inverted index. */
-export class TermFilter extends FilterBase implements ITermFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The term to filter on. */
-    term?: string | undefined;
-
-    constructor(data?: ITermFilter) {
-        super(data);
-        this._discriminator = "TermFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            this.term = data["term"];
-        }
-    }
-
-    static fromJS(data: any): TermFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new TermFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["term"] = this.term;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The TermFilter returns documents that contain the exact term specified in the inverted index. */
-export interface ITermFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** The term to filter on. */
-    term?: string | undefined;
-}
-
-/** The TermsFilter returns documents that have fields that match any of the provided terms (not analyzed). */
-export class TermsFilter extends FilterBase implements ITermsFilter {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** A list of OR combined terms. */
-    terms?: string[] | undefined;
-
-    constructor(data?: ITermsFilter) {
-        super(data);
-        this._discriminator = "TermsFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.field = data["field"];
-            if (data["terms"] && data["terms"].constructor === Array) {
-                this.terms = [];
-                for (let item of data["terms"])
-                    this.terms.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): TermsFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new TermsFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        if (this.terms && this.terms.constructor === Array) {
-            data["terms"] = [];
-            for (let item of this.terms)
-                data["terms"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The TermsFilter returns documents that have fields that match any of the provided terms (not analyzed). */
-export interface ITermsFilter extends IFilterBase {
-    /** The elastic search index field to execute the filter on. */
-    field?: string | undefined;
-    /** A list of OR combined terms. */
-    terms?: string[] | undefined;
-}
-
-/** An AggregationFilter is provided with each aggregated value. When selecting the aggregated value the aggregation filter is added to the search query and returns doucments meeting the aggregation condition. */
-export class AggregationFilter extends FilterBase implements IAggregationFilter {
-    /** The name of the aggregation this filter is connected to. */
-    aggregationName?: string | undefined;
-    /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter, GeoDistanceFilter and NestedFilter. */
-    filter?: FilterBase | undefined;
-    temporaryAggregatorRequestId?: string | undefined;
-
-    constructor(data?: IAggregationFilter) {
-        super(data);
-        this._discriminator = "AggregationFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.aggregationName = data["aggregationName"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.temporaryAggregatorRequestId = data["temporaryAggregatorRequestId"];
-        }
-    }
-
-    static fromJS(data: any): AggregationFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["temporaryAggregatorRequestId"] = this.temporaryAggregatorRequestId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** An AggregationFilter is provided with each aggregated value. When selecting the aggregated value the aggregation filter is added to the search query and returns doucments meeting the aggregation condition. */
-export interface IAggregationFilter extends IFilterBase {
-    /** The name of the aggregation this filter is connected to. */
-    aggregationName?: string | undefined;
-    /** The aggregation filter property. Available filters are TermFilter, DateRangeFilter, NumericRangeFilter, GeoDistanceFilter and NestedFilter. */
-    filter?: FilterBase | undefined;
-    temporaryAggregatorRequestId?: string | undefined;
-}
-
-/** The ChildFilter allows to apply filters on child documents and returns documents that match the specified filter on the child document. */
-export class ChildFilter extends FilterBase implements IChildFilter {
-    /** The elastic search index type to filter as a child. */
-    childType?: string | undefined;
-    /** The filter to apply on the child entity. It accepts all filters. */
-    filter?: FilterBase | undefined;
-
-    constructor(data?: IChildFilter) {
-        super(data);
-        this._discriminator = "ChildFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.childType = data["childType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ChildFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new ChildFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["childType"] = this.childType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The ChildFilter allows to apply filters on child documents and returns documents that match the specified filter on the child document. */
-export interface IChildFilter extends IFilterBase {
-    /** The elastic search index type to filter as a child. */
-    childType?: string | undefined;
-    /** The filter to apply on the child entity. It accepts all filters. */
-    filter?: FilterBase | undefined;
-}
-
-/** The ParentFilter allows to apply filters on parent documents and returns documents that match the specified filter on the parent document. */
-export class ParentFilter extends FilterBase implements IParentFilter {
-    /** The elastic search index type to filter as a parent. */
-    parentType?: string | undefined;
-    /** The filter to apply on the child entity. It accepts all filters. */
-    filter?: FilterBase | undefined;
-
-    constructor(data?: IParentFilter) {
-        super(data);
-        this._discriminator = "ParentFilter";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.parentType = data["parentType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ParentFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new ParentFilter();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["parentType"] = this.parentType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** The ParentFilter allows to apply filters on parent documents and returns documents that match the specified filter on the parent document. */
-export interface IParentFilter extends IFilterBase {
-    /** The elastic search index type to filter as a parent. */
-    parentType?: string | undefined;
-    /** The filter to apply on the child entity. It accepts all filters. */
-    filter?: FilterBase | undefined;
-}
-
-export enum SearchBehaviour {
-    DropInvalidCharactersOnFailure = <any>"DropInvalidCharactersOnFailure", 
-    WildcardOnSingleTerm = <any>"WildcardOnSingleTerm", 
-}
-
 export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess {
     totalResults: number;
     results: BusinessProcess[];
@@ -13315,11 +12541,11 @@ export interface IBaseResultOfBusinessProcess {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess implements ISearchBehaviourBaseResultOfBusinessProcess {
+export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess implements ISearchBehaviorBaseResultOfBusinessProcess {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfBusinessProcess) {
+    constructor(data?: ISearchBehaviorBaseResultOfBusinessProcess) {
         super(data);
     }
 
@@ -13331,9 +12557,9 @@ export class SearchBehaviourBaseResultOfBusinessProcess extends BaseResultOfBusi
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfBusinessProcess {
+    static fromJS(data: any): SearchBehaviorBaseResultOfBusinessProcess {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfBusinessProcess();
+        let result = new SearchBehaviorBaseResultOfBusinessProcess();
         result.init(data);
         return result;
     }
@@ -13347,12 +12573,12 @@ export class SearchBehaviourBaseResultOfBusinessProcess extends BaseResultOfBusi
     }
 }
 
-export interface ISearchBehaviourBaseResultOfBusinessProcess extends IBaseResultOfBusinessProcess {
+export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultOfBusinessProcess {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class BusinessProcessSearchResult extends SearchBehaviourBaseResultOfBusinessProcess implements IBusinessProcessSearchResult {
+export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusinessProcess implements IBusinessProcessSearchResult {
     elapsedMilliseconds: number;
 
     constructor(data?: IBusinessProcessSearchResult) {
@@ -13381,24 +12607,38 @@ export class BusinessProcessSearchResult extends SearchBehaviourBaseResultOfBusi
     }
 }
 
-export interface IBusinessProcessSearchResult extends ISearchBehaviourBaseResultOfBusinessProcess {
+export interface IBusinessProcessSearchResult extends ISearchBehaviorBaseResultOfBusinessProcess {
     elapsedMilliseconds: number;
 }
 
+/** Business process */
 export class BusinessProcess implements IBusinessProcess {
-    id?: string | undefined;
-    processDefinitionId?: string | undefined;
+    /** ID of the business process. */
+    id: string;
+    /** ID of the business process definition associated to the business process. */
+    processDefinitionId: string;
+    /** ID of the document that is modified by the running of the business process. Used during the cancellation of the business process. */
     referenceId?: string | undefined;
+    /** Type of the document that is modified by the running of the business process. Used during the cancellation of the business process. */
     referenceDocType?: string | undefined;
+    /** True if the business process execution can be cancelled. False otherwise. */
     supportsCancellation: boolean;
+    /** Scope of the business process. */
     businessProcessScope: BusinessProcessScope;
+    /** Current life cycle of the business process. */
     lifeCycle: BusinessProcessLifeCycle;
+    /** When the business process started. */
     startDate: Date;
+    /** When the business process finished. */
     endDate: Date;
+    /** Is the business process finished. */
     finished: boolean;
+    /** List containing the history of all the state transitions of the business process. */
     stateHistory?: BusinessProcessState[] | undefined;
+    /** Current state of the business process. */
     currentState?: string | undefined;
-    processDefinitionName?: string | undefined;
+    /** Timestamp when the business process last reported progress. */
+    lastReportedProgress?: Date | undefined;
 
     protected _discriminator: string;
 
@@ -13437,17 +12677,12 @@ export class BusinessProcess implements IBusinessProcess {
                     this.stateHistory.push(BusinessProcessState.fromJS(item));
             }
             this.currentState = data["currentState"];
-            this.processDefinitionName = data["processDefinitionName"];
+            this.lastReportedProgress = data["lastReportedProgress"] ? new Date(data["lastReportedProgress"].toString()) : <any>undefined;
         }
     }
 
     static fromJS(data: any): BusinessProcess {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "BusinessProcessBulkResponse") {
-            let result = new BusinessProcessBulkResponse();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessProcessDetails") {
             let result = new BusinessProcessDetails();
             result.init(data);
@@ -13477,32 +12712,48 @@ export class BusinessProcess implements IBusinessProcess {
                 data["stateHistory"].push(item.toJSON());
         }
         data["currentState"] = this.currentState;
-        data["processDefinitionName"] = this.processDefinitionName;
+        data["lastReportedProgress"] = this.lastReportedProgress ? this.lastReportedProgress.toISOString() : <any>undefined;
         return data; 
     }
 }
 
+/** Business process */
 export interface IBusinessProcess {
-    id?: string | undefined;
-    processDefinitionId?: string | undefined;
+    /** ID of the business process. */
+    id: string;
+    /** ID of the business process definition associated to the business process. */
+    processDefinitionId: string;
+    /** ID of the document that is modified by the running of the business process. Used during the cancellation of the business process. */
     referenceId?: string | undefined;
+    /** Type of the document that is modified by the running of the business process. Used during the cancellation of the business process. */
     referenceDocType?: string | undefined;
+    /** True if the business process execution can be cancelled. False otherwise. */
     supportsCancellation: boolean;
+    /** Scope of the business process. */
     businessProcessScope: BusinessProcessScope;
+    /** Current life cycle of the business process. */
     lifeCycle: BusinessProcessLifeCycle;
+    /** When the business process started. */
     startDate: Date;
+    /** When the business process finished. */
     endDate: Date;
+    /** Is the business process finished. */
     finished: boolean;
+    /** List containing the history of all the state transitions of the business process. */
     stateHistory?: IBusinessProcessState[] | undefined;
+    /** Current state of the business process. */
     currentState?: string | undefined;
-    processDefinitionName?: string | undefined;
+    /** Timestamp when the business process last reported progress. */
+    lastReportedProgress?: Date | undefined;
 }
 
+/** Scope of the business process */
 export enum BusinessProcessScope {
     System = <any>"System", 
     User = <any>"User", 
 }
 
+/** Life cycle of the business process */
 export enum BusinessProcessLifeCycle {
     Draft = <any>"Draft", 
     InProgress = <any>"InProgress", 
@@ -13513,9 +12764,13 @@ export enum BusinessProcessLifeCycle {
     SucceededWithErrors = <any>"SucceededWithErrors", 
 }
 
+/** State transition information of a business process */
 export class BusinessProcessState implements IBusinessProcessState {
-    state?: string | undefined;
+    /** State of the business process */
+    state: string;
+    /** Date and time of when the state transition was performed. */
     timestamp: Date;
+    /** Eventual error associated to the state transition. */
     error?: ErrorResponse | undefined;
 
     constructor(data?: IBusinessProcessState) {
@@ -13552,15 +12807,23 @@ export class BusinessProcessState implements IBusinessProcessState {
     }
 }
 
+/** State transition information of a business process */
 export interface IBusinessProcessState {
-    state?: string | undefined;
+    /** State of the business process */
+    state: string;
+    /** Date and time of when the state transition was performed. */
     timestamp: Date;
+    /** Eventual error associated to the state transition. */
     error?: IErrorResponse | undefined;
 }
 
+/** Error information with serialized exception */
 export class ErrorResponse implements IErrorResponse {
+    /** Serialized PictureparkBusinessException. */
     exception?: string | undefined;
+    /** Trace ID. */
     traceId?: string | undefined;
+    /** Trace job ID. */
     traceJobId?: string | undefined;
 
     constructor(data?: IErrorResponse) {
@@ -13596,147 +12859,14 @@ export class ErrorResponse implements IErrorResponse {
     }
 }
 
+/** Error information with serialized exception */
 export interface IErrorResponse {
+    /** Serialized PictureparkBusinessException. */
     exception?: string | undefined;
+    /** Trace ID. */
     traceId?: string | undefined;
+    /** Trace job ID. */
     traceJobId?: string | undefined;
-}
-
-export class BusinessProcessBulkResponse extends BusinessProcess implements IBusinessProcessBulkResponse {
-    response?: BulkResponse | undefined;
-
-    constructor(data?: IBusinessProcessBulkResponse) {
-        super(data);
-        this._discriminator = "BusinessProcessBulkResponse";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.response = data["response"] ? BulkResponse.fromJS(data["response"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): BusinessProcessBulkResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessBulkResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["response"] = this.response ? this.response.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IBusinessProcessBulkResponse extends IBusinessProcess {
-    response?: IBulkResponse | undefined;
-}
-
-export class BulkResponse implements IBulkResponse {
-    rows?: BulkResponseRow[] | undefined;
-
-    constructor(data?: IBulkResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.rows) {
-                this.rows = [];
-                for (let i = 0; i < data.rows.length; i++) {
-                    let item = data.rows[i];
-                    this.rows[i] = item && !(<any>item).toJSON ? new BulkResponseRow(item) : <BulkResponseRow>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["rows"] && data["rows"].constructor === Array) {
-                this.rows = [];
-                for (let item of data["rows"])
-                    this.rows.push(BulkResponseRow.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): BulkResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new BulkResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.rows && this.rows.constructor === Array) {
-            data["rows"] = [];
-            for (let item of this.rows)
-                data["rows"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IBulkResponse {
-    rows?: IBulkResponseRow[] | undefined;
-}
-
-export class BulkResponseRow implements IBulkResponseRow {
-    id?: string | undefined;
-    version: number;
-    error?: string | undefined;
-    succeeded: boolean;
-    status: number;
-
-    constructor(data?: IBulkResponseRow) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.version = data["version"];
-            this.error = data["error"];
-            this.succeeded = data["succeeded"];
-            this.status = data["status"];
-        }
-    }
-
-    static fromJS(data: any): BulkResponseRow {
-        data = typeof data === 'object' ? data : {};
-        let result = new BulkResponseRow();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["version"] = this.version;
-        data["error"] = this.error;
-        data["succeeded"] = this.succeeded;
-        data["status"] = this.status;
-        return data; 
-    }
-}
-
-export interface IBulkResponseRow {
-    id?: string | undefined;
-    version: number;
-    error?: string | undefined;
-    succeeded: boolean;
-    status: number;
 }
 
 export class QueryDebugInformation implements IQueryDebugInformation {
@@ -13908,6 +13038,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "TermsOfServiceNotNewestException") {
             let result = new TermsOfServiceNotNewestException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "IllegalAuthorizationStateTransitionException") {
+            let result = new IllegalAuthorizationStateTransitionException();
             result.init(data);
             return result;
         }
@@ -14166,8 +13301,8 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DuplicatedSearchBehaviourException") {
-            let result = new DuplicatedSearchBehaviourException();
+        if (data["kind"] === "DuplicatedSearchBehaviorException") {
+            let result = new DuplicatedSearchBehaviorException();
             result.init(data);
             return result;
         }
@@ -14238,6 +13373,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "PermissionValidationException") {
             let result = new PermissionValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionSetInUseException") {
+            let result = new PermissionSetInUseException();
             result.init(data);
             return result;
         }
@@ -14343,6 +13483,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "AggregationNameInvalidException") {
             let result = new AggregationNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationSizeInvalidException") {
+            let result = new AggregationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RelationTypeMissingException") {
+            let result = new RelationTypeMissingException();
             result.init(data);
             return result;
         }
@@ -14566,8 +13716,8 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DeleteContentsWithRelationsException") {
-            let result = new DeleteContentsWithRelationsException();
+        if (data["kind"] === "DeleteContentsWithReferencesException") {
+            let result = new DeleteContentsWithReferencesException();
             result.init(data);
             return result;
         }
@@ -14591,8 +13741,13 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
-            let result = new BusinessProcessWaitTimeoutException();
+        if (data["kind"] === "ContentBackupFailedException") {
+            let result = new ContentBackupFailedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentLayerSameRootException") {
+            let result = new ContentLayerSameRootException();
             result.init(data);
             return result;
         }
@@ -14628,6 +13783,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
             let result = new SchemaFieldImportTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldNotSupportedException") {
+            let result = new SchemaFieldNotSupportedException();
             result.init(data);
             return result;
         }
@@ -14683,6 +13843,21 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
             let result = new BusinessProcessLifeCycleNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumTransferSizeException") {
+            let result = new MaximumTransferSizeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EnvironmentNotAvailableException") {
+            let result = new EnvironmentNotAvailableException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CustomerNotAvailableException") {
+            let result = new CustomerNotAvailableException();
             result.init(data);
             return result;
         }
@@ -14781,6 +13956,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "TermsOfServiceNotNewestException") {
             let result = new TermsOfServiceNotNewestException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "IllegalAuthorizationStateTransitionException") {
+            let result = new IllegalAuthorizationStateTransitionException();
             result.init(data);
             return result;
         }
@@ -14954,8 +14134,8 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DuplicatedSearchBehaviourException") {
-            let result = new DuplicatedSearchBehaviourException();
+        if (data["kind"] === "DuplicatedSearchBehaviorException") {
+            let result = new DuplicatedSearchBehaviorException();
             result.init(data);
             return result;
         }
@@ -15021,6 +14201,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "PermissionValidationException") {
             let result = new PermissionValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionSetInUseException") {
+            let result = new PermissionSetInUseException();
             result.init(data);
             return result;
         }
@@ -15126,6 +14311,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "AggregationNameInvalidException") {
             let result = new AggregationNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationSizeInvalidException") {
+            let result = new AggregationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RelationTypeMissingException") {
+            let result = new RelationTypeMissingException();
             result.init(data);
             return result;
         }
@@ -15349,8 +14544,8 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DeleteContentsWithRelationsException") {
-            let result = new DeleteContentsWithRelationsException();
+        if (data["kind"] === "DeleteContentsWithReferencesException") {
+            let result = new DeleteContentsWithReferencesException();
             result.init(data);
             return result;
         }
@@ -15374,8 +14569,13 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
-            let result = new BusinessProcessWaitTimeoutException();
+        if (data["kind"] === "ContentBackupFailedException") {
+            let result = new ContentBackupFailedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentLayerSameRootException") {
+            let result = new ContentLayerSameRootException();
             result.init(data);
             return result;
         }
@@ -15411,6 +14611,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
             let result = new SchemaFieldImportTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldNotSupportedException") {
+            let result = new SchemaFieldNotSupportedException();
             result.init(data);
             return result;
         }
@@ -15520,6 +14725,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "IllegalAuthorizationStateTransitionException") {
+            let result = new IllegalAuthorizationStateTransitionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DefaultChannelDeleteException") {
             let result = new DefaultChannelDeleteException();
             result.init(data);
@@ -15555,8 +14765,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DuplicatedSearchBehaviourException") {
-            let result = new DuplicatedSearchBehaviourException();
+        if (data["kind"] === "DuplicatedSearchBehaviorException") {
+            let result = new DuplicatedSearchBehaviorException();
             result.init(data);
             return result;
         }
@@ -15597,6 +14807,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "PermissionValidationException") {
             let result = new PermissionValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionSetInUseException") {
+            let result = new PermissionSetInUseException();
             result.init(data);
             return result;
         }
@@ -15652,6 +14867,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "AggregationNameInvalidException") {
             let result = new AggregationNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationSizeInvalidException") {
+            let result = new AggregationSizeInvalidException();
             result.init(data);
             return result;
         }
@@ -15860,8 +15080,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DeleteContentsWithRelationsException") {
-            let result = new DeleteContentsWithRelationsException();
+        if (data["kind"] === "DeleteContentsWithReferencesException") {
+            let result = new DeleteContentsWithReferencesException();
             result.init(data);
             return result;
         }
@@ -15875,8 +15095,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
-            let result = new BusinessProcessWaitTimeoutException();
+        if (data["kind"] === "ContentLayerSameRootException") {
+            let result = new ContentLayerSameRootException();
             result.init(data);
             return result;
         }
@@ -15892,6 +15112,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
             let result = new SchemaFieldImportTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldNotSupportedException") {
+            let result = new SchemaFieldNotSupportedException();
             result.init(data);
             return result;
         }
@@ -16004,11 +15229,6 @@ export class PictureparkTimeoutException extends PictureparkValidationException 
 
     static fromJS(data: any): PictureparkTimeoutException {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "BusinessProcessWaitTimeoutException") {
-            let result = new BusinessProcessWaitTimeoutException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SnapshotTimeoutException") {
             let result = new SnapshotTimeoutException();
             result.init(data);
@@ -16244,6 +15464,36 @@ export class TermsOfServiceNotNewestException extends PictureparkBusinessExcepti
 }
 
 export interface ITermsOfServiceNotNewestException extends IPictureparkBusinessException {
+}
+
+export class IllegalAuthorizationStateTransitionException extends PictureparkValidationException implements IIllegalAuthorizationStateTransitionException {
+
+    constructor(data?: IIllegalAuthorizationStateTransitionException) {
+        super(data);
+        this._discriminator = "IllegalAuthorizationStateTransitionException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): IllegalAuthorizationStateTransitionException {
+        data = typeof data === 'object' ? data : {};
+        let result = new IllegalAuthorizationStateTransitionException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IIllegalAuthorizationStateTransitionException extends IPictureparkValidationException {
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -16617,6 +15867,7 @@ export interface IElasticVersionUpdateException extends IPictureparkException {
 export class InvalidVersionException extends PictureparkException implements IInvalidVersionException {
     component?: string | undefined;
     version?: string | undefined;
+    expectedVersion?: string | undefined;
 
     constructor(data?: IInvalidVersionException) {
         super(data);
@@ -16628,6 +15879,7 @@ export class InvalidVersionException extends PictureparkException implements IIn
         if (data) {
             this.component = data["component"];
             this.version = data["version"];
+            this.expectedVersion = data["expectedVersion"];
         }
     }
 
@@ -16642,6 +15894,7 @@ export class InvalidVersionException extends PictureparkException implements IIn
         data = typeof data === 'object' ? data : {};
         data["component"] = this.component;
         data["version"] = this.version;
+        data["expectedVersion"] = this.expectedVersion;
         super.toJSON(data);
         return data; 
     }
@@ -16650,6 +15903,7 @@ export class InvalidVersionException extends PictureparkException implements IIn
 export interface IInvalidVersionException extends IPictureparkException {
     component?: string | undefined;
     version?: string | undefined;
+    expectedVersion?: string | undefined;
 }
 
 export class EnvironmentNotDeactivatedException extends PictureparkException implements IEnvironmentNotDeactivatedException {
@@ -18113,38 +17367,38 @@ export interface IIndexMappingException extends IPictureparkBusinessException {
     debugInformation?: string | undefined;
 }
 
-export class DuplicatedSearchBehaviourException extends PictureparkValidationException implements IDuplicatedSearchBehaviourException {
-    duplicatedSearchBehaviours?: string | undefined;
+export class DuplicatedSearchBehaviorException extends PictureparkValidationException implements IDuplicatedSearchBehaviorException {
+    duplicatedSearchBehaviors?: string | undefined;
 
-    constructor(data?: IDuplicatedSearchBehaviourException) {
+    constructor(data?: IDuplicatedSearchBehaviorException) {
         super(data);
-        this._discriminator = "DuplicatedSearchBehaviourException";
+        this._discriminator = "DuplicatedSearchBehaviorException";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.duplicatedSearchBehaviours = data["duplicatedSearchBehaviours"];
+            this.duplicatedSearchBehaviors = data["duplicatedSearchBehaviors"];
         }
     }
 
-    static fromJS(data: any): DuplicatedSearchBehaviourException {
+    static fromJS(data: any): DuplicatedSearchBehaviorException {
         data = typeof data === 'object' ? data : {};
-        let result = new DuplicatedSearchBehaviourException();
+        let result = new DuplicatedSearchBehaviorException();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["duplicatedSearchBehaviours"] = this.duplicatedSearchBehaviours;
+        data["duplicatedSearchBehaviors"] = this.duplicatedSearchBehaviors;
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IDuplicatedSearchBehaviourException extends IPictureparkValidationException {
-    duplicatedSearchBehaviours?: string | undefined;
+export interface IDuplicatedSearchBehaviorException extends IPictureparkValidationException {
+    duplicatedSearchBehaviors?: string | undefined;
 }
 
 export class SearchStringLeadingWildcardException extends PictureparkValidationException implements ISearchStringLeadingWildcardException {
@@ -18795,6 +18049,8 @@ export enum UserRight {
     ManageEmbeds = <any>"ManageEmbeds", 
     ManageTemplates = <any>"ManageTemplates", 
     ManageTermsOfService = <any>"ManageTermsOfService", 
+    ManageLiveStream = <any>"ManageLiveStream", 
+    ManageDocumentHistory = <any>"ManageDocumentHistory", 
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -18909,6 +18165,40 @@ export class PermissionValidationException extends PictureparkValidationExceptio
 export interface IPermissionValidationException extends IPictureparkValidationException {
     permission?: string | undefined;
     operation?: string | undefined;
+}
+
+export class PermissionSetInUseException extends PictureparkValidationException implements IPermissionSetInUseException {
+    referenceCount: number;
+
+    constructor(data?: IPermissionSetInUseException) {
+        super(data);
+        this._discriminator = "PermissionSetInUseException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.referenceCount = data["referenceCount"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetInUseException {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetInUseException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["referenceCount"] = this.referenceCount;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPermissionSetInUseException extends IPictureparkValidationException {
+    referenceCount: number;
 }
 
 export class UnsupportedListItemChangeCommandException extends PictureparkValidationException implements IUnsupportedListItemChangeCommandException {
@@ -19064,8 +18354,7 @@ export interface IListItemCyclicDependencyException extends IPictureparkBusiness
 }
 
 export class DeleteListItemsWithReferencesException extends PictureparkValidationException implements IDeleteListItemsWithReferencesException {
-    referencesList?: string[] | undefined;
-    references?: string | undefined;
+    numberOfReferences: number;
 
     constructor(data?: IDeleteListItemsWithReferencesException) {
         super(data);
@@ -19075,12 +18364,7 @@ export class DeleteListItemsWithReferencesException extends PictureparkValidatio
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (data["referencesList"] && data["referencesList"].constructor === Array) {
-                this.referencesList = [];
-                for (let item of data["referencesList"])
-                    this.referencesList.push(item);
-            }
-            this.references = data["references"];
+            this.numberOfReferences = data["numberOfReferences"];
         }
     }
 
@@ -19093,20 +18377,14 @@ export class DeleteListItemsWithReferencesException extends PictureparkValidatio
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.referencesList && this.referencesList.constructor === Array) {
-            data["referencesList"] = [];
-            for (let item of this.referencesList)
-                data["referencesList"].push(item);
-        }
-        data["references"] = this.references;
+        data["numberOfReferences"] = this.numberOfReferences;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IDeleteListItemsWithReferencesException extends IPictureparkValidationException {
-    referencesList?: string[] | undefined;
-    references?: string | undefined;
+    numberOfReferences: number;
 }
 
 export class ListItemUpdateManyException extends PictureparkBusinessException implements IListItemUpdateManyException {
@@ -19249,6 +18527,7 @@ export interface IInvalidTransferTypeException extends IPictureparkBusinessExcep
     transferType: TransferType;
 }
 
+/** Type of the transfer */
 export enum TransferType {
     FileUpload = <any>"FileUpload", 
     FileUploadAutoImport = <any>"FileUploadAutoImport", 
@@ -19774,6 +19053,80 @@ export class AggregationNameInvalidException extends PictureparkValidationExcept
 export interface IAggregationNameInvalidException extends IPictureparkValidationException {
     aggregationName?: string | undefined;
     aggregationPrefix?: string | undefined;
+}
+
+/** Size of the aggregation is invalid. */
+export class AggregationSizeInvalidException extends PictureparkValidationException implements IAggregationSizeInvalidException {
+    /** The name identifying the aggregation. */
+    aggregationName?: string | undefined;
+    /** The invalid size of the aggregation: size must be equal or greater than 1. */
+    aggregationSize: number;
+
+    constructor(data?: IAggregationSizeInvalidException) {
+        super(data);
+        this._discriminator = "AggregationSizeInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.aggregationName = data["aggregationName"];
+            this.aggregationSize = data["aggregationSize"];
+        }
+    }
+
+    static fromJS(data: any): AggregationSizeInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationSizeInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["aggregationSize"] = this.aggregationSize;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Size of the aggregation is invalid. */
+export interface IAggregationSizeInvalidException extends IPictureparkValidationException {
+    /** The name identifying the aggregation. */
+    aggregationName?: string | undefined;
+    /** The invalid size of the aggregation: size must be equal or greater than 1. */
+    aggregationSize: number;
+}
+
+export class RelationTypeMissingException extends PictureparkBusinessException implements IRelationTypeMissingException {
+
+    constructor(data?: IRelationTypeMissingException) {
+        super(data);
+        this._discriminator = "RelationTypeMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): RelationTypeMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new RelationTypeMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IRelationTypeMissingException extends IPictureparkBusinessException {
 }
 
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
@@ -21120,6 +20473,7 @@ export interface ISchemaMissingTypeException extends IPictureparkValidationExcep
     expectedSchemaTypes?: SchemaType[] | undefined;
 }
 
+/** Type of the schema */
 export enum SchemaType {
     Content = <any>"Content", 
     Layer = <any>"Layer", 
@@ -21519,6 +20873,7 @@ export interface IMissingDisplayPatternForCustomerDefaultLanguageException exten
     missingTypes?: DisplayPatternType[] | undefined;
 }
 
+/** The display pattern type */
 export enum DisplayPatternType {
     Thumbnail = <any>"Thumbnail", 
     List = <any>"List", 
@@ -21526,50 +20881,42 @@ export enum DisplayPatternType {
     Name = <any>"Name", 
 }
 
-export class DeleteContentsWithRelationsException extends PictureparkValidationException implements IDeleteContentsWithRelationsException {
-    relationList?: string[] | undefined;
-    relations?: string | undefined;
+export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
+    numberOfReferences: number;
+    numberOfShares: number;
 
-    constructor(data?: IDeleteContentsWithRelationsException) {
+    constructor(data?: IDeleteContentsWithReferencesException) {
         super(data);
-        this._discriminator = "DeleteContentsWithRelationsException";
+        this._discriminator = "DeleteContentsWithReferencesException";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (data["relationList"] && data["relationList"].constructor === Array) {
-                this.relationList = [];
-                for (let item of data["relationList"])
-                    this.relationList.push(item);
-            }
-            this.relations = data["relations"];
+            this.numberOfReferences = data["numberOfReferences"];
+            this.numberOfShares = data["numberOfShares"];
         }
     }
 
-    static fromJS(data: any): DeleteContentsWithRelationsException {
+    static fromJS(data: any): DeleteContentsWithReferencesException {
         data = typeof data === 'object' ? data : {};
-        let result = new DeleteContentsWithRelationsException();
+        let result = new DeleteContentsWithReferencesException();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.relationList && this.relationList.constructor === Array) {
-            data["relationList"] = [];
-            for (let item of this.relationList)
-                data["relationList"].push(item);
-        }
-        data["relations"] = this.relations;
+        data["numberOfReferences"] = this.numberOfReferences;
+        data["numberOfShares"] = this.numberOfShares;
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IDeleteContentsWithRelationsException extends IPictureparkValidationException {
-    relationList?: string[] | undefined;
-    relations?: string | undefined;
+export interface IDeleteContentsWithReferencesException extends IPictureparkValidationException {
+    numberOfReferences: number;
+    numberOfShares: number;
 }
 
 export class ContentMetadataUpdateManyException extends PictureparkBusinessException implements IContentMetadataUpdateManyException {
@@ -21732,6 +21079,7 @@ export interface IContentFileReplaceTypeMismatchException extends IPictureparkVa
     newContentType: ContentType;
 }
 
+/** Content types */
 export enum ContentType {
     Unknown = <any>"Unknown", 
     Bitmap = <any>"Bitmap", 
@@ -21756,38 +21104,140 @@ export enum ContentType {
     ContentItem = <any>"ContentItem", 
 }
 
-export class BusinessProcessWaitTimeoutException extends PictureparkTimeoutException implements IBusinessProcessWaitTimeoutException {
-    businessProcessId?: string | undefined;
+export class ContentBackupFailedException extends PictureparkBusinessException implements IContentBackupFailedException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+    outputId?: string | undefined;
 
-    constructor(data?: IBusinessProcessWaitTimeoutException) {
+    constructor(data?: IContentBackupFailedException) {
         super(data);
-        this._discriminator = "BusinessProcessWaitTimeoutException";
+        this._discriminator = "ContentBackupFailedException";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.businessProcessId = data["businessProcessId"];
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+            this.outputId = data["outputId"];
         }
     }
 
-    static fromJS(data: any): BusinessProcessWaitTimeoutException {
+    static fromJS(data: any): ContentBackupFailedException {
         data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessWaitTimeoutException();
+        let result = new ContentBackupFailedException();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        data["outputId"] = this.outputId;
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IBusinessProcessWaitTimeoutException extends IPictureparkTimeoutException {
-    businessProcessId?: string | undefined;
+export interface IContentBackupFailedException extends IPictureparkBusinessException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+    outputId?: string | undefined;
+}
+
+export class ContentLayerSameRootException extends PictureparkValidationException implements IContentLayerSameRootException {
+    contentId?: string | undefined;
+    layerIdsByRootSchema?: LayerIdsByRootSchema[] | undefined;
+
+    constructor(data?: IContentLayerSameRootException) {
+        super(data);
+        this._discriminator = "ContentLayerSameRootException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentId = data["contentId"];
+            if (data["layerIdsByRootSchema"] && data["layerIdsByRootSchema"].constructor === Array) {
+                this.layerIdsByRootSchema = [];
+                for (let item of data["layerIdsByRootSchema"])
+                    this.layerIdsByRootSchema.push(LayerIdsByRootSchema.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentLayerSameRootException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentLayerSameRootException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        if (this.layerIdsByRootSchema && this.layerIdsByRootSchema.constructor === Array) {
+            data["layerIdsByRootSchema"] = [];
+            for (let item of this.layerIdsByRootSchema)
+                data["layerIdsByRootSchema"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentLayerSameRootException extends IPictureparkValidationException {
+    contentId?: string | undefined;
+    layerIdsByRootSchema?: ILayerIdsByRootSchema[] | undefined;
+}
+
+export class LayerIdsByRootSchema implements ILayerIdsByRootSchema {
+    rootSchemaId?: string | undefined;
+    layerSchemaIds?: string[] | undefined;
+
+    constructor(data?: ILayerIdsByRootSchema) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.rootSchemaId = data["rootSchemaId"];
+            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
+                this.layerSchemaIds = [];
+                for (let item of data["layerSchemaIds"])
+                    this.layerSchemaIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): LayerIdsByRootSchema {
+        data = typeof data === 'object' ? data : {};
+        let result = new LayerIdsByRootSchema();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rootSchemaId"] = this.rootSchemaId;
+        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
+            data["layerSchemaIds"] = [];
+            for (let item of this.layerSchemaIds)
+                data["layerSchemaIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface ILayerIdsByRootSchema {
+    rootSchemaId?: string | undefined;
+    layerSchemaIds?: string[] | undefined;
 }
 
 export class BusinessProcessEngineRequestException extends PictureparkBusinessException implements IBusinessProcessEngineRequestException {
@@ -22070,6 +21520,48 @@ export interface ISchemaFieldImportTypeMismatchException extends IPictureparkVal
     fieldId?: string | undefined;
     importingFieldType?: string | undefined;
     existingFieldType?: string | undefined;
+}
+
+export class SchemaFieldNotSupportedException extends PictureparkValidationException implements ISchemaFieldNotSupportedException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    fieldType?: string | undefined;
+
+    constructor(data?: ISchemaFieldNotSupportedException) {
+        super(data);
+        this._discriminator = "SchemaFieldNotSupportedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldId = data["fieldId"];
+            this.schemaId = data["schemaId"];
+            this.fieldType = data["fieldType"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["schemaId"] = this.schemaId;
+        data["fieldType"] = this.fieldType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldNotSupportedException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    fieldType?: string | undefined;
 }
 
 export class SnapshotTimeoutException extends PictureparkTimeoutException implements ISnapshotTimeoutException {
@@ -22466,6 +21958,1228 @@ export interface IBusinessProcessLifeCycleNotHitException extends IPictureparkTi
     businessProcessId?: string | undefined;
     expected?: BusinessProcessLifeCycle[] | undefined;
     actual: BusinessProcessLifeCycle;
+}
+
+export class MaximumTransferSizeException extends PictureparkException implements IMaximumTransferSizeException {
+    transferSize: number;
+    maximumTransferSize: number;
+    transferId?: string | undefined;
+
+    constructor(data?: IMaximumTransferSizeException) {
+        super(data);
+        this._discriminator = "MaximumTransferSizeException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.transferSize = data["transferSize"];
+            this.maximumTransferSize = data["maximumTransferSize"];
+            this.transferId = data["transferId"];
+        }
+    }
+
+    static fromJS(data: any): MaximumTransferSizeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaximumTransferSizeException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferSize"] = this.transferSize;
+        data["maximumTransferSize"] = this.maximumTransferSize;
+        data["transferId"] = this.transferId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IMaximumTransferSizeException extends IPictureparkException {
+    transferSize: number;
+    maximumTransferSize: number;
+    transferId?: string | undefined;
+}
+
+export class EnvironmentNotAvailableException extends PictureparkException implements IEnvironmentNotAvailableException {
+
+    constructor(data?: IEnvironmentNotAvailableException) {
+        super(data);
+        this._discriminator = "EnvironmentNotAvailableException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): EnvironmentNotAvailableException {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnvironmentNotAvailableException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IEnvironmentNotAvailableException extends IPictureparkException {
+}
+
+export class CustomerNotAvailableException extends PictureparkException implements ICustomerNotAvailableException {
+    customerId?: string | undefined;
+
+    constructor(data?: ICustomerNotAvailableException) {
+        super(data);
+        this._discriminator = "CustomerNotAvailableException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.customerId = data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): CustomerNotAvailableException {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerNotAvailableException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerId"] = this.customerId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICustomerNotAvailableException extends IPictureparkException {
+    customerId?: string | undefined;
+}
+
+export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    filter?: FilterBase | undefined;
+    searchString?: string | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
+
+    constructor(data?: IBusinessProcessSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IBusinessProcessSearchRequest {
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    filter?: FilterBase | undefined;
+    searchString?: string | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
+}
+
+/** The filters' base class */
+export class FilterBase implements IFilterBase {
+
+    protected _discriminator: string;
+
+    getDisplayName(locale: string): string | null {
+        return null;
+    }
+
+    constructor(data?: IFilterBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "FilterBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): FilterBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "AndFilter") {
+            let result = new AndFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OrFilter") {
+            let result = new OrFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotFilter") {
+            let result = new NotFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DateRangeFilter") {
+            let result = new DateRangeFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ExistsFilter") {
+            let result = new ExistsFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "GeoBoundingBoxFilter") {
+            let result = new GeoBoundingBoxFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "GeoDistanceFilter") {
+            let result = new GeoDistanceFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NestedFilter") {
+            let result = new NestedFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NumericRangeFilter") {
+            let result = new NumericRangeFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PrefixFilter") {
+            let result = new PrefixFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TermFilter") {
+            let result = new TermFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TermsFilter") {
+            let result = new TermsFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFilter") {
+            let result = new AggregationFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ChildFilter") {
+            let result = new ChildFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ParentFilter") {
+            let result = new ParentFilter();
+            result.init(data);
+            return result;
+        }
+        let result = new FilterBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** The filters' base class */
+export interface IFilterBase {
+}
+
+/** Used to put filters in "and" */
+export class AndFilter extends FilterBase implements IAndFilter {
+    /** The filters to put in "and". All kinds of filters are accepted. */
+    filters?: FilterBase[] | undefined;
+
+    constructor(data?: IAndFilter) {
+        super(data);
+        this._discriminator = "AndFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["filters"] && data["filters"].constructor === Array) {
+                this.filters = [];
+                for (let item of data["filters"])
+                    this.filters.push(FilterBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): AndFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new AndFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.filters && this.filters.constructor === Array) {
+            data["filters"] = [];
+            for (let item of this.filters)
+                data["filters"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Used to put filters in "and" */
+export interface IAndFilter extends IFilterBase {
+    /** The filters to put in "and". All kinds of filters are accepted. */
+    filters?: FilterBase[] | undefined;
+}
+
+/** Put filters in "or" */
+export class OrFilter extends FilterBase implements IOrFilter {
+    /** The filters to put in "or". All kinds of filters are accepted. */
+    filters?: FilterBase[] | undefined;
+
+    constructor(data?: IOrFilter) {
+        super(data);
+        this._discriminator = "OrFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["filters"] && data["filters"].constructor === Array) {
+                this.filters = [];
+                for (let item of data["filters"])
+                    this.filters.push(FilterBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): OrFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new OrFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.filters && this.filters.constructor === Array) {
+            data["filters"] = [];
+            for (let item of this.filters)
+                data["filters"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Put filters in "or" */
+export interface IOrFilter extends IFilterBase {
+    /** The filters to put in "or". All kinds of filters are accepted. */
+    filters?: FilterBase[] | undefined;
+}
+
+/** Negates the specified filter */
+export class NotFilter extends FilterBase implements INotFilter {
+    /** The filter to be negated. */
+    filter: FilterBase;
+
+    constructor(data?: INotFilter) {
+        super(data);
+        if (!data) {
+            this.filter = new FilterBase();
+        }
+        this._discriminator = "NotFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
+        }
+    }
+
+    static fromJS(data: any): NotFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Negates the specified filter */
+export interface INotFilter extends IFilterBase {
+    /** The filter to be negated. */
+    filter: FilterBase;
+}
+
+/** Filters over a range of date time values */
+export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The date time range. */
+    range: DateRange;
+
+    getDisplayName(locale: string) {
+        return this.range && this.range.names ? this.range.names.translate(locale) : 'n/a';
+    }
+
+    constructor(data?: IDateRangeFilter) {
+        super(data);
+        if (!data) {
+            this.range = new DateRange();
+        }
+        this._discriminator = "DateRangeFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            this.range = data["range"] ? DateRange.fromJS(data["range"]) : new DateRange();
+        }
+    }
+
+    static fromJS(data: any): DateRangeFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new DateRangeFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["range"] = this.range ? this.range.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters over a range of date time values */
+export interface IDateRangeFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The date time range. */
+    range: IDateRange;
+}
+
+/** The date time range class used in filters */
+export class DateRange implements IDateRange {
+    /** Language specific range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    from?: string | undefined;
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    to?: string | undefined;
+
+    constructor(data?: IDateRange) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.from = data["from"];
+            this.to = data["to"];
+        }
+    }
+
+    static fromJS(data: any): DateRange {
+        data = typeof data === 'object' ? data : {};
+        let result = new DateRange();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["from"] = this.from;
+        data["to"] = this.to;
+        return data; 
+    }
+}
+
+/** The date time range class used in filters */
+export interface IDateRange {
+    /** Language specific range names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    from?: string | undefined;
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    to?: string | undefined;
+}
+
+/** A custom dictionary type to distinguish language specific class properties. */
+export class TranslatedStringDictionary implements ITranslatedStringDictionary {
+
+    [key: string]: string | any; 
+
+    translate(locale: string) {
+        const language = locale.split('-')[0];
+        return this[language] ? this[language] : this[Object.keys(this)[0]];
+    }
+
+    constructor(data?: ITranslatedStringDictionary) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+
+    static fromJS(data: any): TranslatedStringDictionary {
+        data = typeof data === 'object' ? data : {};
+        let result = new TranslatedStringDictionary();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        return data; 
+    }
+}
+
+/** A custom dictionary type to distinguish language specific class properties. */
+export interface ITranslatedStringDictionary {
+
+    [key: string]: string | any; 
+}
+
+/** Filters over the existence of a field's value */
+export class ExistsFilter extends FilterBase implements IExistsFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+
+    constructor(data?: IExistsFilter) {
+        super(data);
+        this._discriminator = "ExistsFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+        }
+    }
+
+    static fromJS(data: any): ExistsFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExistsFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters over the existence of a field's value */
+export interface IExistsFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+}
+
+/** Filters geo point values based on a bounding box */
+export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The top left corner of the bounding box's geo location (latitude and longitude). */
+    topLeft: GeoLocation;
+    /** The bottom right corner of the bounding box's geo location (latitude and longitude). */
+    bottomRight: GeoLocation;
+
+    constructor(data?: IGeoBoundingBoxFilter) {
+        super(data);
+        if (!data) {
+            this.topLeft = new GeoLocation();
+            this.bottomRight = new GeoLocation();
+        }
+        this._discriminator = "GeoBoundingBoxFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            this.topLeft = data["topLeft"] ? GeoLocation.fromJS(data["topLeft"]) : new GeoLocation();
+            this.bottomRight = data["bottomRight"] ? GeoLocation.fromJS(data["bottomRight"]) : new GeoLocation();
+        }
+    }
+
+    static fromJS(data: any): GeoBoundingBoxFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeoBoundingBoxFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["topLeft"] = this.topLeft ? this.topLeft.toJSON() : <any>undefined;
+        data["bottomRight"] = this.bottomRight ? this.bottomRight.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters geo point values based on a bounding box */
+export interface IGeoBoundingBoxFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The top left corner of the bounding box's geo location (latitude and longitude). */
+    topLeft: IGeoLocation;
+    /** The bottom right corner of the bounding box's geo location (latitude and longitude). */
+    bottomRight: IGeoLocation;
+}
+
+/** It stores geo location information (latitude and longitude) */
+export class GeoLocation implements IGeoLocation {
+    /** The latitude */
+    lat: number;
+    /** The longitude */
+    lon: number;
+
+    constructor(data?: IGeoLocation) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lat = data["lat"];
+            this.lon = data["lon"];
+        }
+    }
+
+    static fromJS(data: any): GeoLocation {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeoLocation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lat"] = this.lat;
+        data["lon"] = this.lon;
+        return data; 
+    }
+}
+
+/** It stores geo location information (latitude and longitude) */
+export interface IGeoLocation {
+    /** The latitude */
+    lat: number;
+    /** The longitude */
+    lon: number;
+}
+
+/** Filters within the radius of the distance from a location */
+export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location: GeoLocation;
+    /** The distance in meters from the point of origin. */
+    distance: number;
+
+    constructor(data?: IGeoDistanceFilter) {
+        super(data);
+        if (!data) {
+            this.location = new GeoLocation();
+        }
+        this._discriminator = "GeoDistanceFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            this.location = data["location"] ? GeoLocation.fromJS(data["location"]) : new GeoLocation();
+            this.distance = data["distance"];
+        }
+    }
+
+    static fromJS(data: any): GeoDistanceFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeoDistanceFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
+        data["distance"] = this.distance;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters within the radius of the distance from a location */
+export interface IGeoDistanceFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location: IGeoLocation;
+    /** The distance in meters from the point of origin. */
+    distance: number;
+}
+
+/** Filters on nested documents */
+export class NestedFilter extends FilterBase implements INestedFilter {
+    /** The path pointing to the nested document (i.e. personLayer.nestedAddress). */
+    path: string;
+    /** The filter to be applied on the nested documents. */
+    filter: FilterBase;
+
+    constructor(data?: INestedFilter) {
+        super(data);
+        if (!data) {
+            this.filter = new FilterBase();
+        }
+        this._discriminator = "NestedFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.path = data["path"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
+        }
+    }
+
+    static fromJS(data: any): NestedFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new NestedFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters on nested documents */
+export interface INestedFilter extends IFilterBase {
+    /** The path pointing to the nested document (i.e. personLayer.nestedAddress). */
+    path: string;
+    /** The filter to be applied on the nested documents. */
+    filter: FilterBase;
+}
+
+/** Filters over a range of numeric values */
+export class NumericRangeFilter extends FilterBase implements INumericRangeFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The numeric range on which filtering. */
+    range: NumericRange;
+
+    constructor(data?: INumericRangeFilter) {
+        super(data);
+        if (!data) {
+            this.range = new NumericRange();
+        }
+        this._discriminator = "NumericRangeFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            this.range = data["range"] ? NumericRange.fromJS(data["range"]) : new NumericRange();
+        }
+    }
+
+    static fromJS(data: any): NumericRangeFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new NumericRangeFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["range"] = this.range ? this.range.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters over a range of numeric values */
+export interface INumericRangeFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The numeric range on which filtering. */
+    range: INumericRange;
+}
+
+/** The numeric range class */
+export class NumericRange implements INumericRange {
+    /** Language specific range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value. */
+    from?: number | undefined;
+    /** The to value. */
+    to?: number | undefined;
+
+    constructor(data?: INumericRange) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.from = data["from"];
+            this.to = data["to"];
+        }
+    }
+
+    static fromJS(data: any): NumericRange {
+        data = typeof data === 'object' ? data : {};
+        let result = new NumericRange();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["from"] = this.from;
+        data["to"] = this.to;
+        return data; 
+    }
+}
+
+/** The numeric range class */
+export interface INumericRange {
+    /** Language specific range names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** The from value. */
+    from?: number | undefined;
+    /** The to value. */
+    to?: number | undefined;
+}
+
+/** Filters field's values based on a prefix */
+export class PrefixFilter extends FilterBase implements IPrefixFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The value to be used as prefix. */
+    prefix: string;
+
+    constructor(data?: IPrefixFilter) {
+        super(data);
+        this._discriminator = "PrefixFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            this.prefix = data["prefix"];
+        }
+    }
+
+    static fromJS(data: any): PrefixFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new PrefixFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["prefix"] = this.prefix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters field's values based on a prefix */
+export interface IPrefixFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The value to be used as prefix. */
+    prefix: string;
+}
+
+/** Filters values exactly containing a term */
+export class TermFilter extends FilterBase implements ITermFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The value to use to filter on. */
+    term: string;
+
+    constructor(data?: ITermFilter) {
+        super(data);
+        this._discriminator = "TermFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            this.term = data["term"];
+        }
+    }
+
+    static fromJS(data: any): TermFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["term"] = this.term;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters values exactly containing a term */
+export interface ITermFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The value to use to filter on. */
+    term: string;
+}
+
+/** Filters values containing at least one of the terms */
+export class TermsFilter extends FilterBase implements ITermsFilter {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The list of values to be filtered on. At least one must match to return results. */
+    terms: string[];
+
+    constructor(data?: ITermsFilter) {
+        super(data);
+        if (!data) {
+            this.terms = [];
+        }
+        this._discriminator = "TermsFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.field = data["field"];
+            if (data["terms"] && data["terms"].constructor === Array) {
+                this.terms = [];
+                for (let item of data["terms"])
+                    this.terms.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): TermsFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermsFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        if (this.terms && this.terms.constructor === Array) {
+            data["terms"] = [];
+            for (let item of this.terms)
+                data["terms"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters values containing at least one of the terms */
+export interface ITermsFilter extends IFilterBase {
+    /** The field's name to execute the filter on. It is composed by the field ids of the hierarchy joined with "."
+(i.e. personLayer.address.street). */
+    field: string;
+    /** The list of values to be filtered on. At least one must match to return results. */
+    terms: string[];
+}
+
+/** Filters aggregations */
+export class AggregationFilter extends FilterBase implements IAggregationFilter {
+    /** The name of the aggregation this filter is connected to. */
+    aggregationName?: string | undefined;
+    /** The filter to be applied. */
+    filter?: FilterBase | undefined;
+    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
+    temporaryAggregatorRequestId?: string | undefined;
+
+    constructor(data?: IAggregationFilter) {
+        super(data);
+        this._discriminator = "AggregationFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.aggregationName = data["aggregationName"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.temporaryAggregatorRequestId = data["temporaryAggregatorRequestId"];
+        }
+    }
+
+    static fromJS(data: any): AggregationFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["temporaryAggregatorRequestId"] = this.temporaryAggregatorRequestId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters aggregations */
+export interface IAggregationFilter extends IFilterBase {
+    /** The name of the aggregation this filter is connected to. */
+    aggregationName?: string | undefined;
+    /** The filter to be applied. */
+    filter?: FilterBase | undefined;
+    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
+    temporaryAggregatorRequestId?: string | undefined;
+}
+
+/** Filters on child documents */
+export class ChildFilter extends FilterBase implements IChildFilter {
+    /** The type of the child document. */
+    childType: string;
+    /** The filter to be applied on the child document. All kinds of filters are accepted. */
+    filter: FilterBase;
+
+    constructor(data?: IChildFilter) {
+        super(data);
+        if (!data) {
+            this.filter = new FilterBase();
+        }
+        this._discriminator = "ChildFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.childType = data["childType"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
+        }
+    }
+
+    static fromJS(data: any): ChildFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChildFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["childType"] = this.childType;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters on child documents */
+export interface IChildFilter extends IFilterBase {
+    /** The type of the child document. */
+    childType: string;
+    /** The filter to be applied on the child document. All kinds of filters are accepted. */
+    filter: FilterBase;
+}
+
+/** Filters on parent documents */
+export class ParentFilter extends FilterBase implements IParentFilter {
+    /** The type of the parent document. */
+    parentType: string;
+    /** The filter to be applied on the child document. All kinds of filters are accepted. */
+    filter: FilterBase;
+
+    constructor(data?: IParentFilter) {
+        super(data);
+        if (!data) {
+            this.filter = new FilterBase();
+        }
+        this._discriminator = "ParentFilter";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.parentType = data["parentType"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
+        }
+    }
+
+    static fromJS(data: any): ParentFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new ParentFilter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["parentType"] = this.parentType;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Filters on parent documents */
+export interface IParentFilter extends IFilterBase {
+    /** The type of the parent document. */
+    parentType: string;
+    /** The filter to be applied on the child document. All kinds of filters are accepted. */
+    filter: FilterBase;
+}
+
+/** Search behaviors */
+export enum SearchBehavior {
+    DropInvalidCharactersOnFailure = <any>"DropInvalidCharactersOnFailure", 
+    WildcardOnSingleTerm = <any>"WildcardOnSingleTerm", 
 }
 
 export class BusinessProcessWaitForLifeCycleResult implements IBusinessProcessWaitForLifeCycleResult {
@@ -23393,10 +24107,11 @@ The search by filters and aggregations are unaffected. */
     audit?: IUserAudit | undefined;
 }
 
+/** Sorting information */
 export class SortInfo implements ISortInfo {
-    /** The elastic search index field to sort on. */
+    /** The field's ID to sort on. */
     field?: string | undefined;
-    /** The sort direction (Asc/Desc). */
+    /** The sort direction (ascending/descending). */
     direction: SortDirection;
 
     constructor(data?: ISortInfo) {
@@ -23430,23 +24145,25 @@ export class SortInfo implements ISortInfo {
     }
 }
 
+/** Sorting information */
 export interface ISortInfo {
-    /** The elastic search index field to sort on. */
+    /** The field's ID to sort on. */
     field?: string | undefined;
-    /** The sort direction (Asc/Desc). */
+    /** The sort direction (ascending/descending). */
     direction: SortDirection;
 }
 
+/** The sort direction */
 export enum SortDirection {
     Asc = <any>"Asc", 
     Desc = <any>"Desc", 
 }
 
-/** The AggregatorBase is the base class for all aggregators. */
+/** It is the base class for all aggregators. */
 export abstract class AggregatorBase implements IAggregatorBase {
-    /** The slug name of the aggregation. Must be unique per aggregation request. */
-    name?: string | undefined;
-    /** The translated names of the aggregation. */
+    /** The slug name of the aggregation. It must be unique per aggregation request. */
+    name: string;
+    /** Language specific field names. */
     names?: TranslatedStringDictionary | undefined;
     /** An optional aggregator list for nested aggregations. */
     aggregators?: AggregatorBase[] | undefined;
@@ -23530,25 +24247,28 @@ export abstract class AggregatorBase implements IAggregatorBase {
     }
 }
 
-/** The AggregatorBase is the base class for all aggregators. */
+/** It is the base class for all aggregators. */
 export interface IAggregatorBase {
-    /** The slug name of the aggregation. Must be unique per aggregation request. */
-    name?: string | undefined;
-    /** The translated names of the aggregation. */
+    /** The slug name of the aggregation. It must be unique per aggregation request. */
+    name: string;
+    /** Language specific field names. */
     names?: ITranslatedStringDictionary | undefined;
     /** An optional aggregator list for nested aggregations. */
     aggregators?: AggregatorBase[] | undefined;
 }
 
-/** The DateRangeAggregator is a multi-bucket range aggregation dedicated for date values. Each bucket represents a range. */
+/** A multi-bucket range aggregator dedicated for date values. */
 export class DateRangeAggregator extends AggregatorBase implements IDateRangeAggregator {
-    /** The elastic search index field to execute the aggregation on. */
-    field?: string | undefined;
-    /** A list of date ranges. Supported pattern: now(+-)(int)(YMDHm). */
-    ranges?: DateRangeForAggregator[] | undefined;
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** A list of date time ranges. */
+    ranges: DateRangeForAggregator[];
 
     constructor(data?: IDateRangeAggregator) {
         super(data);
+        if (!data) {
+            this.ranges = [];
+        }
         this._discriminator = "DateRangeAggregator";
     }
 
@@ -23584,21 +24304,21 @@ export class DateRangeAggregator extends AggregatorBase implements IDateRangeAgg
     }
 }
 
-/** The DateRangeAggregator is a multi-bucket range aggregation dedicated for date values. Each bucket represents a range. */
+/** A multi-bucket range aggregator dedicated for date values. */
 export interface IDateRangeAggregator extends IAggregatorBase {
-    /** The elastic search index field to execute the aggregation on. */
-    field?: string | undefined;
-    /** A list of date ranges. Supported pattern: now(+-)(int)(YMDHm). */
-    ranges?: IDateRangeForAggregator[] | undefined;
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** A list of date time ranges. */
+    ranges: IDateRangeForAggregator[];
 }
 
 /** The date range class used in aggregators. */
 export class DateRangeForAggregator implements IDateRangeForAggregator {
-    /** Tranlsated range names. */
+    /** Language specific range names. */
     names?: TranslatedStringDictionary | undefined;
-    /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
     from?: string | undefined;
-    /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
     to?: string | undefined;
 
     constructor(data?: IDateRangeForAggregator) {
@@ -23637,25 +24357,29 @@ export class DateRangeForAggregator implements IDateRangeForAggregator {
 
 /** The date range class used in aggregators. */
 export interface IDateRangeForAggregator {
-    /** Tranlsated range names. */
+    /** Language specific range names. */
     names?: ITranslatedStringDictionary | undefined;
-    /** The from value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
     from?: string | undefined;
-    /** The to value can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
     to?: string | undefined;
 }
 
-/** The GeoDistanceAggregator is a multi-bucket range aggregation that works on geo_point fields. Each bucket represents a range. */
+/** A multi-bucket range aggregator that works on geo_point fields */
 export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanceAggregator {
-    /** The elastic search index field to execute the aggregation on. */
-    field?: string | undefined;
-    /** The latitude/logitude configuration for the point of origin. */
-    location?: GeoLocation | undefined;
-    /** A list of numeric ranges in meter. */
-    ranges?: GeoDistance[] | undefined;
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location: GeoLocation;
+    /** A list of distance ranges. */
+    ranges: GeoDistance[];
 
     constructor(data?: IGeoDistanceAggregator) {
         super(data);
+        if (!data) {
+            this.location = new GeoLocation();
+            this.ranges = [];
+        }
         this._discriminator = "GeoDistanceAggregator";
     }
 
@@ -23663,7 +24387,7 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
         super.init(data);
         if (data) {
             this.field = data["field"];
-            this.location = data["location"] ? GeoLocation.fromJS(data["location"]) : <any>undefined;
+            this.location = data["location"] ? GeoLocation.fromJS(data["location"]) : new GeoLocation();
             if (data["ranges"] && data["ranges"].constructor === Array) {
                 this.ranges = [];
                 for (let item of data["ranges"])
@@ -23693,20 +24417,21 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
     }
 }
 
-/** The GeoDistanceAggregator is a multi-bucket range aggregation that works on geo_point fields. Each bucket represents a range. */
+/** A multi-bucket range aggregator that works on geo_point fields */
 export interface IGeoDistanceAggregator extends IAggregatorBase {
-    /** The elastic search index field to execute the aggregation on. */
-    field?: string | undefined;
-    /** The latitude/logitude configuration for the point of origin. */
-    location?: IGeoLocation | undefined;
-    /** A list of numeric ranges in meter. */
-    ranges?: IGeoDistance[] | undefined;
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location: IGeoLocation;
+    /** A list of distance ranges. */
+    ranges: IGeoDistance[];
 }
 
+/** Stores geo distance information for gei distance aggregation */
 export class GeoDistance implements IGeoDistance {
-    /** Tranlsated range names. */
+    /** Language specific geo distance names. */
     names?: TranslatedStringDictionary | undefined;
-    /** The to value. */
+    /** The distance in meters. */
     distance: number;
 
     constructor(data?: IGeoDistance) {
@@ -23741,17 +24466,18 @@ export class GeoDistance implements IGeoDistance {
     }
 }
 
+/** Stores geo distance information for gei distance aggregation */
 export interface IGeoDistance {
-    /** Tranlsated range names. */
+    /** Language specific geo distance names. */
     names?: ITranslatedStringDictionary | undefined;
-    /** The to value. */
+    /** The distance in meters. */
     distance: number;
 }
 
-/** The NestedAggregator is a special single bucket aggregation that enables aggregating nested documents. */
+/** A special single bucket aggregation that enables aggregating on nested documents */
 export class NestedAggregator extends AggregatorBase implements INestedAggregator {
     /** The path pointing to the nested object. */
-    path?: string | undefined;
+    path: string;
 
     constructor(data?: INestedAggregator) {
         super(data);
@@ -23780,21 +24506,24 @@ export class NestedAggregator extends AggregatorBase implements INestedAggregato
     }
 }
 
-/** The NestedAggregator is a special single bucket aggregation that enables aggregating nested documents. */
+/** A special single bucket aggregation that enables aggregating on nested documents */
 export interface INestedAggregator extends IAggregatorBase {
     /** The path pointing to the nested object. */
-    path?: string | undefined;
+    path: string;
 }
 
-/** The NumericRangeAggregator is a multi-bucket range aggregation. Each bucket represents a range. */
+/** A multi-bucket range aggregator. */
 export class NumericRangeAggregator extends AggregatorBase implements INumericRangeAggregator {
-    /** The elastic search index field to execute the aggregation on. */
+    /** The field's ID to execute the aggregation on. */
     field?: string | undefined;
-    /** A list of numeric ranges. */
-    ranges?: NumericRangeForAggregator[] | undefined;
+    /** A list of numeric ranges on which aggregate. */
+    ranges: NumericRangeForAggregator[];
 
     constructor(data?: INumericRangeAggregator) {
         super(data);
+        if (!data) {
+            this.ranges = [];
+        }
         this._discriminator = "NumericRangeAggregator";
     }
 
@@ -23830,16 +24559,17 @@ export class NumericRangeAggregator extends AggregatorBase implements INumericRa
     }
 }
 
-/** The NumericRangeAggregator is a multi-bucket range aggregation. Each bucket represents a range. */
+/** A multi-bucket range aggregator. */
 export interface INumericRangeAggregator extends IAggregatorBase {
-    /** The elastic search index field to execute the aggregation on. */
+    /** The field's ID to execute the aggregation on. */
     field?: string | undefined;
-    /** A list of numeric ranges. */
-    ranges?: INumericRangeForAggregator[] | undefined;
+    /** A list of numeric ranges on which aggregate. */
+    ranges: INumericRangeForAggregator[];
 }
 
+/** The numeric range for aggregator class */
 export class NumericRangeForAggregator implements INumericRangeForAggregator {
-    /** Tranlsated range names. */
+    /** Language specific range names. */
     names?: TranslatedStringDictionary | undefined;
     /** The from value. */
     from?: number | undefined;
@@ -23880,8 +24610,9 @@ export class NumericRangeForAggregator implements INumericRangeForAggregator {
     }
 }
 
+/** The numeric range for aggregator class */
 export interface INumericRangeForAggregator {
-    /** Tranlsated range names. */
+    /** Language specific range names. */
     names?: ITranslatedStringDictionary | undefined;
     /** The from value. */
     from?: number | undefined;
@@ -23889,19 +24620,19 @@ export interface INumericRangeForAggregator {
     to?: number | undefined;
 }
 
-/** The TermsAggregator is a multi-bucket value aggregation where buckets are dynamically built - one per unique value. */
+/** A multi-bucket value aggregator */
 export class TermsAggregator extends AggregatorBase implements ITermsAggregator {
-    /** The elastic search index field (not analyzed) to execute the aggregation on. */
-    field?: string | undefined;
-    /** The size parameter can be set to define how many term buckets should be returned out of the overall terms list. */
+    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
+    field: string;
+    /** It defines how many term buckets should be returned out of the overall terms list. */
     size?: number | undefined;
     /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
     includes?: string[] | undefined;
     /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
     excludes?: string[] | undefined;
-    /** Search string to be used to search within possible aggregation values */
+    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used */
+    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
     searchFields?: string[] | undefined;
 
     constructor(data?: ITermsAggregator) {
@@ -23975,25 +24706,25 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
     }
 }
 
-/** The TermsAggregator is a multi-bucket value aggregation where buckets are dynamically built - one per unique value. */
+/** A multi-bucket value aggregator */
 export interface ITermsAggregator extends IAggregatorBase {
-    /** The elastic search index field (not analyzed) to execute the aggregation on. */
-    field?: string | undefined;
-    /** The size parameter can be set to define how many term buckets should be returned out of the overall terms list. */
+    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
+    field: string;
+    /** It defines how many term buckets should be returned out of the overall terms list. */
     size?: number | undefined;
     /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
     includes?: string[] | undefined;
     /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
     excludes?: string[] | undefined;
-    /** Search string to be used to search within possible aggregation values */
+    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used */
+    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
     searchFields?: string[] | undefined;
 }
 
-/** The TermsRelationAggregator is derived from TermsAggregator and used for aggregations on relation item ids. */
+/** A multi-bucket value aggregator used for aggregations on relation item ids. */
 export class TermsRelationAggregator extends TermsAggregator implements ITermsRelationAggregator {
-    /** When aggregating on relations ids the DocumentType is needed to resolve the target item translation. */
+    /** Type of the item target of the relation. It is used to resolve the target ID. */
     documentType: TermsRelationAggregatorDocumentType;
 
     constructor(data?: ITermsRelationAggregator) {
@@ -24023,9 +24754,9 @@ export class TermsRelationAggregator extends TermsAggregator implements ITermsRe
     }
 }
 
-/** The TermsRelationAggregator is derived from TermsAggregator and used for aggregations on relation item ids. */
+/** A multi-bucket value aggregator used for aggregations on relation item ids. */
 export interface ITermsRelationAggregator extends ITermsAggregator {
-    /** When aggregating on relations ids the DocumentType is needed to resolve the target item translation. */
+    /** Type of the item target of the relation. It is used to resolve the target ID. */
     documentType: TermsRelationAggregatorDocumentType;
 }
 
@@ -24038,10 +24769,10 @@ export enum TermsRelationAggregatorDocumentType {
     Owner = <any>"Owner", 
 }
 
-/** The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values. */
+/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
 export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAggregator {
-    /** When aggregating on enum fields EnumType is needed to resolve the enum translation. */
-    enumType?: string | undefined;
+    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
+    enumType: string;
 
     constructor(data?: ITermsEnumAggregator) {
         super(data);
@@ -24070,16 +24801,21 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
     }
 }
 
-/** The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values. */
+/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
 export interface ITermsEnumAggregator extends ITermsAggregator {
-    /** When aggregating on enum fields EnumType is needed to resolve the enum translation. */
-    enumType?: string | undefined;
+    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
+    enumType: string;
 }
 
+/** Audit information */
 export class UserAudit implements IUserAudit {
+    /** The date on which the document was created. */
     creationDate: Date;
+    /** The last date on which the document was modified. */
     modificationDate: Date;
+    /** ID of the user who created the document. */
     createdByUser?: string | undefined;
+    /** ID of the last user who modified the document. */
     modifiedByUser?: string | undefined;
 
     constructor(data?: IUserAudit) {
@@ -24117,22 +24853,16 @@ export class UserAudit implements IUserAudit {
     }
 }
 
+/** Audit information */
 export interface IUserAudit {
+    /** The date on which the document was created. */
     creationDate: Date;
+    /** The last date on which the document was modified. */
     modificationDate: Date;
+    /** ID of the user who created the document. */
     createdByUser?: string | undefined;
+    /** ID of the last user who modified the document. */
     modifiedByUser?: string | undefined;
-}
-
-export enum ContentResolveBehaviour {
-    Content = <any>"Content", 
-    LinkedListItems = <any>"LinkedListItems", 
-    Metadata = <any>"Metadata", 
-    Outputs = <any>"Outputs", 
-    InnerDisplayValueThumbnail = <any>"InnerDisplayValueThumbnail", 
-    InnerDisplayValueList = <any>"InnerDisplayValueList", 
-    InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
-    InnerDisplayValueName = <any>"InnerDisplayValueName", 
 }
 
 /** A content detail. */
@@ -24160,8 +24890,8 @@ export class ContentDetail implements IContentDetail {
     outputs?: Output[] | undefined;
     /** The id of a owner token. Defines the content owner. */
     ownerTokenId?: string | undefined;
-    /** The trashed flag. */
-    trashed: boolean;
+    /** The lifecycle of the content. */
+    lifeCycle: LifeCycle;
 
     constructor(data?: IContentDetail) {
         if (data) {
@@ -24200,7 +24930,7 @@ export class ContentDetail implements IContentDetail {
                     this.outputs.push(Output.fromJS(item));
             }
             this.ownerTokenId = data["ownerTokenId"];
-            this.trashed = data["trashed"];
+            this.lifeCycle = data["lifeCycle"];
         }
     }
 
@@ -24236,7 +24966,7 @@ export class ContentDetail implements IContentDetail {
                 data["outputs"].push(item.toJSON());
         }
         data["ownerTokenId"] = this.ownerTokenId;
-        data["trashed"] = this.trashed;
+        data["lifeCycle"] = this.lifeCycle;
         return data; 
     }
 }
@@ -24266,8 +24996,8 @@ export interface IContentDetail {
     outputs?: Output[] | undefined;
     /** The id of a owner token. Defines the content owner. */
     ownerTokenId?: string | undefined;
-    /** The trashed flag. */
-    trashed: boolean;
+    /** The lifecycle of the content. */
+    lifeCycle: LifeCycle;
 }
 
 export class DisplayValueDictionary implements IDisplayValueDictionary {
@@ -24358,12 +25088,19 @@ export interface IDataDictionary {
     [key: string]: any; 
 }
 
+/** Output */
 export class Output implements IOutput {
+    /** The ID of the output. */
     id?: string | undefined;
+    /** The ID of the output format this output represents. */
     outputFormatId?: string | undefined;
+    /** The ID of the content for which this output has been created. */
     contentId?: string | undefined;
+    /** The rendering state of the output file. */
     renderingState: OutputRenderingState;
+    /** Detail of the output that are format dependent. */
     detail?: OutputDataBase | undefined;
+    /** Date and time of the backup of the output file. */
     backupTimestamp?: Date | undefined;
 
     protected _discriminator: string;
@@ -24414,12 +25151,19 @@ export class Output implements IOutput {
     }
 }
 
+/** Output */
 export interface IOutput {
+    /** The ID of the output. */
     id?: string | undefined;
+    /** The ID of the output format this output represents. */
     outputFormatId?: string | undefined;
+    /** The ID of the content for which this output has been created. */
     contentId?: string | undefined;
+    /** The rendering state of the output file. */
     renderingState: OutputRenderingState;
+    /** Detail of the output that are format dependent. */
     detail?: OutputDataBase | undefined;
+    /** Date and time of the backup of the output file. */
     backupTimestamp?: Date | undefined;
 }
 
@@ -24430,11 +25174,17 @@ export enum OutputRenderingState {
     Skipped = <any>"Skipped", 
 }
 
+/** Base class for the output detail dependent on the file format. */
 export abstract class OutputDataBase implements IOutputDataBase {
+    /** The extension of the file. */
     fileExtension?: string | undefined;
+    /** The name of the file. */
     fileName?: string | undefined;
+    /** The path where the file is stored. */
     filePath?: string | undefined;
+    /** The size of the file in bytes. */
     fileSizeInBytes?: number | undefined;
+    /** The SHA-1 hash of the file. */
     sha1Hash?: string | undefined;
 
     protected _discriminator: string;
@@ -24501,16 +25251,25 @@ export abstract class OutputDataBase implements IOutputDataBase {
     }
 }
 
+/** Base class for the output detail dependent on the file format. */
 export interface IOutputDataBase {
+    /** The extension of the file. */
     fileExtension?: string | undefined;
+    /** The name of the file. */
     fileName?: string | undefined;
+    /** The path where the file is stored. */
     filePath?: string | undefined;
+    /** The size of the file in bytes. */
     fileSizeInBytes?: number | undefined;
+    /** The SHA-1 hash of the file. */
     sha1Hash?: string | undefined;
 }
 
+/** Output information for an image file. */
 export class OutputDataImage extends OutputDataBase implements IOutputDataImage {
+    /** The width of the image. */
     width: number;
+    /** The height of the image. */
     height: number;
 
     constructor(data?: IOutputDataImage) {
@@ -24542,12 +25301,17 @@ export class OutputDataImage extends OutputDataBase implements IOutputDataImage 
     }
 }
 
+/** Output information for an image file. */
 export interface IOutputDataImage extends IOutputDataBase {
+    /** The width of the image. */
     width: number;
+    /** The height of the image. */
     height: number;
 }
 
+/** Output information for an audio file. */
 export class OutputDataAudio extends OutputDataBase implements IOutputDataAudio {
+    /** Duration of the audio stream in seconds. */
     durationInSeconds?: number | undefined;
 
     constructor(data?: IOutputDataAudio) {
@@ -24577,14 +25341,21 @@ export class OutputDataAudio extends OutputDataBase implements IOutputDataAudio 
     }
 }
 
+/** Output information for an audio file. */
 export interface IOutputDataAudio extends IOutputDataBase {
+    /** Duration of the audio stream in seconds. */
     durationInSeconds?: number | undefined;
 }
 
+/** Output information for a video file. */
 export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo {
+    /** Duration of the video in seconds. */
     durationInSeconds: number;
+    /** With of the video. */
     width: number;
+    /** Height of the video. */
     height: number;
+    /** The sprites making up the key frames of the video. */
     sprites?: Sprite[] | undefined;
 
     constructor(data?: IOutputDataVideo) {
@@ -24628,19 +25399,31 @@ export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo 
     }
 }
 
+/** Output information for a video file. */
 export interface IOutputDataVideo extends IOutputDataBase {
+    /** Duration of the video in seconds. */
     durationInSeconds: number;
+    /** With of the video. */
     width: number;
+    /** Height of the video. */
     height: number;
+    /** The sprites making up the key frames of the video. */
     sprites?: ISprite[] | undefined;
 }
 
+/** The sprite of a video sprite */
 export class Sprite implements ISprite {
+    /** The width of the sprite. */
     width: number;
+    /** The height of the sprite. */
     height: number;
+    /** Y coordinate of the sprite in the saved file. */
     y: number;
+    /** X coordinate of the sprite in the saved file. */
     x: number;
+    /** The starting point in time of the sprite in the video. */
     start: string;
+    /** The ending point in time of the sprite in the video. */
     end: string;
 
     constructor(data?: ISprite) {
@@ -24682,16 +25465,25 @@ export class Sprite implements ISprite {
     }
 }
 
+/** The sprite of a video sprite */
 export interface ISprite {
+    /** The width of the sprite. */
     width: number;
+    /** The height of the sprite. */
     height: number;
+    /** Y coordinate of the sprite in the saved file. */
     y: number;
+    /** X coordinate of the sprite in the saved file. */
     x: number;
+    /** The starting point in time of the sprite in the video. */
     start: string;
+    /** The ending point in time of the sprite in the video. */
     end: string;
 }
 
+/** Output information for a document file. */
 export class OutputDataDocument extends OutputDataBase implements IOutputDataDocument {
+    /** Number of document's pages. */
     pageCount: number;
 
     constructor(data?: IOutputDataDocument) {
@@ -24721,10 +25513,13 @@ export class OutputDataDocument extends OutputDataBase implements IOutputDataDoc
     }
 }
 
+/** Output information for a document file. */
 export interface IOutputDataDocument extends IOutputDataBase {
+    /** Number of document's pages. */
     pageCount: number;
 }
 
+/** Default output information */
 export class OutputDataDefault extends OutputDataBase implements IOutputDataDefault {
 
     constructor(data?: IOutputDataDefault) {
@@ -24752,9 +25547,11 @@ export class OutputDataDefault extends OutputDataBase implements IOutputDataDefa
     }
 }
 
+/** Default output information */
 export interface IOutputDataDefault extends IOutputDataBase {
 }
 
+/** Output detail */
 export class OutputDetail extends Output implements IOutputDetail {
 
     constructor(data?: IOutputDetail) {
@@ -24782,204 +25579,27 @@ export class OutputDetail extends Output implements IOutputDetail {
     }
 }
 
+/** Output detail */
 export interface IOutputDetail extends IOutput {
 }
 
-export class ContentSearchRequest implements IContentSearchRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** The collection id. */
-    collectionId?: string | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied in the specified order. */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Filter the returned contents that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the content document result set to specific ContentRights the user has */
-    rightsFilter?: ContentRight[] | undefined;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
-    searchType: ContentSearchType;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-
-    constructor(data?: IContentSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.channelId = data["channelId"];
-            if (data["displayPatternIds"] && data["displayPatternIds"].constructor === Array) {
-                this.displayPatternIds = [];
-                for (let item of data["displayPatternIds"])
-                    this.displayPatternIds.push(item);
-            }
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-            this.collectionId = data["collectionId"];
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (data["rightsFilter"] && data["rightsFilter"].constructor === Array) {
-                this.rightsFilter = [];
-                for (let item of data["rightsFilter"])
-                    this.rightsFilter.push(item);
-            }
-            this.searchType = data["searchType"];
-            this.debugMode = data["debugMode"];
-        }
-    }
-
-    static fromJS(data: any): ContentSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["channelId"] = this.channelId;
-        if (this.displayPatternIds && this.displayPatternIds.constructor === Array) {
-            data["displayPatternIds"] = [];
-            for (let item of this.displayPatternIds)
-                data["displayPatternIds"].push(item);
-        }
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["collectionId"] = this.collectionId;
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (this.rightsFilter && this.rightsFilter.constructor === Array) {
-            data["rightsFilter"] = [];
-            for (let item of this.rightsFilter)
-                data["rightsFilter"].push(item);
-        }
-        data["searchType"] = this.searchType;
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
+/** Lifecycle */
+export enum LifeCycle {
+    Draft = <any>"Draft", 
+    Active = <any>"Active", 
+    Inactive = <any>"Inactive", 
+    Deleted = <any>"Deleted", 
 }
 
-export interface IContentSearchRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** The collection id. */
-    collectionId?: string | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied in the specified order. */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Filter the returned contents that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the content document result set to specific ContentRights the user has */
-    rightsFilter?: ContentRight[] | undefined;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
-    searchType: ContentSearchType;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-}
-
-export enum LifeCycleFilter {
-    ActiveOnly = <any>"ActiveOnly", 
-    All = <any>"All", 
-    InactiveOnly = <any>"InactiveOnly", 
-    ActiveInactiveOnly = <any>"ActiveInactiveOnly", 
-}
-
-export enum BrokenDependenciesFilter {
-    All = <any>"All", 
-    NotBrokenOnly = <any>"NotBrokenOnly", 
-    BrokenOnly = <any>"BrokenOnly", 
-}
-
-export enum ContentRight {
-    View = <any>"View", 
-    AccessOriginal = <any>"AccessOriginal", 
-    Edit = <any>"Edit", 
-    Update = <any>"Update", 
-    Manage = <any>"Manage", 
-    Trash = <any>"Trash", 
-}
-
-export enum ContentSearchType {
+export enum ContentResolveBehaviour {
+    Content = <any>"Content", 
+    LinkedListItems = <any>"LinkedListItems", 
     Metadata = <any>"Metadata", 
-    FullText = <any>"FullText", 
-    MetadataAndFullText = <any>"MetadataAndFullText", 
+    Outputs = <any>"Outputs", 
+    InnerDisplayValueThumbnail = <any>"InnerDisplayValueThumbnail", 
+    InnerDisplayValueList = <any>"InnerDisplayValueList", 
+    InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
+    InnerDisplayValueName = <any>"InnerDisplayValueName", 
 }
 
 export class BaseResultOfContent implements IBaseResultOfContent {
@@ -25049,11 +25669,11 @@ export interface IBaseResultOfContent {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfContent extends BaseResultOfContent implements ISearchBehaviourBaseResultOfContent {
+export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent implements ISearchBehaviorBaseResultOfContent {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfContent) {
+    constructor(data?: ISearchBehaviorBaseResultOfContent) {
         super(data);
     }
 
@@ -25065,9 +25685,9 @@ export class SearchBehaviourBaseResultOfContent extends BaseResultOfContent impl
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfContent {
+    static fromJS(data: any): SearchBehaviorBaseResultOfContent {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfContent();
+        let result = new SearchBehaviorBaseResultOfContent();
         result.init(data);
         return result;
     }
@@ -25081,12 +25701,14 @@ export class SearchBehaviourBaseResultOfContent extends BaseResultOfContent impl
     }
 }
 
-export interface ISearchBehaviourBaseResultOfContent extends IBaseResultOfContent {
+export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class ContentSearchResult extends SearchBehaviourBaseResultOfContent implements IContentSearchResult {
+/** Result for content search operation */
+export class ContentSearchResult extends SearchBehaviorBaseResultOfContent implements IContentSearchResult {
+    /** Milliseconds elapsed to perform the query. */
     elapsedMilliseconds: number;
 
     constructor(data?: IContentSearchResult) {
@@ -25115,7 +25737,9 @@ export class ContentSearchResult extends SearchBehaviourBaseResultOfContent impl
     }
 }
 
-export interface IContentSearchResult extends ISearchBehaviourBaseResultOfContent {
+/** Result for content search operation */
+export interface IContentSearchResult extends ISearchBehaviorBaseResultOfContent {
+    /** Milliseconds elapsed to perform the query. */
     elapsedMilliseconds: number;
 }
 
@@ -25123,6 +25747,8 @@ export class Content implements IContent {
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId?: string | undefined;
+    /** The content type of this content. All except ContentItem are binary files. */
+    contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
@@ -25149,6 +25775,7 @@ export class Content implements IContent {
         if (data) {
             this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
             this.contentSchemaId = data["contentSchemaId"];
+            this.contentType = data["contentType"];
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
                 for (let item of data["layerSchemaIds"])
@@ -25191,6 +25818,7 @@ export class Content implements IContent {
         data = typeof data === 'object' ? data : {};
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["contentSchemaId"] = this.contentSchemaId;
+        data["contentType"] = this.contentType;
         if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
@@ -25227,6 +25855,8 @@ export interface IContent {
     audit?: IUserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId?: string | undefined;
+    /** The content type of this content. All except ContentItem are binary files. */
+    contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
@@ -25240,171 +25870,220 @@ export interface IContent {
     brokenRelationTargetIds?: string[] | undefined;
 }
 
-export class ContentAggregationOnChannelRequest implements IContentAggregationOnChannelRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down on a specific aggregated value. */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it. */
+/** Request to search contents */
+export class ContentSearchRequest implements IContentSearchRequest {
+    /** Limits the simple search fields to the fields available in the specified channel. */
     channelId?: string | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration. */
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** The collection id. */
+    /** Limits the search among the contents belonging to the specified collection. */
     collectionId?: string | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** An optional filter to limit the contents. */
+    filter?: FilterBase | undefined;
+    /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
-    /** Filter the content document result set to those that have or not have broken references */
+    /** Limits the search to the contents that have or not have broken references. By default it includes both. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+    /** Limits the contents to the ones the user has the specified ContentRights. */
+    rightsFilter?: ContentRight[] | undefined;
+    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
     searchType: ContentSearchType;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 
-    constructor(data?: IContentAggregationOnChannelRequest) {
+    constructor(data?: IContentSearchRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
             }
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (data["aggregationFilters"] && data["aggregationFilters"].constructor === Array) {
-                this.aggregationFilters = [];
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters.push(AggregationFilter.fromJS(item));
-            }
             this.channelId = data["channelId"];
+            if (data["displayPatternIds"] && data["displayPatternIds"].constructor === Array) {
+                this.displayPatternIds = [];
+                for (let item of data["displayPatternIds"])
+                    this.displayPatternIds.push(item);
+            }
             if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
                 this.searchLanguages = [];
                 for (let item of data["searchLanguages"])
                     this.searchLanguages.push(item);
             }
             this.collectionId = data["collectionId"];
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.lifeCycleFilter = data["lifeCycleFilter"];
             this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
+            if (data["rightsFilter"] && data["rightsFilter"].constructor === Array) {
+                this.rightsFilter = [];
+                for (let item of data["rightsFilter"])
+                    this.rightsFilter.push(item);
+            }
             this.searchType = data["searchType"];
+            this.debugMode = data["debugMode"];
         }
     }
 
-    static fromJS(data: any): ContentAggregationOnChannelRequest {
+    static fromJS(data: any): ContentSearchRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new ContentAggregationOnChannelRequest();
+        let result = new ContentSearchRequest();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (this.aggregationFilters && this.aggregationFilters.constructor === Array) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
         data["channelId"] = this.channelId;
+        if (this.displayPatternIds && this.displayPatternIds.constructor === Array) {
+            data["displayPatternIds"] = [];
+            for (let item of this.displayPatternIds)
+                data["displayPatternIds"].push(item);
+        }
         if (this.searchLanguages && this.searchLanguages.constructor === Array) {
             data["searchLanguages"] = [];
             for (let item of this.searchLanguages)
                 data["searchLanguages"].push(item);
         }
         data["collectionId"] = this.collectionId;
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["lifeCycleFilter"] = this.lifeCycleFilter;
         data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
+        if (this.rightsFilter && this.rightsFilter.constructor === Array) {
+            data["rightsFilter"] = [];
+            for (let item of this.rightsFilter)
+                data["rightsFilter"].push(item);
+        }
         data["searchType"] = this.searchType;
+        data["debugMode"] = this.debugMode;
         return data; 
     }
 }
 
-export interface IContentAggregationOnChannelRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down on a specific aggregated value. */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** Limits the simple search fields to the fields available in the specified channel and retrieve the existing aggregation for it. */
+/** Request to search contents */
+export interface IContentSearchRequest {
+    /** Limits the simple search fields to the fields available in the specified channel. */
     channelId?: string | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages in configured within the customer's language configuration. */
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** The collection id. */
+    /** Limits the search among the contents belonging to the specified collection. */
     collectionId?: string | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Filter the content document result set to those that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
-    searchType: ContentSearchType;
-}
-
-export class ContentAggregationRequest extends ContentAggregationOnChannelRequest implements IContentAggregationRequest {
-    /** Defines the aggregation resultset. */
-    aggregators?: AggregatorBase[] | undefined;
-
-    constructor(data?: IContentAggregationRequest) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["aggregators"] && data["aggregators"].constructor === Array) {
-                this.aggregators = [];
-                for (let item of data["aggregators"])
-                    this.aggregators.push(AggregatorBase.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ContentAggregationRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentAggregationRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.aggregators && this.aggregators.constructor === Array) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IContentAggregationRequest extends IContentAggregationOnChannelRequest {
-    /** Defines the aggregation resultset. */
-    aggregators?: AggregatorBase[] | undefined;
-}
-
-export class ObjectAggregationResult implements IObjectAggregationResult {
-    elapsedMilliseconds: number;
-    aggregationResults?: AggregationResult[] | undefined;
-    /** The search string used to query the data */
+    /** The string used to query the data. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** An optional filter to limit the contents. */
+    filter?: FilterBase | undefined;
+    /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Limits the search to the contents that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Limits the contents to the ones the user has the specified ContentRights. */
+    rightsFilter?: ContentRight[] | undefined;
+    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
+    searchType: ContentSearchType;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+}
+
+export enum LifeCycleFilter {
+    ActiveOnly = <any>"ActiveOnly", 
+    All = <any>"All", 
+    InactiveOnly = <any>"InactiveOnly", 
+    ActiveInactiveOnly = <any>"ActiveInactiveOnly", 
+}
+
+/** Filter items with broken or not broken dependencies */
+export enum BrokenDependenciesFilter {
+    All = <any>"All", 
+    NotBrokenOnly = <any>"NotBrokenOnly", 
+    BrokenOnly = <any>"BrokenOnly", 
+}
+
+/** Content rights */
+export enum ContentRight {
+    View = <any>"View", 
+    AccessOriginal = <any>"AccessOriginal", 
+    Edit = <any>"Edit", 
+    Update = <any>"Update", 
+    Manage = <any>"Manage", 
+    Delete = <any>"Delete", 
+}
+
+export enum ContentSearchType {
+    Metadata = <any>"Metadata", 
+    FullText = <any>"FullText", 
+    MetadataAndFullText = <any>"MetadataAndFullText", 
+}
+
+/** Result for an aggregation operation */
+export class ObjectAggregationResult implements IObjectAggregationResult {
+    /** How long did the search and aggregation took. */
+    elapsedMilliseconds: number;
+    /** Results of the aggregation. */
+    aggregationResults: AggregationResult[];
+    /** Search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
 
     constructor(data?: IObjectAggregationResult) {
@@ -25420,6 +26099,9 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
                     this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
                 }
             }
+        }
+        if (!data) {
+            this.aggregationResults = [];
         }
     }
 
@@ -25457,18 +26139,26 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
     }
 }
 
+/** Result for an aggregation operation */
 export interface IObjectAggregationResult {
+    /** How long did the search and aggregation took. */
     elapsedMilliseconds: number;
-    aggregationResults?: IAggregationResult[] | undefined;
-    /** The search string used to query the data */
+    /** Results of the aggregation. */
+    aggregationResults: IAggregationResult[];
+    /** Search string used to query the data */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
 }
 
+/** Result of an aggregation */
 export class AggregationResult implements IAggregationResult {
-    name?: string | undefined;
+    /** Name of the aggregation. */
+    name: string;
+    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
     sumOtherDocCount?: number | undefined;
+    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+Optionally inner aggregations for further drill down can be available. */
     aggregationResultItems?: AggregationResultItem[] | undefined;
 
     constructor(data?: IAggregationResult) {
@@ -25519,17 +26209,29 @@ export class AggregationResult implements IAggregationResult {
     }
 }
 
+/** Result of an aggregation */
 export interface IAggregationResult {
-    name?: string | undefined;
+    /** Name of the aggregation. */
+    name: string;
+    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
     sumOtherDocCount?: number | undefined;
+    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+Optionally inner aggregations for further drill down can be available. */
     aggregationResultItems?: IAggregationResultItem[] | undefined;
 }
 
+/** Aggregation result item */
 export class AggregationResultItem implements IAggregationResultItem {
-    name?: string | undefined;
+    /** Value matched. */
+    name: string;
+    /** Number of items matched. */
     count: number;
+    /** Ready to use filter to filter the data based on the aggregation result values.
+It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
     filter?: AggregationFilter | undefined;
+    /** True if the current result item matches on of the aggregation filters sent in the query. */
     active: boolean;
+    /** Inner aggregation results, if inner aggregations were provided in the query. */
     aggregationResults?: AggregationResult[] | undefined;
 
     getDisplayName(locale: string) {
@@ -25589,56 +26291,49 @@ export class AggregationResultItem implements IAggregationResultItem {
     }
 }
 
+/** Aggregation result item */
 export interface IAggregationResultItem {
-    name?: string | undefined;
+    /** Value matched. */
+    name: string;
+    /** Number of items matched. */
     count: number;
+    /** Ready to use filter to filter the data based on the aggregation result values.
+It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
     filter?: AggregationFilter | undefined;
+    /** True if the current result item matches on of the aggregation filters sent in the query. */
     active: boolean;
+    /** Inner aggregation results, if inner aggregations were provided in the query. */
     aggregationResults?: IAggregationResult[] | undefined;
 }
 
-export class ContentReferencesRequest implements IContentReferencesRequest {
-    shares?: PagingRequest | undefined;
+/** Request to aggregate contents based on the aggregators defined on a channel */
+export class ContentAggregationOnChannelRequest implements IContentAggregationOnChannelRequest {
+    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional filter to limit the contents to aggregate on. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
+For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
+    channelId?: string | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** Limit the search to the contents belonging to the specified collection. */
+    collectionId?: string | undefined;
+    /** Limits the aggregation to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Limits the aggregation to the contents that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
+    searchType: ContentSearchType;
 
-    constructor(data?: IContentReferencesRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.shares = data.shares && !(<any>data.shares).toJSON ? new PagingRequest(data.shares) : <PagingRequest>this.shares; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.shares = data["shares"] ? PagingRequest.fromJS(data["shares"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ContentReferencesRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentReferencesRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IContentReferencesRequest {
-    shares?: IPagingRequest | undefined;
-}
-
-export class PagingRequest implements IPagingRequest {
-    start: number;
-    limit: number;
-
-    constructor(data?: IPagingRequest) {
+    constructor(data?: IContentAggregationOnChannelRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -25649,33 +26344,147 @@ export class PagingRequest implements IPagingRequest {
 
     init(data?: any) {
         if (data) {
-            this.start = data["start"];
-            this.limit = data["limit"];
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            if (data["aggregationFilters"] && data["aggregationFilters"].constructor === Array) {
+                this.aggregationFilters = [];
+                for (let item of data["aggregationFilters"])
+                    this.aggregationFilters.push(AggregationFilter.fromJS(item));
+            }
+            this.channelId = data["channelId"];
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+            this.collectionId = data["collectionId"];
+            this.lifeCycleFilter = data["lifeCycleFilter"];
+            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
+            this.searchType = data["searchType"];
         }
     }
 
-    static fromJS(data: any): PagingRequest {
+    static fromJS(data: any): ContentAggregationOnChannelRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new PagingRequest();
+        let result = new ContentAggregationOnChannelRequest();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["start"] = this.start;
-        data["limit"] = this.limit;
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        if (this.aggregationFilters && this.aggregationFilters.constructor === Array) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        data["channelId"] = this.channelId;
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        data["collectionId"] = this.collectionId;
+        data["lifeCycleFilter"] = this.lifeCycleFilter;
+        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
+        data["searchType"] = this.searchType;
         return data; 
     }
 }
 
-export interface IPagingRequest {
-    start: number;
-    limit: number;
+/** Request to aggregate contents based on the aggregators defined on a channel */
+export interface IContentAggregationOnChannelRequest {
+    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional filter to limit the contents to aggregate on. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
+For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
+    channelId?: string | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** Limit the search to the contents belonging to the specified collection. */
+    collectionId?: string | undefined;
+    /** Limits the aggregation to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Limits the aggregation to the contents that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
+    searchType: ContentSearchType;
 }
 
+/** Request to aggregate contents based on the specified aggregators */
+export class ContentAggregationRequest extends ContentAggregationOnChannelRequest implements IContentAggregationRequest {
+    /** List of aggregators that defines how the contents should be aggregated. */
+    aggregators: AggregatorBase[];
+
+    constructor(data?: IContentAggregationRequest) {
+        super(data);
+        if (!data) {
+            this.aggregators = [];
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["aggregators"] && data["aggregators"].constructor === Array) {
+                this.aggregators = [];
+                for (let item of data["aggregators"])
+                    this.aggregators.push(AggregatorBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentAggregationRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentAggregationRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.aggregators && this.aggregators.constructor === Array) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to aggregate contents based on the specified aggregators */
+export interface IContentAggregationRequest extends IContentAggregationOnChannelRequest {
+    /** List of aggregators that defines how the contents should be aggregated. */
+    aggregators: AggregatorBase[];
+}
+
+/** Result to a get content references operation */
 export class ContentReferencesResult implements IContentReferencesResult {
-    metadataReferences?: ContentReferences[] | undefined;
+    /** List of references. Only available when requested in the request. */
+    metadataReferences?: MetadataReferenceResult | undefined;
+    /** List of share references */
     shareReferences?: ContentShareReferenceResult | undefined;
 
     constructor(data?: IContentReferencesResult) {
@@ -25684,24 +26493,14 @@ export class ContentReferencesResult implements IContentReferencesResult {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            if (data.metadataReferences) {
-                this.metadataReferences = [];
-                for (let i = 0; i < data.metadataReferences.length; i++) {
-                    let item = data.metadataReferences[i];
-                    this.metadataReferences[i] = item && !(<any>item).toJSON ? new ContentReferences(item) : <ContentReferences>item;
-                }
-            }
+            this.metadataReferences = data.metadataReferences && !(<any>data.metadataReferences).toJSON ? new MetadataReferenceResult(data.metadataReferences) : <MetadataReferenceResult>this.metadataReferences; 
             this.shareReferences = data.shareReferences && !(<any>data.shareReferences).toJSON ? new ContentShareReferenceResult(data.shareReferences) : <ContentShareReferenceResult>this.shareReferences; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["metadataReferences"] && data["metadataReferences"].constructor === Array) {
-                this.metadataReferences = [];
-                for (let item of data["metadataReferences"])
-                    this.metadataReferences.push(ContentReferences.fromJS(item));
-            }
+            this.metadataReferences = data["metadataReferences"] ? MetadataReferenceResult.fromJS(data["metadataReferences"]) : <any>undefined;
             this.shareReferences = data["shareReferences"] ? ContentShareReferenceResult.fromJS(data["shareReferences"]) : <any>undefined;
         }
     }
@@ -25715,122 +26514,136 @@ export class ContentReferencesResult implements IContentReferencesResult {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.metadataReferences && this.metadataReferences.constructor === Array) {
-            data["metadataReferences"] = [];
-            for (let item of this.metadataReferences)
-                data["metadataReferences"].push(item.toJSON());
-        }
+        data["metadataReferences"] = this.metadataReferences ? this.metadataReferences.toJSON() : <any>undefined;
         data["shareReferences"] = this.shareReferences ? this.shareReferences.toJSON() : <any>undefined;
         return data; 
     }
 }
 
+/** Result to a get content references operation */
 export interface IContentReferencesResult {
-    metadataReferences?: IContentReferences[] | undefined;
+    /** List of references. Only available when requested in the request. */
+    metadataReferences?: IMetadataReferenceResult | undefined;
+    /** List of share references */
     shareReferences?: IContentShareReferenceResult | undefined;
 }
 
-export abstract class ReferencesBase implements IReferencesBase {
-    targetMetadataItemId?: string | undefined;
-    references?: MetadataReference[] | undefined;
-    isReferencedByRestrictedItem: boolean;
+export class BaseResultOfMetadataReference implements IBaseResultOfMetadataReference {
+    totalResults: number;
+    results: MetadataReference[];
+    pageToken?: string | undefined;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
-    constructor(data?: IReferencesBase) {
+    constructor(data?: IBaseResultOfMetadataReference) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            if (data.references) {
-                this.references = [];
-                for (let i = 0; i < data.references.length; i++) {
-                    let item = data.references[i];
-                    this.references[i] = item && !(<any>item).toJSON ? new MetadataReference(item) : <MetadataReference>item;
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new MetadataReference(item) : <MetadataReference>item;
                 }
             }
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+        }
+        if (!data) {
+            this.results = [];
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.targetMetadataItemId = data["targetMetadataItemId"];
-            if (data["references"] && data["references"].constructor === Array) {
-                this.references = [];
-                for (let item of data["references"])
-                    this.references.push(MetadataReference.fromJS(item));
+            this.totalResults = data["totalResults"];
+            if (data["results"] && data["results"].constructor === Array) {
+                this.results = [];
+                for (let item of data["results"])
+                    this.results.push(MetadataReference.fromJS(item));
             }
-            this.isReferencedByRestrictedItem = data["isReferencedByRestrictedItem"];
+            this.pageToken = data["pageToken"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): ReferencesBase {
+    static fromJS(data: any): BaseResultOfMetadataReference {
         data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'ReferencesBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["targetMetadataItemId"] = this.targetMetadataItemId;
-        if (this.references && this.references.constructor === Array) {
-            data["references"] = [];
-            for (let item of this.references)
-                data["references"].push(item.toJSON());
-        }
-        data["isReferencedByRestrictedItem"] = this.isReferencedByRestrictedItem;
-        return data; 
-    }
-}
-
-export interface IReferencesBase {
-    targetMetadataItemId?: string | undefined;
-    references?: IMetadataReference[] | undefined;
-    isReferencedByRestrictedItem: boolean;
-}
-
-export class ContentReferences extends ReferencesBase implements IContentReferences {
-    relations?: MetadataReference[] | undefined;
-
-    constructor(data?: IContentReferences) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["relations"] && data["relations"].constructor === Array) {
-                this.relations = [];
-                for (let item of data["relations"])
-                    this.relations.push(MetadataReference.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ContentReferences {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentReferences();
+        let result = new BaseResultOfMetadataReference();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.relations && this.relations.constructor === Array) {
-            data["relations"] = [];
-            for (let item of this.relations)
-                data["relations"].push(item.toJSON());
+        data["totalResults"] = this.totalResults;
+        if (this.results && this.results.constructor === Array) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
         }
+        data["pageToken"] = this.pageToken;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBaseResultOfMetadataReference {
+    totalResults: number;
+    results: IMetadataReference[];
+    pageToken?: string | undefined;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
+}
+
+/** Result for getting references. */
+export class MetadataReferenceResult extends BaseResultOfMetadataReference implements IMetadataReferenceResult {
+    /** Indicates if any reference is originating from an item that the current user does not have access to. */
+    isReferencedByRestrictedItem?: boolean | undefined;
+
+    constructor(data?: IMetadataReferenceResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.isReferencedByRestrictedItem = data["isReferencedByRestrictedItem"];
+        }
+    }
+
+    static fromJS(data: any): MetadataReferenceResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetadataReferenceResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isReferencedByRestrictedItem"] = this.isReferencedByRestrictedItem;
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IContentReferences extends IReferencesBase {
-    relations?: IMetadataReference[] | undefined;
+/** Result for getting references. */
+export interface IMetadataReferenceResult extends IBaseResultOfMetadataReference {
+    /** Indicates if any reference is originating from an item that the current user does not have access to. */
+    isReferencedByRestrictedItem?: boolean | undefined;
 }
 
+/** Reference to a metadata item */
 export class MetadataReference implements IMetadataReference {
-    targetDocType?: string | undefined;
-    sourceId?: string | undefined;
+    /** Target ID of reference. */
+    targetMetadataItemId: string;
+    /** Indicates if the source of the reference is restricted because of permissions.
+If this is true and the SourceMetadataItemId property is filled, the user does not have the
+edit permission on the source metadata item. If the SourceMetadataItemId is null, the user also
+does not have the view permission on that item. */
+    isRestricted: boolean;
+    /** ID of the source of the reference. */
+    sourceMetadataItemId?: string | undefined;
+    /** DocType of the source of the reference. */
     sourceDocType?: string | undefined;
 
     constructor(data?: IMetadataReference) {
@@ -25844,8 +26657,9 @@ export class MetadataReference implements IMetadataReference {
 
     init(data?: any) {
         if (data) {
-            this.targetDocType = data["targetDocType"];
-            this.sourceId = data["sourceId"];
+            this.targetMetadataItemId = data["targetMetadataItemId"];
+            this.isRestricted = data["isRestricted"];
+            this.sourceMetadataItemId = data["sourceMetadataItemId"];
             this.sourceDocType = data["sourceDocType"];
         }
     }
@@ -25859,16 +26673,26 @@ export class MetadataReference implements IMetadataReference {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["targetDocType"] = this.targetDocType;
-        data["sourceId"] = this.sourceId;
+        data["targetMetadataItemId"] = this.targetMetadataItemId;
+        data["isRestricted"] = this.isRestricted;
+        data["sourceMetadataItemId"] = this.sourceMetadataItemId;
         data["sourceDocType"] = this.sourceDocType;
         return data; 
     }
 }
 
+/** Reference to a metadata item */
 export interface IMetadataReference {
-    targetDocType?: string | undefined;
-    sourceId?: string | undefined;
+    /** Target ID of reference. */
+    targetMetadataItemId: string;
+    /** Indicates if the source of the reference is restricted because of permissions.
+If this is true and the SourceMetadataItemId property is filled, the user does not have the
+edit permission on the source metadata item. If the SourceMetadataItemId is null, the user also
+does not have the view permission on that item. */
+    isRestricted: boolean;
+    /** ID of the source of the reference. */
+    sourceMetadataItemId?: string | undefined;
+    /** DocType of the source of the reference. */
     sourceDocType?: string | undefined;
 }
 
@@ -25939,6 +26763,7 @@ export interface IBaseResultOfContentShareReference {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+/** Result class for share reference search */
 export class ContentShareReferenceResult extends BaseResultOfContentShareReference implements IContentShareReferenceResult {
 
     constructor(data?: IContentShareReferenceResult) {
@@ -25965,14 +26790,21 @@ export class ContentShareReferenceResult extends BaseResultOfContentShareReferen
     }
 }
 
+/** Result class for share reference search */
 export interface IContentShareReferenceResult extends IBaseResultOfContentShareReference {
 }
 
+/** Share information for a share referencing a content */
 export class ContentShareReference implements IContentShareReference {
+    /** ID of the share. */
     id?: string | undefined;
+    /** Name of the share. */
     name?: string | undefined;
+    /** Audit information. */
     audit?: UserAudit | undefined;
+    /** Type of the share. */
     shareType: ShareType;
+    /** The email address of the user who created the share. */
     emailAddress?: string | undefined;
 
     constructor(data?: IContentShareReference) {
@@ -26013,11 +26845,17 @@ export class ContentShareReference implements IContentShareReference {
     }
 }
 
+/** Share information for a share referencing a content */
 export interface IContentShareReference {
+    /** ID of the share. */
     id?: string | undefined;
+    /** Name of the share. */
     name?: string | undefined;
+    /** Audit information. */
     audit?: IUserAudit | undefined;
+    /** Type of the share. */
     shareType: ShareType;
+    /** The email address of the user who created the share. */
     emailAddress?: string | undefined;
 }
 
@@ -26026,8 +26864,144 @@ export enum ShareType {
     Embed = <any>"Embed", 
 }
 
+/** Request to get the references to a content */
+export class ContentReferencesRequest implements IContentReferencesRequest {
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: MetadataReferencesPagingRequest | undefined;
+    /** Limits the number of the returned share references by setting paging information. */
+    shares?: PagingRequest | undefined;
+
+    constructor(data?: IContentReferencesRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.references = data.references && !(<any>data.references).toJSON ? new MetadataReferencesPagingRequest(data.references) : <MetadataReferencesPagingRequest>this.references; 
+            this.shares = data.shares && !(<any>data.shares).toJSON ? new PagingRequest(data.shares) : <PagingRequest>this.shares; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
+            this.shares = data["shares"] ? PagingRequest.fromJS(data["shares"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ContentReferencesRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentReferencesRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
+        data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Request to get the references to a content */
+export interface IContentReferencesRequest {
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: IMetadataReferencesPagingRequest | undefined;
+    /** Limits the number of the returned share references by setting paging information. */
+    shares?: IPagingRequest | undefined;
+}
+
+/** Request to page data */
+export class PagingRequest implements IPagingRequest {
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 0. */
+    limit: number;
+
+    constructor(data?: IPagingRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.start = data["start"];
+            this.limit = data["limit"];
+        }
+    }
+
+    static fromJS(data: any): PagingRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagingRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        return data; 
+    }
+}
+
+/** Request to page data */
+export interface IPagingRequest {
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 0. */
+    limit: number;
+}
+
+/** Request to get paginated metadata references */
+export class MetadataReferencesPagingRequest extends PagingRequest implements IMetadataReferencesPagingRequest {
+    /** Set to true to check if any incoming references are originating from an item the current user does not have full access to. */
+    fetchReferencedByRestrictedItem: boolean;
+
+    constructor(data?: IMetadataReferencesPagingRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fetchReferencedByRestrictedItem = data["fetchReferencedByRestrictedItem"];
+        }
+    }
+
+    static fromJS(data: any): MetadataReferencesPagingRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetadataReferencesPagingRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fetchReferencedByRestrictedItem"] = this.fetchReferencedByRestrictedItem;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to get paginated metadata references */
+export interface IMetadataReferencesPagingRequest extends IPagingRequest {
+    /** Set to true to check if any incoming references are originating from an item the current user does not have full access to. */
+    fetchReferencedByRestrictedItem: boolean;
+}
+
+/** Request to get multiple contents' references */
 export class ContentManyReferencesRequest implements IContentManyReferencesRequest {
-    contentIds?: string[] | undefined;
+    /** The IDs of the contents whose references need to be retrieved. */
+    contentIds: string[];
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: MetadataReferencesPagingRequest | undefined;
+    /** Limits the number of the returned share references by setting paging information. */
     shares?: PagingRequest | undefined;
 
     constructor(data?: IContentManyReferencesRequest) {
@@ -26036,7 +27010,11 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.references = data.references && !(<any>data.references).toJSON ? new MetadataReferencesPagingRequest(data.references) : <MetadataReferencesPagingRequest>this.references; 
             this.shares = data.shares && !(<any>data.shares).toJSON ? new PagingRequest(data.shares) : <PagingRequest>this.shares; 
+        }
+        if (!data) {
+            this.contentIds = [];
         }
     }
 
@@ -26047,6 +27025,7 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
                 for (let item of data["contentIds"])
                     this.contentIds.push(item);
             }
+            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
             this.shares = data["shares"] ? PagingRequest.fromJS(data["shares"]) : <any>undefined;
         }
     }
@@ -26065,110 +27044,28 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
             for (let item of this.contentIds)
                 data["contentIds"].push(item);
         }
+        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
         data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
         return data; 
     }
 }
 
+/** Request to get multiple contents' references */
 export interface IContentManyReferencesRequest {
-    contentIds?: string[] | undefined;
+    /** The IDs of the contents whose references need to be retrieved. */
+    contentIds: string[];
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: IMetadataReferencesPagingRequest | undefined;
+    /** Limits the number of the returned share references by setting paging information. */
     shares?: IPagingRequest | undefined;
 }
 
-export class ContentDownloadLinkCreateRequest implements IContentDownloadLinkCreateRequest {
-    contents?: ContentDownloadRequestItem[] | undefined;
-
-    constructor(data?: IContentDownloadLinkCreateRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.contents) {
-                this.contents = [];
-                for (let i = 0; i < data.contents.length; i++) {
-                    let item = data.contents[i];
-                    this.contents[i] = item && !(<any>item).toJSON ? new ContentDownloadRequestItem(item) : <ContentDownloadRequestItem>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["contents"] && data["contents"].constructor === Array) {
-                this.contents = [];
-                for (let item of data["contents"])
-                    this.contents.push(ContentDownloadRequestItem.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ContentDownloadLinkCreateRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentDownloadLinkCreateRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.contents && this.contents.constructor === Array) {
-            data["contents"] = [];
-            for (let item of this.contents)
-                data["contents"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IContentDownloadLinkCreateRequest {
-    contents?: IContentDownloadRequestItem[] | undefined;
-}
-
-export class ContentDownloadRequestItem implements IContentDownloadRequestItem {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
-
-    constructor(data?: IContentDownloadRequestItem) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-        }
-    }
-
-    static fromJS(data: any): ContentDownloadRequestItem {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentDownloadRequestItem();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        return data; 
-    }
-}
-
-export interface IContentDownloadRequestItem {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
-}
-
+/** Download link information */
 export class DownloadLink implements IDownloadLink {
-    downloadToken?: string | undefined;
-    downloadUrl?: string | undefined;
+    /** Token of the download, used to generate the url. */
+    downloadToken: string;
+    /** Url of the download link. */
+    downloadUrl: string;
 
     constructor(data?: IDownloadLink) {
         if (data) {
@@ -26201,9 +27098,116 @@ export class DownloadLink implements IDownloadLink {
     }
 }
 
+/** Download link information */
 export interface IDownloadLink {
-    downloadToken?: string | undefined;
-    downloadUrl?: string | undefined;
+    /** Token of the download, used to generate the url. */
+    downloadToken: string;
+    /** Url of the download link. */
+    downloadUrl: string;
+}
+
+/** Request to create a content download link */
+export class ContentDownloadLinkCreateRequest implements IContentDownloadLinkCreateRequest {
+    /** List of content information to generate the download link */
+    contents: ContentDownloadRequestItem[];
+
+    constructor(data?: IContentDownloadLinkCreateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.contents) {
+                this.contents = [];
+                for (let i = 0; i < data.contents.length; i++) {
+                    let item = data.contents[i];
+                    this.contents[i] = item && !(<any>item).toJSON ? new ContentDownloadRequestItem(item) : <ContentDownloadRequestItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.contents = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["contents"] && data["contents"].constructor === Array) {
+                this.contents = [];
+                for (let item of data["contents"])
+                    this.contents.push(ContentDownloadRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentDownloadLinkCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentDownloadLinkCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.contents && this.contents.constructor === Array) {
+            data["contents"] = [];
+            for (let item of this.contents)
+                data["contents"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to create a content download link */
+export interface IContentDownloadLinkCreateRequest {
+    /** List of content information to generate the download link */
+    contents: IContentDownloadRequestItem[];
+}
+
+/** Information needed to generate a content download link */
+export class ContentDownloadRequestItem implements IContentDownloadRequestItem {
+    /** ID of the content that is going to be downloaded. */
+    contentId: string;
+    /** ID of the output format that is going to be downloaded. */
+    outputFormatId: string;
+
+    constructor(data?: IContentDownloadRequestItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): ContentDownloadRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentDownloadRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        return data; 
+    }
+}
+
+/** Information needed to generate a content download link */
+export interface IContentDownloadRequestItem {
+    /** ID of the content that is going to be downloaded. */
+    contentId: string;
+    /** ID of the output format that is going to be downloaded. */
+    outputFormatId: string;
 }
 
 /** Values that represent thumbnail sizes. */
@@ -26355,8 +27359,11 @@ export interface IContentCreateManyRequest {
     items?: IContentCreateRequest[] | undefined;
 }
 
+/** Request to delete multiple contents. */
 export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
-    contentIds?: string[] | undefined;
+    /** IDs of the contents to delete. */
+    contentIds: string[];
+    /** A value indicating whether references to the contents should be removed. */
     forceReferenceRemoval: boolean;
 
     constructor(data?: IContentDeleteManyRequest) {
@@ -26365,6 +27372,9 @@ export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.contentIds = [];
         }
     }
 
@@ -26398,13 +27408,19 @@ export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
     }
 }
 
+/** Request to delete multiple contents. */
 export interface IContentDeleteManyRequest {
-    contentIds?: string[] | undefined;
+    /** IDs of the contents to delete. */
+    contentIds: string[];
+    /** A value indicating whether references to the contents should be removed. */
     forceReferenceRemoval: boolean;
 }
 
+/** Request to restore multiple contents */
 export class ContentRestoreManyRequest implements IContentRestoreManyRequest {
-    contentIds?: string[] | undefined;
+    /** IDs of the contents to restore. */
+    contentIds: string[];
+    /** Allows creating contents that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
 
     constructor(data?: IContentRestoreManyRequest) {
@@ -26413,6 +27429,9 @@ export class ContentRestoreManyRequest implements IContentRestoreManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.contentIds = [];
         }
     }
 
@@ -26446,13 +27465,18 @@ export class ContentRestoreManyRequest implements IContentRestoreManyRequest {
     }
 }
 
+/** Request to restore multiple contents */
 export interface IContentRestoreManyRequest {
-    contentIds?: string[] | undefined;
+    /** IDs of the contents to restore. */
+    contentIds: string[];
+    /** Allows creating contents that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
 }
 
+/** Request to update a content file */
 export class ContentFileUpdateRequest implements IContentFileUpdateRequest {
-    fileTransferId?: string | undefined;
+    /** ID of the file transfer to use to replace the content file. */
+    fileTransferId: string;
 
     constructor(data?: IContentFileUpdateRequest) {
         if (data) {
@@ -26483,20 +27507,40 @@ export class ContentFileUpdateRequest implements IContentFileUpdateRequest {
     }
 }
 
+/** Request to update a content file */
 export interface IContentFileUpdateRequest {
-    fileTransferId?: string | undefined;
+    /** ID of the file transfer to use to replace the content file. */
+    fileTransferId: string;
 }
 
+/** Request to update content metadata */
 export class ContentMetadataUpdateRequest implements IContentMetadataUpdateRequest {
-    /** An id list of schemas with schema type layer. */
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The dynamic data structure matching the field schematics of the content schema (ContentSchemaId). */
+    /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
+whose ContentType is ContentItem). */
     content?: DataDictionary | undefined;
-    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds). */
+    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property.
+For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
+an exception is thrown. */
     metadata?: DataDictionary | undefined;
-    /** Options to modify the behavior for updating schemas. */
+    /** Options to modify the behavior for updating the layers.
+Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
+and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
+Replace: the content is updated so that only the layers specified in the LayerSchemaIds property are assigned to the content;
+existing assigned layers not specified in the property are removed and missing layers are assigned.
+Defaults to Merge. */
     layerSchemasUpdateOptions: UpdateOption;
-    /** Options to modify the behavior for updating the values of schemas. */
+    /** Options to modify the behavior for updating the values of schemas.
+Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
+schema on the content.
+Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
+corresponding schema on the content.
+Defaults to Merge. */
     schemaFieldsUpdateOptions: UpdateOption;
 
     constructor(data?: IContentMetadataUpdateRequest) {
@@ -26546,26 +27590,47 @@ export class ContentMetadataUpdateRequest implements IContentMetadataUpdateReque
     }
 }
 
+/** Request to update content metadata */
 export interface IContentMetadataUpdateRequest {
-    /** An id list of schemas with schema type layer. */
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The dynamic data structure matching the field schematics of the content schema (ContentSchemaId). */
+    /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
+whose ContentType is ContentItem). */
     content?: IDataDictionary | undefined;
-    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds). */
+    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property.
+For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
+an exception is thrown. */
     metadata?: IDataDictionary | undefined;
-    /** Options to modify the behavior for updating schemas. */
+    /** Options to modify the behavior for updating the layers.
+Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
+and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
+Replace: the content is updated so that only the layers specified in the LayerSchemaIds property are assigned to the content;
+existing assigned layers not specified in the property are removed and missing layers are assigned.
+Defaults to Merge. */
     layerSchemasUpdateOptions: UpdateOption;
-    /** Options to modify the behavior for updating the values of schemas. */
+    /** Options to modify the behavior for updating the values of schemas.
+Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
+schema on the content.
+Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
+corresponding schema on the content.
+Defaults to Merge. */
     schemaFieldsUpdateOptions: UpdateOption;
 }
 
+/** Controls the update of metadata */
 export enum UpdateOption {
     Merge = <any>"Merge", 
     Replace = <any>"Replace", 
 }
 
+/** Request to update the permissions of a content */
 export class ContentPermissionsUpdateRequest implements IContentPermissionsUpdateRequest {
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
+    /** A list of content permission set IDs which control content permissions that will be updated on the content.
+These permissions control content accessibility for the users that do not own the content. */
     contentPermissionSetIds?: string[] | undefined;
 
     constructor(data?: IContentPermissionsUpdateRequest) {
@@ -26605,17 +27670,19 @@ export class ContentPermissionsUpdateRequest implements IContentPermissionsUpdat
     }
 }
 
+/** Request to update the permissions of a content */
 export interface IContentPermissionsUpdateRequest {
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
+    /** A list of content permission set IDs which control content permissions that will be updated on the content.
+These permissions control content accessibility for the users that do not own the content. */
     contentPermissionSetIds?: string[] | undefined;
 }
 
-/** Update many contents metadata */
+/** Request to update many contents metadata */
 export class ContentMetadataUpdateManyRequest implements IContentMetadataUpdateManyRequest {
-    /** Allow storing references to missing list items */
+    /** Allows storing references to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
     /** Update items */
-    items?: ContentMetadataUpdateItem[] | undefined;
+    items: ContentMetadataUpdateItem[];
 
     constructor(data?: IContentMetadataUpdateManyRequest) {
         if (data) {
@@ -26630,6 +27697,9 @@ export class ContentMetadataUpdateManyRequest implements IContentMetadataUpdateM
                     this.items[i] = item && !(<any>item).toJSON ? new ContentMetadataUpdateItem(item) : <ContentMetadataUpdateItem>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -26663,17 +27733,18 @@ export class ContentMetadataUpdateManyRequest implements IContentMetadataUpdateM
     }
 }
 
-/** Update many contents metadata */
+/** Request to update many contents metadata */
 export interface IContentMetadataUpdateManyRequest {
-    /** Allow storing references to missing list items */
+    /** Allows storing references to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
     /** Update items */
-    items?: IContentMetadataUpdateItem[] | undefined;
+    items: IContentMetadataUpdateItem[];
 }
 
+/** Item to update content metadata */
 export class ContentMetadataUpdateItem extends ContentMetadataUpdateRequest implements IContentMetadataUpdateItem {
-    /** The content id. */
-    id?: string | undefined;
+    /** The ID of the content. */
+    id: string;
 
     constructor(data?: IContentMetadataUpdateItem) {
         super(data);
@@ -26701,14 +27772,16 @@ export class ContentMetadataUpdateItem extends ContentMetadataUpdateRequest impl
     }
 }
 
+/** Item to update content metadata */
 export interface IContentMetadataUpdateItem extends IContentMetadataUpdateRequest {
-    /** The content id. */
-    id?: string | undefined;
+    /** The ID of the content. */
+    id: string;
 }
 
+/** Request to update multiple contents permissions */
 export class ContentPermissionsUpdateManyRequest implements IContentPermissionsUpdateManyRequest {
-    /** List of Content Permissions update items */
-    items?: ContentPermissionsUpdateItem[] | undefined;
+    /** Content permissions update items */
+    items: ContentPermissionsUpdateItem[];
 
     constructor(data?: IContentPermissionsUpdateManyRequest) {
         if (data) {
@@ -26723,6 +27796,9 @@ export class ContentPermissionsUpdateManyRequest implements IContentPermissionsU
                     this.items[i] = item && !(<any>item).toJSON ? new ContentPermissionsUpdateItem(item) : <ContentPermissionsUpdateItem>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -26754,14 +27830,16 @@ export class ContentPermissionsUpdateManyRequest implements IContentPermissionsU
     }
 }
 
+/** Request to update multiple contents permissions */
 export interface IContentPermissionsUpdateManyRequest {
-    /** List of Content Permissions update items */
-    items?: IContentPermissionsUpdateItem[] | undefined;
+    /** Content permissions update items */
+    items: IContentPermissionsUpdateItem[];
 }
 
+/** Content permissions update item */
 export class ContentPermissionsUpdateItem extends ContentPermissionsUpdateRequest implements IContentPermissionsUpdateItem {
-    /** The content id. */
-    contentId?: string | undefined;
+    /** ID of the content. */
+    contentId: string;
 
     constructor(data?: IContentPermissionsUpdateItem) {
         super(data);
@@ -26789,14 +27867,16 @@ export class ContentPermissionsUpdateItem extends ContentPermissionsUpdateReques
     }
 }
 
+/** Content permissions update item */
 export interface IContentPermissionsUpdateItem extends IContentPermissionsUpdateRequest {
-    /** The content id. */
-    contentId?: string | undefined;
+    /** ID of the content. */
+    contentId: string;
 }
 
+/** Request to transfer the content ownership */
 export class ContentOwnershipTransferRequest implements IContentOwnershipTransferRequest {
-    /** The id of the user to whom the content document has to be transfered to. */
-    transferUserId?: string | undefined;
+    /** The ID of the user to whom the content ownership has to be transferred to. */
+    transferUserId: string;
 
     constructor(data?: IContentOwnershipTransferRequest) {
         if (data) {
@@ -26827,14 +27907,16 @@ export class ContentOwnershipTransferRequest implements IContentOwnershipTransfe
     }
 }
 
+/** Request to transfer the content ownership */
 export interface IContentOwnershipTransferRequest {
-    /** The id of the user to whom the content document has to be transfered to. */
-    transferUserId?: string | undefined;
+    /** The ID of the user to whom the content ownership has to be transferred to. */
+    transferUserId: string;
 }
 
+/** Request to transfer multiple contents ownerships */
 export class ContentOwnershipTransferManyRequest implements IContentOwnershipTransferManyRequest {
-    /** List of Content Permissions ownership transfer requests */
-    items?: ContentOwnershipTransferItem[] | undefined;
+    /** List of Content Permissions ownership transfer items. */
+    items: ContentOwnershipTransferItem[];
 
     constructor(data?: IContentOwnershipTransferManyRequest) {
         if (data) {
@@ -26849,6 +27931,9 @@ export class ContentOwnershipTransferManyRequest implements IContentOwnershipTra
                     this.items[i] = item && !(<any>item).toJSON ? new ContentOwnershipTransferItem(item) : <ContentOwnershipTransferItem>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -26880,14 +27965,16 @@ export class ContentOwnershipTransferManyRequest implements IContentOwnershipTra
     }
 }
 
+/** Request to transfer multiple contents ownerships */
 export interface IContentOwnershipTransferManyRequest {
-    /** List of Content Permissions ownership transfer requests */
-    items?: IContentOwnershipTransferItem[] | undefined;
+    /** List of Content Permissions ownership transfer items. */
+    items: IContentOwnershipTransferItem[];
 }
 
+/** Content ownership transfer item */
 export class ContentOwnershipTransferItem extends ContentOwnershipTransferRequest implements IContentOwnershipTransferItem {
-    /** The content id. */
-    contentId?: string | undefined;
+    /** The content ID. */
+    contentId: string;
 
     constructor(data?: IContentOwnershipTransferItem) {
         super(data);
@@ -26915,17 +28002,19 @@ export class ContentOwnershipTransferItem extends ContentOwnershipTransferReques
     }
 }
 
+/** Content ownership transfer item */
 export interface IContentOwnershipTransferItem extends IContentOwnershipTransferRequest {
-    /** The content id. */
-    contentId?: string | undefined;
+    /** The content ID. */
+    contentId: string;
 }
 
+/** Base class for the content metadata batch requests. */
 export abstract class MetadataValuesChangeRequestBase implements IMetadataValuesChangeRequestBase {
-    /** A container for all change commads. */
-    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
-    /** Allow storing references to missing list items / contents */
+    /** Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents. */
+    changeCommands: MetadataValuesChangeCommandBase[];
+    /** Allows updating contents with references to list items or contents that do not exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create notification and notify on progress */
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
 
     protected _discriminator: string;
@@ -26936,6 +28025,9 @@ export abstract class MetadataValuesChangeRequestBase implements IMetadataValues
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.changeCommands = [];
         }
         this._discriminator = "MetadataValuesChangeRequestBase";
     }
@@ -26981,21 +28073,26 @@ export abstract class MetadataValuesChangeRequestBase implements IMetadataValues
     }
 }
 
+/** Base class for the content metadata batch requests. */
 export interface IMetadataValuesChangeRequestBase {
-    /** A container for all change commads. */
-    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
-    /** Allow storing references to missing list items / contents */
+    /** Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents. */
+    changeCommands: MetadataValuesChangeCommandBase[];
+    /** Allows updating contents with references to list items or contents that do not exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create notification and notify on progress */
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
 }
 
+/** Request to batch update contents' fields based on content IDs */
 export class ContentFieldsBatchUpdateRequest extends MetadataValuesChangeRequestBase implements IContentFieldsBatchUpdateRequest {
-    /** The ids of the content documents. */
-    contentIds?: string[] | undefined;
+    /** The IDs of the contents whose fields need to be updated. */
+    contentIds: string[];
 
     constructor(data?: IContentFieldsBatchUpdateRequest) {
         super(data);
+        if (!data) {
+            this.contentIds = [];
+        }
         this._discriminator = "ContentFieldsBatchUpdateRequest";
     }
 
@@ -27029,15 +28126,16 @@ export class ContentFieldsBatchUpdateRequest extends MetadataValuesChangeRequest
     }
 }
 
+/** Request to batch update contents' fields based on content IDs */
 export interface IContentFieldsBatchUpdateRequest extends IMetadataValuesChangeRequestBase {
-    /** The ids of the content documents. */
-    contentIds?: string[] | undefined;
+    /** The IDs of the contents whose fields need to be updated. */
+    contentIds: string[];
 }
 
 /** The base class for metadata value change commands. */
 export abstract class MetadataValuesChangeCommandBase implements IMetadataValuesChangeCommandBase {
-    /** The id of the schema to which the operation scope is addressed. */
-    schemaId?: string | undefined;
+    /** The ID of the schema to which the operation scope is addressed. */
+    schemaId: string;
 
     protected _discriminator: string;
 
@@ -27107,24 +28205,27 @@ export abstract class MetadataValuesChangeCommandBase implements IMetadataValues
 
 /** The base class for metadata value change commands. */
 export interface IMetadataValuesChangeCommandBase {
-    /** The id of the schema to which the operation scope is addressed. */
-    schemaId?: string | undefined;
+    /** The ID of the schema to which the operation scope is addressed. */
+    schemaId: string;
 }
 
-/** Updates schema values. */
+/** Updates schema values */
 export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaUpdateCommand {
-    /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
-    value?: DataDictionary | undefined;
+    /** The dictionary containing the metadata values to add / update. */
+    value: DataDictionary;
 
     constructor(data?: IMetadataValuesSchemaUpdateCommand) {
         super(data);
+        if (!data) {
+            this.value = new DataDictionary();
+        }
         this._discriminator = "MetadataValuesSchemaUpdateCommand";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : <any>undefined;
+            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
         }
     }
 
@@ -27143,26 +28244,29 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
     }
 }
 
-/** Updates schema values. */
+/** Updates schema values */
 export interface IMetadataValuesSchemaUpdateCommand extends IMetadataValuesChangeCommandBase {
-    /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
-    value?: IDataDictionary | undefined;
+    /** The dictionary containing the metadata values to add / update. */
+    value: IDataDictionary;
 }
 
-/** Adds or updates schema values. */
+/** Adds or updates schema values */
 export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaUpsertCommand {
-    /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
-    value?: DataDictionary | undefined;
+    /** The dictionary containing the metadata values to add / update. */
+    value: DataDictionary;
 
     constructor(data?: IMetadataValuesSchemaUpsertCommand) {
         super(data);
+        if (!data) {
+            this.value = new DataDictionary();
+        }
         this._discriminator = "MetadataValuesSchemaUpsertCommand";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : <any>undefined;
+            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
         }
     }
 
@@ -27181,13 +28285,13 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
     }
 }
 
-/** Adds or updates schema values. */
+/** Adds or updates schema values */
 export interface IMetadataValuesSchemaUpsertCommand extends IMetadataValuesChangeCommandBase {
-    /** The metadata values containing a set of changes. Update is additive and will not remove values. To remove complete fields use the MetadataValuesFieldRemoveCommand instead. */
-    value?: IDataDictionary | undefined;
+    /** The dictionary containing the metadata values to add / update. */
+    value: IDataDictionary;
 }
 
-/** Removes schema values. */
+/** Removes schema and all its values */
 export class MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaRemoveCommand {
 
     constructor(data?: IMetadataValuesSchemaRemoveCommand) {
@@ -27215,24 +28319,27 @@ export class MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeComma
     }
 }
 
-/** Removes schema values. */
+/** Removes schema and all its values */
 export interface IMetadataValuesSchemaRemoveCommand extends IMetadataValuesChangeCommandBase {
 }
 
-/** Replaces schema values. */
+/** Replaces schema values */
 export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaReplaceCommand {
-    /** The metadata values containing the new values for the schema. All old values will be overwritten. */
-    value?: DataDictionary | undefined;
+    /** The dictionary containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
+    value: DataDictionary;
 
     constructor(data?: IMetadataValuesSchemaReplaceCommand) {
         super(data);
+        if (!data) {
+            this.value = new DataDictionary();
+        }
         this._discriminator = "MetadataValuesSchemaReplaceCommand";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : <any>undefined;
+            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
         }
     }
 
@@ -27251,16 +28358,16 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
     }
 }
 
-/** Replaces schema values. */
+/** Replaces schema values */
 export interface IMetadataValuesSchemaReplaceCommand extends IMetadataValuesChangeCommandBase {
-    /** The metadata values containing the new values for the schema. All old values will be overwritten. */
-    value?: IDataDictionary | undefined;
+    /** The dictionary containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
+    value: IDataDictionary;
 }
 
-/** Removes a field and its value from the schema values. */
+/** Removes a field and its value from the values of the specified schema */
 export class MetadataValuesFieldRemoveCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesFieldRemoveCommand {
-    /** The path of the field to be removed (within tha data structure), e.g. "data.schemaId.fieldId" */
-    fieldPath?: string | undefined;
+    /** The path of the field to be removed within the specified schema (i.e. remove the street from the address of a person: fieldPath = "address.streetName", schemaId = "PersonLayer") */
+    fieldPath: string;
 
     constructor(data?: IMetadataValuesFieldRemoveCommand) {
         super(data);
@@ -27289,20 +28396,21 @@ export class MetadataValuesFieldRemoveCommand extends MetadataValuesChangeComman
     }
 }
 
-/** Removes a field and its value from the schema values. */
+/** Removes a field and its value from the values of the specified schema */
 export interface IMetadataValuesFieldRemoveCommand extends IMetadataValuesChangeCommandBase {
-    /** The path of the field to be removed (within tha data structure), e.g. "data.schemaId.fieldId" */
-    fieldPath?: string | undefined;
+    /** The path of the field to be removed within the specified schema (i.e. remove the street from the address of a person: fieldPath = "address.streetName", schemaId = "PersonLayer") */
+    fieldPath: string;
 }
 
-/** Adds a list item id reference to a multi tagbox. */
+/** Adds a list item to a FieldMultiTagbox field */
 export class MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaItemAddCommand {
-    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property */
-    fieldPath?: string | undefined;
+    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property.
+(i.e. add a team (existing list item) to the work information of a person: fieldPath = "workInfo.teams", schemaId = "PersonLayer"). */
+    fieldPath: string;
     /** The field namespace */
-    fieldNamespace?: string | undefined;
-    /** The id of the list item to be added. */
-    referenceId?: string | undefined;
+    fieldNamespace: string;
+    /** The ID of the list item to be added. */
+    referenceId: string;
 
     constructor(data?: IMetadataValuesSchemaItemAddCommand) {
         super(data);
@@ -27335,24 +28443,26 @@ export class MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeComm
     }
 }
 
-/** Adds a list item id reference to a multi tagbox. */
+/** Adds a list item to a FieldMultiTagbox field */
 export interface IMetadataValuesSchemaItemAddCommand extends IMetadataValuesChangeCommandBase {
-    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property */
-    fieldPath?: string | undefined;
+    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property.
+(i.e. add a team (existing list item) to the work information of a person: fieldPath = "workInfo.teams", schemaId = "PersonLayer"). */
+    fieldPath: string;
     /** The field namespace */
-    fieldNamespace?: string | undefined;
-    /** The id of the list item to be added. */
-    referenceId?: string | undefined;
+    fieldNamespace: string;
+    /** The ID of the list item to be added. */
+    referenceId: string;
 }
 
-/** Removes a list item id reference from a multi tagbox. */
+/** Removes a list item from a FieldMultiTagbox field */
 export class MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaItemRemoveCommand {
-    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property */
-    fieldPath?: string | undefined;
-    /** The field namespace */
-    fieldNamespace?: string | undefined;
-    /** The id of the list item to be removed. */
-    referenceId?: string | undefined;
+    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property.
+(i.e. add a team (existing list item) to the work information of a person: fieldPath = "workInfo.teams", schemaId = "PersonLayer"). */
+    fieldPath: string;
+    /** The field namespace. */
+    fieldNamespace: string;
+    /** The ID of the list item to be removed. */
+    referenceId: string;
 
     constructor(data?: IMetadataValuesSchemaItemRemoveCommand) {
         super(data);
@@ -27385,28 +28495,34 @@ export class MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeC
     }
 }
 
-/** Removes a list item id reference from a multi tagbox. */
+/** Removes a list item from a FieldMultiTagbox field */
 export interface IMetadataValuesSchemaItemRemoveCommand extends IMetadataValuesChangeCommandBase {
-    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property */
-    fieldPath?: string | undefined;
-    /** The field namespace */
-    fieldNamespace?: string | undefined;
-    /** The id of the list item to be removed. */
-    referenceId?: string | undefined;
+    /** The path of the field relative to the Content or Layer schema values defined by the schemaId property.
+(i.e. add a team (existing list item) to the work information of a person: fieldPath = "workInfo.teams", schemaId = "PersonLayer"). */
+    fieldPath: string;
+    /** The field namespace. */
+    fieldNamespace: string;
+    /** The ID of the list item to be removed. */
+    referenceId: string;
 }
 
+/** Request to batch update contents' fields based on a filter */
 export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeRequestBase implements IContentFieldsBatchUpdateFilterRequest {
-    filterRequest?: ContentFilterRequest | undefined;
+    /** Filters the contents on which the change commands must be applied. */
+    filterRequest: ContentFilterRequest;
 
     constructor(data?: IContentFieldsBatchUpdateFilterRequest) {
         super(data);
+        if (!data) {
+            this.filterRequest = new ContentFilterRequest();
+        }
         this._discriminator = "ContentFieldsBatchUpdateFilterRequest";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.filterRequest = data["filterRequest"] ? ContentFilterRequest.fromJS(data["filterRequest"]) : <any>undefined;
+            this.filterRequest = data["filterRequest"] ? ContentFilterRequest.fromJS(data["filterRequest"]) : new ContentFilterRequest();
         }
     }
 
@@ -27425,8 +28541,10 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
     }
 }
 
+/** Request to batch update contents' fields based on a filter */
 export interface IContentFieldsBatchUpdateFilterRequest extends IMetadataValuesChangeRequestBase {
-    filterRequest?: IContentFilterRequest | undefined;
+    /** Filters the contents on which the change commands must be applied. */
+    filterRequest: IContentFilterRequest;
 }
 
 export class ContentFilterRequest implements IContentFilterRequest {
@@ -27531,120 +28649,6 @@ export interface IContentFilterRequest {
     rightsFilter?: ContentRight[] | undefined;
 }
 
-export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    rightFilter?: PermissionSetRight | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    searchLanguages?: string[] | undefined;
-
-    constructor(data?: IPermissionSetSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.rightFilter = data["rightFilter"];
-            this.debugMode = data["debugMode"];
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): PermissionSetSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionSetSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["rightFilter"] = this.rightFilter;
-        data["debugMode"] = this.debugMode;
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IPermissionSetSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    rightFilter?: PermissionSetRight | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    searchLanguages?: string[] | undefined;
-}
-
-export enum PermissionSetRight {
-    Apply = <any>"Apply", 
-    Manage = <any>"Manage", 
-}
-
 export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
     totalResults: number;
     results: PermissionSet[];
@@ -27712,11 +28716,11 @@ export interface IBaseResultOfPermissionSet {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfPermissionSet extends BaseResultOfPermissionSet implements ISearchBehaviourBaseResultOfPermissionSet {
+export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet implements ISearchBehaviorBaseResultOfPermissionSet {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfPermissionSet) {
+    constructor(data?: ISearchBehaviorBaseResultOfPermissionSet) {
         super(data);
     }
 
@@ -27728,9 +28732,9 @@ export class SearchBehaviourBaseResultOfPermissionSet extends BaseResultOfPermis
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfPermissionSet {
+    static fromJS(data: any): SearchBehaviorBaseResultOfPermissionSet {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfPermissionSet();
+        let result = new SearchBehaviorBaseResultOfPermissionSet();
         result.init(data);
         return result;
     }
@@ -27744,12 +28748,14 @@ export class SearchBehaviourBaseResultOfPermissionSet extends BaseResultOfPermis
     }
 }
 
-export interface ISearchBehaviourBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
+export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class PermissionSetSearchResult extends SearchBehaviourBaseResultOfPermissionSet implements IPermissionSetSearchResult {
+/** Result of a permission set search operation */
+export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermissionSet implements IPermissionSetSearchResult {
+    /** Elapsed time in milliseconds to perform the query. */
     elapsedMilliseconds: number;
 
     constructor(data?: IPermissionSetSearchResult) {
@@ -27778,13 +28784,16 @@ export class PermissionSetSearchResult extends SearchBehaviourBaseResultOfPermis
     }
 }
 
-export interface IPermissionSetSearchResult extends ISearchBehaviourBaseResultOfPermissionSet {
+/** Result of a permission set search operation */
+export interface IPermissionSetSearchResult extends ISearchBehaviorBaseResultOfPermissionSet {
+    /** Elapsed time in milliseconds to perform the query. */
     elapsedMilliseconds: number;
 }
 
+/** Permission set */
 export class PermissionSet implements IPermissionSet {
-    /** The permission set id. */
-    id?: string | undefined;
+    /** The permission set ID. */
+    id: string;
     /** When true this permission set will derogate all other configured permission sets. */
     exclusive: boolean;
     /** Language specific permission set names. */
@@ -27824,23 +28833,148 @@ export class PermissionSet implements IPermissionSet {
     }
 }
 
+/** Permission set */
 export interface IPermissionSet {
-    /** The permission set id. */
-    id?: string | undefined;
+    /** The permission set ID. */
+    id: string;
     /** When true this permission set will derogate all other configured permission sets. */
     exclusive: boolean;
     /** Language specific permission set names. */
     names?: ITranslatedStringDictionary | undefined;
 }
 
+/** Request to search permission sets */
+export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    filter?: FilterBase | undefined;
+    /** Filters based on the PermissionSetRight of the user. */
+    rightFilter?: PermissionSetRight | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+
+    constructor(data?: IPermissionSetSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.rightFilter = data["rightFilter"];
+            this.debugMode = data["debugMode"];
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionSetSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["rightFilter"] = this.rightFilter;
+        data["debugMode"] = this.debugMode;
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Request to search permission sets */
+export interface IPermissionSetSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    filter?: FilterBase | undefined;
+    /** Filters based on the PermissionSetRight of the user. */
+    rightFilter?: PermissionSetRight | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+}
+
+/** Permission set rights */
+export enum PermissionSetRight {
+    Apply = <any>"Apply", 
+    Manage = <any>"Manage", 
+}
+
 export abstract class PermissionSetDetailOfContentRight implements IPermissionSetDetailOfContentRight {
-    id?: string | undefined;
+    id: string;
     names?: TranslatedStringDictionary | undefined;
-    trashed: boolean;
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
-    ownerTokenId?: string | undefined;
+    ownerTokenId: string;
 
     constructor(data?: IPermissionSetDetailOfContentRight) {
         if (data) {
@@ -27870,7 +29004,6 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
         if (data) {
             this.id = data["id"];
             this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.trashed = data["trashed"];
             if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
                 this.userRolesRights = [];
                 for (let item of data["userRolesRights"])
@@ -27895,7 +29028,6 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["trashed"] = this.trashed;
         if (this.userRolesRights && this.userRolesRights.constructor === Array) {
             data["userRolesRights"] = [];
             for (let item of this.userRolesRights)
@@ -27913,15 +29045,15 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
 }
 
 export interface IPermissionSetDetailOfContentRight {
-    id?: string | undefined;
+    id: string;
     names?: ITranslatedStringDictionary | undefined;
-    trashed: boolean;
     userRolesRights?: IPermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
-    ownerTokenId?: string | undefined;
+    ownerTokenId: string;
 }
 
+/** Detail of a content permission set */
 export class ContentPermissionSetDetail extends PermissionSetDetailOfContentRight implements IContentPermissionSetDetail {
 
     constructor(data?: IContentPermissionSetDetail) {
@@ -27948,6 +29080,7 @@ export class ContentPermissionSetDetail extends PermissionSetDetailOfContentRigh
     }
 }
 
+/** Detail of a content permission set */
 export interface IContentPermissionSetDetail extends IPermissionSetDetailOfContentRight {
 }
 
@@ -28055,87 +29188,6 @@ export interface IPermissionUserRoleRightsOfPermissionSetRight {
     userRoleId?: string | undefined;
     names?: ITranslatedStringDictionary | undefined;
     rights?: PermissionSetRight[] | undefined;
-}
-
-export class DocumentHistorySearchRequest implements IDocumentHistorySearchRequest {
-    /** Limits the start date of the search request. Default to last 1 year. */
-    from: Date;
-    /** Limits the end date of the search request. Default to now. */
-    to: Date;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** To get a large amount of data, page token returned from the response can be used to get all data. */
-    pageToken?: string | undefined;
-    /** Limits the search to a specific document id. E.g. ContentId */
-    documentId?: string | undefined;
-    /** The document version to search. Default to -1 to not limit to a specific document version. */
-    documentVersion: number;
-    /** Limits the search to a specifc document type. */
-    documentType?: string | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo | undefined;
-
-    constructor(data?: IDocumentHistorySearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.sort = data.sort && !(<any>data.sort).toJSON ? new SortInfo(data.sort) : <SortInfo>this.sort; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
-            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.documentId = data["documentId"];
-            this.documentVersion = data["documentVersion"];
-            this.documentType = data["documentType"];
-            this.sort = data["sort"] ? SortInfo.fromJS(data["sort"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): DocumentHistorySearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new DocumentHistorySearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
-        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["documentId"] = this.documentId;
-        data["documentVersion"] = this.documentVersion;
-        data["documentType"] = this.documentType;
-        data["sort"] = this.sort ? this.sort.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IDocumentHistorySearchRequest {
-    /** Limits the start date of the search request. Default to last 1 year. */
-    from: Date;
-    /** Limits the end date of the search request. Default to now. */
-    to: Date;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** To get a large amount of data, page token returned from the response can be used to get all data. */
-    pageToken?: string | undefined;
-    /** Limits the search to a specific document id. E.g. ContentId */
-    documentId?: string | undefined;
-    /** The document version to search. Default to -1 to not limit to a specific document version. */
-    documentVersion: number;
-    /** Limits the search to a specifc document type. */
-    documentType?: string | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo | undefined;
 }
 
 export class DocumentHistorySearchResult implements IDocumentHistorySearchResult {
@@ -28324,6 +29376,87 @@ export enum DocumentChangeAction {
     Delete = <any>"Delete", 
     Activate = <any>"Activate", 
     Deactivate = <any>"Deactivate", 
+}
+
+export class DocumentHistorySearchRequest implements IDocumentHistorySearchRequest {
+    /** Limits the start date of the search request. Default to last 1 year. */
+    from: Date;
+    /** Limits the end date of the search request. Default to now. */
+    to: Date;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** To get a large amount of data, page token returned from the response can be used to get all data. */
+    pageToken?: string | undefined;
+    /** Limits the search to a specific document id. E.g. ContentId */
+    documentId?: string | undefined;
+    /** The document version to search. Default to -1 to not limit to a specific document version. */
+    documentVersion: number;
+    /** Limits the search to a specifc document type. */
+    documentType?: string | undefined;
+    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo | undefined;
+
+    constructor(data?: IDocumentHistorySearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.sort = data.sort && !(<any>data.sort).toJSON ? new SortInfo(data.sort) : <SortInfo>this.sort; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
+            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
+            this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
+            this.documentId = data["documentId"];
+            this.documentVersion = data["documentVersion"];
+            this.documentType = data["documentType"];
+            this.sort = data["sort"] ? SortInfo.fromJS(data["sort"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DocumentHistorySearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentHistorySearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
+        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["documentId"] = this.documentId;
+        data["documentVersion"] = this.documentVersion;
+        data["documentType"] = this.documentType;
+        data["sort"] = this.sort ? this.sort.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IDocumentHistorySearchRequest {
+    /** Limits the start date of the search request. Default to last 1 year. */
+    from: Date;
+    /** Limits the end date of the search request. Default to now. */
+    to: Date;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** To get a large amount of data, page token returned from the response can be used to get all data. */
+    pageToken?: string | undefined;
+    /** Limits the search to a specific document id. E.g. ContentId */
+    documentId?: string | undefined;
+    /** The document version to search. Default to -1 to not limit to a specific document version. */
+    documentVersion: number;
+    /** Limits the search to a specifc document type. */
+    documentType?: string | undefined;
+    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo | undefined;
 }
 
 export class DocumentHistoryDifference implements IDocumentHistoryDifference {
@@ -28633,13 +29766,62 @@ export interface IOutputFormatInfo {
     names?: ITranslatedStringDictionary | undefined;
 }
 
-export enum ListItemResolveBehaviour {
-    Content = <any>"Content", 
-    LinkedListItems = <any>"LinkedListItems", 
-    InnerDisplayValueThumbnail = <any>"InnerDisplayValueThumbnail", 
-    InnerDisplayValueList = <any>"InnerDisplayValueList", 
-    InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
-    InnerDisplayValueName = <any>"InnerDisplayValueName", 
+/** The version view item for the environment. */
+export class VersionInfo implements IVersionInfo {
+    /** The manual file version of Picturepark.Contract.dll. */
+    fileVersion?: string | undefined;
+    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+    fileProductVersion?: string | undefined;
+    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+    contractVersion?: string | undefined;
+    /** The bamboo release version. Only provided on bamboo deployments. */
+    release?: string | undefined;
+
+    constructor(data?: IVersionInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.fileVersion = data["fileVersion"];
+            this.fileProductVersion = data["fileProductVersion"];
+            this.contractVersion = data["contractVersion"];
+            this.release = data["release"];
+        }
+    }
+
+    static fromJS(data: any): VersionInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new VersionInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileVersion"] = this.fileVersion;
+        data["fileProductVersion"] = this.fileProductVersion;
+        data["contractVersion"] = this.contractVersion;
+        data["release"] = this.release;
+        return data; 
+    }
+}
+
+/** The version view item for the environment. */
+export interface IVersionInfo {
+    /** The manual file version of Picturepark.Contract.dll. */
+    fileVersion?: string | undefined;
+    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
+    fileProductVersion?: string | undefined;
+    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
+    contractVersion?: string | undefined;
+    /** The bamboo release version. Only provided on bamboo deployments. */
+    release?: string | undefined;
 }
 
 /** The detail view item for the list item. */
@@ -28701,181 +29883,13 @@ export interface IListItemDetail {
     id?: string | undefined;
 }
 
-export class ListItemSearchRequest implements IListItemSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search and include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search to list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
-    /** Filter the returned list items that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Define the display values included in the search response for the referenced fields. Defaults to no display value. */
-    referencedFieldsDisplayPatternIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** When set to true the content data is included in the result items. */
-    includeContentData: boolean;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-
-    constructor(data?: IListItemSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
-            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
-                this.schemaIds = [];
-                for (let item of data["schemaIds"])
-                    this.schemaIds.push(item);
-            }
-            if (data["displayPatternIds"] && data["displayPatternIds"].constructor === Array) {
-                this.displayPatternIds = [];
-                for (let item of data["displayPatternIds"])
-                    this.displayPatternIds.push(item);
-            }
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (data["referencedFieldsDisplayPatternIds"] && data["referencedFieldsDisplayPatternIds"].constructor === Array) {
-                this.referencedFieldsDisplayPatternIds = [];
-                for (let item of data["referencedFieldsDisplayPatternIds"])
-                    this.referencedFieldsDisplayPatternIds.push(item);
-            }
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-            this.includeContentData = data["includeContentData"];
-            this.debugMode = data["debugMode"];
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-        }
-    }
-
-    static fromJS(data: any): ListItemSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListItemSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
-        if (this.schemaIds && this.schemaIds.constructor === Array) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        if (this.displayPatternIds && this.displayPatternIds.constructor === Array) {
-            data["displayPatternIds"] = [];
-            for (let item of this.displayPatternIds)
-                data["displayPatternIds"].push(item);
-        }
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (this.referencedFieldsDisplayPatternIds && this.referencedFieldsDisplayPatternIds.constructor === Array) {
-            data["referencedFieldsDisplayPatternIds"] = [];
-            for (let item of this.referencedFieldsDisplayPatternIds)
-                data["referencedFieldsDisplayPatternIds"].push(item);
-        }
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["includeContentData"] = this.includeContentData;
-        data["debugMode"] = this.debugMode;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        return data; 
-    }
-}
-
-export interface IListItemSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search and include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search to list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
-    /** Filter the returned list items that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Define the display values included in the search response for the referenced fields. Defaults to no display value. */
-    referencedFieldsDisplayPatternIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** When set to true the content data is included in the result items. */
-    includeContentData: boolean;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
+export enum ListItemResolveBehaviour {
+    Content = <any>"Content", 
+    LinkedListItems = <any>"LinkedListItems", 
+    InnerDisplayValueThumbnail = <any>"InnerDisplayValueThumbnail", 
+    InnerDisplayValueList = <any>"InnerDisplayValueList", 
+    InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
+    InnerDisplayValueName = <any>"InnerDisplayValueName", 
 }
 
 export class BaseResultOfListItem implements IBaseResultOfListItem {
@@ -29035,26 +30049,213 @@ export interface IListItem {
     id?: string | undefined;
 }
 
-export class ListItemAggregationRequest implements IListItemAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+/** Request to search list items */
+export class ListItemSearchRequest implements IListItemSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** An optional search filter. Limits the list item result set. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** An optional filter to limit the list items. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down on a specific aggregated value. */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** Defines the aggregation resultset. */
-    aggregators?: AggregatorBase[] | undefined;
-    /** Broadens the aggregation and include all schema descendant list items. */
+    /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
-    /** Filter the list items document result set to those that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the aggregation to list items of the provided schemas. */
+    /** Limits the search among the list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Defines the display values included in the search response for the referenced fields. Defaults to no display value. */
+    referencedFieldsDisplayPatternIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
+    /** When set to true the content data is included in the result items. */
+    includeContentData: boolean;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+
+    constructor(data?: IListItemSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
+            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
+                this.schemaIds = [];
+                for (let item of data["schemaIds"])
+                    this.schemaIds.push(item);
+            }
+            if (data["displayPatternIds"] && data["displayPatternIds"].constructor === Array) {
+                this.displayPatternIds = [];
+                for (let item of data["displayPatternIds"])
+                    this.displayPatternIds.push(item);
+            }
+            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
+            if (data["referencedFieldsDisplayPatternIds"] && data["referencedFieldsDisplayPatternIds"].constructor === Array) {
+                this.referencedFieldsDisplayPatternIds = [];
+                for (let item of data["referencedFieldsDisplayPatternIds"])
+                    this.referencedFieldsDisplayPatternIds.push(item);
+            }
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+            this.includeContentData = data["includeContentData"];
+            this.debugMode = data["debugMode"];
+            this.lifeCycleFilter = data["lifeCycleFilter"];
+        }
+    }
+
+    static fromJS(data: any): ListItemSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
+        if (this.schemaIds && this.schemaIds.constructor === Array) {
+            data["schemaIds"] = [];
+            for (let item of this.schemaIds)
+                data["schemaIds"].push(item);
+        }
+        if (this.displayPatternIds && this.displayPatternIds.constructor === Array) {
+            data["displayPatternIds"] = [];
+            for (let item of this.displayPatternIds)
+                data["displayPatternIds"].push(item);
+        }
+        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
+        if (this.referencedFieldsDisplayPatternIds && this.referencedFieldsDisplayPatternIds.constructor === Array) {
+            data["referencedFieldsDisplayPatternIds"] = [];
+            for (let item of this.referencedFieldsDisplayPatternIds)
+                data["referencedFieldsDisplayPatternIds"].push(item);
+        }
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        data["includeContentData"] = this.includeContentData;
+        data["debugMode"] = this.debugMode;
+        data["lifeCycleFilter"] = this.lifeCycleFilter;
+        return data; 
+    }
+}
+
+/** Request to search list items */
+export interface IListItemSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** An optional filter to limit the list items. */
+    filter?: FilterBase | undefined;
+    /** Broadens the search to include all schema descendant list items. */
+    includeAllSchemaChildren: boolean;
+    /** Limits the search among the list items of the provided schemas. */
+    schemaIds?: string[] | undefined;
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Defines the display values included in the search response for the referenced fields. Defaults to no display value. */
+    referencedFieldsDisplayPatternIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** When set to true the content data is included in the result items. */
+    includeContentData: boolean;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+}
+
+/** Request to aggregate list items */
+export class ListItemAggregationRequest implements IListItemAggregationRequest {
+    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional filter to limit the list items to aggregate on. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the list item should be aggregated. */
+    aggregators: AggregatorBase[];
+    /** Broadens the search to include all schema descendant list items. */
+    includeAllSchemaChildren: boolean;
+    /** Limits the aggregation to the list items that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Limits the search among the list items of the provided schemas. */
+    schemaIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the aggregation to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
 
     constructor(data?: IListItemAggregationRequest) {
@@ -29064,15 +30265,18 @@ export class ListItemAggregationRequest implements IListItemAggregationRequest {
                     (<any>this)[property] = (<any>data)[property];
             }
         }
+        if (!data) {
+            this.aggregators = [];
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
             }
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             if (data["aggregationFilters"] && data["aggregationFilters"].constructor === Array) {
@@ -29111,10 +30315,10 @@ export class ListItemAggregationRequest implements IListItemAggregationRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
         }
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         if (this.aggregationFilters && this.aggregationFilters.constructor === Array) {
@@ -29144,26 +30348,30 @@ export class ListItemAggregationRequest implements IListItemAggregationRequest {
     }
 }
 
+/** Request to aggregate list items */
 export interface IListItemAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** An optional search filter. Limits the list item result set. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional filter to limit the list items to aggregate on. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down on a specific aggregated value. */
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** Defines the aggregation resultset. */
-    aggregators?: AggregatorBase[] | undefined;
-    /** Broadens the aggregation and include all schema descendant list items. */
+    /** List of aggregators that defines how the list item should be aggregated. */
+    aggregators: AggregatorBase[];
+    /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
-    /** Filter the list items document result set to those that have or not have broken references */
+    /** Limits the aggregation to the list items that have or not have broken references. By default it includes both. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the aggregation to list items of the provided schemas. */
+    /** Limits the search among the list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** Limits the list item document result set to that life cycle state. Defaults to ActiveOnly. */
+    /** Limits the aggregation to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
 }
 
@@ -29416,8 +30624,11 @@ export interface IListItemUpdateItem extends IListItemUpdateRequest {
     id?: string | undefined;
 }
 
+/** Request to delete multiple list items */
 export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
-    listItemIds?: string[] | undefined;
+    /** IDs of the list items to delete. */
+    listItemIds: string[];
+    /** A value indicating whether references to the list item should be removed. */
     forceReferenceRemoval: boolean;
 
     constructor(data?: IListItemDeleteManyRequest) {
@@ -29426,6 +30637,9 @@ export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.listItemIds = [];
         }
     }
 
@@ -29459,13 +30673,19 @@ export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
     }
 }
 
+/** Request to delete multiple list items */
 export interface IListItemDeleteManyRequest {
-    listItemIds?: string[] | undefined;
+    /** IDs of the list items to delete. */
+    listItemIds: string[];
+    /** A value indicating whether references to the list item should be removed. */
     forceReferenceRemoval: boolean;
 }
 
+/** Request to restore multiple deleted list items */
 export class ListItemRestoreManyRequest implements IListItemRestoreManyRequest {
-    listItemIds?: string[] | undefined;
+    /** The IDs of the list items to restore. */
+    listItemIds: string[];
+    /** Allows restoring list items that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
 
     constructor(data?: IListItemRestoreManyRequest) {
@@ -29474,6 +30694,9 @@ export class ListItemRestoreManyRequest implements IListItemRestoreManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.listItemIds = [];
         }
     }
 
@@ -29507,19 +30730,23 @@ export class ListItemRestoreManyRequest implements IListItemRestoreManyRequest {
     }
 }
 
+/** Request to restore multiple deleted list items */
 export interface IListItemRestoreManyRequest {
-    listItemIds?: string[] | undefined;
+    /** The IDs of the list items to restore. */
+    listItemIds: string[];
+    /** Allows restoring list items that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
 }
 
+/** Request to batch update list items' fields based on list item IDs */
 export class ListItemFieldsBatchUpdateRequest implements IListItemFieldsBatchUpdateRequest {
-    /** The ids of the list items whose fields need to be updated */
-    listItemIds?: string[] | undefined;
-    /** The change commads to be applied to the list items */
-    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
-    /** Allow storing references to missing list items / contents */
+    /** The ids of the list items whose fields need to be updated. */
+    listItemIds: string[];
+    /** Changes that need to be applied to the existing list items. The same set of changes is applied to all list items. */
+    changeCommands: MetadataValuesChangeCommandBase[];
+    /** Allows updating list items with references to list items or contents that do not exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create notification and notify on progress */
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
 
     constructor(data?: IListItemFieldsBatchUpdateRequest) {
@@ -29528,6 +30755,10 @@ export class ListItemFieldsBatchUpdateRequest implements IListItemFieldsBatchUpd
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.listItemIds = [];
+            this.changeCommands = [];
         }
     }
 
@@ -29573,26 +30804,27 @@ export class ListItemFieldsBatchUpdateRequest implements IListItemFieldsBatchUpd
     }
 }
 
+/** Request to batch update list items' fields based on list item IDs */
 export interface IListItemFieldsBatchUpdateRequest {
-    /** The ids of the list items whose fields need to be updated */
-    listItemIds?: string[] | undefined;
-    /** The change commads to be applied to the list items */
-    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
-    /** Allow storing references to missing list items / contents */
+    /** The ids of the list items whose fields need to be updated. */
+    listItemIds: string[];
+    /** Changes that need to be applied to the existing list items. The same set of changes is applied to all list items. */
+    changeCommands: MetadataValuesChangeCommandBase[];
+    /** Allows updating list items with references to list items or contents that do not exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create notification and notify on progress */
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
 }
 
-/** ListItemFieldsFilterUpdateRequest class */
+/** Request to batch update list items' fields based on a filter */
 export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBatchUpdateFilterRequest {
-    /** The search request used to filter the list items on which the change commands must be applied */
-    filterRequest?: ListItemFilterRequest | undefined;
-    /** The change commads to be applied to the list items */
-    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
-    /** Allow storing references to missing list items / contents */
+    /** Filters the list items on which the change commands must be applied. */
+    filterRequest: ListItemFilterRequest;
+    /** Changes that need to be applied to the existing list items. The same set of changes is applied to all list items. */
+    changeCommands: MetadataValuesChangeCommandBase[];
+    /** Allow updating list items with references to list items or contents that do not exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create notification and notify on progress */
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
 
     constructor(data?: IListItemFieldsBatchUpdateFilterRequest) {
@@ -29603,11 +30835,15 @@ export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBa
             }
             this.filterRequest = data.filterRequest && !(<any>data.filterRequest).toJSON ? new ListItemFilterRequest(data.filterRequest) : <ListItemFilterRequest>this.filterRequest; 
         }
+        if (!data) {
+            this.filterRequest = new ListItemFilterRequest();
+            this.changeCommands = [];
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.filterRequest = data["filterRequest"] ? ListItemFilterRequest.fromJS(data["filterRequest"]) : <any>undefined;
+            this.filterRequest = data["filterRequest"] ? ListItemFilterRequest.fromJS(data["filterRequest"]) : new ListItemFilterRequest();
             if (data["changeCommands"] && data["changeCommands"].constructor === Array) {
                 this.changeCommands = [];
                 for (let item of data["changeCommands"])
@@ -29639,30 +30875,32 @@ export class ListItemFieldsBatchUpdateFilterRequest implements IListItemFieldsBa
     }
 }
 
-/** ListItemFieldsFilterUpdateRequest class */
+/** Request to batch update list items' fields based on a filter */
 export interface IListItemFieldsBatchUpdateFilterRequest {
-    /** The search request used to filter the list items on which the change commands must be applied */
-    filterRequest?: IListItemFilterRequest | undefined;
-    /** The change commads to be applied to the list items */
-    changeCommands?: MetadataValuesChangeCommandBase[] | undefined;
-    /** Allow storing references to missing list items / contents */
+    /** Filters the list items on which the change commands must be applied. */
+    filterRequest: IListItemFilterRequest;
+    /** Changes that need to be applied to the existing list items. The same set of changes is applied to all list items. */
+    changeCommands: MetadataValuesChangeCommandBase[];
+    /** Allow updating list items with references to list items or contents that do not exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create notification and notify on progress */
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
 }
 
+/** Request to filter list items */
 export class ListItemFilterRequest implements IListItemFilterRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
-    /** An optional search filter. Limits the list item result set. */
+    /** An optional filter to limit the list items. */
     filter?: FilterBase | undefined;
-    /** Broadens the search and include all schema descendant list items. */
+    /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
-    /** Limits the search to list items of the provided schemas. */
+    /** Limits the search among the list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** Filter the returned list items that have or not have broken references */
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
 
     constructor(data?: IListItemFilterRequest) {
@@ -29720,104 +30958,161 @@ export class ListItemFilterRequest implements IListItemFilterRequest {
     }
 }
 
+/** Request to filter list items */
 export interface IListItemFilterRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
     searchString?: string | undefined;
-    /** An optional search filter. Limits the list item result set. */
+    /** An optional filter to limit the list items. */
     filter?: FilterBase | undefined;
-    /** Broadens the search and include all schema descendant list items. */
+    /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
-    /** Limits the search to list items of the provided schemas. */
+    /** Limits the search among the list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** Filter the returned list items that have or not have broken references */
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
 }
 
-export class ListItemReferences extends ReferencesBase implements IListItemReferences {
+/** Result from getting references to list items. */
+export class ListItemReferencesResult implements IListItemReferencesResult {
+    /** List of references. Only available when requested in the request. */
+    metadataReferences?: MetadataReferenceResult | undefined;
 
-    constructor(data?: IListItemReferences) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): ListItemReferences {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListItemReferences();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IListItemReferences extends IReferencesBase {
-}
-
-export class LiveStreamSearchRequest implements ILiveStreamSearchRequest {
-    /** Limits the start date of the search request. */
-    from: Date;
-    /** Limits the end date of the search request. */
-    to: Date;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** To get a large amount of data, page token returned from the response can be used to get all data. */
-    pageToken?: string | undefined;
-
-    constructor(data?: ILiveStreamSearchRequest) {
+    constructor(data?: IListItemReferencesResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.metadataReferences = data.metadataReferences && !(<any>data.metadataReferences).toJSON ? new MetadataReferenceResult(data.metadataReferences) : <MetadataReferenceResult>this.metadataReferences; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
-            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
+            this.metadataReferences = data["metadataReferences"] ? MetadataReferenceResult.fromJS(data["metadataReferences"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): LiveStreamSearchRequest {
+    static fromJS(data: any): ListItemReferencesResult {
         data = typeof data === 'object' ? data : {};
-        let result = new LiveStreamSearchRequest();
+        let result = new ListItemReferencesResult();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
-        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
+        data["metadataReferences"] = this.metadataReferences ? this.metadataReferences.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-export interface ILiveStreamSearchRequest {
-    /** Limits the start date of the search request. */
-    from: Date;
-    /** Limits the end date of the search request. */
-    to: Date;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** To get a large amount of data, page token returned from the response can be used to get all data. */
-    pageToken?: string | undefined;
+/** Result from getting references to list items. */
+export interface IListItemReferencesResult {
+    /** List of references. Only available when requested in the request. */
+    metadataReferences?: IMetadataReferenceResult | undefined;
+}
+
+/** Request to get the references to a list item */
+export class ListItemReferencesRequest implements IListItemReferencesRequest {
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: MetadataReferencesPagingRequest | undefined;
+
+    constructor(data?: IListItemReferencesRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.references = data.references && !(<any>data.references).toJSON ? new MetadataReferencesPagingRequest(data.references) : <MetadataReferencesPagingRequest>this.references; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ListItemReferencesRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemReferencesRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Request to get the references to a list item */
+export interface IListItemReferencesRequest {
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: IMetadataReferencesPagingRequest | undefined;
+}
+
+/** Request to get the references to multiple list items */
+export class ListItemManyReferencesRequest implements IListItemManyReferencesRequest {
+    /** The IDs of the list items whose references need to be retrieved. */
+    listItemIds: string[];
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: MetadataReferencesPagingRequest | undefined;
+
+    constructor(data?: IListItemManyReferencesRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.references = data.references && !(<any>data.references).toJSON ? new MetadataReferencesPagingRequest(data.references) : <MetadataReferencesPagingRequest>this.references; 
+        }
+        if (!data) {
+            this.listItemIds = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["listItemIds"] && data["listItemIds"].constructor === Array) {
+                this.listItemIds = [];
+                for (let item of data["listItemIds"])
+                    this.listItemIds.push(item);
+            }
+            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ListItemManyReferencesRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemManyReferencesRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.listItemIds && this.listItemIds.constructor === Array) {
+            data["listItemIds"] = [];
+            for (let item of this.listItemIds)
+                data["listItemIds"].push(item);
+        }
+        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Request to get the references to multiple list items */
+export interface IListItemManyReferencesRequest {
+    /** The IDs of the list items whose references need to be retrieved. */
+    listItemIds: string[];
+    /** Limits the number of the returned metadata references by setting paging information. */
+    references?: IMetadataReferencesPagingRequest | undefined;
 }
 
 export class BaseResultOfObject implements IBaseResultOfObject {
@@ -29880,11 +31175,11 @@ export interface IBaseResultOfObject {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfObject extends BaseResultOfObject implements ISearchBehaviourBaseResultOfObject {
+export class SearchBehaviorBaseResultOfObject extends BaseResultOfObject implements ISearchBehaviorBaseResultOfObject {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfObject) {
+    constructor(data?: ISearchBehaviorBaseResultOfObject) {
         super(data);
     }
 
@@ -29896,9 +31191,9 @@ export class SearchBehaviourBaseResultOfObject extends BaseResultOfObject implem
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfObject {
+    static fromJS(data: any): SearchBehaviorBaseResultOfObject {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfObject();
+        let result = new SearchBehaviorBaseResultOfObject();
         result.init(data);
         return result;
     }
@@ -29912,12 +31207,12 @@ export class SearchBehaviourBaseResultOfObject extends BaseResultOfObject implem
     }
 }
 
-export interface ISearchBehaviourBaseResultOfObject extends IBaseResultOfObject {
+export interface ISearchBehaviorBaseResultOfObject extends IBaseResultOfObject {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class ObjectSearchResult extends SearchBehaviourBaseResultOfObject implements IObjectSearchResult {
+export class ObjectSearchResult extends SearchBehaviorBaseResultOfObject implements IObjectSearchResult {
     elapsedMilliseconds: number;
 
     constructor(data?: IObjectSearchResult) {
@@ -29946,8 +31241,1215 @@ export class ObjectSearchResult extends SearchBehaviourBaseResultOfObject implem
     }
 }
 
-export interface IObjectSearchResult extends ISearchBehaviourBaseResultOfObject {
+export interface IObjectSearchResult extends ISearchBehaviorBaseResultOfObject {
     elapsedMilliseconds: number;
+}
+
+export class LiveStreamSearchRequest implements ILiveStreamSearchRequest {
+    /** Limits the start date of the search request. */
+    from: Date;
+    /** Limits the end date of the search request. */
+    to: Date;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** To get a large amount of data, page token returned from the response can be used to get all data. */
+    pageToken?: string | undefined;
+
+    constructor(data?: ILiveStreamSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
+            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
+            this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): LiveStreamSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new LiveStreamSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
+        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+export interface ILiveStreamSearchRequest {
+    /** Limits the start date of the search request. */
+    from: Date;
+    /** Limits the end date of the search request. */
+    to: Date;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** To get a large amount of data, page token returned from the response can be used to get all data. */
+    pageToken?: string | undefined;
+}
+
+export abstract class Message implements IMessage {
+    id?: string | undefined;
+    contractVersion?: string | undefined;
+    maximumRetryCount: number;
+    retries: number;
+    priority: number;
+    deduplicate: boolean;
+
+    protected _discriminator: string;
+
+    constructor(data?: IMessage) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "Message";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.contractVersion = data["contractVersion"];
+            this.maximumRetryCount = data["maximumRetryCount"];
+            this.retries = data["retries"];
+            this.priority = data["priority"];
+            this.deduplicate = data["deduplicate"];
+        }
+    }
+
+    static fromJS(data: any): Message {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "LiveStreamMessage") {
+            let result = new LiveStreamMessage();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConsoleMessage") {
+            let result = new ConsoleMessage();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NodeInfoMessage") {
+            let result = new NodeInfoMessage();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'Message' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["id"] = this.id;
+        data["contractVersion"] = this.contractVersion;
+        data["maximumRetryCount"] = this.maximumRetryCount;
+        data["retries"] = this.retries;
+        data["priority"] = this.priority;
+        data["deduplicate"] = this.deduplicate;
+        return data; 
+    }
+}
+
+export interface IMessage {
+    id?: string | undefined;
+    contractVersion?: string | undefined;
+    maximumRetryCount: number;
+    retries: number;
+    priority: number;
+    deduplicate: boolean;
+}
+
+export class LiveStreamMessage extends Message implements ILiveStreamMessage {
+    customerId?: string | undefined;
+    customerAlias?: string | undefined;
+    timestamp: Date;
+    scope?: string | undefined;
+    documentChange?: DocumentChange | undefined;
+    applicationEvent?: ApplicationEvent | undefined;
+
+    constructor(data?: ILiveStreamMessage) {
+        super(data);
+        this._discriminator = "LiveStreamMessage";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.customerId = data["customerId"];
+            this.customerAlias = data["customerAlias"];
+            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
+            this.scope = data["scope"];
+            this.documentChange = data["documentChange"] ? DocumentChange.fromJS(data["documentChange"]) : <any>undefined;
+            this.applicationEvent = data["applicationEvent"] ? ApplicationEvent.fromJS(data["applicationEvent"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): LiveStreamMessage {
+        data = typeof data === 'object' ? data : {};
+        let result = new LiveStreamMessage();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerId"] = this.customerId;
+        data["customerAlias"] = this.customerAlias;
+        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+        data["scope"] = this.scope;
+        data["documentChange"] = this.documentChange ? this.documentChange.toJSON() : <any>undefined;
+        data["applicationEvent"] = this.applicationEvent ? this.applicationEvent.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ILiveStreamMessage extends IMessage {
+    customerId?: string | undefined;
+    customerAlias?: string | undefined;
+    timestamp: Date;
+    scope?: string | undefined;
+    documentChange?: IDocumentChange | undefined;
+    applicationEvent?: ApplicationEvent | undefined;
+}
+
+export class DocumentChange implements IDocumentChange {
+    documentName?: string | undefined;
+    documentId?: string | undefined;
+    version: number;
+    action?: string | undefined;
+    timeStamp: Date;
+
+    constructor(data?: IDocumentChange) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.documentName = data["documentName"];
+            this.documentId = data["documentId"];
+            this.version = data["version"];
+            this.action = data["action"];
+            this.timeStamp = data["timeStamp"] ? new Date(data["timeStamp"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DocumentChange {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentChange();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["documentName"] = this.documentName;
+        data["documentId"] = this.documentId;
+        data["version"] = this.version;
+        data["action"] = this.action;
+        data["timeStamp"] = this.timeStamp ? this.timeStamp.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IDocumentChange {
+    documentName?: string | undefined;
+    documentId?: string | undefined;
+    version: number;
+    action?: string | undefined;
+    timeStamp: Date;
+}
+
+export class ApplicationEvent implements IApplicationEvent {
+    timestamp: Date;
+
+    protected _discriminator: string;
+
+    constructor(data?: IApplicationEvent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "ApplicationEvent";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ApplicationEvent {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "TransferEvent") {
+            let result = new TransferEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReindexEvent") {
+            let result = new ReindexEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputBackupEvent") {
+            let result = new OutputBackupEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputBackupMissingEvent") {
+            let result = new OutputBackupMissingEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputBackupRemoveEvent") {
+            let result = new OutputBackupRemoveEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentBackupRecoveryEvent") {
+            let result = new ContentBackupRecoveryEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentDetailViewEvent") {
+            let result = new ContentDetailViewEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentDownloadEvent") {
+            let result = new ContentDownloadEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SessionRenewalEvent") {
+            let result = new SessionRenewalEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SharePageViewEvent") {
+            let result = new SharePageViewEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ApiStatisticsEvent") {
+            let result = new ApiStatisticsEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessEvent") {
+            let result = new BusinessProcessEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputRenderedEvent") {
+            let result = new OutputRenderedEvent();
+            result.init(data);
+            return result;
+        }
+        let result = new ApplicationEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IApplicationEvent {
+    timestamp: Date;
+}
+
+export class TransferEvent extends ApplicationEvent implements ITransferEvent {
+    transferId?: string | undefined;
+    state: TransferState;
+
+    constructor(data?: ITransferEvent) {
+        super(data);
+        this._discriminator = "TransferEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.transferId = data["transferId"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): TransferEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new TransferEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferId"] = this.transferId;
+        data["state"] = this.state;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITransferEvent extends IApplicationEvent {
+    transferId?: string | undefined;
+    state: TransferState;
+}
+
+/** Transfer states */
+export enum TransferState {
+    Draft = <any>"Draft", 
+    UploadInProgress = <any>"UploadInProgress", 
+    UploadCompleted = <any>"UploadCompleted", 
+    ImportInProgress = <any>"ImportInProgress", 
+    ImportCompleted = <any>"ImportCompleted", 
+    UploadCancelled = <any>"UploadCancelled", 
+    ImportCancelled = <any>"ImportCancelled", 
+    ImportFailed = <any>"ImportFailed", 
+    Created = <any>"Created", 
+    Deleted = <any>"Deleted", 
+    TransferReady = <any>"TransferReady", 
+    FileDeleteInProgress = <any>"FileDeleteInProgress", 
+    TransferCleanup = <any>"TransferCleanup", 
+    ImportCompletedWithErrors = <any>"ImportCompletedWithErrors", 
+}
+
+export class ReindexEvent extends ApplicationEvent implements IReindexEvent {
+    indexId?: string | undefined;
+    state: IndexState;
+
+    constructor(data?: IReindexEvent) {
+        super(data);
+        this._discriminator = "ReindexEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.indexId = data["indexId"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): ReindexEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReindexEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["indexId"] = this.indexId;
+        data["state"] = this.state;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IReindexEvent extends IApplicationEvent {
+    indexId?: string | undefined;
+    state: IndexState;
+}
+
+export enum IndexState {
+    Draft = <any>"Draft", 
+    Create = <any>"Create", 
+    Inactive = <any>"Inactive", 
+    Active = <any>"Active", 
+    Closed = <any>"Closed", 
+    ReindexInProgress = <any>"ReindexInProgress", 
+    Cancelled = <any>"Cancelled", 
+}
+
+export class OutputBackupEvent extends ApplicationEvent implements IOutputBackupEvent {
+    outputId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputBackupEvent) {
+        super(data);
+        this._discriminator = "OutputBackupEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.outputId = data["outputId"];
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputBackupEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputBackupEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputId"] = this.outputId;
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputBackupEvent extends IApplicationEvent {
+    outputId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
+export class OutputBackupMissingEvent extends ApplicationEvent implements IOutputBackupMissingEvent {
+    outputId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputBackupMissingEvent) {
+        super(data);
+        this._discriminator = "OutputBackupMissingEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.outputId = data["outputId"];
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputBackupMissingEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputBackupMissingEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputId"] = this.outputId;
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputBackupMissingEvent extends IApplicationEvent {
+    outputId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
+export class OutputBackupRemoveEvent extends ApplicationEvent implements IOutputBackupRemoveEvent {
+    filePaths?: string[] | undefined;
+
+    constructor(data?: IOutputBackupRemoveEvent) {
+        super(data);
+        this._discriminator = "OutputBackupRemoveEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["filePaths"] && data["filePaths"].constructor === Array) {
+                this.filePaths = [];
+                for (let item of data["filePaths"])
+                    this.filePaths.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): OutputBackupRemoveEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputBackupRemoveEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.filePaths && this.filePaths.constructor === Array) {
+            data["filePaths"] = [];
+            for (let item of this.filePaths)
+                data["filePaths"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputBackupRemoveEvent extends IApplicationEvent {
+    filePaths?: string[] | undefined;
+}
+
+export class ContentBackupRecoveryEvent extends ApplicationEvent implements IContentBackupRecoveryEvent {
+    contentId?: string | undefined;
+    businessProcessId?: string | undefined;
+
+    constructor(data?: IContentBackupRecoveryEvent) {
+        super(data);
+        this._discriminator = "ContentBackupRecoveryEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentId = data["contentId"];
+            this.businessProcessId = data["businessProcessId"];
+        }
+    }
+
+    static fromJS(data: any): ContentBackupRecoveryEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentBackupRecoveryEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["businessProcessId"] = this.businessProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentBackupRecoveryEvent extends IApplicationEvent {
+    contentId?: string | undefined;
+    businessProcessId?: string | undefined;
+}
+
+export class ContentDetailViewEvent extends ApplicationEvent implements IContentDetailViewEvent {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: IContentDetailViewEvent) {
+        super(data);
+        this._discriminator = "ContentDetailViewEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["contentIds"] && data["contentIds"].constructor === Array) {
+                this.contentIds = [];
+                for (let item of data["contentIds"])
+                    this.contentIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentDetailViewEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentDetailViewEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.contentIds && this.contentIds.constructor === Array) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentDetailViewEvent extends IApplicationEvent {
+    contentIds?: string[] | undefined;
+}
+
+export class ContentDownloadEvent extends ApplicationEvent implements IContentDownloadEvent {
+    downloadInfos?: DownloadTrackingInfo[] | undefined;
+    fileSize: number;
+    shareToken?: string | undefined;
+    range?: string | undefined;
+
+    constructor(data?: IContentDownloadEvent) {
+        super(data);
+        this._discriminator = "ContentDownloadEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["downloadInfos"] && data["downloadInfos"].constructor === Array) {
+                this.downloadInfos = [];
+                for (let item of data["downloadInfos"])
+                    this.downloadInfos.push(DownloadTrackingInfo.fromJS(item));
+            }
+            this.fileSize = data["fileSize"];
+            this.shareToken = data["shareToken"];
+            this.range = data["range"];
+        }
+    }
+
+    static fromJS(data: any): ContentDownloadEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentDownloadEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.downloadInfos && this.downloadInfos.constructor === Array) {
+            data["downloadInfos"] = [];
+            for (let item of this.downloadInfos)
+                data["downloadInfos"].push(item.toJSON());
+        }
+        data["fileSize"] = this.fileSize;
+        data["shareToken"] = this.shareToken;
+        data["range"] = this.range;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentDownloadEvent extends IApplicationEvent {
+    downloadInfos?: IDownloadTrackingInfo[] | undefined;
+    fileSize: number;
+    shareToken?: string | undefined;
+    range?: string | undefined;
+}
+
+export class DownloadTrackingInfo implements IDownloadTrackingInfo {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+    width?: number | undefined;
+    height?: number | undefined;
+    contentDisposition: ContentDisposition;
+
+    constructor(data?: IDownloadTrackingInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+            this.width = data["width"];
+            this.height = data["height"];
+            this.contentDisposition = data["contentDisposition"];
+        }
+    }
+
+    static fromJS(data: any): DownloadTrackingInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new DownloadTrackingInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["contentDisposition"] = this.contentDisposition;
+        return data; 
+    }
+}
+
+export interface IDownloadTrackingInfo {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+    width?: number | undefined;
+    height?: number | undefined;
+    contentDisposition: ContentDisposition;
+}
+
+export enum ContentDisposition {
+    Attachment = <any>"Attachment", 
+    Inline = <any>"Inline", 
+}
+
+export class SessionRenewalEvent extends ApplicationEvent implements ISessionRenewalEvent {
+    authorizationState: AuthorizationState;
+
+    constructor(data?: ISessionRenewalEvent) {
+        super(data);
+        this._discriminator = "SessionRenewalEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.authorizationState = data["authorizationState"];
+        }
+    }
+
+    static fromJS(data: any): SessionRenewalEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new SessionRenewalEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["authorizationState"] = this.authorizationState;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISessionRenewalEvent extends IApplicationEvent {
+    authorizationState: AuthorizationState;
+}
+
+export enum AuthorizationState {
+    Reviewed = <any>"Reviewed", 
+    ToBeReviewed = <any>"ToBeReviewed", 
+    Invited = <any>"Invited", 
+    UserTriggeredDeactivation = <any>"UserTriggeredDeactivation", 
+}
+
+export class SharePageViewEvent extends ApplicationEvent implements ISharePageViewEvent {
+    shareToken?: string | undefined;
+
+    constructor(data?: ISharePageViewEvent) {
+        super(data);
+        this._discriminator = "SharePageViewEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.shareToken = data["shareToken"];
+        }
+    }
+
+    static fromJS(data: any): SharePageViewEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new SharePageViewEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["shareToken"] = this.shareToken;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISharePageViewEvent extends IApplicationEvent {
+    shareToken?: string | undefined;
+}
+
+export class ApiStatisticsEvent extends ApplicationEvent implements IApiStatisticsEvent {
+    requestsPerClient?: { [key: string] : number; } | undefined;
+
+    constructor(data?: IApiStatisticsEvent) {
+        super(data);
+        this._discriminator = "ApiStatisticsEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["requestsPerClient"]) {
+                this.requestsPerClient = {};
+                for (let key in data["requestsPerClient"]) {
+                    if (data["requestsPerClient"].hasOwnProperty(key))
+                        this.requestsPerClient[key] = data["requestsPerClient"][key];
+                }
+            }
+        }
+    }
+
+    static fromJS(data: any): ApiStatisticsEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApiStatisticsEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.requestsPerClient) {
+            data["requestsPerClient"] = {};
+            for (let key in this.requestsPerClient) {
+                if (this.requestsPerClient.hasOwnProperty(key))
+                    data["requestsPerClient"][key] = this.requestsPerClient[key];
+            }
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IApiStatisticsEvent extends IApplicationEvent {
+    requestsPerClient?: { [key: string] : number; } | undefined;
+}
+
+export class BusinessProcessEvent extends ApplicationEvent implements IBusinessProcessEvent {
+    businessProcessId?: string | undefined;
+    lifeCycle?: BusinessProcessLifeCycle | undefined;
+    state?: string | undefined;
+
+    constructor(data?: IBusinessProcessEvent) {
+        super(data);
+        this._discriminator = "BusinessProcessEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.businessProcessId = data["businessProcessId"];
+            this.lifeCycle = data["lifeCycle"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        data["lifeCycle"] = this.lifeCycle;
+        data["state"] = this.state;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessEvent extends IApplicationEvent {
+    businessProcessId?: string | undefined;
+    lifeCycle?: BusinessProcessLifeCycle | undefined;
+    state?: string | undefined;
+}
+
+export class OutputRenderedEvent extends ApplicationEvent implements IOutputRenderedEvent {
+    outputId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputRenderedEvent) {
+        super(data);
+        this._discriminator = "OutputRenderedEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.outputId = data["outputId"];
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputRenderedEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputRenderedEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputId"] = this.outputId;
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputRenderedEvent extends IApplicationEvent {
+    outputId?: string | undefined;
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
+export class ConsoleMessage extends Message implements IConsoleMessage {
+    command?: string | undefined;
+    arguments?: TupleOfStringAndString[] | undefined;
+    targetQueue?: string | undefined;
+
+    constructor(data?: IConsoleMessage) {
+        super(data);
+        this._discriminator = "ConsoleMessage";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.command = data["command"];
+            if (data["arguments"] && data["arguments"].constructor === Array) {
+                this.arguments = [];
+                for (let item of data["arguments"])
+                    this.arguments.push(TupleOfStringAndString.fromJS(item));
+            }
+            this.targetQueue = data["targetQueue"];
+        }
+    }
+
+    static fromJS(data: any): ConsoleMessage {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConsoleMessage();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["command"] = this.command;
+        if (this.arguments && this.arguments.constructor === Array) {
+            data["arguments"] = [];
+            for (let item of this.arguments)
+                data["arguments"].push(item.toJSON());
+        }
+        data["targetQueue"] = this.targetQueue;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IConsoleMessage extends IMessage {
+    command?: string | undefined;
+    arguments?: ITupleOfStringAndString[] | undefined;
+    targetQueue?: string | undefined;
+}
+
+export class TupleOfStringAndString implements ITupleOfStringAndString {
+    item1?: string | undefined;
+    item2?: string | undefined;
+
+    constructor(data?: ITupleOfStringAndString) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.item1 = data["item1"];
+            this.item2 = data["item2"];
+        }
+    }
+
+    static fromJS(data: any): TupleOfStringAndString {
+        data = typeof data === 'object' ? data : {};
+        let result = new TupleOfStringAndString();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["item1"] = this.item1;
+        data["item2"] = this.item2;
+        return data; 
+    }
+}
+
+export interface ITupleOfStringAndString {
+    item1?: string | undefined;
+    item2?: string | undefined;
+}
+
+export class NodeInfoMessage extends Message implements INodeInfoMessage {
+    nodeId?: string | undefined;
+    hostName?: string | undefined;
+    lastResponseTime: Date;
+    serviceName?: string | undefined;
+    fileVersion?: string | undefined;
+    productVersion?: string | undefined;
+    release?: string | undefined;
+    logLevel?: string | undefined;
+
+    constructor(data?: INodeInfoMessage) {
+        super(data);
+        this._discriminator = "NodeInfoMessage";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.nodeId = data["nodeId"];
+            this.hostName = data["hostName"];
+            this.lastResponseTime = data["lastResponseTime"] ? new Date(data["lastResponseTime"].toString()) : <any>undefined;
+            this.serviceName = data["serviceName"];
+            this.fileVersion = data["fileVersion"];
+            this.productVersion = data["productVersion"];
+            this.release = data["release"];
+            this.logLevel = data["logLevel"];
+        }
+    }
+
+    static fromJS(data: any): NodeInfoMessage {
+        data = typeof data === 'object' ? data : {};
+        let result = new NodeInfoMessage();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["nodeId"] = this.nodeId;
+        data["hostName"] = this.hostName;
+        data["lastResponseTime"] = this.lastResponseTime ? this.lastResponseTime.toISOString() : <any>undefined;
+        data["serviceName"] = this.serviceName;
+        data["fileVersion"] = this.fileVersion;
+        data["productVersion"] = this.productVersion;
+        data["release"] = this.release;
+        data["logLevel"] = this.logLevel;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INodeInfoMessage extends IMessage {
+    nodeId?: string | undefined;
+    hostName?: string | undefined;
+    lastResponseTime: Date;
+    serviceName?: string | undefined;
+    fileVersion?: string | undefined;
+    productVersion?: string | undefined;
+    release?: string | undefined;
+    logLevel?: string | undefined;
+}
+
+export class BaseResultOfOutput implements IBaseResultOfOutput {
+    totalResults: number;
+    results: Output[];
+    pageToken?: string | undefined;
+    queryDebugInformation?: QueryDebugInformation | undefined;
+
+    constructor(data?: IBaseResultOfOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalResults = data["totalResults"];
+            if (data["results"] && data["results"].constructor === Array) {
+                this.results = [];
+                for (let item of data["results"])
+                    this.results.push(Output.fromJS(item));
+            }
+            this.pageToken = data["pageToken"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (this.results && this.results.constructor === Array) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["pageToken"] = this.pageToken;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBaseResultOfOutput {
+    totalResults: number;
+    results: Output[];
+    pageToken?: string | undefined;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
+}
+
+export class OutputSearchResult extends BaseResultOfOutput implements IOutputSearchResult {
+
+    constructor(data?: IOutputSearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): OutputSearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputSearchResult extends IBaseResultOfOutput {
 }
 
 export class OutputSearchRequest implements IOutputSearchRequest {
@@ -30050,95 +32552,6 @@ export interface IOutputSearchRequest {
     outputFormatIds?: string[] | undefined;
 }
 
-export class BaseResultOfOutput implements IBaseResultOfOutput {
-    totalResults: number;
-    results: Output[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
-
-    constructor(data?: IBaseResultOfOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
-        }
-        if (!data) {
-            this.results = [];
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalResults = data["totalResults"];
-            if (data["results"] && data["results"].constructor === Array) {
-                this.results = [];
-                for (let item of data["results"])
-                    this.results.push(Output.fromJS(item));
-            }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (this.results && this.results.constructor === Array) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IBaseResultOfOutput {
-    totalResults: number;
-    results: Output[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
-}
-
-export class OutputSearchResult extends BaseResultOfOutput implements IOutputSearchResult {
-
-    constructor(data?: IOutputSearchResult) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): OutputSearchResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new OutputSearchResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IOutputSearchResult extends IBaseResultOfOutput {
-}
-
 export class UserProfile implements IUserProfile {
     id?: string | undefined;
     emailAddress?: string | undefined;
@@ -30147,6 +32560,7 @@ export class UserProfile implements IUserProfile {
     languageCode?: string | undefined;
     address?: UserAddress | undefined;
     authorizationState: AuthorizationState;
+    isLocked: boolean;
     userRights?: UserRight[] | undefined;
     userRoleIds?: string[] | undefined;
     termsConsentExpired: boolean;
@@ -30172,6 +32586,7 @@ export class UserProfile implements IUserProfile {
             this.languageCode = data["languageCode"];
             this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
             this.authorizationState = data["authorizationState"];
+            this.isLocked = data["isLocked"];
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
                 for (let item of data["userRights"])
@@ -30208,6 +32623,7 @@ export class UserProfile implements IUserProfile {
         data["languageCode"] = this.languageCode;
         data["address"] = this.address ? this.address.toJSON() : <any>undefined;
         data["authorizationState"] = this.authorizationState;
+        data["isLocked"] = this.isLocked;
         if (this.userRights && this.userRights.constructor === Array) {
             data["userRights"] = [];
             for (let item of this.userRights)
@@ -30237,6 +32653,7 @@ export interface IUserProfile {
     languageCode?: string | undefined;
     address?: IUserAddress | undefined;
     authorizationState: AuthorizationState;
+    isLocked: boolean;
     userRights?: UserRight[] | undefined;
     userRoleIds?: string[] | undefined;
     termsConsentExpired: boolean;
@@ -30244,14 +32661,23 @@ export interface IUserProfile {
     isDeveloper: boolean;
 }
 
+/** User's address */
 export class UserAddress implements IUserAddress {
+    /** Company address line */
     company?: string | undefined;
-    address?: string | undefined;
-    alternativeAddress?: string | undefined;
+    /** Company department. */
     department?: string | undefined;
+    /** Street and house number. */
+    address?: string | undefined;
+    /** Additional address line. */
+    alternativeAddress?: string | undefined;
+    /** ZIP code. */
     zip?: string | undefined;
+    /** City or town. */
     city?: string | undefined;
+    /** Phone number. */
     phone?: string | undefined;
+    /** Country code. */
     countryCode?: string | undefined;
 
     constructor(data?: IUserAddress) {
@@ -30266,9 +32692,9 @@ export class UserAddress implements IUserAddress {
     init(data?: any) {
         if (data) {
             this.company = data["company"];
+            this.department = data["department"];
             this.address = data["address"];
             this.alternativeAddress = data["alternativeAddress"];
-            this.department = data["department"];
             this.zip = data["zip"];
             this.city = data["city"];
             this.phone = data["phone"];
@@ -30286,9 +32712,9 @@ export class UserAddress implements IUserAddress {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["company"] = this.company;
+        data["department"] = this.department;
         data["address"] = this.address;
         data["alternativeAddress"] = this.alternativeAddress;
-        data["department"] = this.department;
         data["zip"] = this.zip;
         data["city"] = this.city;
         data["phone"] = this.phone;
@@ -30297,22 +32723,24 @@ export class UserAddress implements IUserAddress {
     }
 }
 
+/** User's address */
 export interface IUserAddress {
+    /** Company address line */
     company?: string | undefined;
-    address?: string | undefined;
-    alternativeAddress?: string | undefined;
+    /** Company department. */
     department?: string | undefined;
+    /** Street and house number. */
+    address?: string | undefined;
+    /** Additional address line. */
+    alternativeAddress?: string | undefined;
+    /** ZIP code. */
     zip?: string | undefined;
+    /** City or town. */
     city?: string | undefined;
+    /** Phone number. */
     phone?: string | undefined;
+    /** Country code. */
     countryCode?: string | undefined;
-}
-
-export enum AuthorizationState {
-    Reviewed = <any>"Reviewed", 
-    ToBeReviewed = <any>"ToBeReviewed", 
-    Locked = <any>"Locked", 
-    Invited = <any>"Invited", 
 }
 
 export enum SystemUserRole {
@@ -30376,18 +32804,2324 @@ export interface IUserProfileUpdateRequest {
     address?: IUserAddress | undefined;
 }
 
-/** The version view item for the environment. */
-export class VersionInfo implements IVersionInfo {
-    /** The manual file version of Picturepark.Contract.dll. */
-    fileVersion?: string | undefined;
-    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
-    fileProductVersion?: string | undefined;
-    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
-    contractVersion?: string | undefined;
-    /** The bamboo release version. Only provided on bamboo deployments. */
-    release?: string | undefined;
+/** The details of a schema */
+export class SchemaDetail implements ISchemaDetail {
+    /** The schema ID. It is unique throughout the whole customer setup. */
+    id: string;
+    /** System generated schema namespace. It contains the full schema hierarchy up to the root schema (i.e. [RootSchemaId].[ParentSchemaId].[SchemaId]). */
+    schemaNamespace: string;
+    /** The parent schema ID. */
+    parentSchemaId?: string | undefined;
+    /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
+    types: SchemaType[];
+    /** Language specific schema names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
+    displayPatterns: DisplayPattern[];
+    /** The schema fields. */
+    fields?: FieldBase[] | undefined;
+    /** A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
+    /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+must be set to true. Multiple sorting is supported: they are applied in the specified order. */
+    sort?: SortInfo[] | undefined;
+    /** An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+the UI uses such information to show the available filters and grouped results. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** Identifies a system provided schema. A system schema cannot be created, updated or deleted. */
+    system: boolean;
+    /** The owner token ID. Defines the schema owner. */
+    ownerTokenId: string;
+    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
+If the value is set true, the SchemaPermissionSetIds list must be empty. */
+    public: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    schemaPermissionSetIds?: string[] | undefined;
+    /** If the schema if of type Layer, the list contains the schemas with type Content
+that reference the layer. */
+    referencedInContentSchemaIds?: string[] | undefined;
+    /** The complete list of all descendant schema IDs. */
+    descendantSchemaIds?: string[] | undefined;
+    /** Audit information. */
+    audit?: UserAudit | undefined;
+    /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
+    searchFieldCount?: SearchFieldCount | undefined;
 
-    constructor(data?: IVersionInfo) {
+    constructor(data?: ISchemaDetail) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
+            if (data.displayPatterns) {
+                this.displayPatterns = [];
+                for (let i = 0; i < data.displayPatterns.length; i++) {
+                    let item = data.displayPatterns[i];
+                    this.displayPatterns[i] = item && !(<any>item).toJSON ? new DisplayPattern(item) : <DisplayPattern>item;
+                }
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+            this.searchFieldCount = data.searchFieldCount && !(<any>data.searchFieldCount).toJSON ? new SearchFieldCount(data.searchFieldCount) : <SearchFieldCount>this.searchFieldCount; 
+        }
+        if (!data) {
+            this.types = [];
+            this.displayPatterns = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.schemaNamespace = data["schemaNamespace"];
+            this.parentSchemaId = data["parentSchemaId"];
+            if (data["types"] && data["types"].constructor === Array) {
+                this.types = [];
+                for (let item of data["types"])
+                    this.types.push(item);
+            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
+            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
+                this.layerSchemaIds = [];
+                for (let item of data["layerSchemaIds"])
+                    this.layerSchemaIds.push(item);
+            }
+            if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
+                this.displayPatterns = [];
+                for (let item of data["displayPatterns"])
+                    this.displayPatterns.push(DisplayPattern.fromJS(item));
+            }
+            if (data["fields"] && data["fields"].constructor === Array) {
+                this.fields = [];
+                for (let item of data["fields"])
+                    this.fields.push(FieldBase.fromJS(item));
+            }
+            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
+                this.fieldsOverwrite = [];
+                for (let item of data["fieldsOverwrite"])
+                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            if (data["aggregations"] && data["aggregations"].constructor === Array) {
+                this.aggregations = [];
+                for (let item of data["aggregations"])
+                    this.aggregations.push(AggregatorBase.fromJS(item));
+            }
+            this.system = data["system"];
+            this.ownerTokenId = data["ownerTokenId"];
+            this.public = data["public"];
+            if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
+                this.schemaPermissionSetIds = [];
+                for (let item of data["schemaPermissionSetIds"])
+                    this.schemaPermissionSetIds.push(item);
+            }
+            if (data["referencedInContentSchemaIds"] && data["referencedInContentSchemaIds"].constructor === Array) {
+                this.referencedInContentSchemaIds = [];
+                for (let item of data["referencedInContentSchemaIds"])
+                    this.referencedInContentSchemaIds.push(item);
+            }
+            if (data["descendantSchemaIds"] && data["descendantSchemaIds"].constructor === Array) {
+                this.descendantSchemaIds = [];
+                for (let item of data["descendantSchemaIds"])
+                    this.descendantSchemaIds.push(item);
+            }
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.searchFieldCount = data["searchFieldCount"] ? SearchFieldCount.fromJS(data["searchFieldCount"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SchemaDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["schemaNamespace"] = this.schemaNamespace;
+        data["parentSchemaId"] = this.parentSchemaId;
+        if (this.types && this.types.constructor === Array) {
+            data["types"] = [];
+            for (let item of this.types)
+                data["types"].push(item);
+        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
+        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
+            data["layerSchemaIds"] = [];
+            for (let item of this.layerSchemaIds)
+                data["layerSchemaIds"].push(item);
+        }
+        if (this.displayPatterns && this.displayPatterns.constructor === Array) {
+            data["displayPatterns"] = [];
+            for (let item of this.displayPatterns)
+                data["displayPatterns"].push(item.toJSON());
+        }
+        if (this.fields && this.fields.constructor === Array) {
+            data["fields"] = [];
+            for (let item of this.fields)
+                data["fields"].push(item.toJSON());
+        }
+        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
+            data["fieldsOverwrite"] = [];
+            for (let item of this.fieldsOverwrite)
+                data["fieldsOverwrite"].push(item.toJSON());
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        if (this.aggregations && this.aggregations.constructor === Array) {
+            data["aggregations"] = [];
+            for (let item of this.aggregations)
+                data["aggregations"].push(item.toJSON());
+        }
+        data["system"] = this.system;
+        data["ownerTokenId"] = this.ownerTokenId;
+        data["public"] = this.public;
+        if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
+            data["schemaPermissionSetIds"] = [];
+            for (let item of this.schemaPermissionSetIds)
+                data["schemaPermissionSetIds"].push(item);
+        }
+        if (this.referencedInContentSchemaIds && this.referencedInContentSchemaIds.constructor === Array) {
+            data["referencedInContentSchemaIds"] = [];
+            for (let item of this.referencedInContentSchemaIds)
+                data["referencedInContentSchemaIds"].push(item);
+        }
+        if (this.descendantSchemaIds && this.descendantSchemaIds.constructor === Array) {
+            data["descendantSchemaIds"] = [];
+            for (let item of this.descendantSchemaIds)
+                data["descendantSchemaIds"].push(item);
+        }
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["searchFieldCount"] = this.searchFieldCount ? this.searchFieldCount.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** The details of a schema */
+export interface ISchemaDetail {
+    /** The schema ID. It is unique throughout the whole customer setup. */
+    id: string;
+    /** System generated schema namespace. It contains the full schema hierarchy up to the root schema (i.e. [RootSchemaId].[ParentSchemaId].[SchemaId]). */
+    schemaNamespace: string;
+    /** The parent schema ID. */
+    parentSchemaId?: string | undefined;
+    /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
+    types: SchemaType[];
+    /** Language specific schema names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: ITranslatedStringDictionary | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
+    displayPatterns: IDisplayPattern[];
+    /** The schema fields. */
+    fields?: FieldBase[] | undefined;
+    /** A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
+    /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+must be set to true. Multiple sorting is supported: they are applied in the specified order. */
+    sort?: ISortInfo[] | undefined;
+    /** An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+the UI uses such information to show the available filters and grouped results. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** Identifies a system provided schema. A system schema cannot be created, updated or deleted. */
+    system: boolean;
+    /** The owner token ID. Defines the schema owner. */
+    ownerTokenId: string;
+    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
+If the value is set true, the SchemaPermissionSetIds list must be empty. */
+    public: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    schemaPermissionSetIds?: string[] | undefined;
+    /** If the schema if of type Layer, the list contains the schemas with type Content
+that reference the layer. */
+    referencedInContentSchemaIds?: string[] | undefined;
+    /** The complete list of all descendant schema IDs. */
+    descendantSchemaIds?: string[] | undefined;
+    /** Audit information. */
+    audit?: IUserAudit | undefined;
+    /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
+    searchFieldCount?: ISearchFieldCount | undefined;
+}
+
+/** Represent the template whose value will be resolved based on the actual content. */
+export class DisplayPattern implements IDisplayPattern {
+    /** The template engine used for parsing the display patterns. */
+    templateEngine: TemplateEngine;
+    /** The display pattern type. */
+    displayPatternType: DisplayPatternType;
+    /** Language specific pattern templates. */
+    templates?: TranslatedStringDictionary | undefined;
+
+    constructor(data?: IDisplayPattern) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.templates = data.templates && !(<any>data.templates).toJSON ? new TranslatedStringDictionary(data.templates) : <TranslatedStringDictionary>this.templates; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.templateEngine = data["templateEngine"];
+            this.displayPatternType = data["displayPatternType"];
+            this.templates = data["templates"] ? TranslatedStringDictionary.fromJS(data["templates"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DisplayPattern {
+        data = typeof data === 'object' ? data : {};
+        let result = new DisplayPattern();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["templateEngine"] = this.templateEngine;
+        data["displayPatternType"] = this.displayPatternType;
+        data["templates"] = this.templates ? this.templates.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Represent the template whose value will be resolved based on the actual content. */
+export interface IDisplayPattern {
+    /** The template engine used for parsing the display patterns. */
+    templateEngine: TemplateEngine;
+    /** The display pattern type. */
+    displayPatternType: DisplayPatternType;
+    /** Language specific pattern templates. */
+    templates?: ITranslatedStringDictionary | undefined;
+}
+
+/** The template engine used for parsing the display patterns */
+export enum TemplateEngine {
+    DotLiquid = <any>"DotLiquid", 
+}
+
+/** The field base class */
+export abstract class FieldBase implements IFieldBase {
+    /** The field ID. It can be a slug; it must be unique within the schema hierarchy (ancestors / descendants); it must be begin with lower case. */
+    id: string;
+    /** The index ID is auto generated by the system. */
+    indexId?: string | undefined;
+    /** The field namespace is auto generated by the system: it carries the hierarchy information. */
+    fieldNamespace?: string | undefined;
+    /** Language specific field names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific field descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** Defines if a field value is mandatory or not. */
+    required: boolean;
+    /** Defines if the field can be edited or not. */
+    fixed: boolean;
+    /** Field is stored for filtering. */
+    index: boolean;
+    /** Field is stored for simple search. */
+    simpleSearch: boolean;
+    /** Field is stored for sorting. */
+    sortable: boolean;
+
+    protected _discriminator: string;
+
+    constructor(data?: IFieldBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
+        }
+        this._discriminator = "FieldBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.indexId = data["indexId"];
+            this.fieldNamespace = data["fieldNamespace"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
+            this.required = data["required"];
+            this.fixed = data["fixed"];
+            this.index = data["index"];
+            this.simpleSearch = data["simpleSearch"];
+            this.sortable = data["sortable"];
+        }
+    }
+
+    static fromJS(data: any): FieldBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FieldBoolean") {
+            let result = new FieldBoolean();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldDate") {
+            let result = new FieldDate();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldDateTime") {
+            let result = new FieldDateTime();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldDateTimeArray") {
+            let result = new FieldDateTimeArray();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldDecimal") {
+            let result = new FieldDecimal();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldDictionary") {
+            let result = new FieldDictionary();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldDictionaryArray") {
+            let result = new FieldDictionaryArray();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldGeoPoint") {
+            let result = new FieldGeoPoint();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldLong") {
+            let result = new FieldLong();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldLongArray") {
+            let result = new FieldLongArray();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldSingleFieldset") {
+            let result = new FieldSingleFieldset();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldMultiFieldset") {
+            let result = new FieldMultiFieldset();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldSingleTagbox") {
+            let result = new FieldSingleTagbox();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldMultiTagbox") {
+            let result = new FieldMultiTagbox();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldString") {
+            let result = new FieldString();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldStringArray") {
+            let result = new FieldStringArray();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldTranslatedString") {
+            let result = new FieldTranslatedString();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldSingleRelation") {
+            let result = new FieldSingleRelation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldMultiRelation") {
+            let result = new FieldMultiRelation();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'FieldBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["id"] = this.id;
+        data["indexId"] = this.indexId;
+        data["fieldNamespace"] = this.fieldNamespace;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
+        data["required"] = this.required;
+        data["fixed"] = this.fixed;
+        data["index"] = this.index;
+        data["simpleSearch"] = this.simpleSearch;
+        data["sortable"] = this.sortable;
+        return data; 
+    }
+}
+
+/** The field base class */
+export interface IFieldBase {
+    /** The field ID. It can be a slug; it must be unique within the schema hierarchy (ancestors / descendants); it must be begin with lower case. */
+    id: string;
+    /** The index ID is auto generated by the system. */
+    indexId?: string | undefined;
+    /** The field namespace is auto generated by the system: it carries the hierarchy information. */
+    fieldNamespace?: string | undefined;
+    /** Language specific field names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific field descriptions. */
+    descriptions?: ITranslatedStringDictionary | undefined;
+    /** Defines if a field value is mandatory or not. */
+    required: boolean;
+    /** Defines if the field can be edited or not. */
+    fixed: boolean;
+    /** Field is stored for filtering. */
+    index: boolean;
+    /** Field is stored for simple search. */
+    simpleSearch: boolean;
+    /** Field is stored for sorting. */
+    sortable: boolean;
+}
+
+/** The field used to store a boolean */
+export class FieldBoolean extends FieldBase implements IFieldBoolean {
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldBoolean) {
+        super(data);
+        this._discriminator = "FieldBoolean";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldBoolean {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldBoolean();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a boolean */
+export interface IFieldBoolean extends IFieldBase {
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store a date */
+export class FieldDate extends FieldBase implements IFieldDate {
+    /** The date format structure. */
+    format?: string | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldDate) {
+        super(data);
+        this._discriminator = "FieldDate";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.format = data["format"];
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldDate {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldDate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["format"] = this.format;
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a date */
+export interface IFieldDate extends IFieldBase {
+    /** The date format structure. */
+    format?: string | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store a date time */
+export class FieldDateTime extends FieldBase implements IFieldDateTime {
+    /** The date time format structure. */
+    format?: string | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldDateTime) {
+        super(data);
+        this._discriminator = "FieldDateTime";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.format = data["format"];
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldDateTime {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FieldDateTimeArray") {
+            let result = new FieldDateTimeArray();
+            result.init(data);
+            return result;
+        }
+        let result = new FieldDateTime();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["format"] = this.format;
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a date time */
+export interface IFieldDateTime extends IFieldBase {
+    /** The date time format structure. */
+    format?: string | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store multiple date time values */
+export class FieldDateTimeArray extends FieldDateTime implements IFieldDateTimeArray {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+
+    constructor(data?: IFieldDateTimeArray) {
+        super(data);
+        this._discriminator = "FieldDateTimeArray";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldDateTimeArray {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldDateTimeArray();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple date time values */
+export interface IFieldDateTimeArray extends IFieldDateTime {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+}
+
+/** The field used to store a decimal value */
+export class FieldDecimal extends FieldBase implements IFieldDecimal {
+    /** The decimal pattern structure. */
+    pattern?: string | undefined;
+    /** The minimum possible value. */
+    minimum?: number | undefined;
+    /** The maximum possible value. */
+    maximum?: number | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldDecimal) {
+        super(data);
+        this._discriminator = "FieldDecimal";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.pattern = data["pattern"];
+            this.minimum = data["minimum"];
+            this.maximum = data["maximum"];
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldDecimal {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldDecimal();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pattern"] = this.pattern;
+        data["minimum"] = this.minimum;
+        data["maximum"] = this.maximum;
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a decimal value */
+export interface IFieldDecimal extends IFieldBase {
+    /** The decimal pattern structure. */
+    pattern?: string | undefined;
+    /** The minimum possible value. */
+    minimum?: number | undefined;
+    /** The maximum possible value. */
+    maximum?: number | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store a dictionary of values */
+export class FieldDictionary extends FieldBase implements IFieldDictionary {
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldDictionary) {
+        super(data);
+        this._discriminator = "FieldDictionary";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldDictionary {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FieldDictionaryArray") {
+            let result = new FieldDictionaryArray();
+            result.init(data);
+            return result;
+        }
+        let result = new FieldDictionary();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a dictionary of values */
+export interface IFieldDictionary extends IFieldBase {
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store multiple dictionaries' values */
+export class FieldDictionaryArray extends FieldDictionary implements IFieldDictionaryArray {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+
+    constructor(data?: IFieldDictionaryArray) {
+        super(data);
+        this._discriminator = "FieldDictionaryArray";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldDictionaryArray {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldDictionaryArray();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple dictionaries' values */
+export interface IFieldDictionaryArray extends IFieldDictionary {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+}
+
+/** The field used to store a geo point */
+export class FieldGeoPoint extends FieldBase implements IFieldGeoPoint {
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldGeoPoint) {
+        super(data);
+        this._discriminator = "FieldGeoPoint";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldGeoPoint {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldGeoPoint();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a geo point */
+export interface IFieldGeoPoint extends IFieldBase {
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store a long value */
+export class FieldLong extends FieldBase implements IFieldLong {
+    /** The long pattern structure. */
+    pattern?: string | undefined;
+    /** The minimum possible value. */
+    minimum?: number | undefined;
+    /** The maximum possible value. */
+    maximum?: number | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldLong) {
+        super(data);
+        this._discriminator = "FieldLong";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.pattern = data["pattern"];
+            this.minimum = data["minimum"];
+            this.maximum = data["maximum"];
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldLong {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FieldLongArray") {
+            let result = new FieldLongArray();
+            result.init(data);
+            return result;
+        }
+        let result = new FieldLong();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pattern"] = this.pattern;
+        data["minimum"] = this.minimum;
+        data["maximum"] = this.maximum;
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a long value */
+export interface IFieldLong extends IFieldBase {
+    /** The long pattern structure. */
+    pattern?: string | undefined;
+    /** The minimum possible value. */
+    minimum?: number | undefined;
+    /** The maximum possible value. */
+    maximum?: number | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store multiple long values */
+export class FieldLongArray extends FieldLong implements IFieldLongArray {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+
+    constructor(data?: IFieldLongArray) {
+        super(data);
+        this._discriminator = "FieldLongArray";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldLongArray {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldLongArray();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple long values */
+export interface IFieldLongArray extends IFieldLong {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+}
+
+/** The field used to store a single fieldset */
+export class FieldSingleFieldset extends FieldBase implements IFieldSingleFieldset {
+    /** The ID of the schema to be used as fieldset (it must be of type Struct). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property */
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+
+    constructor(data?: IFieldSingleFieldset) {
+        super(data);
+        this._discriminator = "FieldSingleFieldset";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): FieldSingleFieldset {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldSingleFieldset();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a single fieldset */
+export interface IFieldSingleFieldset extends IFieldBase {
+    /** The ID of the schema to be used as fieldset (it must be of type Struct). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property */
+    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
+}
+
+/** Indexing information for a schema */
+export class SchemaIndexingInfo implements ISchemaIndexingInfo {
+    /** A collection of indexing information for the fields of a schema */
+    fields?: FieldIndexingInfo[] | undefined;
+
+    constructor(data?: ISchemaIndexingInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.fields) {
+                this.fields = [];
+                for (let i = 0; i < data.fields.length; i++) {
+                    let item = data.fields[i];
+                    this.fields[i] = item && !(<any>item).toJSON ? new FieldIndexingInfo(item) : <FieldIndexingInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["fields"] && data["fields"].constructor === Array) {
+                this.fields = [];
+                for (let item of data["fields"])
+                    this.fields.push(FieldIndexingInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaIndexingInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaIndexingInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.fields && this.fields.constructor === Array) {
+            data["fields"] = [];
+            for (let item of this.fields)
+                data["fields"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Indexing information for a schema */
+export interface ISchemaIndexingInfo {
+    /** A collection of indexing information for the fields of a schema */
+    fields?: IFieldIndexingInfo[] | undefined;
+}
+
+/** Indexing information for a field of a schema */
+export class FieldIndexingInfo implements IFieldIndexingInfo {
+    /** The field ID. */
+    id: string;
+    /** Field is stored for filtering. */
+    index: boolean;
+    /** Field is stored for simple search. */
+    simpleSearch: boolean;
+    /** Field is stored for sorting. */
+    sortable: boolean;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+    /** Indexing information of schema's fields related to this field (if existing). */
+    relatedSchemaIndexing?: SchemaIndexingInfo | undefined;
+
+    constructor(data?: IFieldIndexingInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.relatedSchemaIndexing = data.relatedSchemaIndexing && !(<any>data.relatedSchemaIndexing).toJSON ? new SchemaIndexingInfo(data.relatedSchemaIndexing) : <SchemaIndexingInfo>this.relatedSchemaIndexing; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.index = data["index"];
+            this.simpleSearch = data["simpleSearch"];
+            this.sortable = data["sortable"];
+            this.boost = data["boost"];
+            this.relatedSchemaIndexing = data["relatedSchemaIndexing"] ? SchemaIndexingInfo.fromJS(data["relatedSchemaIndexing"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): FieldIndexingInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldIndexingInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["index"] = this.index;
+        data["simpleSearch"] = this.simpleSearch;
+        data["sortable"] = this.sortable;
+        data["boost"] = this.boost;
+        data["relatedSchemaIndexing"] = this.relatedSchemaIndexing ? this.relatedSchemaIndexing.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Indexing information for a field of a schema */
+export interface IFieldIndexingInfo {
+    /** The field ID. */
+    id: string;
+    /** Field is stored for filtering. */
+    index: boolean;
+    /** Field is stored for simple search. */
+    simpleSearch: boolean;
+    /** Field is stored for sorting. */
+    sortable: boolean;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+    /** Indexing information of schema's fields related to this field (if existing). */
+    relatedSchemaIndexing?: ISchemaIndexingInfo | undefined;
+}
+
+/** The field used to store multiple fieldsets */
+export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset {
+    /** The ID of the schema to be used as fieldset (it must be of type Struct, and it cannot be a system schema). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+
+    constructor(data?: IFieldMultiFieldset) {
+        super(data);
+        this._discriminator = "FieldMultiFieldset";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldMultiFieldset {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldMultiFieldset();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple fieldsets */
+export interface IFieldMultiFieldset extends IFieldBase {
+    /** The ID of the schema to be used as fieldset (it must be of type Struct, and it cannot be a system schema). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+}
+
+/** The field used to store a single tagbox */
+export class FieldSingleTagbox extends FieldBase implements IFieldSingleTagbox {
+    /** The ID of the schema to be used as tagbox (it must be of type List). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    /** An optional filter to limit the list items. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item (no logic is implemented in backend). */
+    listItemCreateTemplate?: string | undefined;
+
+    constructor(data?: IFieldSingleTagbox) {
+        super(data);
+        this._discriminator = "FieldSingleTagbox";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.listItemCreateTemplate = data["listItemCreateTemplate"];
+        }
+    }
+
+    static fromJS(data: any): FieldSingleTagbox {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldSingleTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a single tagbox */
+export interface IFieldSingleTagbox extends IFieldBase {
+    /** The ID of the schema to be used as tagbox (it must be of type List). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
+    /** An optional filter to limit the list items. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item (no logic is implemented in backend). */
+    listItemCreateTemplate?: string | undefined;
+}
+
+/** The field used to store multiple tagboxes */
+export class FieldMultiTagbox extends FieldBase implements IFieldMultiTagbox {
+    /** The ID of the schema to be used as tagbox (it must be of type List). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property */
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+    /** An optional filter to limit the returned list items. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item (no logic is implemented in backend). */
+    listItemCreateTemplate?: string | undefined;
+
+    constructor(data?: IFieldMultiTagbox) {
+        super(data);
+        this._discriminator = "FieldMultiTagbox";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.listItemCreateTemplate = data["listItemCreateTemplate"];
+        }
+    }
+
+    static fromJS(data: any): FieldMultiTagbox {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldMultiTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple tagboxes */
+export interface IFieldMultiTagbox extends IFieldBase {
+    /** The ID of the schema to be used as tagbox (it must be of type List). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property */
+    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+    /** An optional filter to limit the returned list items. */
+    filter?: FilterBase | undefined;
+    /** Json serialized template used for creating new list item (no logic is implemented in backend). */
+    listItemCreateTemplate?: string | undefined;
+}
+
+/** The field used to store a string value */
+export class FieldString extends FieldBase implements IFieldString {
+    /** A DotLiquid template. If set, it transforms the field in a calculated field, so that its value is calculated based on this template. */
+    template?: string | undefined;
+    /** Contains a regex validation pattern. */
+    pattern?: string | undefined;
+    /** The minimum string's lenght. */
+    minimumLength?: number | undefined;
+    /** The maximum string's length. */
+    maximumLength?: number | undefined;
+    /** Defines how the value must be analyzed for filtering by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the Index property is set to true. */
+    indexAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines how the value must be analyzed for searches by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the SimpleSearch property is set to true. */
+    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines that the field value must be displayed in a multiline component. */
+    multiLine: boolean;
+    /** If values are stored in this list, field values are limited to these ones. */
+    grantedValues?: string[] | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldString) {
+        super(data);
+        this._discriminator = "FieldString";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.template = data["template"];
+            this.pattern = data["pattern"];
+            this.minimumLength = data["minimumLength"];
+            this.maximumLength = data["maximumLength"];
+            if (data["indexAnalyzers"] && data["indexAnalyzers"].constructor === Array) {
+                this.indexAnalyzers = [];
+                for (let item of data["indexAnalyzers"])
+                    this.indexAnalyzers.push(AnalyzerBase.fromJS(item));
+            }
+            if (data["simpleSearchAnalyzers"] && data["simpleSearchAnalyzers"].constructor === Array) {
+                this.simpleSearchAnalyzers = [];
+                for (let item of data["simpleSearchAnalyzers"])
+                    this.simpleSearchAnalyzers.push(AnalyzerBase.fromJS(item));
+            }
+            this.multiLine = data["multiLine"];
+            if (data["grantedValues"] && data["grantedValues"].constructor === Array) {
+                this.grantedValues = [];
+                for (let item of data["grantedValues"])
+                    this.grantedValues.push(item);
+            }
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldString {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FieldStringArray") {
+            let result = new FieldStringArray();
+            result.init(data);
+            return result;
+        }
+        let result = new FieldString();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["template"] = this.template;
+        data["pattern"] = this.pattern;
+        data["minimumLength"] = this.minimumLength;
+        data["maximumLength"] = this.maximumLength;
+        if (this.indexAnalyzers && this.indexAnalyzers.constructor === Array) {
+            data["indexAnalyzers"] = [];
+            for (let item of this.indexAnalyzers)
+                data["indexAnalyzers"].push(item.toJSON());
+        }
+        if (this.simpleSearchAnalyzers && this.simpleSearchAnalyzers.constructor === Array) {
+            data["simpleSearchAnalyzers"] = [];
+            for (let item of this.simpleSearchAnalyzers)
+                data["simpleSearchAnalyzers"].push(item.toJSON());
+        }
+        data["multiLine"] = this.multiLine;
+        if (this.grantedValues && this.grantedValues.constructor === Array) {
+            data["grantedValues"] = [];
+            for (let item of this.grantedValues)
+                data["grantedValues"].push(item);
+        }
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a string value */
+export interface IFieldString extends IFieldBase {
+    /** A DotLiquid template. If set, it transforms the field in a calculated field, so that its value is calculated based on this template. */
+    template?: string | undefined;
+    /** Contains a regex validation pattern. */
+    pattern?: string | undefined;
+    /** The minimum string's lenght. */
+    minimumLength?: number | undefined;
+    /** The maximum string's length. */
+    maximumLength?: number | undefined;
+    /** Defines how the value must be analyzed for filtering by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the Index property is set to true. */
+    indexAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines how the value must be analyzed for searches by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the SimpleSearch property is set to true. */
+    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines that the field value must be displayed in a multiline component. */
+    multiLine: boolean;
+    /** If values are stored in this list, field values are limited to these ones. */
+    grantedValues?: string[] | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The analyzer base class */
+export abstract class AnalyzerBase implements IAnalyzerBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IAnalyzerBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "AnalyzerBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): AnalyzerBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "EdgeNGramAnalyzer") {
+            let result = new EdgeNGramAnalyzer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LanguageAnalyzer") {
+            let result = new LanguageAnalyzer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NGramAnalyzer") {
+            let result = new NGramAnalyzer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PathHierarchyAnalyzer") {
+            let result = new PathHierarchyAnalyzer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SimpleAnalyzer") {
+            let result = new SimpleAnalyzer();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'AnalyzerBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** The analyzer base class */
+export interface IAnalyzerBase {
+}
+
+/** An analyzer using the ElasticSearch's EdgeNGram tokenizer */
+export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyzer {
+    /** The analyzer type: EdgeNGram */
+    type: Analyzer;
+    /** The suffix for the analyzed field: edgengram. */
+    fieldSuffix?: string | undefined;
+
+    constructor(data?: IEdgeNGramAnalyzer) {
+        super(data);
+        this._discriminator = "EdgeNGramAnalyzer";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.type = data["type"];
+            this.fieldSuffix = data["fieldSuffix"];
+        }
+    }
+
+    static fromJS(data: any): EdgeNGramAnalyzer {
+        data = typeof data === 'object' ? data : {};
+        let result = new EdgeNGramAnalyzer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["fieldSuffix"] = this.fieldSuffix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** An analyzer using the ElasticSearch's EdgeNGram tokenizer */
+export interface IEdgeNGramAnalyzer extends IAnalyzerBase {
+    /** The analyzer type: EdgeNGram */
+    type: Analyzer;
+    /** The suffix for the analyzed field: edgengram. */
+    fieldSuffix?: string | undefined;
+}
+
+export enum Analyzer {
+    None = <any>"None", 
+    Simple = <any>"Simple", 
+    Language = <any>"Language", 
+    PathHierarchy = <any>"PathHierarchy", 
+    EdgeNGram = <any>"EdgeNGram", 
+    NGram = <any>"NGram", 
+}
+
+/** An analyzer using an ElasticSearch's language tokenizer */
+export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer {
+    /** The analyzer type: Language */
+    type: Analyzer;
+    /** The suffix for the analyzed field: language. */
+    fieldSuffix?: string | undefined;
+
+    constructor(data?: ILanguageAnalyzer) {
+        super(data);
+        this._discriminator = "LanguageAnalyzer";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.type = data["type"];
+            this.fieldSuffix = data["fieldSuffix"];
+        }
+    }
+
+    static fromJS(data: any): LanguageAnalyzer {
+        data = typeof data === 'object' ? data : {};
+        let result = new LanguageAnalyzer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["fieldSuffix"] = this.fieldSuffix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** An analyzer using an ElasticSearch's language tokenizer */
+export interface ILanguageAnalyzer extends IAnalyzerBase {
+    /** The analyzer type: Language */
+    type: Analyzer;
+    /** The suffix for the analyzed field: language. */
+    fieldSuffix?: string | undefined;
+}
+
+/** An analyzer using the ElasticSearch's NGram tokenizer */
+export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
+    /** The analyzer type: NGram */
+    type: Analyzer;
+    /** The suffix for the analyzed field: ngram. */
+    fieldSuffix?: string | undefined;
+
+    constructor(data?: INGramAnalyzer) {
+        super(data);
+        this._discriminator = "NGramAnalyzer";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.type = data["type"];
+            this.fieldSuffix = data["fieldSuffix"];
+        }
+    }
+
+    static fromJS(data: any): NGramAnalyzer {
+        data = typeof data === 'object' ? data : {};
+        let result = new NGramAnalyzer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["fieldSuffix"] = this.fieldSuffix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** An analyzer using the ElasticSearch's NGram tokenizer */
+export interface INGramAnalyzer extends IAnalyzerBase {
+    /** The analyzer type: NGram */
+    type: Analyzer;
+    /** The suffix for the analyzed field: ngram. */
+    fieldSuffix?: string | undefined;
+}
+
+/** An analyzer using the ElasticSearch's path hierarchy tokenizer */
+export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarchyAnalyzer {
+    /** The analyzer type: PathHierarchy */
+    type: Analyzer;
+    /** The suffix for the analyzed field: pathhierarchy. */
+    fieldSuffix?: string | undefined;
+
+    constructor(data?: IPathHierarchyAnalyzer) {
+        super(data);
+        this._discriminator = "PathHierarchyAnalyzer";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.type = data["type"];
+            this.fieldSuffix = data["fieldSuffix"];
+        }
+    }
+
+    static fromJS(data: any): PathHierarchyAnalyzer {
+        data = typeof data === 'object' ? data : {};
+        let result = new PathHierarchyAnalyzer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["fieldSuffix"] = this.fieldSuffix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** An analyzer using the ElasticSearch's path hierarchy tokenizer */
+export interface IPathHierarchyAnalyzer extends IAnalyzerBase {
+    /** The analyzer type: PathHierarchy */
+    type: Analyzer;
+    /** The suffix for the analyzed field: pathhierarchy. */
+    fieldSuffix?: string | undefined;
+}
+
+/** An analyzer using a custom pattern tokenizer */
+export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
+    /** The analyzer type: Simple */
+    type: Analyzer;
+    /** The suffix for the analyzed field: simple. */
+    fieldSuffix?: string | undefined;
+
+    constructor(data?: ISimpleAnalyzer) {
+        super(data);
+        this._discriminator = "SimpleAnalyzer";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.type = data["type"];
+            this.fieldSuffix = data["fieldSuffix"];
+        }
+    }
+
+    static fromJS(data: any): SimpleAnalyzer {
+        data = typeof data === 'object' ? data : {};
+        let result = new SimpleAnalyzer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["fieldSuffix"] = this.fieldSuffix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** An analyzer using a custom pattern tokenizer */
+export interface ISimpleAnalyzer extends IAnalyzerBase {
+    /** The analyzer type: Simple */
+    type: Analyzer;
+    /** The suffix for the analyzed field: simple. */
+    fieldSuffix?: string | undefined;
+}
+
+/** The field used to store multiple string values */
+export class FieldStringArray extends FieldString implements IFieldStringArray {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+
+    constructor(data?: IFieldStringArray) {
+        super(data);
+        this._discriminator = "FieldStringArray";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldStringArray {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldStringArray();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple string values */
+export interface IFieldStringArray extends IFieldString {
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+}
+
+/** The field used to store a translated string values */
+export class FieldTranslatedString extends FieldBase implements IFieldTranslatedString {
+    /** Contains a regex validation pattern. */
+    pattern?: string | undefined;
+    /** The minimum string's lenght. */
+    minimumLength?: number | undefined;
+    /** The maximum string's length. */
+    maximumLength?: number | undefined;
+    /** Defines how the value must be analyzed for filtering by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the Index property is set to true. */
+    indexAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines how the value must be analyzed for searches by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the SimpleSearch property is set to true. */
+    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines that the field value must be displayed in a multiline component. */
+    multiLine: boolean;
+    /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
+If Required is true, the field and all its metadata languages are required.
+If Required is false, the field can be left empty, but as soon as a value is entered all required metadata languages are mandatory. */
+    requiredMetadataLanguages?: string[] | undefined;
+    /** A DotLiquid template. If set, it transforms the field in a calculated field, so that its value is calculated based on this template.
+             */
+    template?: string | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+
+    constructor(data?: IFieldTranslatedString) {
+        super(data);
+        this._discriminator = "FieldTranslatedString";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.pattern = data["pattern"];
+            this.minimumLength = data["minimumLength"];
+            this.maximumLength = data["maximumLength"];
+            if (data["indexAnalyzers"] && data["indexAnalyzers"].constructor === Array) {
+                this.indexAnalyzers = [];
+                for (let item of data["indexAnalyzers"])
+                    this.indexAnalyzers.push(AnalyzerBase.fromJS(item));
+            }
+            if (data["simpleSearchAnalyzers"] && data["simpleSearchAnalyzers"].constructor === Array) {
+                this.simpleSearchAnalyzers = [];
+                for (let item of data["simpleSearchAnalyzers"])
+                    this.simpleSearchAnalyzers.push(AnalyzerBase.fromJS(item));
+            }
+            this.multiLine = data["multiLine"];
+            if (data["requiredMetadataLanguages"] && data["requiredMetadataLanguages"].constructor === Array) {
+                this.requiredMetadataLanguages = [];
+                for (let item of data["requiredMetadataLanguages"])
+                    this.requiredMetadataLanguages.push(item);
+            }
+            this.template = data["template"];
+            this.boost = data["boost"];
+        }
+    }
+
+    static fromJS(data: any): FieldTranslatedString {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldTranslatedString();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pattern"] = this.pattern;
+        data["minimumLength"] = this.minimumLength;
+        data["maximumLength"] = this.maximumLength;
+        if (this.indexAnalyzers && this.indexAnalyzers.constructor === Array) {
+            data["indexAnalyzers"] = [];
+            for (let item of this.indexAnalyzers)
+                data["indexAnalyzers"].push(item.toJSON());
+        }
+        if (this.simpleSearchAnalyzers && this.simpleSearchAnalyzers.constructor === Array) {
+            data["simpleSearchAnalyzers"] = [];
+            for (let item of this.simpleSearchAnalyzers)
+                data["simpleSearchAnalyzers"].push(item.toJSON());
+        }
+        data["multiLine"] = this.multiLine;
+        if (this.requiredMetadataLanguages && this.requiredMetadataLanguages.constructor === Array) {
+            data["requiredMetadataLanguages"] = [];
+            for (let item of this.requiredMetadataLanguages)
+                data["requiredMetadataLanguages"].push(item);
+        }
+        data["template"] = this.template;
+        data["boost"] = this.boost;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a translated string values */
+export interface IFieldTranslatedString extends IFieldBase {
+    /** Contains a regex validation pattern. */
+    pattern?: string | undefined;
+    /** The minimum string's lenght. */
+    minimumLength?: number | undefined;
+    /** The maximum string's length. */
+    maximumLength?: number | undefined;
+    /** Defines how the value must be analyzed for filtering by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the Index property is set to true. */
+    indexAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines how the value must be analyzed for searches by ElasticSearch. A string field can have multiple analyzers, but only one per analyzer type.
+The analyzers are applied only if the SimpleSearch property is set to true. */
+    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
+    /** Defines that the field value must be displayed in a multiline component. */
+    multiLine: boolean;
+    /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
+If Required is true, the field and all its metadata languages are required.
+If Required is false, the field can be left empty, but as soon as a value is entered all required metadata languages are mandatory. */
+    requiredMetadataLanguages?: string[] | undefined;
+    /** A DotLiquid template. If set, it transforms the field in a calculated field, so that its value is calculated based on this template.
+             */
+    template?: string | undefined;
+    /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+    boost: number;
+}
+
+/** The field used to store a single relation */
+export class FieldSingleRelation extends FieldBase implements IFieldSingleRelation {
+    /** The ID of the schema used for relation metadata (it must be of type Struct, and it cannot be a system schema). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    /** Defines the allowed elation types. */
+    relationTypes: RelationType[];
+
+    constructor(data?: IFieldSingleRelation) {
+        super(data);
+        if (!data) {
+            this.relationTypes = [];
+        }
+        this._discriminator = "FieldSingleRelation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
+            if (data["relationTypes"] && data["relationTypes"].constructor === Array) {
+                this.relationTypes = [];
+                for (let item of data["relationTypes"])
+                    this.relationTypes.push(RelationType.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): FieldSingleRelation {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldSingleRelation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
+        if (this.relationTypes && this.relationTypes.constructor === Array) {
+            data["relationTypes"] = [];
+            for (let item of this.relationTypes)
+                data["relationTypes"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store a single relation */
+export interface IFieldSingleRelation extends IFieldBase {
+    /** The ID of the schema used for relation metadata (it must be of type Struct, and it cannot be a system schema). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
+    /** Defines the allowed elation types. */
+    relationTypes: IRelationType[];
+}
+
+/** Defines a relation */
+export class RelationType implements IRelationType {
+    /** The ID of the relation type. */
+    id: string;
+    /** Language specific relation names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Defines the type of the document target of the relation. Currently supported: Content, ListItem. */
+    targetDocType: string;
+    /** An optional filter to limit the documents of type TargetDocType. */
+    filter?: FilterBase | undefined;
+
+    constructor(data?: IRelationType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.targetDocType = data["targetDocType"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): RelationType {
+        data = typeof data === 'object' ? data : {};
+        let result = new RelationType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["targetDocType"] = this.targetDocType;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Defines a relation */
+export interface IRelationType {
+    /** The ID of the relation type. */
+    id: string;
+    /** Language specific relation names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Defines the type of the document target of the relation. Currently supported: Content, ListItem. */
+    targetDocType: string;
+    /** An optional filter to limit the documents of type TargetDocType. */
+    filter?: FilterBase | undefined;
+}
+
+/** The field used to store multiple relations */
+export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation {
+    /** The ID of the schema used for relation metadata (it must be of type Struct, and it cannot be a system schema). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
+    /** The relation types supported by the field. */
+    relationTypes: RelationType[];
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+
+    constructor(data?: IFieldMultiRelation) {
+        super(data);
+        if (!data) {
+            this.relationTypes = [];
+        }
+        this._discriminator = "FieldMultiRelation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
+            if (data["relationTypes"] && data["relationTypes"].constructor === Array) {
+                this.relationTypes = [];
+                for (let item of data["relationTypes"])
+                    this.relationTypes.push(RelationType.fromJS(item));
+            }
+            this.maximumItems = data["maximumItems"];
+            this.minimumItems = data["minimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldMultiRelation {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldMultiRelation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
+        if (this.relationTypes && this.relationTypes.constructor === Array) {
+            data["relationTypes"] = [];
+            for (let item of this.relationTypes)
+                data["relationTypes"].push(item.toJSON());
+        }
+        data["maximumItems"] = this.maximumItems;
+        data["minimumItems"] = this.minimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** The field used to store multiple relations */
+export interface IFieldMultiRelation extends IFieldBase {
+    /** The ID of the schema used for relation metadata (it must be of type Struct, and it cannot be a system schema). */
+    schemaId: string;
+    /** Indexing information of fields of the related schema identified by the SchemaId property. */
+    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
+    /** The relation types supported by the field. */
+    relationTypes: IRelationType[];
+    /** The maximum number of items that can be stored. */
+    maximumItems?: number | undefined;
+    /** The minimum number of items that must be stored. */
+    minimumItems?: number | undefined;
+}
+
+/** Base class to overwrite field's information */
+export abstract class FieldOverwriteBase implements IFieldOverwriteBase {
+    /** The field's ID whose information need to be overwritten. */
+    id?: string | undefined;
+    /** Defines if a field value is mandatory or not: this value will overwrite the existing Required value specified in the parent schema  if
+OverwriteRequired is set to true. */
+    required: boolean;
+    /** Enable the overwriting of the Required property of the field specified by the Id property. */
+    overwriteRequired: boolean;
+
+    protected _discriminator: string;
+
+    constructor(data?: IFieldOverwriteBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "FieldOverwriteBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.required = data["required"];
+            this.overwriteRequired = data["overwriteRequired"];
+        }
+    }
+
+    static fromJS(data: any): FieldOverwriteBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FieldOverwriteSingleTagbox") {
+            let result = new FieldOverwriteSingleTagbox();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldOverwriteMultiTagbox") {
+            let result = new FieldOverwriteMultiTagbox();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'FieldOverwriteBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["id"] = this.id;
+        data["required"] = this.required;
+        data["overwriteRequired"] = this.overwriteRequired;
+        return data; 
+    }
+}
+
+/** Base class to overwrite field's information */
+export interface IFieldOverwriteBase {
+    /** The field's ID whose information need to be overwritten. */
+    id?: string | undefined;
+    /** Defines if a field value is mandatory or not: this value will overwrite the existing Required value specified in the parent schema  if
+OverwriteRequired is set to true. */
+    required: boolean;
+    /** Enable the overwriting of the Required property of the field specified by the Id property. */
+    overwriteRequired: boolean;
+}
+
+/** Overwritten information for FieldSingleTagbox */
+export class FieldOverwriteSingleTagbox extends FieldOverwriteBase implements IFieldOverwriteSingleTagbox {
+    /** An optional filter to limit the list items: this value will overwrite the existing Filter value specified in the parent schema  if
+OverwriteFilter is set to true. */
+    filter?: FilterBase | undefined;
+    /** Enable the overwriting of the Filter property of the field specified by the Id property. */
+    overwriteFilter: boolean;
+    /** Json serialized template used for creating new list item: this value will overwrite the existing ListItemCreateTemplate value specified in the parent schema  if
+OverwriteListItemCreateTemplate is set to true. */
+    listItemCreateTemplate?: string | undefined;
+    /** Enable the overwriting of the ListItemCreateTemplate property of the field specified by the Id property. */
+    overwriteListItemCreateTemplate: boolean;
+
+    constructor(data?: IFieldOverwriteSingleTagbox) {
+        super(data);
+        this._discriminator = "FieldOverwriteSingleTagbox";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.overwriteFilter = data["overwriteFilter"];
+            this.listItemCreateTemplate = data["listItemCreateTemplate"];
+            this.overwriteListItemCreateTemplate = data["overwriteListItemCreateTemplate"];
+        }
+    }
+
+    static fromJS(data: any): FieldOverwriteSingleTagbox {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldOverwriteSingleTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["overwriteFilter"] = this.overwriteFilter;
+        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        data["overwriteListItemCreateTemplate"] = this.overwriteListItemCreateTemplate;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Overwritten information for FieldSingleTagbox */
+export interface IFieldOverwriteSingleTagbox extends IFieldOverwriteBase {
+    /** An optional filter to limit the list items: this value will overwrite the existing Filter value specified in the parent schema  if
+OverwriteFilter is set to true. */
+    filter?: FilterBase | undefined;
+    /** Enable the overwriting of the Filter property of the field specified by the Id property. */
+    overwriteFilter: boolean;
+    /** Json serialized template used for creating new list item: this value will overwrite the existing ListItemCreateTemplate value specified in the parent schema  if
+OverwriteListItemCreateTemplate is set to true. */
+    listItemCreateTemplate?: string | undefined;
+    /** Enable the overwriting of the ListItemCreateTemplate property of the field specified by the Id property. */
+    overwriteListItemCreateTemplate: boolean;
+}
+
+/** Overwritten information for FieldMultiTagbox */
+export class FieldOverwriteMultiTagbox extends FieldOverwriteBase implements IFieldOverwriteMultiTagbox {
+    /** An optional filter to limit the list items: this value will overwrite the existing Filter value specified in the parent schema if
+OverwriteFilter is set to true. */
+    filter?: FilterBase | undefined;
+    /** Enable the overwriting of the Filter property of the field specified by the Id property. */
+    overwriteFilter: boolean;
+    /** Json serialized template used for creating new list item: this value will overwrite the existing ListItemCreateTemplate value specified in the parent schema if
+OverwriteListItemCreateTemplate is set to true. */
+    listItemCreateTemplate?: string | undefined;
+    /** Enable the overwriting of the ListItemCreateTemplate property of the field specified by the Id property. */
+    overwriteListItemCreateTemplate: boolean;
+    /** The maximum number of items that can be stored: this value will overwrite the existing MaximumItems value specified in the parent schema if
+OverwriteMaximumItems is set to true. */
+    maximumItems?: number | undefined;
+    /** Enable the overwriting of the MaximumItems property of the field specified by the Id property. */
+    overwriteMaximumItems: boolean;
+    /** The minimum number of items that must be stored: this value will overwrite the existing MinimumItems value specified in the parent schema if
+OverwriteMinimumItems is set to true. */
+    minimumItems?: number | undefined;
+    /** Enable the overwriting of the MinimumItems property of the field specified by the Id property. */
+    overwriteMinimumItems: boolean;
+
+    constructor(data?: IFieldOverwriteMultiTagbox) {
+        super(data);
+        this._discriminator = "FieldOverwriteMultiTagbox";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.overwriteFilter = data["overwriteFilter"];
+            this.listItemCreateTemplate = data["listItemCreateTemplate"];
+            this.overwriteListItemCreateTemplate = data["overwriteListItemCreateTemplate"];
+            this.maximumItems = data["maximumItems"];
+            this.overwriteMaximumItems = data["overwriteMaximumItems"];
+            this.minimumItems = data["minimumItems"];
+            this.overwriteMinimumItems = data["overwriteMinimumItems"];
+        }
+    }
+
+    static fromJS(data: any): FieldOverwriteMultiTagbox {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldOverwriteMultiTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["overwriteFilter"] = this.overwriteFilter;
+        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        data["overwriteListItemCreateTemplate"] = this.overwriteListItemCreateTemplate;
+        data["maximumItems"] = this.maximumItems;
+        data["overwriteMaximumItems"] = this.overwriteMaximumItems;
+        data["minimumItems"] = this.minimumItems;
+        data["overwriteMinimumItems"] = this.overwriteMinimumItems;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Overwritten information for FieldMultiTagbox */
+export interface IFieldOverwriteMultiTagbox extends IFieldOverwriteBase {
+    /** An optional filter to limit the list items: this value will overwrite the existing Filter value specified in the parent schema if
+OverwriteFilter is set to true. */
+    filter?: FilterBase | undefined;
+    /** Enable the overwriting of the Filter property of the field specified by the Id property. */
+    overwriteFilter: boolean;
+    /** Json serialized template used for creating new list item: this value will overwrite the existing ListItemCreateTemplate value specified in the parent schema if
+OverwriteListItemCreateTemplate is set to true. */
+    listItemCreateTemplate?: string | undefined;
+    /** Enable the overwriting of the ListItemCreateTemplate property of the field specified by the Id property. */
+    overwriteListItemCreateTemplate: boolean;
+    /** The maximum number of items that can be stored: this value will overwrite the existing MaximumItems value specified in the parent schema if
+OverwriteMaximumItems is set to true. */
+    maximumItems?: number | undefined;
+    /** Enable the overwriting of the MaximumItems property of the field specified by the Id property. */
+    overwriteMaximumItems: boolean;
+    /** The minimum number of items that must be stored: this value will overwrite the existing MinimumItems value specified in the parent schema if
+OverwriteMinimumItems is set to true. */
+    minimumItems?: number | undefined;
+    /** Enable the overwriting of the MinimumItems property of the field specified by the Id property. */
+    overwriteMinimumItems: boolean;
+}
+
+/** Count information of fields in the search index for filtering, searching and sorting */
+export class SearchFieldCount implements ISearchFieldCount {
+    /** The number of fields created in the search index to store filter information for a schema. */
+    indexedField: number;
+    /** The number of fields created in the search index to store search information for a schema. */
+    simpleSearchField: number;
+    /** The number of fields created in the search index to store sorting information for a schema. */
+    sortableField: number;
+
+    constructor(data?: ISearchFieldCount) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -30398,40 +35132,1553 @@ export class VersionInfo implements IVersionInfo {
 
     init(data?: any) {
         if (data) {
-            this.fileVersion = data["fileVersion"];
-            this.fileProductVersion = data["fileProductVersion"];
-            this.contractVersion = data["contractVersion"];
-            this.release = data["release"];
+            this.indexedField = data["indexedField"];
+            this.simpleSearchField = data["simpleSearchField"];
+            this.sortableField = data["sortableField"];
         }
     }
 
-    static fromJS(data: any): VersionInfo {
+    static fromJS(data: any): SearchFieldCount {
         data = typeof data === 'object' ? data : {};
-        let result = new VersionInfo();
+        let result = new SearchFieldCount();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["fileVersion"] = this.fileVersion;
-        data["fileProductVersion"] = this.fileProductVersion;
-        data["contractVersion"] = this.contractVersion;
-        data["release"] = this.release;
+        data["indexedField"] = this.indexedField;
+        data["simpleSearchField"] = this.simpleSearchField;
+        data["sortableField"] = this.sortableField;
         return data; 
     }
 }
 
-/** The version view item for the environment. */
-export interface IVersionInfo {
-    /** The manual file version of Picturepark.Contract.dll. */
-    fileVersion?: string | undefined;
-    /** The GitVersionTask generated file product version of Picturepark.Configuration.dll. */
-    fileProductVersion?: string | undefined;
-    /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
-    contractVersion?: string | undefined;
-    /** The bamboo release version. Only provided on bamboo deployments. */
-    release?: string | undefined;
+/** Count information of fields in the search index for filtering, searching and sorting */
+export interface ISearchFieldCount {
+    /** The number of fields created in the search index to store filter information for a schema. */
+    indexedField: number;
+    /** The number of fields created in the search index to store search information for a schema. */
+    simpleSearchField: number;
+    /** The number of fields created in the search index to store sorting information for a schema. */
+    sortableField: number;
+}
+
+export class BaseResultOfSchema implements IBaseResultOfSchema {
+    totalResults: number;
+    results: Schema[];
+    pageToken?: string | undefined;
+    queryDebugInformation?: QueryDebugInformation | undefined;
+
+    constructor(data?: IBaseResultOfSchema) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new Schema(item) : <Schema>item;
+                }
+            }
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalResults = data["totalResults"];
+            if (data["results"] && data["results"].constructor === Array) {
+                this.results = [];
+                for (let item of data["results"])
+                    this.results.push(Schema.fromJS(item));
+            }
+            this.pageToken = data["pageToken"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfSchema {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfSchema();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (this.results && this.results.constructor === Array) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["pageToken"] = this.pageToken;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBaseResultOfSchema {
+    totalResults: number;
+    results: ISchema[];
+    pageToken?: string | undefined;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
+}
+
+export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema implements ISearchBehaviorBaseResultOfSchema {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+
+    constructor(data?: ISearchBehaviorBaseResultOfSchema) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.searchString = data["searchString"];
+            this.isSearchStringRewritten = data["isSearchStringRewritten"];
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorBaseResultOfSchema {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorBaseResultOfSchema();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorBaseResultOfSchema extends IBaseResultOfSchema {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+}
+
+/** Result for schema search operation */
+export class SchemaSearchResult extends SearchBehaviorBaseResultOfSchema implements ISchemaSearchResult {
+
+    constructor(data?: ISchemaSearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): SchemaSearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Result for schema search operation */
+export interface ISchemaSearchResult extends ISearchBehaviorBaseResultOfSchema {
+}
+
+/** A schema */
+export class Schema implements ISchema {
+    /** The schema ID. It is unique throughout the whole customer setup. */
+    id?: string | undefined;
+    /** The parent schema ID. */
+    parentSchemaId?: string | undefined;
+    /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
+    types?: SchemaType[] | undefined;
+    /** Language specific schema names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** The count of all fields. */
+    fieldCount: number;
+    /** The count of all schema descendants with an immediate inheritance. */
+    childCount: number;
+    /** The descendant depth of the schema. */
+    level: number;
+    /** Identifies a system provided schema. A system schema cannot be created, updated or deleted. */
+    system: boolean;
+
+    constructor(data?: ISchema) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.parentSchemaId = data["parentSchemaId"];
+            if (data["types"] && data["types"].constructor === Array) {
+                this.types = [];
+                for (let item of data["types"])
+                    this.types.push(item);
+            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
+            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
+                this.layerSchemaIds = [];
+                for (let item of data["layerSchemaIds"])
+                    this.layerSchemaIds.push(item);
+            }
+            this.fieldCount = data["fieldCount"];
+            this.childCount = data["childCount"];
+            this.level = data["level"];
+            this.system = data["system"];
+        }
+    }
+
+    static fromJS(data: any): Schema {
+        data = typeof data === 'object' ? data : {};
+        let result = new Schema();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["parentSchemaId"] = this.parentSchemaId;
+        if (this.types && this.types.constructor === Array) {
+            data["types"] = [];
+            for (let item of this.types)
+                data["types"].push(item);
+        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
+        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
+            data["layerSchemaIds"] = [];
+            for (let item of this.layerSchemaIds)
+                data["layerSchemaIds"].push(item);
+        }
+        data["fieldCount"] = this.fieldCount;
+        data["childCount"] = this.childCount;
+        data["level"] = this.level;
+        data["system"] = this.system;
+        return data; 
+    }
+}
+
+/** A schema */
+export interface ISchema {
+    /** The schema ID. It is unique throughout the whole customer setup. */
+    id?: string | undefined;
+    /** The parent schema ID. */
+    parentSchemaId?: string | undefined;
+    /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
+    types?: SchemaType[] | undefined;
+    /** Language specific schema names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: ITranslatedStringDictionary | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** The count of all fields. */
+    fieldCount: number;
+    /** The count of all schema descendants with an immediate inheritance. */
+    childCount: number;
+    /** The descendant depth of the schema. */
+    level: number;
+    /** Identifies a system provided schema. A system schema cannot be created, updated or deleted. */
+    system: boolean;
+}
+
+/** Request to search schemas */
+export class SchemaSearchRequest implements ISchemaSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Currently only sorting on the Names property is allowed. */
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** An optional filter to limit the schemas. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the SchemaSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages in the system are used. */
+    searchLanguages?: string[] | undefined;
+
+    constructor(data?: ISchemaSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.debugMode = data["debugMode"];
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["debugMode"] = this.debugMode;
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Request to search schemas */
+export interface ISchemaSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Currently only sorting on the Names property is allowed. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first matching document. Defaults to 0. */
+    start: number;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** An optional filter to limit the schemas. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the SchemaSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages in the system are used. */
+    searchLanguages?: string[] | undefined;
+}
+
+/** Contains compiled field information. */
+export class IndexField implements IIndexField {
+    id?: string | undefined;
+    /** The field id. */
+    fieldId?: string | undefined;
+    /** The field's type name. */
+    type?: string | undefined;
+    /** Contains all index field name variants of the field. */
+    indexFields?: { [key: string] : string; } | undefined;
+    /** Contains all simple search field name variants of the field.
+The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
+    simpleSearchFields?: { [key: string] : string; } | undefined;
+    /** Contains the fields boost value. */
+    boost: number;
+    /** Not to be returned for search query, but only used for mapping purposes */
+    ignoreForSearch: boolean;
+    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
+    nestedPath?: string | undefined;
+    /** Path to the sorting information in the DataSortValuesField sort index. */
+    sortField?: string | undefined;
+
+    constructor(data?: IIndexField) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.fieldId = data["fieldId"];
+            this.type = data["type"];
+            if (data["indexFields"]) {
+                this.indexFields = {};
+                for (let key in data["indexFields"]) {
+                    if (data["indexFields"].hasOwnProperty(key))
+                        this.indexFields[key] = data["indexFields"][key];
+                }
+            }
+            if (data["simpleSearchFields"]) {
+                this.simpleSearchFields = {};
+                for (let key in data["simpleSearchFields"]) {
+                    if (data["simpleSearchFields"].hasOwnProperty(key))
+                        this.simpleSearchFields[key] = data["simpleSearchFields"][key];
+                }
+            }
+            this.boost = data["boost"];
+            this.ignoreForSearch = data["ignoreForSearch"];
+            this.nestedPath = data["nestedPath"];
+            this.sortField = data["sortField"];
+        }
+    }
+
+    static fromJS(data: any): IndexField {
+        data = typeof data === 'object' ? data : {};
+        let result = new IndexField();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["fieldId"] = this.fieldId;
+        data["type"] = this.type;
+        if (this.indexFields) {
+            data["indexFields"] = {};
+            for (let key in this.indexFields) {
+                if (this.indexFields.hasOwnProperty(key))
+                    data["indexFields"][key] = this.indexFields[key];
+            }
+        }
+        if (this.simpleSearchFields) {
+            data["simpleSearchFields"] = {};
+            for (let key in this.simpleSearchFields) {
+                if (this.simpleSearchFields.hasOwnProperty(key))
+                    data["simpleSearchFields"][key] = this.simpleSearchFields[key];
+            }
+        }
+        data["boost"] = this.boost;
+        data["ignoreForSearch"] = this.ignoreForSearch;
+        data["nestedPath"] = this.nestedPath;
+        data["sortField"] = this.sortField;
+        return data; 
+    }
+}
+
+/** Contains compiled field information. */
+export interface IIndexField {
+    id?: string | undefined;
+    /** The field id. */
+    fieldId?: string | undefined;
+    /** The field's type name. */
+    type?: string | undefined;
+    /** Contains all index field name variants of the field. */
+    indexFields?: { [key: string] : string; } | undefined;
+    /** Contains all simple search field name variants of the field.
+The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
+    simpleSearchFields?: { [key: string] : string; } | undefined;
+    /** Contains the fields boost value. */
+    boost: number;
+    /** Not to be returned for search query, but only used for mapping purposes */
+    ignoreForSearch: boolean;
+    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
+    nestedPath?: string | undefined;
+    /** Path to the sorting information in the DataSortValuesField sort index. */
+    sortField?: string | undefined;
+}
+
+/** Request to search indexed fields of specific schemas */
+export class IndexFieldsSearchBySchemaIdsRequest implements IIndexFieldsSearchBySchemaIdsRequest {
+    /** The IDs of the schemas for which the indexed fields should be returned. */
+    schemaIds?: string[] | undefined;
+    /** Controls how the search works which schemas should be considered in the search.
+AllDescendantsFieldsOnRootSchema: All indexed fields from descendant schemas of root ones will be returned. Schemas that are not root schemas will be ignored.
+SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parents will be returned. */
+    searchMode: IndexFieldsSearchMode;
+
+    constructor(data?: IIndexFieldsSearchBySchemaIdsRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
+                this.schemaIds = [];
+                for (let item of data["schemaIds"])
+                    this.schemaIds.push(item);
+            }
+            this.searchMode = data["searchMode"];
+        }
+    }
+
+    static fromJS(data: any): IndexFieldsSearchBySchemaIdsRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new IndexFieldsSearchBySchemaIdsRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.schemaIds && this.schemaIds.constructor === Array) {
+            data["schemaIds"] = [];
+            for (let item of this.schemaIds)
+                data["schemaIds"].push(item);
+        }
+        data["searchMode"] = this.searchMode;
+        return data; 
+    }
+}
+
+/** Request to search indexed fields of specific schemas */
+export interface IIndexFieldsSearchBySchemaIdsRequest {
+    /** The IDs of the schemas for which the indexed fields should be returned. */
+    schemaIds?: string[] | undefined;
+    /** Controls how the search works which schemas should be considered in the search.
+AllDescendantsFieldsOnRootSchema: All indexed fields from descendant schemas of root ones will be returned. Schemas that are not root schemas will be ignored.
+SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parents will be returned. */
+    searchMode: IndexFieldsSearchMode;
+}
+
+/** How the index field search works */
+export enum IndexFieldsSearchMode {
+    AllDescendantsFieldsOnRootSchema = <any>"AllDescendantsFieldsOnRootSchema", 
+    SchemaAndParentFieldsOnly = <any>"SchemaAndParentFieldsOnly", 
+}
+
+/** Exists response */
+export class ExistsResponse implements IExistsResponse {
+    /** It indicates if it exists. */
+    exists: boolean;
+
+    constructor(data?: IExistsResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.exists = data["exists"];
+        }
+    }
+
+    static fromJS(data: any): ExistsResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExistsResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["exists"] = this.exists;
+        return data; 
+    }
+}
+
+/** Exists response */
+export interface IExistsResponse {
+    /** It indicates if it exists. */
+    exists: boolean;
+}
+
+/** Result of a schema create operation */
+export class SchemaCreateResult implements ISchemaCreateResult {
+    /** The details of the created schema. */
+    schema?: SchemaDetail | undefined;
+
+    constructor(data?: ISchemaCreateResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.schema = data.schema && !(<any>data.schema).toJSON ? new SchemaDetail(data.schema) : <SchemaDetail>this.schema; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.schema = data["schema"] ? SchemaDetail.fromJS(data["schema"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SchemaCreateResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaCreateResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Result of a schema create operation */
+export interface ISchemaCreateResult {
+    /** The details of the created schema. */
+    schema?: ISchemaDetail | undefined;
+}
+
+/** Request to create a schema */
+export class SchemaCreateRequest implements ISchemaCreateRequest {
+    /** The schema ID. It can be a slug, but must be unique throughout the whole customer setup. */
+    id: string;
+    /** The parent schema ID. */
+    parentSchemaId?: string | undefined;
+    /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
+    types?: SchemaType[] | undefined;
+    /** Language specific schema names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
+    displayPatterns: DisplayPattern[];
+    /** The schema fields. */
+    fields?: FieldBase[] | undefined;
+    /** A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
+    /** An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+the UI uses such information to show the available filters and grouped results. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+must be set to true. Multiple sorting is supported: they are applied in the specified order. */
+    sort?: SortInfo[] | undefined;
+    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
+If the value is set true, the SchemaPermissionSetIds list must be empty. */
+    public: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    schemaPermissionSetIds?: string[] | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** If the schema if of type Layer, the list contains the schemas with type Content
+that reference the layer. */
+    referencedInContentSchemaIds?: string[] | undefined;
+
+    constructor(data?: ISchemaCreateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
+            if (data.displayPatterns) {
+                this.displayPatterns = [];
+                for (let i = 0; i < data.displayPatterns.length; i++) {
+                    let item = data.displayPatterns[i];
+                    this.displayPatterns[i] = item && !(<any>item).toJSON ? new DisplayPattern(item) : <DisplayPattern>item;
+                }
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+        if (!data) {
+            this.displayPatterns = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.parentSchemaId = data["parentSchemaId"];
+            if (data["types"] && data["types"].constructor === Array) {
+                this.types = [];
+                for (let item of data["types"])
+                    this.types.push(item);
+            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
+            if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
+                this.displayPatterns = [];
+                for (let item of data["displayPatterns"])
+                    this.displayPatterns.push(DisplayPattern.fromJS(item));
+            }
+            if (data["fields"] && data["fields"].constructor === Array) {
+                this.fields = [];
+                for (let item of data["fields"])
+                    this.fields.push(FieldBase.fromJS(item));
+            }
+            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
+                this.fieldsOverwrite = [];
+                for (let item of data["fieldsOverwrite"])
+                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
+            }
+            if (data["aggregations"] && data["aggregations"].constructor === Array) {
+                this.aggregations = [];
+                for (let item of data["aggregations"])
+                    this.aggregations.push(AggregatorBase.fromJS(item));
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.public = data["public"];
+            if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
+                this.schemaPermissionSetIds = [];
+                for (let item of data["schemaPermissionSetIds"])
+                    this.schemaPermissionSetIds.push(item);
+            }
+            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
+                this.layerSchemaIds = [];
+                for (let item of data["layerSchemaIds"])
+                    this.layerSchemaIds.push(item);
+            }
+            if (data["referencedInContentSchemaIds"] && data["referencedInContentSchemaIds"].constructor === Array) {
+                this.referencedInContentSchemaIds = [];
+                for (let item of data["referencedInContentSchemaIds"])
+                    this.referencedInContentSchemaIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["parentSchemaId"] = this.parentSchemaId;
+        if (this.types && this.types.constructor === Array) {
+            data["types"] = [];
+            for (let item of this.types)
+                data["types"].push(item);
+        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
+        if (this.displayPatterns && this.displayPatterns.constructor === Array) {
+            data["displayPatterns"] = [];
+            for (let item of this.displayPatterns)
+                data["displayPatterns"].push(item.toJSON());
+        }
+        if (this.fields && this.fields.constructor === Array) {
+            data["fields"] = [];
+            for (let item of this.fields)
+                data["fields"].push(item.toJSON());
+        }
+        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
+            data["fieldsOverwrite"] = [];
+            for (let item of this.fieldsOverwrite)
+                data["fieldsOverwrite"].push(item.toJSON());
+        }
+        if (this.aggregations && this.aggregations.constructor === Array) {
+            data["aggregations"] = [];
+            for (let item of this.aggregations)
+                data["aggregations"].push(item.toJSON());
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["public"] = this.public;
+        if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
+            data["schemaPermissionSetIds"] = [];
+            for (let item of this.schemaPermissionSetIds)
+                data["schemaPermissionSetIds"].push(item);
+        }
+        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
+            data["layerSchemaIds"] = [];
+            for (let item of this.layerSchemaIds)
+                data["layerSchemaIds"].push(item);
+        }
+        if (this.referencedInContentSchemaIds && this.referencedInContentSchemaIds.constructor === Array) {
+            data["referencedInContentSchemaIds"] = [];
+            for (let item of this.referencedInContentSchemaIds)
+                data["referencedInContentSchemaIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Request to create a schema */
+export interface ISchemaCreateRequest {
+    /** The schema ID. It can be a slug, but must be unique throughout the whole customer setup. */
+    id: string;
+    /** The parent schema ID. */
+    parentSchemaId?: string | undefined;
+    /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
+    types?: SchemaType[] | undefined;
+    /** Language specific schema names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: ITranslatedStringDictionary | undefined;
+    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
+    displayPatterns: IDisplayPattern[];
+    /** The schema fields. */
+    fields?: FieldBase[] | undefined;
+    /** A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
+    /** An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+the UI uses such information to show the available filters and grouped results. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+must be set to true. Multiple sorting is supported: they are applied in the specified order. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
+If the value is set true, the SchemaPermissionSetIds list must be empty. */
+    public: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    schemaPermissionSetIds?: string[] | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** If the schema if of type Layer, the list contains the schemas with type Content
+that reference the layer. */
+    referencedInContentSchemaIds?: string[] | undefined;
+}
+
+/** Result of a schema update operation */
+export class SchemaUpdateResult implements ISchemaUpdateResult {
+    /** The details of the updated schema. */
+    schema?: SchemaDetail | undefined;
+
+    constructor(data?: ISchemaUpdateResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.schema = data.schema && !(<any>data.schema).toJSON ? new SchemaDetail(data.schema) : <SchemaDetail>this.schema; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.schema = data["schema"] ? SchemaDetail.fromJS(data["schema"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SchemaUpdateResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaUpdateResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Result of a schema update operation */
+export interface ISchemaUpdateResult {
+    /** The details of the updated schema. */
+    schema?: ISchemaDetail | undefined;
+}
+
+/** Request to update an existing schema */
+export class SchemaUpdateRequest implements ISchemaUpdateRequest {
+    /** Language specific schema names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
+    displayPatterns?: DisplayPattern[] | undefined;
+    /** The schema fields. */
+    fields?: FieldBase[] | undefined;
+    /** A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
+    /** An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+the UI uses such information to show the available filters and grouped results. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+must be set to true. Multiple sorting is supported: they are applied in the specified order. */
+    sort?: SortInfo[] | undefined;
+    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
+If the value is set true, the SchemaPermissionSetIds list must be empty. */
+    public: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    schemaPermissionSetIds?: string[] | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** If the schema if of type Layer, the list contains the schemas with type Content
+that reference the layer. */
+    referencedInContentSchemaIds?: string[] | undefined;
+
+    constructor(data?: ISchemaUpdateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
+            if (data.displayPatterns) {
+                this.displayPatterns = [];
+                for (let i = 0; i < data.displayPatterns.length; i++) {
+                    let item = data.displayPatterns[i];
+                    this.displayPatterns[i] = item && !(<any>item).toJSON ? new DisplayPattern(item) : <DisplayPattern>item;
+                }
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
+            if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
+                this.displayPatterns = [];
+                for (let item of data["displayPatterns"])
+                    this.displayPatterns.push(DisplayPattern.fromJS(item));
+            }
+            if (data["fields"] && data["fields"].constructor === Array) {
+                this.fields = [];
+                for (let item of data["fields"])
+                    this.fields.push(FieldBase.fromJS(item));
+            }
+            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
+                this.fieldsOverwrite = [];
+                for (let item of data["fieldsOverwrite"])
+                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
+            }
+            if (data["aggregations"] && data["aggregations"].constructor === Array) {
+                this.aggregations = [];
+                for (let item of data["aggregations"])
+                    this.aggregations.push(AggregatorBase.fromJS(item));
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.public = data["public"];
+            if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
+                this.schemaPermissionSetIds = [];
+                for (let item of data["schemaPermissionSetIds"])
+                    this.schemaPermissionSetIds.push(item);
+            }
+            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
+                this.layerSchemaIds = [];
+                for (let item of data["layerSchemaIds"])
+                    this.layerSchemaIds.push(item);
+            }
+            if (data["referencedInContentSchemaIds"] && data["referencedInContentSchemaIds"].constructor === Array) {
+                this.referencedInContentSchemaIds = [];
+                for (let item of data["referencedInContentSchemaIds"])
+                    this.referencedInContentSchemaIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
+        if (this.displayPatterns && this.displayPatterns.constructor === Array) {
+            data["displayPatterns"] = [];
+            for (let item of this.displayPatterns)
+                data["displayPatterns"].push(item.toJSON());
+        }
+        if (this.fields && this.fields.constructor === Array) {
+            data["fields"] = [];
+            for (let item of this.fields)
+                data["fields"].push(item.toJSON());
+        }
+        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
+            data["fieldsOverwrite"] = [];
+            for (let item of this.fieldsOverwrite)
+                data["fieldsOverwrite"].push(item.toJSON());
+        }
+        if (this.aggregations && this.aggregations.constructor === Array) {
+            data["aggregations"] = [];
+            for (let item of this.aggregations)
+                data["aggregations"].push(item.toJSON());
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["public"] = this.public;
+        if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
+            data["schemaPermissionSetIds"] = [];
+            for (let item of this.schemaPermissionSetIds)
+                data["schemaPermissionSetIds"].push(item);
+        }
+        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
+            data["layerSchemaIds"] = [];
+            for (let item of this.layerSchemaIds)
+                data["layerSchemaIds"].push(item);
+        }
+        if (this.referencedInContentSchemaIds && this.referencedInContentSchemaIds.constructor === Array) {
+            data["referencedInContentSchemaIds"] = [];
+            for (let item of this.referencedInContentSchemaIds)
+                data["referencedInContentSchemaIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Request to update an existing schema */
+export interface ISchemaUpdateRequest {
+    /** Language specific schema names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific schema descriptions. */
+    descriptions?: ITranslatedStringDictionary | undefined;
+    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
+    displayPatterns?: IDisplayPattern[] | undefined;
+    /** The schema fields. */
+    fields?: FieldBase[] | undefined;
+    /** A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot. */
+    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
+    /** An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+the UI uses such information to show the available filters and grouped results. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+must be set to true. Multiple sorting is supported: they are applied in the specified order. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
+If the value is set true, the SchemaPermissionSetIds list must be empty. */
+    public: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    schemaPermissionSetIds?: string[] | undefined;
+    /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
+    layerSchemaIds?: string[] | undefined;
+    /** If the schema if of type Layer, the list contains the schemas with type Content
+that reference the layer. */
+    referencedInContentSchemaIds?: string[] | undefined;
+}
+
+/** Result of a schema delete operation */
+export class SchemaDeleteResult implements ISchemaDeleteResult {
+
+    constructor(data?: ISchemaDeleteResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): SchemaDeleteResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaDeleteResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+/** Result of a schema delete operation */
+export interface ISchemaDeleteResult {
+}
+
+export abstract class PermissionSetDetailOfMetadataRight implements IPermissionSetDetailOfMetadataRight {
+    id: string;
+    names?: TranslatedStringDictionary | undefined;
+    userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+    ownerTokenId: string;
+
+    constructor(data?: IPermissionSetDetailOfMetadataRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.userRolesRights) {
+                this.userRolesRights = [];
+                for (let i = 0; i < data.userRolesRights.length; i++) {
+                    let item = data.userRolesRights[i];
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfMetadataRight(item) : <PermissionUserRoleRightsOfMetadataRight>item;
+                }
+            }
+            if (data.userRolesPermissionSetRights) {
+                this.userRolesPermissionSetRights = [];
+                for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
+                    let item = data.userRolesPermissionSetRights[i];
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfPermissionSetRight(item) : <PermissionUserRoleRightsOfPermissionSetRight>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
+                this.userRolesRights = [];
+                for (let item of data["userRolesRights"])
+                    this.userRolesRights.push(PermissionUserRoleRightsOfMetadataRight.fromJS(item));
+            }
+            if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
+                this.userRolesPermissionSetRights = [];
+                for (let item of data["userRolesPermissionSetRights"])
+                    this.userRolesPermissionSetRights.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+            }
+            this.exclusive = data["exclusive"];
+            this.ownerTokenId = data["ownerTokenId"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetDetailOfMetadataRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetDetailOfMetadataRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.userRolesRights && this.userRolesRights.constructor === Array) {
+            data["userRolesRights"] = [];
+            for (let item of this.userRolesRights)
+                data["userRolesRights"].push(item.toJSON());
+        }
+        if (this.userRolesPermissionSetRights && this.userRolesPermissionSetRights.constructor === Array) {
+            data["userRolesPermissionSetRights"] = [];
+            for (let item of this.userRolesPermissionSetRights)
+                data["userRolesPermissionSetRights"].push(item.toJSON());
+        }
+        data["exclusive"] = this.exclusive;
+        data["ownerTokenId"] = this.ownerTokenId;
+        return data; 
+    }
+}
+
+export interface IPermissionSetDetailOfMetadataRight {
+    id: string;
+    names?: ITranslatedStringDictionary | undefined;
+    userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+    ownerTokenId: string;
+}
+
+/** Detail of a schema permission set */
+export class SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRight implements ISchemaPermissionSetDetail {
+
+    constructor(data?: ISchemaPermissionSetDetail) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): SchemaPermissionSetDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionSetDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Detail of a schema permission set */
+export interface ISchemaPermissionSetDetail extends IPermissionSetDetailOfMetadataRight {
+}
+
+export class PermissionUserRoleRightsOfMetadataRight implements IPermissionUserRoleRightsOfMetadataRight {
+    userRoleId?: string | undefined;
+    names?: TranslatedStringDictionary | undefined;
+    rights?: MetadataRight[] | undefined;
+
+    constructor(data?: IPermissionUserRoleRightsOfMetadataRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userRoleId = data["userRoleId"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["rights"] && data["rights"].constructor === Array) {
+                this.rights = [];
+                for (let item of data["rights"])
+                    this.rights.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionUserRoleRightsOfMetadataRight {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionUserRoleRightsOfMetadataRight();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userRoleId"] = this.userRoleId;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.rights && this.rights.constructor === Array) {
+            data["rights"] = [];
+            for (let item of this.rights)
+                data["rights"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IPermissionUserRoleRightsOfMetadataRight {
+    userRoleId?: string | undefined;
+    names?: ITranslatedStringDictionary | undefined;
+    rights?: MetadataRight[] | undefined;
+}
+
+/** Metadata rights */
+export enum MetadataRight {
+    View = <any>"View", 
+    Edit = <any>"Edit", 
+    Manage = <any>"Manage", 
+}
+
+/** Represents a transfer. */
+export class Transfer implements ITransfer {
+    /** ID of transfer. */
+    id: string;
+    /** Name of transfer. */
+    name: string;
+    /** State of transfer. */
+    state: TransferState;
+    /** Type of transfer. */
+    transferType: TransferType;
+    /** Associated business process ID. */
+    businessProcessId?: string | undefined;
+    /** Number of files in transfer. */
+    fileTransferCount: number;
+    /** ID of collection created from transfer. */
+    collectionId?: string | undefined;
+
+    constructor(data?: ITransfer) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.name = data["name"];
+            this.state = data["state"];
+            this.transferType = data["transferType"];
+            this.businessProcessId = data["businessProcessId"];
+            this.fileTransferCount = data["fileTransferCount"];
+            this.collectionId = data["collectionId"];
+        }
+    }
+
+    static fromJS(data: any): Transfer {
+        data = typeof data === 'object' ? data : {};
+        let result = new Transfer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["state"] = this.state;
+        data["transferType"] = this.transferType;
+        data["businessProcessId"] = this.businessProcessId;
+        data["fileTransferCount"] = this.fileTransferCount;
+        data["collectionId"] = this.collectionId;
+        return data; 
+    }
+}
+
+/** Represents a transfer. */
+export interface ITransfer {
+    /** ID of transfer. */
+    id: string;
+    /** Name of transfer. */
+    name: string;
+    /** State of transfer. */
+    state: TransferState;
+    /** Type of transfer. */
+    transferType: TransferType;
+    /** Associated business process ID. */
+    businessProcessId?: string | undefined;
+    /** Number of files in transfer. */
+    fileTransferCount: number;
+    /** ID of collection created from transfer. */
+    collectionId?: string | undefined;
+}
+
+/** Request to import schemas and list items */
+export class SchemaImportRequest implements ISchemaImportRequest {
+    /** ID of the file transfer identifying the file previously uploaded. */
+    fileTransferId: string;
+    /** Allow creating list items that refer to list items or contents that don't exist in the system. */
+    allowMissingDependencies: boolean;
+    /** Import the list items belonging to the schema. */
+    importListItems: boolean;
+
+    constructor(data?: ISchemaImportRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.fileTransferId = data["fileTransferId"];
+            this.allowMissingDependencies = data["allowMissingDependencies"];
+            this.importListItems = data["importListItems"];
+        }
+    }
+
+    static fromJS(data: any): SchemaImportRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaImportRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileTransferId"] = this.fileTransferId;
+        data["allowMissingDependencies"] = this.allowMissingDependencies;
+        data["importListItems"] = this.importListItems;
+        return data; 
+    }
+}
+
+/** Request to import schemas and list items */
+export interface ISchemaImportRequest {
+    /** ID of the file transfer identifying the file previously uploaded. */
+    fileTransferId: string;
+    /** Allow creating list items that refer to list items or contents that don't exist in the system. */
+    allowMissingDependencies: boolean;
+    /** Import the list items belonging to the schema. */
+    importListItems: boolean;
+}
+
+export class CustomerServiceProviderConfiguration implements ICustomerServiceProviderConfiguration {
+    serviceProviderId?: string | undefined;
+    customerId?: string | undefined;
+    userRoleIds?: string[] | undefined;
+    settings?: string | undefined;
+
+    constructor(data?: ICustomerServiceProviderConfiguration) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.serviceProviderId = data["serviceProviderId"];
+            this.customerId = data["customerId"];
+            if (data["userRoleIds"] && data["userRoleIds"].constructor === Array) {
+                this.userRoleIds = [];
+                for (let item of data["userRoleIds"])
+                    this.userRoleIds.push(item);
+            }
+            this.settings = data["settings"];
+        }
+    }
+
+    static fromJS(data: any): CustomerServiceProviderConfiguration {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerServiceProviderConfiguration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["serviceProviderId"] = this.serviceProviderId;
+        data["customerId"] = this.customerId;
+        if (this.userRoleIds && this.userRoleIds.constructor === Array) {
+            data["userRoleIds"] = [];
+            for (let item of this.userRoleIds)
+                data["userRoleIds"].push(item);
+        }
+        data["settings"] = this.settings;
+        return data; 
+    }
+}
+
+export interface ICustomerServiceProviderConfiguration {
+    serviceProviderId?: string | undefined;
+    customerId?: string | undefined;
+    userRoleIds?: string[] | undefined;
+    settings?: string | undefined;
+}
+
+export class ServiceProviderConfigurationUpdateRequest implements IServiceProviderConfigurationUpdateRequest {
+    customerId?: string | undefined;
+    settings?: string | undefined;
+    userRoleIds?: string[] | undefined;
+
+    constructor(data?: IServiceProviderConfigurationUpdateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.customerId = data["customerId"];
+            this.settings = data["settings"];
+            if (data["userRoleIds"] && data["userRoleIds"].constructor === Array) {
+                this.userRoleIds = [];
+                for (let item of data["userRoleIds"])
+                    this.userRoleIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ServiceProviderConfigurationUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ServiceProviderConfigurationUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerId"] = this.customerId;
+        data["settings"] = this.settings;
+        if (this.userRoleIds && this.userRoleIds.constructor === Array) {
+            data["userRoleIds"] = [];
+            for (let item of this.userRoleIds)
+                data["userRoleIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IServiceProviderConfigurationUpdateRequest {
+    customerId?: string | undefined;
+    settings?: string | undefined;
+    userRoleIds?: string[] | undefined;
 }
 
 export class ShareDetail implements IShareDetail {
@@ -31083,10 +37330,14 @@ export interface IInternalRecipient {
 }
 
 export class User implements IUser {
+    /** User's Picturepark ID. */
     id?: string | undefined;
+    /** User's first name. */
     firstName?: string | undefined;
+    /** User's last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
 
     constructor(data?: IUser) {
         if (data) {
@@ -31124,10 +37375,14 @@ export class User implements IUser {
 }
 
 export interface IUser {
+    /** User's Picturepark ID. */
     id?: string | undefined;
+    /** User's first name. */
     firstName?: string | undefined;
+    /** User's last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
 }
 
 export abstract class TemplateBase implements ITemplateBase {
@@ -31299,3812 +37554,6 @@ export enum OutputAccess {
     None = <any>"None", 
 }
 
-export class SchemaDetail implements ISchemaDetail {
-    /** The schema id. */
-    id?: string | undefined;
-    /** The parent schema id. */
-    parentSchemaId?: string | undefined;
-    /** Types control schema usage. */
-    types?: SchemaType[] | undefined;
-    /** Language specific schema names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: TranslatedStringDictionary | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    displayPatterns?: DisplayPattern[] | undefined;
-    /** The schema fields. */
-    fields?: FieldBase[] | undefined;
-    /** The schema fields overwrite information. */
-    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
-    /** Sorts content documents and/or list items. */
-    sort?: SortInfo[] | undefined;
-    /** An optional list of aggregations to group content documents and list items. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** Is true when schema is system provided. */
-    system: boolean;
-    /** The owner token id. Defines the schema owner. */
-    ownerTokenId?: string | undefined;
-    /** Opens list item document accessibility. If true the SchemaPermissionSetIds must be empty. */
-    public: boolean;
-    /** An optional id list of schema permission sets which control list item permissions. When not empty Public must be false. */
-    schemaPermissionSetIds?: string[] | undefined;
-    /** An optional id list of schemas with type content for a schema with type layer. */
-    referencedInContentSchemaIds?: string[] | undefined;
-    /** A complete id list of all descendant schemas. */
-    descendantSchemaIds?: string[] | undefined;
-    audit?: UserAudit | undefined;
-    /** The number of fields generated by the schema for the Search operations. */
-    searchFieldCount?: SearchFieldCount | undefined;
-
-    constructor(data?: ISchemaDetail) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
-            if (data.displayPatterns) {
-                this.displayPatterns = [];
-                for (let i = 0; i < data.displayPatterns.length; i++) {
-                    let item = data.displayPatterns[i];
-                    this.displayPatterns[i] = item && !(<any>item).toJSON ? new DisplayPattern(item) : <DisplayPattern>item;
-                }
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
-            this.searchFieldCount = data.searchFieldCount && !(<any>data.searchFieldCount).toJSON ? new SearchFieldCount(data.searchFieldCount) : <SearchFieldCount>this.searchFieldCount; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.parentSchemaId = data["parentSchemaId"];
-            if (data["types"] && data["types"].constructor === Array) {
-                this.types = [];
-                for (let item of data["types"])
-                    this.types.push(item);
-            }
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
-                this.layerSchemaIds = [];
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds.push(item);
-            }
-            if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
-                this.displayPatterns = [];
-                for (let item of data["displayPatterns"])
-                    this.displayPatterns.push(DisplayPattern.fromJS(item));
-            }
-            if (data["fields"] && data["fields"].constructor === Array) {
-                this.fields = [];
-                for (let item of data["fields"])
-                    this.fields.push(FieldBase.fromJS(item));
-            }
-            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
-                this.fieldsOverwrite = [];
-                for (let item of data["fieldsOverwrite"])
-                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            if (data["aggregations"] && data["aggregations"].constructor === Array) {
-                this.aggregations = [];
-                for (let item of data["aggregations"])
-                    this.aggregations.push(AggregatorBase.fromJS(item));
-            }
-            this.system = data["system"];
-            this.ownerTokenId = data["ownerTokenId"];
-            this.public = data["public"];
-            if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
-                this.schemaPermissionSetIds = [];
-                for (let item of data["schemaPermissionSetIds"])
-                    this.schemaPermissionSetIds.push(item);
-            }
-            if (data["referencedInContentSchemaIds"] && data["referencedInContentSchemaIds"].constructor === Array) {
-                this.referencedInContentSchemaIds = [];
-                for (let item of data["referencedInContentSchemaIds"])
-                    this.referencedInContentSchemaIds.push(item);
-            }
-            if (data["descendantSchemaIds"] && data["descendantSchemaIds"].constructor === Array) {
-                this.descendantSchemaIds = [];
-                for (let item of data["descendantSchemaIds"])
-                    this.descendantSchemaIds.push(item);
-            }
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.searchFieldCount = data["searchFieldCount"] ? SearchFieldCount.fromJS(data["searchFieldCount"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SchemaDetail {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["parentSchemaId"] = this.parentSchemaId;
-        if (this.types && this.types.constructor === Array) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (this.displayPatterns && this.displayPatterns.constructor === Array) {
-            data["displayPatterns"] = [];
-            for (let item of this.displayPatterns)
-                data["displayPatterns"].push(item.toJSON());
-        }
-        if (this.fields && this.fields.constructor === Array) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
-            data["fieldsOverwrite"] = [];
-            for (let item of this.fieldsOverwrite)
-                data["fieldsOverwrite"].push(item.toJSON());
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        if (this.aggregations && this.aggregations.constructor === Array) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        data["system"] = this.system;
-        data["ownerTokenId"] = this.ownerTokenId;
-        data["public"] = this.public;
-        if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
-            data["schemaPermissionSetIds"] = [];
-            for (let item of this.schemaPermissionSetIds)
-                data["schemaPermissionSetIds"].push(item);
-        }
-        if (this.referencedInContentSchemaIds && this.referencedInContentSchemaIds.constructor === Array) {
-            data["referencedInContentSchemaIds"] = [];
-            for (let item of this.referencedInContentSchemaIds)
-                data["referencedInContentSchemaIds"].push(item);
-        }
-        if (this.descendantSchemaIds && this.descendantSchemaIds.constructor === Array) {
-            data["descendantSchemaIds"] = [];
-            for (let item of this.descendantSchemaIds)
-                data["descendantSchemaIds"].push(item);
-        }
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["searchFieldCount"] = this.searchFieldCount ? this.searchFieldCount.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface ISchemaDetail {
-    /** The schema id. */
-    id?: string | undefined;
-    /** The parent schema id. */
-    parentSchemaId?: string | undefined;
-    /** Types control schema usage. */
-    types?: SchemaType[] | undefined;
-    /** Language specific schema names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: ITranslatedStringDictionary | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    displayPatterns?: IDisplayPattern[] | undefined;
-    /** The schema fields. */
-    fields?: FieldBase[] | undefined;
-    /** The schema fields overwrite information. */
-    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
-    /** Sorts content documents and/or list items. */
-    sort?: ISortInfo[] | undefined;
-    /** An optional list of aggregations to group content documents and list items. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** Is true when schema is system provided. */
-    system: boolean;
-    /** The owner token id. Defines the schema owner. */
-    ownerTokenId?: string | undefined;
-    /** Opens list item document accessibility. If true the SchemaPermissionSetIds must be empty. */
-    public: boolean;
-    /** An optional id list of schema permission sets which control list item permissions. When not empty Public must be false. */
-    schemaPermissionSetIds?: string[] | undefined;
-    /** An optional id list of schemas with type content for a schema with type layer. */
-    referencedInContentSchemaIds?: string[] | undefined;
-    /** A complete id list of all descendant schemas. */
-    descendantSchemaIds?: string[] | undefined;
-    audit?: IUserAudit | undefined;
-    /** The number of fields generated by the schema for the Search operations. */
-    searchFieldCount?: ISearchFieldCount | undefined;
-}
-
-export class DisplayPattern implements IDisplayPattern {
-    /** Defines the template engine for parsing the templates. */
-    templateEngine: TemplateEngine;
-    /** Defines the pattern type of the templates. */
-    displayPatternType: DisplayPatternType;
-    /** Language specific pattern templates. */
-    templates?: TranslatedStringDictionary | undefined;
-
-    constructor(data?: IDisplayPattern) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.templates = data.templates && !(<any>data.templates).toJSON ? new TranslatedStringDictionary(data.templates) : <TranslatedStringDictionary>this.templates; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.templateEngine = data["templateEngine"];
-            this.displayPatternType = data["displayPatternType"];
-            this.templates = data["templates"] ? TranslatedStringDictionary.fromJS(data["templates"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): DisplayPattern {
-        data = typeof data === 'object' ? data : {};
-        let result = new DisplayPattern();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["templateEngine"] = this.templateEngine;
-        data["displayPatternType"] = this.displayPatternType;
-        data["templates"] = this.templates ? this.templates.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IDisplayPattern {
-    /** Defines the template engine for parsing the templates. */
-    templateEngine: TemplateEngine;
-    /** Defines the pattern type of the templates. */
-    displayPatternType: DisplayPatternType;
-    /** Language specific pattern templates. */
-    templates?: ITranslatedStringDictionary | undefined;
-}
-
-export enum TemplateEngine {
-    DotLiquid = <any>"DotLiquid", 
-}
-
-/** The field base class. */
-export abstract class FieldBase implements IFieldBase {
-    /** The field id. Can be a slug and must be unique within the schema. */
-    id?: string | undefined;
-    /** The index id is auto generated by the system. */
-    indexId?: string | undefined;
-    /** The namespace is auto generated by the system. */
-    fieldNamespace?: string | undefined;
-    /** Language specific field names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** Language specific field descriptions. */
-    descriptions?: TranslatedStringDictionary | undefined;
-    /** Defines if a field value is mandatory or not. */
-    required: boolean;
-    /** Defines if the field can be edited or not. */
-    fixed: boolean;
-    /** Maps the field in the elastic filter index. */
-    index: boolean;
-    /** Includes fields in the simple search. */
-    simpleSearch: boolean;
-    /** Field is stored for sorting. */
-    sortable: boolean;
-
-    protected _discriminator: string;
-
-    constructor(data?: IFieldBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
-        }
-        this._discriminator = "FieldBase";
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.indexId = data["indexId"];
-            this.fieldNamespace = data["fieldNamespace"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            this.required = data["required"];
-            this.fixed = data["fixed"];
-            this.index = data["index"];
-            this.simpleSearch = data["simpleSearch"];
-            this.sortable = data["sortable"];
-        }
-    }
-
-    static fromJS(data: any): FieldBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "FieldBoolean") {
-            let result = new FieldBoolean();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldDate") {
-            let result = new FieldDate();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldDateTime") {
-            let result = new FieldDateTime();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldDateTimeArray") {
-            let result = new FieldDateTimeArray();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldDecimal") {
-            let result = new FieldDecimal();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldDictionary") {
-            let result = new FieldDictionary();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldDictionaryArray") {
-            let result = new FieldDictionaryArray();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldGeoPoint") {
-            let result = new FieldGeoPoint();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldLong") {
-            let result = new FieldLong();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldLongArray") {
-            let result = new FieldLongArray();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldSingleFieldset") {
-            let result = new FieldSingleFieldset();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldMultiFieldset") {
-            let result = new FieldMultiFieldset();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldSingleTagbox") {
-            let result = new FieldSingleTagbox();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldMultiTagbox") {
-            let result = new FieldMultiTagbox();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldString") {
-            let result = new FieldString();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldStringArray") {
-            let result = new FieldStringArray();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldTranslatedString") {
-            let result = new FieldTranslatedString();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldSingleRelation") {
-            let result = new FieldSingleRelation();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldMultiRelation") {
-            let result = new FieldMultiRelation();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'FieldBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        data["id"] = this.id;
-        data["indexId"] = this.indexId;
-        data["fieldNamespace"] = this.fieldNamespace;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        data["required"] = this.required;
-        data["fixed"] = this.fixed;
-        data["index"] = this.index;
-        data["simpleSearch"] = this.simpleSearch;
-        data["sortable"] = this.sortable;
-        return data; 
-    }
-}
-
-/** The field base class. */
-export interface IFieldBase {
-    /** The field id. Can be a slug and must be unique within the schema. */
-    id?: string | undefined;
-    /** The index id is auto generated by the system. */
-    indexId?: string | undefined;
-    /** The namespace is auto generated by the system. */
-    fieldNamespace?: string | undefined;
-    /** Language specific field names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Language specific field descriptions. */
-    descriptions?: ITranslatedStringDictionary | undefined;
-    /** Defines if a field value is mandatory or not. */
-    required: boolean;
-    /** Defines if the field can be edited or not. */
-    fixed: boolean;
-    /** Maps the field in the elastic filter index. */
-    index: boolean;
-    /** Includes fields in the simple search. */
-    simpleSearch: boolean;
-    /** Field is stored for sorting. */
-    sortable: boolean;
-}
-
-export class FieldBoolean extends FieldBase implements IFieldBoolean {
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldBoolean) {
-        super(data);
-        this._discriminator = "FieldBoolean";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldBoolean {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldBoolean();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldBoolean extends IFieldBase {
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-export class FieldDate extends FieldBase implements IFieldDate {
-    /** Defines the date format structure. */
-    format?: string | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldDate) {
-        super(data);
-        this._discriminator = "FieldDate";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.format = data["format"];
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldDate {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldDate();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["format"] = this.format;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldDate extends IFieldBase {
-    /** Defines the date format structure. */
-    format?: string | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-export class FieldDateTime extends FieldBase implements IFieldDateTime {
-    /** Defines the date time format structure. */
-    format?: string | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldDateTime) {
-        super(data);
-        this._discriminator = "FieldDateTime";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.format = data["format"];
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldDateTime {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "FieldDateTimeArray") {
-            let result = new FieldDateTimeArray();
-            result.init(data);
-            return result;
-        }
-        let result = new FieldDateTime();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["format"] = this.format;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldDateTime extends IFieldBase {
-    /** Defines the date time format structure. */
-    format?: string | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-/** For internal use only (system schemas) */
-export class FieldDateTimeArray extends FieldDateTime implements IFieldDateTimeArray {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-
-    constructor(data?: IFieldDateTimeArray) {
-        super(data);
-        this._discriminator = "FieldDateTimeArray";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldDateTimeArray {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldDateTimeArray();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** For internal use only (system schemas) */
-export interface IFieldDateTimeArray extends IFieldDateTime {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-}
-
-export class FieldDecimal extends FieldBase implements IFieldDecimal {
-    pattern?: string | undefined;
-    /** Defines the lowest possible value. */
-    minimum?: number | undefined;
-    /** Defines the highest possible value. */
-    maximum?: number | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldDecimal) {
-        super(data);
-        this._discriminator = "FieldDecimal";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.pattern = data["pattern"];
-            this.minimum = data["minimum"];
-            this.maximum = data["maximum"];
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldDecimal {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldDecimal();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pattern"] = this.pattern;
-        data["minimum"] = this.minimum;
-        data["maximum"] = this.maximum;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldDecimal extends IFieldBase {
-    pattern?: string | undefined;
-    /** Defines the lowest possible value. */
-    minimum?: number | undefined;
-    /** Defines the highest possible value. */
-    maximum?: number | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-/** For internal use only (system schemas) */
-export class FieldDictionary extends FieldBase implements IFieldDictionary {
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldDictionary) {
-        super(data);
-        this._discriminator = "FieldDictionary";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldDictionary {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "FieldDictionaryArray") {
-            let result = new FieldDictionaryArray();
-            result.init(data);
-            return result;
-        }
-        let result = new FieldDictionary();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** For internal use only (system schemas) */
-export interface IFieldDictionary extends IFieldBase {
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-/** For internal use only (system schemas) */
-export class FieldDictionaryArray extends FieldDictionary implements IFieldDictionaryArray {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-
-    constructor(data?: IFieldDictionaryArray) {
-        super(data);
-        this._discriminator = "FieldDictionaryArray";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldDictionaryArray {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldDictionaryArray();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** For internal use only (system schemas) */
-export interface IFieldDictionaryArray extends IFieldDictionary {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-}
-
-export class FieldGeoPoint extends FieldBase implements IFieldGeoPoint {
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldGeoPoint) {
-        super(data);
-        this._discriminator = "FieldGeoPoint";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldGeoPoint {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldGeoPoint();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldGeoPoint extends IFieldBase {
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-export class FieldLong extends FieldBase implements IFieldLong {
-    pattern?: string | undefined;
-    /** Defines the lowest possible value. */
-    minimum?: number | undefined;
-    /** Defines the highest possible value. */
-    maximum?: number | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldLong) {
-        super(data);
-        this._discriminator = "FieldLong";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.pattern = data["pattern"];
-            this.minimum = data["minimum"];
-            this.maximum = data["maximum"];
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldLong {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "FieldLongArray") {
-            let result = new FieldLongArray();
-            result.init(data);
-            return result;
-        }
-        let result = new FieldLong();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pattern"] = this.pattern;
-        data["minimum"] = this.minimum;
-        data["maximum"] = this.maximum;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldLong extends IFieldBase {
-    pattern?: string | undefined;
-    /** Defines the lowest possible value. */
-    minimum?: number | undefined;
-    /** Defines the highest possible value. */
-    maximum?: number | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-/** For internal use only (system schemas) */
-export class FieldLongArray extends FieldLong implements IFieldLongArray {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-
-    constructor(data?: IFieldLongArray) {
-        super(data);
-        this._discriminator = "FieldLongArray";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldLongArray {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldLongArray();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** For internal use only (system schemas) */
-export interface IFieldLongArray extends IFieldLong {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-}
-
-export class FieldSingleFieldset extends FieldBase implements IFieldSingleFieldset {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-
-    constructor(data?: IFieldSingleFieldset) {
-        super(data);
-        this._discriminator = "FieldSingleFieldset";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): FieldSingleFieldset {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldSingleFieldset();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldSingleFieldset extends IFieldBase {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
-}
-
-export class SchemaIndexingInfo implements ISchemaIndexingInfo {
-    /** A collecction of indexing information for the fields of a schema */
-    fields?: FieldIndexingInfo[] | undefined;
-
-    constructor(data?: ISchemaIndexingInfo) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.fields) {
-                this.fields = [];
-                for (let i = 0; i < data.fields.length; i++) {
-                    let item = data.fields[i];
-                    this.fields[i] = item && !(<any>item).toJSON ? new FieldIndexingInfo(item) : <FieldIndexingInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["fields"] && data["fields"].constructor === Array) {
-                this.fields = [];
-                for (let item of data["fields"])
-                    this.fields.push(FieldIndexingInfo.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): SchemaIndexingInfo {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaIndexingInfo();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.fields && this.fields.constructor === Array) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface ISchemaIndexingInfo {
-    /** A collecction of indexing information for the fields of a schema */
-    fields?: IFieldIndexingInfo[] | undefined;
-}
-
-export class FieldIndexingInfo implements IFieldIndexingInfo {
-    /** The field Id */
-    id?: string | undefined;
-    /** Maps the field in the elastic search index and its values become searchable. */
-    index: boolean;
-    /** Includes fields in the simple search. Index must be true. */
-    simpleSearch: boolean;
-    /** Include the field for the sort index. */
-    sortable: boolean;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-    /** Indexing information of fields of the schema related to this field (if existing) */
-    relatedSchemaIndexing?: SchemaIndexingInfo | undefined;
-
-    constructor(data?: IFieldIndexingInfo) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.relatedSchemaIndexing = data.relatedSchemaIndexing && !(<any>data.relatedSchemaIndexing).toJSON ? new SchemaIndexingInfo(data.relatedSchemaIndexing) : <SchemaIndexingInfo>this.relatedSchemaIndexing; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.index = data["index"];
-            this.simpleSearch = data["simpleSearch"];
-            this.sortable = data["sortable"];
-            this.boost = data["boost"];
-            this.relatedSchemaIndexing = data["relatedSchemaIndexing"] ? SchemaIndexingInfo.fromJS(data["relatedSchemaIndexing"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): FieldIndexingInfo {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldIndexingInfo();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["index"] = this.index;
-        data["simpleSearch"] = this.simpleSearch;
-        data["sortable"] = this.sortable;
-        data["boost"] = this.boost;
-        data["relatedSchemaIndexing"] = this.relatedSchemaIndexing ? this.relatedSchemaIndexing.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IFieldIndexingInfo {
-    /** The field Id */
-    id?: string | undefined;
-    /** Maps the field in the elastic search index and its values become searchable. */
-    index: boolean;
-    /** Includes fields in the simple search. Index must be true. */
-    simpleSearch: boolean;
-    /** Include the field for the sort index. */
-    sortable: boolean;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-    /** Indexing information of fields of the schema related to this field (if existing) */
-    relatedSchemaIndexing?: ISchemaIndexingInfo | undefined;
-}
-
-export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-    /** Defines the highest possible fieldset count. */
-    maximumItems?: number | undefined;
-    /** Defines the lowest possible fieldset count. */
-    minimumItems?: number | undefined;
-
-    constructor(data?: IFieldMultiFieldset) {
-        super(data);
-        this._discriminator = "FieldMultiFieldset";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldMultiFieldset {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldMultiFieldset();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldMultiFieldset extends IFieldBase {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
-    /** Defines the highest possible fieldset count. */
-    maximumItems?: number | undefined;
-    /** Defines the lowest possible fieldset count. */
-    minimumItems?: number | undefined;
-}
-
-export class FieldSingleTagbox extends FieldBase implements IFieldSingleTagbox {
-    /** The id of the schema with type list. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-
-    constructor(data?: IFieldSingleTagbox) {
-        super(data);
-        this._discriminator = "FieldSingleTagbox";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-        }
-    }
-
-    static fromJS(data: any): FieldSingleTagbox {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldSingleTagbox();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldSingleTagbox extends IFieldBase {
-    /** The id of the schema with type list. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-}
-
-export class FieldMultiTagbox extends FieldBase implements IFieldMultiTagbox {
-    /** The id of the schema with type list. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-    /** Defines the highest possible item count. */
-    maximumItems?: number | undefined;
-    /** Defines the lowest possible item count. */
-    minimumItems?: number | undefined;
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-
-    constructor(data?: IFieldMultiTagbox) {
-        super(data);
-        this._discriminator = "FieldMultiTagbox";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-        }
-    }
-
-    static fromJS(data: any): FieldMultiTagbox {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldMultiTagbox();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldMultiTagbox extends IFieldBase {
-    /** The id of the schema with type list. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
-    /** Defines the highest possible item count. */
-    maximumItems?: number | undefined;
-    /** Defines the lowest possible item count. */
-    minimumItems?: number | undefined;
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-}
-
-export class FieldString extends FieldBase implements IFieldString {
-    /** It is a DotLiquid template. */
-    template?: string | undefined;
-    /** Contains a regex validation pattern. */
-    pattern?: string | undefined;
-    /** Defines the minimal string length. */
-    minimumLength?: number | undefined;
-    /** Defines the maximal string length. */
-    maximumLength?: number | undefined;
-    /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    indexAnalyzers?: AnalyzerBase[] | undefined;
-    /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
-    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
-    /** Displays the field value in a multiline component. */
-    multiLine: boolean;
-    /** Similar to an enumeration valid field values are limited to values of this list. */
-    grantedValues?: string[] | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldString) {
-        super(data);
-        this._discriminator = "FieldString";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.template = data["template"];
-            this.pattern = data["pattern"];
-            this.minimumLength = data["minimumLength"];
-            this.maximumLength = data["maximumLength"];
-            if (data["indexAnalyzers"] && data["indexAnalyzers"].constructor === Array) {
-                this.indexAnalyzers = [];
-                for (let item of data["indexAnalyzers"])
-                    this.indexAnalyzers.push(AnalyzerBase.fromJS(item));
-            }
-            if (data["simpleSearchAnalyzers"] && data["simpleSearchAnalyzers"].constructor === Array) {
-                this.simpleSearchAnalyzers = [];
-                for (let item of data["simpleSearchAnalyzers"])
-                    this.simpleSearchAnalyzers.push(AnalyzerBase.fromJS(item));
-            }
-            this.multiLine = data["multiLine"];
-            if (data["grantedValues"] && data["grantedValues"].constructor === Array) {
-                this.grantedValues = [];
-                for (let item of data["grantedValues"])
-                    this.grantedValues.push(item);
-            }
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldString {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "FieldStringArray") {
-            let result = new FieldStringArray();
-            result.init(data);
-            return result;
-        }
-        let result = new FieldString();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["template"] = this.template;
-        data["pattern"] = this.pattern;
-        data["minimumLength"] = this.minimumLength;
-        data["maximumLength"] = this.maximumLength;
-        if (this.indexAnalyzers && this.indexAnalyzers.constructor === Array) {
-            data["indexAnalyzers"] = [];
-            for (let item of this.indexAnalyzers)
-                data["indexAnalyzers"].push(item.toJSON());
-        }
-        if (this.simpleSearchAnalyzers && this.simpleSearchAnalyzers.constructor === Array) {
-            data["simpleSearchAnalyzers"] = [];
-            for (let item of this.simpleSearchAnalyzers)
-                data["simpleSearchAnalyzers"].push(item.toJSON());
-        }
-        data["multiLine"] = this.multiLine;
-        if (this.grantedValues && this.grantedValues.constructor === Array) {
-            data["grantedValues"] = [];
-            for (let item of this.grantedValues)
-                data["grantedValues"].push(item);
-        }
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldString extends IFieldBase {
-    /** It is a DotLiquid template. */
-    template?: string | undefined;
-    /** Contains a regex validation pattern. */
-    pattern?: string | undefined;
-    /** Defines the minimal string length. */
-    minimumLength?: number | undefined;
-    /** Defines the maximal string length. */
-    maximumLength?: number | undefined;
-    /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    indexAnalyzers?: AnalyzerBase[] | undefined;
-    /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
-    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
-    /** Displays the field value in a multiline component. */
-    multiLine: boolean;
-    /** Similar to an enumeration valid field values are limited to values of this list. */
-    grantedValues?: string[] | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-/** The analyzer base class. */
-export abstract class AnalyzerBase implements IAnalyzerBase {
-
-    protected _discriminator: string;
-
-    constructor(data?: IAnalyzerBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "AnalyzerBase";
-    }
-
-    init(data?: any) {
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): AnalyzerBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "EdgeNGramAnalyzer") {
-            let result = new EdgeNGramAnalyzer();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "LanguageAnalyzer") {
-            let result = new LanguageAnalyzer();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NGramAnalyzer") {
-            let result = new NGramAnalyzer();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PathHierarchyAnalyzer") {
-            let result = new PathHierarchyAnalyzer();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SimpleAnalyzer") {
-            let result = new SimpleAnalyzer();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'AnalyzerBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        return data; 
-    }
-}
-
-/** The analyzer base class. */
-export interface IAnalyzerBase {
-}
-
-/** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
-export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyzer {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-
-    constructor(data?: IEdgeNGramAnalyzer) {
-        super(data);
-        this._discriminator = "EdgeNGramAnalyzer";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        }
-    }
-
-    static fromJS(data: any): EdgeNGramAnalyzer {
-        data = typeof data === 'object' ? data : {};
-        let result = new EdgeNGramAnalyzer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** An analyzer using the EdgeNGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-edgengram-tokenizer.html */
-export interface IEdgeNGramAnalyzer extends IAnalyzerBase {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-}
-
-export enum Analyzer {
-    None = <any>"None", 
-    Simple = <any>"Simple", 
-    Language = <any>"Language", 
-    PathHierarchy = <any>"PathHierarchy", 
-    EdgeNGram = <any>"EdgeNGram", 
-    NGram = <any>"NGram", 
-}
-
-/** An analyzer using a language analyzer. Restricted to the languages supported by elastic search. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html */
-export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-
-    constructor(data?: ILanguageAnalyzer) {
-        super(data);
-        this._discriminator = "LanguageAnalyzer";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        }
-    }
-
-    static fromJS(data: any): LanguageAnalyzer {
-        data = typeof data === 'object' ? data : {};
-        let result = new LanguageAnalyzer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** An analyzer using a language analyzer. Restricted to the languages supported by elastic search. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html */
-export interface ILanguageAnalyzer extends IAnalyzerBase {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-}
-
-/** An analyzer using the NGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html */
-export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-
-    constructor(data?: INGramAnalyzer) {
-        super(data);
-        this._discriminator = "NGramAnalyzer";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        }
-    }
-
-    static fromJS(data: any): NGramAnalyzer {
-        data = typeof data === 'object' ? data : {};
-        let result = new NGramAnalyzer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** An analyzer using the NGram tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html */
-export interface INGramAnalyzer extends IAnalyzerBase {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-}
-
-/** An analyzer using the path hierarchy tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pathhierarchy-tokenizer.html */
-export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarchyAnalyzer {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-
-    constructor(data?: IPathHierarchyAnalyzer) {
-        super(data);
-        this._discriminator = "PathHierarchyAnalyzer";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        }
-    }
-
-    static fromJS(data: any): PathHierarchyAnalyzer {
-        data = typeof data === 'object' ? data : {};
-        let result = new PathHierarchyAnalyzer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** An analyzer using the path hierarchy tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pathhierarchy-tokenizer.html */
-export interface IPathHierarchyAnalyzer extends IAnalyzerBase {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-}
-
-/** An analyzer using a custom pattern tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pattern-tokenizer.html */
-export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-
-    constructor(data?: ISimpleAnalyzer) {
-        super(data);
-        this._discriminator = "SimpleAnalyzer";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        }
-    }
-
-    static fromJS(data: any): SimpleAnalyzer {
-        data = typeof data === 'object' ? data : {};
-        let result = new SimpleAnalyzer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** An analyzer using a custom pattern tokenizer. https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-pattern-tokenizer.html */
-export interface ISimpleAnalyzer extends IAnalyzerBase {
-    type: Analyzer;
-    fieldSuffix?: string | undefined;
-}
-
-/** For internal use only (system schemas) */
-export class FieldStringArray extends FieldString implements IFieldStringArray {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-
-    constructor(data?: IFieldStringArray) {
-        super(data);
-        this._discriminator = "FieldStringArray";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldStringArray {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldStringArray();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** For internal use only (system schemas) */
-export interface IFieldStringArray extends IFieldString {
-    maximumItems?: number | undefined;
-    minimumItems?: number | undefined;
-}
-
-export class FieldTranslatedString extends FieldBase implements IFieldTranslatedString {
-    /** Contains a regex validation pattern. */
-    pattern?: string | undefined;
-    /** Defines the minimal string length. */
-    minimumLength?: number | undefined;
-    /** Defines the maximal string length. */
-    maximumLength?: number | undefined;
-    /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    indexAnalyzers?: AnalyzerBase[] | undefined;
-    /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
-    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
-    /** Displays the field value in a multiline component. */
-    multiLine: boolean;
-    /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
-If Required is true, the field and all its metadata languages are required, including x-default.
-If Required is false, the field can be left empty, but as soon as a value is entered all required metadata languages are mandatory, including x-default. */
-    requiredMetadataLanguages?: string[] | undefined;
-    /** It is a DotLiquid template. */
-    template?: string | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-
-    constructor(data?: IFieldTranslatedString) {
-        super(data);
-        this._discriminator = "FieldTranslatedString";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.pattern = data["pattern"];
-            this.minimumLength = data["minimumLength"];
-            this.maximumLength = data["maximumLength"];
-            if (data["indexAnalyzers"] && data["indexAnalyzers"].constructor === Array) {
-                this.indexAnalyzers = [];
-                for (let item of data["indexAnalyzers"])
-                    this.indexAnalyzers.push(AnalyzerBase.fromJS(item));
-            }
-            if (data["simpleSearchAnalyzers"] && data["simpleSearchAnalyzers"].constructor === Array) {
-                this.simpleSearchAnalyzers = [];
-                for (let item of data["simpleSearchAnalyzers"])
-                    this.simpleSearchAnalyzers.push(AnalyzerBase.fromJS(item));
-            }
-            this.multiLine = data["multiLine"];
-            if (data["requiredMetadataLanguages"] && data["requiredMetadataLanguages"].constructor === Array) {
-                this.requiredMetadataLanguages = [];
-                for (let item of data["requiredMetadataLanguages"])
-                    this.requiredMetadataLanguages.push(item);
-            }
-            this.template = data["template"];
-            this.boost = data["boost"];
-        }
-    }
-
-    static fromJS(data: any): FieldTranslatedString {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldTranslatedString();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pattern"] = this.pattern;
-        data["minimumLength"] = this.minimumLength;
-        data["maximumLength"] = this.maximumLength;
-        if (this.indexAnalyzers && this.indexAnalyzers.constructor === Array) {
-            data["indexAnalyzers"] = [];
-            for (let item of this.indexAnalyzers)
-                data["indexAnalyzers"].push(item.toJSON());
-        }
-        if (this.simpleSearchAnalyzers && this.simpleSearchAnalyzers.constructor === Array) {
-            data["simpleSearchAnalyzers"] = [];
-            for (let item of this.simpleSearchAnalyzers)
-                data["simpleSearchAnalyzers"].push(item.toJSON());
-        }
-        data["multiLine"] = this.multiLine;
-        if (this.requiredMetadataLanguages && this.requiredMetadataLanguages.constructor === Array) {
-            data["requiredMetadataLanguages"] = [];
-            for (let item of this.requiredMetadataLanguages)
-                data["requiredMetadataLanguages"].push(item);
-        }
-        data["template"] = this.template;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldTranslatedString extends IFieldBase {
-    /** Contains a regex validation pattern. */
-    pattern?: string | undefined;
-    /** Defines the minimal string length. */
-    minimumLength?: number | undefined;
-    /** Defines the maximal string length. */
-    maximumLength?: number | undefined;
-    /** A string field can have multiple analyzers, but only one per analyzer type. To have any effect the Index must be true. */
-    indexAnalyzers?: AnalyzerBase[] | undefined;
-    /** Analyzers used for the simple search. Only one analyzer per type is allowed. Only considered if SimpleSearch is set to true. */
-    simpleSearchAnalyzers?: AnalyzerBase[] | undefined;
-    /** Displays the field value in a multiline component. */
-    multiLine: boolean;
-    /** Sets the required metadata languages for the translation field. The langauge configuration limits the available metadata languages.
-If Required is true, the field and all its metadata languages are required, including x-default.
-If Required is false, the field can be left empty, but as soon as a value is entered all required metadata languages are mandatory, including x-default. */
-    requiredMetadataLanguages?: string[] | undefined;
-    /** It is a DotLiquid template. */
-    template?: string | undefined;
-    /** Priorizes search results. SimpleSearch must be true. */
-    boost: number;
-}
-
-export class FieldSingleRelation extends FieldBase implements IFieldSingleRelation {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-    /** Defines the relation types supported by the field. */
-    relationTypes?: RelationType[] | undefined;
-
-    constructor(data?: IFieldSingleRelation) {
-        super(data);
-        this._discriminator = "FieldSingleRelation";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            if (data["relationTypes"] && data["relationTypes"].constructor === Array) {
-                this.relationTypes = [];
-                for (let item of data["relationTypes"])
-                    this.relationTypes.push(RelationType.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): FieldSingleRelation {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldSingleRelation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        if (this.relationTypes && this.relationTypes.constructor === Array) {
-            data["relationTypes"] = [];
-            for (let item of this.relationTypes)
-                data["relationTypes"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldSingleRelation extends IFieldBase {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
-    /** Defines the relation types supported by the field. */
-    relationTypes?: IRelationType[] | undefined;
-}
-
-export class RelationType implements IRelationType {
-    /** The id property. */
-    id?: string | undefined;
-    /** Language specific relation names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** Defines the valid target context. */
-    targetDocType?: string | undefined;
-    /** An optional search filter. Limits the content or the list item result set depending on the relation's target context. */
-    filter?: FilterBase | undefined;
-
-    constructor(data?: IRelationType) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.targetDocType = data["targetDocType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): RelationType {
-        data = typeof data === 'object' ? data : {};
-        let result = new RelationType();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["targetDocType"] = this.targetDocType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IRelationType {
-    /** The id property. */
-    id?: string | undefined;
-    /** Language specific relation names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Defines the valid target context. */
-    targetDocType?: string | undefined;
-    /** An optional search filter. Limits the content or the list item result set depending on the relation's target context. */
-    filter?: FilterBase | undefined;
-}
-
-export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: SchemaIndexingInfo | undefined;
-    /** Defines the relation types supported by the field. */
-    relationTypes?: RelationType[] | undefined;
-    /** Defines the highest possible item count. */
-    maximumItems?: number | undefined;
-    /** Dfines the lowest possible item count. */
-    minimumItems?: number | undefined;
-
-    constructor(data?: IFieldMultiRelation) {
-        super(data);
-        this._discriminator = "FieldMultiRelation";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            if (data["relationTypes"] && data["relationTypes"].constructor === Array) {
-                this.relationTypes = [];
-                for (let item of data["relationTypes"])
-                    this.relationTypes.push(RelationType.fromJS(item));
-            }
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldMultiRelation {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldMultiRelation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        if (this.relationTypes && this.relationTypes.constructor === Array) {
-            data["relationTypes"] = [];
-            for (let item of this.relationTypes)
-                data["relationTypes"].push(item.toJSON());
-        }
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IFieldMultiRelation extends IFieldBase {
-    /** The id of the schema with type struct. */
-    schemaId?: string | undefined;
-    /** Indexing information of fields of the related schema identified by the SchemaId property */
-    schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
-    /** Defines the relation types supported by the field. */
-    relationTypes?: IRelationType[] | undefined;
-    /** Defines the highest possible item count. */
-    maximumItems?: number | undefined;
-    /** Dfines the lowest possible item count. */
-    minimumItems?: number | undefined;
-}
-
-/** Base class for overwritten information on a field. */
-export abstract class FieldOverwriteBase implements IFieldOverwriteBase {
-    /** The field id. Can be a slug and must be unique within the schema. */
-    id?: string | undefined;
-    /** Defines if a field value is mandatory or not. */
-    required: boolean;
-    /** Defines if the required property of the field is overwritten */
-    overwriteRequired: boolean;
-
-    protected _discriminator: string;
-
-    constructor(data?: IFieldOverwriteBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "FieldOverwriteBase";
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.required = data["required"];
-            this.overwriteRequired = data["overwriteRequired"];
-        }
-    }
-
-    static fromJS(data: any): FieldOverwriteBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "FieldOverwriteSingleTagbox") {
-            let result = new FieldOverwriteSingleTagbox();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FieldOverwriteMultiTagbox") {
-            let result = new FieldOverwriteMultiTagbox();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'FieldOverwriteBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        data["id"] = this.id;
-        data["required"] = this.required;
-        data["overwriteRequired"] = this.overwriteRequired;
-        return data; 
-    }
-}
-
-/** Base class for overwritten information on a field. */
-export interface IFieldOverwriteBase {
-    /** The field id. Can be a slug and must be unique within the schema. */
-    id?: string | undefined;
-    /** Defines if a field value is mandatory or not. */
-    required: boolean;
-    /** Defines if the required property of the field is overwritten */
-    overwriteRequired: boolean;
-}
-
-/** Overwritten information for Single Tagbox field. */
-export class FieldOverwriteSingleTagbox extends FieldOverwriteBase implements IFieldOverwriteSingleTagbox {
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Defines if the Filter property of the field is overwritten */
-    overwriteFilter: boolean;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-    /** Defines if the ListItemCreateTemplate property of the field is overwritten */
-    overwriteListItemCreateTemplate: boolean;
-
-    constructor(data?: IFieldOverwriteSingleTagbox) {
-        super(data);
-        this._discriminator = "FieldOverwriteSingleTagbox";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.overwriteFilter = data["overwriteFilter"];
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-            this.overwriteListItemCreateTemplate = data["overwriteListItemCreateTemplate"];
-        }
-    }
-
-    static fromJS(data: any): FieldOverwriteSingleTagbox {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldOverwriteSingleTagbox();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["overwriteFilter"] = this.overwriteFilter;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        data["overwriteListItemCreateTemplate"] = this.overwriteListItemCreateTemplate;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Overwritten information for Single Tagbox field. */
-export interface IFieldOverwriteSingleTagbox extends IFieldOverwriteBase {
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Defines if the Filter property of the field is overwritten */
-    overwriteFilter: boolean;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-    /** Defines if the ListItemCreateTemplate property of the field is overwritten */
-    overwriteListItemCreateTemplate: boolean;
-}
-
-/** Overwritten information for Multi Tagbox field. */
-export class FieldOverwriteMultiTagbox extends FieldOverwriteBase implements IFieldOverwriteMultiTagbox {
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Defines if the Filter property of the field is overwritten */
-    overwriteFilter: boolean;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-    /** Defines if the ListItemCreateTemplate property of the field is overwritten */
-    overwriteListItemCreateTemplate: boolean;
-    /** Defines the highest possible item count. */
-    maximumItems?: number | undefined;
-    /** Defines if the MaximumItems property of the field is overwritten */
-    overwriteMaximumItems: boolean;
-    /** Defines the lowest possible item count. */
-    minimumItems?: number | undefined;
-    /** Defines if the MinimumItems property of the field is overwritten */
-    overwriteMinimumItems: boolean;
-
-    constructor(data?: IFieldOverwriteMultiTagbox) {
-        super(data);
-        this._discriminator = "FieldOverwriteMultiTagbox";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.overwriteFilter = data["overwriteFilter"];
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-            this.overwriteListItemCreateTemplate = data["overwriteListItemCreateTemplate"];
-            this.maximumItems = data["maximumItems"];
-            this.overwriteMaximumItems = data["overwriteMaximumItems"];
-            this.minimumItems = data["minimumItems"];
-            this.overwriteMinimumItems = data["overwriteMinimumItems"];
-        }
-    }
-
-    static fromJS(data: any): FieldOverwriteMultiTagbox {
-        data = typeof data === 'object' ? data : {};
-        let result = new FieldOverwriteMultiTagbox();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["overwriteFilter"] = this.overwriteFilter;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        data["overwriteListItemCreateTemplate"] = this.overwriteListItemCreateTemplate;
-        data["maximumItems"] = this.maximumItems;
-        data["overwriteMaximumItems"] = this.overwriteMaximumItems;
-        data["minimumItems"] = this.minimumItems;
-        data["overwriteMinimumItems"] = this.overwriteMinimumItems;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Overwritten information for Multi Tagbox field. */
-export interface IFieldOverwriteMultiTagbox extends IFieldOverwriteBase {
-    /** An optional search filter. Limits the list item result set. */
-    filter?: FilterBase | undefined;
-    /** Defines if the Filter property of the field is overwritten */
-    overwriteFilter: boolean;
-    /** Json serialized template used for creating new list item */
-    listItemCreateTemplate?: string | undefined;
-    /** Defines if the ListItemCreateTemplate property of the field is overwritten */
-    overwriteListItemCreateTemplate: boolean;
-    /** Defines the highest possible item count. */
-    maximumItems?: number | undefined;
-    /** Defines if the MaximumItems property of the field is overwritten */
-    overwriteMaximumItems: boolean;
-    /** Defines the lowest possible item count. */
-    minimumItems?: number | undefined;
-    /** Defines if the MinimumItems property of the field is overwritten */
-    overwriteMinimumItems: boolean;
-}
-
-/** Count info of fields for search operations */
-export class SearchFieldCount implements ISearchFieldCount {
-    /** The number of indexed fields generated by the schema in the Search index. */
-    indexedField: number;
-    /** The number of fields to be queried in the simple search for the schema. */
-    simpleSearchField: number;
-    /** The number of fields that have sorting information stored in the search index. */
-    sortableField: number;
-
-    constructor(data?: ISearchFieldCount) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.indexedField = data["indexedField"];
-            this.simpleSearchField = data["simpleSearchField"];
-            this.sortableField = data["sortableField"];
-        }
-    }
-
-    static fromJS(data: any): SearchFieldCount {
-        data = typeof data === 'object' ? data : {};
-        let result = new SearchFieldCount();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexedField"] = this.indexedField;
-        data["simpleSearchField"] = this.simpleSearchField;
-        data["sortableField"] = this.sortableField;
-        return data; 
-    }
-}
-
-/** Count info of fields for search operations */
-export interface ISearchFieldCount {
-    /** The number of indexed fields generated by the schema in the Search index. */
-    indexedField: number;
-    /** The number of fields to be queried in the simple search for the schema. */
-    simpleSearchField: number;
-    /** The number of fields that have sorting information stored in the search index. */
-    sortableField: number;
-}
-
-export class SchemaSearchRequest implements ISchemaSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the schema result set. */
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    searchLanguages?: string[] | undefined;
-
-    constructor(data?: ISchemaSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): SchemaSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface ISchemaSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the schema result set. */
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    searchLanguages?: string[] | undefined;
-}
-
-export class BaseResultOfSchema implements IBaseResultOfSchema {
-    totalResults: number;
-    results: Schema[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
-
-    constructor(data?: IBaseResultOfSchema) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.results) {
-                this.results = [];
-                for (let i = 0; i < data.results.length; i++) {
-                    let item = data.results[i];
-                    this.results[i] = item && !(<any>item).toJSON ? new Schema(item) : <Schema>item;
-                }
-            }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
-        }
-        if (!data) {
-            this.results = [];
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalResults = data["totalResults"];
-            if (data["results"] && data["results"].constructor === Array) {
-                this.results = [];
-                for (let item of data["results"])
-                    this.results.push(Schema.fromJS(item));
-            }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfSchema {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfSchema();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (this.results && this.results.constructor === Array) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IBaseResultOfSchema {
-    totalResults: number;
-    results: ISchema[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
-}
-
-export class SearchBehaviourBaseResultOfSchema extends BaseResultOfSchema implements ISearchBehaviourBaseResultOfSchema {
-    searchString?: string | undefined;
-    isSearchStringRewritten: boolean;
-
-    constructor(data?: ISearchBehaviourBaseResultOfSchema) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-        }
-    }
-
-    static fromJS(data: any): SearchBehaviourBaseResultOfSchema {
-        data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfSchema();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISearchBehaviourBaseResultOfSchema extends IBaseResultOfSchema {
-    searchString?: string | undefined;
-    isSearchStringRewritten: boolean;
-}
-
-export class SchemaSearchResult extends SearchBehaviourBaseResultOfSchema implements ISchemaSearchResult {
-
-    constructor(data?: ISchemaSearchResult) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): SchemaSearchResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaSearchResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaSearchResult extends ISearchBehaviourBaseResultOfSchema {
-}
-
-export class Schema implements ISchema {
-    /** The schema id. */
-    id?: string | undefined;
-    /** The parent schema id. */
-    parentSchemaId?: string | undefined;
-    /** Types control schema usage. */
-    types?: SchemaType[] | undefined;
-    /** Language specific schema names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: TranslatedStringDictionary | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** The count of all fields. */
-    fieldCount: number;
-    /** The count of all schema descendants with a immediate inheritance. */
-    childCount: number;
-    /** The descendancy depth of the schema. */
-    level: number;
-    /** Is true when schema is system provided. */
-    system: boolean;
-
-    constructor(data?: ISchema) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.parentSchemaId = data["parentSchemaId"];
-            if (data["types"] && data["types"].constructor === Array) {
-                this.types = [];
-                for (let item of data["types"])
-                    this.types.push(item);
-            }
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
-                this.layerSchemaIds = [];
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds.push(item);
-            }
-            this.fieldCount = data["fieldCount"];
-            this.childCount = data["childCount"];
-            this.level = data["level"];
-            this.system = data["system"];
-        }
-    }
-
-    static fromJS(data: any): Schema {
-        data = typeof data === 'object' ? data : {};
-        let result = new Schema();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["parentSchemaId"] = this.parentSchemaId;
-        if (this.types && this.types.constructor === Array) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["fieldCount"] = this.fieldCount;
-        data["childCount"] = this.childCount;
-        data["level"] = this.level;
-        data["system"] = this.system;
-        return data; 
-    }
-}
-
-export interface ISchema {
-    /** The schema id. */
-    id?: string | undefined;
-    /** The parent schema id. */
-    parentSchemaId?: string | undefined;
-    /** Types control schema usage. */
-    types?: SchemaType[] | undefined;
-    /** Language specific schema names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: ITranslatedStringDictionary | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** The count of all fields. */
-    fieldCount: number;
-    /** The count of all schema descendants with a immediate inheritance. */
-    childCount: number;
-    /** The descendancy depth of the schema. */
-    level: number;
-    /** Is true when schema is system provided. */
-    system: boolean;
-}
-
-export class IndexFieldsSearchBySchemaIdsRequest implements IIndexFieldsSearchBySchemaIdsRequest {
-    schemaIds?: string[] | undefined;
-
-    constructor(data?: IIndexFieldsSearchBySchemaIdsRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
-                this.schemaIds = [];
-                for (let item of data["schemaIds"])
-                    this.schemaIds.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): IndexFieldsSearchBySchemaIdsRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new IndexFieldsSearchBySchemaIdsRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.schemaIds && this.schemaIds.constructor === Array) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IIndexFieldsSearchBySchemaIdsRequest {
-    schemaIds?: string[] | undefined;
-}
-
-/** Contains compiled field information. */
-export class IndexField implements IIndexField {
-    id?: string | undefined;
-    /** The field id. */
-    fieldId?: string | undefined;
-    /** The field's type name. */
-    type?: string | undefined;
-    /** Contains all index field name variants of the field. */
-    indexFields?: { [key: string] : string; } | undefined;
-    /** Contains all simple search field name variants of the field.
-The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: { [key: string] : string; } | undefined;
-    /** Contains the fields boost value. */
-    boost: number;
-    /** Not to be returned for search query, but only used for mapping purposes */
-    ignoreForSearch: boolean;
-    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
-    nestedPath?: string | undefined;
-    /** Path to the sorting information in the DataSortValuesField sort index. */
-    sortField?: string | undefined;
-
-    constructor(data?: IIndexField) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.fieldId = data["fieldId"];
-            this.type = data["type"];
-            if (data["indexFields"]) {
-                this.indexFields = {};
-                for (let key in data["indexFields"]) {
-                    if (data["indexFields"].hasOwnProperty(key))
-                        this.indexFields[key] = data["indexFields"][key];
-                }
-            }
-            if (data["simpleSearchFields"]) {
-                this.simpleSearchFields = {};
-                for (let key in data["simpleSearchFields"]) {
-                    if (data["simpleSearchFields"].hasOwnProperty(key))
-                        this.simpleSearchFields[key] = data["simpleSearchFields"][key];
-                }
-            }
-            this.boost = data["boost"];
-            this.ignoreForSearch = data["ignoreForSearch"];
-            this.nestedPath = data["nestedPath"];
-            this.sortField = data["sortField"];
-        }
-    }
-
-    static fromJS(data: any): IndexField {
-        data = typeof data === 'object' ? data : {};
-        let result = new IndexField();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["fieldId"] = this.fieldId;
-        data["type"] = this.type;
-        if (this.indexFields) {
-            data["indexFields"] = {};
-            for (let key in this.indexFields) {
-                if (this.indexFields.hasOwnProperty(key))
-                    data["indexFields"][key] = this.indexFields[key];
-            }
-        }
-        if (this.simpleSearchFields) {
-            data["simpleSearchFields"] = {};
-            for (let key in this.simpleSearchFields) {
-                if (this.simpleSearchFields.hasOwnProperty(key))
-                    data["simpleSearchFields"][key] = this.simpleSearchFields[key];
-            }
-        }
-        data["boost"] = this.boost;
-        data["ignoreForSearch"] = this.ignoreForSearch;
-        data["nestedPath"] = this.nestedPath;
-        data["sortField"] = this.sortField;
-        return data; 
-    }
-}
-
-/** Contains compiled field information. */
-export interface IIndexField {
-    id?: string | undefined;
-    /** The field id. */
-    fieldId?: string | undefined;
-    /** The field's type name. */
-    type?: string | undefined;
-    /** Contains all index field name variants of the field. */
-    indexFields?: { [key: string] : string; } | undefined;
-    /** Contains all simple search field name variants of the field.
-The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: { [key: string] : string; } | undefined;
-    /** Contains the fields boost value. */
-    boost: number;
-    /** Not to be returned for search query, but only used for mapping purposes */
-    ignoreForSearch: boolean;
-    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
-    nestedPath?: string | undefined;
-    /** Path to the sorting information in the DataSortValuesField sort index. */
-    sortField?: string | undefined;
-}
-
-/** Response that tells if exists */
-export class ExistsResponse implements IExistsResponse {
-    /** Gets or sets a value indicating whether it exists */
-    exists: boolean;
-
-    constructor(data?: IExistsResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.exists = data["exists"];
-        }
-    }
-
-    static fromJS(data: any): ExistsResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new ExistsResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["exists"] = this.exists;
-        return data; 
-    }
-}
-
-/** Response that tells if exists */
-export interface IExistsResponse {
-    /** Gets or sets a value indicating whether it exists */
-    exists: boolean;
-}
-
-export class SchemaCreateRequest implements ISchemaCreateRequest {
-    /** The schema id. Can be a slug, but must be unique throughout the whole customer setup. */
-    id?: string | undefined;
-    /** The parent schema id. */
-    parentSchemaId?: string | undefined;
-    /** Types control schema usage. */
-    types?: SchemaType[] | undefined;
-    /** Language specific schema names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: TranslatedStringDictionary | undefined;
-    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    displayPatterns?: DisplayPattern[] | undefined;
-    /** The schema fields. Can be empty. */
-    fields?: FieldBase[] | undefined;
-    /** The schema fields overwrite information. */
-    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
-    /** An optional list of aggregations to group content documents and/or list items. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** Sorts content documents and/or list items. */
-    sort?: SortInfo[] | undefined;
-    /** Opens list item document accessibility. If true SchemaPermissionSetIds must be empty. */
-    public: boolean;
-    /** An optional id list of schema permission sets. Control list item document permissions. When not empty Public must be false. */
-    schemaPermissionSetIds?: string[] | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** An optional id list of schemas with type content for a schema with type layer. */
-    referencedInContentSchemaIds?: string[] | undefined;
-
-    constructor(data?: ISchemaCreateRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
-            if (data.displayPatterns) {
-                this.displayPatterns = [];
-                for (let i = 0; i < data.displayPatterns.length; i++) {
-                    let item = data.displayPatterns[i];
-                    this.displayPatterns[i] = item && !(<any>item).toJSON ? new DisplayPattern(item) : <DisplayPattern>item;
-                }
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.parentSchemaId = data["parentSchemaId"];
-            if (data["types"] && data["types"].constructor === Array) {
-                this.types = [];
-                for (let item of data["types"])
-                    this.types.push(item);
-            }
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
-                this.displayPatterns = [];
-                for (let item of data["displayPatterns"])
-                    this.displayPatterns.push(DisplayPattern.fromJS(item));
-            }
-            if (data["fields"] && data["fields"].constructor === Array) {
-                this.fields = [];
-                for (let item of data["fields"])
-                    this.fields.push(FieldBase.fromJS(item));
-            }
-            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
-                this.fieldsOverwrite = [];
-                for (let item of data["fieldsOverwrite"])
-                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
-            }
-            if (data["aggregations"] && data["aggregations"].constructor === Array) {
-                this.aggregations = [];
-                for (let item of data["aggregations"])
-                    this.aggregations.push(AggregatorBase.fromJS(item));
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.public = data["public"];
-            if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
-                this.schemaPermissionSetIds = [];
-                for (let item of data["schemaPermissionSetIds"])
-                    this.schemaPermissionSetIds.push(item);
-            }
-            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
-                this.layerSchemaIds = [];
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds.push(item);
-            }
-            if (data["referencedInContentSchemaIds"] && data["referencedInContentSchemaIds"].constructor === Array) {
-                this.referencedInContentSchemaIds = [];
-                for (let item of data["referencedInContentSchemaIds"])
-                    this.referencedInContentSchemaIds.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): SchemaCreateRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaCreateRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["parentSchemaId"] = this.parentSchemaId;
-        if (this.types && this.types.constructor === Array) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (this.displayPatterns && this.displayPatterns.constructor === Array) {
-            data["displayPatterns"] = [];
-            for (let item of this.displayPatterns)
-                data["displayPatterns"].push(item.toJSON());
-        }
-        if (this.fields && this.fields.constructor === Array) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
-            data["fieldsOverwrite"] = [];
-            for (let item of this.fieldsOverwrite)
-                data["fieldsOverwrite"].push(item.toJSON());
-        }
-        if (this.aggregations && this.aggregations.constructor === Array) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["public"] = this.public;
-        if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
-            data["schemaPermissionSetIds"] = [];
-            for (let item of this.schemaPermissionSetIds)
-                data["schemaPermissionSetIds"].push(item);
-        }
-        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (this.referencedInContentSchemaIds && this.referencedInContentSchemaIds.constructor === Array) {
-            data["referencedInContentSchemaIds"] = [];
-            for (let item of this.referencedInContentSchemaIds)
-                data["referencedInContentSchemaIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface ISchemaCreateRequest {
-    /** The schema id. Can be a slug, but must be unique throughout the whole customer setup. */
-    id?: string | undefined;
-    /** The parent schema id. */
-    parentSchemaId?: string | undefined;
-    /** Types control schema usage. */
-    types?: SchemaType[] | undefined;
-    /** Language specific schema names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: ITranslatedStringDictionary | undefined;
-    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    displayPatterns?: IDisplayPattern[] | undefined;
-    /** The schema fields. Can be empty. */
-    fields?: FieldBase[] | undefined;
-    /** The schema fields overwrite information. */
-    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
-    /** An optional list of aggregations to group content documents and/or list items. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** Sorts content documents and/or list items. */
-    sort?: ISortInfo[] | undefined;
-    /** Opens list item document accessibility. If true SchemaPermissionSetIds must be empty. */
-    public: boolean;
-    /** An optional id list of schema permission sets. Control list item document permissions. When not empty Public must be false. */
-    schemaPermissionSetIds?: string[] | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** An optional id list of schemas with type content for a schema with type layer. */
-    referencedInContentSchemaIds?: string[] | undefined;
-}
-
-export class SchemaCreateResult implements ISchemaCreateResult {
-    schema?: SchemaDetail | undefined;
-
-    constructor(data?: ISchemaCreateResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.schema = data.schema && !(<any>data.schema).toJSON ? new SchemaDetail(data.schema) : <SchemaDetail>this.schema; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.schema = data["schema"] ? SchemaDetail.fromJS(data["schema"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SchemaCreateResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaCreateResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface ISchemaCreateResult {
-    schema?: ISchemaDetail | undefined;
-}
-
-export class SchemaUpdateRequest implements ISchemaUpdateRequest {
-    /** Language specific schema names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: TranslatedStringDictionary | undefined;
-    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    displayPatterns?: DisplayPattern[] | undefined;
-    /** The schema fields. */
-    fields?: FieldBase[] | undefined;
-    /** The schema fields overwrite information. */
-    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
-    /** An optional list of aggregations to group content documents and list items. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** Sorts content documents and/or list items. */
-    sort?: SortInfo[] | undefined;
-    /** Opens schema accessibility. */
-    public: boolean;
-    /** An optional id list of schema permission sets which control list item permissions. When not empty Public must be false. */
-    schemaPermissionSetIds?: string[] | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** An optional id list of schemas with type content for a schema with type layer. */
-    referencedInContentSchemaIds?: string[] | undefined;
-    /** Types control schema usage. Schema types can only be added, but not removed. */
-    types?: SchemaType[] | undefined;
-
-    constructor(data?: ISchemaUpdateRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
-            if (data.displayPatterns) {
-                this.displayPatterns = [];
-                for (let i = 0; i < data.displayPatterns.length; i++) {
-                    let item = data.displayPatterns[i];
-                    this.displayPatterns[i] = item && !(<any>item).toJSON ? new DisplayPattern(item) : <DisplayPattern>item;
-                }
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
-                this.displayPatterns = [];
-                for (let item of data["displayPatterns"])
-                    this.displayPatterns.push(DisplayPattern.fromJS(item));
-            }
-            if (data["fields"] && data["fields"].constructor === Array) {
-                this.fields = [];
-                for (let item of data["fields"])
-                    this.fields.push(FieldBase.fromJS(item));
-            }
-            if (data["fieldsOverwrite"] && data["fieldsOverwrite"].constructor === Array) {
-                this.fieldsOverwrite = [];
-                for (let item of data["fieldsOverwrite"])
-                    this.fieldsOverwrite.push(FieldOverwriteBase.fromJS(item));
-            }
-            if (data["aggregations"] && data["aggregations"].constructor === Array) {
-                this.aggregations = [];
-                for (let item of data["aggregations"])
-                    this.aggregations.push(AggregatorBase.fromJS(item));
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.public = data["public"];
-            if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
-                this.schemaPermissionSetIds = [];
-                for (let item of data["schemaPermissionSetIds"])
-                    this.schemaPermissionSetIds.push(item);
-            }
-            if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
-                this.layerSchemaIds = [];
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds.push(item);
-            }
-            if (data["referencedInContentSchemaIds"] && data["referencedInContentSchemaIds"].constructor === Array) {
-                this.referencedInContentSchemaIds = [];
-                for (let item of data["referencedInContentSchemaIds"])
-                    this.referencedInContentSchemaIds.push(item);
-            }
-            if (data["types"] && data["types"].constructor === Array) {
-                this.types = [];
-                for (let item of data["types"])
-                    this.types.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): SchemaUpdateRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaUpdateRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (this.displayPatterns && this.displayPatterns.constructor === Array) {
-            data["displayPatterns"] = [];
-            for (let item of this.displayPatterns)
-                data["displayPatterns"].push(item.toJSON());
-        }
-        if (this.fields && this.fields.constructor === Array) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        if (this.fieldsOverwrite && this.fieldsOverwrite.constructor === Array) {
-            data["fieldsOverwrite"] = [];
-            for (let item of this.fieldsOverwrite)
-                data["fieldsOverwrite"].push(item.toJSON());
-        }
-        if (this.aggregations && this.aggregations.constructor === Array) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["public"] = this.public;
-        if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
-            data["schemaPermissionSetIds"] = [];
-            for (let item of this.schemaPermissionSetIds)
-                data["schemaPermissionSetIds"].push(item);
-        }
-        if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (this.referencedInContentSchemaIds && this.referencedInContentSchemaIds.constructor === Array) {
-            data["referencedInContentSchemaIds"] = [];
-            for (let item of this.referencedInContentSchemaIds)
-                data["referencedInContentSchemaIds"].push(item);
-        }
-        if (this.types && this.types.constructor === Array) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface ISchemaUpdateRequest {
-    /** Language specific schema names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Language specific schema descriptions. */
-    descriptions?: ITranslatedStringDictionary | undefined;
-    /** Language specific DotLiquid templates. These templates will be resolved into display values in content documents and/or list items. */
-    displayPatterns?: IDisplayPattern[] | undefined;
-    /** The schema fields. */
-    fields?: FieldBase[] | undefined;
-    /** The schema fields overwrite information. */
-    fieldsOverwrite?: FieldOverwriteBase[] | undefined;
-    /** An optional list of aggregations to group content documents and list items. */
-    aggregations?: AggregatorBase[] | undefined;
-    /** Sorts content documents and/or list items. */
-    sort?: ISortInfo[] | undefined;
-    /** Opens schema accessibility. */
-    public: boolean;
-    /** An optional id list of schema permission sets which control list item permissions. When not empty Public must be false. */
-    schemaPermissionSetIds?: string[] | undefined;
-    /** An optional id list of schemas with type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** An optional id list of schemas with type content for a schema with type layer. */
-    referencedInContentSchemaIds?: string[] | undefined;
-    /** Types control schema usage. Schema types can only be added, but not removed. */
-    types?: SchemaType[] | undefined;
-}
-
-export class SchemaUpdateResult implements ISchemaUpdateResult {
-    schema?: SchemaDetail | undefined;
-
-    constructor(data?: ISchemaUpdateResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.schema = data.schema && !(<any>data.schema).toJSON ? new SchemaDetail(data.schema) : <SchemaDetail>this.schema; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.schema = data["schema"] ? SchemaDetail.fromJS(data["schema"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SchemaUpdateResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaUpdateResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface ISchemaUpdateResult {
-    schema?: ISchemaDetail | undefined;
-}
-
-export class SchemaDeleteResult implements ISchemaDeleteResult {
-
-    constructor(data?: ISchemaDeleteResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): SchemaDeleteResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaDeleteResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface ISchemaDeleteResult {
-}
-
-export abstract class PermissionSetDetailOfMetadataRight implements IPermissionSetDetailOfMetadataRight {
-    id?: string | undefined;
-    names?: TranslatedStringDictionary | undefined;
-    trashed: boolean;
-    userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
-    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    exclusive: boolean;
-    ownerTokenId?: string | undefined;
-
-    constructor(data?: IPermissionSetDetailOfMetadataRight) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            if (data.userRolesRights) {
-                this.userRolesRights = [];
-                for (let i = 0; i < data.userRolesRights.length; i++) {
-                    let item = data.userRolesRights[i];
-                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfMetadataRight(item) : <PermissionUserRoleRightsOfMetadataRight>item;
-                }
-            }
-            if (data.userRolesPermissionSetRights) {
-                this.userRolesPermissionSetRights = [];
-                for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
-                    let item = data.userRolesPermissionSetRights[i];
-                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfPermissionSetRight(item) : <PermissionUserRoleRightsOfPermissionSetRight>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.trashed = data["trashed"];
-            if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
-                this.userRolesRights = [];
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights.push(PermissionUserRoleRightsOfMetadataRight.fromJS(item));
-            }
-            if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
-                this.userRolesPermissionSetRights = [];
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-            this.exclusive = data["exclusive"];
-            this.ownerTokenId = data["ownerTokenId"];
-        }
-    }
-
-    static fromJS(data: any): PermissionSetDetailOfMetadataRight {
-        data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'PermissionSetDetailOfMetadataRight' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["trashed"] = this.trashed;
-        if (this.userRolesRights && this.userRolesRights.constructor === Array) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (this.userRolesPermissionSetRights && this.userRolesPermissionSetRights.constructor === Array) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        data["exclusive"] = this.exclusive;
-        data["ownerTokenId"] = this.ownerTokenId;
-        return data; 
-    }
-}
-
-export interface IPermissionSetDetailOfMetadataRight {
-    id?: string | undefined;
-    names?: ITranslatedStringDictionary | undefined;
-    trashed: boolean;
-    userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
-    userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    exclusive: boolean;
-    ownerTokenId?: string | undefined;
-}
-
-export class SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRight implements ISchemaPermissionSetDetail {
-
-    constructor(data?: ISchemaPermissionSetDetail) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-        }
-    }
-
-    static fromJS(data: any): SchemaPermissionSetDetail {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaPermissionSetDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaPermissionSetDetail extends IPermissionSetDetailOfMetadataRight {
-}
-
-export class PermissionUserRoleRightsOfMetadataRight implements IPermissionUserRoleRightsOfMetadataRight {
-    userRoleId?: string | undefined;
-    names?: TranslatedStringDictionary | undefined;
-    rights?: MetadataRight[] | undefined;
-
-    constructor(data?: IPermissionUserRoleRightsOfMetadataRight) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userRoleId = data["userRoleId"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (data["rights"] && data["rights"].constructor === Array) {
-                this.rights = [];
-                for (let item of data["rights"])
-                    this.rights.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): PermissionUserRoleRightsOfMetadataRight {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionUserRoleRightsOfMetadataRight();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (this.rights && this.rights.constructor === Array) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IPermissionUserRoleRightsOfMetadataRight {
-    userRoleId?: string | undefined;
-    names?: ITranslatedStringDictionary | undefined;
-    rights?: MetadataRight[] | undefined;
-}
-
-export enum MetadataRight {
-    View = <any>"View", 
-    Edit = <any>"Edit", 
-    Manage = <any>"Manage", 
-}
-
-/** Schema import request */
-export class SchemaImportRequest implements ISchemaImportRequest {
-    /** Id of the previously uploaded file transfer */
-    fileTransferId?: string | undefined;
-    /** Allow creating list items that refer to list items or contents that don't exist in the system. */
-    allowMissingDependencies: boolean;
-    /** Import the list items for the schema. */
-    importListItems: boolean;
-
-    constructor(data?: ISchemaImportRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.fileTransferId = data["fileTransferId"];
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            this.importListItems = data["importListItems"];
-        }
-    }
-
-    static fromJS(data: any): SchemaImportRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaImportRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileTransferId"] = this.fileTransferId;
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        data["importListItems"] = this.importListItems;
-        return data; 
-    }
-}
-
-/** Schema import request */
-export interface ISchemaImportRequest {
-    /** Id of the previously uploaded file transfer */
-    fileTransferId?: string | undefined;
-    /** Allow creating list items that refer to list items or contents that don't exist in the system. */
-    allowMissingDependencies: boolean;
-    /** Import the list items for the schema. */
-    importListItems: boolean;
-}
-
-/** Represents a transfer. */
-export class Transfer implements ITransfer {
-    /** ID of transfer. */
-    id: string;
-    /** Name of transfer. */
-    name: string;
-    /** State of transfer. */
-    state: TransferState;
-    /** Type of transfer. */
-    transferType: TransferType;
-    /** Associated business process ID. */
-    businessProcessId?: string | undefined;
-    /** Number of files in transfer. */
-    fileTransferCount: number;
-    /** ID of collection created from transfer. */
-    collectionId?: string | undefined;
-
-    constructor(data?: ITransfer) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.name = data["name"];
-            this.state = data["state"];
-            this.transferType = data["transferType"];
-            this.businessProcessId = data["businessProcessId"];
-            this.fileTransferCount = data["fileTransferCount"];
-            this.collectionId = data["collectionId"];
-        }
-    }
-
-    static fromJS(data: any): Transfer {
-        data = typeof data === 'object' ? data : {};
-        let result = new Transfer();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["state"] = this.state;
-        data["transferType"] = this.transferType;
-        data["businessProcessId"] = this.businessProcessId;
-        data["fileTransferCount"] = this.fileTransferCount;
-        data["collectionId"] = this.collectionId;
-        return data; 
-    }
-}
-
-/** Represents a transfer. */
-export interface ITransfer {
-    /** ID of transfer. */
-    id: string;
-    /** Name of transfer. */
-    name: string;
-    /** State of transfer. */
-    state: TransferState;
-    /** Type of transfer. */
-    transferType: TransferType;
-    /** Associated business process ID. */
-    businessProcessId?: string | undefined;
-    /** Number of files in transfer. */
-    fileTransferCount: number;
-    /** ID of collection created from transfer. */
-    collectionId?: string | undefined;
-}
-
-export enum TransferState {
-    Draft = <any>"Draft", 
-    UploadInProgress = <any>"UploadInProgress", 
-    UploadCompleted = <any>"UploadCompleted", 
-    ImportInProgress = <any>"ImportInProgress", 
-    ImportCompleted = <any>"ImportCompleted", 
-    UploadCancelled = <any>"UploadCancelled", 
-    ImportCancelled = <any>"ImportCancelled", 
-    ImportFailed = <any>"ImportFailed", 
-    Created = <any>"Created", 
-    Deleted = <any>"Deleted", 
-    TransferReady = <any>"TransferReady", 
-    FileDeleteInProgress = <any>"FileDeleteInProgress", 
-    TransferCleanup = <any>"TransferCleanup", 
-    ImportCompletedWithErrors = <any>"ImportCompletedWithErrors", 
-}
-
-export class CustomerServiceProviderConfiguration implements ICustomerServiceProviderConfiguration {
-    serviceProviderId?: string | undefined;
-    customerId?: string | undefined;
-    userRoleIds?: string[] | undefined;
-    settings?: string | undefined;
-
-    constructor(data?: ICustomerServiceProviderConfiguration) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.serviceProviderId = data["serviceProviderId"];
-            this.customerId = data["customerId"];
-            if (data["userRoleIds"] && data["userRoleIds"].constructor === Array) {
-                this.userRoleIds = [];
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds.push(item);
-            }
-            this.settings = data["settings"];
-        }
-    }
-
-    static fromJS(data: any): CustomerServiceProviderConfiguration {
-        data = typeof data === 'object' ? data : {};
-        let result = new CustomerServiceProviderConfiguration();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["serviceProviderId"] = this.serviceProviderId;
-        data["customerId"] = this.customerId;
-        if (this.userRoleIds && this.userRoleIds.constructor === Array) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        data["settings"] = this.settings;
-        return data; 
-    }
-}
-
-export interface ICustomerServiceProviderConfiguration {
-    serviceProviderId?: string | undefined;
-    customerId?: string | undefined;
-    userRoleIds?: string[] | undefined;
-    settings?: string | undefined;
-}
-
-export class ServiceProviderConfigurationUpdateRequest implements IServiceProviderConfigurationUpdateRequest {
-    customerId?: string | undefined;
-    settings?: string | undefined;
-    userRoleIds?: string[] | undefined;
-
-    constructor(data?: IServiceProviderConfigurationUpdateRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.customerId = data["customerId"];
-            this.settings = data["settings"];
-            if (data["userRoleIds"] && data["userRoleIds"].constructor === Array) {
-                this.userRoleIds = [];
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ServiceProviderConfigurationUpdateRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ServiceProviderConfigurationUpdateRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["settings"] = this.settings;
-        if (this.userRoleIds && this.userRoleIds.constructor === Array) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IServiceProviderConfigurationUpdateRequest {
-    customerId?: string | undefined;
-    settings?: string | undefined;
-    userRoleIds?: string[] | undefined;
-}
-
-export class ShareSearchRequest implements IShareSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the share document result set. */
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-
-    constructor(data?: IShareSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-        }
-    }
-
-    static fromJS(data: any): ShareSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ShareSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
-}
-
-export interface IShareSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** An optional search filter. Limits the share document result set. */
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-}
-
 export class BaseResultOfShare implements IBaseResultOfShare {
     totalResults: number;
     results: Share[];
@@ -35172,11 +37621,11 @@ export interface IBaseResultOfShare {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfShare extends BaseResultOfShare implements ISearchBehaviourBaseResultOfShare {
+export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implements ISearchBehaviorBaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfShare) {
+    constructor(data?: ISearchBehaviorBaseResultOfShare) {
         super(data);
     }
 
@@ -35188,9 +37637,9 @@ export class SearchBehaviourBaseResultOfShare extends BaseResultOfShare implemen
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfShare {
+    static fromJS(data: any): SearchBehaviorBaseResultOfShare {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfShare();
+        let result = new SearchBehaviorBaseResultOfShare();
         result.init(data);
         return result;
     }
@@ -35204,12 +37653,12 @@ export class SearchBehaviourBaseResultOfShare extends BaseResultOfShare implemen
     }
 }
 
-export interface ISearchBehaviourBaseResultOfShare extends IBaseResultOfShare {
+export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class ShareSearchResult extends SearchBehaviourBaseResultOfShare implements IShareSearchResult {
+export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implements IShareSearchResult {
     elapsedMilliseconds: number;
 
     constructor(data?: IShareSearchResult) {
@@ -35238,7 +37687,7 @@ export class ShareSearchResult extends SearchBehaviourBaseResultOfShare implemen
     }
 }
 
-export interface IShareSearchResult extends ISearchBehaviourBaseResultOfShare {
+export interface IShareSearchResult extends ISearchBehaviorBaseResultOfShare {
     elapsedMilliseconds: number;
 }
 
@@ -35249,6 +37698,7 @@ export class Share implements IShare {
     audit?: UserAudit | undefined;
     expirationDate?: Date | undefined;
     shareType: ShareType;
+    isReadOnly: boolean;
 
     constructor(data?: IShare) {
         if (data) {
@@ -35272,6 +37722,7 @@ export class Share implements IShare {
             this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.shareType = data["shareType"];
+            this.isReadOnly = data["isReadOnly"];
         }
     }
 
@@ -35294,6 +37745,7 @@ export class Share implements IShare {
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["shareType"] = this.shareType;
+        data["isReadOnly"] = this.isReadOnly;
         return data; 
     }
 }
@@ -35305,12 +37757,110 @@ export interface IShare {
     audit?: IUserAudit | undefined;
     expirationDate?: Date | undefined;
     shareType: ShareType;
+    isReadOnly: boolean;
+}
+
+export class ShareSearchRequest implements IShareSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** An optional search filter. Limits the share document result set. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
+
+    constructor(data?: IShareSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.debugMode = data["debugMode"];
+        }
+    }
+
+    static fromJS(data: any): ShareSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["debugMode"] = this.debugMode;
+        return data; 
+    }
+}
+
+export interface IShareSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** An optional search filter. Limits the share document result set. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
 }
 
 export class ShareAggregationRequest implements IShareAggregationRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
     sort?: SortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
@@ -35336,10 +37886,10 @@ export class ShareAggregationRequest implements IShareAggregationRequest {
     init(data?: any) {
         if (data) {
             this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
             }
             if (data["sort"] && data["sort"].constructor === Array) {
                 this.sort = [];
@@ -35370,10 +37920,10 @@ export class ShareAggregationRequest implements IShareAggregationRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
         }
         if (this.sort && this.sort.constructor === Array) {
             data["sort"] = [];
@@ -35398,12 +37948,48 @@ export class ShareAggregationRequest implements IShareAggregationRequest {
 export interface IShareAggregationRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
     sort?: ISortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
     aggregationFilters?: AggregationFilter[] | undefined;
     aggregators?: AggregatorBase[] | undefined;
+}
+
+export class CreateShareResult implements ICreateShareResult {
+    shareId?: string | undefined;
+
+    constructor(data?: ICreateShareResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.shareId = data["shareId"];
+        }
+    }
+
+    static fromJS(data: any): CreateShareResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateShareResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["shareId"] = this.shareId;
+        return data; 
+    }
+}
+
+export interface ICreateShareResult {
+    shareId?: string | undefined;
 }
 
 export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest {
@@ -35623,10 +38209,10 @@ export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
     mailTemplateId?: string | undefined;
 }
 
+/** Represents a user role, which associates users with user rights. */
 export class UserRole implements IUserRole {
-    /** The user role id. */
+    /** User role ID. */
     id?: string | undefined;
-    trashed: boolean;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** All user rights for this user role. */
@@ -35645,7 +38231,6 @@ export class UserRole implements IUserRole {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.trashed = data["trashed"];
             this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
@@ -35665,7 +38250,6 @@ export class UserRole implements IUserRole {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["trashed"] = this.trashed;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRights && this.userRights.constructor === Array) {
             data["userRights"] = [];
@@ -35676,10 +38260,10 @@ export class UserRole implements IUserRole {
     }
 }
 
+/** Represents a user role, which associates users with user rights. */
 export interface IUserRole {
-    /** The user role id. */
+    /** User role ID. */
     id?: string | undefined;
-    trashed: boolean;
     /** Language specific user role names. */
     names?: ITranslatedStringDictionary | undefined;
     /** All user rights for this user role. */
@@ -35714,42 +38298,6 @@ export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements I
 }
 
 export interface IShareEmbedCreateRequest extends IShareBaseCreateRequest {
-}
-
-export class CreateShareResult implements ICreateShareResult {
-    shareId?: string | undefined;
-
-    constructor(data?: ICreateShareResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.shareId = data["shareId"];
-        }
-    }
-
-    static fromJS(data: any): CreateShareResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateShareResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["shareId"] = this.shareId;
-        return data; 
-    }
-}
-
-export interface ICreateShareResult {
-    shareId?: string | undefined;
 }
 
 export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
@@ -35907,6 +38455,125 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
 export interface IShareEmbedUpdateRequest extends IShareBaseUpdateRequest {
 }
 
+/** Response to a bulk operation */
+export class BulkResponse implements IBulkResponse {
+    /** Rows of the bulk response. */
+    rows?: BulkResponseRow[] | undefined;
+
+    constructor(data?: IBulkResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.rows) {
+                this.rows = [];
+                for (let i = 0; i < data.rows.length; i++) {
+                    let item = data.rows[i];
+                    this.rows[i] = item && !(<any>item).toJSON ? new BulkResponseRow(item) : <BulkResponseRow>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["rows"] && data["rows"].constructor === Array) {
+                this.rows = [];
+                for (let item of data["rows"])
+                    this.rows.push(BulkResponseRow.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BulkResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new BulkResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.rows && this.rows.constructor === Array) {
+            data["rows"] = [];
+            for (let item of this.rows)
+                data["rows"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Response to a bulk operation */
+export interface IBulkResponse {
+    /** Rows of the bulk response. */
+    rows?: IBulkResponseRow[] | undefined;
+}
+
+/** Row information of a bulk response */
+export class BulkResponseRow implements IBulkResponseRow {
+    /** ID of the document. */
+    id: string;
+    /** Version of the document. */
+    version: number;
+    /** Eventual error. */
+    error?: string | undefined;
+    /** True if item successfully saved. False otherwise. */
+    succeeded: boolean;
+    /** Returned status code. */
+    status: number;
+
+    constructor(data?: IBulkResponseRow) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.version = data["version"];
+            this.error = data["error"];
+            this.succeeded = data["succeeded"];
+            this.status = data["status"];
+        }
+    }
+
+    static fromJS(data: any): BulkResponseRow {
+        data = typeof data === 'object' ? data : {};
+        let result = new BulkResponseRow();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["version"] = this.version;
+        data["error"] = this.error;
+        data["succeeded"] = this.succeeded;
+        data["status"] = this.status;
+        return data; 
+    }
+}
+
+/** Row information of a bulk response */
+export interface IBulkResponseRow {
+    /** ID of the document. */
+    id: string;
+    /** Version of the document. */
+    version: number;
+    /** Eventual error. */
+    error?: string | undefined;
+    /** True if item successfully saved. False otherwise. */
+    succeeded: boolean;
+    /** Returned status code. */
+    status: number;
+}
+
 export class ShareDeleteManyRequest implements IShareDeleteManyRequest {
     ids?: string[] | undefined;
 
@@ -35968,9 +38635,9 @@ export class TransferDetail extends Transfer implements ITransferDetail {
     /** Number of items cancelled. */
     itemsCancelled: number;
     /** Time stamp of last progress update from data extraction. */
-    lastDataExtractionProgressStamp: number;
-    /** LastTime stamp of last progress update from upload. */
-    lastFileUploadProgressStamp: number;
+    lastDataExtractionProgressTimeStamp?: Date | undefined;
+    /** Time stamp of last progress update from upload. */
+    lastFileUploadProgressTimeStamp?: Date | undefined;
 
     constructor(data?: ITransferDetail) {
         super(data);
@@ -35989,8 +38656,8 @@ export class TransferDetail extends Transfer implements ITransferDetail {
             this.dataExtractionInProgressCount = data["dataExtractionInProgressCount"];
             this.itemsFailed = data["itemsFailed"];
             this.itemsCancelled = data["itemsCancelled"];
-            this.lastDataExtractionProgressStamp = data["lastDataExtractionProgressStamp"];
-            this.lastFileUploadProgressStamp = data["lastFileUploadProgressStamp"];
+            this.lastDataExtractionProgressTimeStamp = data["lastDataExtractionProgressTimeStamp"] ? new Date(data["lastDataExtractionProgressTimeStamp"].toString()) : <any>undefined;
+            this.lastFileUploadProgressTimeStamp = data["lastFileUploadProgressTimeStamp"] ? new Date(data["lastFileUploadProgressTimeStamp"].toString()) : <any>undefined;
         }
     }
 
@@ -36010,8 +38677,8 @@ export class TransferDetail extends Transfer implements ITransferDetail {
         data["dataExtractionInProgressCount"] = this.dataExtractionInProgressCount;
         data["itemsFailed"] = this.itemsFailed;
         data["itemsCancelled"] = this.itemsCancelled;
-        data["lastDataExtractionProgressStamp"] = this.lastDataExtractionProgressStamp;
-        data["lastFileUploadProgressStamp"] = this.lastFileUploadProgressStamp;
+        data["lastDataExtractionProgressTimeStamp"] = this.lastDataExtractionProgressTimeStamp ? this.lastDataExtractionProgressTimeStamp.toISOString() : <any>undefined;
+        data["lastFileUploadProgressTimeStamp"] = this.lastFileUploadProgressTimeStamp ? this.lastFileUploadProgressTimeStamp.toISOString() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -36034,71 +38701,9 @@ export interface ITransferDetail extends ITransfer {
     /** Number of items cancelled. */
     itemsCancelled: number;
     /** Time stamp of last progress update from data extraction. */
-    lastDataExtractionProgressStamp: number;
-    /** LastTime stamp of last progress update from upload. */
-    lastFileUploadProgressStamp: number;
-}
-
-/** Request to search for transfers. */
-export class TransferSearchRequest implements ITransferSearchRequest {
-    searchString?: string | undefined;
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    start: number;
-    limit: number;
-    filter?: FilterBase | undefined;
-
-    constructor(data?: ITransferSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): TransferSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new TransferSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Request to search for transfers. */
-export interface ITransferSearchRequest {
-    searchString?: string | undefined;
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    start: number;
-    limit: number;
-    filter?: FilterBase | undefined;
+    lastDataExtractionProgressTimeStamp?: Date | undefined;
+    /** Time stamp of last progress update from upload. */
+    lastFileUploadProgressTimeStamp?: Date | undefined;
 }
 
 export class BaseResultOfTransfer implements IBaseResultOfTransfer {
@@ -36168,11 +38773,11 @@ export interface IBaseResultOfTransfer {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfTransfer extends BaseResultOfTransfer implements ISearchBehaviourBaseResultOfTransfer {
+export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer implements ISearchBehaviorBaseResultOfTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfTransfer) {
+    constructor(data?: ISearchBehaviorBaseResultOfTransfer) {
         super(data);
     }
 
@@ -36184,9 +38789,9 @@ export class SearchBehaviourBaseResultOfTransfer extends BaseResultOfTransfer im
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfTransfer {
+    static fromJS(data: any): SearchBehaviorBaseResultOfTransfer {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfTransfer();
+        let result = new SearchBehaviorBaseResultOfTransfer();
         result.init(data);
         return result;
     }
@@ -36200,13 +38805,13 @@ export class SearchBehaviourBaseResultOfTransfer extends BaseResultOfTransfer im
     }
 }
 
-export interface ISearchBehaviourBaseResultOfTransfer extends IBaseResultOfTransfer {
+export interface ISearchBehaviorBaseResultOfTransfer extends IBaseResultOfTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
 /** Result from a search for transfers. */
-export class TransferSearchResult extends SearchBehaviourBaseResultOfTransfer implements ITransferSearchResult {
+export class TransferSearchResult extends SearchBehaviorBaseResultOfTransfer implements ITransferSearchResult {
     /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 
@@ -36237,9 +38842,71 @@ export class TransferSearchResult extends SearchBehaviourBaseResultOfTransfer im
 }
 
 /** Result from a search for transfers. */
-export interface ITransferSearchResult extends ISearchBehaviourBaseResultOfTransfer {
+export interface ITransferSearchResult extends ISearchBehaviorBaseResultOfTransfer {
     /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
+}
+
+/** Request to search for transfers. */
+export class TransferSearchRequest implements ITransferSearchRequest {
+    searchString?: string | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
+
+    constructor(data?: ITransferSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): TransferSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new TransferSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Request to search for transfers. */
+export interface ITransferSearchRequest {
+    searchString?: string | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
 }
 
 /** Creates a transfer. */
@@ -37317,68 +39984,6 @@ export enum FileTransferState {
     CleanupCompleted = <any>"CleanupCompleted", 
 }
 
-/** Request to search for file transfers. */
-export class FileTransferSearchRequest implements IFileTransferSearchRequest {
-    searchString?: string | undefined;
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    start: number;
-    limit: number;
-    filter?: FilterBase | undefined;
-
-    constructor(data?: IFileTransferSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): FileTransferSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new FileTransferSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Request to search for file transfers. */
-export interface IFileTransferSearchRequest {
-    searchString?: string | undefined;
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    start: number;
-    limit: number;
-    filter?: FilterBase | undefined;
-}
-
 export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
     totalResults: number;
     results: FileTransfer[];
@@ -37446,11 +40051,11 @@ export interface IBaseResultOfFileTransfer {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfFileTransfer extends BaseResultOfFileTransfer implements ISearchBehaviourBaseResultOfFileTransfer {
+export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTransfer implements ISearchBehaviorBaseResultOfFileTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfFileTransfer) {
+    constructor(data?: ISearchBehaviorBaseResultOfFileTransfer) {
         super(data);
     }
 
@@ -37462,9 +40067,9 @@ export class SearchBehaviourBaseResultOfFileTransfer extends BaseResultOfFileTra
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfFileTransfer {
+    static fromJS(data: any): SearchBehaviorBaseResultOfFileTransfer {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfFileTransfer();
+        let result = new SearchBehaviorBaseResultOfFileTransfer();
         result.init(data);
         return result;
     }
@@ -37478,13 +40083,13 @@ export class SearchBehaviourBaseResultOfFileTransfer extends BaseResultOfFileTra
     }
 }
 
-export interface ISearchBehaviourBaseResultOfFileTransfer extends IBaseResultOfFileTransfer {
+export interface ISearchBehaviorBaseResultOfFileTransfer extends IBaseResultOfFileTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
 /** Result from a search for file transfers. */
-export class FileTransferSearchResult extends SearchBehaviourBaseResultOfFileTransfer implements IFileTransferSearchResult {
+export class FileTransferSearchResult extends SearchBehaviorBaseResultOfFileTransfer implements IFileTransferSearchResult {
     /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
 
@@ -37515,9 +40120,71 @@ export class FileTransferSearchResult extends SearchBehaviourBaseResultOfFileTra
 }
 
 /** Result from a search for file transfers. */
-export interface IFileTransferSearchResult extends ISearchBehaviourBaseResultOfFileTransfer {
+export interface IFileTransferSearchResult extends ISearchBehaviorBaseResultOfFileTransfer {
     /** Time in milliseconds query took to execute. */
     elapsedMilliseconds: number;
+}
+
+/** Request to search for file transfers. */
+export class FileTransferSearchRequest implements IFileTransferSearchRequest {
+    searchString?: string | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
+
+    constructor(data?: IFileTransferSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): FileTransferSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileTransferSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Request to search for file transfers. */
+export interface IFileTransferSearchRequest {
+    searchString?: string | undefined;
+    searchBehaviors?: SearchBehavior[] | undefined;
+    start: number;
+    limit: number;
+    filter?: FilterBase | undefined;
 }
 
 /** Blacklist containing file name patterns skipped when uploading. */
@@ -37866,12 +40533,201 @@ export interface IFileTransferCreateItem {
     contentPermissionSetIds?: string[] | undefined;
 }
 
-export class UserCreateRequest implements IUserCreateRequest {
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    emailAddress?: string | undefined;
+/** Represents the updateable fields of the user. */
+export class UserUpdateRequest extends User implements IUserUpdateRequest {
+    /** User roles the user should be assigned to. Overwrites the original user roles. */
+    userRoles?: UserRole[] | undefined;
+    /** Comment saved for the user. */
+    comment?: string | undefined;
+    /** Preferred language, e.g. for correspondence. */
     languageCode?: string | undefined;
+    /** User's address. */
+    address?: UserAddress | undefined;
+
+    constructor(data?: IUserUpdateRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["userRoles"] && data["userRoles"].constructor === Array) {
+                this.userRoles = [];
+                for (let item of data["userRoles"])
+                    this.userRoles.push(UserRole.fromJS(item));
+            }
+            this.comment = data["comment"];
+            this.languageCode = data["languageCode"];
+            this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.userRoles && this.userRoles.constructor === Array) {
+            data["userRoles"] = [];
+            for (let item of this.userRoles)
+                data["userRoles"].push(item.toJSON());
+        }
+        data["comment"] = this.comment;
+        data["languageCode"] = this.languageCode;
+        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Represents the updateable fields of the user. */
+export interface IUserUpdateRequest extends IUser {
+    /** User roles the user should be assigned to. Overwrites the original user roles. */
+    userRoles?: IUserRole[] | undefined;
+    /** Comment saved for the user. */
+    comment?: string | undefined;
+    /** Preferred language, e.g. for correspondence. */
+    languageCode?: string | undefined;
+    /** User's address. */
+    address?: IUserAddress | undefined;
+}
+
+/** Detail information about a user. */
+export class UserDetail extends UserUpdateRequest implements IUserDetail {
+    /** Owner tokens referencing the user. */
+    ownerTokens?: OwnerToken[] | undefined;
+    /** Authorization state the user is currently in. */
+    authorizationState: AuthorizationState;
+    /** Locked users are unable to log in and use the system. */
+    isLocked: boolean;
+    /** Life cycle state the user is currently in. */
+    lifeCycle: LifeCycle;
+    /** The support user is a user created for Picturepark support personnel. */
+    isSupportUser: boolean;
+    /** Read-only users can't be removed from the system, e.g. service user. */
+    isReadOnly: boolean;
+
+    constructor(data?: IUserDetail) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["ownerTokens"] && data["ownerTokens"].constructor === Array) {
+                this.ownerTokens = [];
+                for (let item of data["ownerTokens"])
+                    this.ownerTokens.push(OwnerToken.fromJS(item));
+            }
+            this.authorizationState = data["authorizationState"];
+            this.isLocked = data["isLocked"];
+            this.lifeCycle = data["lifeCycle"];
+            this.isSupportUser = data["isSupportUser"];
+            this.isReadOnly = data["isReadOnly"];
+        }
+    }
+
+    static fromJS(data: any): UserDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.ownerTokens && this.ownerTokens.constructor === Array) {
+            data["ownerTokens"] = [];
+            for (let item of this.ownerTokens)
+                data["ownerTokens"].push(item.toJSON());
+        }
+        data["authorizationState"] = this.authorizationState;
+        data["isLocked"] = this.isLocked;
+        data["lifeCycle"] = this.lifeCycle;
+        data["isSupportUser"] = this.isSupportUser;
+        data["isReadOnly"] = this.isReadOnly;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Detail information about a user. */
+export interface IUserDetail extends IUserUpdateRequest {
+    /** Owner tokens referencing the user. */
+    ownerTokens?: IOwnerToken[] | undefined;
+    /** Authorization state the user is currently in. */
+    authorizationState: AuthorizationState;
+    /** Locked users are unable to log in and use the system. */
+    isLocked: boolean;
+    /** Life cycle state the user is currently in. */
+    lifeCycle: LifeCycle;
+    /** The support user is a user created for Picturepark support personnel. */
+    isSupportUser: boolean;
+    /** Read-only users can't be removed from the system, e.g. service user. */
+    isReadOnly: boolean;
+}
+
+export class OwnerToken implements IOwnerToken {
+    /** The ownertoken id. */
+    id?: string | undefined;
+    /** The id of the user to whom this ownertoken currently belongs to. */
+    userId?: string | undefined;
+
+    constructor(data?: IOwnerToken) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.userId = data["userId"];
+        }
+    }
+
+    static fromJS(data: any): OwnerToken {
+        data = typeof data === 'object' ? data : {};
+        let result = new OwnerToken();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        return data; 
+    }
+}
+
+export interface IOwnerToken {
+    /** The ownertoken id. */
+    id?: string | undefined;
+    /** The id of the user to whom this ownertoken currently belongs to. */
+    userId?: string | undefined;
+}
+
+/** Holds information needed for user creation. */
+export class UserCreateRequest implements IUserCreateRequest {
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+    /** Preferred language, e.g. for correspondence. */
+    languageCode?: string | undefined;
+    /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
+    /** User address. */
     address?: UserAddress | undefined;
 
     constructor(data?: IUserCreateRequest) {
@@ -37922,283 +40778,20 @@ export class UserCreateRequest implements IUserCreateRequest {
     }
 }
 
+/** Holds information needed for user creation. */
 export interface IUserCreateRequest {
+    /** User's first name. */
     firstName?: string | undefined;
+    /** User's last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+    /** Preferred language, e.g. for correspondence. */
     languageCode?: string | undefined;
+    /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
+    /** User address. */
     address?: IUserAddress | undefined;
-}
-
-export class UserUpdateRequest extends User implements IUserUpdateRequest {
-    userRoles?: UserRole[] | undefined;
-    comment?: string | undefined;
-    languageCode?: string | undefined;
-    address?: UserAddress | undefined;
-
-    constructor(data?: IUserUpdateRequest) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["userRoles"] && data["userRoles"].constructor === Array) {
-                this.userRoles = [];
-                for (let item of data["userRoles"])
-                    this.userRoles.push(UserRole.fromJS(item));
-            }
-            this.comment = data["comment"];
-            this.languageCode = data["languageCode"];
-            this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): UserUpdateRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserUpdateRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.userRoles && this.userRoles.constructor === Array) {
-            data["userRoles"] = [];
-            for (let item of this.userRoles)
-                data["userRoles"].push(item.toJSON());
-        }
-        data["comment"] = this.comment;
-        data["languageCode"] = this.languageCode;
-        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IUserUpdateRequest extends IUser {
-    userRoles?: IUserRole[] | undefined;
-    comment?: string | undefined;
-    languageCode?: string | undefined;
-    address?: IUserAddress | undefined;
-}
-
-export class UserDetail extends UserUpdateRequest implements IUserDetail {
-    ownerTokens?: OwnerToken[] | undefined;
-    authorizationState: AuthorizationState;
-    lifeCycle: LifeCycle;
-    isSupportUser: boolean;
-    isReadOnly: boolean;
-
-    constructor(data?: IUserDetail) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            if (data["ownerTokens"] && data["ownerTokens"].constructor === Array) {
-                this.ownerTokens = [];
-                for (let item of data["ownerTokens"])
-                    this.ownerTokens.push(OwnerToken.fromJS(item));
-            }
-            this.authorizationState = data["authorizationState"];
-            this.lifeCycle = data["lifeCycle"];
-            this.isSupportUser = data["isSupportUser"];
-            this.isReadOnly = data["isReadOnly"];
-        }
-    }
-
-    static fromJS(data: any): UserDetail {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.ownerTokens && this.ownerTokens.constructor === Array) {
-            data["ownerTokens"] = [];
-            for (let item of this.ownerTokens)
-                data["ownerTokens"].push(item.toJSON());
-        }
-        data["authorizationState"] = this.authorizationState;
-        data["lifeCycle"] = this.lifeCycle;
-        data["isSupportUser"] = this.isSupportUser;
-        data["isReadOnly"] = this.isReadOnly;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IUserDetail extends IUserUpdateRequest {
-    ownerTokens?: IOwnerToken[] | undefined;
-    authorizationState: AuthorizationState;
-    lifeCycle: LifeCycle;
-    isSupportUser: boolean;
-    isReadOnly: boolean;
-}
-
-export class OwnerToken implements IOwnerToken {
-    /** The ownertoken id. */
-    id?: string | undefined;
-    /** The id of the user to whom this ownertoken currently belongs to. */
-    userId?: string | undefined;
-
-    constructor(data?: IOwnerToken) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.userId = data["userId"];
-        }
-    }
-
-    static fromJS(data: any): OwnerToken {
-        data = typeof data === 'object' ? data : {};
-        let result = new OwnerToken();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userId"] = this.userId;
-        return data; 
-    }
-}
-
-export interface IOwnerToken {
-    /** The ownertoken id. */
-    id?: string | undefined;
-    /** The id of the user to whom this ownertoken currently belongs to. */
-    userId?: string | undefined;
-}
-
-export enum LifeCycle {
-    Draft = <any>"Draft", 
-    Active = <any>"Active", 
-    Inactive = <any>"Inactive", 
-    Deleted = <any>"Deleted", 
-}
-
-export class UserSearchRequest implements IUserSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    lifeCycleFilter: LifeCycleFilter;
-    userRightsFilter?: UserRight[] | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-
-    constructor(data?: IUserSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            if (data["userRightsFilter"] && data["userRightsFilter"].constructor === Array) {
-                this.userRightsFilter = [];
-                for (let item of data["userRightsFilter"])
-                    this.userRightsFilter.push(item);
-            }
-            this.debugMode = data["debugMode"];
-        }
-    }
-
-    static fromJS(data: any): UserSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        if (this.userRightsFilter && this.userRightsFilter.constructor === Array) {
-            data["userRightsFilter"] = [];
-            for (let item of this.userRightsFilter)
-                data["userRightsFilter"].push(item);
-        }
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
-}
-
-export interface IUserSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    lifeCycleFilter: LifeCycleFilter;
-    userRightsFilter?: UserRight[] | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
 }
 
 export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
@@ -38268,11 +40861,11 @@ export interface IBaseResultOfUserWithRoles {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles implements ISearchBehaviourBaseResultOfUserWithRoles {
+export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles implements ISearchBehaviorBaseResultOfUserWithRoles {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfUserWithRoles) {
+    constructor(data?: ISearchBehaviorBaseResultOfUserWithRoles) {
         super(data);
     }
 
@@ -38284,9 +40877,9 @@ export class SearchBehaviourBaseResultOfUserWithRoles extends BaseResultOfUserWi
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfUserWithRoles {
+    static fromJS(data: any): SearchBehaviorBaseResultOfUserWithRoles {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfUserWithRoles();
+        let result = new SearchBehaviorBaseResultOfUserWithRoles();
         result.init(data);
         return result;
     }
@@ -38300,12 +40893,14 @@ export class SearchBehaviourBaseResultOfUserWithRoles extends BaseResultOfUserWi
     }
 }
 
-export interface ISearchBehaviourBaseResultOfUserWithRoles extends IBaseResultOfUserWithRoles {
+export interface ISearchBehaviorBaseResultOfUserWithRoles extends IBaseResultOfUserWithRoles {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class UserSearchResult extends SearchBehaviourBaseResultOfUserWithRoles implements IUserSearchResult {
+/** Holds results of the user search. */
+export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles implements IUserSearchResult {
+    /** How long did the search take. */
     elapsedMilliseconds: number;
 
     constructor(data?: IUserSearchResult) {
@@ -38334,19 +40929,31 @@ export class UserSearchResult extends SearchBehaviourBaseResultOfUserWithRoles i
     }
 }
 
-export interface IUserSearchResult extends ISearchBehaviourBaseResultOfUserWithRoles {
+/** Holds results of the user search. */
+export interface IUserSearchResult extends ISearchBehaviorBaseResultOfUserWithRoles {
+    /** How long did the search take. */
     elapsedMilliseconds: number;
 }
 
+/** User information retrieved via search */
 export class UserWithRoles implements IUserWithRoles {
+    /** IDs of user roles user is assigned to */
     userRoleIds?: string[] | undefined;
+    /** User's Picturepark ID. */
     id?: string | undefined;
+    /** User's first name. */
     firstName?: string | undefined;
+    /** User's last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+    /** Authorization state the user is currently in. */
     authorizationState: AuthorizationState;
+    /** Life cycle state the user is currently in. */
     lifeCycle: LifeCycle;
+    /** The support user is a user created for Picturepark support personnel. */
     isSupportUser: boolean;
+    /** Read-only users can't be removed from the system, e.g. service user. */
     isReadOnly: boolean;
 
     constructor(data?: IUserWithRoles) {
@@ -38402,26 +41009,164 @@ export class UserWithRoles implements IUserWithRoles {
     }
 }
 
+/** User information retrieved via search */
 export interface IUserWithRoles {
+    /** IDs of user roles user is assigned to */
     userRoleIds?: string[] | undefined;
+    /** User's Picturepark ID. */
     id?: string | undefined;
+    /** User's first name. */
     firstName?: string | undefined;
+    /** User's last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+    /** Authorization state the user is currently in. */
     authorizationState: AuthorizationState;
+    /** Life cycle state the user is currently in. */
     lifeCycle: LifeCycle;
+    /** The support user is a user created for Picturepark support personnel. */
     isSupportUser: boolean;
+    /** Read-only users can't be removed from the system, e.g. service user. */
     isReadOnly: boolean;
 }
 
-export class UserAggregationRequest implements IUserAggregationRequest {
+/** Represents user search request. */
+export class UserSearchRequest implements IUserSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. */
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** Filter applied to users. */
+    filter?: FilterBase | undefined;
+    /** Return only users in certain life cycle state(s). */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Return only users with certain user rights. */
+    userRightsFilter?: UserRight[] | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode: boolean;
+    includeServiceUser: boolean;
+
+    constructor(data?: IUserSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.lifeCycleFilter = data["lifeCycleFilter"];
+            if (data["userRightsFilter"] && data["userRightsFilter"].constructor === Array) {
+                this.userRightsFilter = [];
+                for (let item of data["userRightsFilter"])
+                    this.userRightsFilter.push(item);
+            }
+            this.debugMode = data["debugMode"];
+            this.includeServiceUser = data["includeServiceUser"];
+        }
+    }
+
+    static fromJS(data: any): UserSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["lifeCycleFilter"] = this.lifeCycleFilter;
+        if (this.userRightsFilter && this.userRightsFilter.constructor === Array) {
+            data["userRightsFilter"] = [];
+            for (let item of this.userRightsFilter)
+                data["userRightsFilter"].push(item);
+        }
+        data["debugMode"] = this.debugMode;
+        data["includeServiceUser"] = this.includeServiceUser;
+        return data; 
+    }
+}
+
+/** Represents user search request. */
+export interface IUserSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** Filter applied to users. */
+    filter?: FilterBase | undefined;
+    /** Return only users in certain life cycle state(s). */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Return only users with certain user rights. */
+    userRightsFilter?: UserRight[] | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode: boolean;
+    includeServiceUser: boolean;
+}
+
+/** Represents an aggregation request over users. */
+export class UserAggregationRequest implements IUserAggregationRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. */
     sort?: SortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
+    /** List of aggregation filters, which are added to the search query and return documents meeting the aggregation condition. */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators used while evaluating the request. */
     aggregators?: AggregatorBase[] | undefined;
 
     constructor(data?: IUserAggregationRequest) {
@@ -38443,10 +41188,10 @@ export class UserAggregationRequest implements IUserAggregationRequest {
     init(data?: any) {
         if (data) {
             this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
             }
             if (data["sort"] && data["sort"].constructor === Array) {
                 this.sort = [];
@@ -38477,10 +41222,10 @@ export class UserAggregationRequest implements IUserAggregationRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
         }
         if (this.sort && this.sort.constructor === Array) {
             data["sort"] = [];
@@ -38502,18 +41247,25 @@ export class UserAggregationRequest implements IUserAggregationRequest {
     }
 }
 
+/** Represents an aggregation request over users. */
 export interface IUserAggregationRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. */
     sort?: ISortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
+    /** List of aggregation filters, which are added to the search query and return documents meeting the aggregation condition. */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators used while evaluating the request. */
     aggregators?: AggregatorBase[] | undefined;
 }
 
 export class UserLockRequest implements IUserLockRequest {
+    /** Indicates the requested lock state of the user.
+If _true_ was specified, the user will be _locked_. _False_ will unlock the previously _locked_ user. */
     lock: boolean;
 
     constructor(data?: IUserLockRequest) {
@@ -38546,10 +41298,15 @@ export class UserLockRequest implements IUserLockRequest {
 }
 
 export interface IUserLockRequest {
+    /** Indicates the requested lock state of the user.
+If _true_ was specified, the user will be _locked_. _False_ will unlock the previously _locked_ user. */
     lock: boolean;
 }
 
+/** Holds additional information for user review. */
 export class UserReviewRequest implements IUserReviewRequest {
+    /** Indicates the requested review state of the user.
+If _true_ is specified, user will be transitioned into _reviewed_ state. _False_ will put the user back into _to be reviewed_ state. */
     reviewed: boolean;
 
     constructor(data?: IUserReviewRequest) {
@@ -38581,11 +41338,16 @@ export class UserReviewRequest implements IUserReviewRequest {
     }
 }
 
+/** Holds additional information for user review. */
 export interface IUserReviewRequest {
+    /** Indicates the requested review state of the user.
+If _true_ is specified, user will be transitioned into _reviewed_ state. _False_ will put the user back into _to be reviewed_ state. */
     reviewed: boolean;
 }
 
+/** Details of the user deletion. */
 export class UserDeleteRequest implements IUserDeleteRequest {
+    /** User ID of user who will take over the ownership of the content currently owned by the deleted user. */
     ownerTokenTransferUserId?: string | undefined;
 
     constructor(data?: IUserDeleteRequest) {
@@ -38617,113 +41379,10 @@ export class UserDeleteRequest implements IUserDeleteRequest {
     }
 }
 
+/** Details of the user deletion. */
 export interface IUserDeleteRequest {
+    /** User ID of user who will take over the ownership of the content currently owned by the deleted user. */
     ownerTokenTransferUserId?: string | undefined;
-}
-
-export class UserRoleSearchRequest implements IUserRoleSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    searchLanguages?: string[] | undefined;
-
-    constructor(data?: IUserRoleSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviours"] && data["searchBehaviours"].constructor === Array) {
-                this.searchBehaviours = [];
-                for (let item of data["searchBehaviours"])
-                    this.searchBehaviours.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): UserRoleSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserRoleSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviours && this.searchBehaviours.constructor === Array) {
-            data["searchBehaviours"] = [];
-            for (let item of this.searchBehaviours)
-                data["searchBehaviours"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IUserRoleSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
-    searchBehaviours?: SearchBehaviour[] | undefined;
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-    searchLanguages?: string[] | undefined;
 }
 
 export class BaseResultOfUserRole implements IBaseResultOfUserRole {
@@ -38793,11 +41452,11 @@ export interface IBaseResultOfUserRole {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
-export class SearchBehaviourBaseResultOfUserRole extends BaseResultOfUserRole implements ISearchBehaviourBaseResultOfUserRole {
+export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole implements ISearchBehaviorBaseResultOfUserRole {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 
-    constructor(data?: ISearchBehaviourBaseResultOfUserRole) {
+    constructor(data?: ISearchBehaviorBaseResultOfUserRole) {
         super(data);
     }
 
@@ -38809,9 +41468,9 @@ export class SearchBehaviourBaseResultOfUserRole extends BaseResultOfUserRole im
         }
     }
 
-    static fromJS(data: any): SearchBehaviourBaseResultOfUserRole {
+    static fromJS(data: any): SearchBehaviorBaseResultOfUserRole {
         data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviourBaseResultOfUserRole();
+        let result = new SearchBehaviorBaseResultOfUserRole();
         result.init(data);
         return result;
     }
@@ -38825,12 +41484,14 @@ export class SearchBehaviourBaseResultOfUserRole extends BaseResultOfUserRole im
     }
 }
 
-export interface ISearchBehaviourBaseResultOfUserRole extends IBaseResultOfUserRole {
+export interface ISearchBehaviorBaseResultOfUserRole extends IBaseResultOfUserRole {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
 }
 
-export class UserRoleSearchResult extends SearchBehaviourBaseResultOfUserRole implements IUserRoleSearchResult {
+/** Holds results of the user role search. */
+export class UserRoleSearchResult extends SearchBehaviorBaseResultOfUserRole implements IUserRoleSearchResult {
+    /** How long did the search take. */
     elapsedMilliseconds: number;
 
     constructor(data?: IUserRoleSearchResult) {
@@ -38859,13 +41520,135 @@ export class UserRoleSearchResult extends SearchBehaviourBaseResultOfUserRole im
     }
 }
 
-export interface IUserRoleSearchResult extends ISearchBehaviourBaseResultOfUserRole {
+/** Holds results of the user role search. */
+export interface IUserRoleSearchResult extends ISearchBehaviorBaseResultOfUserRole {
+    /** How long did the search take. */
     elapsedMilliseconds: number;
 }
 
+export class UserRoleSearchRequest implements IUserRoleSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. */
+    sort?: SortInfo[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** Filter applied to user roles. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** Which languages to search against when using the search string. */
+    searchLanguages?: string[] | undefined;
+    /** Defines if the user roles with system user role Administrator is returned. */
+    includeAdministratorSystemUserRole: boolean;
+
+    constructor(data?: IUserRoleSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.start = data["start"];
+            this.limit = data["limit"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.debugMode = data["debugMode"];
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+            this.includeAdministratorSystemUserRole = data["includeAdministratorSystemUserRole"];
+        }
+    }
+
+    static fromJS(data: any): UserRoleSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["start"] = this.start;
+        data["limit"] = this.limit;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["debugMode"] = this.debugMode;
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        data["includeAdministratorSystemUserRole"] = this.includeAdministratorSystemUserRole;
+        return data; 
+    }
+}
+
+export interface IUserRoleSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. */
+    sort?: ISortInfo[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
+    start: number;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** Filter applied to user roles. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** Which languages to search against when using the search string. */
+    searchLanguages?: string[] | undefined;
+    /** Defines if the user roles with system user role Administrator is returned. */
+    includeAdministratorSystemUserRole: boolean;
+}
+
+/** Holds information needed for user role creation. */
 export class UserRoleCreateRequest implements IUserRoleCreateRequest {
-    names?: TranslatedStringDictionary | undefined;
-    userRights?: UserRight[] | undefined;
+    /** Language specific user role names. */
+    names: TranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
 
     constructor(data?: IUserRoleCreateRequest) {
         if (data) {
@@ -38875,11 +41658,15 @@ export class UserRoleCreateRequest implements IUserRoleCreateRequest {
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+            this.userRights = [];
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
                 for (let item of data["userRights"])
@@ -38907,13 +41694,18 @@ export class UserRoleCreateRequest implements IUserRoleCreateRequest {
     }
 }
 
+/** Holds information needed for user role creation. */
 export interface IUserRoleCreateRequest {
-    names?: ITranslatedStringDictionary | undefined;
-    userRights?: UserRight[] | undefined;
+    /** Language specific user role names. */
+    names: ITranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
 }
 
+/** Holds information needed to create multiple user roles. */
 export class UserRoleCreateManyRequest implements IUserRoleCreateManyRequest {
-    items?: UserRoleCreateRequest[] | undefined;
+    /** Multiple user creation requests. */
+    items: UserRoleCreateRequest[];
 
     constructor(data?: IUserRoleCreateManyRequest) {
         if (data) {
@@ -38928,6 +41720,9 @@ export class UserRoleCreateManyRequest implements IUserRoleCreateManyRequest {
                     this.items[i] = item && !(<any>item).toJSON ? new UserRoleCreateRequest(item) : <UserRoleCreateRequest>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -38959,12 +41754,16 @@ export class UserRoleCreateManyRequest implements IUserRoleCreateManyRequest {
     }
 }
 
+/** Holds information needed to create multiple user roles. */
 export interface IUserRoleCreateManyRequest {
-    items?: IUserRoleCreateRequest[] | undefined;
+    /** Multiple user creation requests. */
+    items: IUserRoleCreateRequest[];
 }
 
+/** Holds information about which user roles and how are requested to be updated. */
 export class UserRoleUpdateManyRequest implements IUserRoleUpdateManyRequest {
-    items?: UserRoleDetail[] | undefined;
+    /** New value for user roles with specified IDs. */
+    items: UserRoleDetail[];
 
     constructor(data?: IUserRoleUpdateManyRequest) {
         if (data) {
@@ -38979,6 +41778,9 @@ export class UserRoleUpdateManyRequest implements IUserRoleUpdateManyRequest {
                     this.items[i] = item && !(<any>item).toJSON ? new UserRoleDetail(item) : <UserRoleDetail>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -39010,14 +41812,15 @@ export class UserRoleUpdateManyRequest implements IUserRoleUpdateManyRequest {
     }
 }
 
+/** Holds information about which user roles and how are requested to be updated. */
 export interface IUserRoleUpdateManyRequest {
-    items?: IUserRoleDetail[] | undefined;
+    /** New value for user roles with specified IDs. */
+    items: IUserRoleDetail[];
 }
 
 export class UserRoleDetail implements IUserRoleDetail {
     /** The user role id. */
     id?: string | undefined;
-    trashed: boolean;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** All user rights for this user role. */
@@ -39036,7 +41839,6 @@ export class UserRoleDetail implements IUserRoleDetail {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.trashed = data["trashed"];
             this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
@@ -39056,7 +41858,6 @@ export class UserRoleDetail implements IUserRoleDetail {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["trashed"] = this.trashed;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRights && this.userRights.constructor === Array) {
             data["userRights"] = [];
@@ -39070,15 +41871,16 @@ export class UserRoleDetail implements IUserRoleDetail {
 export interface IUserRoleDetail {
     /** The user role id. */
     id?: string | undefined;
-    trashed: boolean;
     /** Language specific user role names. */
     names?: ITranslatedStringDictionary | undefined;
     /** All user rights for this user role. */
     userRights?: UserRight[] | undefined;
 }
 
+/** Holds information about which user roles are requested to be deleted. */
 export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
-    ids?: string[] | undefined;
+    /** IDs of the user roles to delete. */
+    ids: string[];
 
     constructor(data?: IUserRoleDeleteManyRequest) {
         if (data) {
@@ -39086,6 +41888,9 @@ export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.ids = [];
         }
     }
 
@@ -39117,8 +41922,10 @@ export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
     }
 }
 
+/** Holds information about which user roles are requested to be deleted. */
 export interface IUserRoleDeleteManyRequest {
-    ids?: string[] | undefined;
+    /** IDs of the user roles to delete. */
+    ids: string[];
 }
 
 export interface FileParameter {

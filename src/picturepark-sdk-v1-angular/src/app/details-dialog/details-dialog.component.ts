@@ -76,7 +76,7 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
       contents: [
         new ContentDownloadRequestItem({
           contentId: this.contentId,
-          outputFormatId: previewOutput.outputFormatId
+          outputFormatId: previewOutput.outputFormatId!/*TODO BRO: Fix, make outputFormatId required*/
         })
       ]
     });

@@ -70,7 +70,7 @@ export class ContentBrowserItemComponent implements OnChanges {
 
   public downloadItem() {
     const request = new ContentDownloadLinkCreateRequest({
-      contents: [{ contentId: this.itemModel.item.id, outputFormatId: 'Original' }]
+      contents: [{ contentId: this.itemModel.item.id!/*TODO BRO: Fix, make Content.id required*/, outputFormatId: 'Original' }]
     });
 
     this.contentService.createDownloadLink(request).subscribe(data => {
