@@ -1,6 +1,4 @@
 @import '~@angular/material/theming';
-//TODO: use theme colors;
-// TODO: add transitions for visibility (using opacity);
 .content-item {
   $self: &;
   border-radius: 2px;
@@ -54,6 +52,18 @@
   &__image-slot {
     flex-grow: 1;
     position: relative;
+  }
+  &__image-virtual-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: rgb(170, 170, 170);
+    overflow: hidden;
   }
   &__image-container {
     display: flex;

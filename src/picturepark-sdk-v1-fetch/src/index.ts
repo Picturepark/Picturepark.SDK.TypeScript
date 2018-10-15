@@ -50,7 +50,7 @@ export class BusinessProcessClient extends PictureparkClientBase {
 
     /**
      * Search
-     * @param businessProcessSearchRequest The business process request
+     * @param businessProcessSearchRequest The business process request.
      * @return BusinessProcessSearchResult
      */
     search(businessProcessSearchRequest: BusinessProcessSearchRequest): Promise<BusinessProcessSearchResult> {
@@ -129,9 +129,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
     }
 
     /**
-     * Wait for lifeCycles
-     * @param processId The process id
-     * @param lifeCycleIds (optional) Business process lifeCycle to wait for
+     * Wait for life cycles
+     * @param processId The business process id.
+     * @param lifeCycleIds (optional) Business process life cycles to wait for.
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitForLifeCycleResult
      */
@@ -216,8 +216,8 @@ export class BusinessProcessClient extends PictureparkClientBase {
 
     /**
      * Wait for states
-     * @param processId The process id
-     * @param states (optional) Business process states to wait for
+     * @param processId The business process id.
+     * @param states (optional) Business process states to wait for.
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
@@ -302,7 +302,7 @@ export class BusinessProcessClient extends PictureparkClientBase {
 
     /**
      * Wait for completion
-     * @param processId The process id
+     * @param processId The business process id.
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
@@ -385,7 +385,7 @@ export class BusinessProcessClient extends PictureparkClientBase {
 
     /**
      * Get details
-     * @param processId The process id
+     * @param processId The business process id.
      * @return BusinessProcessDetails
      */
     getDetails(processId: string): Promise<BusinessProcessDetails> {
@@ -10135,7 +10135,9 @@ export interface SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfB
     isSearchStringRewritten: boolean;
 }
 
+/** Search result from a search for business processes */
 export interface BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusinessProcess {
+    /** Elapsed time in milliseconds for the search request. */
     elapsedMilliseconds: number;
 }
 
@@ -11151,10 +11153,9 @@ export interface CustomerNotAvailableException extends PictureparkException {
     customerId?: string | undefined;
 }
 
+/** Search request to search for business processes */
 export interface BusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
     searchString?: string | undefined;
@@ -11331,37 +11332,57 @@ export enum SearchBehavior {
     WildcardOnSingleTerm = <any>"WildcardOnSingleTerm", 
 }
 
+/** Result from waiting for life cycle(s) on a business process */
 export interface BusinessProcessWaitForLifeCycleResult {
+    /** The life cycle that was hit. */
     lifeCycleHit?: BusinessProcessLifeCycle | undefined;
-    businessProcess?: BusinessProcess | undefined;
+    /** The business process. */
+    businessProcess: BusinessProcess;
 }
 
+/** Result from waiting for state(s) on a business process */
 export interface BusinessProcessWaitForStateResult {
+    /** The state that was hit. */
     stateHit?: string | undefined;
-    businessProcess?: BusinessProcess | undefined;
+    /** The business process. */
+    businessProcess: BusinessProcess;
 }
 
+/** Detailed representation of a business process */
 export interface BusinessProcessDetails extends BusinessProcess {
+    /** Details for the business process. */
     details?: BusinessProcessDetailsDataBase | undefined;
 }
 
+/** Base class for the details of a business process */
 export interface BusinessProcessDetailsDataBase {
 }
 
+/** Business process detailed information regarding a batch operation */
 export interface BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase {
-    docType?: string | undefined;
-    response?: BatchResponse | undefined;
+    /** The DocType on which the operation was performed. */
+    docType: string;
+    /** The response of the batch operation. */
+    response: BatchResponse;
 }
 
+/** Response from a batch operation */
 export interface BatchResponse {
-    rows?: BatchResponseRow[] | undefined;
+    /** Rows in the response. */
+    rows: BatchResponseRow[];
 }
 
+/** Row in a batch operation response */
 export interface BatchResponseRow {
-    id?: string | undefined;
+    /** Id of the item. */
+    id: string;
+    /** Indicates if the operation succeeded. */
     succeeded: boolean;
+    /** Status code of the operation. */
     status: number;
+    /** New version of the item. */
     version: number;
+    /** If the operation did not succeeded, this contains error information. */
     error?: ErrorResponse | undefined;
 }
 
@@ -11401,33 +11422,49 @@ export interface ListItemImportResult {
     importedListItemIds?: string[] | undefined;
 }
 
+/** Business process detailed information regarding a CDN purge operation */
 export interface BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDataBase {
-    serializedCdnConfiguration?: string | undefined;
-    jobs?: CdnPurgeJobBase[] | undefined;
+    /** Serialized CDN configuration. */
+    serializedCdnConfiguration: string;
+    /** Jobs that were processed in the operation. */
+    jobs: CdnPurgeJobBase[];
 }
 
+/** Base class for a CDN purge job */
 export interface CdnPurgeJobBase {
+    /** Indicates if the operation was performed successfully. */
     success: boolean;
+    /** Number of retries left until the operation is considered as failed. */
     retriesLeft: number;
 }
 
+/** Represents a CDN purge by tag (e.g. share ID) */
 export interface CdnPurgeJobByTag extends CdnPurgeJobBase {
-    tag?: string | undefined;
+    /** The tag that should be purged. */
+    tag: string;
 }
 
 export interface CdnPurgeJobByUri extends CdnPurgeJobBase {
     uri?: string | undefined;
 }
 
+/** Business process detailed information regarding Content import */
 export interface BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase {
+    /** Items that were imported. */
     items?: ContentImportResult[] | undefined;
 }
 
+/** Represents an item imported during a content import */
 export interface ContentImportResult {
-    fileTransferId?: string | undefined;
+    /** ID of the file transfer. */
+    fileTransferId: string;
+    /** ID of the resulting content. */
     contentId?: string | undefined;
+    /** State of the item. */
     state?: string | undefined;
+    /** Indicates if the operation succeeded. */
     succeeded: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
     error?: ErrorResponse | undefined;
 }
 
@@ -11760,14 +11797,14 @@ export interface ContentSearchResult extends SearchBehaviorBaseResultOfContent {
 export interface Content {
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** The content type of this content. All except ContentItem are binary files. */
     contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues?: { [key: string] : string; } | undefined;
-    id?: string | undefined;
+    displayValues: { [key: string] : string; };
+    id: string;
     /** All the ids of the broken references (tagboxes) */
     brokenReferenceIds?: string[] | undefined;
     /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
@@ -12824,6 +12861,7 @@ export interface SessionRenewalEvent extends ApplicationEvent {
     authorizationState: AuthorizationState;
 }
 
+/** User authorization state. */
 export enum AuthorizationState {
     Reviewed = <any>"Reviewed", 
     ToBeReviewed = <any>"ToBeReviewed", 
@@ -12898,19 +12936,33 @@ export interface OutputSearchRequest {
     outputFormatIds?: string[] | undefined;
 }
 
+/** User profile. */
 export interface UserProfile {
+    /** ID of the user. */
     id?: string | undefined;
+    /** Email address. */
     emailAddress?: string | undefined;
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
+    /** Language code. */
     languageCode?: string | undefined;
+    /** Address. */
     address?: UserAddress | undefined;
+    /** Authorization state. */
     authorizationState: AuthorizationState;
+    /** Indicates if the user is locked. */
     isLocked: boolean;
+    /** A list of user rights assigned to the user. */
     userRights?: UserRight[] | undefined;
+    /** A list of user role IDs assigned to the user. */
     userRoleIds?: string[] | undefined;
+    /** Indicates if the user has not accepted the latest terms of consent. */
     termsConsentExpired: boolean;
+    /** A list of system user roles assigned to the user. */
     systemUserRoles?: SystemUserRole[] | undefined;
+    /** Indicates if the user has the developer flag set. */
     isDeveloper: boolean;
 }
 
@@ -12934,16 +12986,24 @@ export interface UserAddress {
     countryCode?: string | undefined;
 }
 
+/** System user roles. */
 export enum SystemUserRole {
     Administrator = <any>"Administrator", 
 }
 
+/** Request to update a user profile. */
 export interface UserProfileUpdateRequest {
+    /** ID of the user. */
     id?: string | undefined;
+    /** Email address. */
     emailAddress?: string | undefined;
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
+    /** Language code. */
     languageCode?: string | undefined;
+    /** Address. */
     address?: UserAddress | undefined;
 }
 

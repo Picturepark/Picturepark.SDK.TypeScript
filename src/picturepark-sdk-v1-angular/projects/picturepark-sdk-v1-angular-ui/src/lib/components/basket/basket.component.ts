@@ -32,7 +32,7 @@ export class BasketComponent {
       if (data.downloadUrl) {
         window.location.replace(data.downloadUrl);
       }
-    })
+    });
   }
 
   public clearBasket() {

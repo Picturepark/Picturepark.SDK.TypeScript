@@ -45,7 +45,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
 
     /**
      * Search
-     * @param businessProcessSearchRequest The business process request
+     * @param businessProcessSearchRequest The business process request.
      * @return BusinessProcessSearchResult
      */
     search(businessProcessSearchRequest: BusinessProcessSearchRequest): Observable<BusinessProcessSearchResult> {
@@ -143,9 +143,9 @@ export class BusinessProcessService extends PictureparkServiceBase {
     }
 
     /**
-     * Wait for lifeCycles
-     * @param processId The process id
-     * @param lifeCycleIds (optional) Business process lifeCycle to wait for
+     * Wait for life cycles
+     * @param processId The business process id.
+     * @param lifeCycleIds (optional) Business process life cycles to wait for.
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitForLifeCycleResult
      */
@@ -249,8 +249,8 @@ export class BusinessProcessService extends PictureparkServiceBase {
 
     /**
      * Wait for states
-     * @param processId The process id
-     * @param states (optional) Business process states to wait for
+     * @param processId The business process id.
+     * @param states (optional) Business process states to wait for.
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
@@ -354,7 +354,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
 
     /**
      * Wait for completion
-     * @param processId The process id
+     * @param processId The business process id.
      * @param timeout (optional) The timeout to wait for completion.
      * @return BusinessProcessWaitResult
      */
@@ -456,7 +456,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
 
     /**
      * Get details
-     * @param processId The process id
+     * @param processId The business process id.
      * @return BusinessProcessDetails
      */
     getDetails(processId: string): Observable<BusinessProcessDetails> {
@@ -12578,7 +12578,9 @@ export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultO
     isSearchStringRewritten: boolean;
 }
 
+/** Search result from a search for business processes */
 export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusinessProcess implements IBusinessProcessSearchResult {
+    /** Elapsed time in milliseconds for the search request. */
     elapsedMilliseconds: number;
 
     constructor(data?: IBusinessProcessSearchResult) {
@@ -12607,7 +12609,9 @@ export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusin
     }
 }
 
+/** Search result from a search for business processes */
 export interface IBusinessProcessSearchResult extends ISearchBehaviorBaseResultOfBusinessProcess {
+    /** Elapsed time in milliseconds for the search request. */
     elapsedMilliseconds: number;
 }
 
@@ -22066,10 +22070,9 @@ export interface ICustomerNotAvailableException extends IPictureparkException {
     customerId?: string | undefined;
 }
 
+/** Search request to search for business processes */
 export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
     searchString?: string | undefined;
@@ -22120,10 +22123,9 @@ export class BusinessProcessSearchRequest implements IBusinessProcessSearchReque
     }
 }
 
+/** Search request to search for business processes */
 export interface IBusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
     filter?: FilterBase | undefined;
     searchString?: string | undefined;
@@ -23182,9 +23184,12 @@ export enum SearchBehavior {
     WildcardOnSingleTerm = <any>"WildcardOnSingleTerm", 
 }
 
+/** Result from waiting for life cycle(s) on a business process */
 export class BusinessProcessWaitForLifeCycleResult implements IBusinessProcessWaitForLifeCycleResult {
+    /** The life cycle that was hit. */
     lifeCycleHit?: BusinessProcessLifeCycle | undefined;
-    businessProcess?: BusinessProcess | undefined;
+    /** The business process. */
+    businessProcess: BusinessProcess;
 
     constructor(data?: IBusinessProcessWaitForLifeCycleResult) {
         if (data) {
@@ -23193,12 +23198,15 @@ export class BusinessProcessWaitForLifeCycleResult implements IBusinessProcessWa
                     (<any>this)[property] = (<any>data)[property];
             }
         }
+        if (!data) {
+            this.businessProcess = new BusinessProcess();
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.lifeCycleHit = data["lifeCycleHit"];
-            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : <any>undefined;
+            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : new BusinessProcess();
         }
     }
 
@@ -23217,14 +23225,20 @@ export class BusinessProcessWaitForLifeCycleResult implements IBusinessProcessWa
     }
 }
 
+/** Result from waiting for life cycle(s) on a business process */
 export interface IBusinessProcessWaitForLifeCycleResult {
+    /** The life cycle that was hit. */
     lifeCycleHit?: BusinessProcessLifeCycle | undefined;
-    businessProcess?: BusinessProcess | undefined;
+    /** The business process. */
+    businessProcess: BusinessProcess;
 }
 
+/** Result from waiting for state(s) on a business process */
 export class BusinessProcessWaitForStateResult implements IBusinessProcessWaitForStateResult {
+    /** The state that was hit. */
     stateHit?: string | undefined;
-    businessProcess?: BusinessProcess | undefined;
+    /** The business process. */
+    businessProcess: BusinessProcess;
 
     constructor(data?: IBusinessProcessWaitForStateResult) {
         if (data) {
@@ -23233,12 +23247,15 @@ export class BusinessProcessWaitForStateResult implements IBusinessProcessWaitFo
                     (<any>this)[property] = (<any>data)[property];
             }
         }
+        if (!data) {
+            this.businessProcess = new BusinessProcess();
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.stateHit = data["stateHit"];
-            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : <any>undefined;
+            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : new BusinessProcess();
         }
     }
 
@@ -23257,12 +23274,17 @@ export class BusinessProcessWaitForStateResult implements IBusinessProcessWaitFo
     }
 }
 
+/** Result from waiting for state(s) on a business process */
 export interface IBusinessProcessWaitForStateResult {
+    /** The state that was hit. */
     stateHit?: string | undefined;
-    businessProcess?: BusinessProcess | undefined;
+    /** The business process. */
+    businessProcess: BusinessProcess;
 }
 
+/** Detailed representation of a business process */
 export class BusinessProcessDetails extends BusinessProcess implements IBusinessProcessDetails {
+    /** Details for the business process. */
     details?: BusinessProcessDetailsDataBase | undefined;
 
     constructor(data?: IBusinessProcessDetails) {
@@ -23292,10 +23314,13 @@ export class BusinessProcessDetails extends BusinessProcess implements IBusiness
     }
 }
 
+/** Detailed representation of a business process */
 export interface IBusinessProcessDetails extends IBusinessProcess {
+    /** Details for the business process. */
     details?: BusinessProcessDetailsDataBase | undefined;
 }
 
+/** Base class for the details of a business process */
 export abstract class BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBase {
 
     protected _discriminator: string;
@@ -23347,15 +23372,22 @@ export abstract class BusinessProcessDetailsDataBase implements IBusinessProcess
     }
 }
 
+/** Base class for the details of a business process */
 export interface IBusinessProcessDetailsDataBase {
 }
 
+/** Business process detailed information regarding a batch operation */
 export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBatchResponse {
-    docType?: string | undefined;
-    response?: BatchResponse | undefined;
+    /** The DocType on which the operation was performed. */
+    docType: string;
+    /** The response of the batch operation. */
+    response: BatchResponse;
 
     constructor(data?: IBusinessProcessDetailsDataBatchResponse) {
         super(data);
+        if (!data) {
+            this.response = new BatchResponse();
+        }
         this._discriminator = "BusinessProcessDetailsDataBatchResponse";
     }
 
@@ -23363,7 +23395,7 @@ export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDeta
         super.init(data);
         if (data) {
             this.docType = data["docType"];
-            this.response = data["response"] ? BatchResponse.fromJS(data["response"]) : <any>undefined;
+            this.response = data["response"] ? BatchResponse.fromJS(data["response"]) : new BatchResponse();
         }
     }
 
@@ -23383,13 +23415,18 @@ export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDeta
     }
 }
 
+/** Business process detailed information regarding a batch operation */
 export interface IBusinessProcessDetailsDataBatchResponse extends IBusinessProcessDetailsDataBase {
-    docType?: string | undefined;
-    response?: IBatchResponse | undefined;
+    /** The DocType on which the operation was performed. */
+    docType: string;
+    /** The response of the batch operation. */
+    response: IBatchResponse;
 }
 
+/** Response from a batch operation */
 export class BatchResponse implements IBatchResponse {
-    rows?: BatchResponseRow[] | undefined;
+    /** Rows in the response. */
+    rows: BatchResponseRow[];
 
     constructor(data?: IBatchResponse) {
         if (data) {
@@ -23404,6 +23441,9 @@ export class BatchResponse implements IBatchResponse {
                     this.rows[i] = item && !(<any>item).toJSON ? new BatchResponseRow(item) : <BatchResponseRow>item;
                 }
             }
+        }
+        if (!data) {
+            this.rows = [];
         }
     }
 
@@ -23435,15 +23475,23 @@ export class BatchResponse implements IBatchResponse {
     }
 }
 
+/** Response from a batch operation */
 export interface IBatchResponse {
-    rows?: IBatchResponseRow[] | undefined;
+    /** Rows in the response. */
+    rows: IBatchResponseRow[];
 }
 
+/** Row in a batch operation response */
 export class BatchResponseRow implements IBatchResponseRow {
-    id?: string | undefined;
+    /** Id of the item. */
+    id: string;
+    /** Indicates if the operation succeeded. */
     succeeded: boolean;
+    /** Status code of the operation. */
     status: number;
+    /** New version of the item. */
     version: number;
+    /** If the operation did not succeeded, this contains error information. */
     error?: ErrorResponse | undefined;
 
     constructor(data?: IBatchResponseRow) {
@@ -23484,11 +23532,17 @@ export class BatchResponseRow implements IBatchResponseRow {
     }
 }
 
+/** Row in a batch operation response */
 export interface IBatchResponseRow {
-    id?: string | undefined;
+    /** Id of the item. */
+    id: string;
+    /** Indicates if the operation succeeded. */
     succeeded: boolean;
+    /** Status code of the operation. */
     status: number;
+    /** New version of the item. */
     version: number;
+    /** If the operation did not succeeded, this contains error information. */
     error?: IErrorResponse | undefined;
 }
 
@@ -23696,12 +23750,18 @@ export interface IListItemImportResult {
     importedListItemIds?: string[] | undefined;
 }
 
+/** Business process detailed information regarding a CDN purge operation */
 export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataCdnPurge {
-    serializedCdnConfiguration?: string | undefined;
-    jobs?: CdnPurgeJobBase[] | undefined;
+    /** Serialized CDN configuration. */
+    serializedCdnConfiguration: string;
+    /** Jobs that were processed in the operation. */
+    jobs: CdnPurgeJobBase[];
 
     constructor(data?: IBusinessProcessDetailsDataCdnPurge) {
         super(data);
+        if (!data) {
+            this.jobs = [];
+        }
         this._discriminator = "BusinessProcessDetailsDataCdnPurge";
     }
 
@@ -23737,13 +23797,19 @@ export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDa
     }
 }
 
+/** Business process detailed information regarding a CDN purge operation */
 export interface IBusinessProcessDetailsDataCdnPurge extends IBusinessProcessDetailsDataBase {
-    serializedCdnConfiguration?: string | undefined;
-    jobs?: CdnPurgeJobBase[] | undefined;
+    /** Serialized CDN configuration. */
+    serializedCdnConfiguration: string;
+    /** Jobs that were processed in the operation. */
+    jobs: CdnPurgeJobBase[];
 }
 
+/** Base class for a CDN purge job */
 export class CdnPurgeJobBase implements ICdnPurgeJobBase {
+    /** Indicates if the operation was performed successfully. */
     success: boolean;
+    /** Number of retries left until the operation is considered as failed. */
     retriesLeft: number;
 
     protected _discriminator: string;
@@ -23791,13 +23857,18 @@ export class CdnPurgeJobBase implements ICdnPurgeJobBase {
     }
 }
 
+/** Base class for a CDN purge job */
 export interface ICdnPurgeJobBase {
+    /** Indicates if the operation was performed successfully. */
     success: boolean;
+    /** Number of retries left until the operation is considered as failed. */
     retriesLeft: number;
 }
 
+/** Represents a CDN purge by tag (e.g. share ID) */
 export class CdnPurgeJobByTag extends CdnPurgeJobBase implements ICdnPurgeJobByTag {
-    tag?: string | undefined;
+    /** The tag that should be purged. */
+    tag: string;
 
     constructor(data?: ICdnPurgeJobByTag) {
         super(data);
@@ -23826,8 +23897,10 @@ export class CdnPurgeJobByTag extends CdnPurgeJobBase implements ICdnPurgeJobByT
     }
 }
 
+/** Represents a CDN purge by tag (e.g. share ID) */
 export interface ICdnPurgeJobByTag extends ICdnPurgeJobBase {
-    tag?: string | undefined;
+    /** The tag that should be purged. */
+    tag: string;
 }
 
 export class CdnPurgeJobByUri extends CdnPurgeJobBase implements ICdnPurgeJobByUri {
@@ -23864,7 +23937,9 @@ export interface ICdnPurgeJobByUri extends ICdnPurgeJobBase {
     uri?: string | undefined;
 }
 
+/** Business process detailed information regarding Content import */
 export class BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataContentImport {
+    /** Items that were imported. */
     items?: ContentImportResult[] | undefined;
 
     constructor(data?: IBusinessProcessDetailsDataContentImport) {
@@ -23902,15 +23977,23 @@ export class BusinessProcessDetailsDataContentImport extends BusinessProcessDeta
     }
 }
 
+/** Business process detailed information regarding Content import */
 export interface IBusinessProcessDetailsDataContentImport extends IBusinessProcessDetailsDataBase {
+    /** Items that were imported. */
     items?: IContentImportResult[] | undefined;
 }
 
+/** Represents an item imported during a content import */
 export class ContentImportResult implements IContentImportResult {
-    fileTransferId?: string | undefined;
+    /** ID of the file transfer. */
+    fileTransferId: string;
+    /** ID of the resulting content. */
     contentId?: string | undefined;
+    /** State of the item. */
     state?: string | undefined;
+    /** Indicates if the operation succeeded. */
     succeeded: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
     error?: ErrorResponse | undefined;
 
     constructor(data?: IContentImportResult) {
@@ -23951,11 +24034,17 @@ export class ContentImportResult implements IContentImportResult {
     }
 }
 
+/** Represents an item imported during a content import */
 export interface IContentImportResult {
-    fileTransferId?: string | undefined;
+    /** ID of the file transfer. */
+    fileTransferId: string;
+    /** ID of the resulting content. */
     contentId?: string | undefined;
+    /** State of the item. */
     state?: string | undefined;
+    /** Indicates if the operation succeeded. */
     succeeded: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
     error?: IErrorResponse | undefined;
 }
 
@@ -24870,26 +24959,26 @@ export class ContentDetail implements IContentDetail {
     /** Audit data with information regarding document creation and modification. */
     audit?: UserAudit | undefined;
     /** The content data */
-    content?: any | undefined;
+    content: any;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
     /** The id of the content schema */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** The type of content */
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's
              display pattern configuration. */
-    displayValues?: DisplayValueDictionary | undefined;
+    displayValues: DisplayValueDictionary;
     /** The content id. */
-    id?: string | undefined;
+    id: string;
     /** An optional list of layer schemas ids */
-    layerSchemaIds?: string[] | undefined;
+    layerSchemaIds: string[];
     /** The metadata dictionary */
     metadata?: DataDictionary | undefined;
     /** A list of rendering ouputs for underlying digital file. */
-    outputs?: Output[] | undefined;
+    outputs: Output[];
     /** The id of a owner token. Defines the content owner. */
-    ownerTokenId?: string | undefined;
+    ownerTokenId: string;
     /** The lifecycle of the content. */
     lifeCycle: LifeCycle;
 
@@ -24902,6 +24991,11 @@ export class ContentDetail implements IContentDetail {
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
             this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
+        }
+        if (!data) {
+            this.displayValues = new DisplayValueDictionary();
+            this.layerSchemaIds = [];
+            this.outputs = [];
         }
     }
 
@@ -24916,7 +25010,7 @@ export class ContentDetail implements IContentDetail {
             }
             this.contentSchemaId = data["contentSchemaId"];
             this.contentType = data["contentType"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : new DisplayValueDictionary();
             this.id = data["id"];
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
@@ -24976,26 +25070,26 @@ export interface IContentDetail {
     /** Audit data with information regarding document creation and modification. */
     audit?: IUserAudit | undefined;
     /** The content data */
-    content?: any | undefined;
+    content: any;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
     /** The id of the content schema */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** The type of content */
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's
              display pattern configuration. */
-    displayValues?: IDisplayValueDictionary | undefined;
+    displayValues: IDisplayValueDictionary;
     /** The content id. */
-    id?: string | undefined;
+    id: string;
     /** An optional list of layer schemas ids */
-    layerSchemaIds?: string[] | undefined;
+    layerSchemaIds: string[];
     /** The metadata dictionary */
     metadata?: IDataDictionary | undefined;
     /** A list of rendering ouputs for underlying digital file. */
-    outputs?: Output[] | undefined;
+    outputs: Output[];
     /** The id of a owner token. Defines the content owner. */
-    ownerTokenId?: string | undefined;
+    ownerTokenId: string;
     /** The lifecycle of the content. */
     lifeCycle: LifeCycle;
 }
@@ -25091,11 +25185,11 @@ export interface IDataDictionary {
 /** Output */
 export class Output implements IOutput {
     /** The ID of the output. */
-    id?: string | undefined;
+    id: string;
     /** The ID of the output format this output represents. */
-    outputFormatId?: string | undefined;
+    outputFormatId: string;
     /** The ID of the content for which this output has been created. */
-    contentId?: string | undefined;
+    contentId: string;
     /** The rendering state of the output file. */
     renderingState: OutputRenderingState;
     /** Detail of the output that are format dependent. */
@@ -25154,11 +25248,11 @@ export class Output implements IOutput {
 /** Output */
 export interface IOutput {
     /** The ID of the output. */
-    id?: string | undefined;
+    id: string;
     /** The ID of the output format this output represents. */
-    outputFormatId?: string | undefined;
+    outputFormatId: string;
     /** The ID of the content for which this output has been created. */
-    contentId?: string | undefined;
+    contentId: string;
     /** The rendering state of the output file. */
     renderingState: OutputRenderingState;
     /** Detail of the output that are format dependent. */
@@ -25746,14 +25840,14 @@ export interface IContentSearchResult extends ISearchBehaviorBaseResultOfContent
 export class Content implements IContent {
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** The content type of this content. All except ContentItem are binary files. */
     contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues?: { [key: string] : string; } | undefined;
-    id?: string | undefined;
+    displayValues: { [key: string] : string; };
+    id: string;
     /** All the ids of the broken references (tagboxes) */
     brokenReferenceIds?: string[] | undefined;
     /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
@@ -25768,6 +25862,9 @@ export class Content implements IContent {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+        }
+        if (!data) {
+            this.displayValues = {};
         }
     }
 
@@ -25854,14 +25951,14 @@ export class Content implements IContent {
 export interface IContent {
     audit?: IUserAudit | undefined;
     /** The id of the schema with schema type content. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** The content type of this content. All except ContentItem are binary files. */
     contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
     /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues?: { [key: string] : string; } | undefined;
-    id?: string | undefined;
+    displayValues: { [key: string] : string; };
+    id: string;
     /** All the ids of the broken references (tagboxes) */
     brokenReferenceIds?: string[] | undefined;
     /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
@@ -32040,6 +32137,7 @@ export interface ISessionRenewalEvent extends IApplicationEvent {
     authorizationState: AuthorizationState;
 }
 
+/** User authorization state. */
 export enum AuthorizationState {
     Reviewed = <any>"Reviewed", 
     ToBeReviewed = <any>"ToBeReviewed", 
@@ -32552,19 +32650,33 @@ export interface IOutputSearchRequest {
     outputFormatIds?: string[] | undefined;
 }
 
+/** User profile. */
 export class UserProfile implements IUserProfile {
+    /** ID of the user. */
     id?: string | undefined;
+    /** Email address. */
     emailAddress?: string | undefined;
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
+    /** Language code. */
     languageCode?: string | undefined;
+    /** Address. */
     address?: UserAddress | undefined;
+    /** Authorization state. */
     authorizationState: AuthorizationState;
+    /** Indicates if the user is locked. */
     isLocked: boolean;
+    /** A list of user rights assigned to the user. */
     userRights?: UserRight[] | undefined;
+    /** A list of user role IDs assigned to the user. */
     userRoleIds?: string[] | undefined;
+    /** Indicates if the user has not accepted the latest terms of consent. */
     termsConsentExpired: boolean;
+    /** A list of system user roles assigned to the user. */
     systemUserRoles?: SystemUserRole[] | undefined;
+    /** Indicates if the user has the developer flag set. */
     isDeveloper: boolean;
 
     constructor(data?: IUserProfile) {
@@ -32645,19 +32757,33 @@ export class UserProfile implements IUserProfile {
     }
 }
 
+/** User profile. */
 export interface IUserProfile {
+    /** ID of the user. */
     id?: string | undefined;
+    /** Email address. */
     emailAddress?: string | undefined;
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
+    /** Language code. */
     languageCode?: string | undefined;
+    /** Address. */
     address?: IUserAddress | undefined;
+    /** Authorization state. */
     authorizationState: AuthorizationState;
+    /** Indicates if the user is locked. */
     isLocked: boolean;
+    /** A list of user rights assigned to the user. */
     userRights?: UserRight[] | undefined;
+    /** A list of user role IDs assigned to the user. */
     userRoleIds?: string[] | undefined;
+    /** Indicates if the user has not accepted the latest terms of consent. */
     termsConsentExpired: boolean;
+    /** A list of system user roles assigned to the user. */
     systemUserRoles?: SystemUserRole[] | undefined;
+    /** Indicates if the user has the developer flag set. */
     isDeveloper: boolean;
 }
 
@@ -32743,16 +32869,24 @@ export interface IUserAddress {
     countryCode?: string | undefined;
 }
 
+/** System user roles. */
 export enum SystemUserRole {
     Administrator = <any>"Administrator", 
 }
 
+/** Request to update a user profile. */
 export class UserProfileUpdateRequest implements IUserProfileUpdateRequest {
+    /** ID of the user. */
     id?: string | undefined;
+    /** Email address. */
     emailAddress?: string | undefined;
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
+    /** Language code. */
     languageCode?: string | undefined;
+    /** Address. */
     address?: UserAddress | undefined;
 
     constructor(data?: IUserProfileUpdateRequest) {
@@ -32795,12 +32929,19 @@ export class UserProfileUpdateRequest implements IUserProfileUpdateRequest {
     }
 }
 
+/** Request to update a user profile. */
 export interface IUserProfileUpdateRequest {
+    /** ID of the user. */
     id?: string | undefined;
+    /** Email address. */
     emailAddress?: string | undefined;
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
+    /** Language code. */
     languageCode?: string | undefined;
+    /** Address. */
     address?: IUserAddress | undefined;
 }
 
