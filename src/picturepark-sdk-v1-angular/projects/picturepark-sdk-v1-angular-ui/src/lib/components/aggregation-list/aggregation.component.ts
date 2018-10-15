@@ -149,7 +149,7 @@ export abstract class AggregationComponent implements OnChanges {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
 
-    return aggregator;
+    return aggregator as TermsAggregator;
   }
 
   private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
