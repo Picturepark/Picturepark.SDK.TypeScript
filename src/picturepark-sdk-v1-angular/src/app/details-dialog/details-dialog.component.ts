@@ -67,10 +67,10 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
     const isImage = !isMovie && !isPdf;
 
     const previewOutput =
-      isPdf ? this.content.outputs.filter(o => o.outputFormatId === 'Original')[0] :
-        isAudio ? this.content.outputs.filter(o => o.outputFormatId === 'AudioSmall')[0] :
-          isVideo ? this.content.outputs.filter(o => o.outputFormatId === 'VideoSmall')[0] :
-            this.content.outputs.filter(o => o.outputFormatId === 'Preview')[0];
+      isPdf ? this.content.outputs!.filter(o => o.outputFormatId === 'Original')[0] :
+        isAudio ? this.content.outputs!.filter(o => o.outputFormatId === 'AudioSmall')[0] :
+          isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
+            this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
 
     const request = new ContentDownloadLinkCreateRequest({
       contents: [
