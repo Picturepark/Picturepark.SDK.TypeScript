@@ -6801,7 +6801,7 @@ export class ShareClient extends PictureparkClientBase {
 
     /**
      * Get share json
-     * @param token The token
+     * @param token Share token
      * @return ShareDetail
      */
     getShareJson(token: string): Promise<any> {
@@ -6881,7 +6881,7 @@ export class ShareClient extends PictureparkClientBase {
 
     /**
      * Download shared outputs
-     * @param token The token
+     * @param token Share token
      * @param width (optional) Optional width in pixels to resize image
      * @param height (optional) Optional height in pixels to resize image
      * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
@@ -6977,7 +6977,7 @@ export class ShareClient extends PictureparkClientBase {
 
     /**
      * Download shared outputs
-     * @param token The token
+     * @param token Share token
      * @param contentId The content id
      * @param width (optional) Optional width in pixels to resize image
      * @param height (optional) Optional height in pixels to resize image
@@ -7077,7 +7077,7 @@ export class ShareClient extends PictureparkClientBase {
 
     /**
      * Download shared outputs
-     * @param token The token
+     * @param token Share token
      * @param contentId The content id
      * @param outputFormatId The output format id+
      * @param width (optional) Optional width in pixels to resize image
@@ -10903,10 +10903,15 @@ export interface CustomerNotAvailableException extends PictureparkException {
 
 /** Search request to search for business processes */
 export interface BusinessProcessSearchRequest {
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
 }
 
@@ -13625,28 +13630,34 @@ export interface Share {
 export interface ShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
+    /** Limits the document count of the result set. */
     limit: number;
-    /** An optional search filter. Limits the share document result set. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
     debugMode: boolean;
 }
 
 export interface ShareAggregationRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the list item should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
 }
 
@@ -13746,7 +13757,8 @@ export interface BulkResponseRow {
 }
 
 export interface ShareDeleteManyRequest {
-    ids?: string[] | undefined;
+    /** IDs of shares to delete. */
+    ids: string[];
 }
 
 /** Represents a transfer and includes detailed information. */
@@ -13789,10 +13801,15 @@ export interface TransferSearchResult extends SearchBehaviorBaseResultOfTransfer
 
 /** Request to search for transfers. */
 export interface TransferSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 }
 
@@ -14015,10 +14032,15 @@ export interface FileTransferSearchResult extends SearchBehaviorBaseResultOfFile
 
 /** Request to search for file transfers. */
 export interface FileTransferSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 }
 
