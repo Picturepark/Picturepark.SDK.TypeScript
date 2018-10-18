@@ -38,7 +38,6 @@ export class PictureparkRenderEngine {
             return item.originalUrl + `?width=${width}&height=${height}`;
           }
         } catch (ex) {
-          console.log(ex);
           return "";
         }
       }
