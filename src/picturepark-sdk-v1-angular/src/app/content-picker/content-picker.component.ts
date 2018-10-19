@@ -1,11 +1,13 @@
-import { ContentItemSelectionService } from '../../services/content-item-selection.service';
-import { BasketService } from './../../services/basket.service';
+import {
+  ContentItemSelectionService,
+  BasketService
+} from '@picturepark/sdk-v1-angular-ui';
 import { DetailsDialogComponent } from './../details-dialog/details-dialog.component';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AggregationResult, AuthService, Channel, FilterBase } from '../../services/services';
-import { OidcAuthService } from '../../auth/oidc-auth.service';
+import { AggregationResult, AuthService, Channel, FilterBase } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { MatDialog } from '@angular/material/dialog';
 import { EmbedService } from '../embed.service';
 
@@ -43,7 +45,7 @@ export class ContentPickerComponent implements OnInit {
   }
 
   public openDetails(itemId: string) {
-    this.dialog.open(DetailsDialogComponent, { data: itemId })
+    this.dialog.open(DetailsDialogComponent, { data: itemId });
   }
 
 
@@ -52,7 +54,7 @@ export class ContentPickerComponent implements OnInit {
     if (this.authService.isAuthenticated && !this.messagePosted && window.opener) {
       window.opener.postMessage('undefined', '*');
     }
-  };
+  }
 
   public ngOnInit() {
     if (this.route.snapshot.queryParams['postUrl']) {

@@ -1,0 +1,29 @@
+<div class="content-item" [class.content-item--selected]="itemModel.isSelected" [class.content-item--list-view]="isListView">
+  <div class="content-item__image-slot">
+    <div class="content-item__image-container" *ngIf="virtualItemHtml === null; else virtualContent">
+      <img *ngIf="!isLoading" class="content-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+      />
+    </div>
+
+    <ng-template #virtualContent>
+      <div class="content-item__image-virtual-item-container" [innerHTML]="virtualItemHtml"></div>
+    </ng-template>
+
+    <div class="content-item__actions">
+      <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate">
+        <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
+      </button>
+      <button mat-icon-button (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate">
+        <mat-icon aria-label="Download content item">get_app</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="content-item__title mat-subheading-2">
+    <div>{{ itemModel.item.displayValues!['name'] || 'n/a'}}</div>
+    <div class="mat-subheading-1" *ngIf="isListView">{{ itemModel.item.displayValues!['list'] || 'n/a'}}</div>
+  </div>
+  <button class="content-item__basket-icon" mat-mini-fab (click)="toggleInBasket(); $event.stopPropagation()" [class.content-item__basket-icon--selected]="itemModel.isInBasket"
+    [color]="itemModel.isInBasket ? 'accent' : 'basic'" [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
+    <mat-icon aria-label="Add item to basket">add</mat-icon>
+  </button>
+</div>

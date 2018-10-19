@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Content, ShareService, ShareEmbedCreateRequest, OutputAccess, ShareDetail, ShareContent } from '../services/services';
+import {
+  ShareService,
+  ShareEmbedCreateRequest,
+  OutputAccess,
+  ShareDetail,
+  ShareContent
+} from '@picturepark/sdk-v1-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +23,7 @@ export class EmbedService {
 
       try {
         const result = await this.shareService.create(new ShareEmbedCreateRequest({
+          name: 'Embed',
           contents: contentItems,
           outputAccess: OutputAccess.Full
         })).toPromise();

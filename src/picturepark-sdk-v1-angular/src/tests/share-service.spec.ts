@@ -4,7 +4,7 @@ import { async, inject } from '@angular/core/testing';
 import {
   ContentService, ContentSearchRequest,
   ShareContent, ShareBasicCreateRequest, ShareService, OutputAccess
-} from '../services/services';
+} from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
 
 describe('ShareService', () => {
@@ -25,6 +25,8 @@ describe('ShareService', () => {
       }));
 
       const result = await shareService.create(new ShareBasicCreateRequest({
+        name: 'Share',
+        languageCode: 'en',
         contents: contents,
         outputAccess: OutputAccess.Full
       })).toPromise();
@@ -32,7 +34,7 @@ describe('ShareService', () => {
       const share = await shareService.get(result!.shareId!).toPromise();
 
       // assert
-      expect(result!.shareId).not.toBeNull();
-      expect(share!.id).toEqual(result!.shareId);
+      expect(result.shareId).not.toBeNull();
+      expect(share.id).toEqual(result.shareId!);
     })));
 });

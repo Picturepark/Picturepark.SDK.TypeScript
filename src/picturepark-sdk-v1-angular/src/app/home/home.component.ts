@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 
-import { AuthService } from '../../services/services';
-import { OidcAuthService } from '../../auth/oidc-auth.service';
+import { AuthService } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 
 @Component({
