@@ -569,7 +569,8 @@ export class ChannelService extends PictureparkServiceBase {
     }
 
     /**
-     * Get list of channels
+     * Get channels
+     * @return List of channel
      */
     getChannels(): Observable<Channel[]> {
         let url_ = this.baseUrl + "/v1/channels";
@@ -1329,7 +1330,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Object aggregation result
      */
     aggregateOnChannel(contentAggregationOnChannelRequest: ContentAggregationOnChannelRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v1/contents/aggregateonchannel";
+        let url_ = this.baseUrl + "/v1/contents/aggregateOnChannel";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentAggregationOnChannelRequest);
@@ -3510,7 +3511,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     /**
      * Search
      * @param documentHistorySearchRequest The document history search request
-     * @return DocumentHistorySearchResult
+     * @return Document history search result
      */
     search(documentHistorySearchRequest: DocumentHistorySearchRequest): Observable<DocumentHistorySearchResult> {
         let url_ = this.baseUrl + "/v1/history/search";
@@ -3608,8 +3609,8 @@ export class DocumentHistoryService extends PictureparkServiceBase {
 
     /**
      * Get latest
-     * @param id The id of the document (e.g. ContentId)
-     * @return DocumentHistory
+     * @param id The ID of the document (e.g. contentId)
+     * @return Document history item
      */
     get(id: string): Observable<DocumentHistory> {
         let url_ = this.baseUrl + "/v1/history/{id}";
@@ -3707,9 +3708,9 @@ export class DocumentHistoryService extends PictureparkServiceBase {
 
     /**
      * Get latest by version
-     * @param id The id of the document (e.g. ContentId)
+     * @param id The ID of the document (e.g. contentId)
      * @param version The version
-     * @return DocumentHistory
+     * @return Document history item
      */
     getVersion(id: string, version: string): Observable<DocumentHistory> {
         let url_ = this.baseUrl + "/v1/history/{id}/{version}";
@@ -3810,9 +3811,9 @@ export class DocumentHistoryService extends PictureparkServiceBase {
 
     /**
      * Get latest difference
-     * @param id The id of the document (e.g. ContentId)
+     * @param id The ID of the document (e.g. contentId)
      * @param oldVersion The old version
-     * @return DocumentHistoryDifference
+     * @return Document history difference
      */
     getDifferenceLatest(id: string, oldVersion: number): Observable<DocumentHistoryDifference> {
         let url_ = this.baseUrl + "/v1/history/{id}/difference/{oldVersion}";
@@ -3913,10 +3914,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
 
     /**
      * Get difference
-     * @param id The id of the document (e.g. ContentId)
+     * @param id The ID of the document (e.g. contentId)
      * @param oldVersion The old version
      * @param newVersion The new version
-     * @return DocumentHistoryDifference
+     * @return Document history difference
      */
     getDifference(id: string, oldVersion: number, newVersion: number): Observable<DocumentHistoryDifference> {
         let url_ = this.baseUrl + "/v1/history/{id}/difference/{oldVersion}/{newVersion}";
@@ -4129,7 +4130,7 @@ export class InfoService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Version
+     * Get version
      * @return VersionInfo
      */
     getVersion(): Observable<VersionInfo> {
@@ -6003,105 +6004,6 @@ export class LiveStreamService extends PictureparkServiceBase {
     }
 
     /**
-     * Search LiveStream
-     * @param liveStreamSearchRequest The livestream search request
-     * @return ObjectSearchResult
-     */
-    search(liveStreamSearchRequest: LiveStreamSearchRequest): Observable<ObjectSearchResult> {
-        let url_ = this.baseUrl + "/v1/liveStream/search";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(liveStreamSearchRequest);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processSearch(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSearch(<any>response_);
-                } catch (e) {
-                    return <Observable<ObjectSearchResult>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ObjectSearchResult>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processSearch(response: HttpResponseBase): Observable<ObjectSearchResult> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ObjectSearchResult.fromJS(resultData200) : new ObjectSearchResult();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ObjectSearchResult>(<any>null);
-    }
-
-    /**
      * This endpoint cannot be used. It is kept to generate LiveStream message contracts
      * @return OK
      * @deprecated
@@ -7873,218 +7775,6 @@ export class SchemaTransferService extends PictureparkServiceBase {
 @Injectable({
     providedIn: 'root'
 })
-export class ServiceProviderService extends PictureparkServiceBase {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        super(configuration);
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
-    }
-
-    /**
-     * Get configuration
-     */
-    getConfiguration(serviceProviderId: string): Observable<CustomerServiceProviderConfiguration> {
-        let url_ = this.baseUrl + "/v1/serviceProviders/{serviceProviderId}/configuration";
-        if (serviceProviderId === undefined || serviceProviderId === null)
-            throw new Error("The parameter 'serviceProviderId' must be defined.");
-        url_ = url_.replace("{serviceProviderId}", encodeURIComponent("" + serviceProviderId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetConfiguration(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetConfiguration(<any>response_);
-                } catch (e) {
-                    return <Observable<CustomerServiceProviderConfiguration>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<CustomerServiceProviderConfiguration>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetConfiguration(response: HttpResponseBase): Observable<CustomerServiceProviderConfiguration> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? CustomerServiceProviderConfiguration.fromJS(resultData200) : new CustomerServiceProviderConfiguration();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CustomerServiceProviderConfiguration>(<any>null);
-    }
-
-    /**
-     * Update configuration
-     */
-    updateConfiguration(serviceProviderId: string, configuration: ServiceProviderConfigurationUpdateRequest): Observable<CustomerServiceProviderConfiguration> {
-        let url_ = this.baseUrl + "/v1/serviceProviders/{serviceProviderId}/configuration";
-        if (serviceProviderId === undefined || serviceProviderId === null)
-            throw new Error("The parameter 'serviceProviderId' must be defined.");
-        url_ = url_.replace("{serviceProviderId}", encodeURIComponent("" + serviceProviderId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(configuration);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processUpdateConfiguration(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateConfiguration(<any>response_);
-                } catch (e) {
-                    return <Observable<CustomerServiceProviderConfiguration>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<CustomerServiceProviderConfiguration>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdateConfiguration(response: HttpResponseBase): Observable<CustomerServiceProviderConfiguration> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? CustomerServiceProviderConfiguration.fromJS(resultData200) : new CustomerServiceProviderConfiguration();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CustomerServiceProviderConfiguration>(<any>null);
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
 export class ShareService extends PictureparkServiceBase {
     private http: HttpClient;
     private baseUrl: string;
@@ -8097,9 +7787,9 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Get - single
-     * @param id Share Id (not token, use PublicAccess to get share by token)
-     * @return Polymorph share
+     * Get
+     * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
+     * @return Share detail
      */
     get(id: string): Observable<ShareDetail> {
         let url_ = this.baseUrl + "/v1/shares/{id}";
@@ -8196,10 +7886,10 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Update - single
+     * Update
      * @param id The share id.
      * @param updateRequest The share update request.
-     * @return Share
+     * @return Share detail
      */
     update(id: string, updateRequest: ShareBaseUpdateRequest): Observable<ShareDetail> {
         let url_ = this.baseUrl + "/v1/shares/{id}";
@@ -8400,7 +8090,7 @@ export class ShareService extends PictureparkServiceBase {
     /**
      * Aggregate
      * @param request Aggregation request
-     * @return AggregationResult
+     * @return Share aggregation result
      */
     aggregate(request: ShareAggregationRequest): Observable<ObjectAggregationResult> {
         let url_ = this.baseUrl + "/v1/shares/aggregate";
@@ -8497,8 +8187,8 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Create - single
-     * @param request Polymorph create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
+     * Create
+     * @param request Polymorphic create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
      * @return Create result
      */
     create(request: ShareBaseCreateRequest): Observable<CreateShareResult> {
@@ -8603,7 +8293,7 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Delete - many
+     * Delete multiple shares
      * @param deleteManyRequest A delete many request containing the ids of the shares to delete.
      * @return BusinessProcess
      */
@@ -8702,8 +8392,8 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Get Share json
-     * @param token The token
+     * Get share json
+     * @param token Share token
      * @return ShareDetail
      */
     getShareJson(token: string): Observable<any> {
@@ -8801,8 +8491,8 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Download Shared outputs
-     * @param token The token
+     * Download shared outputs
+     * @param token Share token
      * @param width (optional) Optional width in pixels to resize image
      * @param height (optional) Optional height in pixels to resize image
      * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
@@ -8915,8 +8605,8 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Download Shared outputs
-     * @param token The token
+     * Download shared outputs
+     * @param token Share token
      * @param contentId The content id
      * @param width (optional) Optional width in pixels to resize image
      * @param height (optional) Optional height in pixels to resize image
@@ -9033,8 +8723,8 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
-     * Download Shared outputs
-     * @param token The token
+     * Download shared outputs
+     * @param token Share token
      * @param contentId The content id
      * @param outputFormatId The output format id+
      * @param width (optional) Optional width in pixels to resize image
@@ -12484,8 +12174,7 @@ export class UserRoleService extends PictureparkServiceBase {
 export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess {
     totalResults: number;
     results: BusinessProcess[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfBusinessProcess) {
         if (data) {
@@ -12493,7 +12182,6 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -12508,8 +12196,7 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
                 for (let item of data["results"])
                     this.results.push(BusinessProcess.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -12528,8 +12215,7 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -12537,13 +12223,13 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
 export interface IBaseResultOfBusinessProcess {
     totalResults: number;
     results: BusinessProcess[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess implements ISearchBehaviorBaseResultOfBusinessProcess {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfBusinessProcess) {
         super(data);
@@ -12554,6 +12240,7 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -12568,6 +12255,7 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -12576,12 +12264,11 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
 export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultOfBusinessProcess {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Search result from a search for business processes */
 export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusinessProcess implements IBusinessProcessSearchResult {
-    /** Elapsed time in milliseconds for the search request. */
-    elapsedMilliseconds: number;
 
     constructor(data?: IBusinessProcessSearchResult) {
         super(data);
@@ -12590,7 +12277,6 @@ export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusin
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -12603,7 +12289,6 @@ export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusin
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -12611,8 +12296,54 @@ export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusin
 
 /** Search result from a search for business processes */
 export interface IBusinessProcessSearchResult extends ISearchBehaviorBaseResultOfBusinessProcess {
-    /** Elapsed time in milliseconds for the search request. */
-    elapsedMilliseconds: number;
+}
+
+export class QueryDebugInformation implements IQueryDebugInformation {
+    general?: string | undefined;
+    auditTrail?: string | undefined;
+    request?: any | undefined;
+    response?: any | undefined;
+
+    constructor(data?: IQueryDebugInformation) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.general = data["general"];
+            this.auditTrail = data["auditTrail"];
+            this.request = data["request"];
+            this.response = data["response"];
+        }
+    }
+
+    static fromJS(data: any): QueryDebugInformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new QueryDebugInformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["general"] = this.general;
+        data["auditTrail"] = this.auditTrail;
+        data["request"] = this.request;
+        data["response"] = this.response;
+        return data; 
+    }
+}
+
+export interface IQueryDebugInformation {
+    general?: string | undefined;
+    auditTrail?: string | undefined;
+    request?: any | undefined;
+    response?: any | undefined;
 }
 
 /** Business process */
@@ -12871,54 +12602,6 @@ export interface IErrorResponse {
     traceId?: string | undefined;
     /** Trace job ID. */
     traceJobId?: string | undefined;
-}
-
-export class QueryDebugInformation implements IQueryDebugInformation {
-    general?: string | undefined;
-    auditTrail?: string | undefined;
-    request?: any | undefined;
-    response?: any | undefined;
-
-    constructor(data?: IQueryDebugInformation) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.general = data["general"];
-            this.auditTrail = data["auditTrail"];
-            this.request = data["request"];
-            this.response = data["response"];
-        }
-    }
-
-    static fromJS(data: any): QueryDebugInformation {
-        data = typeof data === 'object' ? data : {};
-        let result = new QueryDebugInformation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["general"] = this.general;
-        data["auditTrail"] = this.auditTrail;
-        data["request"] = this.request;
-        data["response"] = this.response;
-        return data; 
-    }
-}
-
-export interface IQueryDebugInformation {
-    general?: string | undefined;
-    auditTrail?: string | undefined;
-    request?: any | undefined;
-    response?: any | undefined;
 }
 
 export class Exception implements IException {
@@ -18055,6 +17738,7 @@ export enum UserRight {
     ManageTermsOfService = <any>"ManageTermsOfService", 
     ManageLiveStream = <any>"ManageLiveStream", 
     ManageDocumentHistory = <any>"ManageDocumentHistory", 
+    ManageAllShares = <any>"ManageAllShares", 
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -22072,10 +21756,15 @@ export interface ICustomerNotAvailableException extends IPictureparkException {
 
 /** Search request to search for business processes */
 export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
 
     constructor(data?: IBusinessProcessSearchRequest) {
@@ -22125,10 +21814,15 @@ export class BusinessProcessSearchRequest implements IBusinessProcessSearchReque
 
 /** Search request to search for business processes */
 export interface IBusinessProcessSearchRequest {
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
 }
 
@@ -24049,27 +23743,31 @@ export interface IContentImportResult {
 }
 
 export class Channel implements IChannel {
-    id?: string | undefined;
+    /** ID of channel. */
+    id: string;
+    /** Numeric sort order of the channel. Channels are returned ordered by this field. */
     sortOrder: number;
-    /** The search index id. */
-    searchIndexId?: string | undefined;
-    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+    /** The search index ID where the channel requests the content from. Only RootContentSearchIndex is supported. */
+    searchIndexId: string;
+    /** An ID list of schemas with schema type content whose content documents should be found by the simple search.
 The search by filters and aggregations are unaffected. */
-    schemaIds?: string[] | undefined;
+    schemaIds: string[];
     /** An optional search filter. Limits the content document result set on each search and aggregation request. */
     filter?: FilterBase | undefined;
     /** Language specific names. */
-    names?: TranslatedStringDictionary | undefined;
-    sort?: SortInfo[] | undefined;
+    names: TranslatedStringDictionary;
+    /** Default sort order specified for the channel to sort the results of a content search. */
+    sort: SortInfo[];
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
-    aggregations?: AggregatorBase[] | undefined;
+    aggregations: AggregatorBase[];
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
-    extendedSimpleSearchFields?: string[] | undefined;
+    extendedSimpleSearchFields: string[];
     /** User roles granted access to the channel. */
-    grantedUserRoleIds?: string[] | undefined;
+    grantedUserRoleIds: string[];
     /** Display pattern to use for rendering details when 0 results are returned */
-    missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
-    audit?: UserAudit | undefined;
+    missingResultsDisplayPatterns: TranslatedStringDictionary;
+    /** Audit information. */
+    audit: UserAudit;
 
     constructor(data?: IChannel) {
         if (data) {
@@ -24088,6 +23786,16 @@ The search by filters and aggregations are unaffected. */
             this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
         }
+        if (!data) {
+            this.schemaIds = [];
+            this.names = new TranslatedStringDictionary();
+            this.sort = [];
+            this.aggregations = [];
+            this.extendedSimpleSearchFields = [];
+            this.grantedUserRoleIds = [];
+            this.missingResultsDisplayPatterns = new TranslatedStringDictionary();
+            this.audit = new UserAudit();
+        }
     }
 
     init(data?: any) {
@@ -24101,7 +23809,7 @@ The search by filters and aggregations are unaffected. */
                     this.schemaIds.push(item);
             }
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (data["sort"] && data["sort"].constructor === Array) {
                 this.sort = [];
                 for (let item of data["sort"])
@@ -24122,8 +23830,8 @@ The search by filters and aggregations are unaffected. */
                 for (let item of data["grantedUserRoleIds"])
                     this.grantedUserRoleIds.push(item);
             }
-            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : <any>undefined;
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : new TranslatedStringDictionary();
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
         }
     }
 
@@ -24173,27 +23881,31 @@ The search by filters and aggregations are unaffected. */
 }
 
 export interface IChannel {
-    id?: string | undefined;
+    /** ID of channel. */
+    id: string;
+    /** Numeric sort order of the channel. Channels are returned ordered by this field. */
     sortOrder: number;
-    /** The search index id. */
-    searchIndexId?: string | undefined;
-    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+    /** The search index ID where the channel requests the content from. Only RootContentSearchIndex is supported. */
+    searchIndexId: string;
+    /** An ID list of schemas with schema type content whose content documents should be found by the simple search.
 The search by filters and aggregations are unaffected. */
-    schemaIds?: string[] | undefined;
+    schemaIds: string[];
     /** An optional search filter. Limits the content document result set on each search and aggregation request. */
     filter?: FilterBase | undefined;
     /** Language specific names. */
-    names?: ITranslatedStringDictionary | undefined;
-    sort?: ISortInfo[] | undefined;
+    names: ITranslatedStringDictionary;
+    /** Default sort order specified for the channel to sort the results of a content search. */
+    sort: ISortInfo[];
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
-    aggregations?: AggregatorBase[] | undefined;
+    aggregations: AggregatorBase[];
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
-    extendedSimpleSearchFields?: string[] | undefined;
+    extendedSimpleSearchFields: string[];
     /** User roles granted access to the channel. */
-    grantedUserRoleIds?: string[] | undefined;
+    grantedUserRoleIds: string[];
     /** Display pattern to use for rendering details when 0 results are returned */
-    missingResultsDisplayPatterns?: ITranslatedStringDictionary | undefined;
-    audit?: IUserAudit | undefined;
+    missingResultsDisplayPatterns: ITranslatedStringDictionary;
+    /** Audit information. */
+    audit: IUserAudit;
 }
 
 /** Sorting information */
@@ -24968,7 +24680,7 @@ export class ContentDetail implements IContentDetail {
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's
              display pattern configuration. */
-    displayValues: DisplayValueDictionary;
+    displayValues?: DisplayValueDictionary | undefined;
     /** The content id. */
     id: string;
     /** An optional list of layer schemas ids */
@@ -24976,7 +24688,7 @@ export class ContentDetail implements IContentDetail {
     /** The metadata dictionary */
     metadata?: DataDictionary | undefined;
     /** A list of rendering ouputs for underlying digital file. */
-    outputs: Output[];
+    outputs?: Output[] | undefined;
     /** The id of a owner token. Defines the content owner. */
     ownerTokenId: string;
     /** The lifecycle of the content. */
@@ -24993,9 +24705,7 @@ export class ContentDetail implements IContentDetail {
             this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
         if (!data) {
-            this.displayValues = new DisplayValueDictionary();
             this.layerSchemaIds = [];
-            this.outputs = [];
         }
     }
 
@@ -25010,7 +24720,7 @@ export class ContentDetail implements IContentDetail {
             }
             this.contentSchemaId = data["contentSchemaId"];
             this.contentType = data["contentType"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : new DisplayValueDictionary();
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
@@ -25079,7 +24789,7 @@ export interface IContentDetail {
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's
              display pattern configuration. */
-    displayValues: IDisplayValueDictionary;
+    displayValues?: IDisplayValueDictionary | undefined;
     /** The content id. */
     id: string;
     /** An optional list of layer schemas ids */
@@ -25087,7 +24797,7 @@ export interface IContentDetail {
     /** The metadata dictionary */
     metadata?: IDataDictionary | undefined;
     /** A list of rendering ouputs for underlying digital file. */
-    outputs: Output[];
+    outputs?: Output[] | undefined;
     /** The id of a owner token. Defines the content owner. */
     ownerTokenId: string;
     /** The lifecycle of the content. */
@@ -25699,8 +25409,7 @@ export enum ContentResolveBehaviour {
 export class BaseResultOfContent implements IBaseResultOfContent {
     totalResults: number;
     results: Content[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfContent) {
         if (data) {
@@ -25715,7 +25424,6 @@ export class BaseResultOfContent implements IBaseResultOfContent {
                     this.results[i] = item && !(<any>item).toJSON ? new Content(item) : <Content>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -25730,8 +25438,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
                 for (let item of data["results"])
                     this.results.push(Content.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -25750,8 +25457,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -25759,13 +25465,13 @@ export class BaseResultOfContent implements IBaseResultOfContent {
 export interface IBaseResultOfContent {
     totalResults: number;
     results: IContent[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent implements ISearchBehaviorBaseResultOfContent {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfContent) {
         super(data);
@@ -25776,6 +25482,7 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -25790,6 +25497,7 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -25798,12 +25506,11 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
 export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result for content search operation */
 export class ContentSearchResult extends SearchBehaviorBaseResultOfContent implements IContentSearchResult {
-    /** Milliseconds elapsed to perform the query. */
-    elapsedMilliseconds: number;
 
     constructor(data?: IContentSearchResult) {
         super(data);
@@ -25812,7 +25519,6 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -25825,7 +25531,6 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -25833,8 +25538,6 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
 /** Result for content search operation */
 export interface IContentSearchResult extends ISearchBehaviorBaseResultOfContent {
-    /** Milliseconds elapsed to perform the query. */
-    elapsedMilliseconds: number;
 }
 
 export class Content implements IContent {
@@ -26182,6 +25885,8 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. */
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: IObjectAggregationResult) {
         if (data) {
@@ -26196,6 +25901,7 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
                     this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
                 }
             }
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.aggregationResults = [];
@@ -26212,6 +25918,7 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
             }
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -26232,6 +25939,7 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
         }
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -26246,6 +25954,8 @@ export interface IObjectAggregationResult {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. */
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result of an aggregation */
@@ -26628,8 +26338,7 @@ export interface IContentReferencesResult {
 export class BaseResultOfMetadataReference implements IBaseResultOfMetadataReference {
     totalResults: number;
     results: MetadataReference[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfMetadataReference) {
         if (data) {
@@ -26644,7 +26353,6 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
                     this.results[i] = item && !(<any>item).toJSON ? new MetadataReference(item) : <MetadataReference>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -26659,8 +26367,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
                 for (let item of data["results"])
                     this.results.push(MetadataReference.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -26679,8 +26386,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -26688,8 +26394,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
 export interface IBaseResultOfMetadataReference {
     totalResults: number;
     results: IMetadataReference[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 /** Result for getting references. */
@@ -26796,8 +26501,7 @@ does not have the view permission on that item. */
 export class BaseResultOfContentShareReference implements IBaseResultOfContentShareReference {
     totalResults: number;
     results: ContentShareReference[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfContentShareReference) {
         if (data) {
@@ -26812,7 +26516,6 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
                     this.results[i] = item && !(<any>item).toJSON ? new ContentShareReference(item) : <ContentShareReference>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -26827,8 +26530,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
                 for (let item of data["results"])
                     this.results.push(ContentShareReference.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -26847,8 +26549,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -26856,8 +26557,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
 export interface IBaseResultOfContentShareReference {
     totalResults: number;
     results: IContentShareReference[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 /** Result class for share reference search */
@@ -28749,8 +28449,7 @@ export interface IContentFilterRequest {
 export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
     totalResults: number;
     results: PermissionSet[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfPermissionSet) {
         if (data) {
@@ -28765,7 +28464,6 @@ export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
                     this.results[i] = item && !(<any>item).toJSON ? new PermissionSet(item) : <PermissionSet>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -28780,8 +28478,7 @@ export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
                 for (let item of data["results"])
                     this.results.push(PermissionSet.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -28800,8 +28497,7 @@ export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -28809,13 +28505,13 @@ export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
 export interface IBaseResultOfPermissionSet {
     totalResults: number;
     results: IPermissionSet[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet implements ISearchBehaviorBaseResultOfPermissionSet {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfPermissionSet) {
         super(data);
@@ -28826,6 +28522,7 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -28840,6 +28537,7 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -28848,12 +28546,11 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
 export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result of a permission set search operation */
 export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermissionSet implements IPermissionSetSearchResult {
-    /** Elapsed time in milliseconds to perform the query. */
-    elapsedMilliseconds: number;
 
     constructor(data?: IPermissionSetSearchResult) {
         super(data);
@@ -28862,7 +28559,6 @@ export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermiss
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -28875,7 +28571,6 @@ export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermiss
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -28883,8 +28578,6 @@ export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermiss
 
 /** Result of a permission set search operation */
 export interface IPermissionSetSearchResult extends ISearchBehaviorBaseResultOfPermissionSet {
-    /** Elapsed time in milliseconds to perform the query. */
-    elapsedMilliseconds: number;
 }
 
 /** Permission set */
@@ -29287,13 +28980,12 @@ export interface IPermissionUserRoleRightsOfPermissionSetRight {
     rights?: PermissionSetRight[] | undefined;
 }
 
-export class DocumentHistorySearchResult implements IDocumentHistorySearchResult {
+export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory {
     totalResults: number;
-    results?: DocumentHistory[] | undefined;
-    pageToken?: string | undefined;
+    results: DocumentHistory[];
     elapsedMilliseconds: number;
 
-    constructor(data?: IDocumentHistorySearchResult) {
+    constructor(data?: IBaseResultOfDocumentHistory) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -29307,6 +28999,9 @@ export class DocumentHistorySearchResult implements IDocumentHistorySearchResult
                 }
             }
         }
+        if (!data) {
+            this.results = [];
+        }
     }
 
     init(data?: any) {
@@ -29317,14 +29012,13 @@ export class DocumentHistorySearchResult implements IDocumentHistorySearchResult
                 for (let item of data["results"])
                     this.results.push(DocumentHistory.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
-    static fromJS(data: any): DocumentHistorySearchResult {
+    static fromJS(data: any): BaseResultOfDocumentHistory {
         data = typeof data === 'object' ? data : {};
-        let result = new DocumentHistorySearchResult();
+        let result = new BaseResultOfDocumentHistory();
         result.init(data);
         return result;
     }
@@ -29337,17 +29031,48 @@ export class DocumentHistorySearchResult implements IDocumentHistorySearchResult
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
 
-export interface IDocumentHistorySearchResult {
+export interface IBaseResultOfDocumentHistory {
     totalResults: number;
-    results?: IDocumentHistory[] | undefined;
-    pageToken?: string | undefined;
+    results: IDocumentHistory[];
     elapsedMilliseconds: number;
+}
+
+export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory implements IDocumentHistorySearchResult {
+    pageToken?: string | undefined;
+
+    constructor(data?: IDocumentHistorySearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.pageToken = data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): DocumentHistorySearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentHistorySearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageToken"] = this.pageToken;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDocumentHistorySearchResult extends IBaseResultOfDocumentHistory {
+    pageToken?: string | undefined;
 }
 
 export class DocumentHistory implements IDocumentHistory {
@@ -29484,11 +29209,11 @@ export class DocumentHistorySearchRequest implements IDocumentHistorySearchReque
     limit: number;
     /** To get a large amount of data, page token returned from the response can be used to get all data. */
     pageToken?: string | undefined;
-    /** Limits the search to a specific document id. E.g. ContentId */
+    /** Limits the search to a specific document ID. E.g. contentId */
     documentId?: string | undefined;
     /** The document version to search. Default to -1 to not limit to a specific document version. */
     documentVersion: number;
-    /** Limits the search to a specifc document type. */
+    /** Limits the search to a specific document type. */
     documentType?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo | undefined;
@@ -29546,11 +29271,11 @@ export interface IDocumentHistorySearchRequest {
     limit: number;
     /** To get a large amount of data, page token returned from the response can be used to get all data. */
     pageToken?: string | undefined;
-    /** Limits the search to a specific document id. E.g. ContentId */
+    /** Limits the search to a specific document ID. E.g. contentId */
     documentId?: string | undefined;
     /** The document version to search. Default to -1 to not limit to a specific document version. */
     documentVersion: number;
-    /** Limits the search to a specifc document type. */
+    /** Limits the search to a specific document type. */
     documentType?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
     sort?: ISortInfo | undefined;
@@ -29608,15 +29333,24 @@ export interface IDocumentHistoryDifference {
     newValues?: any | undefined;
 }
 
+/** Customer configuration information */
 export class CustomerInfo implements ICustomerInfo {
-    customerId?: string | undefined;
-    name?: string | undefined;
-    customerAlias?: string | undefined;
-    identityServerUrl?: string | undefined;
+    /** The customer ID. */
+    customerId: string;
+    /** The name of the customer instance. */
+    name: string;
+    /** Alias of the customer instance. */
+    customerAlias: string;
+    /** The base url of identity server to authenticate the user using OpenID Connect. */
+    identityServerUrl: string;
+    /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
-    languageConfiguration?: LanguageConfiguration | undefined;
-    languages?: Language[] | undefined;
-    outputFormats?: OutputFormatInfo[] | undefined;
+    /** Configured languages of customer instance (system, metadata, default). */
+    languageConfiguration: LanguageConfiguration;
+    /** Languages including translations for the configured system and metadata languages. */
+    languages: Language[];
+    /** Configured rendering outputs including translations for the customer instance. */
+    outputFormats: OutputFormatInfo[];
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -29640,6 +29374,11 @@ export class CustomerInfo implements ICustomerInfo {
                 }
             }
         }
+        if (!data) {
+            this.languageConfiguration = new LanguageConfiguration();
+            this.languages = [];
+            this.outputFormats = [];
+        }
     }
 
     init(data?: any) {
@@ -29649,7 +29388,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.customerAlias = data["customerAlias"];
             this.identityServerUrl = data["identityServerUrl"];
             this.enableQueryDetails = data["enableQueryDetails"];
-            this.languageConfiguration = data["languageConfiguration"] ? LanguageConfiguration.fromJS(data["languageConfiguration"]) : <any>undefined;
+            this.languageConfiguration = data["languageConfiguration"] ? LanguageConfiguration.fromJS(data["languageConfiguration"]) : new LanguageConfiguration();
             if (data["languages"] && data["languages"].constructor === Array) {
                 this.languages = [];
                 for (let item of data["languages"])
@@ -29692,15 +29431,24 @@ export class CustomerInfo implements ICustomerInfo {
     }
 }
 
+/** Customer configuration information */
 export interface ICustomerInfo {
-    customerId?: string | undefined;
-    name?: string | undefined;
-    customerAlias?: string | undefined;
-    identityServerUrl?: string | undefined;
+    /** The customer ID. */
+    customerId: string;
+    /** The name of the customer instance. */
+    name: string;
+    /** Alias of the customer instance. */
+    customerAlias: string;
+    /** The base url of identity server to authenticate the user using OpenID Connect. */
+    identityServerUrl: string;
+    /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
-    languageConfiguration?: ILanguageConfiguration | undefined;
-    languages?: ILanguage[] | undefined;
-    outputFormats?: IOutputFormatInfo[] | undefined;
+    /** Configured languages of customer instance (system, metadata, default). */
+    languageConfiguration: ILanguageConfiguration;
+    /** Languages including translations for the configured system and metadata languages. */
+    languages: ILanguage[];
+    /** Configured rendering outputs including translations for the customer instance. */
+    outputFormats: IOutputFormatInfo[];
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -29770,10 +29518,15 @@ export interface ILanguageConfiguration {
 }
 
 export class Language implements ILanguage {
-    name?: TranslatedStringDictionary | undefined;
-    ietf?: string | undefined;
+    /** Language translations. */
+    name: TranslatedStringDictionary;
+    /** IETF language tag. E.g en, en-US, de. */
+    ietf: string;
+    /** Two letter ISO language code. E.g. en, de. */
     twoLetterISOLanguageName?: string | undefined;
+    /** Three letter ISO language code. E.g. eng, deu. */
     threeLetterISOLanguageName?: string | undefined;
+    /** Region code of the language. E.g. US, DE, CH. */
     regionCode?: string | undefined;
 
     constructor(data?: ILanguage) {
@@ -29784,11 +29537,14 @@ export class Language implements ILanguage {
             }
             this.name = data.name && !(<any>data.name).toJSON ? new TranslatedStringDictionary(data.name) : <TranslatedStringDictionary>this.name; 
         }
+        if (!data) {
+            this.name = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : <any>undefined;
+            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : new TranslatedStringDictionary();
             this.ietf = data["ietf"];
             this.twoLetterISOLanguageName = data["twoLetterISOLanguageName"];
             this.threeLetterISOLanguageName = data["threeLetterISOLanguageName"];
@@ -29815,16 +29571,23 @@ export class Language implements ILanguage {
 }
 
 export interface ILanguage {
-    name?: ITranslatedStringDictionary | undefined;
-    ietf?: string | undefined;
+    /** Language translations. */
+    name: ITranslatedStringDictionary;
+    /** IETF language tag. E.g en, en-US, de. */
+    ietf: string;
+    /** Two letter ISO language code. E.g. en, de. */
     twoLetterISOLanguageName?: string | undefined;
+    /** Three letter ISO language code. E.g. eng, deu. */
     threeLetterISOLanguageName?: string | undefined;
+    /** Region code of the language. E.g. US, DE, CH. */
     regionCode?: string | undefined;
 }
 
 export class OutputFormatInfo implements IOutputFormatInfo {
-    id?: string | undefined;
-    names?: TranslatedStringDictionary | undefined;
+    /** Output ID. */
+    id: string;
+    /** Output translations. */
+    names: TranslatedStringDictionary;
 
     constructor(data?: IOutputFormatInfo) {
         if (data) {
@@ -29834,12 +29597,15 @@ export class OutputFormatInfo implements IOutputFormatInfo {
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
         }
     }
 
@@ -29859,8 +29625,10 @@ export class OutputFormatInfo implements IOutputFormatInfo {
 }
 
 export interface IOutputFormatInfo {
-    id?: string | undefined;
-    names?: ITranslatedStringDictionary | undefined;
+    /** Output ID. */
+    id: string;
+    /** Output translations. */
+    names: ITranslatedStringDictionary;
 }
 
 /** The version view item for the environment. */
@@ -29992,8 +29760,7 @@ export enum ListItemResolveBehaviour {
 export class BaseResultOfListItem implements IBaseResultOfListItem {
     totalResults: number;
     results: ListItem[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfListItem) {
         if (data) {
@@ -30008,7 +29775,6 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
                     this.results[i] = item && !(<any>item).toJSON ? new ListItem(item) : <ListItem>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -30023,8 +29789,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
                 for (let item of data["results"])
                     this.results.push(ListItem.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -30043,8 +29808,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -30052,8 +29816,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
 export interface IBaseResultOfListItem {
     totalResults: number;
     results: IListItem[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 /** Encapsulates the result of a list item search. */
@@ -31212,195 +30975,8 @@ export interface IListItemManyReferencesRequest {
     references?: IMetadataReferencesPagingRequest | undefined;
 }
 
-export class BaseResultOfObject implements IBaseResultOfObject {
-    totalResults: number;
-    results: any[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
-
-    constructor(data?: IBaseResultOfObject) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
-        }
-        if (!data) {
-            this.results = [];
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalResults = data["totalResults"];
-            if (data["results"] && data["results"].constructor === Array) {
-                this.results = [];
-                for (let item of data["results"])
-                    this.results.push(item);
-            }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfObject {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfObject();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (this.results && this.results.constructor === Array) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item);
-        }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IBaseResultOfObject {
-    totalResults: number;
-    results: any[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
-}
-
-export class SearchBehaviorBaseResultOfObject extends BaseResultOfObject implements ISearchBehaviorBaseResultOfObject {
-    searchString?: string | undefined;
-    isSearchStringRewritten: boolean;
-
-    constructor(data?: ISearchBehaviorBaseResultOfObject) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-        }
-    }
-
-    static fromJS(data: any): SearchBehaviorBaseResultOfObject {
-        data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviorBaseResultOfObject();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISearchBehaviorBaseResultOfObject extends IBaseResultOfObject {
-    searchString?: string | undefined;
-    isSearchStringRewritten: boolean;
-}
-
-export class ObjectSearchResult extends SearchBehaviorBaseResultOfObject implements IObjectSearchResult {
-    elapsedMilliseconds: number;
-
-    constructor(data?: IObjectSearchResult) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-        }
-    }
-
-    static fromJS(data: any): ObjectSearchResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new ObjectSearchResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IObjectSearchResult extends ISearchBehaviorBaseResultOfObject {
-    elapsedMilliseconds: number;
-}
-
-export class LiveStreamSearchRequest implements ILiveStreamSearchRequest {
-    /** Limits the start date of the search request. */
-    from: Date;
-    /** Limits the end date of the search request. */
-    to: Date;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** To get a large amount of data, page token returned from the response can be used to get all data. */
-    pageToken?: string | undefined;
-
-    constructor(data?: ILiveStreamSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
-            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-        }
-    }
-
-    static fromJS(data: any): LiveStreamSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new LiveStreamSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
-        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
-}
-
-export interface ILiveStreamSearchRequest {
-    /** Limits the start date of the search request. */
-    from: Date;
-    /** Limits the end date of the search request. */
-    to: Date;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** To get a large amount of data, page token returned from the response can be used to get all data. */
-    pageToken?: string | undefined;
-}
-
 export abstract class Message implements IMessage {
     id?: string | undefined;
-    contractVersion?: string | undefined;
     maximumRetryCount: number;
     retries: number;
     priority: number;
@@ -31421,7 +30997,6 @@ export abstract class Message implements IMessage {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.contractVersion = data["contractVersion"];
             this.maximumRetryCount = data["maximumRetryCount"];
             this.retries = data["retries"];
             this.priority = data["priority"];
@@ -31453,7 +31028,6 @@ export abstract class Message implements IMessage {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["id"] = this.id;
-        data["contractVersion"] = this.contractVersion;
         data["maximumRetryCount"] = this.maximumRetryCount;
         data["retries"] = this.retries;
         data["priority"] = this.priority;
@@ -31464,7 +31038,6 @@ export abstract class Message implements IMessage {
 
 export interface IMessage {
     id?: string | undefined;
-    contractVersion?: string | undefined;
     maximumRetryCount: number;
     retries: number;
     priority: number;
@@ -32464,8 +32037,7 @@ export interface INodeInfoMessage extends IMessage {
 export class BaseResultOfOutput implements IBaseResultOfOutput {
     totalResults: number;
     results: Output[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfOutput) {
         if (data) {
@@ -32473,7 +32045,6 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -32488,8 +32059,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
                 for (let item of data["results"])
                     this.results.push(Output.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -32508,8 +32078,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -32517,8 +32086,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
 export interface IBaseResultOfOutput {
     totalResults: number;
     results: Output[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class OutputSearchResult extends BaseResultOfOutput implements IOutputSearchResult {
@@ -35308,8 +34876,7 @@ export interface ISearchFieldCount {
 export class BaseResultOfSchema implements IBaseResultOfSchema {
     totalResults: number;
     results: Schema[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfSchema) {
         if (data) {
@@ -35324,7 +34891,6 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
                     this.results[i] = item && !(<any>item).toJSON ? new Schema(item) : <Schema>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -35339,8 +34905,7 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
                 for (let item of data["results"])
                     this.results.push(Schema.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -35359,8 +34924,7 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -35368,13 +34932,13 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
 export interface IBaseResultOfSchema {
     totalResults: number;
     results: ISchema[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema implements ISearchBehaviorBaseResultOfSchema {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfSchema) {
         super(data);
@@ -35385,6 +34949,7 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -35399,6 +34964,7 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -35407,6 +34973,7 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
 export interface ISearchBehaviorBaseResultOfSchema extends IBaseResultOfSchema {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result for schema search operation */
@@ -36714,128 +36281,33 @@ export interface ISchemaImportRequest {
     importListItems: boolean;
 }
 
-export class CustomerServiceProviderConfiguration implements ICustomerServiceProviderConfiguration {
-    serviceProviderId?: string | undefined;
-    customerId?: string | undefined;
-    userRoleIds?: string[] | undefined;
-    settings?: string | undefined;
-
-    constructor(data?: ICustomerServiceProviderConfiguration) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.serviceProviderId = data["serviceProviderId"];
-            this.customerId = data["customerId"];
-            if (data["userRoleIds"] && data["userRoleIds"].constructor === Array) {
-                this.userRoleIds = [];
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds.push(item);
-            }
-            this.settings = data["settings"];
-        }
-    }
-
-    static fromJS(data: any): CustomerServiceProviderConfiguration {
-        data = typeof data === 'object' ? data : {};
-        let result = new CustomerServiceProviderConfiguration();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["serviceProviderId"] = this.serviceProviderId;
-        data["customerId"] = this.customerId;
-        if (this.userRoleIds && this.userRoleIds.constructor === Array) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        data["settings"] = this.settings;
-        return data; 
-    }
-}
-
-export interface ICustomerServiceProviderConfiguration {
-    serviceProviderId?: string | undefined;
-    customerId?: string | undefined;
-    userRoleIds?: string[] | undefined;
-    settings?: string | undefined;
-}
-
-export class ServiceProviderConfigurationUpdateRequest implements IServiceProviderConfigurationUpdateRequest {
-    customerId?: string | undefined;
-    settings?: string | undefined;
-    userRoleIds?: string[] | undefined;
-
-    constructor(data?: IServiceProviderConfigurationUpdateRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.customerId = data["customerId"];
-            this.settings = data["settings"];
-            if (data["userRoleIds"] && data["userRoleIds"].constructor === Array) {
-                this.userRoleIds = [];
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ServiceProviderConfigurationUpdateRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ServiceProviderConfigurationUpdateRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["settings"] = this.settings;
-        if (this.userRoleIds && this.userRoleIds.constructor === Array) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IServiceProviderConfigurationUpdateRequest {
-    customerId?: string | undefined;
-    settings?: string | undefined;
-    userRoleIds?: string[] | undefined;
-}
-
+/** Share detail */
 export class ShareDetail implements IShareDetail {
-    id?: string | undefined;
-    name?: string | undefined;
+    /** Share ID. */
+    id: string;
+    /** Name of share. */
+    name: string;
+    /** Description of share entered by user. */
     description?: string | undefined;
-    creator?: ShareUser | undefined;
-    audit?: UserAudit | undefined;
-    contentSelections?: ShareContentDetail[] | undefined;
+    /** Creator of share. */
+    creator: ShareUser;
+    /** Audit information. */
+    audit: UserAudit;
+    /** Detailed information about contents in the share. */
+    contentSelections: ShareContentDetail[];
+    /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
+    /** Detail of share. */
     data?: ShareDataBase | undefined;
-    mailTemplateId?: string | undefined;
+    /** Date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
+    /** Info if share is already expired. */
     expired: boolean;
+    /** Configuration for template to use on the share detail page. */
     template?: TemplateBase | undefined;
+    /** Defined access for contents in share. */
     outputAccess: OutputAccess;
+    /** Type of share. */
     shareType: ShareType;
 
     constructor(data?: IShareDetail) {
@@ -36854,6 +36326,11 @@ export class ShareDetail implements IShareDetail {
                 }
             }
         }
+        if (!data) {
+            this.creator = new ShareUser();
+            this.audit = new UserAudit();
+            this.contentSelections = [];
+        }
     }
 
     init(data?: any) {
@@ -36861,8 +36338,8 @@ export class ShareDetail implements IShareDetail {
             this.id = data["id"];
             this.name = data["name"];
             this.description = data["description"];
-            this.creator = data["creator"] ? ShareUser.fromJS(data["creator"]) : <any>undefined;
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.creator = data["creator"] ? ShareUser.fromJS(data["creator"]) : new ShareUser();
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
             if (data["contentSelections"] && data["contentSelections"].constructor === Array) {
                 this.contentSelections = [];
                 for (let item of data["contentSelections"])
@@ -36874,7 +36351,6 @@ export class ShareDetail implements IShareDetail {
                     this.layerSchemaIds.push(item);
             }
             this.data = data["data"] ? ShareDataBase.fromJS(data["data"]) : <any>undefined;
-            this.mailTemplateId = data["mailTemplateId"];
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.expired = data["expired"];
             this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
@@ -36908,7 +36384,6 @@ export class ShareDetail implements IShareDetail {
                 data["layerSchemaIds"].push(item);
         }
         data["data"] = this.data ? this.data.toJSON() : <any>undefined;
-        data["mailTemplateId"] = this.mailTemplateId;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["expired"] = this.expired;
         data["template"] = this.template ? this.template.toJSON() : <any>undefined;
@@ -36918,29 +36393,42 @@ export class ShareDetail implements IShareDetail {
     }
 }
 
+/** Share detail */
 export interface IShareDetail {
-    id?: string | undefined;
-    name?: string | undefined;
+    /** Share ID. */
+    id: string;
+    /** Name of share. */
+    name: string;
+    /** Description of share entered by user. */
     description?: string | undefined;
-    creator?: IShareUser | undefined;
-    audit?: IUserAudit | undefined;
-    contentSelections?: IShareContentDetail[] | undefined;
+    /** Creator of share. */
+    creator: IShareUser;
+    /** Audit information. */
+    audit: IUserAudit;
+    /** Detailed information about contents in the share. */
+    contentSelections: IShareContentDetail[];
+    /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
+    /** Detail of share. */
     data?: ShareDataBase | undefined;
-    mailTemplateId?: string | undefined;
+    /** Date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
+    /** Info if share is already expired. */
     expired: boolean;
+    /** Configuration for template to use on the share detail page. */
     template?: TemplateBase | undefined;
+    /** Defined access for contents in share. */
     outputAccess: OutputAccess;
+    /** Type of share. */
     shareType: ShareType;
 }
 
 /** Reduced set of user information used for shares */
 export class ShareUser implements IShareUser {
     /** Name of user */
-    displayName?: string | undefined;
+    displayName: string;
     /** MD5 hash of email address. Can be used to display gravatar image */
-    emailHash?: string | undefined;
+    emailHash: string;
 
     constructor(data?: IShareUser) {
         if (data) {
@@ -36976,23 +36464,29 @@ export class ShareUser implements IShareUser {
 /** Reduced set of user information used for shares */
 export interface IShareUser {
     /** Name of user */
-    displayName?: string | undefined;
+    displayName: string;
     /** MD5 hash of email address. Can be used to display gravatar image */
-    emailHash?: string | undefined;
+    emailHash: string;
 }
 
+/** Detail of shared content */
 export class ShareContentDetail implements IShareContentDetail {
     /** The id of the schema with schema type content. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    content?: DataDictionary | undefined;
+    /** The content data. */
+    content: DataDictionary;
+    /** The metadata dictionary. */
     metadata?: DataDictionary | undefined;
-    id?: string | undefined;
-    outputs?: ShareOutputBase[] | undefined;
+    /** Content ID. */
+    id: string;
+    /** List of shared outputs for this content. */
+    outputs: ShareOutputBase[];
+    /** The type of content */
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
-    displayValues?: DisplayValueDictionary | undefined;
+    displayValues: DisplayValueDictionary;
 
     constructor(data?: IShareContentDetail) {
         if (data) {
@@ -37004,6 +36498,11 @@ export class ShareContentDetail implements IShareContentDetail {
             this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
+        if (!data) {
+            this.content = new DataDictionary();
+            this.outputs = [];
+            this.displayValues = new DisplayValueDictionary();
+        }
     }
 
     init(data?: any) {
@@ -37014,7 +36513,7 @@ export class ShareContentDetail implements IShareContentDetail {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
-            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : <any>undefined;
+            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : new DataDictionary();
             this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             this.id = data["id"];
             if (data["outputs"] && data["outputs"].constructor === Array) {
@@ -37023,7 +36522,7 @@ export class ShareContentDetail implements IShareContentDetail {
                     this.outputs.push(ShareOutputBase.fromJS(item));
             }
             this.contentType = data["contentType"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : new DisplayValueDictionary();
         }
     }
 
@@ -37056,25 +36555,35 @@ export class ShareContentDetail implements IShareContentDetail {
     }
 }
 
+/** Detail of shared content */
 export interface IShareContentDetail {
     /** The id of the schema with schema type content. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    content?: IDataDictionary | undefined;
+    /** The content data. */
+    content: IDataDictionary;
+    /** The metadata dictionary. */
     metadata?: IDataDictionary | undefined;
-    id?: string | undefined;
-    outputs?: ShareOutputBase[] | undefined;
+    /** Content ID. */
+    id: string;
+    /** List of shared outputs for this content. */
+    outputs: ShareOutputBase[];
+    /** The type of content */
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
-    displayValues?: IDisplayValueDictionary | undefined;
+    displayValues: IDisplayValueDictionary;
 }
 
+/** Base of shared output */
 export abstract class ShareOutputBase implements IShareOutputBase {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
+    /** Content ID. */
+    contentId: string;
+    /** Output format ID. */
+    outputFormatId: string;
     /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
     url?: string | undefined;
+    /** Output details. */
     detail?: OutputDataBase | undefined;
 
     protected _discriminator: string;
@@ -37124,14 +36633,19 @@ export abstract class ShareOutputBase implements IShareOutputBase {
     }
 }
 
+/** Base of shared output */
 export interface IShareOutputBase {
-    contentId?: string | undefined;
-    outputFormatId?: string | undefined;
+    /** Content ID. */
+    contentId: string;
+    /** Output format ID. */
+    outputFormatId: string;
     /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
     url?: string | undefined;
+    /** Output details. */
     detail?: OutputDataBase | undefined;
 }
 
+/** Shared output for basic share */
 export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBasic {
 
     constructor(data?: IShareOutputBasic) {
@@ -37159,10 +36673,13 @@ export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBas
     }
 }
 
+/** Shared output for basic share */
 export interface IShareOutputBasic extends IShareOutputBase {
 }
 
+/** Shared output for embed share */
 export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmbed {
+    /** Share token for the shared output. */
     token?: string | undefined;
 
     constructor(data?: IShareOutputEmbed) {
@@ -37192,12 +36709,16 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
     }
 }
 
+/** Shared output for embed share */
 export interface IShareOutputEmbed extends IShareOutputBase {
+    /** Share token for the shared output. */
     token?: string | undefined;
 }
 
+/** Base of share data */
 export abstract class ShareDataBase implements IShareDataBase {
-    url?: string | undefined;
+    /** The URL to access the share. */
+    url: string;
 
     protected _discriminator: string;
 
@@ -37240,12 +36761,16 @@ export abstract class ShareDataBase implements IShareDataBase {
     }
 }
 
+/** Base of share data */
 export interface IShareDataBase {
-    url?: string | undefined;
+    /** The URL to access the share. */
+    url: string;
 }
 
+/** Embed share data */
 export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
-    token?: string | undefined;
+    /** Token for the embed share. */
+    token: string;
 
     constructor(data?: IShareDataEmbed) {
         super(data);
@@ -37274,17 +36799,27 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
     }
 }
 
+/** Embed share data */
 export interface IShareDataEmbed extends IShareDataBase {
-    token?: string | undefined;
+    /** Token for the embed share. */
+    token: string;
 }
 
+/** Basic share data */
 export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
-    mailRecipients?: MailRecipient[] | undefined;
-    internalRecipients?: InternalRecipient[] | undefined;
+    /** List of recipients added using email address */
+    mailRecipients: MailRecipient[];
+    /** List of recipients that exist in Picturepark. */
+    internalRecipients: InternalRecipient[];
+    /** Language of share. */
     languageCode?: string | undefined;
 
     constructor(data?: IShareDataBasic) {
         super(data);
+        if (!data) {
+            this.mailRecipients = [];
+            this.internalRecipients = [];
+        }
         this._discriminator = "ShareDataBasic";
     }
 
@@ -37330,15 +36865,23 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
     }
 }
 
+/** Basic share data */
 export interface IShareDataBasic extends IShareDataBase {
-    mailRecipients?: IMailRecipient[] | undefined;
-    internalRecipients?: IInternalRecipient[] | undefined;
+    /** List of recipients added using email address */
+    mailRecipients: IMailRecipient[];
+    /** List of recipients that exist in Picturepark. */
+    internalRecipients: IInternalRecipient[];
+    /** Language of share. */
     languageCode?: string | undefined;
 }
 
+/** Share mail recipient */
 export class MailRecipient implements IMailRecipient {
-    userEmail?: UserEmail | undefined;
+    /** User information including email. */
+    userEmail: UserEmail;
+    /** Recipient specific token. */
     token?: string | undefined;
+    /** URL to access the share for this recipient. */
     url?: string | undefined;
 
     constructor(data?: IMailRecipient) {
@@ -37349,11 +36892,14 @@ export class MailRecipient implements IMailRecipient {
             }
             this.userEmail = data.userEmail && !(<any>data.userEmail).toJSON ? new UserEmail(data.userEmail) : <UserEmail>this.userEmail; 
         }
+        if (!data) {
+            this.userEmail = new UserEmail();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.userEmail = data["userEmail"] ? UserEmail.fromJS(data["userEmail"]) : <any>undefined;
+            this.userEmail = data["userEmail"] ? UserEmail.fromJS(data["userEmail"]) : new UserEmail();
             this.token = data["token"];
             this.url = data["url"];
         }
@@ -37375,16 +36921,23 @@ export class MailRecipient implements IMailRecipient {
     }
 }
 
+/** Share mail recipient */
 export interface IMailRecipient {
-    userEmail?: IUserEmail | undefined;
+    /** User information including email. */
+    userEmail: IUserEmail;
+    /** Recipient specific token. */
     token?: string | undefined;
+    /** URL to access the share for this recipient. */
     url?: string | undefined;
 }
 
 export class UserEmail implements IUserEmail {
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address */
+    emailAddress: string;
 
     constructor(data?: IUserEmail) {
         if (data) {
@@ -37420,14 +36973,21 @@ export class UserEmail implements IUserEmail {
 }
 
 export interface IUserEmail {
+    /** First name. */
     firstName?: string | undefined;
+    /** Last name. */
     lastName?: string | undefined;
-    emailAddress?: string | undefined;
+    /** Email address */
+    emailAddress: string;
 }
 
+/** Internal share recipient */
 export class InternalRecipient implements IInternalRecipient {
-    recipient?: User | undefined;
+    /** User information of recipient. */
+    recipient: User;
+    /** Recipient specific token. */
     token?: string | undefined;
+    /** URL to access the share for this recipient. */
     url?: string | undefined;
 
     constructor(data?: IInternalRecipient) {
@@ -37438,11 +36998,14 @@ export class InternalRecipient implements IInternalRecipient {
             }
             this.recipient = data.recipient && !(<any>data.recipient).toJSON ? new User(data.recipient) : <User>this.recipient; 
         }
+        if (!data) {
+            this.recipient = new User();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.recipient = data["recipient"] ? User.fromJS(data["recipient"]) : <any>undefined;
+            this.recipient = data["recipient"] ? User.fromJS(data["recipient"]) : new User();
             this.token = data["token"];
             this.url = data["url"];
         }
@@ -37464,9 +37027,13 @@ export class InternalRecipient implements IInternalRecipient {
     }
 }
 
+/** Internal share recipient */
 export interface IInternalRecipient {
-    recipient?: IUser | undefined;
+    /** User information of recipient. */
+    recipient: IUser;
+    /** Recipient specific token. */
     token?: string | undefined;
+    /** URL to access the share for this recipient. */
     url?: string | undefined;
 }
 
@@ -37698,8 +37265,7 @@ export enum OutputAccess {
 export class BaseResultOfShare implements IBaseResultOfShare {
     totalResults: number;
     results: Share[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfShare) {
         if (data) {
@@ -37714,7 +37280,6 @@ export class BaseResultOfShare implements IBaseResultOfShare {
                     this.results[i] = item && !(<any>item).toJSON ? new Share(item) : <Share>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -37729,8 +37294,7 @@ export class BaseResultOfShare implements IBaseResultOfShare {
                 for (let item of data["results"])
                     this.results.push(Share.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -37749,8 +37313,7 @@ export class BaseResultOfShare implements IBaseResultOfShare {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -37758,13 +37321,13 @@ export class BaseResultOfShare implements IBaseResultOfShare {
 export interface IBaseResultOfShare {
     totalResults: number;
     results: IShare[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implements ISearchBehaviorBaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfShare) {
         super(data);
@@ -37775,6 +37338,7 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -37789,6 +37353,7 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -37797,10 +37362,11 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
 export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+/** Result for share search operation */
 export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implements IShareSearchResult {
-    elapsedMilliseconds: number;
 
     constructor(data?: IShareSearchResult) {
         super(data);
@@ -37809,7 +37375,6 @@ export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implement
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -37822,23 +37387,30 @@ export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implement
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
 }
 
+/** Result for share search operation */
 export interface IShareSearchResult extends ISearchBehaviorBaseResultOfShare {
-    elapsedMilliseconds: number;
 }
 
+/** Share */
 export class Share implements IShare {
+    /** Share ID. */
+    id: string;
+    /** Name of share. */
     name?: string | undefined;
-    contentIds?: string[] | undefined;
-    id?: string | undefined;
-    audit?: UserAudit | undefined;
+    /** List of shared content IDs. */
+    contentIds: string[];
+    /** Audit information. */
+    audit: UserAudit;
+    /** Date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
+    /** Type of share. */
     shareType: ShareType;
+    /** Share is readonly if the current user is not the creator but only the recipient. */
     isReadOnly: boolean;
 
     constructor(data?: IShare) {
@@ -37849,18 +37421,22 @@ export class Share implements IShare {
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
         }
+        if (!data) {
+            this.contentIds = [];
+            this.audit = new UserAudit();
+        }
     }
 
     init(data?: any) {
         if (data) {
+            this.id = data["id"];
             this.name = data["name"];
             if (data["contentIds"] && data["contentIds"].constructor === Array) {
                 this.contentIds = [];
                 for (let item of data["contentIds"])
                     this.contentIds.push(item);
             }
-            this.id = data["id"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.shareType = data["shareType"];
             this.isReadOnly = data["isReadOnly"];
@@ -37876,13 +37452,13 @@ export class Share implements IShare {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["name"] = this.name;
         if (this.contentIds && this.contentIds.constructor === Array) {
             data["contentIds"] = [];
             for (let item of this.contentIds)
                 data["contentIds"].push(item);
         }
-        data["id"] = this.id;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["shareType"] = this.shareType;
@@ -37891,28 +37467,37 @@ export class Share implements IShare {
     }
 }
 
+/** Share */
 export interface IShare {
+    /** Share ID. */
+    id: string;
+    /** Name of share. */
     name?: string | undefined;
-    contentIds?: string[] | undefined;
-    id?: string | undefined;
-    audit?: IUserAudit | undefined;
+    /** List of shared content IDs. */
+    contentIds: string[];
+    /** Audit information. */
+    audit: IUserAudit;
+    /** Date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
+    /** Type of share. */
     shareType: ShareType;
+    /** Share is readonly if the current user is not the creator but only the recipient. */
     isReadOnly: boolean;
 }
 
+/** Request to search shares */
 export class ShareSearchRequest implements IShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
+    /** Limits the document count of the result set. */
     limit: number;
-    /** An optional search filter. Limits the share document result set. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
     debugMode: boolean;
@@ -37981,31 +37566,39 @@ export class ShareSearchRequest implements IShareSearchRequest {
     }
 }
 
+/** Request to search shares */
 export interface IShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: ISortInfo[] | undefined;
     /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
-    /** Limits the document count of the result set. Defaults to 30. */
+    /** Limits the document count of the result set. */
     limit: number;
-    /** An optional search filter. Limits the share document result set. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
     debugMode: boolean;
 }
 
+/** Request to aggregate shares based on the specified aggregators */
 export class ShareAggregationRequest implements IShareAggregationRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the list item should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
 
     constructor(data?: IShareAggregationRequest) {
@@ -38086,18 +37679,27 @@ export class ShareAggregationRequest implements IShareAggregationRequest {
     }
 }
 
+/** Request to aggregate shares based on the specified aggregators */
 export interface IShareAggregationRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviours. All the passed behaviours will be applied */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: ISortInfo[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the list item should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
 }
 
+/** Result of share creation */
 export class CreateShareResult implements ICreateShareResult {
+    /** Share ID. */
     shareId?: string | undefined;
 
     constructor(data?: ICreateShareResult) {
@@ -38129,17 +37731,27 @@ export class CreateShareResult implements ICreateShareResult {
     }
 }
 
+/** Result of share creation */
 export interface ICreateShareResult {
+    /** Share ID. */
     shareId?: string | undefined;
 }
 
+/** Base create request for share */
 export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest {
-    name?: string | undefined;
+    /** Name of share. */
+    name: string;
+    /** Optional description of share. */
     description?: string | undefined;
+    /** Optional date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
-    contents?: ShareContent[] | undefined;
+    /** List of contents including outputs to share. */
+    contents: ShareContent[];
+    /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
+    /** Configuration for template to use on the share detail page. */
     template?: TemplateBase | undefined;
+    /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 
     protected _discriminator: string;
@@ -38157,6 +37769,9 @@ export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest 
                     this.contents[i] = item && !(<any>item).toJSON ? new ShareContent(item) : <ShareContent>item;
                 }
             }
+        }
+        if (!data) {
+            this.contents = [];
         }
         this._discriminator = "ShareBaseCreateRequest";
     }
@@ -38218,18 +37833,28 @@ export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest 
     }
 }
 
+/** Base create request for share */
 export interface IShareBaseCreateRequest {
-    name?: string | undefined;
+    /** Name of share. */
+    name: string;
+    /** Optional description of share. */
     description?: string | undefined;
+    /** Optional date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
-    contents?: IShareContent[] | undefined;
+    /** List of contents including outputs to share. */
+    contents: IShareContent[];
+    /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
+    /** Configuration for template to use on the share detail page. */
     template?: TemplateBase | undefined;
+    /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 }
 
 export class ShareContent implements IShareContent {
-    contentId?: string | undefined;
+    /** Content ID to share. */
+    contentId: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
     outputFormatIds?: string[] | undefined;
 
     constructor(data?: IShareContent) {
@@ -38272,16 +37897,21 @@ export class ShareContent implements IShareContent {
 }
 
 export interface IShareContent {
-    contentId?: string | undefined;
+    /** Content ID to share. */
+    contentId: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
     outputFormatIds?: string[] | undefined;
 }
 
 export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements IShareBasicCreateRequest {
+    /** List of external mail recipients which are no Picturepark users. */
     recipientsEmail?: UserEmail[] | undefined;
+    /** List of internal recipients which are Picturepark users. */
     recipientsUser?: User[] | undefined;
+    /** List of user roles. All assignees of these roles receive the share. */
     recipientsGroup?: UserRole[] | undefined;
-    languageCode?: string | undefined;
-    mailTemplateId?: string | undefined;
+    /** System language used for share (mail and detail page). en or de. */
+    languageCode: string;
 
     constructor(data?: IShareBasicCreateRequest) {
         super(data);
@@ -38307,7 +37937,6 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
                     this.recipientsGroup.push(UserRole.fromJS(item));
             }
             this.languageCode = data["languageCode"];
-            this.mailTemplateId = data["mailTemplateId"];
         }
     }
 
@@ -38336,18 +37965,20 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
                 data["recipientsGroup"].push(item.toJSON());
         }
         data["languageCode"] = this.languageCode;
-        data["mailTemplateId"] = this.mailTemplateId;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
+    /** List of external mail recipients which are no Picturepark users. */
     recipientsEmail?: IUserEmail[] | undefined;
+    /** List of internal recipients which are Picturepark users. */
     recipientsUser?: IUser[] | undefined;
+    /** List of user roles. All assignees of these roles receive the share. */
     recipientsGroup?: IUserRole[] | undefined;
-    languageCode?: string | undefined;
-    mailTemplateId?: string | undefined;
+    /** System language used for share (mail and detail page). en or de. */
+    languageCode: string;
 }
 
 /** Represents a user role, which associates users with user rights. */
@@ -38411,6 +38042,7 @@ export interface IUserRole {
     userRights?: UserRight[] | undefined;
 }
 
+/** Create request for embed share */
 export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements IShareEmbedCreateRequest {
 
     constructor(data?: IShareEmbedCreateRequest) {
@@ -38438,16 +38070,25 @@ export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements I
     }
 }
 
+/** Create request for embed share */
 export interface IShareEmbedCreateRequest extends IShareBaseCreateRequest {
 }
 
+/** Base of update request for share */
 export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
-    name?: string | undefined;
+    /** Name of share. */
+    name: string;
+    /** Optional date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
+    /** Optional description of share. */
     description?: string | undefined;
-    shareContentItems?: ShareContent[] | undefined;
+    /** List of contents including outputs. Existing items needs to be sent again, otherwise they will be removed. */
+    contents: ShareContent[];
+    /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
+    /** Configuration for template to use on the share detail page. */
     template?: TemplateBase | undefined;
+    /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 
     protected _discriminator: string;
@@ -38458,13 +38099,16 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            if (data.shareContentItems) {
-                this.shareContentItems = [];
-                for (let i = 0; i < data.shareContentItems.length; i++) {
-                    let item = data.shareContentItems[i];
-                    this.shareContentItems[i] = item && !(<any>item).toJSON ? new ShareContent(item) : <ShareContent>item;
+            if (data.contents) {
+                this.contents = [];
+                for (let i = 0; i < data.contents.length; i++) {
+                    let item = data.contents[i];
+                    this.contents[i] = item && !(<any>item).toJSON ? new ShareContent(item) : <ShareContent>item;
                 }
             }
+        }
+        if (!data) {
+            this.contents = [];
         }
         this._discriminator = "ShareBaseUpdateRequest";
     }
@@ -38474,10 +38118,10 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
             this.name = data["name"];
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.description = data["description"];
-            if (data["shareContentItems"] && data["shareContentItems"].constructor === Array) {
-                this.shareContentItems = [];
-                for (let item of data["shareContentItems"])
-                    this.shareContentItems.push(ShareContent.fromJS(item));
+            if (data["contents"] && data["contents"].constructor === Array) {
+                this.contents = [];
+                for (let item of data["contents"])
+                    this.contents.push(ShareContent.fromJS(item));
             }
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
@@ -38510,10 +38154,10 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
         data["name"] = this.name;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["description"] = this.description;
-        if (this.shareContentItems && this.shareContentItems.constructor === Array) {
-            data["shareContentItems"] = [];
-            for (let item of this.shareContentItems)
-                data["shareContentItems"].push(item.toJSON());
+        if (this.contents && this.contents.constructor === Array) {
+            data["contents"] = [];
+            for (let item of this.contents)
+                data["contents"].push(item.toJSON());
         }
         if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
             data["layerSchemaIds"] = [];
@@ -38526,16 +38170,25 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
     }
 }
 
+/** Base of update request for share */
 export interface IShareBaseUpdateRequest {
-    name?: string | undefined;
+    /** Name of share. */
+    name: string;
+    /** Optional date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
+    /** Optional description of share. */
     description?: string | undefined;
-    shareContentItems?: IShareContent[] | undefined;
+    /** List of contents including outputs. Existing items needs to be sent again, otherwise they will be removed. */
+    contents: IShareContent[];
+    /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
+    /** Configuration for template to use on the share detail page. */
     template?: TemplateBase | undefined;
+    /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 }
 
+/** Update request for basic share */
 export class ShareBasicUpdateRequest extends ShareBaseUpdateRequest implements IShareBasicUpdateRequest {
 
     constructor(data?: IShareBasicUpdateRequest) {
@@ -38563,9 +38216,11 @@ export class ShareBasicUpdateRequest extends ShareBaseUpdateRequest implements I
     }
 }
 
+/** Update request for basic share */
 export interface IShareBasicUpdateRequest extends IShareBaseUpdateRequest {
 }
 
+/** Update request for embed share */
 export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements IShareEmbedUpdateRequest {
 
     constructor(data?: IShareEmbedUpdateRequest) {
@@ -38593,6 +38248,7 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
     }
 }
 
+/** Update request for embed share */
 export interface IShareEmbedUpdateRequest extends IShareBaseUpdateRequest {
 }
 
@@ -38716,7 +38372,8 @@ export interface IBulkResponseRow {
 }
 
 export class ShareDeleteManyRequest implements IShareDeleteManyRequest {
-    ids?: string[] | undefined;
+    /** IDs of shares to delete. */
+    ids: string[];
 
     constructor(data?: IShareDeleteManyRequest) {
         if (data) {
@@ -38724,6 +38381,9 @@ export class ShareDeleteManyRequest implements IShareDeleteManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.ids = [];
         }
     }
 
@@ -38756,7 +38416,8 @@ export class ShareDeleteManyRequest implements IShareDeleteManyRequest {
 }
 
 export interface IShareDeleteManyRequest {
-    ids?: string[] | undefined;
+    /** IDs of shares to delete. */
+    ids: string[];
 }
 
 /** Represents a transfer and includes detailed information. */
@@ -38850,8 +38511,7 @@ export interface ITransferDetail extends ITransfer {
 export class BaseResultOfTransfer implements IBaseResultOfTransfer {
     totalResults: number;
     results: Transfer[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfTransfer) {
         if (data) {
@@ -38866,7 +38526,6 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
                     this.results[i] = item && !(<any>item).toJSON ? new Transfer(item) : <Transfer>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -38881,8 +38540,7 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
                 for (let item of data["results"])
                     this.results.push(Transfer.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -38901,8 +38559,7 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -38910,13 +38567,13 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
 export interface IBaseResultOfTransfer {
     totalResults: number;
     results: ITransfer[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer implements ISearchBehaviorBaseResultOfTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfTransfer) {
         super(data);
@@ -38927,6 +38584,7 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -38941,6 +38599,7 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -38949,12 +38608,11 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
 export interface ISearchBehaviorBaseResultOfTransfer extends IBaseResultOfTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result from a search for transfers. */
 export class TransferSearchResult extends SearchBehaviorBaseResultOfTransfer implements ITransferSearchResult {
-    /** Time in milliseconds query took to execute. */
-    elapsedMilliseconds: number;
 
     constructor(data?: ITransferSearchResult) {
         super(data);
@@ -38963,7 +38621,6 @@ export class TransferSearchResult extends SearchBehaviorBaseResultOfTransfer imp
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -38976,7 +38633,6 @@ export class TransferSearchResult extends SearchBehaviorBaseResultOfTransfer imp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -38984,16 +38640,19 @@ export class TransferSearchResult extends SearchBehaviorBaseResultOfTransfer imp
 
 /** Result from a search for transfers. */
 export interface ITransferSearchResult extends ISearchBehaviorBaseResultOfTransfer {
-    /** Time in milliseconds query took to execute. */
-    elapsedMilliseconds: number;
 }
 
 /** Request to search for transfers. */
 export class TransferSearchRequest implements ITransferSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 
     constructor(data?: ITransferSearchRequest) {
@@ -39043,10 +38702,15 @@ export class TransferSearchRequest implements ITransferSearchRequest {
 
 /** Request to search for transfers. */
 export interface ITransferSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 }
 
@@ -40128,8 +39792,7 @@ export enum FileTransferState {
 export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
     totalResults: number;
     results: FileTransfer[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfFileTransfer) {
         if (data) {
@@ -40144,7 +39807,6 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
                     this.results[i] = item && !(<any>item).toJSON ? new FileTransfer(item) : <FileTransfer>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -40159,8 +39821,7 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
                 for (let item of data["results"])
                     this.results.push(FileTransfer.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -40179,8 +39840,7 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -40188,13 +39848,13 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
 export interface IBaseResultOfFileTransfer {
     totalResults: number;
     results: IFileTransfer[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTransfer implements ISearchBehaviorBaseResultOfFileTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfFileTransfer) {
         super(data);
@@ -40205,6 +39865,7 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -40219,6 +39880,7 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -40227,12 +39889,11 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
 export interface ISearchBehaviorBaseResultOfFileTransfer extends IBaseResultOfFileTransfer {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result from a search for file transfers. */
 export class FileTransferSearchResult extends SearchBehaviorBaseResultOfFileTransfer implements IFileTransferSearchResult {
-    /** Time in milliseconds query took to execute. */
-    elapsedMilliseconds: number;
 
     constructor(data?: IFileTransferSearchResult) {
         super(data);
@@ -40241,7 +39902,6 @@ export class FileTransferSearchResult extends SearchBehaviorBaseResultOfFileTran
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -40254,7 +39914,6 @@ export class FileTransferSearchResult extends SearchBehaviorBaseResultOfFileTran
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -40262,16 +39921,19 @@ export class FileTransferSearchResult extends SearchBehaviorBaseResultOfFileTran
 
 /** Result from a search for file transfers. */
 export interface IFileTransferSearchResult extends ISearchBehaviorBaseResultOfFileTransfer {
-    /** Time in milliseconds query took to execute. */
-    elapsedMilliseconds: number;
 }
 
 /** Request to search for file transfers. */
 export class FileTransferSearchRequest implements IFileTransferSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 
     constructor(data?: IFileTransferSearchRequest) {
@@ -40321,10 +39983,15 @@ export class FileTransferSearchRequest implements IFileTransferSearchRequest {
 
 /** Request to search for file transfers. */
 export interface IFileTransferSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
     start: number;
+    /** Limits the document count of the result set. */
     limit: number;
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 }
 
@@ -40938,8 +40605,7 @@ export interface IUserCreateRequest {
 export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
     totalResults: number;
     results: UserWithRoles[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfUserWithRoles) {
         if (data) {
@@ -40954,7 +40620,6 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
                     this.results[i] = item && !(<any>item).toJSON ? new UserWithRoles(item) : <UserWithRoles>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -40969,8 +40634,7 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
                 for (let item of data["results"])
                     this.results.push(UserWithRoles.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -40989,8 +40653,7 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -40998,13 +40661,13 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
 export interface IBaseResultOfUserWithRoles {
     totalResults: number;
     results: IUserWithRoles[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles implements ISearchBehaviorBaseResultOfUserWithRoles {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfUserWithRoles) {
         super(data);
@@ -41015,6 +40678,7 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -41029,6 +40693,7 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -41037,12 +40702,11 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
 export interface ISearchBehaviorBaseResultOfUserWithRoles extends IBaseResultOfUserWithRoles {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Holds results of the user search. */
 export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles implements IUserSearchResult {
-    /** How long did the search take. */
-    elapsedMilliseconds: number;
 
     constructor(data?: IUserSearchResult) {
         super(data);
@@ -41051,7 +40715,6 @@ export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles im
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -41064,7 +40727,6 @@ export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles im
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -41072,8 +40734,6 @@ export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles im
 
 /** Holds results of the user search. */
 export interface IUserSearchResult extends ISearchBehaviorBaseResultOfUserWithRoles {
-    /** How long did the search take. */
-    elapsedMilliseconds: number;
 }
 
 /** User information retrieved via search */
@@ -41529,8 +41189,7 @@ export interface IUserDeleteRequest {
 export class BaseResultOfUserRole implements IBaseResultOfUserRole {
     totalResults: number;
     results: UserRole[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 
     constructor(data?: IBaseResultOfUserRole) {
         if (data) {
@@ -41545,7 +41204,6 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
                     this.results[i] = item && !(<any>item).toJSON ? new UserRole(item) : <UserRole>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
         }
         if (!data) {
             this.results = [];
@@ -41560,8 +41218,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
                 for (let item of data["results"])
                     this.results.push(UserRole.fromJS(item));
             }
-            this.pageToken = data["pageToken"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -41580,8 +41237,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
             for (let item of this.results)
                 data["results"].push(item.toJSON());
         }
-        data["pageToken"] = this.pageToken;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         return data; 
     }
 }
@@ -41589,13 +41245,13 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
 export interface IBaseResultOfUserRole {
     totalResults: number;
     results: IUserRole[];
-    pageToken?: string | undefined;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    elapsedMilliseconds: number;
 }
 
 export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole implements ISearchBehaviorBaseResultOfUserRole {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfUserRole) {
         super(data);
@@ -41606,6 +41262,7 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
         if (data) {
             this.searchString = data["searchString"];
             this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
         }
     }
 
@@ -41620,6 +41277,7 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -41628,12 +41286,11 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
 export interface ISearchBehaviorBaseResultOfUserRole extends IBaseResultOfUserRole {
     searchString?: string | undefined;
     isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Holds results of the user role search. */
 export class UserRoleSearchResult extends SearchBehaviorBaseResultOfUserRole implements IUserRoleSearchResult {
-    /** How long did the search take. */
-    elapsedMilliseconds: number;
 
     constructor(data?: IUserRoleSearchResult) {
         super(data);
@@ -41642,7 +41299,6 @@ export class UserRoleSearchResult extends SearchBehaviorBaseResultOfUserRole imp
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
         }
     }
 
@@ -41655,7 +41311,6 @@ export class UserRoleSearchResult extends SearchBehaviorBaseResultOfUserRole imp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
         super.toJSON(data);
         return data; 
     }
@@ -41663,8 +41318,6 @@ export class UserRoleSearchResult extends SearchBehaviorBaseResultOfUserRole imp
 
 /** Holds results of the user role search. */
 export interface IUserRoleSearchResult extends ISearchBehaviorBaseResultOfUserRole {
-    /** How long did the search take. */
-    elapsedMilliseconds: number;
 }
 
 export class UserRoleSearchRequest implements IUserRoleSearchRequest {
