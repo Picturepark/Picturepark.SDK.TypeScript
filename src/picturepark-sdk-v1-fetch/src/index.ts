@@ -10349,6 +10349,7 @@ export enum UserRight {
     ManageTermsOfService = <any>"ManageTermsOfService", 
     ManageLiveStream = <any>"ManageLiveStream", 
     ManageDocumentHistory = <any>"ManageDocumentHistory", 
+    ManageAllShares = <any>"ManageAllShares", 
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -12207,6 +12208,7 @@ export interface DocumentHistoryDifference {
     newValues?: any | undefined;
 }
 
+/** Customer configuration information */
 export interface CustomerInfo {
     /** The customer ID. */
     customerId: string;
@@ -12489,7 +12491,6 @@ export interface ListItemManyReferencesRequest {
 
 export interface Message {
     id?: string | undefined;
-    contractVersion?: string | undefined;
     maximumRetryCount: number;
     retries: number;
     priority: number;
@@ -13440,6 +13441,7 @@ export interface SchemaImportRequest {
     importListItems: boolean;
 }
 
+/** Share detail */
 export interface ShareDetail {
     /** Share ID. */
     id: string;
@@ -13477,6 +13479,7 @@ export interface ShareUser {
     emailHash: string;
 }
 
+/** Detail of shared content */
 export interface ShareContentDetail {
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
@@ -13496,6 +13499,7 @@ export interface ShareContentDetail {
     displayValues: DisplayValueDictionary;
 }
 
+/** Base of shared output */
 export interface ShareOutputBase {
     /** Content ID. */
     contentId: string;
@@ -13507,23 +13511,29 @@ export interface ShareOutputBase {
     detail?: OutputDataBase | undefined;
 }
 
+/** Shared output for basic share */
 export interface ShareOutputBasic extends ShareOutputBase {
 }
 
+/** Shared output for embed share */
 export interface ShareOutputEmbed extends ShareOutputBase {
+    /** Share token for the shared output. */
     token?: string | undefined;
 }
 
+/** Base of share data */
 export interface ShareDataBase {
     /** The URL to access the share. */
     url: string;
 }
 
+/** Embed share data */
 export interface ShareDataEmbed extends ShareDataBase {
     /** Token for the embed share. */
     token: string;
 }
 
+/** Basic share data */
 export interface ShareDataBasic extends ShareDataBase {
     /** List of recipients added using email address */
     mailRecipients: MailRecipient[];
@@ -13533,6 +13543,7 @@ export interface ShareDataBasic extends ShareDataBase {
     languageCode?: string | undefined;
 }
 
+/** Share mail recipient */
 export interface MailRecipient {
     /** User information including email. */
     userEmail: UserEmail;
@@ -13551,6 +13562,7 @@ export interface UserEmail {
     emailAddress: string;
 }
 
+/** Internal share recipient */
 export interface InternalRecipient {
     /** User information of recipient. */
     recipient: User;
@@ -13607,16 +13619,18 @@ export interface SearchBehaviorBaseResultOfShare extends BaseResultOfShare {
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
+/** Result for share search operation */
 export interface ShareSearchResult extends SearchBehaviorBaseResultOfShare {
 }
 
+/** Share */
 export interface Share {
+    /** Share ID. */
+    id: string;
     /** Name of share. */
     name?: string | undefined;
     /** List of shared content IDs. */
     contentIds: string[];
-    /** Share ID. */
-    id: string;
     /** Audit information. */
     audit: UserAudit;
     /** Date when share expires and cannot be accessed anymore. */
@@ -13627,6 +13641,7 @@ export interface Share {
     isReadOnly: boolean;
 }
 
+/** Request to search shares */
 export interface ShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -13644,6 +13659,7 @@ export interface ShareSearchRequest {
     debugMode: boolean;
 }
 
+/** Request to aggregate shares based on the specified aggregators */
 export interface ShareAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -13661,10 +13677,13 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
     aggregators?: AggregatorBase[] | undefined;
 }
 
+/** Result of share creation */
 export interface CreateShareResult {
+    /** Share ID. */
     shareId?: string | undefined;
 }
 
+/** Base create request for share */
 export interface ShareBaseCreateRequest {
     /** Name of share. */
     name: string;
@@ -13710,9 +13729,11 @@ export interface UserRole {
     userRights?: UserRight[] | undefined;
 }
 
+/** Create request for embed share */
 export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
 }
 
+/** Base of update request for share */
 export interface ShareBaseUpdateRequest {
     /** Name of share. */
     name: string;
@@ -13730,9 +13751,11 @@ export interface ShareBaseUpdateRequest {
     outputAccess: OutputAccess;
 }
 
+/** Update request for basic share */
 export interface ShareBasicUpdateRequest extends ShareBaseUpdateRequest {
 }
 
+/** Update request for embed share */
 export interface ShareEmbedUpdateRequest extends ShareBaseUpdateRequest {
 }
 

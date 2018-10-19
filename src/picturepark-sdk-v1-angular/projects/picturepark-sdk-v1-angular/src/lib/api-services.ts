@@ -17738,6 +17738,7 @@ export enum UserRight {
     ManageTermsOfService = <any>"ManageTermsOfService", 
     ManageLiveStream = <any>"ManageLiveStream", 
     ManageDocumentHistory = <any>"ManageDocumentHistory", 
+    ManageAllShares = <any>"ManageAllShares", 
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -29332,6 +29333,7 @@ export interface IDocumentHistoryDifference {
     newValues?: any | undefined;
 }
 
+/** Customer configuration information */
 export class CustomerInfo implements ICustomerInfo {
     /** The customer ID. */
     customerId: string;
@@ -29429,6 +29431,7 @@ export class CustomerInfo implements ICustomerInfo {
     }
 }
 
+/** Customer configuration information */
 export interface ICustomerInfo {
     /** The customer ID. */
     customerId: string;
@@ -30974,7 +30977,6 @@ export interface IListItemManyReferencesRequest {
 
 export abstract class Message implements IMessage {
     id?: string | undefined;
-    contractVersion?: string | undefined;
     maximumRetryCount: number;
     retries: number;
     priority: number;
@@ -30995,7 +30997,6 @@ export abstract class Message implements IMessage {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.contractVersion = data["contractVersion"];
             this.maximumRetryCount = data["maximumRetryCount"];
             this.retries = data["retries"];
             this.priority = data["priority"];
@@ -31027,7 +31028,6 @@ export abstract class Message implements IMessage {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["id"] = this.id;
-        data["contractVersion"] = this.contractVersion;
         data["maximumRetryCount"] = this.maximumRetryCount;
         data["retries"] = this.retries;
         data["priority"] = this.priority;
@@ -31038,7 +31038,6 @@ export abstract class Message implements IMessage {
 
 export interface IMessage {
     id?: string | undefined;
-    contractVersion?: string | undefined;
     maximumRetryCount: number;
     retries: number;
     priority: number;
@@ -36282,6 +36281,7 @@ export interface ISchemaImportRequest {
     importListItems: boolean;
 }
 
+/** Share detail */
 export class ShareDetail implements IShareDetail {
     /** Share ID. */
     id: string;
@@ -36393,6 +36393,7 @@ export class ShareDetail implements IShareDetail {
     }
 }
 
+/** Share detail */
 export interface IShareDetail {
     /** Share ID. */
     id: string;
@@ -36468,6 +36469,7 @@ export interface IShareUser {
     emailHash: string;
 }
 
+/** Detail of shared content */
 export class ShareContentDetail implements IShareContentDetail {
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
@@ -36553,6 +36555,7 @@ export class ShareContentDetail implements IShareContentDetail {
     }
 }
 
+/** Detail of shared content */
 export interface IShareContentDetail {
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
@@ -36572,6 +36575,7 @@ export interface IShareContentDetail {
     displayValues: IDisplayValueDictionary;
 }
 
+/** Base of shared output */
 export abstract class ShareOutputBase implements IShareOutputBase {
     /** Content ID. */
     contentId: string;
@@ -36629,6 +36633,7 @@ export abstract class ShareOutputBase implements IShareOutputBase {
     }
 }
 
+/** Base of shared output */
 export interface IShareOutputBase {
     /** Content ID. */
     contentId: string;
@@ -36640,6 +36645,7 @@ export interface IShareOutputBase {
     detail?: OutputDataBase | undefined;
 }
 
+/** Shared output for basic share */
 export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBasic {
 
     constructor(data?: IShareOutputBasic) {
@@ -36667,10 +36673,13 @@ export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBas
     }
 }
 
+/** Shared output for basic share */
 export interface IShareOutputBasic extends IShareOutputBase {
 }
 
+/** Shared output for embed share */
 export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmbed {
+    /** Share token for the shared output. */
     token?: string | undefined;
 
     constructor(data?: IShareOutputEmbed) {
@@ -36700,10 +36709,13 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
     }
 }
 
+/** Shared output for embed share */
 export interface IShareOutputEmbed extends IShareOutputBase {
+    /** Share token for the shared output. */
     token?: string | undefined;
 }
 
+/** Base of share data */
 export abstract class ShareDataBase implements IShareDataBase {
     /** The URL to access the share. */
     url: string;
@@ -36749,11 +36761,13 @@ export abstract class ShareDataBase implements IShareDataBase {
     }
 }
 
+/** Base of share data */
 export interface IShareDataBase {
     /** The URL to access the share. */
     url: string;
 }
 
+/** Embed share data */
 export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
     /** Token for the embed share. */
     token: string;
@@ -36785,11 +36799,13 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
     }
 }
 
+/** Embed share data */
 export interface IShareDataEmbed extends IShareDataBase {
     /** Token for the embed share. */
     token: string;
 }
 
+/** Basic share data */
 export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
     /** List of recipients added using email address */
     mailRecipients: MailRecipient[];
@@ -36849,6 +36865,7 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
     }
 }
 
+/** Basic share data */
 export interface IShareDataBasic extends IShareDataBase {
     /** List of recipients added using email address */
     mailRecipients: IMailRecipient[];
@@ -36858,6 +36875,7 @@ export interface IShareDataBasic extends IShareDataBase {
     languageCode?: string | undefined;
 }
 
+/** Share mail recipient */
 export class MailRecipient implements IMailRecipient {
     /** User information including email. */
     userEmail: UserEmail;
@@ -36903,6 +36921,7 @@ export class MailRecipient implements IMailRecipient {
     }
 }
 
+/** Share mail recipient */
 export interface IMailRecipient {
     /** User information including email. */
     userEmail: IUserEmail;
@@ -36962,6 +36981,7 @@ export interface IUserEmail {
     emailAddress: string;
 }
 
+/** Internal share recipient */
 export class InternalRecipient implements IInternalRecipient {
     /** User information of recipient. */
     recipient: User;
@@ -37007,6 +37027,7 @@ export class InternalRecipient implements IInternalRecipient {
     }
 }
 
+/** Internal share recipient */
 export interface IInternalRecipient {
     /** User information of recipient. */
     recipient: IUser;
@@ -37344,6 +37365,7 @@ export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+/** Result for share search operation */
 export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implements IShareSearchResult {
 
     constructor(data?: IShareSearchResult) {
@@ -37370,16 +37392,18 @@ export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implement
     }
 }
 
+/** Result for share search operation */
 export interface IShareSearchResult extends ISearchBehaviorBaseResultOfShare {
 }
 
+/** Share */
 export class Share implements IShare {
+    /** Share ID. */
+    id: string;
     /** Name of share. */
     name?: string | undefined;
     /** List of shared content IDs. */
     contentIds: string[];
-    /** Share ID. */
-    id: string;
     /** Audit information. */
     audit: UserAudit;
     /** Date when share expires and cannot be accessed anymore. */
@@ -37405,13 +37429,13 @@ export class Share implements IShare {
 
     init(data?: any) {
         if (data) {
+            this.id = data["id"];
             this.name = data["name"];
             if (data["contentIds"] && data["contentIds"].constructor === Array) {
                 this.contentIds = [];
                 for (let item of data["contentIds"])
                     this.contentIds.push(item);
             }
-            this.id = data["id"];
             this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.shareType = data["shareType"];
@@ -37428,13 +37452,13 @@ export class Share implements IShare {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["name"] = this.name;
         if (this.contentIds && this.contentIds.constructor === Array) {
             data["contentIds"] = [];
             for (let item of this.contentIds)
                 data["contentIds"].push(item);
         }
-        data["id"] = this.id;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["shareType"] = this.shareType;
@@ -37443,13 +37467,14 @@ export class Share implements IShare {
     }
 }
 
+/** Share */
 export interface IShare {
+    /** Share ID. */
+    id: string;
     /** Name of share. */
     name?: string | undefined;
     /** List of shared content IDs. */
     contentIds: string[];
-    /** Share ID. */
-    id: string;
     /** Audit information. */
     audit: IUserAudit;
     /** Date when share expires and cannot be accessed anymore. */
@@ -37460,6 +37485,7 @@ export interface IShare {
     isReadOnly: boolean;
 }
 
+/** Request to search shares */
 export class ShareSearchRequest implements IShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -37540,6 +37566,7 @@ export class ShareSearchRequest implements IShareSearchRequest {
     }
 }
 
+/** Request to search shares */
 export interface IShareSearchRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -37557,6 +37584,7 @@ export interface IShareSearchRequest {
     debugMode: boolean;
 }
 
+/** Request to aggregate shares based on the specified aggregators */
 export class ShareAggregationRequest implements IShareAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -37651,6 +37679,7 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
     }
 }
 
+/** Request to aggregate shares based on the specified aggregators */
 export interface IShareAggregationRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
@@ -37668,7 +37697,9 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
     aggregators?: AggregatorBase[] | undefined;
 }
 
+/** Result of share creation */
 export class CreateShareResult implements ICreateShareResult {
+    /** Share ID. */
     shareId?: string | undefined;
 
     constructor(data?: ICreateShareResult) {
@@ -37700,10 +37731,13 @@ export class CreateShareResult implements ICreateShareResult {
     }
 }
 
+/** Result of share creation */
 export interface ICreateShareResult {
+    /** Share ID. */
     shareId?: string | undefined;
 }
 
+/** Base create request for share */
 export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest {
     /** Name of share. */
     name: string;
@@ -37799,6 +37833,7 @@ export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest 
     }
 }
 
+/** Base create request for share */
 export interface IShareBaseCreateRequest {
     /** Name of share. */
     name: string;
@@ -38007,6 +38042,7 @@ export interface IUserRole {
     userRights?: UserRight[] | undefined;
 }
 
+/** Create request for embed share */
 export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements IShareEmbedCreateRequest {
 
     constructor(data?: IShareEmbedCreateRequest) {
@@ -38034,9 +38070,11 @@ export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements I
     }
 }
 
+/** Create request for embed share */
 export interface IShareEmbedCreateRequest extends IShareBaseCreateRequest {
 }
 
+/** Base of update request for share */
 export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
     /** Name of share. */
     name: string;
@@ -38132,6 +38170,7 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
     }
 }
 
+/** Base of update request for share */
 export interface IShareBaseUpdateRequest {
     /** Name of share. */
     name: string;
@@ -38149,6 +38188,7 @@ export interface IShareBaseUpdateRequest {
     outputAccess: OutputAccess;
 }
 
+/** Update request for basic share */
 export class ShareBasicUpdateRequest extends ShareBaseUpdateRequest implements IShareBasicUpdateRequest {
 
     constructor(data?: IShareBasicUpdateRequest) {
@@ -38176,9 +38216,11 @@ export class ShareBasicUpdateRequest extends ShareBaseUpdateRequest implements I
     }
 }
 
+/** Update request for basic share */
 export interface IShareBasicUpdateRequest extends IShareBaseUpdateRequest {
 }
 
+/** Update request for embed share */
 export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements IShareEmbedUpdateRequest {
 
     constructor(data?: IShareEmbedUpdateRequest) {
@@ -38206,6 +38248,7 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
     }
 }
 
+/** Update request for embed share */
 export interface IShareEmbedUpdateRequest extends IShareBaseUpdateRequest {
 }
 
