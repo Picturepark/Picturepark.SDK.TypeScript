@@ -34,10 +34,39 @@ export class PictureparkTemplates {
         }
         .picturepark-widget-gallery-item-{{id}} {
           overflow: hidden;
-          background: #cecece;
+          background: #eeeeee;
           margin-right: 4px;
           margin-bottom: 4px;
           position: relative;
+        }
+        .picturepark-widget-gallery-item-{{id}} a {
+          background: transparent;
+          color: #aaaaaa;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          box-sizing: border-box;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: horizontal;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+          flex-direction: row;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -ms-flex-line-pack: center;
+          align-content: center;
+          max-width: 100%;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+        }
+        .picturepark-widget-gallery-item-{{id}} a:hover {
+            text-decoration: none;
         }
         .picturepark-widget-gallery-item-image-{{id}} {
           position: absolute;
