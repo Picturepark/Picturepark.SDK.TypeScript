@@ -111,6 +111,8 @@
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#disconnectlistener" class="tsd-kind-icon">Disconnect<wbr>Listener</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#exitlistener" class="tsd-kind-icon">Exit<wbr>Listener</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#messagelistener" class="tsd-kind-icon">Message<wbr>Listener</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#multipleresolvelistener" class="tsd-kind-icon">Multiple<wbr>Resolve<wbr>Listener</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#multipleresolvetype" class="tsd-kind-icon">Multiple<wbr>Resolve<wbr>Type</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#newlistenerlistener" class="tsd-kind-icon">New<wbr>Listener<wbr>Listener</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#platform" class="tsd-kind-icon">Platform</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="nodejs.html#rejectionhandledlistener" class="tsd-kind-icon">Rejection<wbr>Handled<wbr>Listener</a></li>
@@ -134,7 +136,7 @@
 					<div class="tsd-signature tsd-kind-icon">Before<wbr>Exit<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:694</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:697</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -165,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">Disconnect<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:695</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:698</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -190,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">Exit<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:696</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:699</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -221,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">Message<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:701</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:704</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -250,12 +252,59 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="multipleresolvelistener" class="tsd-anchor"></a>
+					<h3>Multiple<wbr>Resolve<wbr>Listener</h3>
+					<div class="tsd-signature tsd-kind-icon">Multiple<wbr>Resolve<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:708</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><a href="nodejs.html#multipleresolvetype" class="tsd-signature-type">MultipleResolveType</a>, promise<span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>type: <a href="nodejs.html#multipleresolvetype" class="tsd-signature-type">MultipleResolveType</a></h5>
+											</li>
+											<li>
+												<h5>promise: <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											</li>
+											<li>
+												<h5>value: <span class="tsd-signature-type">any</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="multipleresolvetype" class="tsd-anchor"></a>
+					<h3>Multiple<wbr>Resolve<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Multiple<wbr>Resolve<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"resolve"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"reject"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:695</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 					<a name="newlistenerlistener" class="tsd-anchor"></a>
 					<h3>New<wbr>Listener<wbr>Listener</h3>
 					<div class="tsd-signature tsd-kind-icon">New<wbr>Listener<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:703</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:706</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -307,7 +356,7 @@
 					<div class="tsd-signature tsd-kind-icon">Platform<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"aix"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"android"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"darwin"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"freebsd"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"linux"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"openbsd"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sunos"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"win32"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cygwin"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:678</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:679</li>
 						</ul>
 					</aside>
 				</section>
@@ -317,7 +366,7 @@
 					<div class="tsd-signature tsd-kind-icon">Rejection<wbr>Handled<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:697</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:700</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -348,7 +397,7 @@
 					<div class="tsd-signature tsd-kind-icon">Remove<wbr>Listener<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:704</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:707</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -400,7 +449,7 @@
 					<div class="tsd-signature tsd-kind-icon">Signals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"SIGABRT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGALRM"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGBUS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGCHLD"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGCONT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGFPE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGHUP"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGILL"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGINT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGIO"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGIOT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGKILL"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGPIPE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGPOLL"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGPROF"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGPWR"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGQUIT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGSEGV"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGSTKFLT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGSTOP"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGSYS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGTERM"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGTRAP"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGTSTP"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGTTIN"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGTTOU"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGUNUSED"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGURG"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGUSR1"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGUSR2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGVTALRM"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGWINCH"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGXCPU"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGXFSZ"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGBREAK"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGLOST"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SIGINFO"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:688</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:689</li>
 						</ul>
 					</aside>
 				</section>
@@ -410,7 +459,7 @@
 					<div class="tsd-signature tsd-kind-icon">Signals<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:702</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:705</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -441,7 +490,7 @@
 					<div class="tsd-signature tsd-kind-icon">Typed<wbr>Array<span class="tsd-signature-symbol">:</span> <a href="../interfaces/uint8array.html" class="tsd-signature-type">Uint8Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/uint8clampedarray.html" class="tsd-signature-type">Uint8ClampedArray</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/uint16array.html" class="tsd-signature-type">Uint16Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/uint32array.html" class="tsd-signature-type">Uint32Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/int8array.html" class="tsd-signature-type">Int8Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/int16array.html" class="tsd-signature-type">Int16Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/int32array.html" class="tsd-signature-type">Int32Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/float32array.html" class="tsd-signature-type">Float32Array</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/float64array.html" class="tsd-signature-type">Float64Array</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1025</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:1037</li>
 						</ul>
 					</aside>
 				</section>
@@ -451,7 +500,7 @@
 					<div class="tsd-signature tsd-kind-icon">Uncaught<wbr>Exception<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:698</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:701</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -482,7 +531,7 @@
 					<div class="tsd-signature tsd-kind-icon">Unhandled<wbr>Rejection<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:699</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:702</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -516,7 +565,7 @@
 					<div class="tsd-signature tsd-kind-icon">Warning<wbr>Listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:700</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:703</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -639,6 +688,12 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="nodejs.html#messagelistener" class="tsd-kind-icon">Message<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="nodejs.html#multipleresolvelistener" class="tsd-kind-icon">Multiple<wbr>Resolve<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="nodejs.html#multipleresolvetype" class="tsd-kind-icon">Multiple<wbr>Resolve<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="nodejs.html#newlistenerlistener" class="tsd-kind-icon">New<wbr>Listener<wbr>Listener</a>
