@@ -55,8 +55,8 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
-    var config = shareDetail.template as any;
-    switch(config.kind) {
+    var config = shareDetail.template as any || {};
+    switch (config.kind) {
       case "BasicTemplate":
         config.template = "gallery";
         break;
@@ -71,7 +71,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });
-    
+
     // Fallback to card templates
     if (contentTemplate === '') {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
@@ -121,11 +121,11 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
           isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
           isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : false,
-          isBinary: 
-            s.contentSchemaId === "ImageMetadata" || 
-            s.contentSchemaId === "VideoMetadata" || 
-            s.contentSchemaId === "AudioMetadata" || 
-            s.contentSchemaId === "FileMetadata" || 
+          isBinary:
+            s.contentSchemaId === "ImageMetadata" ||
+            s.contentSchemaId === "VideoMetadata" ||
+            s.contentSchemaId === "AudioMetadata" ||
+            s.contentSchemaId === "FileMetadata" ||
             s.contentSchemaId === "DocumentMetadata",
 
           previewUrl: previewOutput ? previewOutput.url : null,
@@ -163,10 +163,11 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
       // Load movie players
       for (let item of share.items) {
         if (item.isMovie) {
-          let elementId = 'player_' + item.index + "_" + id;
+          let elementId = 'vjsplayer_' + item.index + "_" + id;
           setTimeout(() => {
-            if (document.getElementById(elementId)) {
-              PictureparkPlayers.renderVideoPlayer(item, elementId, config.width, config.height).then(player => {
+            let element = document.getElementById(elementId);
+            if (element) {
+              PictureparkPlayers.renderVideoPlayerIfNeeded(item, element, config.width, config.height).then(player => {
                 (<any>share).player = player;
               });
             }
