@@ -106,18 +106,19 @@ export class PictureparkPlayers {
   private static loadedPlayers: any[] = [];
 
   static disposeVideoPlayer(player: any) {
-    let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.player === player)[0];
+    let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.element === player.id_)[0];
     if (existingPlayer) {
+      log('Picturepark Widgets > Disposed videojs player');
       player.dispose();
       PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers
         .filter(p => p.player !== player);
+    } else {
+      log('Picturepark Widgets > Player could not be disposed' + player);
     }
-
-    log('Picturepark Widgets > Disposed videojs player');
   }
 
   static renderVideoPlayerIfNeeded(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, element: any, width: any, height: any) {
-    let playerInfo = PictureparkPlayers.loadedPlayers.filter(p => p.element === element.id)[0];
+    let playerInfo = PictureparkPlayers.loadedPlayers.filter(p => p.element === element.id_)[0];
     if (playerInfo) {
       return playerInfo.promise.then(player => {
         let element = document.getElementById(playerInfo.element);
@@ -137,7 +138,7 @@ export class PictureparkPlayers {
       });
     }
 
-    PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers.filter(p => p.element !== element.id);
+    PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers.filter(p => p.element !== element.id_);
 
     playerInfo = {
       element: element.id,
