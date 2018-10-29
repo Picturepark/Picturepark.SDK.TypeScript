@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 // SDK components
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
@@ -75,7 +75,7 @@ import { BasketService } from './services/basket.service';
     MatProgressBarModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    ScrollDispatchModule
+    ScrollingModule
   ],
   exports: [
     ChannelPickerComponent,
