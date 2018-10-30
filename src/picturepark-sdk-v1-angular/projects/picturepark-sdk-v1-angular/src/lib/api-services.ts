@@ -2054,7 +2054,7 @@ export class ContentService extends PictureparkServiceBase {
 
     /**
      * Delete multiple contents
-     * @param deleteManyRequest Delete many request
+     * @param deleteManyRequest Delete many request.
      * @return Business process
      */
     deleteMany(deleteManyRequest: ContentDeleteManyRequest): Observable<BusinessProcess> {
@@ -2090,6 +2090,105 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete multiple contents - by filter
+     * @param deleteManyFilterRequest Delete many by filter request.
+     * @return Business process
+     */
+    deleteManyByFilter(deleteManyFilterRequest: ContentDeleteManyFilterRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/contents/many/delete/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(deleteManyFilterRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteManyByFilter(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteManyByFilter(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteManyByFilter(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -5324,6 +5423,105 @@ export class ListItemService extends PictureparkServiceBase {
     }
 
     protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BusinessProcess.fromJS(resultData200) : new BusinessProcess();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete multiple list items - by filter
+     * @param deleteManyFilterRequest Delete many by filter request.
+     * @return Business process
+     */
+    deleteManyByFilter(deleteManyFilterRequest: ListItemDeleteManyFilterRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/listItems/many/delete/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(deleteManyFilterRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteManyByFilter(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteManyByFilter(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteManyByFilter(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13183,6 +13381,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ReferenceUpdateException") {
+            let result = new ReferenceUpdateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -13535,6 +13738,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "MaximumTransferSizeException") {
             let result = new MaximumTransferSizeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OnlyAccessibleToRecipientException") {
+            let result = new OnlyAccessibleToRecipientException();
             result.init(data);
             return result;
         }
@@ -14011,6 +14219,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ReferenceUpdateException") {
+            let result = new ReferenceUpdateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -14358,6 +14571,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
             let result = new BusinessProcessLifeCycleNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OnlyAccessibleToRecipientException") {
+            let result = new OnlyAccessibleToRecipientException();
             result.init(data);
             return result;
         }
@@ -14847,6 +15065,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OnlyAccessibleToRecipientException") {
+            let result = new OnlyAccessibleToRecipientException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkValidationException();
         result.init(data);
         return result;
@@ -15252,9 +15475,7 @@ export interface IServiceProviderDeleteException extends IPictureparkException {
 }
 
 export class ServiceProviderCreateException extends PictureparkException implements IServiceProviderCreateException {
-    userId?: string | undefined;
     externalId?: string | undefined;
-    virtualHost?: string | undefined;
     detailErrorMessage?: string | undefined;
 
     constructor(data?: IServiceProviderCreateException) {
@@ -15265,9 +15486,7 @@ export class ServiceProviderCreateException extends PictureparkException impleme
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.userId = data["userId"];
             this.externalId = data["externalId"];
-            this.virtualHost = data["virtualHost"];
             this.detailErrorMessage = data["detailErrorMessage"];
         }
     }
@@ -15281,9 +15500,7 @@ export class ServiceProviderCreateException extends PictureparkException impleme
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
         data["externalId"] = this.externalId;
-        data["virtualHost"] = this.virtualHost;
         data["detailErrorMessage"] = this.detailErrorMessage;
         super.toJSON(data);
         return data; 
@@ -15291,9 +15508,7 @@ export class ServiceProviderCreateException extends PictureparkException impleme
 }
 
 export interface IServiceProviderCreateException extends IPictureparkException {
-    userId?: string | undefined;
     externalId?: string | undefined;
-    virtualHost?: string | undefined;
     detailErrorMessage?: string | undefined;
 }
 
@@ -18817,6 +19032,56 @@ export class RelationTypeMissingException extends PictureparkBusinessException i
 export interface IRelationTypeMissingException extends IPictureparkBusinessException {
 }
 
+export class ReferenceUpdateException extends PictureparkBusinessException implements IReferenceUpdateException {
+    referenceItemId?: string | undefined;
+    referenceType?: string | undefined;
+    exceptions?: PictureparkException[] | undefined;
+
+    constructor(data?: IReferenceUpdateException) {
+        super(data);
+        this._discriminator = "ReferenceUpdateException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.referenceItemId = data["referenceItemId"];
+            this.referenceType = data["referenceType"];
+            if (data["exceptions"] && data["exceptions"].constructor === Array) {
+                this.exceptions = [];
+                for (let item of data["exceptions"])
+                    this.exceptions.push(PictureparkException.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ReferenceUpdateException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReferenceUpdateException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["referenceItemId"] = this.referenceItemId;
+        data["referenceType"] = this.referenceType;
+        if (this.exceptions && this.exceptions.constructor === Array) {
+            data["exceptions"] = [];
+            for (let item of this.exceptions)
+                data["exceptions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IReferenceUpdateException extends IPictureparkBusinessException {
+    referenceItemId?: string | undefined;
+    referenceType?: string | undefined;
+    exceptions?: PictureparkException[] | undefined;
+}
+
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -21690,6 +21955,36 @@ export interface IMaximumTransferSizeException extends IPictureparkException {
     transferId?: string | undefined;
 }
 
+export class OnlyAccessibleToRecipientException extends PictureparkValidationException implements IOnlyAccessibleToRecipientException {
+
+    constructor(data?: IOnlyAccessibleToRecipientException) {
+        super(data);
+        this._discriminator = "OnlyAccessibleToRecipientException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): OnlyAccessibleToRecipientException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OnlyAccessibleToRecipientException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOnlyAccessibleToRecipientException extends IPictureparkValidationException {
+}
+
 export class EnvironmentNotAvailableException extends PictureparkException implements IEnvironmentNotAvailableException {
 
     constructor(data?: IEnvironmentNotAvailableException) {
@@ -21766,6 +22061,9 @@ export class BusinessProcessSearchRequest implements IBusinessProcessSearchReque
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 
     constructor(data?: IBusinessProcessSearchRequest) {
         if (data) {
@@ -21787,6 +22085,7 @@ export class BusinessProcessSearchRequest implements IBusinessProcessSearchReque
                 for (let item of data["searchBehaviors"])
                     this.searchBehaviors.push(item);
             }
+            this.debugMode = data["debugMode"];
         }
     }
 
@@ -21808,6 +22107,7 @@ export class BusinessProcessSearchRequest implements IBusinessProcessSearchReque
             for (let item of this.searchBehaviors)
                 data["searchBehaviors"].push(item);
         }
+        data["debugMode"] = this.debugMode;
         return data; 
     }
 }
@@ -21824,6 +22124,9 @@ export interface IBusinessProcessSearchRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 }
 
 /** The filters' base class */
@@ -24976,6 +25279,7 @@ export enum OutputRenderingState {
     Completed = <any>"Completed", 
     Failed = <any>"Failed", 
     Skipped = <any>"Skipped", 
+    NoLicense = <any>"NoLicense", 
 }
 
 /** Base class for the output detail dependent on the file format. */
@@ -27162,6 +27466,8 @@ export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
     contentIds: string[];
     /** A value indicating whether references to the contents should be removed. */
     forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
 
     constructor(data?: IContentDeleteManyRequest) {
         if (data) {
@@ -27183,6 +27489,7 @@ export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
                     this.contentIds.push(item);
             }
             this.forceReferenceRemoval = data["forceReferenceRemoval"];
+            this.notifyProgress = data["notifyProgress"];
         }
     }
 
@@ -27201,6 +27508,7 @@ export class ContentDeleteManyRequest implements IContentDeleteManyRequest {
                 data["contentIds"].push(item);
         }
         data["forceReferenceRemoval"] = this.forceReferenceRemoval;
+        data["notifyProgress"] = this.notifyProgress;
         return data; 
     }
 }
@@ -27211,6 +27519,166 @@ export interface IContentDeleteManyRequest {
     contentIds: string[];
     /** A value indicating whether references to the contents should be removed. */
     forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+/** Request to delete multiple contents based on a provided filter */
+export class ContentDeleteManyFilterRequest implements IContentDeleteManyFilterRequest {
+    /** Filters the contents that need to be deleted. */
+    filterRequest: ContentFilterRequest;
+    /** A value indicating whether references to the content items should be removed. */
+    forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+
+    constructor(data?: IContentDeleteManyFilterRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.filterRequest = data.filterRequest && !(<any>data.filterRequest).toJSON ? new ContentFilterRequest(data.filterRequest) : <ContentFilterRequest>this.filterRequest; 
+        }
+        if (!data) {
+            this.filterRequest = new ContentFilterRequest();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.filterRequest = data["filterRequest"] ? ContentFilterRequest.fromJS(data["filterRequest"]) : new ContentFilterRequest();
+            this.forceReferenceRemoval = data["forceReferenceRemoval"];
+            this.notifyProgress = data["notifyProgress"];
+        }
+    }
+
+    static fromJS(data: any): ContentDeleteManyFilterRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentDeleteManyFilterRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
+        data["forceReferenceRemoval"] = this.forceReferenceRemoval;
+        data["notifyProgress"] = this.notifyProgress;
+        return data; 
+    }
+}
+
+/** Request to delete multiple contents based on a provided filter */
+export interface IContentDeleteManyFilterRequest {
+    /** Filters the contents that need to be deleted. */
+    filterRequest: IContentFilterRequest;
+    /** A value indicating whether references to the content items should be removed. */
+    forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+export class ContentFilterRequest implements IContentFilterRequest {
+    /** Limits the simple search fields to the fields available in the specified channel. */
+    channelId?: string | undefined;
+    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+    searchType: ContentSearchType;
+    /** The collection id. */
+    collectionId?: string | undefined;
+    /** An optional search filter. Limits the content document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Filter the content document result set to those that have or not have broken references */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Limits the content document result set to specific ContentRights the user has */
+    rightsFilter?: ContentRight[] | undefined;
+
+    constructor(data?: IContentFilterRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.channelId = data["channelId"];
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+            this.searchString = data["searchString"];
+            this.searchType = data["searchType"];
+            this.collectionId = data["collectionId"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.lifeCycleFilter = data["lifeCycleFilter"];
+            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
+            if (data["rightsFilter"] && data["rightsFilter"].constructor === Array) {
+                this.rightsFilter = [];
+                for (let item of data["rightsFilter"])
+                    this.rightsFilter.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentFilterRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentFilterRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["channelId"] = this.channelId;
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        data["searchString"] = this.searchString;
+        data["searchType"] = this.searchType;
+        data["collectionId"] = this.collectionId;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["lifeCycleFilter"] = this.lifeCycleFilter;
+        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
+        if (this.rightsFilter && this.rightsFilter.constructor === Array) {
+            data["rightsFilter"] = [];
+            for (let item of this.rightsFilter)
+                data["rightsFilter"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IContentFilterRequest {
+    /** Limits the simple search fields to the fields available in the specified channel. */
+    channelId?: string | undefined;
+    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+    searchType: ContentSearchType;
+    /** The collection id. */
+    collectionId?: string | undefined;
+    /** An optional search filter. Limits the content document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Filter the content document result set to those that have or not have broken references */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Limits the content document result set to specific ContentRights the user has */
+    rightsFilter?: ContentRight[] | undefined;
 }
 
 /** Request to restore multiple contents */
@@ -28342,108 +28810,6 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
 export interface IContentFieldsBatchUpdateFilterRequest extends IMetadataValuesChangeRequestBase {
     /** Filters the contents on which the change commands must be applied. */
     filterRequest: IContentFilterRequest;
-}
-
-export class ContentFilterRequest implements IContentFilterRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
-    searchType: ContentSearchType;
-    /** The collection id. */
-    collectionId?: string | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Filter the content document result set to those that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the content document result set to specific ContentRights the user has */
-    rightsFilter?: ContentRight[] | undefined;
-
-    constructor(data?: IContentFilterRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.channelId = data["channelId"];
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-            this.searchString = data["searchString"];
-            this.searchType = data["searchType"];
-            this.collectionId = data["collectionId"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (data["rightsFilter"] && data["rightsFilter"].constructor === Array) {
-                this.rightsFilter = [];
-                for (let item of data["rightsFilter"])
-                    this.rightsFilter.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ContentFilterRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentFilterRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["channelId"] = this.channelId;
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["searchString"] = this.searchString;
-        data["searchType"] = this.searchType;
-        data["collectionId"] = this.collectionId;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (this.rightsFilter && this.rightsFilter.constructor === Array) {
-            data["rightsFilter"] = [];
-            for (let item of this.rightsFilter)
-                data["rightsFilter"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IContentFilterRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
-    searchType: ContentSearchType;
-    /** The collection id. */
-    collectionId?: string | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Filter the content document result set to those that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the content document result set to specific ContentRights the user has */
-    rightsFilter?: ContentRight[] | undefined;
 }
 
 export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
@@ -30490,6 +30856,8 @@ export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
     listItemIds: string[];
     /** A value indicating whether references to the list item should be removed. */
     forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
 
     constructor(data?: IListItemDeleteManyRequest) {
         if (data) {
@@ -30511,6 +30879,7 @@ export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
                     this.listItemIds.push(item);
             }
             this.forceReferenceRemoval = data["forceReferenceRemoval"];
+            this.notifyProgress = data["notifyProgress"];
         }
     }
 
@@ -30529,6 +30898,7 @@ export class ListItemDeleteManyRequest implements IListItemDeleteManyRequest {
                 data["listItemIds"].push(item);
         }
         data["forceReferenceRemoval"] = this.forceReferenceRemoval;
+        data["notifyProgress"] = this.notifyProgress;
         return data; 
     }
 }
@@ -30539,6 +30909,152 @@ export interface IListItemDeleteManyRequest {
     listItemIds: string[];
     /** A value indicating whether references to the list item should be removed. */
     forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+/** Request to delete multiple list items based on a provided filter */
+export class ListItemDeleteManyFilterRequest implements IListItemDeleteManyFilterRequest {
+    /** Filters the list items that need to be deleted. */
+    filterRequest: ListItemFilterRequest;
+    /** A value indicating whether references to the list item should be removed. */
+    forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+
+    constructor(data?: IListItemDeleteManyFilterRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.filterRequest = data.filterRequest && !(<any>data.filterRequest).toJSON ? new ListItemFilterRequest(data.filterRequest) : <ListItemFilterRequest>this.filterRequest; 
+        }
+        if (!data) {
+            this.filterRequest = new ListItemFilterRequest();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.filterRequest = data["filterRequest"] ? ListItemFilterRequest.fromJS(data["filterRequest"]) : new ListItemFilterRequest();
+            this.forceReferenceRemoval = data["forceReferenceRemoval"];
+            this.notifyProgress = data["notifyProgress"];
+        }
+    }
+
+    static fromJS(data: any): ListItemDeleteManyFilterRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemDeleteManyFilterRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
+        data["forceReferenceRemoval"] = this.forceReferenceRemoval;
+        data["notifyProgress"] = this.notifyProgress;
+        return data; 
+    }
+}
+
+/** Request to delete multiple list items based on a provided filter */
+export interface IListItemDeleteManyFilterRequest {
+    /** Filters the list items that need to be deleted. */
+    filterRequest: IListItemFilterRequest;
+    /** A value indicating whether references to the list item should be removed. */
+    forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+/** Request to filter list items */
+export class ListItemFilterRequest implements IListItemFilterRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** An optional filter to limit the list items. */
+    filter?: FilterBase | undefined;
+    /** Broadens the search to include all schema descendant list items. */
+    includeAllSchemaChildren: boolean;
+    /** Limits the search among the list items of the provided schemas. */
+    schemaIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+
+    constructor(data?: IListItemFilterRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
+            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
+                this.schemaIds = [];
+                for (let item of data["schemaIds"])
+                    this.schemaIds.push(item);
+            }
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
+        }
+    }
+
+    static fromJS(data: any): ListItemFilterRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemFilterRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
+        if (this.schemaIds && this.schemaIds.constructor === Array) {
+            data["schemaIds"] = [];
+            for (let item of this.schemaIds)
+                data["schemaIds"].push(item);
+        }
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
+        return data; 
+    }
+}
+
+/** Request to filter list items */
+export interface IListItemFilterRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** An optional filter to limit the list items. */
+    filter?: FilterBase | undefined;
+    /** Broadens the search to include all schema descendant list items. */
+    includeAllSchemaChildren: boolean;
+    /** Limits the search among the list items of the provided schemas. */
+    schemaIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
 }
 
 /** Request to restore multiple deleted list items */
@@ -30745,94 +31261,6 @@ export interface IListItemFieldsBatchUpdateFilterRequest {
     allowMissingDependencies: boolean;
     /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
-}
-
-/** Request to filter list items */
-export class ListItemFilterRequest implements IListItemFilterRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional filter to limit the list items. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search to include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search among the list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-
-    constructor(data?: IListItemFilterRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
-            if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
-                this.schemaIds = [];
-                for (let item of data["schemaIds"])
-                    this.schemaIds.push(item);
-            }
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-        }
-    }
-
-    static fromJS(data: any): ListItemFilterRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListItemFilterRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
-        if (this.schemaIds && this.schemaIds.constructor === Array) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        return data; 
-    }
-}
-
-/** Request to filter list items */
-export interface IListItemFilterRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional filter to limit the list items. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search to include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search among the list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
 }
 
 /** Result from getting references to list items. */
@@ -38654,6 +39082,9 @@ export class TransferSearchRequest implements ITransferSearchRequest {
     limit: number;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the TransferSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 
     constructor(data?: ITransferSearchRequest) {
         if (data) {
@@ -38675,6 +39106,7 @@ export class TransferSearchRequest implements ITransferSearchRequest {
             this.start = data["start"];
             this.limit = data["limit"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.debugMode = data["debugMode"];
         }
     }
 
@@ -38696,6 +39128,7 @@ export class TransferSearchRequest implements ITransferSearchRequest {
         data["start"] = this.start;
         data["limit"] = this.limit;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["debugMode"] = this.debugMode;
         return data; 
     }
 }
@@ -38712,6 +39145,9 @@ export interface ITransferSearchRequest {
     limit: number;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the TransferSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 }
 
 /** Creates a transfer. */

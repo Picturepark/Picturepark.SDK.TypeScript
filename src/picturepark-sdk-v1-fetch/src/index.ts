@@ -1665,7 +1665,7 @@ export class ContentClient extends PictureparkClientBase {
 
     /**
      * Delete multiple contents
-     * @param deleteManyRequest Delete many request
+     * @param deleteManyRequest Delete many request.
      * @return Business process
      */
     deleteMany(deleteManyRequest: ContentDeleteManyRequest): Promise<BusinessProcess> {
@@ -1691,6 +1691,86 @@ export class ContentClient extends PictureparkClientBase {
     }
 
     protected processDeleteMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete multiple contents - by filter
+     * @param deleteManyFilterRequest Delete many by filter request.
+     * @return Business process
+     */
+    deleteManyByFilter(deleteManyFilterRequest: ContentDeleteManyFilterRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/contents/many/delete/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(deleteManyFilterRequest);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDeleteManyByFilter(_response);
+        });
+    }
+
+    protected processDeleteManyByFilter(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -4320,6 +4400,86 @@ export class ListItemClient extends PictureparkClientBase {
     }
 
     protected processDeleteMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete multiple list items - by filter
+     * @param deleteManyFilterRequest Delete many by filter request.
+     * @return Business process
+     */
+    deleteManyByFilter(deleteManyFilterRequest: ListItemDeleteManyFilterRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/listItems/many/delete/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(deleteManyFilterRequest);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDeleteManyByFilter(_response);
+        });
+    }
+
+    protected processDeleteManyByFilter(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -10034,9 +10194,7 @@ export interface ServiceProviderDeleteException extends PictureparkException {
 }
 
 export interface ServiceProviderCreateException extends PictureparkException {
-    userId?: string | undefined;
     externalId?: string | undefined;
-    virtualHost?: string | undefined;
     detailErrorMessage?: string | undefined;
 }
 
@@ -10494,6 +10652,12 @@ export interface AggregationSizeInvalidException extends PictureparkValidationEx
 export interface RelationTypeMissingException extends PictureparkBusinessException {
 }
 
+export interface ReferenceUpdateException extends PictureparkBusinessException {
+    referenceItemId?: string | undefined;
+    referenceType?: string | undefined;
+    exceptions?: PictureparkException[] | undefined;
+}
+
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -10895,6 +11059,9 @@ export interface MaximumTransferSizeException extends PictureparkException {
     transferId?: string | undefined;
 }
 
+export interface OnlyAccessibleToRecipientException extends PictureparkValidationException {
+}
+
 export interface EnvironmentNotAvailableException extends PictureparkException {
 }
 
@@ -10914,6 +11081,9 @@ export interface BusinessProcessSearchRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 }
 
 /** The filters' base class */
@@ -11443,6 +11613,7 @@ export enum OutputRenderingState {
     Completed = <any>"Completed", 
     Failed = <any>"Failed", 
     Skipped = <any>"Skipped", 
+    NoLicense = <any>"NoLicense", 
 }
 
 /** Base class for the output detail dependent on the file format. */
@@ -11862,6 +12033,39 @@ export interface ContentDeleteManyRequest {
     contentIds: string[];
     /** A value indicating whether references to the contents should be removed. */
     forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+/** Request to delete multiple contents based on a provided filter */
+export interface ContentDeleteManyFilterRequest {
+    /** Filters the contents that need to be deleted. */
+    filterRequest: ContentFilterRequest;
+    /** A value indicating whether references to the content items should be removed. */
+    forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+export interface ContentFilterRequest {
+    /** Limits the simple search fields to the fields available in the specified channel. */
+    channelId?: string | undefined;
+    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
+    searchType: ContentSearchType;
+    /** The collection id. */
+    collectionId?: string | undefined;
+    /** An optional search filter. Limits the content document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Filter the content document result set to those that have or not have broken references */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Limits the content document result set to specific ContentRights the user has */
+    rightsFilter?: ContentRight[] | undefined;
 }
 
 /** Request to restore multiple contents */
@@ -12042,27 +12246,6 @@ export interface MetadataValuesSchemaItemRemoveCommand extends MetadataValuesCha
 export interface ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeRequestBase {
     /** Filters the contents on which the change commands must be applied. */
     filterRequest: ContentFilterRequest;
-}
-
-export interface ContentFilterRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
-    searchType: ContentSearchType;
-    /** The collection id. */
-    collectionId?: string | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the content document result set to that life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Filter the content document result set to those that have or not have broken references */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the content document result set to specific ContentRights the user has */
-    rightsFilter?: ContentRight[] | undefined;
 }
 
 export interface BaseResultOfPermissionSet {
@@ -12418,6 +12601,35 @@ export interface ListItemDeleteManyRequest {
     listItemIds: string[];
     /** A value indicating whether references to the list item should be removed. */
     forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+/** Request to delete multiple list items based on a provided filter */
+export interface ListItemDeleteManyFilterRequest {
+    /** Filters the list items that need to be deleted. */
+    filterRequest: ListItemFilterRequest;
+    /** A value indicating whether references to the list item should be removed. */
+    forceReferenceRemoval: boolean;
+    /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request. */
+    notifyProgress: boolean;
+}
+
+/** Request to filter list items */
+export interface ListItemFilterRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
+    searchString?: string | undefined;
+    /** An optional filter to limit the list items. */
+    filter?: FilterBase | undefined;
+    /** Broadens the search to include all schema descendant list items. */
+    includeAllSchemaChildren: boolean;
+    /** Limits the search among the list items of the provided schemas. */
+    schemaIds?: string[] | undefined;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
 }
 
 /** Request to restore multiple deleted list items */
@@ -12450,23 +12662,6 @@ export interface ListItemFieldsBatchUpdateFilterRequest {
     allowMissingDependencies: boolean;
     /** Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update. */
     notifyProgress: boolean;
-}
-
-/** Request to filter list items */
-export interface ListItemFilterRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
-    searchString?: string | undefined;
-    /** An optional filter to limit the list items. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search to include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search among the list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
 }
 
 /** Result from getting references to list items. */
@@ -13834,6 +14029,9 @@ export interface TransferSearchRequest {
     limit: number;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the TransferSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
 }
 
 /** Creates a transfer. */

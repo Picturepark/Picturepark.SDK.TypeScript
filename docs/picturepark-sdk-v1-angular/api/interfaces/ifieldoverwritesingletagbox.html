@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Overwritten information for Single Tagbox field.</p>
+						<p>Overwritten information for FieldSingleTagbox</p>
 					</div>
 				</div>
 			</section>
@@ -119,12 +119,13 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../classes/filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33390">lib/api-services.ts:33390</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35154">lib/api-services.ts:35154</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional search filter. Limits the list item result set.</p>
+							<p>An optional filter to limit the list items: this value will overwrite the existing Filter value specified in the parent schema  if
+							OverwriteFilter is set to true.</p>
 						</div>
 					</div>
 				</section>
@@ -135,12 +136,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ifieldoverwritebase.html">IFieldOverwriteBase</a>.<a href="ifieldoverwritebase.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33336">lib/api-services.ts:33336</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35096">lib/api-services.ts:35096</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The field id. Can be a slug and must be unique within the schema.</p>
+							<p>The field&#39;s ID whose information need to be overwritten.</p>
 						</div>
 					</div>
 				</section>
@@ -150,12 +151,13 @@
 					<div class="tsd-signature tsd-kind-icon">list<wbr>Item<wbr>Create<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33394">lib/api-services.ts:33394</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35159">lib/api-services.ts:35159</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Json serialized template used for creating new list item</p>
+							<p>Json serialized template used for creating new list item: this value will overwrite the existing ListItemCreateTemplate value specified in the parent schema  if
+							OverwriteListItemCreateTemplate is set to true.</p>
 						</div>
 					</div>
 				</section>
@@ -165,12 +167,12 @@
 					<div class="tsd-signature tsd-kind-icon">overwrite<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33392">lib/api-services.ts:33392</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35156">lib/api-services.ts:35156</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines if the Filter property of the field is overwritten</p>
+							<p>Enable the overwriting of the Filter property of the field specified by the Id property.</p>
 						</div>
 					</div>
 				</section>
@@ -180,12 +182,12 @@
 					<div class="tsd-signature tsd-kind-icon">overwrite<wbr>List<wbr>Item<wbr>Create<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33396">lib/api-services.ts:33396</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35161">lib/api-services.ts:35161</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines if the ListItemCreateTemplate property of the field is overwritten</p>
+							<p>Enable the overwriting of the ListItemCreateTemplate property of the field specified by the Id property.</p>
 						</div>
 					</div>
 				</section>
@@ -196,12 +198,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ifieldoverwritebase.html">IFieldOverwriteBase</a>.<a href="ifieldoverwritebase.html#overwriterequired">overwriteRequired</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33340">lib/api-services.ts:33340</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35101">lib/api-services.ts:35101</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines if the required property of the field is overwritten</p>
+							<p>Enable the overwriting of the Required property of the field specified by the Id property.</p>
 						</div>
 					</div>
 				</section>
@@ -212,12 +214,13 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ifieldoverwritebase.html">IFieldOverwriteBase</a>.<a href="ifieldoverwritebase.html#required">required</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L33338">lib/api-services.ts:33338</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35099">lib/api-services.ts:35099</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines if a field value is mandatory or not.</p>
+							<p>Defines if a field value is mandatory or not: this value will overwrite the existing Required value specified in the parent schema  if
+							OverwriteRequired is set to true.</p>
 						</div>
 					</div>
 				</section>

@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to update content metadata</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -111,12 +118,14 @@
 					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <a href="idatadictionary.html" class="tsd-signature-type">IDataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26553">lib/api-services.ts:26553</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27866">lib/api-services.ts:27866</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The dynamic data structure matching the field schematics of the content schema (ContentSchemaId).</p>
+							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
+							whose ContentType is ContentItem).</p>
 						</div>
 					</div>
 				</section>
@@ -126,12 +135,13 @@
 					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26551">lib/api-services.ts:26551</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27862">lib/api-services.ts:27862</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An id list of schemas with schema type layer.</p>
+							<p>An optional list of IDs of the schemas that form the layers of the content.
+							The SchemaType of the specified schemas must be Layer.</p>
 						</div>
 					</div>
 				</section>
@@ -141,12 +151,17 @@
 					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schemas<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26557">lib/api-services.ts:26557</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27879">lib/api-services.ts:27879</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Options to modify the behavior for updating schemas.</p>
+							<p>Options to modify the behavior for updating the layers.
+								Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
+								and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
+								Replace: the content is updated so that only the layers specified in the LayerSchemaIds property are assigned to the content;
+								existing assigned layers not specified in the property are removed and missing layers are assigned.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -156,12 +171,16 @@
 					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="idatadictionary.html" class="tsd-signature-type">IDataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26555">lib/api-services.ts:26555</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27872">lib/api-services.ts:27872</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).</p>
+							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+								by the LayerSchemaIds property.
+								For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
+							an exception is thrown.</p>
 						</div>
 					</div>
 				</section>
@@ -171,12 +190,17 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26559">lib/api-services.ts:26559</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27886">lib/api-services.ts:27886</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Options to modify the behavior for updating the values of schemas.</p>
+							<p>Options to modify the behavior for updating the values of schemas.
+								Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
+								schema on the content.
+								Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
+								corresponding schema on the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>

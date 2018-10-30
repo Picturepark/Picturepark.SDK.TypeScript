@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Removes a list item id reference from a multi tagbox.</p>
+						<p>Removes a list item from a FieldMultiTagbox field</p>
 					</div>
 				</div>
 			</section>
@@ -137,7 +137,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27355">lib/api-services.ts:27355</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28730">lib/api-services.ts:28730</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,72 +160,73 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#_discriminator">_discriminator</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27042">lib/api-services.ts:27042</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28405">lib/api-services.ts:28405</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="fieldnamespace" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Namespace</h3>
-					<div class="tsd-signature tsd-kind-icon">field<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>field<wbr>Namespace</h3>
+					<div class="tsd-signature tsd-kind-icon">field<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/imetadatavaluesschemaitemremovecommand.html">IMetadataValuesSchemaItemRemoveCommand</a>.<a href="../interfaces/imetadatavaluesschemaitemremovecommand.html#fieldnamespace">fieldNamespace</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27353">lib/api-services.ts:27353</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28728">lib/api-services.ts:28728</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The field namespace</p>
+							<p>The field namespace.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="fieldpath" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Path</h3>
-					<div class="tsd-signature tsd-kind-icon">field<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>field<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">field<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/imetadatavaluesschemaitemremovecommand.html">IMetadataValuesSchemaItemRemoveCommand</a>.<a href="../interfaces/imetadatavaluesschemaitemremovecommand.html#fieldpath">fieldPath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27351">lib/api-services.ts:27351</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28726">lib/api-services.ts:28726</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The path of the field relative to the Content or Layer schema values defined by the schemaId property</p>
+							<p>The path of the field relative to the Content or Layer schema values defined by the schemaId property.
+							(i.e. add a team (existing list item) to the work information of a person: fieldPath = &quot;workInfo.teams&quot;, schemaId = &quot;PersonLayer&quot;).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="referenceid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reference<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">reference<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>reference<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">reference<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/imetadatavaluesschemaitemremovecommand.html">IMetadataValuesSchemaItemRemoveCommand</a>.<a href="../interfaces/imetadatavaluesschemaitemremovecommand.html#referenceid">referenceId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27355">lib/api-services.ts:27355</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28730">lib/api-services.ts:28730</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The id of the list item to be removed.</p>
+							<p>The ID of the list item to be removed.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="schemaid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schema<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>schema<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/imetadatavaluesschemaitemremovecommand.html">IMetadataValuesSchemaItemRemoveCommand</a>.<a href="../interfaces/imetadatavaluesschemaitemremovecommand.html#schemaid">schemaId</a></p>
 						<p>Inherited from <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#schemaid">schemaId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27040">lib/api-services.ts:27040</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28403">lib/api-services.ts:28403</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The id of the schema to which the operation scope is addressed.</p>
+							<p>The ID of the schema to which the operation scope is addressed.</p>
 						</div>
 					</div>
 				</section>
@@ -243,7 +244,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27362">lib/api-services.ts:27362</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28737">lib/api-services.ts:28737</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -267,7 +268,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27378">lib/api-services.ts:27378</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28753">lib/api-services.ts:28753</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -291,7 +292,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metadatavalueschangecommandbase.html">MetadataValuesChangeCommandBase</a>.<a href="metadatavalueschangecommandbase.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27371">lib/api-services.ts:27371</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28746">lib/api-services.ts:28746</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
