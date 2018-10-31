@@ -25,6 +25,8 @@ describe('ShareService', () => {
       }));
 
       const result = await shareService.create(new ShareBasicCreateRequest({
+        name: 'Share',
+        languageCode: 'en',
         contents: contents,
         outputAccess: OutputAccess.Full
       })).toPromise();
@@ -32,7 +34,7 @@ describe('ShareService', () => {
       const share = await shareService.get(result!.shareId!).toPromise();
 
       // assert
-      expect(result!.shareId).not.toBeNull();
-      expect(share!.id).toEqual(result!.shareId);
+      expect(result.shareId).not.toBeNull();
+      expect(share.id).toEqual(result.shareId!);
     })));
 });

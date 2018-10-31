@@ -23,6 +23,7 @@ export class EmbedService {
 
       try {
         const result = await this.shareService.create(new ShareEmbedCreateRequest({
+          name: 'Embed',
           contents: contentItems,
           outputAccess: OutputAccess.Full
         })).toPromise();

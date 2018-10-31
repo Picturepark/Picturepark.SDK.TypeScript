@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The TermsRelationAggregator is derived from the TermsAggregator and used for aggregations on indexed enum values.</p>
+						<p>A multi-bucket value aggregator used for aggregations on indexed enum values.</p>
 					</div>
 				</div>
 			</section>
@@ -123,7 +123,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iaggregatorbase.html">IAggregatorBase</a>.<a href="iaggregatorbase.html#aggregators">aggregators</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23540">lib/api-services.ts:23540</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24361">lib/api-services.ts:24361</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,16 +134,16 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="enumtype" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> enum<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">enum<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>enum<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">enum<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24076">lib/api-services.ts:24076</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24911">lib/api-services.ts:24911</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>When aggregating on enum fields EnumType is needed to resolve the enum translation.</p>
+							<p>Type of the enum target of the relation. It is used to resolve the enum translation.</p>
 						</div>
 					</div>
 				</section>
@@ -154,7 +154,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itermsaggregator.html">ITermsAggregator</a>.<a href="itermsaggregator.html#excludes">excludes</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23987">lib/api-services.ts:23987</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24822">lib/api-services.ts:24822</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -165,17 +165,17 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="field" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field</h3>
-					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>field</h3>
+					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itermsaggregator.html">ITermsAggregator</a>.<a href="itermsaggregator.html#field">field</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23981">lib/api-services.ts:23981</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24816">lib/api-services.ts:24816</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The elastic search index field (not analyzed) to execute the aggregation on.</p>
+							<p>The field&#39;s ID to execute the aggregation on. Only not analyzed fields are supported.</p>
 						</div>
 					</div>
 				</section>
@@ -186,7 +186,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itermsaggregator.html">ITermsAggregator</a>.<a href="itermsaggregator.html#includes">includes</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23985">lib/api-services.ts:23985</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24820">lib/api-services.ts:24820</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -197,17 +197,17 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iaggregatorbase.html">IAggregatorBase</a>.<a href="iaggregatorbase.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23536">lib/api-services.ts:23536</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24357">lib/api-services.ts:24357</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The slug name of the aggregation. Must be unique per aggregation request.</p>
+							<p>The slug name of the aggregation. It must be unique per aggregation request.</p>
 						</div>
 					</div>
 				</section>
@@ -218,12 +218,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iaggregatorbase.html">IAggregatorBase</a>.<a href="iaggregatorbase.html#names">names</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23538">lib/api-services.ts:23538</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24359">lib/api-services.ts:24359</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The translated names of the aggregation.</p>
+							<p>Language specific field names.</p>
 						</div>
 					</div>
 				</section>
@@ -234,12 +234,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itermsaggregator.html">ITermsAggregator</a>.<a href="itermsaggregator.html#searchfields">searchFields</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23991">lib/api-services.ts:23991</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24826">lib/api-services.ts:24826</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used</p>
+							<p>Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used.</p>
 						</div>
 					</div>
 				</section>
@@ -250,12 +250,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itermsaggregator.html">ITermsAggregator</a>.<a href="itermsaggregator.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23989">lib/api-services.ts:23989</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24824">lib/api-services.ts:24824</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Search string to be used to search within possible aggregation values</p>
+							<p>Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported.</p>
 						</div>
 					</div>
 				</section>
@@ -266,12 +266,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itermsaggregator.html">ITermsAggregator</a>.<a href="itermsaggregator.html#size">size</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L23983">lib/api-services.ts:23983</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L24818">lib/api-services.ts:24818</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The size parameter can be set to define how many term buckets should be returned out of the overall terms list.</p>
+							<p>It defines how many term buckets should be returned out of the overall terms list.</p>
 						</div>
 					</div>
 				</section>

@@ -3,6 +3,12 @@
 
 import * as picturepark from 'picturepark';
 
+function log(message: string) {
+  if (console) {
+    console.log(message);
+  }
+}
+
 export class PictureparkPlayers {
   static loading = false;
   static scriptsPath = undefined;
@@ -97,27 +103,85 @@ export class PictureparkPlayers {
     }
   }
 
-  static renderVideoPlayer(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, elementId: string, width: any, height: any) {
-    return this.loadVideoPlayer().then((jwplayer) => {
-      let player = jwplayer(elementId);
-      if (player.setup) {
-        return jwplayer(elementId).setup({
-          autostart: false,
-          image: item.previewUrl,
-          file: item.originalUrl,
-          type: item.originalFileExtension.substr(1),
+  private static loadedPlayers: any[] = [];
+
+  static disposeVideoPlayer(player: any) {
+    let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.element === player.id_)[0];
+    if (existingPlayer) {
+      log('Picturepark Widgets > Disposed videojs player');
+      player.dispose();
+      PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers
+        .filter(p => p.player !== player);
+    } else {
+      log('Picturepark Widgets > Player could not be disposed' + player);
+    }
+  }
+
+  static renderVideoPlayerIfNeeded(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, element: any, width: any, height: any) {
+    let playerInfo = PictureparkPlayers.loadedPlayers.filter(p => p.element === element.id_)[0];
+    if (playerInfo) {
+      return playerInfo.promise.then(player => {
+        let element = document.getElementById(playerInfo.element);
+        if (!element || !element.tagName || element.tagName.toLowerCase() === 'video') {
+          if (player) {
+            PictureparkPlayers.disposeVideoPlayer(player);
+          }
+          return PictureparkPlayers.renderVideoPlayer(element, item, width, height).then((player) => {
+            playerInfo.player = player;
+            log('Picturepark Widgets > Reloaded videojs player: ' + element.id);
+            return player;
+          });
+        } else {
+          log('Picturepark Widgets > Reused videojs player: ' + element.id);
+          return player;
+        }
+      });
+    }
+
+    PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers.filter(p => p.element !== element.id_);
+
+    playerInfo = {
+      element: element.id,
+      promise: PictureparkPlayers.renderVideoPlayer(element, item, width, height).then(player => {
+        log('Picturepark Widgets > Created videojs player: ' + element.id);
+        return player;
+      })
+    };
+
+    PictureparkPlayers.loadedPlayers.push(playerInfo);
+    return playerInfo.promise;
+  }
+
+  static renderVideoPlayer(element, item, width, height) {
+    return this.loadVideoPlayerLibraries().then((videojs) => {
+      return new Promise<any>((resolve) => {
+        var player = videojs(element, {
+          autoplay: false,
+          controls: true,
+          poster: item.previewUrl,
           width: width,
-          height: height
+          height: height,
+          preload: 'auto'
+        }, () => {
+          resolve(player);
         });
-      }
-      return undefined;
+
+        player.src({ type: 'video/mp4', src: item.originalUrl });
+        return player;
+      });
     });
   }
 
-  static loadVideoPlayer() {
-    if ((<any>window).jwplayer)
-      return Promise.resolve((<any>window).jwplayer);
-    return this.loadScript("https://content.jwplatform.com/libraries/DbXZPMBQ.js", 'jwplayer');
+  static loadVideoPlayerLibraries() {
+    if ((<any>window).videojs)
+      return Promise.resolve((<any>window).videojs);
+
+    return Promise.all([
+      this.loadCss("https://vjs.zencdn.net/7.0.3/video-js.css"),
+      this.loadScript("https://vjs.zencdn.net/7.0.3/video.js", "videojs")
+    ]).then(([_, videojs]) => {
+      return videojs;
+    });
   }
 
   static showPdfJsItem(item) {
@@ -132,7 +196,7 @@ export class PictureparkPlayers {
     let savedOverflow = document.body.style.overflow;
     let keydownCallback = (e: KeyboardEvent) => {
       let event = e || <KeyboardEvent>window.event;
-      let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : ((event as any).keyCode == 27);
+      let isEscape = "key" in event ? (event.key == "Escape" || event.key == "Esc") : ((<any>event).keyCode == 27);
       if (isEscape) {
         closeCallback();
       }
@@ -174,11 +238,11 @@ export class PictureparkPlayers {
           return {
             html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
               'src="' + PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
-              origin: i.originalUrl
+            origin: i.originalUrl
           };
         } else if (i.isMovie) {
           return {
-            html: '<div id="jwplayer_' + i.id + '"></div>',
+            html: '<video class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></video>',
             origin: i.originalUrl
           };
         } else if (!i.isBinary) {
@@ -196,11 +260,11 @@ export class PictureparkPlayers {
 
       var photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: shareItems.indexOf(shareItem) });
       photoSwipe.options.history = false;
-      photoSwipe.options.shareButtons = [{id:'download', label:'Download', url:'{{raw_image_url}}', download:true}];
+      photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
         return photoSwipe.currItem.src || photoSwipe.currItem.origin || '';
       },
-      photoSwipe.init();
+        photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
         let gallery = galleryElementId ? PictureparkPlayers.getGallery(galleryElementId) : undefined;
         if (gallery) {
@@ -208,22 +272,23 @@ export class PictureparkPlayers {
         }
       });
 
-      var players = [];
       var resizeCallbacks = [];
+      var loadedPlayers = [];
+
       if (shareItems.filter(i => i.isMovie || i.isPdf).length > 0) {
         var updatePlayers = () => {
           if (shareItems.filter(i => i.isMovie).length > 0) {
-            // TODO: Only update if not already initialized
-            PictureparkPlayers.loadVideoPlayer().then(() => {
-              for (let i of shareItems.filter(i => i.isMovie)) {
-                PictureparkPlayers.renderVideoPlayer(i, "jwplayer_" + i.id, window.innerWidth, window.innerHeight).then(player => {
-                  if (player) {
-                    players.push(player);
-                    let resizeCallback = () => player.resize(window.innerWidth, window.innerHeight);
-                    resizeCallbacks.push(resizeCallback);
-                    window.addEventListener('resize', resizeCallback, false);
-                  }
-                });
+            PictureparkPlayers.loadVideoPlayerLibraries().then(() => {
+              for (let item of shareItems.filter(i => i.isMovie)) {
+                let elementId = "vjsplayer_" + item.id;
+                let element = document.getElementById(elementId);
+                if (element) {
+                  PictureparkPlayers.renderVideoPlayerIfNeeded(item, element, window.innerWidth, window.innerHeight).then(player => {
+                    if (player) {
+                      loadedPlayers.push(player);
+                    }
+                  });
+                }
               }
             });
           }
@@ -241,16 +306,22 @@ export class PictureparkPlayers {
           }
         };
 
-        photoSwipe.listen('beforeChange', updatePlayers);
-        setTimeout(updatePlayers);
+        photoSwipe.listen('afterChange', () => {
+          updatePlayers();
+          photoSwipe.listen('beforeChange', updatePlayers);
+        });
+
+        updatePlayers();
       }
 
       return new Promise((resolve) => {
         photoSwipe.listen('close', () => {
-          for (let player of players)
-            player.remove();
-          for (let resizeCallback of resizeCallbacks)
+          for (let player of loadedPlayers) {
+            this.disposeVideoPlayer(player);
+          }
+          for (let resizeCallback of resizeCallbacks) {
             window.removeEventListener('resize', resizeCallback, false);
+          }
           resolve();
         });
       });
@@ -332,14 +403,14 @@ export class PictureparkPlayers {
 
   static loadScript(url: string, globalName: string): Promise<any> {
     if ((<any>window).require) {
-      console.log('Picturepark Widgets > Load external script via require(): ' + url);
+      log('Picturepark Widgets > Load external script via require(): ' + url);
       return new Promise(resolve => {
         (<any>window).require([url], (module) => {
           resolve(module);
         });
       });
     } else {
-      console.log('Picturepark Widgets > Load external script via tag: ' + url);
+      log('Picturepark Widgets > Load external script via tag: ' + url);
       return new Promise<any>((resolve) => {
         var scriptTag = document.createElement('script');
         scriptTag.src = url;
@@ -374,7 +445,7 @@ interface IShareItem {
   isBinary: boolean;
 
   displayValues: any;
-  previewUrl: string; 
+  previewUrl: string;
 
   originalUrl: string;
   originalFileExtension: string;

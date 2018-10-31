@@ -34,10 +34,39 @@ export class PictureparkTemplates {
         }
         .picturepark-widget-gallery-item-{{id}} {
           overflow: hidden;
-          background: #cecece;
+          background: #eeeeee;
           margin-right: 4px;
           margin-bottom: 4px;
           position: relative;
+        }
+        .picturepark-widget-gallery-item-{{id}} a {
+          background: transparent;
+          color: #aaaaaa;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          box-sizing: border-box;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: horizontal;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+          flex-direction: row;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -ms-flex-line-pack: center;
+          align-content: center;
+          max-width: 100%;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+        }
+        .picturepark-widget-gallery-item-{{id}} a:hover {
+            text-decoration: none;
         }
         .picturepark-widget-gallery-item-image-{{id}} {
           position: absolute;
@@ -91,6 +120,10 @@ export class PictureparkTemplates {
         {% assign height = config.height | plus: -1 %}
         {% for selection in share.items %}
           <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
+            {% if selection.isMovie and config.showPlayers == true %}
+            <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
+            </video>
+            {% else %}
             <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
               {% if selection.isBinary == false %}
                 <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
@@ -104,6 +137,7 @@ export class PictureparkTemplates {
                 </svg>
               </div>
             </a>
+            {% endif %}
           </div>
         {% endfor %}
     </div>
@@ -219,9 +253,9 @@ export class PictureparkTemplates {
             {% for selection in share.items %}
             <div class="picturepark-widget-card-gallery picturepark-widget-card-gallery-{{id}}"
                 {% if forloop.first == false %}style="display: none"{% endif %}>
-              {% if selection.isMovie %}
-              <div id="player_{{ forloop.index0 }}_{{ id }}">
-              </div>
+              {% if selection.isMovie and config.showPlayers != false %}
+              <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
+              </video>
               {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
                {% if selection.isBinary == false %}

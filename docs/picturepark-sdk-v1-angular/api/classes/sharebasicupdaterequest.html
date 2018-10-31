@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Update request for basic share</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -100,12 +107,12 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="sharebasicupdaterequest.html#_discriminator" class="tsd-kind-icon">_discriminator</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#contents" class="tsd-kind-icon">contents</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#description" class="tsd-kind-icon">description</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#expirationdate" class="tsd-kind-icon">expiration<wbr>Date</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#outputaccess" class="tsd-kind-icon">output<wbr>Access</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#sharecontentitems" class="tsd-kind-icon">share<wbr>Content<wbr>Items</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="sharebasicupdaterequest.html#template" class="tsd-kind-icon">template</a></li>
 							</ul>
 						</section>
@@ -133,7 +140,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35850">lib/api-services.ts:35850</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38620">lib/api-services.ts:38620</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,9 +163,26 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#_discriminator">_discriminator</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35764">lib/api-services.ts:35764</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38522">lib/api-services.ts:38522</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="contents" class="tsd-anchor"></a>
+					<h3>contents</h3>
+					<div class="tsd-signature tsd-kind-icon">contents<span class="tsd-signature-symbol">:</span> <a href="sharecontent.html" class="tsd-signature-type">ShareContent</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#contents">contents</a></p>
+						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#contents">contents</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38514">lib/api-services.ts:38514</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of contents including outputs. Existing items needs to be sent again, otherwise they will be removed.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="description" class="tsd-anchor"></a>
@@ -168,9 +192,14 @@
 						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#description">description</a></p>
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#description">description</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35758">lib/api-services.ts:35758</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38512">lib/api-services.ts:38512</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Optional description of share.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="expirationdate" class="tsd-anchor"></a>
@@ -180,9 +209,14 @@
 						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#expirationdate">expirationDate</a></p>
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#expirationdate">expirationDate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35757">lib/api-services.ts:35757</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38510">lib/api-services.ts:38510</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Optional date when share expires and cannot be accessed anymore.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="layerschemaids" class="tsd-anchor"></a>
@@ -192,21 +226,31 @@
 						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35760">lib/api-services.ts:35760</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38516">lib/api-services.ts:38516</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of content layers to share.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#name">name</a></p>
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35756">lib/api-services.ts:35756</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38508">lib/api-services.ts:38508</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Name of share.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="outputaccess" class="tsd-anchor"></a>
@@ -216,21 +260,14 @@
 						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#outputaccess">outputAccess</a></p>
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#outputaccess">outputAccess</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35762">lib/api-services.ts:35762</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38520">lib/api-services.ts:38520</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="sharecontentitems" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> share<wbr>Content<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">share<wbr>Content<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="sharecontent.html" class="tsd-signature-type">ShareContent</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#sharecontentitems">shareContentItems</a></p>
-						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#sharecontentitems">shareContentItems</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35759">lib/api-services.ts:35759</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Access for content outputs in share.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="template" class="tsd-anchor"></a>
@@ -240,9 +277,14 @@
 						<p>Implementation of <a href="../interfaces/isharebasicupdaterequest.html">IShareBasicUpdateRequest</a>.<a href="../interfaces/isharebasicupdaterequest.html#template">template</a></p>
 						<p>Inherited from <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#template">template</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35761">lib/api-services.ts:35761</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38518">lib/api-services.ts:38518</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Configuration for template to use on the share detail page.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
@@ -258,7 +300,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35857">lib/api-services.ts:35857</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38627">lib/api-services.ts:38627</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -282,7 +324,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35870">lib/api-services.ts:35870</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38640">lib/api-services.ts:38640</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,7 +348,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="sharebaseupdaterequest.html">ShareBaseUpdateRequest</a>.<a href="sharebaseupdaterequest.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35863">lib/api-services.ts:35863</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38633">lib/api-services.ts:38633</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -343,6 +385,9 @@
 								<a href="sharebasicupdaterequest.html#_discriminator" class="tsd-kind-icon">_discriminator</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="sharebasicupdaterequest.html#contents" class="tsd-kind-icon">contents</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="sharebasicupdaterequest.html#description" class="tsd-kind-icon">description</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -356,9 +401,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="sharebasicupdaterequest.html#outputaccess" class="tsd-kind-icon">output<wbr>Access</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="sharebasicupdaterequest.html#sharecontentitems" class="tsd-kind-icon">share<wbr>Content<wbr>Items</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="sharebasicupdaterequest.html#template" class="tsd-kind-icon">template</a>

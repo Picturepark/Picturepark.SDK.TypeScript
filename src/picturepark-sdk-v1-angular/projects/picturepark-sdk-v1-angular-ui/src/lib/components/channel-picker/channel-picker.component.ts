@@ -15,7 +15,7 @@ export class ChannelPickerComponent implements OnInit {
   public channels: Channel[] = [];
 
   @Output()
-  public channelsChange = new EventEmitter<Channel[]>()
+  public channelsChange = new EventEmitter<Channel[]>();
 
   public constructor(private channelService: ChannelService, private ref: ApplicationRef) {
   }

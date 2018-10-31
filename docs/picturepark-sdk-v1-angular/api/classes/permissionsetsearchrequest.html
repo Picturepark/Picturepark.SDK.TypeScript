@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to search permission sets</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -97,7 +104,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#rightfilter" class="tsd-kind-icon">right<wbr>Filter</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="permissionsetsearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
@@ -127,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27548">lib/api-services.ts:27548</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29021">lib/api-services.ts:29021</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -150,12 +157,13 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#debugmode">debugMode</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27547">lib/api-services.ts:27547</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29018">lib/api-services.ts:29018</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance.</p>
+							<p>Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
+							Warning! It severely affects performance.</p>
 						</div>
 					</div>
 				</section>
@@ -166,7 +174,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27544">lib/api-services.ts:27544</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29013">lib/api-services.ts:29013</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,12 +185,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#limit">limit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27543">lib/api-services.ts:27543</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29012">lib/api-services.ts:29012</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the document count of the result set. Defaults to 30.</p>
+							<p>Limits the number of the returned schemas. Defaults to 30.</p>
 						</div>
 					</div>
 				</section>
@@ -193,23 +201,28 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#rightfilter">rightFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27545">lib/api-services.ts:27545</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="searchbehaviours" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviours</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviours<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehaviour.html" class="tsd-signature-type">SearchBehaviour</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#searchbehaviours">searchBehaviours</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27538">lib/api-services.ts:27538</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29015">lib/api-services.ts:29015</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of search behaviours. All the passed behaviours will be applied</p>
+							<p>Filters based on the PermissionSetRight of the user.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="searchbehaviors" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#searchbehaviors">searchBehaviors</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29007">lib/api-services.ts:29007</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional list of search behaviors. All the passed behaviors will be applied in the specified order.</p>
 						</div>
 					</div>
 				</section>
@@ -220,9 +233,15 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#searchlanguages">searchLanguages</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27548">lib/api-services.ts:27548</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29021">lib/api-services.ts:29021</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+							If not specified, all metadata languages defined in the system are used.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="searchstring" class="tsd-anchor"></a>
@@ -231,12 +250,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27536">lib/api-services.ts:27536</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29005">lib/api-services.ts:29005</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the search by using a query string filter. The Lucene query string syntax is supported.</p>
+							<p>The string used to query the data. The Lucene query string syntax is supported.</p>
 						</div>
 					</div>
 				</section>
@@ -247,7 +266,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#sort">sort</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27539">lib/api-services.ts:27539</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29008">lib/api-services.ts:29008</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -258,12 +277,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ipermissionsetsearchrequest.html">IPermissionSetSearchRequest</a>.<a href="../interfaces/ipermissionsetsearchrequest.html#start">start</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27541">lib/api-services.ts:27541</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29010">lib/api-services.ts:29010</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines the offset from the first result you want to fetch. Defaults to 0.</p>
+							<p>Defines the offset from the first matching document. Defaults to 0.</p>
 						</div>
 					</div>
 				</section>
@@ -280,7 +299,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27566">lib/api-services.ts:27566</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29039">lib/api-services.ts:29039</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,7 +322,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27599">lib/api-services.ts:27599</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29072">lib/api-services.ts:29072</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -326,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27592">lib/api-services.ts:27592</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L29065">lib/api-services.ts:29065</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -372,7 +391,7 @@
 								<a href="permissionsetsearchrequest.html#rightfilter" class="tsd-kind-icon">right<wbr>Filter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="permissionsetsearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a>
+								<a href="permissionsetsearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="permissionsetsearchrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a>

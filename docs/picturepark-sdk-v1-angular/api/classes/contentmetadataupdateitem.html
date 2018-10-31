@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Item to update content metadata</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -131,7 +138,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26676">lib/api-services.ts:26676</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28012">lib/api-services.ts:28012</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -155,28 +162,30 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#content">content</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26494">lib/api-services.ts:26494</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27789">lib/api-services.ts:27789</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The dynamic data structure matching the field schematics of the content schema (ContentSchemaId).</p>
+							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
+							whose ContentType is ContentItem).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26676">lib/api-services.ts:26676</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28012">lib/api-services.ts:28012</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content id.</p>
+							<p>The ID of the content.</p>
 						</div>
 					</div>
 				</section>
@@ -188,12 +197,13 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#layerschemaids">layerSchemaIds</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26492">lib/api-services.ts:26492</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27785">lib/api-services.ts:27785</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An id list of schemas with schema type layer.</p>
+							<p>An optional list of IDs of the schemas that form the layers of the content.
+							The SchemaType of the specified schemas must be Layer.</p>
 						</div>
 					</div>
 				</section>
@@ -205,12 +215,17 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26498">lib/api-services.ts:26498</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27802">lib/api-services.ts:27802</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Options to modify the behavior for updating schemas.</p>
+							<p>Options to modify the behavior for updating the layers.
+								Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
+								and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
+								Replace: the content is updated so that only the layers specified in the LayerSchemaIds property are assigned to the content;
+								existing assigned layers not specified in the property are removed and missing layers are assigned.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -222,12 +237,16 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#metadata">metadata</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26496">lib/api-services.ts:26496</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27795">lib/api-services.ts:27795</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).</p>
+							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+								by the LayerSchemaIds property.
+								For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
+							an exception is thrown.</p>
 						</div>
 					</div>
 				</section>
@@ -239,12 +258,17 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26500">lib/api-services.ts:26500</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L27809">lib/api-services.ts:27809</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Options to modify the behavior for updating the values of schemas.</p>
+							<p>Options to modify the behavior for updating the values of schemas.
+								Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
+								schema on the content.
+								Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
+								corresponding schema on the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -262,7 +286,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26682">lib/api-services.ts:26682</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28018">lib/api-services.ts:28018</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -286,7 +310,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26696">lib/api-services.ts:26696</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28032">lib/api-services.ts:28032</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,7 +334,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L26689">lib/api-services.ts:26689</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28025">lib/api-services.ts:28025</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to search list items</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -103,7 +110,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#referencedfieldsdisplaypatternids" class="tsd-kind-icon">referenced<wbr>Fields<wbr>Display<wbr>Pattern<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="listitemsearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
@@ -133,7 +140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28734">lib/api-services.ts:28734</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30311">lib/api-services.ts:30311</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,12 +163,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#brokendependenciesfilter">brokenDependenciesFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28724">lib/api-services.ts:28724</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30299">lib/api-services.ts:30299</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Filter the returned list items that have or not have broken references</p>
+							<p>Limits the search to the list items that have or not have broken references. By default it includes both.</p>
 						</div>
 					</div>
 				</section>
@@ -172,12 +179,13 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#debugmode">debugMode</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28732">lib/api-services.ts:28732</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30309">lib/api-services.ts:30309</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance.</p>
+							<p>Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+							Warning! It severely affects performance.</p>
 						</div>
 					</div>
 				</section>
@@ -188,7 +196,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#displaypatternids">displayPatternIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28722">lib/api-services.ts:28722</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30297">lib/api-services.ts:30297</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,12 +212,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28716">lib/api-services.ts:28716</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30291">lib/api-services.ts:30291</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional search filter. Limits the list item result set.</p>
+							<p>An optional filter to limit the list items.</p>
 						</div>
 					</div>
 				</section>
@@ -220,12 +228,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#includeallschemachildren">includeAllSchemaChildren</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28718">lib/api-services.ts:28718</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30293">lib/api-services.ts:30293</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Broadens the search and include all schema descendant list items.</p>
+							<p>Broadens the search to include all schema descendant list items.</p>
 						</div>
 					</div>
 				</section>
@@ -236,7 +244,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#includecontentdata">includeContentData</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28730">lib/api-services.ts:28730</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30306">lib/api-services.ts:30306</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,12 +260,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#lifecyclefilter">lifeCycleFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28734">lib/api-services.ts:28734</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30311">lib/api-services.ts:30311</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the list item document result set to that life cycle state. Defaults to ActiveOnly.</p>
+							<p>Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly.</p>
 						</div>
 					</div>
 				</section>
@@ -268,12 +276,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#limit">limit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28714">lib/api-services.ts:28714</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30289">lib/api-services.ts:30289</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the document count of the result set. Defaults to 30.</p>
+							<p>Limits the number of the returned schemas. Defaults to 30.</p>
 						</div>
 					</div>
 				</section>
@@ -284,12 +292,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#referencedfieldsdisplaypatternids">referencedFieldsDisplayPatternIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28726">lib/api-services.ts:28726</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30301">lib/api-services.ts:30301</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Define the display values included in the search response for the referenced fields. Defaults to no display value.</p>
+							<p>Defines the display values included in the search response for the referenced fields. Defaults to no display value.</p>
 						</div>
 					</div>
 				</section>
@@ -300,28 +308,28 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#schemaids">schemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28720">lib/api-services.ts:28720</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30295">lib/api-services.ts:30295</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the search to list items of the provided schemas.</p>
+							<p>Limits the search among the list items of the provided schemas.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="searchbehaviours" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviours</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviours<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehaviour.html" class="tsd-signature-type">SearchBehaviour</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="searchbehaviors" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#searchbehaviours">searchBehaviours</a></p>
+						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#searchbehaviors">searchBehaviors</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28708">lib/api-services.ts:28708</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30283">lib/api-services.ts:30283</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of search behaviours. All the passed behaviours will be applied</p>
+							<p>An optional list of search behaviors. All the passed behaviors will be applied in the specified order.</p>
 						</div>
 					</div>
 				</section>
@@ -332,12 +340,13 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#searchlanguages">searchLanguages</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28728">lib/api-services.ts:28728</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30304">lib/api-services.ts:30304</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Only searches the specified language values. Defaults to all metadata languages of the language configuration.</p>
+							<p>When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+							If not specified, all metadata languages defined in the system are used.</p>
 						</div>
 					</div>
 				</section>
@@ -348,12 +357,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28706">lib/api-services.ts:28706</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30281">lib/api-services.ts:30281</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *.</p>
+							<p>The string used to query the data. The Lucene query string syntax is supported.</p>
 						</div>
 					</div>
 				</section>
@@ -364,12 +373,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#sort">sort</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28710">lib/api-services.ts:28710</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30285">lib/api-services.ts:30285</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Sorts the search results. Sorting on a not indexed field will throw an exception.</p>
+							<p>Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception.</p>
 						</div>
 					</div>
 				</section>
@@ -380,12 +389,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ilistitemsearchrequest.html">IListItemSearchRequest</a>.<a href="../interfaces/ilistitemsearchrequest.html#start">start</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28712">lib/api-services.ts:28712</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30287">lib/api-services.ts:30287</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines the offset from the first result you want to fetch. Defaults to 0.</p>
+							<p>Defines the offset from the first matching document. Defaults to 0.</p>
 						</div>
 					</div>
 				</section>
@@ -402,7 +411,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28752">lib/api-services.ts:28752</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30329">lib/api-services.ts:30329</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -425,7 +434,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28803">lib/api-services.ts:28803</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30380">lib/api-services.ts:30380</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -448,7 +457,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6c713909/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28796">lib/api-services.ts:28796</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30373">lib/api-services.ts:30373</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,7 +521,7 @@
 								<a href="listitemsearchrequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="listitemsearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a>
+								<a href="listitemsearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="listitemsearchrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a>
