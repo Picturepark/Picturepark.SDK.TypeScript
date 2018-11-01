@@ -55,7 +55,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
-    var config = shareDetail.template as any || {};
+    let config = shareDetail.template as any || {};
     switch (config.kind) {
       case "BasicTemplate":
         config.template = "gallery";
@@ -71,7 +71,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });
-
+    
     // Fallback to card templates
     if (contentTemplate === '') {
       contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
@@ -121,12 +121,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
           isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
           isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : false,
-          isBinary:
-            s.contentSchemaId === "ImageMetadata" ||
-            s.contentSchemaId === "VideoMetadata" ||
-            s.contentSchemaId === "AudioMetadata" ||
-            s.contentSchemaId === "FileMetadata" ||
-            s.contentSchemaId === "DocumentMetadata",
+          isBinary: s.contentType !== "ContentItem" as any,
 
           previewUrl: previewOutput ? previewOutput.url : null,
           previewContentId: previewOutput ? previewOutput.contentId : null,
@@ -136,6 +131,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           originalContentId: originalOutput ? originalOutput.contentId : null,
           originalOutputFormatId: originalOutput ? originalOutput.outputFormatId : null,
           originalFileExtension: originalOutput ? originalOutput.fileExtension : null,
+          outputs: outputs
         };
       })
     }
@@ -174,6 +170,38 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           });
         }
       }
+
+      if (config.template === "gallery") {
+        // Set document events for all items
+        setTimeout(() => {
+          const menuButtons = document.getElementsByClassName("picturepark-widget-gallery-item-outputs-" + id);
+          const resetDropdowns = function (currentDropdown?: Element) {
+            const dropdowns = document.getElementsByClassName("picturepark-widget-gallery-item-outputs-dropdown-" + id);
+            for (let i = 0; i < dropdowns.length; i++) {
+              const dropdown = dropdowns[i];
+              if (dropdown.classList.contains("show") && dropdown !== currentDropdown) {
+                  dropdown.classList.remove("show");
+              }
+            }
+          };
+          for (let i = 0; i < menuButtons.length; i++) {
+            // When the user clicks on the outputs, toggle between hiding and showing the dropdown
+            menuButtons[i].addEventListener("click", function (event) {
+              event.stopPropagation();
+              const dropdown = menuButtons[i].nextElementSibling;
+              resetDropdowns(dropdown);
+              dropdown.classList.toggle("show");
+            }.bind(this));
+          }
+          // Close the dropdown if the user clicks outside of it
+          window.onclick = function (event: any) {
+            if (!event.target.matches(".picturepark-widget-gallery-item-outputs-" + id)) {
+              resetDropdowns();
+            }
+          }
+        });
+      }
+
       return true;
     });
   }).catch((e) => {

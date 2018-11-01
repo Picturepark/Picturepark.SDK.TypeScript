@@ -8,6 +8,58 @@ export var TRANSLATIONS = {
       en: "Download all",
       de: "Alle herunterladen"
     }
+  },
+  AudioPreview: {
+    en: "Audio waveform preview",
+    de: "Audio-Wellenform Voransicht"
+  },
+  AudioSmall: {
+    en: "Audio",
+    de: "Audio"
+  },
+  DocumentPreview: {
+    en: "Document preview",
+    de: "Dokument Voransicht"
+  },
+  Original: {
+    en: "Original",
+    de: "Original"
+  },
+  Pdf: {
+    en: "PDF",
+    de: "PDF"
+  },
+  Preview: {
+    en: "Preview",
+    de: "Voransicht"
+  },
+  ThumbnailLarge: {
+    en: "Large thumbnail",
+    de: "Vorschau gross"
+  },
+  ThumbnailMedium: {
+    en: "Medium thumbnail",
+    de: "Vorschau mittel"
+  },
+  ThumbnailSmall: {
+    en: "Small thumbnail",
+    de: "Vorschau klein"
+  },
+  VideoKeyframes: {
+    en: "Video keyframes",
+    de: "Video-Keyframes"
+  },
+  VideoLarge: {
+    en: "Large video",
+    de: "Video gross"
+  },
+  VideoPreview: {
+    en: "Video preview",
+   de: "Video Voransicht"
+  },
+  VideoSmall: {
+    en: "Small video",
+    de: "Video klein"
   }
 }
 
