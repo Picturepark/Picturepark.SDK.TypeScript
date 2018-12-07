@@ -232,7 +232,8 @@ export class PictureparkPlayers {
           return {
             src: i.previewUrl,
             w: i.detail.width,
-            h: i.detail.height
+            h: i.detail.height,
+            origin: i.originalUrl
           };
         } else if (i.isPdf) {
           return {
@@ -262,7 +263,7 @@ export class PictureparkPlayers {
       photoSwipe.options.history = false;
       photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
-        return photoSwipe.currItem.src || photoSwipe.currItem.origin || '';
+        return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
       },
         photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
