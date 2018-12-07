@@ -90,7 +90,8 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
             contentId: s.id,
             outputFormatId: o.outputFormatId,
             fileExtension: o.detail ? o.detail.fileExtension : null,
-            url: o.url,
+            viewUrl: o.viewUrl,
+            downloadUrl: o.downloadUrl,
             detail: o.detail
           }
         });
@@ -101,7 +102,8 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           contentId: string;
           outputFormatId: string;
           fileExtension: string;
-          url: string;
+          viewUrl: string;
+          downloadUrl: string;
           detail: picturepark.OutputDataBase;
         };
 
@@ -123,11 +125,11 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : false,
           isBinary: s.contentType !== "ContentItem" as any,
 
-          previewUrl: previewOutput ? previewOutput.url : null,
+          previewUrl: previewOutput ? previewOutput.viewUrl : null,
           previewContentId: previewOutput ? previewOutput.contentId : null,
           previewOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
 
-          originalUrl: originalOutput ? originalOutput.url : null,
+          originalUrl: originalOutput ? originalOutput.downloadUrl : null,
           originalContentId: originalOutput ? originalOutput.contentId : null,
           originalOutputFormatId: originalOutput ? originalOutput.outputFormatId : null,
           originalFileExtension: originalOutput ? originalOutput.fileExtension : null,

@@ -154,7 +154,7 @@ export class PictureparkTemplates {
               </div>
               <div class="picturepark-widget-gallery-item-outputs-dropdown-{{id}}">
                 {% for output in selection.outputs %}
-                  <a href="{{ output.url }}" target="_blank" download>{% translate output.outputFormatId %}</a>
+                  <a href="{{ output.downloadUrl }}" target="_blank" download>{% translate output.outputFormatId %}</a>
                 {% endfor %}
               </div>
             {% endif %}

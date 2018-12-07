@@ -707,16 +707,16 @@ export class ContentService extends PictureparkServiceBase {
     /**
      * Get content
      * @param contentId The content ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @return Content detail
      */
-    get(contentId: string, resolveBehaviours: ContentResolveBehaviour[] | null | undefined): Observable<ContentDetail | null> {
+    get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail | null> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -911,17 +911,17 @@ export class ContentService extends PictureparkServiceBase {
     /**
      * Get multiple contents
      * @param ids List of content IDs
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @return List of Content detail
      */
-    getMany(ids: string[] | null, resolveBehaviours: ContentResolveBehaviour[] | null | undefined): Observable<ContentDetail[]> {
+    getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
         let url_ = this.baseUrl + "/v1/contents?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1017,17 +1017,17 @@ export class ContentService extends PictureparkServiceBase {
 
     /**
      * Create content
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param allowMissingDependencies (optional) Allows creating contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @param contentCreateRequest Content create request.
      * @return The content details
      */
-    create(resolveBehaviours: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
+    create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents?";
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -2559,20 +2559,20 @@ export class ContentService extends PictureparkServiceBase {
     /**
      * Update content metadata
      * @param contentId The content ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param allowMissingDependencies (optional) Allows storing references to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @param updateRequest Content metadata update request.
      * @return Content detail
      */
-    updateMetadata(contentId: string, resolveBehaviours: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
+    updateMetadata(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/metadata?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -2674,19 +2674,19 @@ export class ContentService extends PictureparkServiceBase {
     /**
      * Update content permissions
      * @param contentId The content ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @param updateRequest Content permissions update request.
      * @return Content detail
      */
-    updatePermissions(contentId: string, resolveBehaviours: ContentResolveBehaviour[] | null | undefined, timeout: string | null | undefined, updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
+    updatePermissions(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/permissions?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -4455,16 +4455,16 @@ export class ListItemService extends PictureparkServiceBase {
     /**
      * Get list item
      * @param listItemId The list item ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list item are resolved and returned.
      * @return List item detail
      */
-    get(listItemId: string, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined): Observable<ListItemDetail> {
+    get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
         url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4557,20 +4557,20 @@ export class ListItemService extends PictureparkServiceBase {
     /**
      * Update list item
      * @param listItemId The list item ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list item are resolved and returned.
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @param updateRequest The list item update request.
      * @return List item detail
      */
-    update(listItemId: string, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ListItemUpdateRequest): Observable<ListItemDetail> {
+    update(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ListItemUpdateRequest): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
         url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -4774,17 +4774,17 @@ export class ListItemService extends PictureparkServiceBase {
     /**
      * Get multiple list items
      * @param ids List of list item IDs.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list items are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list items are resolved and returned.
      * @return List of list item details
      */
-    getMany(ids: string[] | null, resolveBehaviours: ListItemResolveBehaviour[] | null | undefined): Observable<ListItemDetail[]> {
+    getMany(ids: string[] | null, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail[]> {
         let url_ = this.baseUrl + "/v1/listItems?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4880,17 +4880,17 @@ export class ListItemService extends PictureparkServiceBase {
 
     /**
      * Create list item
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list item are resolved and returned.
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @param listItemCreateRequest List item create request.
      * @return List item detail
      */
-    create(resolveBehaviours: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, listItemCreateRequest: ListItemCreateRequest): Observable<ListItemDetail> {
+    create(resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, listItemCreateRequest: ListItemCreateRequest): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems?";
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -13606,6 +13606,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaViewForAllException") {
+            let result = new SchemaViewForAllException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -14444,6 +14449,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaViewForAllException") {
+            let result = new SchemaViewForAllException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -14982,6 +14992,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "MissingDisplayPatternForCustomerDefaultLanguageException") {
             let result = new MissingDisplayPatternForCustomerDefaultLanguageException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaViewForAllException") {
+            let result = new SchemaViewForAllException();
             result.init(data);
             return result;
         }
@@ -20834,6 +20849,40 @@ export enum DisplayPatternType {
     Name = <any>"Name", 
 }
 
+export class SchemaViewForAllException extends PictureparkValidationException implements ISchemaViewForAllException {
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaViewForAllException) {
+        super(data);
+        this._discriminator = "SchemaViewForAllException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaViewForAllException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaViewForAllException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaViewForAllException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
     numberOfReferences: number;
     numberOfShares: number;
@@ -24990,12 +25039,16 @@ export class ContentDetail implements IContentDetail {
     layerSchemaIds: string[];
     /** The metadata dictionary */
     metadata?: DataDictionary | undefined;
-    /** A list of rendering ouputs for underlying digital file. */
+    /** A list of rendering outputs for underlying digital file. */
     outputs?: Output[] | undefined;
-    /** The id of a owner token. Defines the content owner. */
+    /** The owner token ID. Defines the content owner. */
     ownerTokenId: string;
+    /** The resolved owner. */
+    owner?: User | undefined;
     /** The lifecycle of the content. */
     lifeCycle: LifeCycle;
+    /** List of content rights the user has on this content */
+    contentRights?: ContentRight[] | undefined;
 
     constructor(data?: IContentDetail) {
         if (data) {
@@ -25006,6 +25059,7 @@ export class ContentDetail implements IContentDetail {
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
             this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
+            this.owner = data.owner && !(<any>data.owner).toJSON ? new User(data.owner) : <User>this.owner; 
         }
         if (!data) {
             this.layerSchemaIds = [];
@@ -25037,7 +25091,13 @@ export class ContentDetail implements IContentDetail {
                     this.outputs.push(Output.fromJS(item));
             }
             this.ownerTokenId = data["ownerTokenId"];
+            this.owner = data["owner"] ? User.fromJS(data["owner"]) : <any>undefined;
             this.lifeCycle = data["lifeCycle"];
+            if (data["contentRights"] && data["contentRights"].constructor === Array) {
+                this.contentRights = [];
+                for (let item of data["contentRights"])
+                    this.contentRights.push(item);
+            }
         }
     }
 
@@ -25073,7 +25133,13 @@ export class ContentDetail implements IContentDetail {
                 data["outputs"].push(item.toJSON());
         }
         data["ownerTokenId"] = this.ownerTokenId;
+        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
         data["lifeCycle"] = this.lifeCycle;
+        if (this.contentRights && this.contentRights.constructor === Array) {
+            data["contentRights"] = [];
+            for (let item of this.contentRights)
+                data["contentRights"].push(item);
+        }
         return data; 
     }
 }
@@ -25099,12 +25165,16 @@ export interface IContentDetail {
     layerSchemaIds: string[];
     /** The metadata dictionary */
     metadata?: IDataDictionary | undefined;
-    /** A list of rendering ouputs for underlying digital file. */
+    /** A list of rendering outputs for underlying digital file. */
     outputs?: Output[] | undefined;
-    /** The id of a owner token. Defines the content owner. */
+    /** The owner token ID. Defines the content owner. */
     ownerTokenId: string;
+    /** The resolved owner. */
+    owner?: IUser | undefined;
     /** The lifecycle of the content. */
     lifeCycle: LifeCycle;
+    /** List of content rights the user has on this content */
+    contentRights?: ContentRight[] | undefined;
 }
 
 export class DisplayValueDictionary implements IDisplayValueDictionary {
@@ -25691,6 +25761,62 @@ export class OutputDetail extends Output implements IOutputDetail {
 export interface IOutputDetail extends IOutput {
 }
 
+export class User implements IUser {
+    /** User's Picturepark ID. */
+    id?: string | undefined;
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.emailAddress = data["emailAddress"];
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["emailAddress"] = this.emailAddress;
+        return data; 
+    }
+}
+
+export interface IUser {
+    /** User's Picturepark ID. */
+    id?: string | undefined;
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+}
+
 /** Lifecycle */
 export enum LifeCycle {
     Draft = <any>"Draft", 
@@ -25699,7 +25825,17 @@ export enum LifeCycle {
     Deleted = <any>"Deleted", 
 }
 
-export enum ContentResolveBehaviour {
+/** Content rights */
+export enum ContentRight {
+    View = <any>"View", 
+    AccessOriginal = <any>"AccessOriginal", 
+    EditMetadata = <any>"EditMetadata", 
+    ReplaceFile = <any>"ReplaceFile", 
+    ManagePermissions = <any>"ManagePermissions", 
+    Delete = <any>"Delete", 
+}
+
+export enum ContentResolveBehavior {
     Content = <any>"Content", 
     LinkedListItems = <any>"LinkedListItems", 
     Metadata = <any>"Metadata", 
@@ -25708,6 +25844,8 @@ export enum ContentResolveBehaviour {
     InnerDisplayValueList = <any>"InnerDisplayValueList", 
     InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
     InnerDisplayValueName = <any>"InnerDisplayValueName", 
+    Owner = <any>"Owner", 
+    Permissions = <any>"Permissions", 
 }
 
 export class BaseResultOfContent implements IBaseResultOfContent {
@@ -25815,6 +25953,8 @@ export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent
 
 /** Result for content search operation */
 export class ContentSearchResult extends SearchBehaviorBaseResultOfContent implements IContentSearchResult {
+    /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
+    rightsAggregationsCounts?: ContentRightAggregationCount[] | undefined;
 
     constructor(data?: IContentSearchResult) {
         super(data);
@@ -25823,6 +25963,11 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
     init(data?: any) {
         super.init(data);
         if (data) {
+            if (data["rightsAggregationsCounts"] && data["rightsAggregationsCounts"].constructor === Array) {
+                this.rightsAggregationsCounts = [];
+                for (let item of data["rightsAggregationsCounts"])
+                    this.rightsAggregationsCounts.push(ContentRightAggregationCount.fromJS(item));
+            }
         }
     }
 
@@ -25835,6 +25980,11 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        if (this.rightsAggregationsCounts && this.rightsAggregationsCounts.constructor === Array) {
+            data["rightsAggregationsCounts"] = [];
+            for (let item of this.rightsAggregationsCounts)
+                data["rightsAggregationsCounts"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -25842,6 +25992,54 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
 /** Result for content search operation */
 export interface IContentSearchResult extends ISearchBehaviorBaseResultOfContent {
+    /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
+    rightsAggregationsCounts?: IContentRightAggregationCount[] | undefined;
+}
+
+/** Combination of ContentRight and found document count */
+export class ContentRightAggregationCount implements IContentRightAggregationCount {
+    /** ContentRight. */
+    contentRight: ContentRight;
+    /** Found document count. */
+    count: number;
+
+    constructor(data?: IContentRightAggregationCount) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contentRight = data["contentRight"];
+            this.count = data["count"];
+        }
+    }
+
+    static fromJS(data: any): ContentRightAggregationCount {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRightAggregationCount();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentRight"] = this.contentRight;
+        data["count"] = this.count;
+        return data; 
+    }
+}
+
+/** Combination of ContentRight and found document count */
+export interface IContentRightAggregationCount {
+    /** ContentRight. */
+    contentRight: ContentRight;
+    /** Found document count. */
+    count: number;
 }
 
 export class Content implements IContent {
@@ -26003,6 +26201,9 @@ If not specified, all metadata languages defined in the system are used. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
     /** Limits the contents to the ones the user has the specified ContentRights. */
     rightsFilter?: ContentRight[] | undefined;
+    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
+Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
+    rightsAggregations?: ContentRight[] | undefined;
     /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
     searchType: ContentSearchType;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
@@ -26060,6 +26261,11 @@ Warning! It severely affects performance. */
                 for (let item of data["rightsFilter"])
                     this.rightsFilter.push(item);
             }
+            if (data["rightsAggregations"] && data["rightsAggregations"].constructor === Array) {
+                this.rightsAggregations = [];
+                for (let item of data["rightsAggregations"])
+                    this.rightsAggregations.push(item);
+            }
             this.searchType = data["searchType"];
             this.debugMode = data["debugMode"];
         }
@@ -26107,6 +26313,11 @@ Warning! It severely affects performance. */
             for (let item of this.rightsFilter)
                 data["rightsFilter"].push(item);
         }
+        if (this.rightsAggregations && this.rightsAggregations.constructor === Array) {
+            data["rightsAggregations"] = [];
+            for (let item of this.rightsAggregations)
+                data["rightsAggregations"].push(item);
+        }
         data["searchType"] = this.searchType;
         data["debugMode"] = this.debugMode;
         return data; 
@@ -26142,6 +26353,9 @@ If not specified, all metadata languages defined in the system are used. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
     /** Limits the contents to the ones the user has the specified ContentRights. */
     rightsFilter?: ContentRight[] | undefined;
+    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
+Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
+    rightsAggregations?: ContentRight[] | undefined;
     /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
     searchType: ContentSearchType;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
@@ -26161,16 +26375,6 @@ export enum BrokenDependenciesFilter {
     All = <any>"All", 
     NotBrokenOnly = <any>"NotBrokenOnly", 
     BrokenOnly = <any>"BrokenOnly", 
-}
-
-/** Content rights */
-export enum ContentRight {
-    View = <any>"View", 
-    AccessOriginal = <any>"AccessOriginal", 
-    Edit = <any>"Edit", 
-    Update = <any>"Update", 
-    Manage = <any>"Manage", 
-    Delete = <any>"Delete", 
 }
 
 export enum ContentSearchType {
@@ -30114,7 +30318,7 @@ export interface IListItemDetail {
     id?: string | undefined;
 }
 
-export enum ListItemResolveBehaviour {
+export enum ListItemResolveBehavior {
     Content = <any>"Content", 
     LinkedListItems = <any>"LinkedListItems", 
     InnerDisplayValueThumbnail = <any>"InnerDisplayValueThumbnail", 
@@ -32974,10 +33178,9 @@ the UI uses such information to show the available filters and grouped results. 
     system: boolean;
     /** The owner token ID. Defines the schema owner. */
     ownerTokenId: string;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
@@ -33064,7 +33267,7 @@ that reference the layer. */
             }
             this.system = data["system"];
             this.ownerTokenId = data["ownerTokenId"];
-            this.public = data["public"];
+            this.viewForAll = data["viewForAll"];
             if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
                 this.schemaPermissionSetIds = [];
                 for (let item of data["schemaPermissionSetIds"])
@@ -33136,7 +33339,7 @@ that reference the layer. */
         }
         data["system"] = this.system;
         data["ownerTokenId"] = this.ownerTokenId;
-        data["public"] = this.public;
+        data["viewForAll"] = this.viewForAll;
         if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
             data["schemaPermissionSetIds"] = [];
             for (let item of this.schemaPermissionSetIds)
@@ -33191,10 +33394,9 @@ the UI uses such information to show the available filters and grouped results. 
     system: boolean;
     /** The owner token ID. Defines the schema owner. */
     ownerTokenId: string;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
@@ -35946,10 +36148,9 @@ the UI uses such information to show the available filters and grouped results. 
     /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
 must be set to true. Multiple sorting is supported: they are applied in the specified order. */
     sort?: SortInfo[] | undefined;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
     layerSchemaIds?: string[] | undefined;
@@ -36021,7 +36222,7 @@ that reference the layer. */
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.public = data["public"];
+            this.viewForAll = data["viewForAll"];
             if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
                 this.schemaPermissionSetIds = [];
                 for (let item of data["schemaPermissionSetIds"])
@@ -36083,7 +36284,7 @@ that reference the layer. */
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["public"] = this.public;
+        data["viewForAll"] = this.viewForAll;
         if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
             data["schemaPermissionSetIds"] = [];
             for (let item of this.schemaPermissionSetIds)
@@ -36128,10 +36329,9 @@ the UI uses such information to show the available filters and grouped results. 
     /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
 must be set to true. Multiple sorting is supported: they are applied in the specified order. */
     sort?: ISortInfo[] | undefined;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
     layerSchemaIds?: string[] | undefined;
@@ -36200,10 +36400,9 @@ the UI uses such information to show the available filters and grouped results. 
     /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
 must be set to true. Multiple sorting is supported: they are applied in the specified order. */
     sort?: SortInfo[] | undefined;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
     layerSchemaIds?: string[] | undefined;
@@ -36265,7 +36464,7 @@ that reference the layer. */
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.public = data["public"];
+            this.viewForAll = data["viewForAll"];
             if (data["schemaPermissionSetIds"] && data["schemaPermissionSetIds"].constructor === Array) {
                 this.schemaPermissionSetIds = [];
                 for (let item of data["schemaPermissionSetIds"])
@@ -36320,7 +36519,7 @@ that reference the layer. */
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["public"] = this.public;
+        data["viewForAll"] = this.viewForAll;
         if (this.schemaPermissionSetIds && this.schemaPermissionSetIds.constructor === Array) {
             data["schemaPermissionSetIds"] = [];
             for (let item of this.schemaPermissionSetIds)
@@ -36359,10 +36558,9 @@ the UI uses such information to show the available filters and grouped results. 
     /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
 must be set to true. Multiple sorting is supported: they are applied in the specified order. */
     sort?: ISortInfo[] | undefined;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
     layerSchemaIds?: string[] | undefined;
@@ -36577,8 +36775,8 @@ export interface IPermissionUserRoleRightsOfMetadataRight {
 /** Metadata rights */
 export enum MetadataRight {
     View = <any>"View", 
-    Edit = <any>"Edit", 
-    Manage = <any>"Manage", 
+    ManageItems = <any>"ManageItems", 
+    ManageSchema = <any>"ManageSchema", 
 }
 
 /** Represents a transfer. */
@@ -37009,8 +37207,10 @@ export abstract class ShareOutputBase implements IShareOutputBase {
     contentId: string;
     /** Output format ID. */
     outputFormatId: string;
+    /** Url to directly view output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
+    viewUrl?: string | undefined;
     /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
-    url?: string | undefined;
+    downloadUrl?: string | undefined;
     /** Output details. */
     detail?: OutputDataBase | undefined;
 
@@ -37030,7 +37230,8 @@ export abstract class ShareOutputBase implements IShareOutputBase {
         if (data) {
             this.contentId = data["contentId"];
             this.outputFormatId = data["outputFormatId"];
-            this.url = data["url"];
+            this.viewUrl = data["viewUrl"];
+            this.downloadUrl = data["downloadUrl"];
             this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
         }
     }
@@ -37055,7 +37256,8 @@ export abstract class ShareOutputBase implements IShareOutputBase {
         data["kind"] = this._discriminator; 
         data["contentId"] = this.contentId;
         data["outputFormatId"] = this.outputFormatId;
-        data["url"] = this.url;
+        data["viewUrl"] = this.viewUrl;
+        data["downloadUrl"] = this.downloadUrl;
         data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
         return data; 
     }
@@ -37067,8 +37269,10 @@ export interface IShareOutputBase {
     contentId: string;
     /** Output format ID. */
     outputFormatId: string;
+    /** Url to directly view output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
+    viewUrl?: string | undefined;
     /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
-    url?: string | undefined;
+    downloadUrl?: string | undefined;
     /** Output details. */
     detail?: OutputDataBase | undefined;
 }
@@ -37463,62 +37667,6 @@ export interface IInternalRecipient {
     token?: string | undefined;
     /** URL to access the share for this recipient. */
     url?: string | undefined;
-}
-
-export class User implements IUser {
-    /** User's Picturepark ID. */
-    id?: string | undefined;
-    /** User's first name. */
-    firstName?: string | undefined;
-    /** User's last name. */
-    lastName?: string | undefined;
-    /** Email address of the user (doubles as username). */
-    emailAddress: string;
-
-    constructor(data?: IUser) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.emailAddress = data["emailAddress"];
-        }
-    }
-
-    static fromJS(data: any): User {
-        data = typeof data === 'object' ? data : {};
-        let result = new User();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["emailAddress"] = this.emailAddress;
-        return data; 
-    }
-}
-
-export interface IUser {
-    /** User's Picturepark ID. */
-    id?: string | undefined;
-    /** User's first name. */
-    firstName?: string | undefined;
-    /** User's last name. */
-    lastName?: string | undefined;
-    /** Email address of the user (doubles as username). */
-    emailAddress: string;
 }
 
 export abstract class TemplateBase implements ITemplateBase {
