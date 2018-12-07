@@ -566,16 +566,16 @@ export class ContentClient extends PictureparkClientBase {
     /**
      * Get content
      * @param contentId The content ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @return Content detail
      */
-    get(contentId: string, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined): Promise<ContentDetail | null> {
+    get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail | null> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -733,17 +733,17 @@ export class ContentClient extends PictureparkClientBase {
     /**
      * Get multiple contents
      * @param ids List of content IDs
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @return List of Content detail
      */
-    getMany(ids: string[] | null, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined): Promise<ContentDetail[]> {
+    getMany(ids: string[] | null, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail[]> {
         let url_ = this.baseUrl + "/v1/contents?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -817,16 +817,16 @@ export class ContentClient extends PictureparkClientBase {
     /**
      * Create content
      * @param contentCreateRequest Content create request.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param allowMissingDependencies (optional) Allows creating contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @return The content details
      */
-    create(contentCreateRequest: ContentCreateRequest, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
+    create(contentCreateRequest: ContentCreateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents?";
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -2077,19 +2077,19 @@ export class ContentClient extends PictureparkClientBase {
      * Update content metadata
      * @param contentId The content ID.
      * @param updateRequest Content metadata update request.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param allowMissingDependencies (optional) Allows storing references to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @return Content detail
      */
-    updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
+    updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/metadata?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -2173,18 +2173,18 @@ export class ContentClient extends PictureparkClientBase {
      * Update content permissions
      * @param contentId The content ID.
      * @param updateRequest Content permissions update request.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @return Content detail
      */
-    updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest, resolveBehaviours?: ContentResolveBehaviour[] | null | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
+    updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/permissions?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -3616,16 +3616,16 @@ export class ListItemClient extends PictureparkClientBase {
     /**
      * Get list item
      * @param listItemId The list item ID.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list item are resolved and returned.
      * @return List item detail
      */
-    get(listItemId: string, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined): Promise<ListItemDetail> {
+    get(listItemId: string, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
         url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -3700,19 +3700,19 @@ export class ListItemClient extends PictureparkClientBase {
      * Update list item
      * @param listItemId The list item ID.
      * @param updateRequest The list item update request.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list item are resolved and returned.
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @return List item detail
      */
-    update(listItemId: string, updateRequest: ListItemUpdateRequest, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail> {
+    update(listItemId: string, updateRequest: ListItemUpdateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
         url_ = url_.replace("{listItemId}", encodeURIComponent("" + listItemId)); 
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -3879,17 +3879,17 @@ export class ListItemClient extends PictureparkClientBase {
     /**
      * Get multiple list items
      * @param ids List of list item IDs.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list items are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list items are resolved and returned.
      * @return List of list item details
      */
-    getMany(ids: string[] | null, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined): Promise<ListItemDetail[]> {
+    getMany(ids: string[] | null, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined): Promise<ListItemDetail[]> {
         let url_ = this.baseUrl + "/v1/listItems?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -3963,16 +3963,16 @@ export class ListItemClient extends PictureparkClientBase {
     /**
      * Create list item
      * @param listItemCreateRequest List item create request.
-     * @param resolveBehaviours (optional) List of enums that control which parts of the list item are resolved and returned.
+     * @param resolveBehaviors (optional) List of enums that control which parts of the list item are resolved and returned.
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
      * @return List item detail
      */
-    create(listItemCreateRequest: ListItemCreateRequest, resolveBehaviours?: ListItemResolveBehaviour[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail> {
+    create(listItemCreateRequest: ListItemCreateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems?";
-        if (resolveBehaviours !== undefined)
-            resolveBehaviours && resolveBehaviours.forEach(item => { url_ += "resolveBehaviours=" + encodeURIComponent("" + item) + "&"; });
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
             throw new Error("The parameter 'allowMissingDependencies' cannot be null.");
         else if (allowMissingDependencies !== undefined)
@@ -10894,6 +10894,10 @@ export enum DisplayPatternType {
     Name = <any>"Name", 
 }
 
+export interface SchemaViewForAllException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences: number;
     numberOfShares: number;
@@ -11574,12 +11578,16 @@ export interface ContentDetail {
     layerSchemaIds: string[];
     /** The metadata dictionary */
     metadata?: DataDictionary | undefined;
-    /** A list of rendering ouputs for underlying digital file. */
+    /** A list of rendering outputs for underlying digital file. */
     outputs?: Output[] | undefined;
-    /** The id of a owner token. Defines the content owner. */
+    /** The owner token ID. Defines the content owner. */
     ownerTokenId: string;
+    /** The resolved owner. */
+    owner?: User | undefined;
     /** The lifecycle of the content. */
     lifeCycle: LifeCycle;
+    /** List of content rights the user has on this content */
+    contentRights?: ContentRight[] | undefined;
 }
 
 export interface DisplayValueDictionary {
@@ -11686,6 +11694,17 @@ export interface OutputDataDefault extends OutputDataBase {
 export interface OutputDetail extends Output {
 }
 
+export interface User {
+    /** User's Picturepark ID. */
+    id?: string | undefined;
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+}
+
 /** Lifecycle */
 export enum LifeCycle {
     Draft = <any>"Draft", 
@@ -11694,7 +11713,17 @@ export enum LifeCycle {
     Deleted = <any>"Deleted", 
 }
 
-export enum ContentResolveBehaviour {
+/** Content rights */
+export enum ContentRight {
+    View = <any>"View", 
+    AccessOriginal = <any>"AccessOriginal", 
+    EditMetadata = <any>"EditMetadata", 
+    ReplaceFile = <any>"ReplaceFile", 
+    ManagePermissions = <any>"ManagePermissions", 
+    Delete = <any>"Delete", 
+}
+
+export enum ContentResolveBehavior {
     Content = <any>"Content", 
     LinkedListItems = <any>"LinkedListItems", 
     Metadata = <any>"Metadata", 
@@ -11703,6 +11732,8 @@ export enum ContentResolveBehaviour {
     InnerDisplayValueList = <any>"InnerDisplayValueList", 
     InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
     InnerDisplayValueName = <any>"InnerDisplayValueName", 
+    Owner = <any>"Owner", 
+    Permissions = <any>"Permissions", 
 }
 
 export interface BaseResultOfContent {
@@ -11719,6 +11750,16 @@ export interface SearchBehaviorBaseResultOfContent extends BaseResultOfContent {
 
 /** Result for content search operation */
 export interface ContentSearchResult extends SearchBehaviorBaseResultOfContent {
+    /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
+    rightsAggregationsCounts?: ContentRightAggregationCount[] | undefined;
+}
+
+/** Combination of ContentRight and found document count */
+export interface ContentRightAggregationCount {
+    /** ContentRight. */
+    contentRight: ContentRight;
+    /** Found document count. */
+    count: number;
 }
 
 export interface Content {
@@ -11769,6 +11810,9 @@ If not specified, all metadata languages defined in the system are used. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
     /** Limits the contents to the ones the user has the specified ContentRights. */
     rightsFilter?: ContentRight[] | undefined;
+    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
+Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
+    rightsAggregations?: ContentRight[] | undefined;
     /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
     searchType: ContentSearchType;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
@@ -11788,16 +11832,6 @@ export enum BrokenDependenciesFilter {
     All = <any>"All", 
     NotBrokenOnly = <any>"NotBrokenOnly", 
     BrokenOnly = <any>"BrokenOnly", 
-}
-
-/** Content rights */
-export enum ContentRight {
-    View = <any>"View", 
-    AccessOriginal = <any>"AccessOriginal", 
-    Edit = <any>"Edit", 
-    Update = <any>"Update", 
-    Manage = <any>"Manage", 
-    Delete = <any>"Delete", 
 }
 
 export enum ContentSearchType {
@@ -12464,7 +12498,7 @@ export interface ListItemDetail {
     id?: string | undefined;
 }
 
-export enum ListItemResolveBehaviour {
+export enum ListItemResolveBehavior {
     Content = <any>"Content", 
     LinkedListItems = <any>"LinkedListItems", 
     InnerDisplayValueThumbnail = <any>"InnerDisplayValueThumbnail", 
@@ -12978,10 +13012,9 @@ the UI uses such information to show the available filters and grouped results. 
     system: boolean;
     /** The owner token ID. Defines the schema owner. */
     ownerTokenId: string;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
@@ -13529,10 +13562,9 @@ the UI uses such information to show the available filters and grouped results. 
     /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
 must be set to true. Multiple sorting is supported: they are applied in the specified order. */
     sort?: SortInfo[] | undefined;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
     layerSchemaIds?: string[] | undefined;
@@ -13566,10 +13598,9 @@ the UI uses such information to show the available filters and grouped results. 
     /** Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
 must be set to true. Multiple sorting is supported: they are applied in the specified order. */
     sort?: SortInfo[] | undefined;
-    /** Defines a schema as public. Everyone with ManageSchema user permission is able to see, use and modify the schema.
-If the value is set true, the SchemaPermissionSetIds list must be empty. */
-    public: boolean;
-    /** An optional list of schema permission set IDs which control schema permissions. If any value is set in the list, the Public property value must be false. */
+    /** Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema. */
+    viewForAll: boolean;
+    /** An optional list of schema permission set IDs which control schema permissions. */
     schemaPermissionSetIds?: string[] | undefined;
     /** An optional list of schemas' IDs with type layer. For a Content schema it stores the layers that can be assigned to a content. */
     layerSchemaIds?: string[] | undefined;
@@ -13604,8 +13635,8 @@ export interface PermissionUserRoleRightsOfMetadataRight {
 /** Metadata rights */
 export enum MetadataRight {
     View = <any>"View", 
-    Edit = <any>"Edit", 
-    Manage = <any>"Manage", 
+    ManageItems = <any>"ManageItems", 
+    ManageSchema = <any>"ManageSchema", 
 }
 
 /** Represents a transfer. */
@@ -13700,8 +13731,10 @@ export interface ShareOutputBase {
     contentId: string;
     /** Output format ID. */
     outputFormatId: string;
+    /** Url to directly view output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
+    viewUrl?: string | undefined;
     /** Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient's token */
-    url?: string | undefined;
+    downloadUrl?: string | undefined;
     /** Output details. */
     detail?: OutputDataBase | undefined;
 }
@@ -13765,17 +13798,6 @@ export interface InternalRecipient {
     token?: string | undefined;
     /** URL to access the share for this recipient. */
     url?: string | undefined;
-}
-
-export interface User {
-    /** User's Picturepark ID. */
-    id?: string | undefined;
-    /** User's first name. */
-    firstName?: string | undefined;
-    /** User's last name. */
-    lastName?: string | undefined;
-    /** Email address of the user (doubles as username). */
-    emailAddress: string;
 }
 
 export interface TemplateBase {
