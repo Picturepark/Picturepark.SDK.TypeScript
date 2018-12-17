@@ -6,7 +6,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
   ContentService, ContentDetail, ThumbnailSize,
-  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehaviour
+  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehavior
 } from '@picturepark/sdk-v1-angular';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -36,11 +36,11 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
       });
 
       this.contentService.get(data, [
-        ContentResolveBehaviour.Content,
-        ContentResolveBehaviour.Metadata,
-        ContentResolveBehaviour.LinkedListItems,
-        ContentResolveBehaviour.InnerDisplayValueName,
-        ContentResolveBehaviour.Outputs
+        ContentResolveBehavior.Content,
+        ContentResolveBehavior.Metadata,
+        ContentResolveBehavior.LinkedListItems,
+        ContentResolveBehavior.InnerDisplayValueName,
+        ContentResolveBehavior.Outputs
       ]).subscribe((content: ContentDetail) => {
         this.content = content;
       });

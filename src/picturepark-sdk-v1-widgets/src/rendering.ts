@@ -35,7 +35,13 @@ export class PictureparkRenderEngine {
           if (outputFormatId === "Preview" && item.previewUrl) {
             return item.previewUrl + `?width=${width}&height=${height}`;
           } else {
-            return item.originalUrl + `?width=${width}&height=${height}`;
+            // Fallback to original output view url
+            let output = item.outputs.find(i => i.outputFormatId === "Original");
+            if(output) {
+              return output.viewUrl + `?width=${width}&height=${height}`;
+            } else {
+              return item.originalUrl + `?width=${width}&height=${height}`;
+            }
           }
         } catch (ex) {
           return "";

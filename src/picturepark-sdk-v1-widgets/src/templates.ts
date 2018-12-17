@@ -38,35 +38,9 @@ export class PictureparkTemplates {
           margin-right: 4px;
           margin-bottom: 4px;
           position: relative;
-        }
-        .picturepark-widget-gallery-item-{{id}} a {
-          background: transparent;
-          color: #aaaaaa;
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          box-sizing: border-box;
-          display: -webkit-box;
-          display: -ms-flexbox;
           display: flex;
-          -webkit-box-orient: horizontal;
-          -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-          flex-direction: row;
-          -webkit-box-align: center;
-          -ms-flex-align: center;
           align-items: center;
-          -ms-flex-line-pack: center;
-          align-content: center;
-          max-width: 100%;
-          -webkit-box-pack: center;
-          -ms-flex-pack: center;
           justify-content: center;
-        }
-        .picturepark-widget-gallery-item-{{id}} a:hover {
-            text-decoration: none;
         }
         .picturepark-widget-gallery-item-image-{{id}} {
           position: absolute;
@@ -97,21 +71,60 @@ export class PictureparkTemplates {
         .picturepark-widget-gallery-item-preview-{{id}} {
           opacity: 0;
           position: absolute;
-          left: 50%;
+          left: 43%;
           top: 50%;
           transform: translate(-50%, -50%);
-          width: 44px;
-          height: 44px;
           background-color: gray;
           border-radius: 50%;
           color: white;
           padding: 10px;
+          cursor: pointer;
+          display: flex;
         }
         .picturepark-widget-gallery-item-{{id}}:hover 
         .picturepark-widget-gallery-item-preview-{{id}} {
           opacity: .8;
         }
 
+       .picturepark-widget-gallery-item-outputs-{{id}} {
+          opacity: 0;
+          position: absolute;
+          left: 57%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          background-color: gray;
+          border-radius: 50%;
+          color: white;
+          padding: 10px;
+          cursor: pointer;
+          display: flex;
+        }
+        .picturepark-widget-gallery-item-{{id}}:hover 
+        .picturepark-widget-gallery-item-outputs-{{id}} {
+          opacity: .8;
+        }
+        .picturepark-widget-gallery-item-outputs-dropdown-{{id}} {
+          position: absolute;
+          display: none;
+          background-color: #f1f1f1;
+          min-width: 160px;
+          max-height: 340px;
+          overflow: auto;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        .picturepark-widget-gallery-item-outputs-dropdown-{{id}}.show {
+          display: block;
+        }
+        .picturepark-widget-gallery-item-outputs-dropdown-{{id}} a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+        }
+        .picturepark-widget-gallery-item-outputs-dropdown-{{id}} a:hover {
+          background-color: #ddd;
+        }
       </style>
       {% endif %}
 
@@ -121,22 +134,29 @@ export class PictureparkTemplates {
         {% for selection in share.items %}
           <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
             {% if selection.isMovie and config.showPlayers == true %}
-            <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
-            </video>
+              <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}"></video>
             {% else %}
-            <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
               {% if selection.isBinary == false %}
                 <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
               {% else %}
                 <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />
                 <div class="picturepark-widget-gallery-item-title picturepark-widget-gallery-item-title-{{id}}">{{selection.displayValues.name}}</div>
               {% endif %}
-              <div class="picturepark-widget-gallery-item-preview picturepark-widget-gallery-item-preview-{{id}}">
+              <div class="picturepark-widget-gallery-item-preview picturepark-widget-gallery-item-preview-{{id}}" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="#ffffff" d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
                 </svg>
               </div>
-            </a>
+              <div class="picturepark-widget-gallery-item-outputs-{{id}}">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                  <path fill="#ffffff" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+	            </svg>
+              </div>
+              <div class="picturepark-widget-gallery-item-outputs-dropdown-{{id}}">
+                {% for output in selection.outputs %}
+                  <a href="{{ output.downloadUrl }}" target="_blank" download>{% translate output.outputFormatId %}</a>
+                {% endfor %}
+              </div>
             {% endif %}
           </div>
         {% endfor %}
