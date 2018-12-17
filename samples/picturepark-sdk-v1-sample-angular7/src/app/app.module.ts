@@ -6,10 +6,11 @@ import { AppComponent } from './app.component';
 
 import {
   PICTUREPARK_CONFIGURATION,
-  PictureparkPublicAccessModule,
-  PictureparkConfiguration,
-  PictureparkUiModule
+  PictureparkAccessTokenAuthConfiguration,
+  AccessTokenAuthService,
+  AuthService
 } from '@picturepark/sdk-v1-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,14 +19,15 @@ import {
   imports: [
     BrowserModule,
     FormsModule,
-    PictureparkPublicAccessModule,
-    PictureparkUiModule
+    HttpClientModule
   ],
   providers: [
+    { provide: AuthService, useClass: AccessTokenAuthService },
     {
-      provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
+      provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkAccessTokenAuthConfiguration>{
         apiServer: 'https://devnext-api.preview-picturepark.com',
-        customerAlias: 'dev'
+        customerAlias: 'dev',
+        accessToken: ''
       }
     }
   ],

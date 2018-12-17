@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ShareAccessService } from '@picturepark/sdk-v1-angular';
+import { ShareService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent {
   token = '';
   currentToken = '';
 
-  constructor(public shareAccessService: ShareAccessService) {
+  constructor(public shareAccessService: ShareService) {
   }
 
   async load() {
