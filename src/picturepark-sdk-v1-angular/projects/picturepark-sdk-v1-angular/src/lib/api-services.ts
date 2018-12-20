@@ -22671,18 +22671,13 @@ export class DateRange implements IDateRange {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.from = data["from"];
             this.to = data["to"];
         }
@@ -22697,13 +22692,7 @@ export class DateRange implements IDateRange {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["from"] = this.from;
         data["to"] = this.to;
         return data; 
@@ -23089,18 +23078,13 @@ export class NumericRange implements INumericRange {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.from = data["from"];
             this.to = data["to"];
         }
@@ -23115,13 +23099,7 @@ export class NumericRange implements INumericRange {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["from"] = this.from;
         data["to"] = this.to;
         return data; 
@@ -24348,6 +24326,7 @@ The search by filters and aggregations are unaffected. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             if (data.sort) {
                 this.sort = [];
                 for (let i = 0; i < data.sort.length; i++) {
@@ -24355,16 +24334,17 @@ The search by filters and aggregations are unaffected. */
                     this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
                 }
             }
+            this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
         }
         if (!data) {
             this.schemaIds = [];
-            this.names = {};
+            this.names = new TranslatedStringDictionary();
             this.sort = [];
             this.aggregations = [];
             this.extendedSimpleSearchFields = [];
             this.grantedUserRoleIds = [];
-            this.missingResultsDisplayPatterns = {};
+            this.missingResultsDisplayPatterns = new TranslatedStringDictionary();
             this.audit = new UserAudit();
         }
     }
@@ -24380,13 +24360,7 @@ The search by filters and aggregations are unaffected. */
                     this.schemaIds.push(item);
             }
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (data["sort"] && data["sort"].constructor === Array) {
                 this.sort = [];
                 for (let item of data["sort"])
@@ -24407,13 +24381,7 @@ The search by filters and aggregations are unaffected. */
                 for (let item of data["grantedUserRoleIds"])
                     this.grantedUserRoleIds.push(item);
             }
-            if (data["missingResultsDisplayPatterns"]) {
-                this.missingResultsDisplayPatterns = {};
-                for (let key in data["missingResultsDisplayPatterns"]) {
-                    if (data["missingResultsDisplayPatterns"].hasOwnProperty(key))
-                        this.missingResultsDisplayPatterns[key] = data["missingResultsDisplayPatterns"][key];
-                }
-            }
+            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : new TranslatedStringDictionary();
             this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
         }
     }
@@ -24436,13 +24404,7 @@ The search by filters and aggregations are unaffected. */
                 data["schemaIds"].push(item);
         }
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.sort && this.sort.constructor === Array) {
             data["sort"] = [];
             for (let item of this.sort)
@@ -24463,13 +24425,7 @@ The search by filters and aggregations are unaffected. */
             for (let item of this.grantedUserRoleIds)
                 data["grantedUserRoleIds"].push(item);
         }
-        if (this.missingResultsDisplayPatterns) {
-            data["missingResultsDisplayPatterns"] = {};
-            for (let key in this.missingResultsDisplayPatterns) {
-                if (this.missingResultsDisplayPatterns.hasOwnProperty(key))
-                    data["missingResultsDisplayPatterns"][key] = this.missingResultsDisplayPatterns[key];
-            }
-        }
+        data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         return data; 
     }
@@ -24572,6 +24528,7 @@ export abstract class AggregatorBase implements IAggregatorBase {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
         this._discriminator = "AggregatorBase";
     }
@@ -24579,13 +24536,7 @@ export abstract class AggregatorBase implements IAggregatorBase {
     init(data?: any) {
         if (data) {
             this.name = data["name"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["aggregators"] && data["aggregators"].constructor === Array) {
                 this.aggregators = [];
                 for (let item of data["aggregators"])
@@ -24638,13 +24589,7 @@ export abstract class AggregatorBase implements IAggregatorBase {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["name"] = this.name;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.aggregators && this.aggregators.constructor === Array) {
             data["aggregators"] = [];
             for (let item of this.aggregators)
@@ -24743,18 +24688,13 @@ export class DateRangeForAggregator implements IDateRangeForAggregator {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.from = data["from"];
             this.to = data["to"];
         }
@@ -24769,13 +24709,7 @@ export class DateRangeForAggregator implements IDateRangeForAggregator {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["from"] = this.from;
         data["to"] = this.to;
         return data; 
@@ -24877,18 +24811,13 @@ export class GeoDistance implements IGeoDistance {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.distance = data["distance"];
         }
     }
@@ -24902,13 +24831,7 @@ export class GeoDistance implements IGeoDistance {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["distance"] = this.distance;
         return data; 
     }
@@ -25039,18 +24962,13 @@ export class NumericRangeForAggregator implements INumericRangeForAggregator {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.from = data["from"];
             this.to = data["to"];
         }
@@ -25065,13 +24983,7 @@ export class NumericRangeForAggregator implements INumericRangeForAggregator {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["from"] = this.from;
         data["to"] = this.to;
         return data; 
@@ -25372,6 +25284,8 @@ export class ContentDetail implements IContentDetail {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
+            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
             this.owner = data.owner && !(<any>data.owner).toJSON ? new User(data.owner) : <User>this.owner; 
         }
         if (!data) {
@@ -25390,26 +25304,14 @@ export class ContentDetail implements IContentDetail {
             }
             this.contentSchemaId = data["contentSchemaId"];
             this.contentType = data["contentType"];
-            if (data["displayValues"]) {
-                this.displayValues = {};
-                for (let key in data["displayValues"]) {
-                    if (data["displayValues"].hasOwnProperty(key))
-                        this.displayValues[key] = data["displayValues"][key];
-                }
-            }
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
-            if (data["metadata"]) {
-                this.metadata = {};
-                for (let key in data["metadata"]) {
-                    if (data["metadata"].hasOwnProperty(key))
-                        this.metadata[key] = data["metadata"][key];
-                }
-            }
+            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             if (data["outputs"] && data["outputs"].constructor === Array) {
                 this.outputs = [];
                 for (let item of data["outputs"])
@@ -25444,26 +25346,14 @@ export class ContentDetail implements IContentDetail {
         }
         data["contentSchemaId"] = this.contentSchemaId;
         data["contentType"] = this.contentType;
-        if (this.displayValues) {
-            data["displayValues"] = {};
-            for (let key in this.displayValues) {
-                if (this.displayValues.hasOwnProperty(key))
-                    data["displayValues"][key] = this.displayValues[key];
-            }
-        }
+        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["id"] = this.id;
         if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        if (this.metadata) {
-            data["metadata"] = {};
-            for (let key in this.metadata) {
-                if (this.metadata.hasOwnProperty(key))
-                    data["metadata"][key] = this.metadata[key];
-            }
-        }
+        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         if (this.outputs && this.outputs.constructor === Array) {
             data["outputs"] = [];
             for (let item of this.outputs)
@@ -27883,6 +27773,7 @@ export class ContentCreateRequest implements IContentCreateRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -27895,13 +27786,7 @@ export class ContentCreateRequest implements IContentCreateRequest {
                     this.layerSchemaIds.push(item);
             }
             this.content = data["content"];
-            if (data["metadata"]) {
-                this.metadata = {};
-                for (let key in data["metadata"]) {
-                    if (data["metadata"].hasOwnProperty(key))
-                        this.metadata[key] = data["metadata"][key];
-                }
-            }
+            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             if (data["contentPermissionSetIds"] && data["contentPermissionSetIds"].constructor === Array) {
                 this.contentPermissionSetIds = [];
                 for (let item of data["contentPermissionSetIds"])
@@ -27926,13 +27811,7 @@ export class ContentCreateRequest implements IContentCreateRequest {
                 data["layerSchemaIds"].push(item);
         }
         data["content"] = this.content;
-        if (this.metadata) {
-            data["metadata"] = {};
-            for (let key in this.metadata) {
-                if (this.metadata.hasOwnProperty(key))
-                    data["metadata"][key] = this.metadata[key];
-            }
-        }
+        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         if (this.contentPermissionSetIds && this.contentPermissionSetIds.constructor === Array) {
             data["contentPermissionSetIds"] = [];
             for (let item of this.contentPermissionSetIds)
@@ -28371,6 +28250,8 @@ Defaults to Merge. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.content = data.content && !(<any>data.content).toJSON ? new DataDictionary(data.content) : <DataDictionary>this.content; 
+            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -28381,20 +28262,8 @@ Defaults to Merge. */
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
-            if (data["content"]) {
-                this.content = {};
-                for (let key in data["content"]) {
-                    if (data["content"].hasOwnProperty(key))
-                        this.content[key] = data["content"][key];
-                }
-            }
-            if (data["metadata"]) {
-                this.metadata = {};
-                for (let key in data["metadata"]) {
-                    if (data["metadata"].hasOwnProperty(key))
-                        this.metadata[key] = data["metadata"][key];
-                }
-            }
+            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : <any>undefined;
+            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             this.layerSchemasUpdateOptions = data["layerSchemasUpdateOptions"];
             this.schemaFieldsUpdateOptions = data["schemaFieldsUpdateOptions"];
         }
@@ -28414,20 +28283,8 @@ Defaults to Merge. */
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        if (this.content) {
-            data["content"] = {};
-            for (let key in this.content) {
-                if (this.content.hasOwnProperty(key))
-                    data["content"][key] = this.content[key];
-            }
-        }
-        if (this.metadata) {
-            data["metadata"] = {};
-            for (let key in this.metadata) {
-                if (this.metadata.hasOwnProperty(key))
-                    data["metadata"][key] = this.metadata[key];
-            }
-        }
+        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
+        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         data["layerSchemasUpdateOptions"] = this.layerSchemasUpdateOptions;
         data["schemaFieldsUpdateOptions"] = this.schemaFieldsUpdateOptions;
         return data; 
@@ -29039,8 +28896,11 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
     constructor(data?: IMetadataValuesSchemaUpdateCommand) {
         super(data);
+        if (data) {
+            this.value = data.value && !(<any>data.value).toJSON ? new DataDictionary(data.value) : <DataDictionary>this.value; 
+        }
         if (!data) {
-            this.value = {};
+            this.value = new DataDictionary();
         }
         this._discriminator = "MetadataValuesSchemaUpdateCommand";
     }
@@ -29048,13 +28908,7 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (data["value"]) {
-                this.value = {};
-                for (let key in data["value"]) {
-                    if (data["value"].hasOwnProperty(key))
-                        this.value[key] = data["value"][key];
-                }
-            }
+            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
         }
     }
 
@@ -29067,13 +28921,7 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.value) {
-            data["value"] = {};
-            for (let key in this.value) {
-                if (this.value.hasOwnProperty(key))
-                    data["value"][key] = this.value[key];
-            }
-        }
+        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -29092,8 +28940,11 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
     constructor(data?: IMetadataValuesSchemaUpsertCommand) {
         super(data);
+        if (data) {
+            this.value = data.value && !(<any>data.value).toJSON ? new DataDictionary(data.value) : <DataDictionary>this.value; 
+        }
         if (!data) {
-            this.value = {};
+            this.value = new DataDictionary();
         }
         this._discriminator = "MetadataValuesSchemaUpsertCommand";
     }
@@ -29101,13 +28952,7 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (data["value"]) {
-                this.value = {};
-                for (let key in data["value"]) {
-                    if (data["value"].hasOwnProperty(key))
-                        this.value[key] = data["value"][key];
-                }
-            }
+            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
         }
     }
 
@@ -29120,13 +28965,7 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.value) {
-            data["value"] = {};
-            for (let key in this.value) {
-                if (this.value.hasOwnProperty(key))
-                    data["value"][key] = this.value[key];
-            }
-        }
+        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -29175,8 +29014,11 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
     constructor(data?: IMetadataValuesSchemaReplaceCommand) {
         super(data);
+        if (data) {
+            this.value = data.value && !(<any>data.value).toJSON ? new DataDictionary(data.value) : <DataDictionary>this.value; 
+        }
         if (!data) {
-            this.value = {};
+            this.value = new DataDictionary();
         }
         this._discriminator = "MetadataValuesSchemaReplaceCommand";
     }
@@ -29184,13 +29026,7 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (data["value"]) {
-                this.value = {};
-                for (let key in data["value"]) {
-                    if (data["value"].hasOwnProperty(key))
-                        this.value[key] = data["value"][key];
-                }
-            }
+            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
         }
     }
 
@@ -29203,13 +29039,7 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.value) {
-            data["value"] = {};
-            for (let key in this.value) {
-                if (this.value.hasOwnProperty(key))
-                    data["value"][key] = this.value[key];
-            }
-        }
+        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -29557,6 +29387,7 @@ export class PermissionSet implements IPermissionSet {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
@@ -29564,13 +29395,7 @@ export class PermissionSet implements IPermissionSet {
         if (data) {
             this.id = data["id"];
             this.exclusive = data["exclusive"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
         }
     }
 
@@ -29585,13 +29410,7 @@ export class PermissionSet implements IPermissionSet {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["exclusive"] = this.exclusive;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -29745,6 +29564,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             if (data.userRolesRights) {
                 this.userRolesRights = [];
                 for (let i = 0; i < data.userRolesRights.length; i++) {
@@ -29765,13 +29585,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
                 this.userRolesRights = [];
                 for (let item of data["userRolesRights"])
@@ -29795,13 +29609,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRolesRights && this.userRolesRights.constructor === Array) {
             data["userRolesRights"] = [];
             for (let item of this.userRolesRights)
@@ -29867,19 +29675,14 @@ export class PermissionUserRoleRightsOfContentRight implements IPermissionUserRo
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
             this.userRoleId = data["userRoleId"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["rights"] && data["rights"].constructor === Array) {
                 this.rights = [];
                 for (let item of data["rights"])
@@ -29898,13 +29701,7 @@ export class PermissionUserRoleRightsOfContentRight implements IPermissionUserRo
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["userRoleId"] = this.userRoleId;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.rights && this.rights.constructor === Array) {
             data["rights"] = [];
             for (let item of this.rights)
@@ -29931,19 +29728,14 @@ export class PermissionUserRoleRightsOfPermissionSetRight implements IPermission
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
             this.userRoleId = data["userRoleId"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["rights"] && data["rights"].constructor === Array) {
                 this.rights = [];
                 for (let item of data["rights"])
@@ -29962,13 +29754,7 @@ export class PermissionUserRoleRightsOfPermissionSetRight implements IPermission
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["userRoleId"] = this.userRoleId;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.rights && this.rights.constructor === Array) {
             data["rights"] = [];
             for (let item of this.rights)
@@ -30539,21 +30325,16 @@ export class Language implements ILanguage {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.name = data.name && !(<any>data.name).toJSON ? new TranslatedStringDictionary(data.name) : <TranslatedStringDictionary>this.name; 
         }
         if (!data) {
-            this.name = {};
+            this.name = new TranslatedStringDictionary();
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["name"]) {
-                this.name = {};
-                for (let key in data["name"]) {
-                    if (data["name"].hasOwnProperty(key))
-                        this.name[key] = data["name"][key];
-                }
-            }
+            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : new TranslatedStringDictionary();
             this.ietf = data["ietf"];
             this.twoLetterISOLanguageName = data["twoLetterISOLanguageName"];
             this.threeLetterISOLanguageName = data["threeLetterISOLanguageName"];
@@ -30570,13 +30351,7 @@ export class Language implements ILanguage {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.name) {
-            data["name"] = {};
-            for (let key in this.name) {
-                if (this.name.hasOwnProperty(key))
-                    data["name"][key] = this.name[key];
-            }
-        }
+        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
         data["ietf"] = this.ietf;
         data["twoLetterISOLanguageName"] = this.twoLetterISOLanguageName;
         data["threeLetterISOLanguageName"] = this.threeLetterISOLanguageName;
@@ -30610,22 +30385,17 @@ export class OutputFormatInfo implements IOutputFormatInfo {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
         if (!data) {
-            this.names = {};
+            this.names = new TranslatedStringDictionary();
         }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
         }
     }
 
@@ -30639,13 +30409,7 @@ export class OutputFormatInfo implements IOutputFormatInfo {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -30732,6 +30496,7 @@ export class ListItemDetail implements IListItemDetail {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
     }
 
@@ -30739,13 +30504,7 @@ export class ListItemDetail implements IListItemDetail {
         if (data) {
             this.content = data["content"];
             this.contentSchemaId = data["contentSchemaId"];
-            if (data["displayValues"]) {
-                this.displayValues = {};
-                for (let key in data["displayValues"]) {
-                    if (data["displayValues"].hasOwnProperty(key))
-                        this.displayValues[key] = data["displayValues"][key];
-                }
-            }
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
         }
     }
@@ -30761,13 +30520,7 @@ export class ListItemDetail implements IListItemDetail {
         data = typeof data === 'object' ? data : {};
         data["content"] = this.content;
         data["contentSchemaId"] = this.contentSchemaId;
-        if (this.displayValues) {
-            data["displayValues"] = {};
-            for (let key in this.displayValues) {
-                if (this.displayValues.hasOwnProperty(key))
-                    data["displayValues"][key] = this.displayValues[key];
-            }
-        }
+        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -30902,6 +30655,7 @@ export class ListItem implements IListItem {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
     }
 
@@ -30909,13 +30663,7 @@ export class ListItem implements IListItem {
         if (data) {
             this.content = data["content"];
             this.contentSchemaId = data["contentSchemaId"];
-            if (data["displayValues"]) {
-                this.displayValues = {};
-                for (let key in data["displayValues"]) {
-                    if (data["displayValues"].hasOwnProperty(key))
-                        this.displayValues[key] = data["displayValues"][key];
-                }
-            }
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
         }
     }
@@ -30931,13 +30679,7 @@ export class ListItem implements IListItem {
         data = typeof data === 'object' ? data : {};
         data["content"] = this.content;
         data["contentSchemaId"] = this.contentSchemaId;
-        if (this.displayValues) {
-            data["displayValues"] = {};
-            for (let key in this.displayValues) {
-                if (this.displayValues.hasOwnProperty(key))
-                    data["displayValues"][key] = this.displayValues[key];
-            }
-        }
+        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -33502,6 +33244,8 @@ that reference the layer. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
             if (data.displayPatterns) {
                 this.displayPatterns = [];
                 for (let i = 0; i < data.displayPatterns.length; i++) {
@@ -33535,20 +33279,8 @@ that reference the layer. */
                 for (let item of data["types"])
                     this.types.push(item);
             }
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
-            if (data["descriptions"]) {
-                this.descriptions = {};
-                for (let key in data["descriptions"]) {
-                    if (data["descriptions"].hasOwnProperty(key))
-                        this.descriptions[key] = data["descriptions"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
                 for (let item of data["layerSchemaIds"])
@@ -33619,20 +33351,8 @@ that reference the layer. */
             for (let item of this.types)
                 data["types"].push(item);
         }
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
-        if (this.descriptions) {
-            data["descriptions"] = {};
-            for (let key in this.descriptions) {
-                if (this.descriptions.hasOwnProperty(key))
-                    data["descriptions"][key] = this.descriptions[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
@@ -33750,6 +33470,7 @@ export class DisplayPattern implements IDisplayPattern {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.templates = data.templates && !(<any>data.templates).toJSON ? new TranslatedStringDictionary(data.templates) : <TranslatedStringDictionary>this.templates; 
         }
     }
 
@@ -33757,13 +33478,7 @@ export class DisplayPattern implements IDisplayPattern {
         if (data) {
             this.templateEngine = data["templateEngine"];
             this.displayPatternType = data["displayPatternType"];
-            if (data["templates"]) {
-                this.templates = {};
-                for (let key in data["templates"]) {
-                    if (data["templates"].hasOwnProperty(key))
-                        this.templates[key] = data["templates"][key];
-                }
-            }
+            this.templates = data["templates"] ? TranslatedStringDictionary.fromJS(data["templates"]) : <any>undefined;
         }
     }
 
@@ -33778,13 +33493,7 @@ export class DisplayPattern implements IDisplayPattern {
         data = typeof data === 'object' ? data : {};
         data["templateEngine"] = this.templateEngine;
         data["displayPatternType"] = this.displayPatternType;
-        if (this.templates) {
-            data["templates"] = {};
-            for (let key in this.templates) {
-                if (this.templates.hasOwnProperty(key))
-                    data["templates"][key] = this.templates[key];
-            }
-        }
+        data["templates"] = this.templates ? this.templates.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -33835,6 +33544,8 @@ export abstract class FieldBase implements IFieldBase {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
         }
         this._discriminator = "FieldBase";
     }
@@ -33844,20 +33555,8 @@ export abstract class FieldBase implements IFieldBase {
             this.id = data["id"];
             this.indexId = data["indexId"];
             this.fieldNamespace = data["fieldNamespace"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
-            if (data["descriptions"]) {
-                this.descriptions = {};
-                for (let key in data["descriptions"]) {
-                    if (data["descriptions"].hasOwnProperty(key))
-                        this.descriptions[key] = data["descriptions"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
             this.required = data["required"];
             this.fixed = data["fixed"];
             this.index = data["index"];
@@ -33972,20 +33671,8 @@ export abstract class FieldBase implements IFieldBase {
         data["id"] = this.id;
         data["indexId"] = this.indexId;
         data["fieldNamespace"] = this.fieldNamespace;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
-        if (this.descriptions) {
-            data["descriptions"] = {};
-            for (let key in this.descriptions) {
-                if (this.descriptions.hasOwnProperty(key))
-                    data["descriptions"][key] = this.descriptions[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         data["required"] = this.required;
         data["fixed"] = this.fixed;
         data["index"] = this.index;
@@ -35501,19 +35188,14 @@ export class RelationType implements IRelationType {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             this.targetDocType = data["targetDocType"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
         }
@@ -35529,13 +35211,7 @@ export class RelationType implements IRelationType {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["targetDocType"] = this.targetDocType;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         return data; 
@@ -36067,6 +35743,8 @@ export class Schema implements ISchema {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
         }
     }
 
@@ -36079,20 +35757,8 @@ export class Schema implements ISchema {
                 for (let item of data["types"])
                     this.types.push(item);
             }
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
-            if (data["descriptions"]) {
-                this.descriptions = {};
-                for (let key in data["descriptions"]) {
-                    if (data["descriptions"].hasOwnProperty(key))
-                        this.descriptions[key] = data["descriptions"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
             if (data["layerSchemaIds"] && data["layerSchemaIds"].constructor === Array) {
                 this.layerSchemaIds = [];
                 for (let item of data["layerSchemaIds"])
@@ -36121,20 +35787,8 @@ export class Schema implements ISchema {
             for (let item of this.types)
                 data["types"].push(item);
         }
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
-        if (this.descriptions) {
-            data["descriptions"] = {};
-            for (let key in this.descriptions) {
-                if (this.descriptions.hasOwnProperty(key))
-                    data["descriptions"][key] = this.descriptions[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         if (this.layerSchemaIds && this.layerSchemaIds.constructor === Array) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
@@ -36587,6 +36241,8 @@ that reference the layer. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
             if (data.displayPatterns) {
                 this.displayPatterns = [];
                 for (let i = 0; i < data.displayPatterns.length; i++) {
@@ -36616,20 +36272,8 @@ that reference the layer. */
                 for (let item of data["types"])
                     this.types.push(item);
             }
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
-            if (data["descriptions"]) {
-                this.descriptions = {};
-                for (let key in data["descriptions"]) {
-                    if (data["descriptions"].hasOwnProperty(key))
-                        this.descriptions[key] = data["descriptions"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
             if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
                 this.displayPatterns = [];
                 for (let item of data["displayPatterns"])
@@ -36690,20 +36334,8 @@ that reference the layer. */
             for (let item of this.types)
                 data["types"].push(item);
         }
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
-        if (this.descriptions) {
-            data["descriptions"] = {};
-            for (let key in this.descriptions) {
-                if (this.descriptions.hasOwnProperty(key))
-                    data["descriptions"][key] = this.descriptions[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         if (this.displayPatterns && this.displayPatterns.constructor === Array) {
             data["displayPatterns"] = [];
             for (let item of this.displayPatterns)
@@ -36861,6 +36493,8 @@ that reference the layer. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
             if (data.displayPatterns) {
                 this.displayPatterns = [];
                 for (let i = 0; i < data.displayPatterns.length; i++) {
@@ -36880,20 +36514,8 @@ that reference the layer. */
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
-            if (data["descriptions"]) {
-                this.descriptions = {};
-                for (let key in data["descriptions"]) {
-                    if (data["descriptions"].hasOwnProperty(key))
-                        this.descriptions[key] = data["descriptions"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
             if (data["displayPatterns"] && data["displayPatterns"].constructor === Array) {
                 this.displayPatterns = [];
                 for (let item of data["displayPatterns"])
@@ -36947,20 +36569,8 @@ that reference the layer. */
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
-        if (this.descriptions) {
-            data["descriptions"] = {};
-            for (let key in this.descriptions) {
-                if (this.descriptions.hasOwnProperty(key))
-                    data["descriptions"][key] = this.descriptions[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         if (this.displayPatterns && this.displayPatterns.constructor === Array) {
             data["displayPatterns"] = [];
             for (let item of this.displayPatterns)
@@ -37082,6 +36692,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             if (data.userRolesRights) {
                 this.userRolesRights = [];
                 for (let i = 0; i < data.userRolesRights.length; i++) {
@@ -37102,13 +36713,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
                 this.userRolesRights = [];
                 for (let item of data["userRolesRights"])
@@ -37132,13 +36737,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRolesRights && this.userRolesRights.constructor === Array) {
             data["userRolesRights"] = [];
             for (let item of this.userRolesRights)
@@ -37204,19 +36803,14 @@ export class PermissionUserRoleRightsOfMetadataRight implements IPermissionUserR
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
             this.userRoleId = data["userRoleId"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["rights"] && data["rights"].constructor === Array) {
                 this.rights = [];
                 for (let item of data["rights"])
@@ -37235,13 +36829,7 @@ export class PermissionUserRoleRightsOfMetadataRight implements IPermissionUserR
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["userRoleId"] = this.userRoleId;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.rights && this.rights.constructor === Array) {
             data["rights"] = [];
             for (let item of this.rights)
@@ -37598,11 +37186,14 @@ export class ShareContentDetail implements IShareContentDetail {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.content = data.content && !(<any>data.content).toJSON ? new DataDictionary(data.content) : <DataDictionary>this.content; 
+            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
+            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
         if (!data) {
-            this.content = {};
+            this.content = new DataDictionary();
             this.outputs = [];
-            this.displayValues = {};
+            this.displayValues = new DisplayValueDictionary();
         }
     }
 
@@ -37614,20 +37205,8 @@ export class ShareContentDetail implements IShareContentDetail {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
-            if (data["content"]) {
-                this.content = {};
-                for (let key in data["content"]) {
-                    if (data["content"].hasOwnProperty(key))
-                        this.content[key] = data["content"][key];
-                }
-            }
-            if (data["metadata"]) {
-                this.metadata = {};
-                for (let key in data["metadata"]) {
-                    if (data["metadata"].hasOwnProperty(key))
-                        this.metadata[key] = data["metadata"][key];
-                }
-            }
+            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : new DataDictionary();
+            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             this.id = data["id"];
             if (data["outputs"] && data["outputs"].constructor === Array) {
                 this.outputs = [];
@@ -37635,13 +37214,7 @@ export class ShareContentDetail implements IShareContentDetail {
                     this.outputs.push(ShareOutputBase.fromJS(item));
             }
             this.contentType = data["contentType"];
-            if (data["displayValues"]) {
-                this.displayValues = {};
-                for (let key in data["displayValues"]) {
-                    if (data["displayValues"].hasOwnProperty(key))
-                        this.displayValues[key] = data["displayValues"][key];
-                }
-            }
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : new DisplayValueDictionary();
         }
     }
 
@@ -37660,20 +37233,8 @@ export class ShareContentDetail implements IShareContentDetail {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        if (this.content) {
-            data["content"] = {};
-            for (let key in this.content) {
-                if (this.content.hasOwnProperty(key))
-                    data["content"][key] = this.content[key];
-            }
-        }
-        if (this.metadata) {
-            data["metadata"] = {};
-            for (let key in this.metadata) {
-                if (this.metadata.hasOwnProperty(key))
-                    data["metadata"][key] = this.metadata[key];
-            }
-        }
+        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
+        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         data["id"] = this.id;
         if (this.outputs && this.outputs.constructor === Array) {
             data["outputs"] = [];
@@ -37681,13 +37242,7 @@ export class ShareContentDetail implements IShareContentDetail {
                 data["outputs"].push(item.toJSON());
         }
         data["contentType"] = this.contentType;
-        if (this.displayValues) {
-            data["displayValues"] = {};
-            for (let key in this.displayValues) {
-                if (this.displayValues.hasOwnProperty(key))
-                    data["displayValues"][key] = this.displayValues[key];
-            }
-        }
+        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -39117,19 +38672,14 @@ export class UserRole implements IUserRole {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
                 for (let item of data["userRights"])
@@ -39148,13 +38698,7 @@ export class UserRole implements IUserRole {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRights && this.userRights.constructor === Array) {
             data["userRights"] = [];
             for (let item of this.userRights)
@@ -40210,26 +39754,16 @@ export class FileMetadata implements IFileMetadata {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
         }
         this._discriminator = "FileMetadata";
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
-            if (data["descriptions"]) {
-                this.descriptions = {};
-                for (let key in data["descriptions"]) {
-                    if (data["descriptions"].hasOwnProperty(key))
-                        this.descriptions[key] = data["descriptions"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
             this.fileExtension = data["fileExtension"];
             this.fileName = data["fileName"];
             this.filePath = data["filePath"];
@@ -40271,20 +39805,8 @@ export class FileMetadata implements IFileMetadata {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
-        if (this.descriptions) {
-            data["descriptions"] = {};
-            for (let key in this.descriptions) {
-                if (this.descriptions.hasOwnProperty(key))
-                    data["descriptions"][key] = this.descriptions[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         data["fileExtension"] = this.fileExtension;
         data["fileName"] = this.fileName;
         data["filePath"] = this.filePath;
@@ -41354,6 +40876,7 @@ export class ImportTransferRequest implements IImportTransferRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -41364,13 +40887,7 @@ export class ImportTransferRequest implements IImportTransferRequest {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
-            if (data["metadata"]) {
-                this.metadata = {};
-                for (let key in data["metadata"]) {
-                    if (data["metadata"].hasOwnProperty(key))
-                        this.metadata[key] = data["metadata"][key];
-                }
-            }
+            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             if (data["contentPermissionSetIds"] && data["contentPermissionSetIds"].constructor === Array) {
                 this.contentPermissionSetIds = [];
                 for (let item of data["contentPermissionSetIds"])
@@ -41393,13 +40910,7 @@ export class ImportTransferRequest implements IImportTransferRequest {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        if (this.metadata) {
-            data["metadata"] = {};
-            for (let key in this.metadata) {
-                if (this.metadata.hasOwnProperty(key))
-                    data["metadata"][key] = this.metadata[key];
-            }
-        }
+        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         if (this.contentPermissionSetIds && this.contentPermissionSetIds.constructor === Array) {
             data["contentPermissionSetIds"] = [];
             for (let item of this.contentPermissionSetIds)
@@ -41482,6 +40993,7 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -41493,13 +41005,7 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds.push(item);
             }
-            if (data["metadata"]) {
-                this.metadata = {};
-                for (let key in data["metadata"]) {
-                    if (data["metadata"].hasOwnProperty(key))
-                        this.metadata[key] = data["metadata"][key];
-                }
-            }
+            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
             if (data["contentPermissionSetIds"] && data["contentPermissionSetIds"].constructor === Array) {
                 this.contentPermissionSetIds = [];
                 for (let item of data["contentPermissionSetIds"])
@@ -41523,13 +41029,7 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        if (this.metadata) {
-            data["metadata"] = {};
-            for (let key in this.metadata) {
-                if (this.metadata.hasOwnProperty(key))
-                    data["metadata"][key] = this.metadata[key];
-            }
-        }
+        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
         if (this.contentPermissionSetIds && this.contentPermissionSetIds.constructor === Array) {
             data["contentPermissionSetIds"] = [];
             for (let item of this.contentPermissionSetIds)
@@ -42678,22 +42178,17 @@ export class UserRoleCreateRequest implements IUserRoleCreateRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
         if (!data) {
-            this.names = {};
+            this.names = new TranslatedStringDictionary();
             this.userRights = [];
         }
     }
 
     init(data?: any) {
         if (data) {
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
                 for (let item of data["userRights"])
@@ -42711,13 +42206,7 @@ export class UserRoleCreateRequest implements IUserRoleCreateRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRights && this.userRights.constructor === Array) {
             data["userRights"] = [];
             for (let item of this.userRights)
@@ -42865,19 +42354,14 @@ export class UserRoleDetail implements IUserRoleDetail {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            if (data["names"]) {
-                this.names = {};
-                for (let key in data["names"]) {
-                    if (data["names"].hasOwnProperty(key))
-                        this.names[key] = data["names"][key];
-                }
-            }
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [];
                 for (let item of data["userRights"])
@@ -42896,13 +42380,7 @@ export class UserRoleDetail implements IUserRoleDetail {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        if (this.names) {
-            data["names"] = {};
-            for (let key in this.names) {
-                if (this.names.hasOwnProperty(key))
-                    data["names"][key] = this.names[key];
-            }
-        }
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         if (this.userRights && this.userRights.constructor === Array) {
             data["userRights"] = [];
             for (let item of this.userRights)
