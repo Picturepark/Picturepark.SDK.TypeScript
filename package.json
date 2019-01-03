@@ -17,7 +17,7 @@
   "devDependencies": {
     "http-server": "^0.11.1",
     "marked": "^0.3.19",
-    "nswag": "12.0.9",
+    "nswag": "12.0.10",
     "typedoc": "0.13.0",
     "typescript": "~3.1.3",
     "typescript-bundle": "0.8.7",
