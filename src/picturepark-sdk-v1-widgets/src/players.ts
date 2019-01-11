@@ -13,9 +13,6 @@ export class PictureparkPlayers {
   static loading = false;
   static scriptsPath = undefined;
 
-  static imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-  static videoExtensions = ['.mov', '.mp4', '.mp3'];
-
   static showPrevious(token: string, elementId: string) {
     let share = (<any>document).pictureparkShareCache[token];
     let gallery = PictureparkPlayers.getGallery(elementId);

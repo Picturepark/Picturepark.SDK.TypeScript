@@ -120,9 +120,9 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           displayValues: s.displayValues,
           detail: originalOutput ? originalOutput.detail : null,
 
-          isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
-          isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
-          isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : false,
+          isMovie: s.contentSchemaId === "VideoMetadata",
+          isImage: s.contentSchemaId === "ImageMetadata",
+          isPdf: s.outputs.some(i => i.outputFormatId === "Pdf"),
           isBinary: s.contentType !== "ContentItem" as any,
 
           previewUrl: previewOutput ? previewOutput.viewUrl : null,
