@@ -10,6 +10,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-details-dialog',
@@ -23,6 +24,7 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
   content: ContentDetail;
 
   contentId: string;
+  private subscription: Subscription = new Subscription();
 
   constructor(private contentService: ContentService,
     private sanitizer: DomSanitizer,
@@ -30,12 +32,14 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
     this.contentId = data;
     if (data) {
-      this.contentService.downloadThumbnail(data, ThumbnailSize.Medium).subscribe(response => {
+      const downloadThumbnailSubscription = this.contentService.downloadThumbnail(data, ThumbnailSize.Medium, null, null).subscribe(response => {
         this.thumbnailUrl = URL.createObjectURL(response!.data!);
         this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
       });
 
-      this.contentService.get(data, [
+      this.subscription.add(downloadThumbnailSubscription);
+
+      const contentGetSubscription = this.contentService.get(data, [
         ContentResolveBehavior.Content,
         ContentResolveBehavior.Metadata,
         ContentResolveBehavior.LinkedListItems,
@@ -44,6 +48,8 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
       ]).subscribe((content: ContentDetail) => {
         this.content = content;
       });
+
+      this.subscription.add(contentGetSubscription);
     }
 
   }
@@ -109,6 +115,10 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     document.removeEventListener('keydown', this.onKeyDown, false);
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 

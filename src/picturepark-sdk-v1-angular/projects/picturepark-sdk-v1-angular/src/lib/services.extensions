@@ -31,29 +31,6 @@ class AggregationResultItem extends generated.AggregationResultItem {
     }
 }
 
-class ContentService extends generated.ContentService {
-    private thumbnailCache: { [key: string]: FileResponse | null; } = {};
-
-    /**
-     * Get Thumbnail
-     * @contentId The Content id
-     * @size Thumbnail size. Either small, medium or large
-     * @return HttpResponseMessage
-     */
-    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
-        const key = contentId + ':' + size;
-        if (cache !== false && this.thumbnailCache[key] !== undefined) {
-            return _observableOf(this.thumbnailCache[key]);
-        }
-
-        const response = this.downloadThumbnailCore(contentId, size, null, null);
-        response.subscribe(blob => {
-            this.thumbnailCache[key] = blob;
-        });
-        return response;
-    }
-}
-
 export abstract class AuthService {
     private _pictureparkApiUrl: string;
 
