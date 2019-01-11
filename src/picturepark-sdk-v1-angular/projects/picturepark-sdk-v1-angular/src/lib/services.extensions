@@ -31,18 +31,6 @@ class AggregationResultItem extends generated.AggregationResultItem {
     }
 }
 
-class ContentService extends generated.ContentService {
-    /**
-     * Get Thumbnail
-     * @contentId The Content id
-     * @size Thumbnail size. Either small, medium or large
-     * @return HttpResponseMessage
-     */
-    downloadThumbnail(contentId: string, size: ThumbnailSize): Observable<FileResponse | null> {
-        return this.downloadThumbnailCore(contentId, size, null, null);
-    }
-}
-
 export abstract class AuthService {
     private _pictureparkApiUrl: string;
 

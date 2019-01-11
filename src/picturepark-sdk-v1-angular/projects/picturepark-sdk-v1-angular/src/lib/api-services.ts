@@ -682,17 +682,6 @@ export class ContentService extends PictureparkServiceBase {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
-    
-    /**
-     * Get Thumbnail
-     * @contentId The Content id
-     * @size Thumbnail size. Either small, medium or large
-     * @return HttpResponseMessage
-     */
-    downloadThumbnail(contentId: string, size: ThumbnailSize): Observable<FileResponse | null> {
-        return this.downloadThumbnailCore(contentId, size, null, null);
-    }
-
     /**
      * Get content
      * @param contentId The content ID.
@@ -1839,7 +1828,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param height (optional) Optional height in pixels to resize image.
      * @return Http response message
      */
-    protected downloadThumbnailCore(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
+    downloadThumbnail(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/v1/contents/thumbnails/{contentId}/{size}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");

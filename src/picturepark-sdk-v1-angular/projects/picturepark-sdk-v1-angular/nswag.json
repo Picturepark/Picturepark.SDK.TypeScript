@@ -1,4 +1,4 @@
-﻿{
+{
   "runtime": "Default",
   "swaggerGenerator": {
     "fromSwagger": {
@@ -29,9 +29,7 @@
       "wrapResponses": false,
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "protectedMethods": [
-        "ContentService.downloadThumbnail"
-      ],
+      "protectedMethods": [],
       "configurationClass": "AuthService",
       "useTransformOptionsMethod": true,
       "useTransformResultMethod": false,
@@ -44,8 +42,7 @@
         "TranslatedStringDictionary",
         "FilterBase",
         "DateRangeFilter",
-        "AggregationResultItem",
-        "ContentService"
+        "AggregationResultItem"
       ],
       "extensionCode": "src/lib/services.extensions",
       "generateDefaultValues": false,
