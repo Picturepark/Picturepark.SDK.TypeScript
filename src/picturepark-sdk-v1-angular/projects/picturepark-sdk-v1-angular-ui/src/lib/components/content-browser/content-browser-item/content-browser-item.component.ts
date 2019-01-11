@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 
 import { BasketService } from './../../../services/basket.service';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
 import { ContentModel } from '../models/content-model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { ContentModel } from '../models/content-model';
   templateUrl: './content-browser-item.component.html',
   styleUrls: ['./content-browser-item.component.scss']
 })
-export class ContentBrowserItemComponent implements OnChanges {
+export class ContentBrowserItemComponent implements OnChanges, OnDestroy {
   @Input()
   public itemModel: ContentModel;
 
@@ -33,6 +34,8 @@ export class ContentBrowserItemComponent implements OnChanges {
   public virtualItemHtml: SafeHtml | null = null;
 
   private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
+
+  private subscription: Subscription = new Subscription();
 
   constructor(private basketService: BasketService, private contentService: ContentService, private sanitizer: DomSanitizer) {
   }
@@ -57,9 +60,11 @@ export class ContentBrowserItemComponent implements OnChanges {
         this.isLoading = true;
         this.thumbnailUrl = null;
 
-        this.contentService.downloadThumbnail(
+        const downloadSubscription = this.contentService.downloadThumbnail(
           this.itemModel.item.id,
-          this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize)
+          this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
+          null,
+          null)
           .subscribe(response => {
             if (response) {
               this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
@@ -69,6 +74,8 @@ export class ContentBrowserItemComponent implements OnChanges {
             this.thumbnailUrl = null;
             this.isLoading = false;
           });
+
+        this.subscription.add(downloadSubscription);
       }
     }
   }
@@ -84,11 +91,13 @@ export class ContentBrowserItemComponent implements OnChanges {
       contents: [{ contentId: this.itemModel.item.id, outputFormatId: 'Original' }]
     });
 
-    this.contentService.createDownloadLink(request).subscribe(data => {
+    const createDownloadSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
       if (data.downloadUrl) {
         window.location.replace(data.downloadUrl);
       }
     });
+
+    this.subscription.add(createDownloadSubscription);
   }
 
   public toggleInBasket() {
@@ -100,6 +109,12 @@ export class ContentBrowserItemComponent implements OnChanges {
       this.basketService.removeItem(this.itemModel.item.id);
     } else {
       this.basketService.addItem(this.itemModel.item.id);
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }
