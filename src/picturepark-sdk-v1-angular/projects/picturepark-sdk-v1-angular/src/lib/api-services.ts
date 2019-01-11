@@ -3575,8 +3575,8 @@ export class DocumentHistoryService extends PictureparkServiceBase {
 
     /**
      * Search
-     * @param documentHistorySearchRequest The document history search request
-     * @return Document history search result
+     * @param documentHistorySearchRequest The document history search request.
+     * @return Document history search result.
      */
     search(documentHistorySearchRequest: DocumentHistorySearchRequest): Observable<DocumentHistorySearchResult> {
         let url_ = this.baseUrl + "/v1/history/search";
@@ -3673,15 +3673,19 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     /**
-     * Get latest
-     * @param id The ID of the document (e.g. contentId)
+     * Get current
+     * @param documentType The type of the document (e.g. Content).
+     * @param documentId The ID of the document (e.g. contentId).
      * @return Document history item
      */
-    get(id: string): Observable<DocumentHistory> {
-        let url_ = this.baseUrl + "/v1/history/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+    getCurrent(documentType: string, documentId: string): Observable<DocumentHistory> {
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/current";
+        if (documentType === undefined || documentType === null)
+            throw new Error("The parameter 'documentType' must be defined.");
+        url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType)); 
+        if (documentId === undefined || documentId === null)
+            throw new Error("The parameter 'documentId' must be defined.");
+        url_ = url_.replace("{documentId}", encodeURIComponent("" + documentId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3695,11 +3699,11 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGet(response_);
+            return this.processGetCurrent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(<any>response_);
+                    return this.processGetCurrent(<any>response_);
                 } catch (e) {
                     return <Observable<DocumentHistory>><any>_observableThrow(e);
                 }
@@ -3708,7 +3712,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<DocumentHistory> {
+    protected processGetCurrent(response: HttpResponseBase): Observable<DocumentHistory> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3771,19 +3775,23 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     /**
-     * Get latest by version
-     * @param id The ID of the document (e.g. contentId)
-     * @param version The version
+     * Get version
+     * @param documentType The type of the document (e.g. Content).
+     * @param documentId The ID of the document (e.g. contentId).
+     * @param documentVersion The version of the document.
      * @return Document history item
      */
-    getVersion(id: string, version: string): Observable<DocumentHistory> {
-        let url_ = this.baseUrl + "/v1/history/{id}/{version}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        if (version === undefined || version === null)
-            throw new Error("The parameter 'version' must be defined.");
-        url_ = url_.replace("{version}", encodeURIComponent("" + version)); 
+    getVersion(documentType: string, documentId: string, documentVersion: string): Observable<DocumentHistory> {
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/{documentVersion}";
+        if (documentType === undefined || documentType === null)
+            throw new Error("The parameter 'documentType' must be defined.");
+        url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType)); 
+        if (documentId === undefined || documentId === null)
+            throw new Error("The parameter 'documentId' must be defined.");
+        url_ = url_.replace("{documentId}", encodeURIComponent("" + documentId)); 
+        if (documentVersion === undefined || documentVersion === null)
+            throw new Error("The parameter 'documentVersion' must be defined.");
+        url_ = url_.replace("{documentVersion}", encodeURIComponent("" + documentVersion)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3873,19 +3881,24 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     /**
-     * Get latest difference
-     * @param id The ID of the document (e.g. contentId)
-     * @param oldVersion The old version
-     * @return Document history difference
+     * Compare with current
+     * @param documentType The type of the document (e.g. Content).
+     * @param documentId The ID of the document (e.g. contentId).
+     * @param version (optional) The version of the document to compare with.
+     * @return Document history difference.
      */
-    getDifferenceLatest(id: string, oldVersion: number): Observable<DocumentHistoryDifference> {
-        let url_ = this.baseUrl + "/v1/history/{id}/difference/{oldVersion}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        if (oldVersion === undefined || oldVersion === null)
-            throw new Error("The parameter 'oldVersion' must be defined.");
-        url_ = url_.replace("{oldVersion}", encodeURIComponent("" + oldVersion)); 
+    compareWithCurrent(documentType: string, documentId: string, version: number | undefined): Observable<DocumentHistoryDifference> {
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/current/compare?";
+        if (documentType === undefined || documentType === null)
+            throw new Error("The parameter 'documentType' must be defined.");
+        url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType)); 
+        if (documentId === undefined || documentId === null)
+            throw new Error("The parameter 'documentId' must be defined.");
+        url_ = url_.replace("{documentId}", encodeURIComponent("" + documentId)); 
+        if (version === null)
+            throw new Error("The parameter 'version' cannot be null.");
+        else if (version !== undefined)
+            url_ += "version=" + encodeURIComponent("" + version) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3899,11 +3912,11 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetDifferenceLatest(response_);
+            return this.processCompareWithCurrent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetDifferenceLatest(<any>response_);
+                    return this.processCompareWithCurrent(<any>response_);
                 } catch (e) {
                     return <Observable<DocumentHistoryDifference>><any>_observableThrow(e);
                 }
@@ -3912,7 +3925,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGetDifferenceLatest(response: HttpResponseBase): Observable<DocumentHistoryDifference> {
+    protected processCompareWithCurrent(response: HttpResponseBase): Observable<DocumentHistoryDifference> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3975,23 +3988,28 @@ export class DocumentHistoryService extends PictureparkServiceBase {
     }
 
     /**
-     * Get difference
-     * @param id The ID of the document (e.g. contentId)
-     * @param oldVersion The old version
-     * @param newVersion The new version
+     * Compare with version
+     * @param documentType The type of the document (e.g. Content).
+     * @param documentId The ID of the document (e.g. contentId).
+     * @param documentVersion The version of the document to use for the comparison.
+     * @param version (optional) The version of the document to compare with.
      * @return Document history difference
      */
-    getDifference(id: string, oldVersion: number, newVersion: number): Observable<DocumentHistoryDifference> {
-        let url_ = this.baseUrl + "/v1/history/{id}/difference/{oldVersion}/{newVersion}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        if (oldVersion === undefined || oldVersion === null)
-            throw new Error("The parameter 'oldVersion' must be defined.");
-        url_ = url_.replace("{oldVersion}", encodeURIComponent("" + oldVersion)); 
-        if (newVersion === undefined || newVersion === null)
-            throw new Error("The parameter 'newVersion' must be defined.");
-        url_ = url_.replace("{newVersion}", encodeURIComponent("" + newVersion)); 
+    compareWithVersion(documentType: string, documentId: string, documentVersion: number, version: number | undefined): Observable<DocumentHistoryDifference> {
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/{documentVersion}/compare?";
+        if (documentType === undefined || documentType === null)
+            throw new Error("The parameter 'documentType' must be defined.");
+        url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType)); 
+        if (documentId === undefined || documentId === null)
+            throw new Error("The parameter 'documentId' must be defined.");
+        url_ = url_.replace("{documentId}", encodeURIComponent("" + documentId)); 
+        if (documentVersion === undefined || documentVersion === null)
+            throw new Error("The parameter 'documentVersion' must be defined.");
+        url_ = url_.replace("{documentVersion}", encodeURIComponent("" + documentVersion)); 
+        if (version === null)
+            throw new Error("The parameter 'version' cannot be null.");
+        else if (version !== undefined)
+            url_ += "version=" + encodeURIComponent("" + version) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4005,11 +4023,11 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetDifference(response_);
+            return this.processCompareWithVersion(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetDifference(<any>response_);
+                    return this.processCompareWithVersion(<any>response_);
                 } catch (e) {
                     return <Observable<DocumentHistoryDifference>><any>_observableThrow(e);
                 }
@@ -4018,7 +4036,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGetDifference(response: HttpResponseBase): Observable<DocumentHistoryDifference> {
+    protected processCompareWithVersion(response: HttpResponseBase): Observable<DocumentHistoryDifference> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -15650,6 +15668,7 @@ export interface IPictureparkNotFoundException extends IPictureparkBusinessExcep
 }
 
 export class DocumentVersionNotFoundException extends PictureparkNotFoundException implements IDocumentVersionNotFoundException {
+    documentType?: string | undefined;
     documentId?: string | undefined;
     documentVersion?: string | undefined;
 
@@ -15661,6 +15680,7 @@ export class DocumentVersionNotFoundException extends PictureparkNotFoundExcepti
     init(data?: any) {
         super.init(data);
         if (data) {
+            this.documentType = data["documentType"];
             this.documentId = data["documentId"];
             this.documentVersion = data["documentVersion"];
         }
@@ -15675,6 +15695,7 @@ export class DocumentVersionNotFoundException extends PictureparkNotFoundExcepti
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["documentType"] = this.documentType;
         data["documentId"] = this.documentId;
         data["documentVersion"] = this.documentVersion;
         super.toJSON(data);
@@ -15683,6 +15704,7 @@ export class DocumentVersionNotFoundException extends PictureparkNotFoundExcepti
 }
 
 export interface IDocumentVersionNotFoundException extends IPictureparkNotFoundException {
+    documentType?: string | undefined;
     documentId?: string | undefined;
     documentVersion?: string | undefined;
 }
@@ -29844,7 +29866,6 @@ export interface IDocumentHistorySearchResult extends IBaseResultOfDocumentHisto
 }
 
 export class DocumentHistory implements IDocumentHistory {
-    id?: string | undefined;
     documentId?: string | undefined;
     documentVersion: number;
     documentType?: string | undefined;
@@ -29868,7 +29889,6 @@ export class DocumentHistory implements IDocumentHistory {
 
     init(data?: any) {
         if (data) {
-            this.id = data["id"];
             this.documentId = data["documentId"];
             this.documentVersion = data["documentVersion"];
             this.documentType = data["documentType"];
@@ -29891,7 +29911,6 @@ export class DocumentHistory implements IDocumentHistory {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
         data["documentId"] = this.documentId;
         data["documentVersion"] = this.documentVersion;
         data["documentType"] = this.documentType;
@@ -29907,7 +29926,6 @@ export class DocumentHistory implements IDocumentHistory {
 }
 
 export interface IDocumentHistory {
-    id?: string | undefined;
     documentId?: string | undefined;
     documentVersion: number;
     documentType?: string | undefined;
@@ -29969,9 +29987,9 @@ export enum DocumentChangeAction {
 }
 
 export class DocumentHistorySearchRequest implements IDocumentHistorySearchRequest {
-    /** Limits the start date of the search request. Default to last 1 year. */
+    /** Limits the start date of the search request. By default no limitation set. */
     from: Date;
-    /** Limits the end date of the search request. Default to now. */
+    /** Limits the end date of the search request. By default no limitation set. */
     to: Date;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
@@ -29984,7 +30002,7 @@ export class DocumentHistorySearchRequest implements IDocumentHistorySearchReque
     /** Limits the search to a specific document type. */
     documentType?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo | undefined;
+    sort?: SortInfo[] | undefined;
 
     constructor(data?: IDocumentHistorySearchRequest) {
         if (data) {
@@ -29992,7 +30010,13 @@ export class DocumentHistorySearchRequest implements IDocumentHistorySearchReque
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.sort = data.sort && !(<any>data.sort).toJSON ? new SortInfo(data.sort) : <SortInfo>this.sort; 
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
         }
     }
 
@@ -30005,7 +30029,11 @@ export class DocumentHistorySearchRequest implements IDocumentHistorySearchReque
             this.documentId = data["documentId"];
             this.documentVersion = data["documentVersion"];
             this.documentType = data["documentType"];
-            this.sort = data["sort"] ? SortInfo.fromJS(data["sort"]) : <any>undefined;
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
         }
     }
 
@@ -30025,15 +30053,19 @@ export class DocumentHistorySearchRequest implements IDocumentHistorySearchReque
         data["documentId"] = this.documentId;
         data["documentVersion"] = this.documentVersion;
         data["documentType"] = this.documentType;
-        data["sort"] = this.sort ? this.sort.toJSON() : <any>undefined;
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
 export interface IDocumentHistorySearchRequest {
-    /** Limits the start date of the search request. Default to last 1 year. */
+    /** Limits the start date of the search request. By default no limitation set. */
     from: Date;
-    /** Limits the end date of the search request. Default to now. */
+    /** Limits the end date of the search request. By default no limitation set. */
     to: Date;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
@@ -30046,7 +30078,7 @@ export interface IDocumentHistorySearchRequest {
     /** Limits the search to a specific document type. */
     documentType?: string | undefined;
     /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo | undefined;
+    sort?: ISortInfo[] | undefined;
 }
 
 export class DocumentHistoryDifference implements IDocumentHistoryDifference {
