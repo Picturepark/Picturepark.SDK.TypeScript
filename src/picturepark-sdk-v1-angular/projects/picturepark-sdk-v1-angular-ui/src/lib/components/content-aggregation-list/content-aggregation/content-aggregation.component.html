@@ -9,39 +9,40 @@
       </button>
     </mat-panel-title>
   </mat-expansion-panel-header>
+  <ng-template matExpansionPanelContent>
+    <mat-form-field *ngIf="expandedAggregationResult?.sumOtherDocCount" class="aggregation__search">
+      <input type="text" [placeholder]="'ContentAggregationList.Search' | pptranslate" aria-label="Search" matInput [formControl]="aggregationQuery"
+             [matAutocomplete]="searchAutocomplete">
+      <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete #searchAutocomplete="matAutocomplete" (optionSelected)="autoCompleteOptionSelected($event.option.value)"
+                        [displayWith]="queryDisplay">
+        <mat-option *ngFor="let option of autoCompleteOptions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
-  <mat-form-field *ngIf="expandedAggregationResult?.sumOtherDocCount" class="aggregation__search">
-    <input type="text" [placeholder]="'ContentAggregationList.Search' | pptranslate" aria-label="Search" matInput [formControl]="aggregationQuery"
-      [matAutocomplete]="searchAutocomplete">
-    <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')">
-      <mat-icon>close</mat-icon>
-    </button>
-    <mat-autocomplete #searchAutocomplete="matAutocomplete" (optionSelected)="autoCompleteOptionSelected($event.option.value)"
-      [displayWith]="queryDisplay">
-      <mat-option *ngFor="let option of autoCompleteOptions | async" [value]="option">
-        {{option.name}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-
-  <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
-    <mat-list-option *ngFor="let item of expandedAggregationResult?.aggregationResultItems" checkboxPosition="before" [selected]="item.active"
-      [value]="item">
-      <!-- TODO: dynamic tooltip, based on width. -->
-      <div class="aggregation__option-title" matTooltip="{{item.getDisplayName(locale)}}" [matTooltipDisabled]="false">
-        <div class="aggregation__option-name">{{item.getDisplayName(locale)}} </div>
-        <div>{{item.count}} </div>
-      </div>
-    </mat-list-option>
-  </mat-selection-list>
-  <div>
-    <button mat-button *ngIf="expandedAggregationResult?.sumOtherDocCount" (click)="loadMore()">
-      <mat-icon>add</mat-icon>
-      {{ 'ContentAggregationList.ShowMoreFilters' | pptranslate }}
-    </button>
-    <button mat-button *ngIf="expandedAggregationResult?.aggregationResultItems?.length > pagingSize" (click)="loadLess()">
-      <mat-icon>remove</mat-icon>
-      {{ 'ContentAggregationList.ShowLessFilters' | pptranslate }}
-    </button>
-  </div>
+    <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
+      <mat-list-option *ngFor="let item of expandedAggregationResult?.aggregationResultItems" checkboxPosition="before" [selected]="item.active"
+                       [value]="item">
+        <!-- TODO: dynamic tooltip, based on width. -->
+        <div class="aggregation__option-title" matTooltip="{{item.getDisplayName(locale)}}" [matTooltipDisabled]="false">
+          <div class="aggregation__option-name">{{item.getDisplayName(locale)}} </div>
+          <div>{{item.count}} </div>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+    <div>
+      <button mat-button *ngIf="expandedAggregationResult?.sumOtherDocCount" (click)="loadMore()">
+        <mat-icon>add</mat-icon>
+        {{ 'ContentAggregationList.ShowMoreFilters' | pptranslate }}
+      </button>
+      <button mat-button *ngIf="expandedAggregationResult?.aggregationResultItems?.length > pagingSize" (click)="loadLess()">
+        <mat-icon>remove</mat-icon>
+        {{ 'ContentAggregationList.ShowLessFilters' | pptranslate }}
+      </button>
+    </div>
+  </ng-template>
 </mat-expansion-panel>
