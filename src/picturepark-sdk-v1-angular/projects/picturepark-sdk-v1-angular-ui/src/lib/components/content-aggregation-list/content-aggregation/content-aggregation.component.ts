@@ -18,6 +18,10 @@ export class ContentAggregationComponent extends AggregationComponent {
   @Input()
   public channelId: string | undefined;
 
+  // Used for expanding aggregation list (by default only first element is expanded).
+  @Input()
+  public isExpanded: boolean;
+
   constructor(@Inject(LOCALE_ID) public locale: string, private contentService: ContentService) {
     super();
   }
