@@ -26528,8 +26528,16 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     aggregationResults?: AggregationResult[] | undefined;
 
     getDisplayName(locale: string) {
-      const displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
-      return displayName ? displayName : this.name;
+        let displayName;
+
+        // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
+        if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
+          displayName = this.name.split("/").pop() || null;
+        } else {
+          displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
+        }
+        
+        return displayName ? displayName : this.name;
     }
 
     constructor(data?: IAggregationResultItem) {
