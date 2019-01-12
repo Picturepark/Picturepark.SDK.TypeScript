@@ -682,28 +682,6 @@ export class ContentService extends PictureparkServiceBase {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
-    
-    private thumbnailCache: { [key: string]: FileResponse | null; } = {};
-
-    /**
-     * Get Thumbnail
-     * @contentId The Content id
-     * @size Thumbnail size. Either small, medium or large
-     * @return HttpResponseMessage
-     */
-    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
-        const key = contentId + ':' + size;
-        if (cache !== false && this.thumbnailCache[key] !== undefined) {
-            return _observableOf(this.thumbnailCache[key]);
-        }
-
-        const response = this.downloadThumbnailCore(contentId, size, null, null);
-        response.subscribe(blob => {
-            this.thumbnailCache[key] = blob;
-        });
-        return response;
-    }
-
     /**
      * Get content
      * @param contentId The content ID.
@@ -1850,7 +1828,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param height (optional) Optional height in pixels to resize image.
      * @return Http response message
      */
-    protected downloadThumbnailCore(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
+    downloadThumbnail(contentId: string, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/v1/contents/thumbnails/{contentId}/{size}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
