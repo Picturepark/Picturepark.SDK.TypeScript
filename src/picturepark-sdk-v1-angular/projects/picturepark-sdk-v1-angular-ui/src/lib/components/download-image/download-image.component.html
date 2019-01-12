@@ -1,0 +1,12 @@
+<mat-menu #downloadmenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item *ngFor="let format of outPutFormats" (click)="download(format)">
+      <mat-icon aria-label="Download content item">get_app</mat-icon>
+      <span>{{format}}</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<button mat-icon-button [matMenuTriggerFor]="downloadmenu" (click)="getOutputFormats(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate">
+  <mat-icon aria-label="Download content item">get_app</mat-icon>
+</button>

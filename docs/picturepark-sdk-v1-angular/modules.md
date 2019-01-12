@@ -53,6 +53,7 @@ To improve the final app file distrubution size, you should only import used mod
 - [ContentBrowserComponent](pp-content-browser.md)
 - [SearchBoxComponent](pp-search-box.md)
 - [AggregationFilterComponent](pp-aggregation-filter.md)
+- [DownloadImageComponent](pp-download-image.md)
 - TranslatePipe
 
 ## PictureparkOidcModule
