@@ -14,6 +14,11 @@ import { Subscription } from 'rxjs';
 export class DownloadImageComponent implements OnInit, OnDestroy {
   @Input() public id: string;
   @Input() public formats: string[];
+  @Input() public overlapTrigger: boolean = false;
+  // possible values  'above' | 'below'
+  @Input() public yPosition: string = 'above';
+  // possible values 'before' | 'after'
+  @Input() public xPosition: string = 'before';
 
   public outPutFormats: string[];
   private subscription: Subscription = new Subscription();

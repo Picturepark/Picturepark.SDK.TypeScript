@@ -13,7 +13,7 @@
       <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate">
         <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
       </button>
-      <pp-download-image [id]="itemModel.item.id"></pp-download-image>
+      <pp-download-image [id]="itemModel.item.id" [overlapTrigger]="true"></pp-download-image>
     </div>
   </div>
   <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="content-item__title mat-subheading-2">
