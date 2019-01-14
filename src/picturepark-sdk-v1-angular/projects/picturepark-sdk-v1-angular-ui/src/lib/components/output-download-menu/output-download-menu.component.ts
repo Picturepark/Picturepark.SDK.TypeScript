@@ -7,11 +7,11 @@ import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pp-download-image',
-  templateUrl: './download-image.component.html',
-  styleUrls: ['./download-image.component.scss']
+  selector: 'pp-output-download-menu',
+  templateUrl: './output-download-menu.component.html',
+  styleUrls: ['./output-download-menu.component.scss']
 })
-export class DownloadImageComponent implements OnInit, OnDestroy {
+export class OutputDownloadMenuComponent implements OnInit, OnDestroy {
   @Input() public id: string;
   @Input() public formats: string[];
   @Input() public overlapTrigger: boolean = false;
@@ -20,7 +20,7 @@ export class DownloadImageComponent implements OnInit, OnDestroy {
   // possible values 'before' | 'after'
   @Input() public xPosition: string = 'before';
 
-  public outPutFormats: string[];
+  public outputFormats: string[];
   private subscription: Subscription = new Subscription();
 
   constructor(private contentService: ContentService) { }
@@ -33,7 +33,7 @@ export class DownloadImageComponent implements OnInit, OnDestroy {
 
   public getOutputFormats() {
     if (this.formats) {
-      this.outPutFormats = this.formats;
+      this.outputFormats = this.formats;
     }
     else {
       const sub = this.contentService.get(this.id,
@@ -42,7 +42,7 @@ export class DownloadImageComponent implements OnInit, OnDestroy {
           map((outputs: (Output[] | undefined)) => outputs && outputs.map(o => o.outputFormatId))
         )
         .subscribe((outputFormatIds: string[]) => {
-          this.outPutFormats = outputFormatIds;
+          this.outputFormats = outputFormatIds;
         });
 
       this.subscription.add(sub);

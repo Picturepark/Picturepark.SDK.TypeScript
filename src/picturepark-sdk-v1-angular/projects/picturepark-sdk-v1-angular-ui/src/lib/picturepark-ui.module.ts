@@ -30,7 +30,7 @@ import { ChannelPickerComponent } from './components/channel-picker/channel-pick
 import { ContentBrowserComponent } from './components/content-browser/content-browser.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
-import { DownloadImageComponent } from './components/download-image/download-image.component';
+import { OutputDownloadMenuComponent } from './components/output-download-menu/output-download-menu.component';
 
 // SDK pipes
 import { TranslatePipe } from './pipes/translate.pipe';
@@ -50,7 +50,7 @@ import { BasketService } from './services/basket.service';
     ContentBrowserItemComponent,
     BasketComponent,
     BasketItemComponent,
-    DownloadImageComponent,
+    OutputDownloadMenuComponent,
     TranslatePipe,
   ],
   providers: [
@@ -85,7 +85,7 @@ import { BasketService } from './services/basket.service';
     SearchBoxComponent,
     ContentAggregationListComponent,
     BasketComponent,
-    DownloadImageComponent,
+    OutputDownloadMenuComponent,
     TranslatePipe
   ]
 })

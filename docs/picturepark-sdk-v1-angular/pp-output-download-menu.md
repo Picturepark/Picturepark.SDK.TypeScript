@@ -1,8 +1,8 @@
-# pp-download-image
+# pp-output-download-menu
 
 Renders the button for downloading images with possibility to choose image format.
 
-    <pp-download-image [id]="ifG28Fsd" [overlapTrigger]="true" [yPosition]="'below'" [xPosition]="'after'"></pp-download-image>
+    <pp-output-download-menu [id]="ifG28Fsd" [overlapTrigger]="true" [yPosition]="'below'" [xPosition]="'after'"></pp-output-download-menu>
 
 Properties:
 
