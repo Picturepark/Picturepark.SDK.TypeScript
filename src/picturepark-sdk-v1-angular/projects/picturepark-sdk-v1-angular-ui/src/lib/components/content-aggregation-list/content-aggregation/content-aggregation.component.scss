@@ -32,3 +32,16 @@
     font-size: 14px;
   }
 }
+
+.mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
+  padding: unset;
+
+  .mat-list-text {
+    padding-left: 5px;
+  }
+
+  .mat-pseudo-checkbox {
+    height: 14px;
+    width: 14px;
+  }
+}
