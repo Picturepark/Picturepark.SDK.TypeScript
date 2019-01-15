@@ -26,7 +26,7 @@ import {
 export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   private lastSelectedIndex = 0;
 
-  private readonly ItemsPerRequest = 75;
+  private readonly ItemsPerRequest = 50;
 
   private basketItems: string[] = [];
 
