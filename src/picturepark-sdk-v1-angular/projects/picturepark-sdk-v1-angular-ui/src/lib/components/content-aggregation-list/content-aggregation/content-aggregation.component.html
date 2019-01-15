@@ -1,5 +1,5 @@
-<mat-expansion-panel class="aggregation" [expanded]="isExpanded && expandedAggregationResult?.aggregationResultItems?.length > 0" [disabled]="expandedAggregationResult?.aggregationResultItems?.length === 0">
-  <mat-expansion-panel-header>
+<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="isExpanded && expandedAggregationResult?.aggregationResultItems?.length > 0" [disabled]="expandedAggregationResult?.aggregationResultItems?.length === 0">
+  <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
     <mat-panel-title class="aggregation__title">
       <span>
         {{ expandedAggregator?.names | pptranslate}}
