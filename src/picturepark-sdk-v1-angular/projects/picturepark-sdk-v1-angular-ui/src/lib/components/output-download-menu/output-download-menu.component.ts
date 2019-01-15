@@ -68,4 +68,8 @@ export class OutputDownloadMenuComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
+  public trackByFormat(index, format: string) {
+    return format;
+  }
 }

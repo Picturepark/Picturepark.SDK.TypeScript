@@ -223,4 +223,12 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
       });
     }
   }
+
+  public trackByItem(index, item: ContentModel) {
+    return item.item.id;
+  }
+
+  public trackByThumbnailSize(index, thumbnailSize: string) {
+    return thumbnailSize;
+  }
 }

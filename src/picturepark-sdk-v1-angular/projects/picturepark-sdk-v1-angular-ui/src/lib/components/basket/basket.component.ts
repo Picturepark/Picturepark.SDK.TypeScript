@@ -38,4 +38,8 @@ export class BasketComponent {
   public clearBasket() {
     this.basketService.clearBasket();
   }
+
+  public trackByBasket(index, basket: string) {
+    return basket;
+  }
 }

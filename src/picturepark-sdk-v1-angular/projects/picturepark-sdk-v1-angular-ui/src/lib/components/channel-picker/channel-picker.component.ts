@@ -44,4 +44,8 @@ export class ChannelPickerComponent implements OnInit {
     this.channel = channel;
     this.channelChange.emit(this.channel);
   }
+
+  public trackByChannel(index, channel: Channel) {
+    return channel.id;
+  }
 }
