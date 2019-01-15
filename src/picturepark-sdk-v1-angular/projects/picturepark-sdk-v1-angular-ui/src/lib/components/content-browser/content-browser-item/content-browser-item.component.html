@@ -1,7 +1,7 @@
 <div class="content-item" [class.content-item--selected]="itemModel.isSelected" [class.content-item--list-view]="isListView">
   <div class="content-item__image-slot">
     <div class="content-item__image-container" *ngIf="virtualItemHtml === null; else virtualContent">
-      <img *ngIf="!isLoading" class="content-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+      <img *ngIf="!isLoading && itemModel.isVisible" class="content-item__image"  [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
       />
     </div>
 
