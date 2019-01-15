@@ -64,9 +64,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
-  private scrollSubscription: Subscription;
-  private basketSubscription: Subscription;
-  private contentItemSelectionSubscription: Subscription;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
@@ -75,19 +73,21 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone) {
 
-    this.basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
+    const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
+    this.subscription.add(basketSubscription);
 
-    this.contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
+    const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
+    this.subscription.add(contentItemSelectionSubscription);
   }
 
   public ngOnInit(): void {
-    this.scrollSubscription = this.scrollDispatcher.scrolled()
+    const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {
         if (scrollable) {
           const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
@@ -98,6 +98,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
           }
         }
       });
+    this.subscription.add(scrollSubscription);
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -107,9 +108,9 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.scrollSubscription.unsubscribe();
-    this.basketSubscription.unsubscribe();
-    this.contentItemSelectionSubscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public setSortingType(newValue: SortingType) {
@@ -142,11 +143,12 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
       contents: this.selectedItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
     });
 
-    this.contentService.createDownloadLink(request).subscribe(data => {
+    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
       if (data.downloadUrl) {
         window.location.replace(data.downloadUrl);
       }
     });
+    this.subscription.add(linkSubscription);
   }
 
   public toggleItems(isSelected: boolean) {
@@ -205,7 +207,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         ]
       });
 
-      this.contentService.search(request).subscribe(searchResult => {
+      const searchSubscription = this.contentService.search(request).subscribe(searchResult => {
         this.totalResults = searchResult.totalResults;
 
         if (searchResult.results) {
@@ -221,6 +223,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         this.totalResults = null;
         this.isLoading = false;
       });
+      this.subscription.add(searchSubscription);
     }
   }
 

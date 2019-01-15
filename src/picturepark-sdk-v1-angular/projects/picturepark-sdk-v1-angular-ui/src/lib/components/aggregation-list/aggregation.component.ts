@@ -1,7 +1,7 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
-import { timer, Observable, from } from 'rxjs';
+import { timer, Observable, from, Subscription } from 'rxjs';
 
 import {
   AggregationFilter, AggregationResult, AggregatorBase,
@@ -9,7 +9,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 
-export abstract class AggregationComponent implements OnChanges {
+export abstract class AggregationComponent implements OnChanges, OnDestroy {
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
   public query = '';
@@ -38,6 +38,8 @@ export abstract class AggregationComponent implements OnChanges {
   public expandedAggregationResult: AggregationResult | null = null;
 
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
+
+  private subscription: Subscription = new Subscription();
 
   public constructor() {
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
@@ -68,17 +70,19 @@ export abstract class AggregationComponent implements OnChanges {
   public loadMore() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    this.fetchData().subscribe(result => {
+    const fetchDataSubscription = this.fetchData().subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
+    this.subscription.add(fetchDataSubscription);
   }
 
   public loadLess() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    this.fetchData().subscribe(result => {
+    const fetchDataSubscription = this.fetchData().subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
+    this.subscription.add(fetchDataSubscription);
   }
 
   public searchAggregator(query: string): Observable<AggregationResultItem[]> {
@@ -163,5 +167,11 @@ export abstract class AggregationComponent implements OnChanges {
     }
 
     return aggregationResult;
+  }
+
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
