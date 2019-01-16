@@ -1,9 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 
 import { BasketService } from './../../../services/basket.service';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
 import { ContentModel } from '../models/content-model';
+import { BaseComponent } from '../../base.component';
+import { switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -11,7 +14,8 @@ import { ContentModel } from '../models/content-model';
   templateUrl: './content-browser-item.component.html',
   styleUrls: ['./content-browser-item.component.scss']
 })
-export class ContentBrowserItemComponent implements OnChanges {
+export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
+
   @Input()
   public itemModel: ContentModel;
 
@@ -33,8 +37,38 @@ export class ContentBrowserItemComponent implements OnChanges {
   public virtualItemHtml: SafeHtml | null = null;
 
   private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
+  private isVisible = false;
+  private loadItem = new Subject<void>();
 
   constructor(private basketService: BasketService, private contentService: ContentService, private sanitizer: DomSanitizer) {
+    super();
+  }
+
+  public ngOnInit(): void {
+    const downloadSubscription = this.loadItem
+      .pipe(switchMap(() => {
+        return this.contentService.downloadThumbnail(
+          this.itemModel.item.id,
+          this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
+          null,
+          null)
+      }))
+      .subscribe(response => {
+        if (response) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
+          this.isLoading = false;
+        }
+      }, () => {
+        this.thumbnailUrl = null;
+        this.isLoading = false;
+      });
+
+    this.subscription.add(downloadSubscription);
+  }
+
+  public markAsVisible() {
+    this.isVisible = true;
+    this.loadItem.next();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -46,7 +80,7 @@ export class ContentBrowserItemComponent implements OnChanges {
       }
     }
 
-    if (changes['thumbnailSize'] && this.virtualItemHtml === null) {
+    if (changes['thumbnailSize'] && this.virtualItemHtml === null && this.isVisible) {
       const updateImage =
         (changes['thumbnailSize'].firstChange) ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Small && this.isListView === false) ||
@@ -56,19 +90,7 @@ export class ContentBrowserItemComponent implements OnChanges {
 
         this.isLoading = true;
         this.thumbnailUrl = null;
-
-        this.contentService.downloadThumbnail(
-          this.itemModel.item.id,
-          this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize)
-          .subscribe(response => {
-            if (response) {
-              this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-              this.isLoading = false;
-            }
-          }, () => {
-            this.thumbnailUrl = null;
-            this.isLoading = false;
-          });
+        this.loadItem.next();
       }
     }
   }
@@ -84,11 +106,13 @@ export class ContentBrowserItemComponent implements OnChanges {
       contents: [{ contentId: this.itemModel.item.id, outputFormatId: 'Original' }]
     });
 
-    this.contentService.createDownloadLink(request).subscribe(data => {
+    const createDownloadSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
       if (data.downloadUrl) {
         window.location.replace(data.downloadUrl);
       }
     });
+
+    this.subscription.add(createDownloadSubscription);
   }
 
   public toggleInBasket() {

@@ -1,9 +1,8 @@
 import {
   Component, Input, Output, OnChanges, EventEmitter,
-  SimpleChanges, OnInit, NgZone, OnDestroy
+  SimpleChanges, OnInit, NgZone
 } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Subscription } from 'rxjs';
 
 import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
@@ -15,6 +14,7 @@ import {
   ContentSearchRequest, FilterBase, SortInfo,
   SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
 } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../base.component';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -23,10 +23,10 @@ import {
   templateUrl: './content-browser.component.html',
   styleUrls: ['./content-browser.component.scss']
 })
-export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
+export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
   private lastSelectedIndex = 0;
 
-  private readonly ItemsPerRequest = 75;
+  private readonly ItemsPerRequest = 50;
 
   private basketItems: string[] = [];
 
@@ -64,30 +64,29 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
-  private scrollSubscription: Subscription;
-  private basketSubscription: Subscription;
-  private contentItemSelectionSubscription: Subscription;
-
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone) {
+    super();
 
-    this.basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
+    const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
+    this.subscription.add(basketSubscription);
 
-    this.contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
+    const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
+    this.subscription.add(contentItemSelectionSubscription);
   }
 
   public ngOnInit(): void {
-    this.scrollSubscription = this.scrollDispatcher.scrolled()
+    const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {
         if (scrollable) {
           const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
@@ -98,18 +97,13 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
           }
         }
       });
+    this.subscription.add(scrollSubscription);
   }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['channel'] || changes['filter'] || changes['query']) {
       this.update();
     }
-  }
-
-  public ngOnDestroy(): void {
-    this.scrollSubscription.unsubscribe();
-    this.basketSubscription.unsubscribe();
-    this.contentItemSelectionSubscription.unsubscribe();
   }
 
   public setSortingType(newValue: SortingType) {
@@ -142,11 +136,12 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
       contents: this.selectedItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
     });
 
-    this.contentService.createDownloadLink(request).subscribe(data => {
+    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
       if (data.downloadUrl) {
         window.location.replace(data.downloadUrl);
       }
     });
+    this.subscription.add(linkSubscription);
   }
 
   public toggleItems(isSelected: boolean) {
@@ -205,7 +200,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         ]
       });
 
-      this.contentService.search(request).subscribe(searchResult => {
+      const searchSubscription = this.contentService.search(request).subscribe(searchResult => {
         this.totalResults = searchResult.totalResults;
 
         if (searchResult.results) {
@@ -221,6 +216,15 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
         this.totalResults = null;
         this.isLoading = false;
       });
+      this.subscription.add(searchSubscription);
     }
+  }
+
+  public trackByItem(index, item: ContentModel) {
+    return item.item.id;
+  }
+
+  public trackByThumbnailSize(index, thumbnailSize: string) {
+    return thumbnailSize;
   }
 }

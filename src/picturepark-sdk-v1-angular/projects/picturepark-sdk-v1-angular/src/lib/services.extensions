@@ -24,33 +24,18 @@ class DateRangeFilter extends generated.DateRangeFilter {
     }
 }
 
-class AggregationResultItem extends generated.AggregationResultItem {
+class AggregationResultItem extends generated.AggregationResultItem {    
     getDisplayName(locale: string) {
-      const displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
-      return displayName ? displayName : this.name;
-    }
-}
+        let displayName;
 
-class ContentService extends generated.ContentService {
-    private thumbnailCache: { [key: string]: FileResponse | null; } = {};
-
-    /**
-     * Get Thumbnail
-     * @contentId The Content id
-     * @size Thumbnail size. Either small, medium or large
-     * @return HttpResponseMessage
-     */
-    downloadThumbnail(contentId: string, size: ThumbnailSize, cache?: boolean): Observable<FileResponse | null> {
-        const key = contentId + ':' + size;
-        if (cache !== false && this.thumbnailCache[key] !== undefined) {
-            return _observableOf(this.thumbnailCache[key]);
+        // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
+        if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
+          displayName = this.name.split("/").pop() || null;
+        } else {
+          displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
         }
-
-        const response = this.downloadThumbnailCore(contentId, size, null, null);
-        response.subscribe(blob => {
-            this.thumbnailCache[key] = blob;
-        });
-        return response;
+        
+        return displayName ? displayName : this.name;
     }
 }
 

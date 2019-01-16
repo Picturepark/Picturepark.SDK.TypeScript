@@ -38,7 +38,7 @@ describe('ContentService', () => {
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.downloadThumbnail(response!.results![0].id!, ThumbnailSize.Medium, false).toPromise();
+      const result = await contentService.downloadThumbnail(response!.results![0].id!, ThumbnailSize.Medium, null, null).toPromise();
 
       // assert
       expect(result!.data.size).toBeGreaterThan(0);
