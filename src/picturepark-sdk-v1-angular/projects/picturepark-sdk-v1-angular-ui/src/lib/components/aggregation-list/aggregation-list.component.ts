@@ -1,13 +1,14 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
   AggregatorBase, FilterBase, OrFilter, AndFilter
 } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../base.component';
 
-export abstract class AggregationListComponent implements OnChanges, OnDestroy {
+export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
   @Input()
   public query = '';
 
@@ -31,8 +32,6 @@ export abstract class AggregationListComponent implements OnChanges, OnDestroy {
   public isLoading = true;
 
   public aggregationResults: AggregationResult[] = [];
-
-  private subscription: Subscription = new Subscription();
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['aggregators'] && changes['aggregators'].previousValue && this.aggregators) {
@@ -72,7 +71,7 @@ export abstract class AggregationListComponent implements OnChanges, OnDestroy {
   }
 
   private updateData() {
-    const fetchDataSubscription =  this.fetchData()
+    const fetchDataSubscription = this.fetchData()
       .pipe(filter((result) => result !== null))
       .subscribe((result: ObjectAggregationResult) => {
         this.processAggregationResults(result.aggregationResults || []);
@@ -113,12 +112,6 @@ export abstract class AggregationListComponent implements OnChanges, OnDestroy {
         this.aggregationResults[aggregatorIndex] = aggregationResult;
       }
     });
-  }
-
-  public ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
 

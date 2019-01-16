@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   ContentService,
   ContentDetail, ContentResolveBehavior, ContentDownloadLinkCreateRequest, Output
 } from '@picturepark/sdk-v1-angular';
 import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'pp-output-download-menu',
   templateUrl: './output-download-menu.component.html',
   styleUrls: ['./output-download-menu.component.scss']
 })
-export class OutputDownloadMenuComponent implements OnInit, OnDestroy {
+export class OutputDownloadMenuComponent extends BaseComponent implements OnInit {
   @Input() public id: string;
   @Input() public formats: string[];
   @Input() public overlapTrigger: boolean = false;
@@ -21,9 +21,10 @@ export class OutputDownloadMenuComponent implements OnInit, OnDestroy {
   @Input() public xPosition: string = 'before';
 
   public outputFormats: string[];
-  private subscription: Subscription = new Subscription();
 
-  constructor(private contentService: ContentService) { }
+  constructor(private contentService: ContentService) {
+    super();
+  }
 
   public ngOnInit() {
     if (!this.id) {
@@ -61,12 +62,6 @@ export class OutputDownloadMenuComponent implements OnInit, OnDestroy {
     });
 
     this.subscription.add(createDownloadSubscription);
-  }
-
-  public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   public trackByFormat(index, format: string) {

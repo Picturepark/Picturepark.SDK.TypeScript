@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 
 import { BasketService } from './../../../services/basket.service';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
 import { ContentModel } from '../models/content-model';
-import { Subscription, Subject } from 'rxjs';
+import { BaseComponent } from '../../base.component';
 import { switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './content-browser-item.component.html',
   styleUrls: ['./content-browser-item.component.scss']
 })
-export class ContentBrowserItemComponent implements OnInit, OnChanges, OnDestroy {
+export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
 
   @Input()
   public itemModel: ContentModel;
@@ -36,12 +37,11 @@ export class ContentBrowserItemComponent implements OnInit, OnChanges, OnDestroy
   public virtualItemHtml: SafeHtml | null = null;
 
   private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
-
   private isVisible = false;
   private loadItem = new Subject<void>();
-  private subscription: Subscription = new Subscription();
 
   constructor(private basketService: BasketService, private contentService: ContentService, private sanitizer: DomSanitizer) {
+    super();
   }
 
   public ngOnInit(): void {
@@ -124,12 +124,6 @@ export class ContentBrowserItemComponent implements OnInit, OnChanges, OnDestroy
       this.basketService.removeItem(this.itemModel.item.id);
     } else {
       this.basketService.addItem(this.itemModel.item.id);
-    }
-  }
-
-  public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
     }
   }
 }
