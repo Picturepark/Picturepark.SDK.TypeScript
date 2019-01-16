@@ -106,7 +106,11 @@ export class PictureparkPlayers {
     let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.element === player.id_)[0];
     if (existingPlayer) {
       log('Picturepark Widgets > Disposed videojs player');
-      player.dispose();
+      try {
+        player.dispose();
+      } catch {
+
+      }
       PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers
         .filter(p => p.player !== player);
     } else {
@@ -114,8 +118,8 @@ export class PictureparkPlayers {
     }
   }
 
-  static renderVideoPlayerIfNeeded(item: { previewUrl: string, originalUrl: string, originalFileExtension: string }, element: any, width: any, height: any) {
-    let playerInfo = PictureparkPlayers.loadedPlayers.filter(p => p.element === element.id_)[0];
+  static renderVideoPlayerIfNeeded(item: { previewUrl: string, originalUrl: string }, element: any, width: any, height: any) {
+    let playerInfo = PictureparkPlayers.loadedPlayers.filter(p => p.element === element.id)[0];
     if (playerInfo) {
       return playerInfo.promise.then(player => {
         let element = document.getElementById(playerInfo.element);
@@ -163,7 +167,7 @@ export class PictureparkPlayers {
           resolve(player);
         });
 
-        player.src({ type: 'video/mp4', src: item.originalUrl });
+        player.src({ type: 'video/mp4', src: item.videoUrl });
         return player;
       });
     });
@@ -188,7 +192,7 @@ export class PictureparkPlayers {
     iframeElement.style.top = '0';
     iframeElement.style.width = '100%';
     iframeElement.style.height = '100%';
-    iframeElement.src = PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + item.originalUrl;
+    iframeElement.src = PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + item.pdfUrl;
 
     let savedOverflow = document.body.style.overflow;
     let keydownCallback = (e: KeyboardEvent) => {
@@ -235,7 +239,7 @@ export class PictureparkPlayers {
         } else if (i.isPdf) {
           return {
             html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-              'src="' + PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + i.originalUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
+              'src="' + PictureparkPlayers.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + i.pdfUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
             origin: i.originalUrl
           };
         } else if (i.isMovie) {
@@ -245,12 +249,15 @@ export class PictureparkPlayers {
           };
         } else if (!i.isBinary) {
           return {
-            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + shareItem.displayValues.detail + '</div>',
+            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + i.displayValues.detail + '</div>',
             origin: i.originalUrl
           };
         } else {
+          // Fallback to preview image
           return {
-            html: '<br /><br /><br /><br />Not supported.',
+            src: i.previewUrl + "?width=800&height=800",
+            w: 800,
+            h: 800,
             origin: i.originalUrl
           };
         }
@@ -306,7 +313,9 @@ export class PictureparkPlayers {
 
         photoSwipe.listen('afterChange', () => {
           updatePlayers();
-          photoSwipe.listen('beforeChange', updatePlayers);
+          photoSwipe.listen('beforeChange', () => {
+            updatePlayers();
+          });
         });
 
         updatePlayers();
@@ -446,10 +455,13 @@ interface IShareItem {
   previewUrl: string;
 
   originalUrl: string;
-  originalFileExtension: string;
+  videoUrl: string;
+  pdfUrl: string;
 
   detail: {
     width: number;
     height: number;
   }
+
+  outputs: picturepark.ShareOutputBase[];
 }
