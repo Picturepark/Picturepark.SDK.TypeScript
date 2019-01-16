@@ -3,7 +3,6 @@ import { Content } from '@picturepark/sdk-v1-angular';
 export class ContentModel {
   isSelected = false;
   isInBasket = false;
-  isVisible = false;
   item: Content;
 
   constructor(item: Content, isInBasket: boolean) {
