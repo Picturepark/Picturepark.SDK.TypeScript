@@ -7,9 +7,10 @@ import {
   AggregationFilter, AggregationResult, AggregatorBase,
   AggregationResultItem, TermsAggregator, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../base.component';
 
 
-export abstract class AggregationComponent implements OnChanges {
+export abstract class AggregationComponent extends BaseComponent implements OnChanges {
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
   public query = '';
@@ -40,6 +41,7 @@ export abstract class AggregationComponent implements OnChanges {
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
 
   public constructor() {
+    super();
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => typeof value === 'string' ? value : (value.name || '')),
@@ -68,17 +70,19 @@ export abstract class AggregationComponent implements OnChanges {
   public loadMore() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    this.fetchData().subscribe(result => {
+    const fetchDataSubscription = this.fetchData().subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
+    this.subscription.add(fetchDataSubscription);
   }
 
   public loadLess() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    this.fetchData().subscribe(result => {
+    const fetchDataSubscription = this.fetchData().subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
+    this.subscription.add(fetchDataSubscription);
   }
 
   public searchAggregator(query: string): Observable<AggregationResultItem[]> {
