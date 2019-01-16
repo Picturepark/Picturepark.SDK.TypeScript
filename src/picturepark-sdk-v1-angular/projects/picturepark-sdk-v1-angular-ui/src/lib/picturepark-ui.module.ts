@@ -38,6 +38,8 @@ import { TranslatePipe } from './pipes/translate.pipe';
 import { ContentItemSelectionService } from './services/content-item-selection.service';
 import { BasketService } from './services/basket.service';
 
+import { LazyLoadDirective } from './directives/lazy-load.directive';
+
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 
 @NgModule({
@@ -52,6 +54,7 @@ import { BasketService } from './services/basket.service';
     BasketItemComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
+    LazyLoadDirective
   ],
   providers: [
     ContentItemSelectionService,

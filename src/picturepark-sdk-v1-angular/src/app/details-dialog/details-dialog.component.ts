@@ -87,7 +87,7 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
       ]
     });
 
-    this.contentService.createDownloadLink(request).subscribe((response: DownloadLink) => {
+    const linkSubscription = this.contentService.createDownloadLink(request).subscribe((response: DownloadLink) => {
       const item: IShareItem = {
         id: this.content.id!,
 
@@ -110,6 +110,8 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
       ((<any>window).pictureparkWidgets).players.showDetailById(item.id, [item]);
     });
+
+    this.subscription.add(linkSubscription);
   }
 
 
