@@ -3,7 +3,7 @@ import { Component, LOCALE_ID, Inject, Input } from '@angular/core';
 
 import {
   ObjectAggregationResult, ContentAggregationRequest, BrokenDependenciesFilter,
-  ContentSearchType, LifeCycleFilter, ContentService
+  ContentSearchType, LifeCycleFilter, ContentService, AggregationResultItem
 } from '@picturepark/sdk-v1-angular';
 
 import { AggregationComponent } from '../../aggregation-list/aggregation.component';
@@ -38,5 +38,9 @@ export class ContentAggregationComponent extends AggregationComponent {
     });
 
     return this.contentService.aggregate(request);
+  }
+
+  public trackByName(index, aggregationResultItem: AggregationResultItem) {
+    return aggregationResultItem.name;
   }
 }

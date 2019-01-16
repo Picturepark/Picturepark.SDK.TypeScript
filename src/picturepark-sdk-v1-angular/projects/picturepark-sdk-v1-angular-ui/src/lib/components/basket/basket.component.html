@@ -1,19 +1,23 @@
 <div class="basket">
-  <mat-toolbar class="basket__header" *ngIf="basketItems.length > 0">
-    <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()">
-      <mat-icon aria-label="Download items" >get_app</mat-icon>
-    </button>
-    <div style="flex-grow: 1;"></div>
-    <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
-      <mat-icon aria-label="Clear basket">clear</mat-icon>
-    </button>
-  </mat-toolbar>
-  <div class="basket__items" *ngIf="basketItems.length > 0">
-    <div class="basket__item-container" *ngFor="let basketItem of basketItems">
-      <pp-basket-item class="basket__item" [itemId]="basketItem" (dblclick)="previewItem(basketItem)"></pp-basket-item>
+  <ng-container *ngIf="basketItems.length > 0; else emptyBasket">
+    <mat-toolbar class="basket__header">
+      <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()">
+        <mat-icon aria-label="Download items">get_app</mat-icon>
+      </button>
+      <div style="flex-grow: 1;"></div>
+      <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
+        <mat-icon aria-label="Clear basket">clear</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="basket__items">
+      <div class="basket__item-container" *ngFor="let basketItem of basketItems; trackBy: trackByBasket">
+        <pp-basket-item class="basket__item" [itemId]="basketItem" (dblclick)="previewItem(basketItem)"></pp-basket-item>
+      </div>
     </div>
-  </div>
-  <div *ngIf="basketItems.length === 0" class="basket__empty mat-typography">
-    {{ 'Basket.EmptyBasket' | pptranslate }}
-  </div>
+  </ng-container>
+  <ng-template #emptyBasket>
+    <div class="basket__empty mat-typography">
+      {{ 'Basket.EmptyBasket' | pptranslate }}
+    </div>
+  </ng-template>
 </div>
