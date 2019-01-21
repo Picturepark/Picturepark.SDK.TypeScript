@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents user search request.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -86,9 +93,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#debugmode" class="tsd-kind-icon">debug<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#includeserviceuser" class="tsd-kind-icon">include<wbr>Service<wbr>User</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.usersearchrequest.html#start" class="tsd-kind-icon">start</a></li>
@@ -106,12 +114,12 @@
 					<div class="tsd-signature tsd-kind-icon">debug<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4139</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4955</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance.</p>
+							<p>Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance.</p>
 						</div>
 					</div>
 				</section>
@@ -121,7 +129,22 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4135</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4949</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Filter applied to users.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="includeserviceuser" class="tsd-anchor"></a>
+					<h3>include<wbr>Service<wbr>User</h3>
+					<div class="tsd-signature tsd-kind-icon">include<wbr>Service<wbr>User<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4956</li>
 						</ul>
 					</aside>
 				</section>
@@ -131,9 +154,14 @@
 					<div class="tsd-signature tsd-kind-icon">life<wbr>Cycle<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.lifecyclefilter.html" class="tsd-signature-type">LifeCycleFilter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4136</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4951</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return only users in certain life cycle state(s).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="limit" class="tsd-anchor"></a>
@@ -141,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4134</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4947</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -151,17 +179,17 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="searchbehaviours" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviours</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviours<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.searchbehaviour.html" class="tsd-signature-type">SearchBehaviour</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="searchbehaviors" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4129</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4941</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of search behaviours. All the passed behaviours will be applied</p>
+							<p>An optional list of search behaviors. All the passed behaviors will be applied.</p>
 						</div>
 					</div>
 				</section>
@@ -171,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4127</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4939</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,9 +214,14 @@
 					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.sortinfo.html" class="tsd-signature-type">SortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4130</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4943</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Fields and respective directions requested to sort the search results.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="start" class="tsd-anchor"></a>
@@ -196,7 +229,7 @@
 					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4132</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4945</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,9 +244,14 @@
 					<div class="tsd-signature tsd-kind-icon">user<wbr>Rights<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.userright.html" class="tsd-signature-type">UserRight</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:4137</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4953</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return only users with certain user rights.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -242,13 +280,16 @@
 								<a href="_picturepark_.usersearchrequest.html#filter" class="tsd-kind-icon">filter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.usersearchrequest.html#includeserviceuser" class="tsd-kind-icon">include<wbr>Service<wbr>User</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.usersearchrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.usersearchrequest.html#limit" class="tsd-kind-icon">limit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.usersearchrequest.html#searchbehaviours" class="tsd-kind-icon">search<wbr>Behaviours</a>
+								<a href="_picturepark_.usersearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.usersearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>

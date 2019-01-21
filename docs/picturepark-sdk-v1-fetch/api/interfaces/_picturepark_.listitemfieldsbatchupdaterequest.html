@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to batch update list items&#39; fields based on list item IDs</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -101,42 +108,42 @@
 					<div class="tsd-signature tsd-kind-icon">allow<wbr>Missing<wbr>Dependencies<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2908</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3384</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Allow storing references to missing list items / contents</p>
+							<p>Allows updating list items with references to list items or contents that do not exist in the system.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="changecommands" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change<wbr>Commands</h3>
-					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.metadatavalueschangecommandbase.html" class="tsd-signature-type">MetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>change<wbr>Commands</h3>
+					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.metadatavalueschangecommandbase.html" class="tsd-signature-type">MetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2906</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3382</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The change commads to be applied to the list items</p>
+							<p>Changes that need to be applied to the existing list items. The same set of changes is applied to all list items.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="listitemids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> list<wbr>Item<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">list<wbr>Item<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>list<wbr>Item<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">list<wbr>Item<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2904</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3380</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The ids of the list items whose fields need to be updated</p>
+							<p>The ids of the list items whose fields need to be updated.</p>
 						</div>
 					</div>
 				</section>
@@ -146,12 +153,12 @@
 					<div class="tsd-signature tsd-kind-icon">notify<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2910</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3386</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Create notification and notify on progress</p>
+							<p>Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update.</p>
 						</div>
 					</div>
 				</section>

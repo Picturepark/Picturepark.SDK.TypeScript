@@ -94,15 +94,17 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#audit" class="tsd-kind-icon">audit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#content" class="tsd-kind-icon">content</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#contentrights" class="tsd-kind-icon">content<wbr>Rights</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#displayvalues" class="tsd-kind-icon">display<wbr>Values</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#lifecycle" class="tsd-kind-icon">life<wbr>Cycle</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#metadata" class="tsd-kind-icon">metadata</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#outputs" class="tsd-kind-icon">outputs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#owner" class="tsd-kind-icon">owner</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#ownertokenid" class="tsd-kind-icon">owner<wbr>Token<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdetail.html#trashed" class="tsd-kind-icon">trashed</a></li>
 							</ul>
 						</section>
 					</div>
@@ -116,7 +118,7 @@
 					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.useraudit.html" class="tsd-signature-type">UserAudit</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2183</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2386</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -127,11 +129,11 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="content" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content</h3>
-					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>content</h3>
+					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2185</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2388</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2187</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2390</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,12 +158,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contentschemaid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Schema<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="contentrights" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Rights</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Rights<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.contentright.html" class="tsd-signature-type">ContentRight</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2189</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2413</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of content rights the user has on this content</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contentschemaid" class="tsd-anchor"></a>
+					<h3>content<wbr>Schema<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2392</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -176,7 +193,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.contenttype.html" class="tsd-signature-type">ContentType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2191</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2394</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -191,7 +208,7 @@
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Values<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.displayvaluedictionary.html" class="tsd-signature-type">DisplayValueDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2194</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2397</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,11 +220,11 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2196</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2399</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -218,11 +235,11 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="layerschemaids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> layer<wbr>Schema<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>layer<wbr>Schema<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2198</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2401</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,12 +249,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="lifecycle" class="tsd-anchor"></a>
+					<h3>life<wbr>Cycle</h3>
+					<div class="tsd-signature tsd-kind-icon">life<wbr>Cycle<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.lifecycle.html" class="tsd-signature-type">LifeCycle</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2411</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The lifecycle of the content.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="metadata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
 					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.datadictionary.html" class="tsd-signature-type">DataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2200</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2403</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,42 +284,42 @@
 					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.output.html" class="tsd-signature-type">Output</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2202</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2405</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A list of rendering ouputs for underlying digital file.</p>
+							<p>A list of rendering outputs for underlying digital file.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="owner" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> owner</h3>
+					<div class="tsd-signature tsd-kind-icon">owner<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2409</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The resolved owner.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="ownertokenid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> owner<wbr>Token<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">owner<wbr>Token<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>owner<wbr>Token<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">owner<wbr>Token<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2204</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2407</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The id of a owner token. Defines the content owner.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trashed" class="tsd-anchor"></a>
-					<h3>trashed</h3>
-					<div class="tsd-signature tsd-kind-icon">trashed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2206</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The trashed flag.</p>
+							<p>The owner token ID. Defines the content owner.</p>
 						</div>
 					</div>
 				</section>
@@ -321,6 +353,9 @@
 								<a href="_picturepark_.contentdetail.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentdetail.html#contentrights" class="tsd-kind-icon">content<wbr>Rights</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentdetail.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -336,16 +371,19 @@
 								<a href="_picturepark_.contentdetail.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentdetail.html#lifecycle" class="tsd-kind-icon">life<wbr>Cycle</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentdetail.html#metadata" class="tsd-kind-icon">metadata</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentdetail.html#outputs" class="tsd-kind-icon">outputs</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.contentdetail.html#ownertokenid" class="tsd-kind-icon">owner<wbr>Token<wbr>Id</a>
+								<a href="_picturepark_.contentdetail.html#owner" class="tsd-kind-icon">owner</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.contentdetail.html#trashed" class="tsd-kind-icon">trashed</a>
+								<a href="_picturepark_.contentdetail.html#ownertokenid" class="tsd-kind-icon">owner<wbr>Token<wbr>Id</a>
 							</li>
 						</ul>
 					</li>

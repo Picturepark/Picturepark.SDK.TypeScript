@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to filter list items</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -103,12 +110,12 @@
 					<div class="tsd-signature tsd-kind-icon">broken<wbr>Dependencies<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.brokendependenciesfilter.html" class="tsd-signature-type">BrokenDependenciesFilter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2935</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3368</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Filter the returned list items that have or not have broken references</p>
+							<p>Limits the search to the list items that have or not have broken references. By default it includes both.</p>
 						</div>
 					</div>
 				</section>
@@ -118,12 +125,12 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2927</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3359</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional search filter. Limits the list item result set.</p>
+							<p>An optional filter to limit the list items.</p>
 						</div>
 					</div>
 				</section>
@@ -133,12 +140,12 @@
 					<div class="tsd-signature tsd-kind-icon">include<wbr>All<wbr>Schema<wbr>Children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2929</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3361</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Broadens the search and include all schema descendant list items.</p>
+							<p>Broadens the search to include all schema descendant list items.</p>
 						</div>
 					</div>
 				</section>
@@ -148,12 +155,12 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2931</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3363</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the search to list items of the provided schemas.</p>
+							<p>Limits the search among the list items of the provided schemas.</p>
 						</div>
 					</div>
 				</section>
@@ -163,12 +170,13 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Languages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2933</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3366</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Only searches the specified language values. Defaults to all metadata languages of the language configuration.</p>
+							<p>When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+							If not specified, all metadata languages defined in the system are used.</p>
 						</div>
 					</div>
 				</section>
@@ -178,12 +186,12 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2925</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3357</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *.</p>
+							<p>The string used to query the data. The Lucene query string syntax is supported. Defaults to *.</p>
 						</div>
 					</div>
 				</section>

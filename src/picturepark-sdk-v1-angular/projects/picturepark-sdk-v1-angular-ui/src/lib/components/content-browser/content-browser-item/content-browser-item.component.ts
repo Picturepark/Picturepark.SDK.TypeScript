@@ -51,7 +51,7 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
           this.itemModel.item.id,
           this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
           null,
-          null)
+          null);
       }))
       .subscribe(response => {
         if (response) {
