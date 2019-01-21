@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Share</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -88,6 +95,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.share.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.share.html#expirationdate" class="tsd-kind-icon">expiration<wbr>Date</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.share.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.share.html#isreadonly" class="tsd-kind-icon">is<wbr>Read<wbr>Only</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.share.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.share.html#sharetype" class="tsd-kind-icon">share<wbr>Type</a></li>
 							</ul>
@@ -99,23 +107,33 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="audit" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> audit</h3>
-					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.useraudit.html" class="tsd-signature-type">UserAudit</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>audit</h3>
+					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.useraudit.html" class="tsd-signature-type">UserAudit</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3740</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4421</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Audit information.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>content<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3738</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4419</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of shared content IDs.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="expirationdate" class="tsd-anchor"></a>
@@ -123,19 +141,44 @@
 					<div class="tsd-signature tsd-kind-icon">expiration<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3741</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4423</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Date when share expires and cannot be accessed anymore.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3739</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4415</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Share ID.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="isreadonly" class="tsd-anchor"></a>
+					<h3>is<wbr>Read<wbr>Only</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Read<wbr>Only<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4427</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Share is readonly if the current user is not the creator but only the recipient.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="name" class="tsd-anchor"></a>
@@ -143,9 +186,14 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3737</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4417</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Name of share.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="sharetype" class="tsd-anchor"></a>
@@ -153,9 +201,14 @@
 					<div class="tsd-signature tsd-kind-icon">share<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.sharetype.html" class="tsd-signature-type">ShareType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3742</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4425</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type of share.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -188,6 +241,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.share.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.share.html#isreadonly" class="tsd-kind-icon">is<wbr>Read<wbr>Only</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.share.html#name" class="tsd-kind-icon">name</a>

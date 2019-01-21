@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#audit" class="tsd-kind-icon">audit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#content" class="tsd-kind-icon">content</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#contentrights" class="tsd-kind-icon">content<wbr>Rights</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#displayvalues" class="tsd-kind-icon">display<wbr>Values</a></li>
@@ -105,6 +106,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#lifecycle" class="tsd-kind-icon">life<wbr>Cycle</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#metadata" class="tsd-kind-icon">metadata</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#outputs" class="tsd-kind-icon">outputs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#owner" class="tsd-kind-icon">owner</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#ownertokenid" class="tsd-kind-icon">owner<wbr>Token<wbr>Id</a></li>
 							</ul>
 						</section>
@@ -119,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="iuseraudit.html" class="tsd-signature-type">IUserAudit</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25084">lib/api-services.ts:25084</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25377">lib/api-services.ts:25377</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +136,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25086">lib/api-services.ts:25086</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25379">lib/api-services.ts:25379</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -149,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25088">lib/api-services.ts:25088</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25381">lib/api-services.ts:25381</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -159,12 +161,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="contentrights" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Rights</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Rights<span class="tsd-signature-symbol">:</span> <a href="../enums/contentright.html" class="tsd-signature-type">ContentRight</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25404">lib/api-services.ts:25404</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of content rights the user has on this content</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="contentschemaid" class="tsd-anchor"></a>
 					<h3>content<wbr>Schema<wbr>Id</h3>
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25090">lib/api-services.ts:25090</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25383">lib/api-services.ts:25383</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/contenttype.html" class="tsd-signature-type">ContentType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25092">lib/api-services.ts:25092</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25385">lib/api-services.ts:25385</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -194,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Values<span class="tsd-signature-symbol">:</span> <a href="idisplayvaluedictionary.html" class="tsd-signature-type">IDisplayValueDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25095">lib/api-services.ts:25095</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25388">lib/api-services.ts:25388</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25097">lib/api-services.ts:25097</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25390">lib/api-services.ts:25390</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -225,7 +242,7 @@
 					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25099">lib/api-services.ts:25099</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25392">lib/api-services.ts:25392</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -240,7 +257,7 @@
 					<div class="tsd-signature tsd-kind-icon">life<wbr>Cycle<span class="tsd-signature-symbol">:</span> <a href="../enums/lifecycle.html" class="tsd-signature-type">LifeCycle</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25107">lib/api-services.ts:25107</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25402">lib/api-services.ts:25402</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -255,7 +272,7 @@
 					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="idatadictionary.html" class="tsd-signature-type">IDataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25101">lib/api-services.ts:25101</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25394">lib/api-services.ts:25394</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -270,12 +287,27 @@
 					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <a href="../classes/output.html" class="tsd-signature-type">Output</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25103">lib/api-services.ts:25103</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25396">lib/api-services.ts:25396</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A list of rendering ouputs for underlying digital file.</p>
+							<p>A list of rendering outputs for underlying digital file.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="owner" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> owner</h3>
+					<div class="tsd-signature tsd-kind-icon">owner<span class="tsd-signature-symbol">:</span> <a href="iuser.html" class="tsd-signature-type">IUser</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25400">lib/api-services.ts:25400</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The resolved owner.</p>
 						</div>
 					</div>
 				</section>
@@ -285,12 +317,12 @@
 					<div class="tsd-signature tsd-kind-icon">owner<wbr>Token<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25105">lib/api-services.ts:25105</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L25398">lib/api-services.ts:25398</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The id of a owner token. Defines the content owner.</p>
+							<p>The owner token ID. Defines the content owner.</p>
 						</div>
 					</div>
 				</section>
@@ -321,6 +353,9 @@
 								<a href="icontentdetail.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="icontentdetail.html#contentrights" class="tsd-kind-icon">content<wbr>Rights</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="icontentdetail.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -343,6 +378,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="icontentdetail.html#outputs" class="tsd-kind-icon">outputs</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="icontentdetail.html#owner" class="tsd-kind-icon">owner</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="icontentdetail.html#ownertokenid" class="tsd-kind-icon">owner<wbr>Token<wbr>Id</a>
