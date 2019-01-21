@@ -328,43 +328,47 @@ declare module "picturepark" {
         });
         /**
          * Search
-         * @param documentHistorySearchRequest The document history search request
-         * @return Document history search result
+         * @param documentHistorySearchRequest The document history search request.
+         * @return Document history search result.
          */
         search(documentHistorySearchRequest: DocumentHistorySearchRequest): Promise<DocumentHistorySearchResult>;
         protected processSearch(response: Response): Promise<DocumentHistorySearchResult>;
         /**
-         * Get latest
-         * @param id The ID of the document (e.g. contentId)
+         * Get current
+         * @param documentType The type of the document (e.g. Content).
+         * @param documentId The ID of the document (e.g. contentId).
          * @return Document history item
          */
-        get(id: string): Promise<DocumentHistory>;
-        protected processGet(response: Response): Promise<DocumentHistory>;
+        getCurrent(documentType: string, documentId: string): Promise<DocumentHistory>;
+        protected processGetCurrent(response: Response): Promise<DocumentHistory>;
         /**
-         * Get latest by version
-         * @param id The ID of the document (e.g. contentId)
-         * @param version The version
+         * Get version
+         * @param documentType The type of the document (e.g. Content).
+         * @param documentId The ID of the document (e.g. contentId).
+         * @param documentVersion The version of the document.
          * @return Document history item
          */
-        getVersion(id: string, version: string): Promise<DocumentHistory>;
+        getVersion(documentType: string, documentId: string, documentVersion: string): Promise<DocumentHistory>;
         protected processGetVersion(response: Response): Promise<DocumentHistory>;
         /**
-         * Get latest difference
-         * @param id The ID of the document (e.g. contentId)
-         * @param oldVersion The old version
-         * @return Document history difference
+         * Compare with current
+         * @param documentType The type of the document (e.g. Content).
+         * @param documentId The ID of the document (e.g. contentId).
+         * @param version (optional) The version of the document to compare with.
+         * @return Document history difference.
          */
-        getDifferenceLatest(id: string, oldVersion: number): Promise<DocumentHistoryDifference>;
-        protected processGetDifferenceLatest(response: Response): Promise<DocumentHistoryDifference>;
+        compareWithCurrent(documentType: string, documentId: string, version?: number | undefined): Promise<DocumentHistoryDifference>;
+        protected processCompareWithCurrent(response: Response): Promise<DocumentHistoryDifference>;
         /**
-         * Get difference
-         * @param id The ID of the document (e.g. contentId)
-         * @param oldVersion The old version
-         * @param newVersion The new version
+         * Compare with version
+         * @param documentType The type of the document (e.g. Content).
+         * @param documentId The ID of the document (e.g. contentId).
+         * @param documentVersion The version of the document to use for the comparison.
+         * @param version (optional) The version of the document to compare with.
          * @return Document history difference
          */
-        getDifference(id: string, oldVersion: number, newVersion: number): Promise<DocumentHistoryDifference>;
-        protected processGetDifference(response: Response): Promise<DocumentHistoryDifference>;
+        compareWithVersion(documentType: string, documentId: string, documentVersion: number, version?: number | undefined): Promise<DocumentHistoryDifference>;
+        protected processCompareWithVersion(response: Response): Promise<DocumentHistoryDifference>;
     }
     export class InfoClient extends PictureparkClientBase {
         private http;
@@ -1220,6 +1224,7 @@ declare module "picturepark" {
         reference?: string | undefined;
     }
     export interface DocumentVersionNotFoundException extends PictureparkNotFoundException {
+        documentType?: string | undefined;
         documentId?: string | undefined;
         documentVersion?: string | undefined;
     }
@@ -1470,7 +1475,31 @@ declare module "picturepark" {
         operation?: string | undefined;
     }
     export interface PermissionSetInUseException extends PictureparkValidationException {
+        reference?: string | undefined;
         referenceCount: number;
+    }
+    export interface ContentPermissionException extends PictureparkValidationException {
+        contentId?: string | undefined;
+        contentRight: ContentRight;
+    }
+    /** Content rights */
+    export enum ContentRight {
+        View,
+        AccessOriginal,
+        EditMetadata,
+        ReplaceFile,
+        ManagePermissions,
+        Delete
+    }
+    export interface ListItemPermissionException extends PictureparkValidationException {
+        listItemId?: string | undefined;
+        metadataRight: MetadataRight;
+    }
+    /** Metadata rights */
+    export enum MetadataRight {
+        View,
+        ManageItems,
+        ManageSchema
     }
     export interface UnsupportedListItemChangeCommandException extends PictureparkValidationException {
         commandType?: string | undefined;
@@ -1490,6 +1519,11 @@ declare module "picturepark" {
     export interface ListItemUpdateManyException extends PictureparkBusinessException {
         failedItemsCount: number;
         totalItemsCount: number;
+    }
+    export interface ListItemSchemaMismatchException extends PictureparkValidationException {
+        listItemId?: string | undefined;
+        listItemSchemaId?: string | undefined;
+        fieldSchemaId?: string | undefined;
     }
     export interface TransferInfoNotFoundException extends PictureparkNotFoundException {
         transferInfoId?: string | undefined;
@@ -1539,6 +1573,7 @@ declare module "picturepark" {
     }
     export interface InvalidMetadataException extends PictureparkValidationException {
         metadataErrors?: MetadataError[] | undefined;
+        validationErrors?: PictureparkBusinessException[] | undefined;
     }
     export interface MetadataError {
         errorType?: string | undefined;
@@ -1576,6 +1611,10 @@ declare module "picturepark" {
         referenceItemId?: string | undefined;
         referenceType?: string | undefined;
         exceptions?: PictureparkException[] | undefined;
+    }
+    export interface DuplicatedItemAssignedException extends PictureparkValidationException {
+        itemId?: string | undefined;
+        itemPath?: string | undefined;
     }
     export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
         schemaId?: string | undefined;
@@ -2480,15 +2519,6 @@ declare module "picturepark" {
         Inactive,
         Deleted
     }
-    /** Content rights */
-    export enum ContentRight {
-        View,
-        AccessOriginal,
-        EditMetadata,
-        ReplaceFile,
-        ManagePermissions,
-        Delete
-    }
     export enum ContentResolveBehavior {
         Content,
         LinkedListItems,
@@ -3069,7 +3099,6 @@ declare module "picturepark" {
         pageToken?: string | undefined;
     }
     export interface DocumentHistory {
-        id?: string | undefined;
         documentId?: string | undefined;
         documentVersion: number;
         documentType?: string | undefined;
@@ -3093,9 +3122,9 @@ declare module "picturepark" {
         Deactivate
     }
     export interface DocumentHistorySearchRequest {
-        /** Limits the start date of the search request. Default to last 1 year. */
+        /** Limits the start date of the search request. By default no limitation set. */
         from: Date;
-        /** Limits the end date of the search request. Default to now. */
+        /** Limits the end date of the search request. By default no limitation set. */
         to: Date;
         /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
@@ -3108,7 +3137,7 @@ declare module "picturepark" {
         /** Limits the search to a specific document type. */
         documentType?: string | undefined;
         /** Sorts the search results. Sorting on a not indexed field will throw an exception. */
-        sort?: SortInfo | undefined;
+        sort?: SortInfo[] | undefined;
     }
     export interface DocumentHistoryDifference {
         documentId?: string | undefined;
@@ -3442,23 +3471,6 @@ declare module "picturepark" {
         Closed,
         ReindexInProgress,
         Cancelled
-    }
-    export interface OutputBackupEvent extends ApplicationEvent {
-        outputId?: string | undefined;
-        contentId?: string | undefined;
-        outputFormatId?: string | undefined;
-    }
-    export interface OutputBackupMissingEvent extends ApplicationEvent {
-        outputId?: string | undefined;
-        contentId?: string | undefined;
-        outputFormatId?: string | undefined;
-    }
-    export interface OutputBackupRemoveEvent extends ApplicationEvent {
-        filePaths?: string[] | undefined;
-    }
-    export interface ContentBackupRecoveryEvent extends ApplicationEvent {
-        contentId?: string | undefined;
-        businessProcessId?: string | undefined;
     }
     export interface ContentDetailViewEvent extends ApplicationEvent {
         contentIds?: string[] | undefined;
@@ -4217,12 +4229,6 @@ declare module "picturepark" {
         userRoleId?: string | undefined;
         names?: TranslatedStringDictionary | undefined;
         rights?: MetadataRight[] | undefined;
-    }
-    /** Metadata rights */
-    export enum MetadataRight {
-        View,
-        ManageItems,
-        ManageSchema
     }
     /** Represents a transfer. */
     export interface Transfer {

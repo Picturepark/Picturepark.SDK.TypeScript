@@ -3,19 +3,20 @@ import {
   BasketService
 } from '@picturepark/sdk-v1-angular-ui';
 import { DetailsDialogComponent } from './../details-dialog/details-dialog.component';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AggregationResult, AuthService, Channel, FilterBase } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { MatDialog } from '@angular/material/dialog';
 import { EmbedService } from '../embed.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './content-picker.component.html',
   styleUrls: ['./content-picker.component.scss']
 })
-export class ContentPickerComponent implements OnInit {
+export class ContentPickerComponent implements OnInit, OnDestroy {
   public basketItemsCount = 0;
 
   public selectedItems: string[] = [];
@@ -32,6 +33,8 @@ export class ContentPickerComponent implements OnInit {
   public messagePosted = false;
   public postUrl = '';
 
+  private subscription: Subscription = new Subscription();
+
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -40,8 +43,11 @@ export class ContentPickerComponent implements OnInit {
     private contentItemSelectionService: ContentItemSelectionService,
     @Inject(AuthService) public authService: OidcAuthService) {
 
-    this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
-    this.contentItemSelectionService.selectedItems.subscribe(items => this.selectedItems = items);
+    const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
+    this.subscription.add(basketSubscription);
+
+    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => this.selectedItems = items);
+    this.subscription.add(itemsSubscription);
   }
 
   public openDetails(itemId: string) {
@@ -79,5 +85,11 @@ export class ContentPickerComponent implements OnInit {
 
   public cancel() {
     window.close();
+  }
+
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

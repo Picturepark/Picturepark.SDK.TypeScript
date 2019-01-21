@@ -6,8 +6,9 @@ import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
   AggregatorBase, FilterBase, OrFilter, AndFilter
 } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../base.component';
 
-export abstract class AggregationListComponent implements OnChanges {
+export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
   @Input()
   public query = '';
 
@@ -70,12 +71,13 @@ export abstract class AggregationListComponent implements OnChanges {
   }
 
   private updateData() {
-    this.fetchData()
+    const fetchDataSubscription = this.fetchData()
       .pipe(filter((result) => result !== null))
       .subscribe((result: ObjectAggregationResult) => {
         this.processAggregationResults(result.aggregationResults || []);
         this.isLoading = false;
       });
+    this.subscription.add(fetchDataSubscription);
   }
 
   private getFilter(aggregationFilters: Array<AggregationFilter[]>): FilterBase | null {

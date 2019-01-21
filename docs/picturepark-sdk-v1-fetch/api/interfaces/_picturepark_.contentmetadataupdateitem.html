@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Item to update content metadata</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -109,27 +116,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2495</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2887</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The dynamic data structure matching the field schematics of the content schema (ContentSchemaId).</p>
+							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
+							whose ContentType is ContentItem).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2520</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2930</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content id.</p>
+							<p>The ID of the content.</p>
 						</div>
 					</div>
 				</section>
@@ -140,12 +149,13 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2493</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2883</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An id list of schemas with schema type layer.</p>
+							<p>An optional list of IDs of the schemas that form the layers of the content.
+							The SchemaType of the specified schemas must be Layer.</p>
 						</div>
 					</div>
 				</section>
@@ -156,12 +166,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2499</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2900</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Options to modify the behavior for updating schemas.</p>
+							<p>Options to modify the behavior for updating the layers.
+								Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
+								and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
+								Replace: the content is updated so that only the layers specified in the LayerSchemaIds property are assigned to the content;
+								existing assigned layers not specified in the property are removed and missing layers are assigned.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -172,12 +187,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2497</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2893</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).</p>
+							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+								by the LayerSchemaIds property.
+								For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
+							an exception is thrown.</p>
 						</div>
 					</div>
 				</section>
@@ -188,12 +207,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2501</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2907</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Options to modify the behavior for updating the values of schemas.</p>
+							<p>Options to modify the behavior for updating the values of schemas.
+								Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
+								schema on the content.
+								Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
+								corresponding schema on the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
