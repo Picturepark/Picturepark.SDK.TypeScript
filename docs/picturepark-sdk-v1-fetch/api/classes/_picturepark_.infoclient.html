@@ -103,8 +103,9 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.infoclient.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.infoclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.infoclient.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.infoclient.html#getversion" class="tsd-kind-icon">get<wbr>Version</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.infoclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 							</ul>
 						</section>
@@ -124,7 +125,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:351</li>
+									<li>Defined in docs/temp/picturepark.d.ts:376</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -147,7 +148,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:353</li>
+															<li>Defined in docs/temp/picturepark.d.ts:378</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -178,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:350</li>
+							<li>Defined in docs/temp/picturepark.d.ts:375</li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:349</li>
+							<li>Defined in docs/temp/picturepark.d.ts:374</li>
 						</ul>
 					</aside>
 				</section>
@@ -198,36 +199,13 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:351</li>
+							<li>Defined in docs/temp/picturepark.d.ts:376</li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="get" class="tsd-anchor"></a>
-					<h3>get</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.customerinfo.html" class="tsd-signature-type">CustomerInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:359</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get info</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.customerinfo.html" class="tsd-signature-type">CustomerInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>CustomerInfo</p>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="getbaseurl" class="tsd-anchor"></a>
 					<h3>get<wbr>Base<wbr>Url</h3>
@@ -249,6 +227,52 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getinfo" class="tsd-anchor"></a>
+					<h3>get<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.customerinfo.html" class="tsd-signature-type">CustomerInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:384</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get info</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.customerinfo.html" class="tsd-signature-type">CustomerInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>CustomerInfo</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getversion" class="tsd-anchor"></a>
+					<h3>get<wbr>Version</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Version<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.versioninfo.html" class="tsd-signature-type">VersionInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:390</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get version</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.versioninfo.html" class="tsd-signature-type">VersionInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>VersionInfo</p>
 						</li>
 					</ul>
 				</section>
@@ -308,11 +332,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="_picturepark_.infoclient.html#jsonparsereviver" class="tsd-kind-icon">json<wbr>Parse<wbr>Reviver</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.infoclient.html#get" class="tsd-kind-icon">get</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_picturepark_.infoclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.infoclient.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.infoclient.html#getversion" class="tsd-kind-icon">get<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_picturepark_.infoclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a>

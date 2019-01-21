@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to get multiple contents&#39; references</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -85,6 +92,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmanyreferencesrequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmanyreferencesrequest.html#references" class="tsd-kind-icon">references</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmanyreferencesrequest.html#shares" class="tsd-kind-icon">shares</a></li>
 							</ul>
 						</section>
@@ -95,13 +103,33 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>content<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2440</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2778</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The IDs of the contents whose references need to be retrieved.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="references" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> references</h3>
+					<div class="tsd-signature tsd-kind-icon">references<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.metadatareferencespagingrequest.html" class="tsd-signature-type">MetadataReferencesPagingRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2780</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the number of the returned metadata references by setting paging information.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="shares" class="tsd-anchor"></a>
@@ -109,9 +137,14 @@
 					<div class="tsd-signature tsd-kind-icon">shares<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.pagingrequest.html" class="tsd-signature-type">PagingRequest</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2441</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2782</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the number of the returned share references by setting paging information.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -135,6 +168,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentmanyreferencesrequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentmanyreferencesrequest.html#references" class="tsd-kind-icon">references</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentmanyreferencesrequest.html#shares" class="tsd-kind-icon">shares</a>

@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The TermFilter returns documents that contain the exact term specified in the inverted index.</p>
+						<p>Filters values exactly containing a term</p>
 					</div>
 				</div>
 			</section>
@@ -107,31 +107,32 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="field" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field</h3>
-					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>field</h3>
+					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1144</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2078</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The elastic search index field to execute the filter on.</p>
+							<p>The field&#39;s name to execute the filter on. It is composed by the field ids of the hierarchy joined with &quot;.&quot;
+							(i.e. personLayer.address.street).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="term" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> term</h3>
-					<div class="tsd-signature tsd-kind-icon">term<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>term</h3>
+					<div class="tsd-signature tsd-kind-icon">term<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:1146</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2080</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The term to filter on.</p>
+							<p>The value to use to filter on.</p>
 						</div>
 					</div>
 				</section>

@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to search indexed fields of specific schemas</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -85,6 +92,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.indexfieldssearchbyschemaidsrequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.indexfieldssearchbyschemaidsrequest.html#searchmode" class="tsd-kind-icon">search<wbr>Mode</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,9 +106,31 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3537</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4124</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The IDs of the schemas for which the indexed fields should be returned.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="searchmode" class="tsd-anchor"></a>
+					<h3>search<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Mode<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.indexfieldssearchmode.html" class="tsd-signature-type">IndexFieldsSearchMode</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4128</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Controls how the search works which schemas should be considered in the search.
+								AllDescendantsFieldsOnRootSchema: All indexed fields from descendant schemas of root ones will be returned. Schemas that are not root schemas will be ignored.
+							SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parents will be returned.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -124,6 +154,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.indexfieldssearchbyschemaidsrequest.html#schemaids" class="tsd-kind-icon">schema<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.indexfieldssearchbyschemaidsrequest.html#searchmode" class="tsd-kind-icon">search<wbr>Mode</a>
 							</li>
 						</ul>
 					</li>

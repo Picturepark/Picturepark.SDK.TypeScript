@@ -106,8 +106,9 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ishareoutputbase.html#contentid" class="tsd-kind-icon">content<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ishareoutputbase.html#detail" class="tsd-kind-icon">detail</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ishareoutputbase.html#downloadurl" class="tsd-kind-icon">download<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ishareoutputbase.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ishareoutputbase.html#url" class="tsd-kind-icon">url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ishareoutputbase.html#viewurl" class="tsd-kind-icon">view<wbr>Url</a></li>
 							</ul>
 						</section>
 					</div>
@@ -121,7 +122,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37067">lib/api-services.ts:37067</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37353">lib/api-services.ts:37353</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -136,7 +137,7 @@
 					<div class="tsd-signature tsd-kind-icon">detail<span class="tsd-signature-symbol">:</span> <a href="../classes/outputdatabase.html" class="tsd-signature-type">OutputDataBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37073">lib/api-services.ts:37073</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37361">lib/api-services.ts:37361</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,12 +147,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="downloadurl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> download<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">download<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37359">lib/api-services.ts:37359</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient&#39;s token</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="outputformatid" class="tsd-anchor"></a>
 					<h3>output<wbr>Format<wbr>Id</h3>
 					<div class="tsd-signature tsd-kind-icon">output<wbr>Format<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37069">lib/api-services.ts:37069</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37355">lib/api-services.ts:37355</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -161,17 +177,17 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="url" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="viewurl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> view<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">view<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cb1fde52/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37071">lib/api-services.ts:37071</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37357">lib/api-services.ts:37357</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Url to directly download output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient&#39;s token</p>
+							<p>Url to directly view output. In case of BasicShare if not fetched using a token, a placeholder {token} is included which needs to be replaced with the recipient&#39;s token</p>
 						</div>
 					</div>
 				</section>
@@ -199,10 +215,13 @@
 								<a href="ishareoutputbase.html#detail" class="tsd-kind-icon">detail</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="ishareoutputbase.html#downloadurl" class="tsd-kind-icon">download<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="ishareoutputbase.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ishareoutputbase.html#url" class="tsd-kind-icon">url</a>
+								<a href="ishareoutputbase.html#viewurl" class="tsd-kind-icon">view<wbr>Url</a>
 							</li>
 						</ul>
 					</li>

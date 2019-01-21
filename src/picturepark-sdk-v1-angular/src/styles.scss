@@ -8,3 +8,10 @@
 .filters .mat-tab-label {
   height: 64px;
 }
+
+.mat-expansion-panel,
+.mat-expansion-panel-body,
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover {
+  background: whitesmoke !important;
+}

@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Reference to a metadata item</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -84,9 +91,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatareference.html#isrestricted" class="tsd-kind-icon">is<wbr>Restricted</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatareference.html#sourcedoctype" class="tsd-kind-icon">source<wbr>Doc<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatareference.html#sourceid" class="tsd-kind-icon">source<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatareference.html#targetdoctype" class="tsd-kind-icon">target<wbr>Doc<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatareference.html#sourcemetadataitemid" class="tsd-kind-icon">source<wbr>Metadata<wbr>Item<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.metadatareference.html#targetmetadataitemid" class="tsd-kind-icon">target<wbr>Metadata<wbr>Item<wbr>Id</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,34 +103,67 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="isrestricted" class="tsd-anchor"></a>
+					<h3>is<wbr>Restricted</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Restricted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2725</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Indicates if the source of the reference is restricted because of permissions.
+								If this is true and the SourceMetadataItemId property is filled, the user does not have the
+								edit permission on the source metadata item. If the SourceMetadataItemId is null, the user also
+							does not have the view permission on that item.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="sourcedoctype" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Doc<wbr>Type</h3>
 					<div class="tsd-signature tsd-kind-icon">source<wbr>Doc<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2418</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2729</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>DocType of the source of the reference.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="sourceid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">source<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="sourcemetadataitemid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Metadata<wbr>Item<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">source<wbr>Metadata<wbr>Item<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2417</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2727</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>ID of the source of the reference.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="targetdoctype" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> target<wbr>Doc<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">target<wbr>Doc<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="targetmetadataitemid" class="tsd-anchor"></a>
+					<h3>target<wbr>Metadata<wbr>Item<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">target<wbr>Metadata<wbr>Item<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2416</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2720</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Target ID of reference.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -145,13 +186,16 @@
 						<a href="_picturepark_.metadatareference.html" class="tsd-kind-icon">Metadata<wbr>Reference</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.metadatareference.html#isrestricted" class="tsd-kind-icon">is<wbr>Restricted</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.metadatareference.html#sourcedoctype" class="tsd-kind-icon">source<wbr>Doc<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.metadatareference.html#sourceid" class="tsd-kind-icon">source<wbr>Id</a>
+								<a href="_picturepark_.metadatareference.html#sourcemetadataitemid" class="tsd-kind-icon">source<wbr>Metadata<wbr>Item<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.metadatareference.html#targetdoctype" class="tsd-kind-icon">target<wbr>Doc<wbr>Type</a>
+								<a href="_picturepark_.metadatareference.html#targetmetadataitemid" class="tsd-kind-icon">target<wbr>Metadata<wbr>Item<wbr>Id</a>
 							</li>
 						</ul>
 					</li>

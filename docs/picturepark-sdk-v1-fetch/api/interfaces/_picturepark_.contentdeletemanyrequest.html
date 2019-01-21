@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to delete multiple contents.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -86,6 +93,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdeletemanyrequest.html#contentids" class="tsd-kind-icon">content<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdeletemanyrequest.html#forcereferenceremoval" class="tsd-kind-icon">force<wbr>Reference<wbr>Removal</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentdeletemanyrequest.html#notifyprogress" class="tsd-kind-icon">notify<wbr>Progress</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,13 +103,18 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>content<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2481</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2832</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>IDs of the contents to delete.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="forcereferenceremoval" class="tsd-anchor"></a>
@@ -109,9 +122,29 @@
 					<div class="tsd-signature tsd-kind-icon">force<wbr>Reference<wbr>Removal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2482</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2834</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A value indicating whether references to the contents should be removed.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="notifyprogress" class="tsd-anchor"></a>
+					<h3>notify<wbr>Progress</h3>
+					<div class="tsd-signature tsd-kind-icon">notify<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:2836</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the delete request.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -138,6 +171,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentdeletemanyrequest.html#forcereferenceremoval" class="tsd-kind-icon">force<wbr>Reference<wbr>Removal</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.contentdeletemanyrequest.html#notifyprogress" class="tsd-kind-icon">notify<wbr>Progress</a>
 							</li>
 						</ul>
 					</li>
