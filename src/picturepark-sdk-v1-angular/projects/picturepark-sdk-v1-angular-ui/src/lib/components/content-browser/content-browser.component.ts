@@ -34,6 +34,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   public totalResults: number | null = null;
 
+  public nextPageToken: string | undefined;
+
   public isLoading = false;
 
   public items: ContentModel[] = [];
@@ -184,7 +186,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
       const request = new ContentSearchRequest({
         debugMode: false,
-        start: this.items.length,
+        pageToken: this.nextPageToken,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         filter: this.filter ? this.filter : undefined,
         channelId: this.channel.id,
@@ -202,6 +204,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
       const searchSubscription = this.contentService.search(request).subscribe(searchResult => {
         this.totalResults = searchResult.totalResults;
+        this.nextPageToken = searchResult.pageToken;
 
         if (searchResult.results) {
           this.items.push(...searchResult.results.map(item => {

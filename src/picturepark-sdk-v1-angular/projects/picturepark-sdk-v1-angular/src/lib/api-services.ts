@@ -3362,7 +3362,1200 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
-     * Search content permissions sets
+     * Get content permission set
+     * @param permissionSetId The content permission set ID.
+     * @return Content permission set detail
+     */
+    get(permissionSetId: string): Observable<ContentPermissionSetDetail> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/{permissionSetId}";
+        if (permissionSetId === undefined || permissionSetId === null)
+            throw new Error("The parameter 'permissionSetId' must be defined.");
+        url_ = url_.replace("{permissionSetId}", encodeURIComponent("" + permissionSetId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ContentPermissionSetDetail>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ContentPermissionSetDetail>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<ContentPermissionSetDetail> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ContentPermissionSetDetail.fromJS(resultData200) : new ContentPermissionSetDetail();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ContentPermissionSetDetail>(<any>null);
+    }
+
+    /**
+     * Create content permission set
+     * @param request The request containing information needed to create new permission set.
+     * @return Content permission set detail
+     */
+    create(request: ContentPermissionSetCreateRequest): Observable<ContentPermissionSetDetail> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<ContentPermissionSetDetail>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ContentPermissionSetDetail>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<ContentPermissionSetDetail> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ContentPermissionSetDetail.fromJS(resultData200) : new ContentPermissionSetDetail();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ContentPermissionSetDetail>(<any>null);
+    }
+
+    /**
+     * Get multiple permission sets
+     * @param ids (optional) Permission set IDs to get information about
+     * @return Content permission set details
+     */
+    getMany(ids: string[] | undefined): Observable<ContentPermissionSetDetail[]> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMany(<any>response_);
+                } catch (e) {
+                    return <Observable<ContentPermissionSetDetail[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ContentPermissionSetDetail[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMany(response: HttpResponseBase): Observable<ContentPermissionSetDetail[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ContentPermissionSetDetail.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ContentPermissionSetDetail[]>(<any>null);
+    }
+
+    /**
+     * Update content permission set
+     * @param id ID of permission set to update
+     * @param request The request containing information needed to update the permission set.
+     * @return Content permission set detail
+     */
+    update(id: string, request: ContentPermissionSetUpdateRequest): Observable<ContentPermissionSetDetail> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<ContentPermissionSetDetail>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ContentPermissionSetDetail>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<ContentPermissionSetDetail> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ContentPermissionSetDetail.fromJS(resultData200) : new ContentPermissionSetDetail();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ContentPermissionSetDetail>(<any>null);
+    }
+
+    /**
+     * Delete content permission set
+     * @param id ID of the permission set that should be deleted.
+     * @return OK
+     */
+    delete(id: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Transfer ownership of content permission set
+     * @param id ID of the permission set to transfer
+     * @param request The request containing user who should be the new owner.
+     * @return OK
+     */
+    transferOwnership(id: string, request: PermissionSetOwnershipTransferRequest): Observable<void> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/{id}/ownership";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processTransferOwnership(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTransferOwnership(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTransferOwnership(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Get permissions for the permission set
+     * @param id ID of the permission set to view permissions of.
+     * @return List of permissions
+     */
+    getPermissions(id: string): Observable<PermissionSetRight[]> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/{id}/permissions";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetPermissions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPermissions(<any>response_);
+                } catch (e) {
+                    return <Observable<PermissionSetRight[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PermissionSetRight[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPermissions(response: HttpResponseBase): Observable<PermissionSetRight[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PermissionSetRight[]>(<any>null);
+    }
+
+    /**
+     * Create multiple content permission sets
+     * @param request The request containing information needed to create new permission sets.
+     * @return Bulk response with information about created permission sets
+     */
+    createMany(request: ContentPermissionSetCreateManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BulkResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMany(response: HttpResponseBase): Observable<BulkResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BulkResponse.fromJS(resultData200) : new BulkResponse();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BulkResponse>(<any>null);
+    }
+
+    /**
+     * Update multiple content permission sets
+     * @param request The request containing information needed to update the permission set.
+     * @return Bulk response with information about updated permission sets
+     */
+    updateMany(request: ContentPermissionSetUpdateManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BulkResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateMany(response: HttpResponseBase): Observable<BulkResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BulkResponse.fromJS(resultData200) : new BulkResponse();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BulkResponse>(<any>null);
+    }
+
+    /**
+     * Delete multiple content permission sets
+     * @param request The request with permission IDs to delete.
+     * @return Bulk response with information about success or failure
+     */
+    deleteMany(request: PermissionSetDeleteManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/many/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BulkResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteMany(response: HttpResponseBase): Observable<BulkResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BulkResponse.fromJS(resultData200) : new BulkResponse();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BulkResponse>(<any>null);
+    }
+
+    /**
+     * Transfer ownership of multiple content permission sets
+     * @param request The request containing information on which permission set to transfer to which user.
+     * @return OK
+     */
+    transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Observable<void> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/many/ownership";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processTransferOwnershipMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTransferOwnershipMany(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTransferOwnershipMany(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Get permissions for multiple permission sets
+     * @param ids (optional) IDs of the permission sets to view permissions of.
+     * @return List of permissions
+     */
+    getPermissionsMany(ids: string[] | undefined): Observable<PermissionSetUserPermissionRights[]> {
+        let url_ = this.baseUrl + "/v1/contentPermissionSets/many/permissions?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetPermissionsMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPermissionsMany(<any>response_);
+                } catch (e) {
+                    return <Observable<PermissionSetUserPermissionRights[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PermissionSetUserPermissionRights[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPermissionsMany(response: HttpResponseBase): Observable<PermissionSetUserPermissionRights[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(PermissionSetUserPermissionRights.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PermissionSetUserPermissionRights[]>(<any>null);
+    }
+
+    /**
+     * Search content permission sets
      * @param request The permission set search request.
      * @return Permission set search result
      */
@@ -3458,104 +4651,6 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<PermissionSetSearchResult>(<any>null);
-    }
-
-    /**
-     * Get permission set
-     * @param permissionSetId The content permission set ID.
-     * @return Content permission set detail
-     */
-    get(permissionSetId: string): Observable<ContentPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v1/contentPermissionSets/{permissionSetId}";
-        if (permissionSetId === undefined || permissionSetId === null)
-            throw new Error("The parameter 'permissionSetId' must be defined.");
-        url_ = url_.replace("{permissionSetId}", encodeURIComponent("" + permissionSetId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet(<any>response_);
-                } catch (e) {
-                    return <Observable<ContentPermissionSetDetail>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ContentPermissionSetDetail>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGet(response: HttpResponseBase): Observable<ContentPermissionSetDetail> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ContentPermissionSetDetail.fromJS(resultData200) : new ContentPermissionSetDetail();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ContentPermissionSetDetail>(<any>null);
     }
 }
 
@@ -3781,7 +4876,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
      * @param documentVersion The version of the document.
      * @return Document history item
      */
-    getVersion(documentType: string, documentId: string, documentVersion: string): Observable<DocumentHistory> {
+    getVersion(documentType: string, documentId: string, documentVersion: number): Observable<DocumentHistory> {
         let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/{documentVersion}";
         if (documentType === undefined || documentType === null)
             throw new Error("The parameter 'documentType' must be defined.");
@@ -7623,6 +8718,1199 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     }
 
     /**
+     * Get schema permission set
+     * @param permissionSetId The schema permission set ID.
+     * @return Schema permission set detail
+     */
+    get(permissionSetId: string): Observable<SchemaPermissionSetDetail> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/{permissionSetId}";
+        if (permissionSetId === undefined || permissionSetId === null)
+            throw new Error("The parameter 'permissionSetId' must be defined.");
+        url_ = url_.replace("{permissionSetId}", encodeURIComponent("" + permissionSetId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<SchemaPermissionSetDetail> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SchemaPermissionSetDetail.fromJS(resultData200) : new SchemaPermissionSetDetail();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SchemaPermissionSetDetail>(<any>null);
+    }
+
+    /**
+     * Create schema permission set
+     * @param request The request containing information needed to create new permission set.
+     * @return Schema permission set detail
+     */
+    create(request: SchemaPermissionSetCreateRequest): Observable<SchemaPermissionSetDetail> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<SchemaPermissionSetDetail> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SchemaPermissionSetDetail.fromJS(resultData200) : new SchemaPermissionSetDetail();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SchemaPermissionSetDetail>(<any>null);
+    }
+
+    /**
+     * Get multiple permission sets
+     * @param ids (optional) Permission set IDs to get information about
+     * @return Schema permission set details
+     */
+    getMany(ids: string[] | undefined): Observable<SchemaPermissionSetDetail[]> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMany(<any>response_);
+                } catch (e) {
+                    return <Observable<SchemaPermissionSetDetail[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SchemaPermissionSetDetail[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMany(response: HttpResponseBase): Observable<SchemaPermissionSetDetail[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(SchemaPermissionSetDetail.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SchemaPermissionSetDetail[]>(<any>null);
+    }
+
+    /**
+     * Update schema permission set
+     * @param id ID of permission set to update
+     * @param request The request containing information needed to update the permission set.
+     * @return Schema permission set detail
+     */
+    update(id: string, request: SchemaPermissionSetUpdateRequest): Observable<SchemaPermissionSetDetail> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<SchemaPermissionSetDetail> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SchemaPermissionSetDetail.fromJS(resultData200) : new SchemaPermissionSetDetail();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SchemaPermissionSetDetail>(<any>null);
+    }
+
+    /**
+     * Delete schema permission set
+     * @param id ID of the permission set that should be deleted.
+     * @return OK
+     */
+    delete(id: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Transfer ownership of schema permission set
+     * @param id ID of the permission set to transfer
+     * @param request The request containing user who should be the new owner.
+     * @return OK
+     */
+    transferOwnership(id: string, request: PermissionSetOwnershipTransferRequest): Observable<void> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/{id}/ownership";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processTransferOwnership(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTransferOwnership(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTransferOwnership(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Get permissions for the permission set
+     * @param id ID of the permission set to view permissions of.
+     * @return List of permissions
+     */
+    getPermissions(id: string): Observable<PermissionSetRight[]> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/{id}/permissions";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetPermissions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPermissions(<any>response_);
+                } catch (e) {
+                    return <Observable<PermissionSetRight[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PermissionSetRight[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPermissions(response: HttpResponseBase): Observable<PermissionSetRight[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PermissionSetRight[]>(<any>null);
+    }
+
+    /**
+     * Create multiple schema permission sets
+     * @param request The request containing information needed to create new permission sets.
+     * @return Bulk response with information about created permission sets
+     */
+    createMany(request: SchemaPermissionSetCreateManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BulkResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMany(response: HttpResponseBase): Observable<BulkResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BulkResponse.fromJS(resultData200) : new BulkResponse();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BulkResponse>(<any>null);
+    }
+
+    /**
+     * Update multiple schema permission sets
+     * @param request The request containing information needed to update the permission set.
+     * @return Bulk response with information about updated permission sets
+     */
+    updateMany(request: SchemaPermissionSetUpdateManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BulkResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateMany(response: HttpResponseBase): Observable<BulkResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BulkResponse.fromJS(resultData200) : new BulkResponse();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BulkResponse>(<any>null);
+    }
+
+    /**
+     * Delete multiple schema permission sets
+     * @param request The request with permission IDs to delete.
+     * @return Bulk response with information about success or failure
+     */
+    deleteMany(request: PermissionSetDeleteManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/many/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BulkResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteMany(response: HttpResponseBase): Observable<BulkResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BulkResponse.fromJS(resultData200) : new BulkResponse();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BulkResponse>(<any>null);
+    }
+
+    /**
+     * Transfer ownership of multiple schema permission sets
+     * @param request The request containing information on which permission set to transfer to which user.
+     * @return OK
+     */
+    transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Observable<void> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/many/ownership";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processTransferOwnershipMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTransferOwnershipMany(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTransferOwnershipMany(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Get permissions for multiple permission sets
+     * @param ids (optional) IDs of the permission sets to view permissions of.
+     * @return List of permissions
+     */
+    getPermissionsMany(ids: string[] | undefined): Observable<PermissionSetUserPermissionRights[]> {
+        let url_ = this.baseUrl + "/v1/schemaPermissionSets/many/permissions?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetPermissionsMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPermissionsMany(<any>response_);
+                } catch (e) {
+                    return <Observable<PermissionSetUserPermissionRights[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PermissionSetUserPermissionRights[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPermissionsMany(response: HttpResponseBase): Observable<PermissionSetUserPermissionRights[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(PermissionSetUserPermissionRights.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PermissionSetUserPermissionRights[]>(<any>null);
+    }
+
+    /**
      * Search schema permission sets
      * @param request The permission set search request.
      * @return Permission set search result
@@ -7719,104 +10007,6 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<PermissionSetSearchResult>(<any>null);
-    }
-
-    /**
-     * Get schema permission set
-     * @param permissionSetId The schema permission set ID.
-     * @return Schema permission set detail
-     */
-    get(permissionSetId: string): Observable<SchemaPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v1/schemaPermissionSets/{permissionSetId}";
-        if (permissionSetId === undefined || permissionSetId === null)
-            throw new Error("The parameter 'permissionSetId' must be defined.");
-        url_ = url_.replace("{permissionSetId}", encodeURIComponent("" + permissionSetId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet(<any>response_);
-                } catch (e) {
-                    return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<SchemaPermissionSetDetail>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGet(response: HttpResponseBase): Observable<SchemaPermissionSetDetail> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SchemaPermissionSetDetail.fromJS(resultData200) : new SchemaPermissionSetDetail();
-            return _observableOf(result200);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SchemaPermissionSetDetail>(<any>null);
     }
 }
 
@@ -12318,6 +14508,7 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
     totalResults: number;
     results: BusinessProcess[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfBusinessProcess) {
         if (data) {
@@ -12340,6 +14531,7 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
                     this.results.push(BusinessProcess.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -12359,6 +14551,7 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -12367,6 +14560,7 @@ export interface IBaseResultOfBusinessProcess {
     totalResults: number;
     results: BusinessProcess[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess implements ISearchBehaviorBaseResultOfBusinessProcess {
@@ -13222,6 +15416,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaPermissionException") {
+            let result = new SchemaPermissionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnsupportedListItemChangeCommandException") {
             let result = new UnsupportedListItemChangeCommandException();
             result.init(data);
@@ -13522,8 +15721,8 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaPermissionException") {
-            let result = new SchemaPermissionException();
+        if (data["kind"] === "SchemaPermissionConfigurationException") {
+            let result = new SchemaPermissionConfigurationException();
             result.init(data);
             return result;
         }
@@ -14085,6 +16284,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaPermissionException") {
+            let result = new SchemaPermissionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnsupportedListItemChangeCommandException") {
             let result = new UnsupportedListItemChangeCommandException();
             result.init(data);
@@ -14385,8 +16589,8 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaPermissionException") {
-            let result = new SchemaPermissionException();
+        if (data["kind"] === "SchemaPermissionConfigurationException") {
+            let result = new SchemaPermissionConfigurationException();
             result.init(data);
             return result;
         }
@@ -14724,6 +16928,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaPermissionException") {
+            let result = new SchemaPermissionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnsupportedListItemChangeCommandException") {
             let result = new UnsupportedListItemChangeCommandException();
             result.init(data);
@@ -14954,8 +17163,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaPermissionException") {
-            let result = new SchemaPermissionException();
+        if (data["kind"] === "SchemaPermissionConfigurationException") {
+            let result = new SchemaPermissionConfigurationException();
             result.init(data);
             return result;
         }
@@ -18201,6 +20410,44 @@ export enum MetadataRight {
     ManageSchema = <any>"ManageSchema", 
 }
 
+export class SchemaPermissionException extends PictureparkValidationException implements ISchemaPermissionException {
+    schemaId?: string | undefined;
+    metadataRight: MetadataRight;
+
+    constructor(data?: ISchemaPermissionException) {
+        super(data);
+        this._discriminator = "SchemaPermissionException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.metadataRight = data["metadataRight"];
+        }
+    }
+
+    static fromJS(data: any): SchemaPermissionException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["metadataRight"] = this.metadataRight;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaPermissionException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    metadataRight: MetadataRight;
+}
+
 export class UnsupportedListItemChangeCommandException extends PictureparkValidationException implements IUnsupportedListItemChangeCommandException {
     commandType?: string | undefined;
 
@@ -20628,12 +22875,12 @@ export enum SchemaType {
     Struct = <any>"Struct", 
 }
 
-export class SchemaPermissionException extends PictureparkValidationException implements ISchemaPermissionException {
+export class SchemaPermissionConfigurationException extends PictureparkValidationException implements ISchemaPermissionConfigurationException {
     schemaId?: string | undefined;
 
-    constructor(data?: ISchemaPermissionException) {
+    constructor(data?: ISchemaPermissionConfigurationException) {
         super(data);
-        this._discriminator = "SchemaPermissionException";
+        this._discriminator = "SchemaPermissionConfigurationException";
     }
 
     init(data?: any) {
@@ -20643,9 +22890,9 @@ export class SchemaPermissionException extends PictureparkValidationException im
         }
     }
 
-    static fromJS(data: any): SchemaPermissionException {
+    static fromJS(data: any): SchemaPermissionConfigurationException {
         data = typeof data === 'object' ? data : {};
-        let result = new SchemaPermissionException();
+        let result = new SchemaPermissionConfigurationException();
         result.init(data);
         return result;
     }
@@ -20658,7 +22905,7 @@ export class SchemaPermissionException extends PictureparkValidationException im
     }
 }
 
-export interface ISchemaPermissionException extends IPictureparkValidationException {
+export interface ISchemaPermissionConfigurationException extends IPictureparkValidationException {
     schemaId?: string | undefined;
 }
 
@@ -22274,10 +24521,10 @@ export interface ICustomerNotAvailableException extends IPictureparkException {
 
 /** Search request to search for business processes */
 export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -22299,8 +24546,8 @@ Warning! It severely affects performance. */
 
     init(data?: any) {
         if (data) {
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.searchString = data["searchString"];
             if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
@@ -22321,8 +24568,8 @@ Warning! It severely affects performance. */
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["searchString"] = this.searchString;
         if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
@@ -22337,10 +24584,10 @@ Warning! It severely affects performance. */
 
 /** Search request to search for business processes */
 export interface IBusinessProcessSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -24319,6 +26566,8 @@ The search by filters and aggregations are unaffected. */
     missingResultsDisplayPatterns: TranslatedStringDictionary;
     /** Audit information. */
     audit: UserAudit;
+    /** Grants rights to all the users to view the channel. */
+    viewForAll: boolean;
 
     constructor(data?: IChannel) {
         if (data) {
@@ -24383,6 +26632,7 @@ The search by filters and aggregations are unaffected. */
             }
             this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : new TranslatedStringDictionary();
             this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
+            this.viewForAll = data["viewForAll"];
         }
     }
 
@@ -24427,6 +26677,7 @@ The search by filters and aggregations are unaffected. */
         }
         data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["viewForAll"] = this.viewForAll;
         return data; 
     }
 }
@@ -24457,6 +26708,8 @@ The search by filters and aggregations are unaffected. */
     missingResultsDisplayPatterns: ITranslatedStringDictionary;
     /** Audit information. */
     audit: IUserAudit;
+    /** Grants rights to all the users to view the channel. */
+    viewForAll: boolean;
 }
 
 /** Sorting information */
@@ -26074,6 +28327,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
     totalResults: number;
     results: Content[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfContent) {
         if (data) {
@@ -26103,6 +28357,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
                     this.results.push(Content.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -26122,6 +28377,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -26130,6 +28386,7 @@ export interface IBaseResultOfContent {
     totalResults: number;
     results: IContent[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent implements ISearchBehaviorBaseResultOfContent {
@@ -26423,10 +28680,10 @@ If not specified, all metadata languages defined in the system are used. */
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
     sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional filter to limit the contents. */
     filter?: FilterBase | undefined;
     /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
@@ -26485,8 +28742,8 @@ Warning! It severely affects performance. */
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.lifeCycleFilter = data["lifeCycleFilter"];
             this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
@@ -26537,8 +28794,8 @@ Warning! It severely affects performance. */
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["lifeCycleFilter"] = this.lifeCycleFilter;
         data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
@@ -26575,10 +28832,10 @@ If not specified, all metadata languages defined in the system are used. */
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
     sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional filter to limit the contents. */
     filter?: FilterBase | undefined;
     /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
@@ -27089,6 +29346,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
     totalResults: number;
     results: MetadataReference[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfMetadataReference) {
         if (data) {
@@ -27118,6 +29376,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
                     this.results.push(MetadataReference.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -27137,6 +29396,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -27145,6 +29405,7 @@ export interface IBaseResultOfMetadataReference {
     totalResults: number;
     results: IMetadataReference[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 /** Result for getting references. */
@@ -27252,6 +29513,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
     totalResults: number;
     results: ContentShareReference[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfContentShareReference) {
         if (data) {
@@ -27281,6 +29543,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
                     this.results.push(ContentShareReference.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -27300,6 +29563,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -27308,6 +29572,7 @@ export interface IBaseResultOfContentShareReference {
     totalResults: number;
     results: IContentShareReference[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 /** Result class for share reference search */
@@ -27459,10 +29724,10 @@ export interface IContentReferencesRequest {
 
 /** Request to page data */
 export class PagingRequest implements IPagingRequest {
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 0. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
 
     constructor(data?: IPagingRequest) {
         if (data) {
@@ -27475,8 +29740,8 @@ export class PagingRequest implements IPagingRequest {
 
     init(data?: any) {
         if (data) {
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -27489,18 +29754,18 @@ export class PagingRequest implements IPagingRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
 
 /** Request to page data */
 export interface IPagingRequest {
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 0. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
 }
 
 /** Request to get paginated metadata references */
@@ -29245,319 +31510,6 @@ export interface IContentFieldsBatchUpdateFilterRequest extends IMetadataValuesC
     filterRequest: IContentFilterRequest;
 }
 
-export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
-    totalResults: number;
-    results: PermissionSet[];
-    elapsedMilliseconds: number;
-
-    constructor(data?: IBaseResultOfPermissionSet) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.results) {
-                this.results = [];
-                for (let i = 0; i < data.results.length; i++) {
-                    let item = data.results[i];
-                    this.results[i] = item && !(<any>item).toJSON ? new PermissionSet(item) : <PermissionSet>item;
-                }
-            }
-        }
-        if (!data) {
-            this.results = [];
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalResults = data["totalResults"];
-            if (data["results"] && data["results"].constructor === Array) {
-                this.results = [];
-                for (let item of data["results"])
-                    this.results.push(PermissionSet.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfPermissionSet {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfPermissionSet();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (this.results && this.results.constructor === Array) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        return data; 
-    }
-}
-
-export interface IBaseResultOfPermissionSet {
-    totalResults: number;
-    results: IPermissionSet[];
-    elapsedMilliseconds: number;
-}
-
-export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet implements ISearchBehaviorBaseResultOfPermissionSet {
-    searchString?: string | undefined;
-    isSearchStringRewritten: boolean;
-    queryDebugInformation?: QueryDebugInformation | undefined;
-
-    constructor(data?: ISearchBehaviorBaseResultOfPermissionSet) {
-        super(data);
-        if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
-        }
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): SearchBehaviorBaseResultOfPermissionSet {
-        data = typeof data === 'object' ? data : {};
-        let result = new SearchBehaviorBaseResultOfPermissionSet();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
-    searchString?: string | undefined;
-    isSearchStringRewritten: boolean;
-    queryDebugInformation?: IQueryDebugInformation | undefined;
-}
-
-/** Result of a permission set search operation */
-export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermissionSet implements IPermissionSetSearchResult {
-
-    constructor(data?: IPermissionSetSearchResult) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-    }
-
-    static fromJS(data: any): PermissionSetSearchResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionSetSearchResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Result of a permission set search operation */
-export interface IPermissionSetSearchResult extends ISearchBehaviorBaseResultOfPermissionSet {
-}
-
-/** Permission set */
-export class PermissionSet implements IPermissionSet {
-    /** The permission set ID. */
-    id: string;
-    /** When true this permission set will derogate all other configured permission sets. */
-    exclusive: boolean;
-    /** Language specific permission set names. */
-    names?: TranslatedStringDictionary | undefined;
-
-    constructor(data?: IPermissionSet) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.exclusive = data["exclusive"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): PermissionSet {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionSet();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["exclusive"] = this.exclusive;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Permission set */
-export interface IPermissionSet {
-    /** The permission set ID. */
-    id: string;
-    /** When true this permission set will derogate all other configured permission sets. */
-    exclusive: boolean;
-    /** Language specific permission set names. */
-    names?: ITranslatedStringDictionary | undefined;
-}
-
-/** Request to search permission sets */
-export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    /** Filters based on the PermissionSetRight of the user. */
-    rightFilter?: PermissionSetRight | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
-Warning! It severely affects performance. */
-    debugMode: boolean;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-
-    constructor(data?: IPermissionSetSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
-                this.searchBehaviors = [];
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors.push(item);
-            }
-            if (data["sort"] && data["sort"].constructor === Array) {
-                this.sort = [];
-                for (let item of data["sort"])
-                    this.sort.push(SortInfo.fromJS(item));
-            }
-            this.start = data["start"];
-            this.limit = data["limit"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.rightFilter = data["rightFilter"];
-            this.debugMode = data["debugMode"];
-            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
-                this.searchLanguages = [];
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): PermissionSetSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionSetSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (this.sort && this.sort.constructor === Array) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["start"] = this.start;
-        data["limit"] = this.limit;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["rightFilter"] = this.rightFilter;
-        data["debugMode"] = this.debugMode;
-        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        return data; 
-    }
-}
-
-/** Request to search permission sets */
-export interface IPermissionSetSearchRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit: number;
-    filter?: FilterBase | undefined;
-    /** Filters based on the PermissionSetRight of the user. */
-    rightFilter?: PermissionSetRight | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
-Warning! It severely affects performance. */
-    debugMode: boolean;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-}
-
-/** Permission set rights */
-export enum PermissionSetRight {
-    Apply = <any>"Apply", 
-    Manage = <any>"Manage", 
-}
-
 export abstract class PermissionSetDetailOfContentRight implements IPermissionSetDetailOfContentRight {
     id: string;
     names?: TranslatedStringDictionary | undefined;
@@ -29778,10 +31730,1114 @@ export interface IPermissionUserRoleRightsOfPermissionSetRight {
     rights?: PermissionSetRight[] | undefined;
 }
 
+/** Permission set rights */
+export enum PermissionSetRight {
+    Apply = <any>"Apply", 
+    Manage = <any>"Manage", 
+}
+
+export abstract class PermissionSetCreateRequestOfContentRight implements IPermissionSetCreateRequestOfContentRight {
+    names?: TranslatedStringDictionary | undefined;
+    userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+
+    constructor(data?: IPermissionSetCreateRequestOfContentRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.userRolesRights) {
+                this.userRolesRights = [];
+                for (let i = 0; i < data.userRolesRights.length; i++) {
+                    let item = data.userRolesRights[i];
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfContentRight(item) : <UserRoleRightsOfContentRight>item;
+                }
+            }
+            if (data.userRolesPermissionSetRights) {
+                this.userRolesPermissionSetRights = [];
+                for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
+                    let item = data.userRolesPermissionSetRights[i];
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfPermissionSetRight(item) : <UserRoleRightsOfPermissionSetRight>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
+                this.userRolesRights = [];
+                for (let item of data["userRolesRights"])
+                    this.userRolesRights.push(UserRoleRightsOfContentRight.fromJS(item));
+            }
+            if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
+                this.userRolesPermissionSetRights = [];
+                for (let item of data["userRolesPermissionSetRights"])
+                    this.userRolesPermissionSetRights.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
+            }
+            this.exclusive = data["exclusive"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetCreateRequestOfContentRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetCreateRequestOfContentRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.userRolesRights && this.userRolesRights.constructor === Array) {
+            data["userRolesRights"] = [];
+            for (let item of this.userRolesRights)
+                data["userRolesRights"].push(item.toJSON());
+        }
+        if (this.userRolesPermissionSetRights && this.userRolesPermissionSetRights.constructor === Array) {
+            data["userRolesPermissionSetRights"] = [];
+            for (let item of this.userRolesPermissionSetRights)
+                data["userRolesPermissionSetRights"].push(item.toJSON());
+        }
+        data["exclusive"] = this.exclusive;
+        return data; 
+    }
+}
+
+export interface IPermissionSetCreateRequestOfContentRight {
+    names?: ITranslatedStringDictionary | undefined;
+    userRolesRights?: IUserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+}
+
+export class ContentPermissionSetCreateRequest extends PermissionSetCreateRequestOfContentRight implements IContentPermissionSetCreateRequest {
+
+    constructor(data?: IContentPermissionSetCreateRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ContentPermissionSetCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPermissionSetCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentPermissionSetCreateRequest extends IPermissionSetCreateRequestOfContentRight {
+}
+
+export class UserRoleRightsOfContentRight implements IUserRoleRightsOfContentRight {
+    userRoleId?: string | undefined;
+    rights?: ContentRight[] | undefined;
+
+    constructor(data?: IUserRoleRightsOfContentRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userRoleId = data["userRoleId"];
+            if (data["rights"] && data["rights"].constructor === Array) {
+                this.rights = [];
+                for (let item of data["rights"])
+                    this.rights.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): UserRoleRightsOfContentRight {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleRightsOfContentRight();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userRoleId"] = this.userRoleId;
+        if (this.rights && this.rights.constructor === Array) {
+            data["rights"] = [];
+            for (let item of this.rights)
+                data["rights"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IUserRoleRightsOfContentRight {
+    userRoleId?: string | undefined;
+    rights?: ContentRight[] | undefined;
+}
+
+export class UserRoleRightsOfPermissionSetRight implements IUserRoleRightsOfPermissionSetRight {
+    userRoleId?: string | undefined;
+    rights?: PermissionSetRight[] | undefined;
+
+    constructor(data?: IUserRoleRightsOfPermissionSetRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userRoleId = data["userRoleId"];
+            if (data["rights"] && data["rights"].constructor === Array) {
+                this.rights = [];
+                for (let item of data["rights"])
+                    this.rights.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): UserRoleRightsOfPermissionSetRight {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleRightsOfPermissionSetRight();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userRoleId"] = this.userRoleId;
+        if (this.rights && this.rights.constructor === Array) {
+            data["rights"] = [];
+            for (let item of this.rights)
+                data["rights"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IUserRoleRightsOfPermissionSetRight {
+    userRoleId?: string | undefined;
+    rights?: PermissionSetRight[] | undefined;
+}
+
+export abstract class PermissionSetUpdateRequestOfContentRight implements IPermissionSetUpdateRequestOfContentRight {
+    names?: TranslatedStringDictionary | undefined;
+    userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+
+    constructor(data?: IPermissionSetUpdateRequestOfContentRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.userRolesRights) {
+                this.userRolesRights = [];
+                for (let i = 0; i < data.userRolesRights.length; i++) {
+                    let item = data.userRolesRights[i];
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfContentRight(item) : <PermissionUserRoleRightsOfContentRight>item;
+                }
+            }
+            if (data.userRolesPermissionSetRights) {
+                this.userRolesPermissionSetRights = [];
+                for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
+                    let item = data.userRolesPermissionSetRights[i];
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfPermissionSetRight(item) : <PermissionUserRoleRightsOfPermissionSetRight>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
+                this.userRolesRights = [];
+                for (let item of data["userRolesRights"])
+                    this.userRolesRights.push(PermissionUserRoleRightsOfContentRight.fromJS(item));
+            }
+            if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
+                this.userRolesPermissionSetRights = [];
+                for (let item of data["userRolesPermissionSetRights"])
+                    this.userRolesPermissionSetRights.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+            }
+            this.exclusive = data["exclusive"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetUpdateRequestOfContentRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetUpdateRequestOfContentRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.userRolesRights && this.userRolesRights.constructor === Array) {
+            data["userRolesRights"] = [];
+            for (let item of this.userRolesRights)
+                data["userRolesRights"].push(item.toJSON());
+        }
+        if (this.userRolesPermissionSetRights && this.userRolesPermissionSetRights.constructor === Array) {
+            data["userRolesPermissionSetRights"] = [];
+            for (let item of this.userRolesPermissionSetRights)
+                data["userRolesPermissionSetRights"].push(item.toJSON());
+        }
+        data["exclusive"] = this.exclusive;
+        return data; 
+    }
+}
+
+export interface IPermissionSetUpdateRequestOfContentRight {
+    names?: ITranslatedStringDictionary | undefined;
+    userRolesRights?: IPermissionUserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+}
+
+/** Request to update a content permission set */
+export class ContentPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfContentRight implements IContentPermissionSetUpdateRequest {
+
+    constructor(data?: IContentPermissionSetUpdateRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ContentPermissionSetUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPermissionSetUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to update a content permission set */
+export interface IContentPermissionSetUpdateRequest extends IPermissionSetUpdateRequestOfContentRight {
+}
+
+export class PermissionSetOwnershipTransferRequest implements IPermissionSetOwnershipTransferRequest {
+    /** The ID of the user to whom the permission set ownership should be transferred to. */
+    transferUserId: string;
+
+    constructor(data?: IPermissionSetOwnershipTransferRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.transferUserId = data["transferUserId"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetOwnershipTransferRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetOwnershipTransferRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferUserId"] = this.transferUserId;
+        return data; 
+    }
+}
+
+export interface IPermissionSetOwnershipTransferRequest {
+    /** The ID of the user to whom the permission set ownership should be transferred to. */
+    transferUserId: string;
+}
+
+/** Response to a bulk operation */
+export class BulkResponse implements IBulkResponse {
+    /** Rows of the bulk response. */
+    rows?: BulkResponseRow[] | undefined;
+
+    constructor(data?: IBulkResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.rows) {
+                this.rows = [];
+                for (let i = 0; i < data.rows.length; i++) {
+                    let item = data.rows[i];
+                    this.rows[i] = item && !(<any>item).toJSON ? new BulkResponseRow(item) : <BulkResponseRow>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["rows"] && data["rows"].constructor === Array) {
+                this.rows = [];
+                for (let item of data["rows"])
+                    this.rows.push(BulkResponseRow.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BulkResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new BulkResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.rows && this.rows.constructor === Array) {
+            data["rows"] = [];
+            for (let item of this.rows)
+                data["rows"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Response to a bulk operation */
+export interface IBulkResponse {
+    /** Rows of the bulk response. */
+    rows?: IBulkResponseRow[] | undefined;
+}
+
+/** Row information of a bulk response */
+export class BulkResponseRow implements IBulkResponseRow {
+    /** ID of the document. */
+    id: string;
+    /** Version of the document. */
+    version: number;
+    /** Eventual error. */
+    error?: string | undefined;
+    /** True if item successfully saved. False otherwise. */
+    succeeded: boolean;
+    /** Returned status code. */
+    status: number;
+
+    constructor(data?: IBulkResponseRow) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.version = data["version"];
+            this.error = data["error"];
+            this.succeeded = data["succeeded"];
+            this.status = data["status"];
+        }
+    }
+
+    static fromJS(data: any): BulkResponseRow {
+        data = typeof data === 'object' ? data : {};
+        let result = new BulkResponseRow();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["version"] = this.version;
+        data["error"] = this.error;
+        data["succeeded"] = this.succeeded;
+        data["status"] = this.status;
+        return data; 
+    }
+}
+
+/** Row information of a bulk response */
+export interface IBulkResponseRow {
+    /** ID of the document. */
+    id: string;
+    /** Version of the document. */
+    version: number;
+    /** Eventual error. */
+    error?: string | undefined;
+    /** True if item successfully saved. False otherwise. */
+    succeeded: boolean;
+    /** Returned status code. */
+    status: number;
+}
+
+export class ContentPermissionSetCreateManyRequest implements IContentPermissionSetCreateManyRequest {
+    items?: ContentPermissionSetCreateRequest[] | undefined;
+
+    constructor(data?: IContentPermissionSetCreateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ContentPermissionSetCreateRequest.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentPermissionSetCreateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPermissionSetCreateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IContentPermissionSetCreateManyRequest {
+    items?: ContentPermissionSetCreateRequest[] | undefined;
+}
+
+/** Request to update multiple content permission sets */
+export class ContentPermissionSetUpdateManyRequest implements IContentPermissionSetUpdateManyRequest {
+    /** Content permission sets update requests. */
+    items?: ContentPermissionSetUpdateRequestItem[] | undefined;
+
+    constructor(data?: IContentPermissionSetUpdateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ContentPermissionSetUpdateRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentPermissionSetUpdateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPermissionSetUpdateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to update multiple content permission sets */
+export interface IContentPermissionSetUpdateManyRequest {
+    /** Content permission sets update requests. */
+    items?: ContentPermissionSetUpdateRequestItem[] | undefined;
+}
+
+export abstract class PermissionSetUpdateRequestItemOfContentRight extends PermissionSetUpdateRequestOfContentRight implements IPermissionSetUpdateRequestItemOfContentRight {
+    id: string;
+
+    constructor(data?: IPermissionSetUpdateRequestItemOfContentRight) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetUpdateRequestItemOfContentRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetUpdateRequestItemOfContentRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPermissionSetUpdateRequestItemOfContentRight extends IPermissionSetUpdateRequestOfContentRight {
+    id: string;
+}
+
+/** Request to update a content permission set */
+export class ContentPermissionSetUpdateRequestItem extends PermissionSetUpdateRequestItemOfContentRight implements IContentPermissionSetUpdateRequestItem {
+
+    constructor(data?: IContentPermissionSetUpdateRequestItem) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ContentPermissionSetUpdateRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPermissionSetUpdateRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to update a content permission set */
+export interface IContentPermissionSetUpdateRequestItem extends IPermissionSetUpdateRequestItemOfContentRight {
+}
+
+export class PermissionSetDeleteManyRequest implements IPermissionSetDeleteManyRequest {
+    permissionSetIds?: string[] | undefined;
+
+    constructor(data?: IPermissionSetDeleteManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["permissionSetIds"] && data["permissionSetIds"].constructor === Array) {
+                this.permissionSetIds = [];
+                for (let item of data["permissionSetIds"])
+                    this.permissionSetIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionSetDeleteManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetDeleteManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.permissionSetIds && this.permissionSetIds.constructor === Array) {
+            data["permissionSetIds"] = [];
+            for (let item of this.permissionSetIds)
+                data["permissionSetIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IPermissionSetDeleteManyRequest {
+    permissionSetIds?: string[] | undefined;
+}
+
+export class PermissionSetOwnershipTransferManyRequest implements IPermissionSetOwnershipTransferManyRequest {
+    items?: PermissionSetOwnershipTransferItem[] | undefined;
+
+    constructor(data?: IPermissionSetOwnershipTransferManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PermissionSetOwnershipTransferItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionSetOwnershipTransferManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetOwnershipTransferManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPermissionSetOwnershipTransferManyRequest {
+    items?: PermissionSetOwnershipTransferItem[] | undefined;
+}
+
+export class PermissionSetOwnershipTransferItem extends PermissionSetOwnershipTransferRequest implements IPermissionSetOwnershipTransferItem {
+    /** The permission set ID. */
+    permissionSetId?: string | undefined;
+
+    constructor(data?: IPermissionSetOwnershipTransferItem) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.permissionSetId = data["permissionSetId"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetOwnershipTransferItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetOwnershipTransferItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["permissionSetId"] = this.permissionSetId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPermissionSetOwnershipTransferItem extends IPermissionSetOwnershipTransferRequest {
+    /** The permission set ID. */
+    permissionSetId?: string | undefined;
+}
+
+export class PermissionSetUserPermissionRights implements IPermissionSetUserPermissionRights {
+    permissionSetId?: string | undefined;
+    permissionSetRights?: PermissionSetRight[] | undefined;
+
+    constructor(data?: IPermissionSetUserPermissionRights) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.permissionSetId = data["permissionSetId"];
+            if (data["permissionSetRights"] && data["permissionSetRights"].constructor === Array) {
+                this.permissionSetRights = [];
+                for (let item of data["permissionSetRights"])
+                    this.permissionSetRights.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionSetUserPermissionRights {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetUserPermissionRights();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["permissionSetId"] = this.permissionSetId;
+        if (this.permissionSetRights && this.permissionSetRights.constructor === Array) {
+            data["permissionSetRights"] = [];
+            for (let item of this.permissionSetRights)
+                data["permissionSetRights"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IPermissionSetUserPermissionRights {
+    permissionSetId?: string | undefined;
+    permissionSetRights?: PermissionSetRight[] | undefined;
+}
+
+export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
+    totalResults: number;
+    results: PermissionSet[];
+    elapsedMilliseconds: number;
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfPermissionSet) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new PermissionSet(item) : <PermissionSet>item;
+                }
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalResults = data["totalResults"];
+            if (data["results"] && data["results"].constructor === Array) {
+                this.results = [];
+                for (let item of data["results"])
+                    this.results.push(PermissionSet.fromJS(item));
+            }
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfPermissionSet {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfPermissionSet();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (this.results && this.results.constructor === Array) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+export interface IBaseResultOfPermissionSet {
+    totalResults: number;
+    results: IPermissionSet[];
+    elapsedMilliseconds: number;
+    pageToken?: string | undefined;
+}
+
+export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet implements ISearchBehaviorBaseResultOfPermissionSet {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
+
+    constructor(data?: ISearchBehaviorBaseResultOfPermissionSet) {
+        super(data);
+        if (data) {
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.searchString = data["searchString"];
+            this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorBaseResultOfPermissionSet {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorBaseResultOfPermissionSet();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
+}
+
+/** Result of a permission set search operation */
+export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermissionSet implements IPermissionSetSearchResult {
+
+    constructor(data?: IPermissionSetSearchResult) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): PermissionSetSearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Result of a permission set search operation */
+export interface IPermissionSetSearchResult extends ISearchBehaviorBaseResultOfPermissionSet {
+}
+
+/** Permission set */
+export class PermissionSet implements IPermissionSet {
+    /** The permission set ID. */
+    id: string;
+    /** When true this permission set will derogate all other configured permission sets. */
+    exclusive: boolean;
+    /** Language specific permission set names. */
+    names?: TranslatedStringDictionary | undefined;
+
+    constructor(data?: IPermissionSet) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.exclusive = data["exclusive"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): PermissionSet {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSet();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["exclusive"] = this.exclusive;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Permission set */
+export interface IPermissionSet {
+    /** The permission set ID. */
+    id: string;
+    /** When true this permission set will derogate all other configured permission sets. */
+    exclusive: boolean;
+    /** Language specific permission set names. */
+    names?: ITranslatedStringDictionary | undefined;
+}
+
+/** Request to search permission sets */
+export class PermissionSetSearchRequest implements IPermissionSetSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    sort?: SortInfo[] | undefined;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    filter?: FilterBase | undefined;
+    /** Filters based on the PermissionSetRight of the user. */
+    rightFilter?: PermissionSetRight | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+
+    constructor(data?: IPermissionSetSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.searchString = data["searchString"];
+            if (data["searchBehaviors"] && data["searchBehaviors"].constructor === Array) {
+                this.searchBehaviors = [];
+                for (let item of data["searchBehaviors"])
+                    this.searchBehaviors.push(item);
+            }
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(SortInfo.fromJS(item));
+            }
+            this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.rightFilter = data["rightFilter"];
+            this.debugMode = data["debugMode"];
+            if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
+                this.searchLanguages = [];
+                for (let item of data["searchLanguages"])
+                    this.searchLanguages.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionSetSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (this.searchBehaviors && this.searchBehaviors.constructor === Array) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["rightFilter"] = this.rightFilter;
+        data["debugMode"] = this.debugMode;
+        if (this.searchLanguages && this.searchLanguages.constructor === Array) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Request to search permission sets */
+export interface IPermissionSetSearchRequest {
+    /** The string used to query the data. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    sort?: ISortInfo[] | undefined;
+    /** Limits the number of the returned schemas. Defaults to 30. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    filter?: FilterBase | undefined;
+    /** Filters based on the PermissionSetRight of the user. */
+    rightFilter?: PermissionSetRight | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the result.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+}
+
 export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory {
     totalResults: number;
     results: DocumentHistory[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfDocumentHistory) {
         if (data) {
@@ -29811,6 +32867,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
                     this.results.push(DocumentHistory.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -29830,6 +32887,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -29838,10 +32896,10 @@ export interface IBaseResultOfDocumentHistory {
     totalResults: number;
     results: IDocumentHistory[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory implements IDocumentHistorySearchResult {
-    pageToken?: string | undefined;
 
     constructor(data?: IDocumentHistorySearchResult) {
         super(data);
@@ -29849,9 +32907,6 @@ export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-            this.pageToken = data["pageToken"];
-        }
     }
 
     static fromJS(data: any): DocumentHistorySearchResult {
@@ -29863,14 +32918,12 @@ export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory imp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageToken"] = this.pageToken;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IDocumentHistorySearchResult extends IBaseResultOfDocumentHistory {
-    pageToken?: string | undefined;
 }
 
 export class DocumentHistory implements IDocumentHistory {
@@ -30093,8 +33146,10 @@ export class DocumentHistoryDifference implements IDocumentHistoryDifference {
     documentId?: string | undefined;
     oldDocumentVersion: number;
     newDocumentVersion: number;
-    oldValues?: any | undefined;
-    newValues?: any | undefined;
+    /** Contains an RFC 6902 compatible patch that can be applied on the old document to get the new document.
+Use a library like jsondiffpatch.net (https://github.com/wbish/jsondiffpatch.net)
+or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. */
+    patch?: any | undefined;
 
     constructor(data?: IDocumentHistoryDifference) {
         if (data) {
@@ -30110,8 +33165,7 @@ export class DocumentHistoryDifference implements IDocumentHistoryDifference {
             this.documentId = data["documentId"];
             this.oldDocumentVersion = data["oldDocumentVersion"];
             this.newDocumentVersion = data["newDocumentVersion"];
-            this.oldValues = data["oldValues"];
-            this.newValues = data["newValues"];
+            this.patch = data["patch"];
         }
     }
 
@@ -30127,8 +33181,7 @@ export class DocumentHistoryDifference implements IDocumentHistoryDifference {
         data["documentId"] = this.documentId;
         data["oldDocumentVersion"] = this.oldDocumentVersion;
         data["newDocumentVersion"] = this.newDocumentVersion;
-        data["oldValues"] = this.oldValues;
-        data["newValues"] = this.newValues;
+        data["patch"] = this.patch;
         return data; 
     }
 }
@@ -30137,8 +33190,10 @@ export interface IDocumentHistoryDifference {
     documentId?: string | undefined;
     oldDocumentVersion: number;
     newDocumentVersion: number;
-    oldValues?: any | undefined;
-    newValues?: any | undefined;
+    /** Contains an RFC 6902 compatible patch that can be applied on the old document to get the new document.
+Use a library like jsondiffpatch.net (https://github.com/wbish/jsondiffpatch.net)
+or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. */
+    patch?: any | undefined;
 }
 
 /** Customer configuration information */
@@ -30569,6 +33624,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
     totalResults: number;
     results: ListItem[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfListItem) {
         if (data) {
@@ -30598,6 +33654,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
                     this.results.push(ListItem.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -30617,6 +33674,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -30625,6 +33683,7 @@ export interface IBaseResultOfListItem {
     totalResults: number;
     results: IListItem[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 /** Encapsulates the result of a list item search. */
@@ -30723,10 +33782,10 @@ export class ListItemSearchRequest implements IListItemSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
     sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional filter to limit the list items. */
     filter?: FilterBase | undefined;
     /** Broadens the search to include all schema descendant list items. */
@@ -30779,8 +33838,8 @@ Warning! It severely affects performance. */
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
             if (data["schemaIds"] && data["schemaIds"].constructor === Array) {
@@ -30830,8 +33889,8 @@ Warning! It severely affects performance. */
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
         if (this.schemaIds && this.schemaIds.constructor === Array) {
@@ -30870,10 +33929,10 @@ export interface IListItemSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
     sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional filter to limit the list items. */
     filter?: FilterBase | undefined;
     /** Broadens the search to include all schema descendant list items. */
@@ -32082,6 +35141,16 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ConfigurationChangeEvent") {
+            let result = new ConfigurationChangeEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CustomerChangeEvent") {
+            let result = new CustomerChangeEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -32571,6 +35640,86 @@ export interface IOutputRenderedEvent extends IApplicationEvent {
     outputFormatId?: string | undefined;
 }
 
+export class ConfigurationChangeEvent extends ApplicationEvent implements IConfigurationChangeEvent {
+    documentType?: string | undefined;
+    documentIds?: string[] | undefined;
+
+    constructor(data?: IConfigurationChangeEvent) {
+        super(data);
+        this._discriminator = "ConfigurationChangeEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.documentType = data["documentType"];
+            if (data["documentIds"] && data["documentIds"].constructor === Array) {
+                this.documentIds = [];
+                for (let item of data["documentIds"])
+                    this.documentIds.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ConfigurationChangeEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConfigurationChangeEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["documentType"] = this.documentType;
+        if (this.documentIds && this.documentIds.constructor === Array) {
+            data["documentIds"] = [];
+            for (let item of this.documentIds)
+                data["documentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IConfigurationChangeEvent extends IApplicationEvent {
+    documentType?: string | undefined;
+    documentIds?: string[] | undefined;
+}
+
+export class CustomerChangeEvent extends ApplicationEvent implements ICustomerChangeEvent {
+    lifeCycle: LifeCycle;
+
+    constructor(data?: ICustomerChangeEvent) {
+        super(data);
+        this._discriminator = "CustomerChangeEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.lifeCycle = data["lifeCycle"];
+        }
+    }
+
+    static fromJS(data: any): CustomerChangeEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerChangeEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lifeCycle"] = this.lifeCycle;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICustomerChangeEvent extends IApplicationEvent {
+    lifeCycle: LifeCycle;
+}
+
 export class ConsoleMessage extends Message implements IConsoleMessage {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -32736,6 +35885,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
     totalResults: number;
     results: Output[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfOutput) {
         if (data) {
@@ -32758,6 +35908,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
                     this.results.push(Output.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -32777,6 +35928,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -32785,6 +35937,7 @@ export interface IBaseResultOfOutput {
     totalResults: number;
     results: Output[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class OutputSearchResult extends BaseResultOfOutput implements IOutputSearchResult {
@@ -32815,10 +35968,10 @@ export interface IOutputSearchResult extends IBaseResultOfOutput {
 }
 
 export class OutputSearchRequest implements IOutputSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** List of Content ids you want to use to fetch the outputs. */
     contentIds?: string[] | undefined;
     /** The allowed rendering states of the outputs you want to fetch. */
@@ -32839,8 +35992,8 @@ export class OutputSearchRequest implements IOutputSearchRequest {
 
     init(data?: any) {
         if (data) {
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             if (data["contentIds"] && data["contentIds"].constructor === Array) {
                 this.contentIds = [];
                 for (let item of data["contentIds"])
@@ -32873,8 +36026,8 @@ export class OutputSearchRequest implements IOutputSearchRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         if (this.contentIds && this.contentIds.constructor === Array) {
             data["contentIds"] = [];
             for (let item of this.contentIds)
@@ -32900,10 +36053,10 @@ export class OutputSearchRequest implements IOutputSearchRequest {
 }
 
 export interface IOutputSearchRequest {
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** List of Content ids you want to use to fetch the outputs. */
     contentIds?: string[] | undefined;
     /** The allowed rendering states of the outputs you want to fetch. */
@@ -35601,6 +38754,7 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
     totalResults: number;
     results: Schema[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfSchema) {
         if (data) {
@@ -35630,6 +38784,7 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
                     this.results.push(Schema.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -35649,6 +38804,7 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -35657,6 +38813,7 @@ export interface IBaseResultOfSchema {
     totalResults: number;
     results: ISchema[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema implements ISearchBehaviorBaseResultOfSchema {
@@ -35852,10 +39009,10 @@ export class SchemaSearchRequest implements ISchemaSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Sorts the search results. Currently only sorting on the Names property is allowed. */
     sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional filter to limit the schemas. */
     filter?: FilterBase | undefined;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the SchemaSearchResult.
@@ -35864,6 +39021,8 @@ Warning! It severely affects performance. */
     /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
 If not specified, all metadata languages in the system are used. */
     searchLanguages?: string[] | undefined;
+    /** Limits the schemas to the ones the user has the specified MetadataRights. */
+    rightsFilter?: MetadataRight[] | undefined;
 
     constructor(data?: ISchemaSearchRequest) {
         if (data) {
@@ -35894,14 +39053,19 @@ If not specified, all metadata languages in the system are used. */
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.debugMode = data["debugMode"];
             if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
                 this.searchLanguages = [];
                 for (let item of data["searchLanguages"])
                     this.searchLanguages.push(item);
+            }
+            if (data["rightsFilter"] && data["rightsFilter"].constructor === Array) {
+                this.rightsFilter = [];
+                for (let item of data["rightsFilter"])
+                    this.rightsFilter.push(item);
             }
         }
     }
@@ -35926,14 +39090,19 @@ If not specified, all metadata languages in the system are used. */
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["debugMode"] = this.debugMode;
         if (this.searchLanguages && this.searchLanguages.constructor === Array) {
             data["searchLanguages"] = [];
             for (let item of this.searchLanguages)
                 data["searchLanguages"].push(item);
+        }
+        if (this.rightsFilter && this.rightsFilter.constructor === Array) {
+            data["rightsFilter"] = [];
+            for (let item of this.rightsFilter)
+                data["rightsFilter"].push(item);
         }
         return data; 
     }
@@ -35947,10 +39116,10 @@ export interface ISchemaSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Sorts the search results. Currently only sorting on the Names property is allowed. */
     sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first matching document. Defaults to 0. */
-    start: number;
     /** Limits the number of the returned schemas. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional filter to limit the schemas. */
     filter?: FilterBase | undefined;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the SchemaSearchResult.
@@ -35959,6 +39128,8 @@ Warning! It severely affects performance. */
     /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
 If not specified, all metadata languages in the system are used. */
     searchLanguages?: string[] | undefined;
+    /** Limits the schemas to the ones the user has the specified MetadataRights. */
+    rightsFilter?: MetadataRight[] | undefined;
 }
 
 /** Contains compiled field information. */
@@ -36861,6 +40032,416 @@ export interface IPermissionUserRoleRightsOfMetadataRight {
     userRoleId?: string | undefined;
     names?: ITranslatedStringDictionary | undefined;
     rights?: MetadataRight[] | undefined;
+}
+
+export abstract class PermissionSetCreateRequestOfMetadataRight implements IPermissionSetCreateRequestOfMetadataRight {
+    names?: TranslatedStringDictionary | undefined;
+    userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+
+    constructor(data?: IPermissionSetCreateRequestOfMetadataRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.userRolesRights) {
+                this.userRolesRights = [];
+                for (let i = 0; i < data.userRolesRights.length; i++) {
+                    let item = data.userRolesRights[i];
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfMetadataRight(item) : <UserRoleRightsOfMetadataRight>item;
+                }
+            }
+            if (data.userRolesPermissionSetRights) {
+                this.userRolesPermissionSetRights = [];
+                for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
+                    let item = data.userRolesPermissionSetRights[i];
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfPermissionSetRight(item) : <UserRoleRightsOfPermissionSetRight>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
+                this.userRolesRights = [];
+                for (let item of data["userRolesRights"])
+                    this.userRolesRights.push(UserRoleRightsOfMetadataRight.fromJS(item));
+            }
+            if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
+                this.userRolesPermissionSetRights = [];
+                for (let item of data["userRolesPermissionSetRights"])
+                    this.userRolesPermissionSetRights.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
+            }
+            this.exclusive = data["exclusive"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetCreateRequestOfMetadataRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetCreateRequestOfMetadataRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.userRolesRights && this.userRolesRights.constructor === Array) {
+            data["userRolesRights"] = [];
+            for (let item of this.userRolesRights)
+                data["userRolesRights"].push(item.toJSON());
+        }
+        if (this.userRolesPermissionSetRights && this.userRolesPermissionSetRights.constructor === Array) {
+            data["userRolesPermissionSetRights"] = [];
+            for (let item of this.userRolesPermissionSetRights)
+                data["userRolesPermissionSetRights"].push(item.toJSON());
+        }
+        data["exclusive"] = this.exclusive;
+        return data; 
+    }
+}
+
+export interface IPermissionSetCreateRequestOfMetadataRight {
+    names?: ITranslatedStringDictionary | undefined;
+    userRolesRights?: IUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+}
+
+export class SchemaPermissionSetCreateRequest extends PermissionSetCreateRequestOfMetadataRight implements ISchemaPermissionSetCreateRequest {
+
+    constructor(data?: ISchemaPermissionSetCreateRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): SchemaPermissionSetCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionSetCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaPermissionSetCreateRequest extends IPermissionSetCreateRequestOfMetadataRight {
+}
+
+export class UserRoleRightsOfMetadataRight implements IUserRoleRightsOfMetadataRight {
+    userRoleId?: string | undefined;
+    rights?: MetadataRight[] | undefined;
+
+    constructor(data?: IUserRoleRightsOfMetadataRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userRoleId = data["userRoleId"];
+            if (data["rights"] && data["rights"].constructor === Array) {
+                this.rights = [];
+                for (let item of data["rights"])
+                    this.rights.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): UserRoleRightsOfMetadataRight {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleRightsOfMetadataRight();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userRoleId"] = this.userRoleId;
+        if (this.rights && this.rights.constructor === Array) {
+            data["rights"] = [];
+            for (let item of this.rights)
+                data["rights"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IUserRoleRightsOfMetadataRight {
+    userRoleId?: string | undefined;
+    rights?: MetadataRight[] | undefined;
+}
+
+export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPermissionSetUpdateRequestOfMetadataRight {
+    names?: TranslatedStringDictionary | undefined;
+    userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+
+    constructor(data?: IPermissionSetUpdateRequestOfMetadataRight) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.userRolesRights) {
+                this.userRolesRights = [];
+                for (let i = 0; i < data.userRolesRights.length; i++) {
+                    let item = data.userRolesRights[i];
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfMetadataRight(item) : <PermissionUserRoleRightsOfMetadataRight>item;
+                }
+            }
+            if (data.userRolesPermissionSetRights) {
+                this.userRolesPermissionSetRights = [];
+                for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
+                    let item = data.userRolesPermissionSetRights[i];
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfPermissionSetRight(item) : <PermissionUserRoleRightsOfPermissionSetRight>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
+                this.userRolesRights = [];
+                for (let item of data["userRolesRights"])
+                    this.userRolesRights.push(PermissionUserRoleRightsOfMetadataRight.fromJS(item));
+            }
+            if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
+                this.userRolesPermissionSetRights = [];
+                for (let item of data["userRolesPermissionSetRights"])
+                    this.userRolesPermissionSetRights.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+            }
+            this.exclusive = data["exclusive"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetUpdateRequestOfMetadataRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetUpdateRequestOfMetadataRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.userRolesRights && this.userRolesRights.constructor === Array) {
+            data["userRolesRights"] = [];
+            for (let item of this.userRolesRights)
+                data["userRolesRights"].push(item.toJSON());
+        }
+        if (this.userRolesPermissionSetRights && this.userRolesPermissionSetRights.constructor === Array) {
+            data["userRolesPermissionSetRights"] = [];
+            for (let item of this.userRolesPermissionSetRights)
+                data["userRolesPermissionSetRights"].push(item.toJSON());
+        }
+        data["exclusive"] = this.exclusive;
+        return data; 
+    }
+}
+
+export interface IPermissionSetUpdateRequestOfMetadataRight {
+    names?: ITranslatedStringDictionary | undefined;
+    userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    exclusive: boolean;
+}
+
+/** Request to update a schema permission set */
+export class SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfMetadataRight implements ISchemaPermissionSetUpdateRequest {
+
+    constructor(data?: ISchemaPermissionSetUpdateRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): SchemaPermissionSetUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionSetUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to update a schema permission set */
+export interface ISchemaPermissionSetUpdateRequest extends IPermissionSetUpdateRequestOfMetadataRight {
+}
+
+export class SchemaPermissionSetCreateManyRequest implements ISchemaPermissionSetCreateManyRequest {
+    items?: SchemaPermissionSetCreateRequest[] | undefined;
+
+    constructor(data?: ISchemaPermissionSetCreateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SchemaPermissionSetCreateRequest.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaPermissionSetCreateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionSetCreateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ISchemaPermissionSetCreateManyRequest {
+    items?: SchemaPermissionSetCreateRequest[] | undefined;
+}
+
+/** Request to update multiple schema permissions sets */
+export class SchemaPermissionSetUpdateManyRequest implements ISchemaPermissionSetUpdateManyRequest {
+    /** Schema permission sets update requests. */
+    items?: SchemaPermissionSetUpdateRequestItem[] | undefined;
+
+    constructor(data?: ISchemaPermissionSetUpdateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SchemaPermissionSetUpdateRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaPermissionSetUpdateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionSetUpdateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to update multiple schema permissions sets */
+export interface ISchemaPermissionSetUpdateManyRequest {
+    /** Schema permission sets update requests. */
+    items?: SchemaPermissionSetUpdateRequestItem[] | undefined;
+}
+
+export abstract class PermissionSetUpdateRequestItemOfMetadataRight extends PermissionSetUpdateRequestOfMetadataRight implements IPermissionSetUpdateRequestItemOfMetadataRight {
+    id: string;
+
+    constructor(data?: IPermissionSetUpdateRequestItemOfMetadataRight) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PermissionSetUpdateRequestItemOfMetadataRight {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'PermissionSetUpdateRequestItemOfMetadataRight' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPermissionSetUpdateRequestItemOfMetadataRight extends IPermissionSetUpdateRequestOfMetadataRight {
+    id: string;
+}
+
+/** Request to update a schema permission set */
+export class SchemaPermissionSetUpdateRequestItem extends PermissionSetUpdateRequestItemOfMetadataRight implements ISchemaPermissionSetUpdateRequestItem {
+
+    constructor(data?: ISchemaPermissionSetUpdateRequestItem) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): SchemaPermissionSetUpdateRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaPermissionSetUpdateRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to update a schema permission set */
+export interface ISchemaPermissionSetUpdateRequestItem extends IPermissionSetUpdateRequestItemOfMetadataRight {
 }
 
 /** Represents a transfer. */
@@ -37936,6 +41517,7 @@ export class BaseResultOfShare implements IBaseResultOfShare {
     totalResults: number;
     results: Share[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfShare) {
         if (data) {
@@ -37965,6 +41547,7 @@ export class BaseResultOfShare implements IBaseResultOfShare {
                     this.results.push(Share.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -37984,6 +41567,7 @@ export class BaseResultOfShare implements IBaseResultOfShare {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -37992,6 +41576,7 @@ export interface IBaseResultOfShare {
     totalResults: number;
     results: IShare[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implements ISearchBehaviorBaseResultOfShare {
@@ -38164,10 +41749,10 @@ export class ShareSearchRequest implements IShareSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
@@ -38202,8 +41787,8 @@ export class ShareSearchRequest implements IShareSearchRequest {
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.debugMode = data["debugMode"];
         }
@@ -38229,8 +41814,8 @@ export class ShareSearchRequest implements IShareSearchRequest {
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["debugMode"] = this.debugMode;
         return data; 
@@ -38245,10 +41830,10 @@ export interface IShareSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
@@ -38940,125 +42525,6 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
 export interface IShareEmbedUpdateRequest extends IShareBaseUpdateRequest {
 }
 
-/** Response to a bulk operation */
-export class BulkResponse implements IBulkResponse {
-    /** Rows of the bulk response. */
-    rows?: BulkResponseRow[] | undefined;
-
-    constructor(data?: IBulkResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.rows) {
-                this.rows = [];
-                for (let i = 0; i < data.rows.length; i++) {
-                    let item = data.rows[i];
-                    this.rows[i] = item && !(<any>item).toJSON ? new BulkResponseRow(item) : <BulkResponseRow>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["rows"] && data["rows"].constructor === Array) {
-                this.rows = [];
-                for (let item of data["rows"])
-                    this.rows.push(BulkResponseRow.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): BulkResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new BulkResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.rows && this.rows.constructor === Array) {
-            data["rows"] = [];
-            for (let item of this.rows)
-                data["rows"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-/** Response to a bulk operation */
-export interface IBulkResponse {
-    /** Rows of the bulk response. */
-    rows?: IBulkResponseRow[] | undefined;
-}
-
-/** Row information of a bulk response */
-export class BulkResponseRow implements IBulkResponseRow {
-    /** ID of the document. */
-    id: string;
-    /** Version of the document. */
-    version: number;
-    /** Eventual error. */
-    error?: string | undefined;
-    /** True if item successfully saved. False otherwise. */
-    succeeded: boolean;
-    /** Returned status code. */
-    status: number;
-
-    constructor(data?: IBulkResponseRow) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.version = data["version"];
-            this.error = data["error"];
-            this.succeeded = data["succeeded"];
-            this.status = data["status"];
-        }
-    }
-
-    static fromJS(data: any): BulkResponseRow {
-        data = typeof data === 'object' ? data : {};
-        let result = new BulkResponseRow();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["version"] = this.version;
-        data["error"] = this.error;
-        data["succeeded"] = this.succeeded;
-        data["status"] = this.status;
-        return data; 
-    }
-}
-
-/** Row information of a bulk response */
-export interface IBulkResponseRow {
-    /** ID of the document. */
-    id: string;
-    /** Version of the document. */
-    version: number;
-    /** Eventual error. */
-    error?: string | undefined;
-    /** True if item successfully saved. False otherwise. */
-    succeeded: boolean;
-    /** Returned status code. */
-    status: number;
-}
-
 export class ShareDeleteManyRequest implements IShareDeleteManyRequest {
     /** IDs of shares to delete. */
     ids: string[];
@@ -39203,6 +42669,7 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
     totalResults: number;
     results: Transfer[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfTransfer) {
         if (data) {
@@ -39232,6 +42699,7 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
                     this.results.push(Transfer.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -39251,6 +42719,7 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -39259,6 +42728,7 @@ export interface IBaseResultOfTransfer {
     totalResults: number;
     results: ITransfer[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer implements ISearchBehaviorBaseResultOfTransfer {
@@ -39340,10 +42810,10 @@ export class TransferSearchRequest implements ITransferSearchRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the TransferSearchResult.
@@ -39367,8 +42837,8 @@ Warning! It severely affects performance. */
                 for (let item of data["searchBehaviors"])
                     this.searchBehaviors.push(item);
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.debugMode = data["debugMode"];
         }
@@ -39389,8 +42859,8 @@ Warning! It severely affects performance. */
             for (let item of this.searchBehaviors)
                 data["searchBehaviors"].push(item);
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["debugMode"] = this.debugMode;
         return data; 
@@ -39403,10 +42873,10 @@ export interface ITransferSearchRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the TransferSearchResult.
@@ -40517,6 +43987,7 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
     totalResults: number;
     results: FileTransfer[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfFileTransfer) {
         if (data) {
@@ -40546,6 +44017,7 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
                     this.results.push(FileTransfer.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -40565,6 +44037,7 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -40573,6 +44046,7 @@ export interface IBaseResultOfFileTransfer {
     totalResults: number;
     results: IFileTransfer[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTransfer implements ISearchBehaviorBaseResultOfFileTransfer {
@@ -40654,10 +44128,10 @@ export class FileTransferSearchRequest implements IFileTransferSearchRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 
@@ -40678,8 +44152,8 @@ export class FileTransferSearchRequest implements IFileTransferSearchRequest {
                 for (let item of data["searchBehaviors"])
                     this.searchBehaviors.push(item);
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
         }
     }
@@ -40699,8 +44173,8 @@ export class FileTransferSearchRequest implements IFileTransferSearchRequest {
             for (let item of this.searchBehaviors)
                 data["searchBehaviors"].push(item);
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         return data; 
     }
@@ -40712,10 +44186,10 @@ export interface IFileTransferSearchRequest {
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
 }
@@ -41350,6 +44824,7 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
     totalResults: number;
     results: UserWithRoles[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfUserWithRoles) {
         if (data) {
@@ -41379,6 +44854,7 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
                     this.results.push(UserWithRoles.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -41398,6 +44874,7 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -41406,6 +44883,7 @@ export interface IBaseResultOfUserWithRoles {
     totalResults: number;
     results: IUserWithRoles[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles implements ISearchBehaviorBaseResultOfUserWithRoles {
@@ -41585,10 +45063,10 @@ export class UserSearchRequest implements IUserSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. */
     sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** Filter applied to users. */
     filter?: FilterBase | undefined;
     /** Return only users in certain life cycle state(s). */
@@ -41628,8 +45106,8 @@ export class UserSearchRequest implements IUserSearchRequest {
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.lifeCycleFilter = data["lifeCycleFilter"];
             if (data["userRightsFilter"] && data["userRightsFilter"].constructor === Array) {
@@ -41662,8 +45140,8 @@ export class UserSearchRequest implements IUserSearchRequest {
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["lifeCycleFilter"] = this.lifeCycleFilter;
         if (this.userRightsFilter && this.userRightsFilter.constructor === Array) {
@@ -41685,10 +45163,10 @@ export interface IUserSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. */
     sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** Filter applied to users. */
     filter?: FilterBase | undefined;
     /** Return only users in certain life cycle state(s). */
@@ -41935,6 +45413,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
     totalResults: number;
     results: UserRole[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfUserRole) {
         if (data) {
@@ -41964,6 +45443,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
                     this.results.push(UserRole.fromJS(item));
             }
             this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            this.pageToken = data["pageToken"];
         }
     }
 
@@ -41983,6 +45463,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
                 data["results"].push(item.toJSON());
         }
         data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
@@ -41991,6 +45472,7 @@ export interface IBaseResultOfUserRole {
     totalResults: number;
     results: IUserRole[];
     elapsedMilliseconds: number;
+    pageToken?: string | undefined;
 }
 
 export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole implements ISearchBehaviorBaseResultOfUserRole {
@@ -42073,10 +45555,10 @@ export class UserRoleSearchRequest implements IUserRoleSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. */
     sort?: SortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** Filter applied to user roles. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
@@ -42115,8 +45597,8 @@ export class UserRoleSearchRequest implements IUserRoleSearchRequest {
                 for (let item of data["sort"])
                     this.sort.push(SortInfo.fromJS(item));
             }
-            this.start = data["start"];
             this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.debugMode = data["debugMode"];
             if (data["searchLanguages"] && data["searchLanguages"].constructor === Array) {
@@ -42148,8 +45630,8 @@ export class UserRoleSearchRequest implements IUserRoleSearchRequest {
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["start"] = this.start;
         data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["debugMode"] = this.debugMode;
         if (this.searchLanguages && this.searchLanguages.constructor === Array) {
@@ -42169,10 +45651,10 @@ export interface IUserRoleSearchRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. */
     sort?: ISortInfo[] | undefined;
-    /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-    start: number;
     /** Limits the document count of the result set. Defaults to 30. */
     limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
     /** Filter applied to user roles. */
     filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
