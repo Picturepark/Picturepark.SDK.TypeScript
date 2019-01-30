@@ -121,6 +121,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   public update() {
     this.totalResults = null;
+    this.nextPageToken = undefined;
     this.items = [];
     this.loadData();
   }
