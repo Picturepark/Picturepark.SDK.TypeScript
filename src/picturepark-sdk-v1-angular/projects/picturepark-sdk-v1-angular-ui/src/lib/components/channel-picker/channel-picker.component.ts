@@ -49,5 +49,5 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   public trackByChannel(index, channel: Channel) {
     return channel.id;
-  } 
+  }
 }

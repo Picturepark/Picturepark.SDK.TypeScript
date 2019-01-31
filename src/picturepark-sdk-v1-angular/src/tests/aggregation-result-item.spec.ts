@@ -24,7 +24,7 @@ describe('AggregationResultItem', () => {
       it('should get part after slash', () => {
         // arrange
         const name = 'part after slash';
-        aggregationResultItem.name = `first part/${name}`
+        aggregationResultItem.name = `first part/${name}`;
 
         // act
         const result = aggregationResultItem.getDisplayName('en');
