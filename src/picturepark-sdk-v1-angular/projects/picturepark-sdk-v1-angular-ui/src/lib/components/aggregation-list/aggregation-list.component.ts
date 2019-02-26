@@ -1,6 +1,6 @@
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
