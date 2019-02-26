@@ -98,7 +98,7 @@ export let TRANSLATIONS = {
       en: 'Date created'
     },
     SortingByDateModified: {
-      en: 'Relevance'
+      en: 'Date modified'
     },
     ViewTypeMenu: {
       en: 'View type'
