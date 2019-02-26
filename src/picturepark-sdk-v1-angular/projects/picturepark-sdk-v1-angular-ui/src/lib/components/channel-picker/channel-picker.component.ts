@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, Output, OnInit, NgZone, ChangeDetectorRef, ApplicationRef, OnDestroy } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 import { ChannelService, Channel } from '@picturepark/sdk-v1-angular';
-import { Subscription } from 'rxjs';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'pp-channel-picker',
   templateUrl: './channel-picker.component.html'
 })
-export class ChannelPickerComponent implements OnInit, OnDestroy {
+export class ChannelPickerComponent extends BaseComponent implements OnInit {
   @Input()
   public channel: Channel | null = null;
   @Output()
@@ -18,9 +17,8 @@ export class ChannelPickerComponent implements OnInit, OnDestroy {
   @Output()
   public channelsChange = new EventEmitter<Channel[]>();
 
-  private subscription: Subscription = new Subscription();
-
   public constructor(private channelService: ChannelService, private ref: ApplicationRef) {
+    super();
   }
 
   public ngOnInit(): void {
@@ -51,11 +49,5 @@ export class ChannelPickerComponent implements OnInit, OnDestroy {
 
   public trackByChannel(index, channel: Channel) {
     return channel.id;
-  }
-
-  public ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

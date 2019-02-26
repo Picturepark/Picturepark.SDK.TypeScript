@@ -103,10 +103,10 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#comparewithcurrent" class="tsd-kind-icon">compare<wbr>With<wbr>Current</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#comparewithversion" class="tsd-kind-icon">compare<wbr>With<wbr>Version</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.documenthistoryclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#getdifference" class="tsd-kind-icon">get<wbr>Difference</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#getdifferencelatest" class="tsd-kind-icon">get<wbr>Difference<wbr>Latest</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#getcurrent" class="tsd-kind-icon">get<wbr>Current</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#getversion" class="tsd-kind-icon">get<wbr>Version</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.documenthistoryclient.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.documenthistoryclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
@@ -128,7 +128,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:304</li>
+									<li>Defined in docs/temp/picturepark.d.ts:325</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -151,7 +151,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:306</li>
+															<li>Defined in docs/temp/picturepark.d.ts:327</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -182,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:303</li>
+							<li>Defined in docs/temp/picturepark.d.ts:324</li>
 						</ul>
 					</aside>
 				</section>
@@ -192,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:302</li>
+							<li>Defined in docs/temp/picturepark.d.ts:323</li>
 						</ul>
 					</aside>
 				</section>
@@ -202,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:304</li>
+							<li>Defined in docs/temp/picturepark.d.ts:325</li>
 						</ul>
 					</aside>
 				</section>
@@ -210,34 +210,96 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="get" class="tsd-anchor"></a>
-					<h3>get</h3>
+					<a name="comparewithcurrent" class="tsd-anchor"></a>
+					<h3>compare<wbr>With<wbr>Current</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">compare<wbr>With<wbr>Current<span class="tsd-signature-symbol">(</span>documentType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, documentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:320</li>
+									<li>Defined in docs/temp/picturepark.d.ts:360</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get latest</p>
+									<p>Compare with current</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<h5>documentType: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The id of the document (e.g. ContentId)</p>
+										<p>The type of the document (e.g. Content).</p>
+									</div>
+								</li>
+								<li>
+									<h5>documentId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the document (e.g. contentId).</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> version: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) The version of the document to compare with.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>DocumentHistory</p>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Document history difference.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="comparewithversion" class="tsd-anchor"></a>
+					<h3>compare<wbr>With<wbr>Version</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">compare<wbr>With<wbr>Version<span class="tsd-signature-symbol">(</span>documentType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, documentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, documentVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:370</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Compare with version</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>documentType: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The type of the document (e.g. Content).</p>
+									</div>
+								</li>
+								<li>
+									<h5>documentId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the document (e.g. contentId).</p>
+									</div>
+								</li>
+								<li>
+									<h5>documentVersion: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The version of the document to use for the comparison.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> version: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) The version of the document to compare with.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Document history difference</p>
 						</li>
 					</ul>
 				</section>
@@ -266,84 +328,40 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getdifference" class="tsd-anchor"></a>
-					<h3>get<wbr>Difference</h3>
+					<a name="getcurrent" class="tsd-anchor"></a>
+					<h3>get<wbr>Current</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Difference<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, oldVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, newVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<span class="tsd-signature-symbol">(</span>documentType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, documentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:345</li>
+									<li>Defined in docs/temp/picturepark.d.ts:342</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get difference</p>
+									<p>Get current</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<h5>documentType: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The id of the document (e.g. ContentId)</p>
+										<p>The type of the document (e.g. Content).</p>
 									</div>
 								</li>
 								<li>
-									<h5>oldVersion: <span class="tsd-signature-type">number</span></h5>
+									<h5>documentId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The old version</p>
-									</div>
-								</li>
-								<li>
-									<h5>newVersion: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The new version</p>
+										<p>The ID of the document (e.g. contentId).</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>DocumentHistoryDifference</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getdifferencelatest" class="tsd-anchor"></a>
-					<h3>get<wbr>Difference<wbr>Latest</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Difference<wbr>Latest<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, oldVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:336</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get latest difference</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The id of the document (e.g. ContentId)</p>
-									</div>
-								</li>
-								<li>
-									<h5>oldVersion: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The old version</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorydifference.html" class="tsd-signature-type">DocumentHistoryDifference</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>DocumentHistoryDifference</p>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Document history item</p>
 						</li>
 					</ul>
 				</section>
@@ -351,37 +369,43 @@
 					<a name="getversion" class="tsd-anchor"></a>
 					<h3>get<wbr>Version</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Version<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Version<span class="tsd-signature-symbol">(</span>documentType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, documentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, documentVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:328</li>
+									<li>Defined in docs/temp/picturepark.d.ts:351</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get latest by version</p>
+									<p>Get version</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<h5>documentType: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The id of the document (e.g. ContentId)</p>
+										<p>The type of the document (e.g. Content).</p>
 									</div>
 								</li>
 								<li>
-									<h5>version: <span class="tsd-signature-type">string</span></h5>
+									<h5>documentId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The version</p>
+										<p>The ID of the document (e.g. contentId).</p>
+									</div>
+								</li>
+								<li>
+									<h5>documentVersion: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The version of the document.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistory.html" class="tsd-signature-type">DocumentHistory</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>DocumentHistory</p>
+							<p>Document history item</p>
 						</li>
 					</ul>
 				</section>
@@ -395,7 +419,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:313</li>
+									<li>Defined in docs/temp/picturepark.d.ts:334</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -408,12 +432,12 @@
 								<li>
 									<h5>documentHistorySearchRequest: <a href="../interfaces/_picturepark_.documenthistorysearchrequest.html" class="tsd-signature-type">DocumentHistorySearchRequest</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The document history search request</p>
+										<p>The document history search request.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.documenthistorysearchresult.html" class="tsd-signature-type">DocumentHistorySearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>DocumentHistorySearchResult</p>
+							<p>Document history search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -474,16 +498,16 @@
 								<a href="_picturepark_.documenthistoryclient.html#jsonparsereviver" class="tsd-kind-icon">json<wbr>Parse<wbr>Reviver</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.documenthistoryclient.html#get" class="tsd-kind-icon">get</a>
+								<a href="_picturepark_.documenthistoryclient.html#comparewithcurrent" class="tsd-kind-icon">compare<wbr>With<wbr>Current</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.documenthistoryclient.html#comparewithversion" class="tsd-kind-icon">compare<wbr>With<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_picturepark_.documenthistoryclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.documenthistoryclient.html#getdifference" class="tsd-kind-icon">get<wbr>Difference</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.documenthistoryclient.html#getdifferencelatest" class="tsd-kind-icon">get<wbr>Difference<wbr>Latest</a>
+								<a href="_picturepark_.documenthistoryclient.html#getcurrent" class="tsd-kind-icon">get<wbr>Current</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.documenthistoryclient.html#getversion" class="tsd-kind-icon">get<wbr>Version</a>

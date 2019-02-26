@@ -1,9 +1,8 @@
 import {
   Component, Input, Output, OnChanges, EventEmitter,
-  SimpleChanges, OnInit, NgZone, OnDestroy
+  SimpleChanges, OnInit, NgZone
 } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Subscription } from 'rxjs';
 
 import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
@@ -15,6 +14,7 @@ import {
   ContentSearchRequest, FilterBase, SortInfo,
   SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
 } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../base.component';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -23,7 +23,7 @@ import {
   templateUrl: './content-browser.component.html',
   styleUrls: ['./content-browser.component.scss']
 })
-export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
+export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
   private lastSelectedIndex = 0;
 
   private readonly ItemsPerRequest = 50;
@@ -33,6 +33,8 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   public selectedItems: string[] = [];
 
   public totalResults: number | null = null;
+
+  public nextPageToken: string | undefined;
 
   public isLoading = false;
 
@@ -64,14 +66,13 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
-  private subscription: Subscription = new Subscription();
-
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone) {
+    super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
@@ -107,12 +108,6 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   public setSortingType(newValue: SortingType) {
     if (newValue === SortingType.relevance) {
       this.isAscending = null;
@@ -126,6 +121,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
   public update() {
     this.totalResults = null;
+    this.nextPageToken = undefined;
     this.items = [];
     this.loadData();
   }
@@ -191,7 +187,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
       const request = new ContentSearchRequest({
         debugMode: false,
-        start: this.items.length,
+        pageToken: this.nextPageToken,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         filter: this.filter ? this.filter : undefined,
         channelId: this.channel.id,
@@ -209,6 +205,7 @@ export class ContentBrowserComponent implements OnChanges, OnInit, OnDestroy {
 
       const searchSubscription = this.contentService.search(request).subscribe(searchResult => {
         this.totalResults = searchResult.totalResults;
+        this.nextPageToken = searchResult.pageToken;
 
         if (searchResult.results) {
           this.items.push(...searchResult.results.map(item => {

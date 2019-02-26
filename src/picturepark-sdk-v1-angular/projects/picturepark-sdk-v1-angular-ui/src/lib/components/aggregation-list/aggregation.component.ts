@@ -1,15 +1,16 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
-import { timer, Observable, from, Subscription } from 'rxjs';
+import { timer, Observable, from } from 'rxjs';
 
 import {
   AggregationFilter, AggregationResult, AggregatorBase,
   AggregationResultItem, TermsAggregator, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../base.component';
 
 
-export abstract class AggregationComponent implements OnChanges, OnDestroy {
+export abstract class AggregationComponent extends BaseComponent implements OnChanges {
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
   public query = '';
@@ -39,9 +40,8 @@ export abstract class AggregationComponent implements OnChanges, OnDestroy {
 
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
 
-  private subscription: Subscription = new Subscription();
-
   public constructor() {
+    super();
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => typeof value === 'string' ? value : (value.name || '')),
@@ -167,11 +167,5 @@ export abstract class AggregationComponent implements OnChanges, OnDestroy {
     }
 
     return aggregationResult;
-  }
-
-  public ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

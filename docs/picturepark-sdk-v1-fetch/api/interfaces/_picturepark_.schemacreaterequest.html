@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to create a schema</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -93,11 +100,11 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#names" class="tsd-kind-icon">names</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#parentschemaid" class="tsd-kind-icon">parent<wbr>Schema<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#public" class="tsd-kind-icon">public</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#referencedincontentschemaids" class="tsd-kind-icon">referenced<wbr>InContent<wbr>Schema<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#schemapermissionsetids" class="tsd-kind-icon">schema<wbr>Permission<wbr>Set<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#sort" class="tsd-kind-icon">sort</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#types" class="tsd-kind-icon">types</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.schemacreaterequest.html#viewforall" class="tsd-kind-icon">view<wbr>For<wbr>All</a></li>
 							</ul>
 						</section>
 					</div>
@@ -111,12 +118,13 @@
 					<div class="tsd-signature tsd-kind-icon">aggregations<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3587</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4166</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of aggregations to group content documents and/or list items.</p>
+							<p>An optional list of aggregations to show grouped list item documents. When aggregations are defined for a List,
+							the UI uses such information to show the available filters and grouped results.</p>
 						</div>
 					</div>
 				</section>
@@ -126,7 +134,7 @@
 					<div class="tsd-signature tsd-kind-icon">descriptions<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3579</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4156</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -137,11 +145,11 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="displaypatterns" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Patterns</h3>
-					<div class="tsd-signature tsd-kind-icon">display<wbr>Patterns<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.displaypattern.html" class="tsd-signature-type">DisplayPattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>display<wbr>Patterns</h3>
+					<div class="tsd-signature tsd-kind-icon">display<wbr>Patterns<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.displaypattern.html" class="tsd-signature-type">DisplayPattern</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3581</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4158</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,12 +164,12 @@
 					<div class="tsd-signature tsd-kind-icon">fields<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.fieldbase.html" class="tsd-signature-type">FieldBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3583</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4160</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The schema fields. Can be empty.</p>
+							<p>The schema fields.</p>
 						</div>
 					</div>
 				</section>
@@ -171,27 +179,28 @@
 					<div class="tsd-signature tsd-kind-icon">fields<wbr>Overwrite<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.fieldoverwritebase.html" class="tsd-signature-type">FieldOverwriteBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3585</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4163</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The schema fields overwrite information.</p>
+							<p>A list of schema fields overwrite information. It is used to overwrite the field configuration coming from the parent schema.
+							Only a subset of properties of a FieldSingleTagbox and FieldMultiTagbox can be be overwritten. All other properties and fields cannot.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3571</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4148</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The schema id. Can be a slug, but must be unique throughout the whole customer setup.</p>
+							<p>The schema ID. It can be a slug, but must be unique throughout the whole customer setup.</p>
 						</div>
 					</div>
 				</section>
@@ -201,12 +210,12 @@
 					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3595</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4175</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional id list of schemas with type layer.</p>
+							<p>An optional list of schemas&#39; IDs with type layer. For a Content schema it stores the layers that can be assigned to a content.</p>
 						</div>
 					</div>
 				</section>
@@ -216,7 +225,7 @@
 					<div class="tsd-signature tsd-kind-icon">names<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3577</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4154</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -231,27 +240,12 @@
 					<div class="tsd-signature tsd-kind-icon">parent<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3573</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4150</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The parent schema id.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="public" class="tsd-anchor"></a>
-					<h3>public</h3>
-					<div class="tsd-signature tsd-kind-icon">public<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3591</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Opens list item document accessibility. If true SchemaPermissionSetIds must be empty.</p>
+							<p>The parent schema ID.</p>
 						</div>
 					</div>
 				</section>
@@ -261,12 +255,13 @@
 					<div class="tsd-signature tsd-kind-icon">referenced<wbr>InContent<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3597</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4178</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional id list of schemas with type content for a schema with type layer.</p>
+							<p>If the schema if of type Layer, the list contains the schemas with type Content
+							that reference the layer.</p>
 						</div>
 					</div>
 				</section>
@@ -276,12 +271,12 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Permission<wbr>Set<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3593</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4173</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional id list of schema permission sets. Control list item document permissions. When not empty Public must be false.</p>
+							<p>An optional list of schema permission set IDs which control schema permissions.</p>
 						</div>
 					</div>
 				</section>
@@ -291,12 +286,13 @@
 					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.sortinfo.html" class="tsd-signature-type">SortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3589</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4169</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Sorts content documents and/or list items.</p>
+							<p>Sorts content documents and/or list items. In order for the sorting to work properly, the Sortable property of the related field
+							must be set to true. Multiple sorting is supported: they are applied in the specified order.</p>
 						</div>
 					</div>
 				</section>
@@ -306,12 +302,27 @@
 					<div class="tsd-signature tsd-kind-icon">types<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.schematype.html" class="tsd-signature-type">SchemaType</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3575</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4152</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Types control schema usage.</p>
+							<p>List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="viewforall" class="tsd-anchor"></a>
+					<h3>view<wbr>For<wbr>All</h3>
+					<div class="tsd-signature tsd-kind-icon">view<wbr>For<wbr>All<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4171</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines a schema as viewable by everyone. Everyone with ManageSchema user permission is able to see the schema.</p>
 						</div>
 					</div>
 				</section>
@@ -363,9 +374,6 @@
 								<a href="_picturepark_.schemacreaterequest.html#parentschemaid" class="tsd-kind-icon">parent<wbr>Schema<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.schemacreaterequest.html#public" class="tsd-kind-icon">public</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.schemacreaterequest.html#referencedincontentschemaids" class="tsd-kind-icon">referenced<wbr>InContent<wbr>Schema<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -376,6 +384,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.schemacreaterequest.html#types" class="tsd-kind-icon">types</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.schemacreaterequest.html#viewforall" class="tsd-kind-icon">view<wbr>For<wbr>All</a>
 							</li>
 						</ul>
 					</li>

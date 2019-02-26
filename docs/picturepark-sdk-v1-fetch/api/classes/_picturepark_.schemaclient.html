@@ -131,7 +131,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:591</li>
+									<li>Defined in docs/temp/picturepark.d.ts:619</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -154,7 +154,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:593</li>
+															<li>Defined in docs/temp/picturepark.d.ts:621</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:590</li>
+							<li>Defined in docs/temp/picturepark.d.ts:618</li>
 						</ul>
 					</aside>
 				</section>
@@ -195,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:589</li>
+							<li>Defined in docs/temp/picturepark.d.ts:617</li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +205,7 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:591</li>
+							<li>Defined in docs/temp/picturepark.d.ts:619</li>
 						</ul>
 					</aside>
 				</section>
@@ -222,12 +222,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:632</li>
+									<li>Defined in docs/temp/picturepark.d.ts:663</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create - single</p>
+									<p>Create schema</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -241,12 +241,13 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) Maximum time to wait for the operation to complete.</p>
+										<p>(optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+										Only the waiting is aborted, and the calls returned.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemacreateresult.html" class="tsd-signature-type">SchemaCreateResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>SchemaCreateResult containing the created schema.</p>
+							<p>Schema create result, containing the created schema</p>
 						</li>
 					</ul>
 				</section>
@@ -260,12 +261,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:617</li>
+									<li>Defined in docs/temp/picturepark.d.ts:647</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Delete - single</p>
+									<p>Delete schema</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -273,18 +274,19 @@
 								<li>
 									<h5>schemaId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The schema id.</p>
+										<p>The schema ID.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) Maximum time to wait for the operation to complete.</p>
+										<p>(optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+										Only the waiting is aborted, and the calls returned.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadeleteresult.html" class="tsd-signature-type">SchemaDeleteResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>SchemaDeleteResult</p>
+							<p>Schema delete result</p>
 						</li>
 					</ul>
 				</section>
@@ -298,12 +300,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:654</li>
+									<li>Defined in docs/temp/picturepark.d.ts:685</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Exists</p>
+									<p>Exists schema</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -311,18 +313,18 @@
 								<li>
 									<h5>schemaId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The schema id.</p>
+										<p>The schema ID.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fieldId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) The optional field id.</p>
+										<p>(optional) The optional field ID.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.existsresponse.html" class="tsd-signature-type">ExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>ExistsResponse</p>
+							<p>Exists response</p>
 						</li>
 					</ul>
 				</section>
@@ -336,12 +338,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:600</li>
+									<li>Defined in docs/temp/picturepark.d.ts:628</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get - single</p>
+									<p>Get schema</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -349,12 +351,12 @@
 								<li>
 									<h5>schemaId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The schema id.</p>
+										<p>The schema ID.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadetail.html" class="tsd-signature-type">SchemaDetail</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>SchemaDetail</p>
+							<p>Schema detail</p>
 						</li>
 					</ul>
 				</section>
@@ -392,12 +394,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:646</li>
+									<li>Defined in docs/temp/picturepark.d.ts:677</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get index fields</p>
+									<p>Search index fields</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -405,7 +407,7 @@
 								<li>
 									<h5>request: <a href="../interfaces/_picturepark_.indexfieldssearchbyschemaidsrequest.html" class="tsd-signature-type">IndexFieldsSearchBySchemaIdsRequest</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The get request.</p>
+										<p>The search request.</p>
 									</div>
 								</li>
 							</ul>
@@ -424,12 +426,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:624</li>
+									<li>Defined in docs/temp/picturepark.d.ts:654</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get - many</p>
+									<p>Get multiple schemas</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -437,12 +439,12 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> ids: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) Comma separated list of schema ids</p>
+										<p>(optional) Comma separated list of schema IDs.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadetail.html" class="tsd-signature-type">SchemaDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>SchemaDetail</p>
+							<p>List of schema details</p>
 						</li>
 					</ul>
 				</section>
@@ -456,12 +458,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:639</li>
+									<li>Defined in docs/temp/picturepark.d.ts:670</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Search</p>
+									<p>Search schemas</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -474,7 +476,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemasearchresult.html" class="tsd-signature-type">SchemaSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>Schema result set.</p>
+							<p>Schema search result</p>
 						</li>
 					</ul>
 				</section>
@@ -512,12 +514,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:609</li>
+									<li>Defined in docs/temp/picturepark.d.ts:638</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Update - single</p>
+									<p>Update schema</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -525,7 +527,7 @@
 								<li>
 									<h5>schemaId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The schema id.</p>
+										<p>The schema ID.</p>
 									</div>
 								</li>
 								<li>
@@ -537,12 +539,13 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> timeout: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) Maximum time to wait for the operation to complete.</p>
+										<p>(optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
+										Only the waiting is aborted, and the calls returned.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemaupdateresult.html" class="tsd-signature-type">SchemaUpdateResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>SchemaUpdateResult containing the updated schema</p>
+							<p>Schema update result, containing the updated schema</p>
 						</li>
 					</ul>
 				</section>

@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Request to batch update contents&#39; fields based on content IDs</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -107,43 +114,43 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.metadatavalueschangerequestbase.html">MetadataValuesChangeRequestBase</a>.<a href="_picturepark_.metadatavalueschangerequestbase.html#allowmissingdependencies">allowMissingDependencies</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2546</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2962</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Allow storing references to missing list items / contents</p>
+							<p>Allows updating contents with references to list items or contents that do not exist in the system.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="changecommands" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change<wbr>Commands</h3>
-					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.metadatavalueschangecommandbase.html" class="tsd-signature-type">MetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>change<wbr>Commands</h3>
+					<div class="tsd-signature tsd-kind-icon">change<wbr>Commands<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.metadatavalueschangecommandbase.html" class="tsd-signature-type">MetadataValuesChangeCommandBase</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.metadatavalueschangerequestbase.html">MetadataValuesChangeRequestBase</a>.<a href="_picturepark_.metadatavalueschangerequestbase.html#changecommands">changeCommands</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2544</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2960</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A container for all change commads.</p>
+							<p>Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="contentids" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>content<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2552</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2969</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The ids of the content documents.</p>
+							<p>The IDs of the contents whose fields need to be updated.</p>
 						</div>
 					</div>
 				</section>
@@ -154,12 +161,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.metadatavalueschangerequestbase.html">MetadataValuesChangeRequestBase</a>.<a href="_picturepark_.metadatavalueschangerequestbase.html#notifyprogress">notifyProgress</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2548</li>
+							<li>Defined in docs/temp/picturepark.d.ts:2964</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Create notification and notify on progress</p>
+							<p>Create a progress notification and notify on progress. Notifications are shown in the UI only to the same use who triggered the batch update.</p>
 						</div>
 					</div>
 				</section>

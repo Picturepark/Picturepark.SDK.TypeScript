@@ -95,7 +95,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
             detail: o.detail
           }
         });
-        let previewOutput = outputs.filter(o => o.outputFormatId === 'Preview')[0];
+        let previewOutput = outputs.find(o => o.outputFormatId === 'Preview');
 
         // find best original output
         let originalOutput: {
@@ -107,32 +107,30 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           detail: picturepark.OutputDataBase;
         };
 
-        for (let ofi of ["Pdf", "VideoLarge", "VideoMedium", "AudioSmall", "Original", "Preview"]) {
-          originalOutput = outputs.filter(o => o.outputFormatId === ofi)[0];
-          if (originalOutput)
-            break;
-        }
-        // TODO: Use VideoLarge AND VideoMedium
+        originalOutput = outputs.find(o => o.outputFormatId === "Original");
 
+        var pdfOutput = s.outputs.find(i => i.outputFormatId === "Pdf");
         return {
           id: s.id,
           index: index++,
           displayValues: s.displayValues,
           detail: originalOutput ? originalOutput.detail : null,
 
-          isMovie: originalOutput ? PictureparkPlayers.videoExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
-          isImage: originalOutput ? PictureparkPlayers.imageExtensions.indexOf(originalOutput.fileExtension) !== -1 : false,
-          isPdf: originalOutput ? originalOutput.fileExtension === '.pdf' : false,
+          isMovie: s.contentSchemaId === "VideoMetadata",
+          isImage: s.contentSchemaId === "ImageMetadata",
+          isPdf: pdfOutput !== undefined,
           isBinary: s.contentType !== "ContentItem" as any,
 
-          previewUrl: previewOutput ? previewOutput.viewUrl : null,
-          previewContentId: previewOutput ? previewOutput.contentId : null,
+          previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput ? originalOutput.viewUrl : null,
           previewOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
 
           originalUrl: originalOutput ? originalOutput.downloadUrl : null,
-          originalContentId: originalOutput ? originalOutput.contentId : null,
           originalOutputFormatId: originalOutput ? originalOutput.outputFormatId : null,
-          originalFileExtension: originalOutput ? originalOutput.fileExtension : null,
+
+          pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
+          videoUrl: 
+            s.outputs.find(i => i.outputFormatId === "VideoLarge") ? s.outputs.find(i => i.outputFormatId === "VideoLarge").downloadUrl :
+            s.outputs.find(i => i.outputFormatId === "VideoSmall") ? s.outputs.find(i => i.outputFormatId === "VideoSmall").downloadUrl : null,
           outputs: outputs
         };
       })

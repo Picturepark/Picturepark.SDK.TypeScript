@@ -9,6 +9,7 @@
 .container {
   display: flex;
   position: absolute;
+  background: whitesmoke;
   top: 64px;
   bottom: 64px;
   left: 0;
@@ -18,6 +19,8 @@
 .filters {
   width: 550px;
   max-width: 100%;
+  background: whitesmoke;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .content {

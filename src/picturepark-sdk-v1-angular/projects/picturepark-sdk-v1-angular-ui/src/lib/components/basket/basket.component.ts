@@ -2,22 +2,21 @@ import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import { ContentService, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
 import { BasketService } from '../../services/basket.service';
-import { Subscription } from 'rxjs';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'pp-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
-export class BasketComponent implements OnDestroy {
+export class BasketComponent extends BaseComponent {
   public basketItems: string[] = [];
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
-  private subscription: Subscription = new Subscription();
-
   constructor(private contentService: ContentService, private basketService: BasketService) {
+    super();
     const basketSubscription = this.basketService.basketChange.subscribe((items) => this.basketItems = items);
     this.subscription.add(basketSubscription);
   }
@@ -45,11 +44,5 @@ export class BasketComponent implements OnDestroy {
 
   public trackByBasket(index, basket: string) {
     return basket;
-  }
-
-  public ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
