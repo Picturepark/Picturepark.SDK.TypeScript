@@ -113,6 +113,7 @@ describe('ContentService', () => {
       expect(response!.aggregationResults!.length).toBeGreaterThan(0);
     })));
 
+  /*
   it('should return some aggregations for RootChannel', async(inject([ContentService],
     async (contentService: ContentService) => {
       // arrange
@@ -128,4 +129,5 @@ describe('ContentService', () => {
       // assert
       expect(response!.aggregationResults!.length).toBeGreaterThan(0);
     })));
+    */
 });
