@@ -63,8 +63,20 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   @Input()
   public filter: FilterBase | null = null;
 
+  @Input()
+  public activateImport = false;
+
+  @Input()
+  public activateExport = false;
+
   @Output()
   public previewItemChange = new EventEmitter<string>();
+
+  @Output()
+  public importChange = new EventEmitter();
+
+  @Output()
+  public exportChange = new EventEmitter();
 
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
@@ -178,6 +190,18 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       this.lastSelectedIndex = index;
       this.contentItemSelectionService.clear();
       this.contentItemSelectionService.addItem(itemModel.item.id || '');
+    }
+  }
+
+  public import() {
+    if (this.activateImport) {
+      this.importChange.emit();
+    }
+  }
+
+  public export() {
+    if (this.activateExport) {
+      this.exportChange.emit();
     }
   }
 

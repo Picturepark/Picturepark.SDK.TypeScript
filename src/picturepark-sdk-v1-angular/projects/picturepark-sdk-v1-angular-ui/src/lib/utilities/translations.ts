@@ -120,6 +120,12 @@ export let TRANSLATIONS = {
     },
     NoItemsActionSearchString: {
       en: 'Change your search string'
+    },
+    Import: {
+      en: 'Import'
+    },
+    Export: {
+      en: 'Export'
     }
   },
   ContentPicker: {

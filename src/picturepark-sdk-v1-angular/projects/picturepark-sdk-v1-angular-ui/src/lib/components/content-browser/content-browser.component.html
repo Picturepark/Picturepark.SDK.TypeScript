@@ -23,7 +23,16 @@
           <mat-icon aria-label="Download selected items">get_app</mat-icon>
         </button>
 
-        <div class="content-browser__spacer"></div>
+        <div class="content-browser__spacer">
+          <div class="icons">
+            <button mat-icon-button *ngIf="activateImport" [matTooltip]="'ContentBrowser.Import' | pptranslate" (click)="import()">
+              <mat-icon>open_in_browser</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="activateExport" [matTooltip]="'ContentBrowser.Export' | pptranslate" (click)="export()">
+              <mat-icon>save_alt</mat-icon>
+            </button>
+          </div>
+        </div>
         <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1"> {{ 'ContentBrowser.ItemsLength' | pptranslate:totalResults }} </span>
 
         <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
@@ -92,7 +101,7 @@
   <div *ngIf="totalResults !== 0" class="content-browser__items" [class.content-browser__items--list]="isListView" [class.content-browser__items--large]=" activeThumbnailSize === thumbnailSizes.Large"
        [class.content-browser__items--medium]=" activeThumbnailSize === thumbnailSizes.Medium">
     <div class="content-browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
-      <pp-content-browser-item  class="content-browser__item" [itemModel]="itemModel" (previewItemChange)="previewItem($event)"
+      <pp-content-browser-item class="content-browser__item" [itemModel]="itemModel" (previewItemChange)="previewItem($event)"
                                [thumbnailSize]="activeThumbnailSize" [isListView]="isListView" (click)="itemClicked($event,i)" (dblclick)="previewItem(itemModel.item.id)">
       </pp-content-browser-item>
     </div>
