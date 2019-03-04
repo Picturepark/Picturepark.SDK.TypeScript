@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
@@ -29,7 +29,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   // Aggregation filters states connected to aggregators by index.
   private aggregationFiltersStates: Array<AggregationFilter[]> = [];
 
-  public isLoading = true;
+  public isLoading = new BehaviorSubject(false);
 
   public aggregationResults: AggregationResult[] = [];
 
@@ -75,7 +75,8 @@ export abstract class AggregationListComponent extends BaseComponent implements 
       .pipe(filter((result) => result !== null))
       .subscribe((result: ObjectAggregationResult) => {
         this.processAggregationResults(result.aggregationResults || []);
-        this.isLoading = false;
+
+        this.isLoading.next(false);
       });
     this.subscription.add(fetchDataSubscription);
   }
@@ -105,13 +106,28 @@ export abstract class AggregationListComponent extends BaseComponent implements 
     this.aggregationResults = [];
 
     aggregationResults.forEach(aggregationResult => {
+      const nested = this.getNestedAggregator(aggregationResult);
       // tslint:disable-next-line:no-non-null-assertion
-      const aggregatorIndex = this.aggregators!.findIndex(aggregator => aggregator.name === aggregationResult.name);
+      const aggregatorIndex = this.aggregators!.findIndex(aggregator => {
+        return nested.name.indexOf(aggregator.name) !== -1;
+      });
 
       if (aggregatorIndex > -1) {
         this.aggregationResults[aggregatorIndex] = aggregationResult;
       }
     });
   }
-}
 
+  private getNestedAggregator(aggregation: AggregationResult): AggregationResult {
+    if (aggregation.aggregationResultItems) {
+      const filtered: AggregationResult[][] = aggregation.aggregationResultItems.filter(item => item.aggregationResults != null).map(m => m.aggregationResults as AggregationResult[]);
+      const aggs = filtered.reduce((acc, val) => acc.concat(val), [])
+
+      if (aggs.length === 1) {
+        return aggs[0];
+      }
+    }
+
+    return aggregation;
+  }
+}
