@@ -1,4 +1,4 @@
-<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="isExpanded && expandedAggregationResult?.aggregationResultItems?.length > 0" [disabled]="expandedAggregationResult?.aggregationResultItems?.length === 0">
+<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="isExpanded && expandedAggregationResult?.aggregationResultItems?.length > 0" [disabled]="!active">
   <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
     <mat-panel-title class="aggregation__title">
       <span>
@@ -39,7 +39,7 @@
         <mat-icon>add</mat-icon>
         {{ 'ContentAggregationList.ShowMoreFilters' | pptranslate }}
       </button>
-      <button mat-button *ngIf="expandedAggregationResult?.aggregationResultItems?.length > pagingSize" (click)="loadLess()">
+      <button mat-button *ngIf="showLess" (click)="loadLess()">
         <mat-icon>remove</mat-icon>
         {{ 'ContentAggregationList.ShowLessFilters' | pptranslate }}
       </button>
