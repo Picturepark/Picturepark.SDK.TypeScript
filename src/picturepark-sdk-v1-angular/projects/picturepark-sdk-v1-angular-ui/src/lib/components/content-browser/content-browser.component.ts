@@ -26,13 +26,13 @@ import { BaseComponent } from '../base.component';
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
   private lastSelectedIndex = 0;
 
+  private _totalResults: number | null = null;
+
   private readonly ItemsPerRequest = 50;
 
   private basketItems: string[] = [];
 
   public selectedItems: string[] = [];
-
-  public totalResults: number | null = null;
 
   public nextPageToken: string | undefined;
 
@@ -65,6 +65,18 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
+
+  @Output()
+  public totalResultsChange = new EventEmitter<number | null>();
+
+  get totalResults(): number | null {
+    return this._totalResults;
+  }
+
+  set totalResults(total: number | null) {
+    this._totalResults = total;
+    this.totalResultsChange.emit(total);
+  }
 
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
