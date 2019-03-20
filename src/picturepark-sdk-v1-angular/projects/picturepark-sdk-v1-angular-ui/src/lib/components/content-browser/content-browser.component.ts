@@ -28,11 +28,11 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   private _totalResults: number | null = null;
 
+  private _selectedItems: string[] = [];
+
   private readonly ItemsPerRequest = 50;
 
   private basketItems: string[] = [];
-
-  public selectedItems: string[] = [];
 
   public nextPageToken: string | undefined;
 
@@ -69,6 +69,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   @Output()
   public totalResultsChange = new EventEmitter<number | null>();
 
+  @Output()
+  public selectedItemsChange = new EventEmitter<string[]>();
+
   get totalResults(): number | null {
     return this._totalResults;
   }
@@ -76,6 +79,15 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   set totalResults(total: number | null) {
     this._totalResults = total;
     this.totalResultsChange.emit(total);
+  }
+
+  get selectedItems(): string[] {
+    return this._selectedItems;
+  }
+
+  set selectedItems(items: string[]) {
+    this._selectedItems = items;
+    this.selectedItemsChange.emit(items);
   }
 
   constructor(
