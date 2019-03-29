@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {
-  ContentService,
-  ContentDetail, ContentResolveBehavior, ContentDownloadLinkCreateRequest, Output
+  ContentService, ContentResolveBehavior, ContentDownloadLinkCreateRequest, InfoService
 } from '@picturepark/sdk-v1-angular';
-import { map } from 'rxjs/operators';
 import { BaseComponent } from '../base.component';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'pp-output-download-menu',
@@ -13,16 +12,22 @@ import { BaseComponent } from '../base.component';
 })
 export class OutputDownloadMenuComponent extends BaseComponent implements OnInit {
   @Input() public id: string;
-  @Input() public formats: string[];
-  @Input() public overlapTrigger: boolean = false;
+  @Input() public formats: {
+    outputFormatId: string;
+    name: string;
+  }[];
+  @Input() public overlapTrigger = false;
   // possible values  'above' | 'below'
-  @Input() public yPosition: string = 'above';
+  @Input() public yPosition = 'above';
   // possible values 'before' | 'after'
-  @Input() public xPosition: string = 'before';
+  @Input() public xPosition = 'before';
 
-  public outputFormats: string[];
+  public outputFormats: {
+    outputFormatId: string;
+    name: string;
+  }[];
 
-  constructor(private contentService: ContentService) {
+  constructor(private contentService: ContentService, private translationService: TranslationService) {
     super();
   }
 
@@ -32,21 +37,22 @@ export class OutputDownloadMenuComponent extends BaseComponent implements OnInit
     }
   }
 
-  public getOutputFormats() {
+  public async getOutputFormats() {
+    if (this.outputFormats) {
+      return;
+    }
+
     if (this.formats) {
       this.outputFormats = this.formats;
-    }
-    else {
-      const sub = this.contentService.get(this.id,
-        [ContentResolveBehavior.Outputs]).pipe(
-          map((contentDetail: ContentDetail) => contentDetail.outputs),
-          map((outputs: (Output[] | undefined)) => outputs && outputs.map(o => o.outputFormatId))
-        )
-        .subscribe((outputFormatIds: string[]) => {
-          this.outputFormats = outputFormatIds;
-        });
-
-      this.subscription.add(sub);
+    } else {
+      const content = await this.contentService.get(this.id, [ContentResolveBehavior.Outputs]).toPromise();
+      const translations = await this.translationService.getOutputFormatTranslations();
+      this.outputFormats = content!.outputs!.map(i => {
+        return {
+          outputFormatId: i.outputFormatId,
+          name: translations[i.outputFormatId]
+        };
+      });
     }
   }
 
@@ -64,7 +70,7 @@ export class OutputDownloadMenuComponent extends BaseComponent implements OnInit
     this.subscription.add(createDownloadSubscription);
   }
 
-  public trackByFormat(index, format: string) {
-    return format;
+  public trackByFormat(index, format: {outputFormatId: string, name: string}) {
+    return format.outputFormatId;
   }
 }
