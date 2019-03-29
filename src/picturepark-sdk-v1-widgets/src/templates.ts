@@ -135,6 +135,8 @@ export class PictureparkTemplates {
           <div class="picturepark-widget-gallery-item picturepark-widget-gallery-item-{{id}}" style="float: left; width: {{ config.width }}px; height: {{ config.height }}px">
             {% if selection.isMovie and config.showPlayers == true %}
               <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}"></video>
+            {% elsif selection.isAudio and config.showPlayers == true %}
+              <audio class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}"></audio>
             {% else %}
               {% if selection.isBinary == false %}
                 <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
@@ -272,13 +274,14 @@ export class PictureparkTemplates {
           <div id="gallery_{{ id }}" style="height: {{ height }}px; width: {{ width }}px; position: relative">
             {% for selection in share.items %}
             <div class="picturepark-widget-card-gallery picturepark-widget-card-gallery-{{id}}"
-                {% if forloop.first == false %}style="display: none"{% endif %}>
-              {% if selection.isMovie and config.showPlayers != false %}
-              <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}">
-              </video>
-              {% else %}
+            {% if forloop.first == false %}style="display: none"{% endif %}>
+            {% if selection.isMovie and config.showPlayers != false %}
+              <video class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}"></video>
+            {% elsif selection.isAudio and config.showPlayers != false %}
+              <audio class="video-js" id="vjsplayer_{{ forloop.index0 }}_{{ id }}"></audio>
+            {% else %}
               <a href="javascript:void(0)" onclick="javascript:pictureparkWidgets.players.showDetail('{{ config.token }}', '{{ selection.id }}', '{{ id }}')">
-               {% if selection.isBinary == false %}
+              {% if selection.isBinary == false %}
                 <div class="picturepark-widget-gallery-item-thumbnail picturepark-widget-gallery-item-thumbnail-{{id}}">{{ selection.displayValues.thumbnail }}</div>
               {% else %}
                 <img class="picturepark-widget-gallery-item-image picturepark-widget-gallery-item-image-{{id}}" src="{% resizeById selection.id 'Preview' width height %}" />

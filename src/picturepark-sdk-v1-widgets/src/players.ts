@@ -82,7 +82,7 @@ export class PictureparkPlayers {
     if (shareItem.isPdf && shareItems.length === 1) {
       this.showPdfJsItem(shareItem);
       PictureparkPlayers.loading = false;
-    } else if (shareItem.isImage || shareItem.isMovie || shareItem.isPdf || !shareItem.isBinary) {
+    } else if (shareItem.isImage || shareItem.isMovie || shareItem.isAudio || shareItem.isPdf || !shareItem.isBinary) {
       let savedOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       this.showPhotoSwipeItem(shareItem, shareItems, widgetId ? 'gallery_' + widgetId : undefined).then(() => {
@@ -123,7 +123,7 @@ export class PictureparkPlayers {
     if (playerInfo) {
       return playerInfo.promise.then(player => {
         let element = document.getElementById(playerInfo.element);
-        if (!element || !element.tagName || element.tagName.toLowerCase() === 'video') {
+          if (!element || !element.tagName || element.tagName.toLowerCase() === 'video' || element.tagName.toLowerCase() === 'audio') {
           if (player) {
             PictureparkPlayers.disposeVideoPlayer(player);
           }
@@ -167,7 +167,10 @@ export class PictureparkPlayers {
           resolve(player);
         });
 
-        player.src({ type: 'video/mp4', src: item.videoUrl });
+          player.src({
+              type: item.isMovie ? 'video/mp4' : 'audio/mp3',
+              src: item.isMovie ? item.videoUrl : item.audioUrl
+          });
         return player;
       });
     });
@@ -247,6 +250,11 @@ export class PictureparkPlayers {
             html: '<video class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></video>',
             origin: i.originalUrl
           };
+        } else if (i.isAudio) {
+          return {
+            html: '<audio class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></audio>',
+            origin: i.originalUrl
+          };
         } else if (!i.isBinary) {
           return {
             html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + i.displayValues.detail + '</div>',
@@ -280,11 +288,11 @@ export class PictureparkPlayers {
       var resizeCallbacks = [];
       var loadedPlayers = [];
 
-      if (shareItems.filter(i => i.isMovie || i.isPdf).length > 0) {
+      if (shareItems.filter(i => i.isMovie || i.isAudio || i.isPdf).length > 0) {
         var updatePlayers = () => {
-          if (shareItems.filter(i => i.isMovie).length > 0) {
+          if (shareItems.filter(i => i.isMovie || i.isAudio).length > 0) {
             PictureparkPlayers.loadVideoPlayerLibraries().then(() => {
-              for (let item of shareItems.filter(i => i.isMovie)) {
+              for (let item of shareItems.filter(i => i.isMovie || i.isAudio)) {
                 let elementId = "vjsplayer_" + item.id;
                 let element = document.getElementById(elementId);
                 if (element) {
@@ -449,6 +457,7 @@ interface IShareItem {
   isImage: boolean;
   isPdf: boolean;
   isMovie: boolean;
+  isAudio: boolean;
   isBinary: boolean;
 
   displayValues: any;
@@ -456,6 +465,7 @@ interface IShareItem {
 
   originalUrl: string;
   videoUrl: string;
+  audioUrl: string;
   pdfUrl: string;
 
   detail: {
