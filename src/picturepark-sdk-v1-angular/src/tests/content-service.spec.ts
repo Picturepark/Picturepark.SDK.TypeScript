@@ -6,7 +6,8 @@ import {
   ThumbnailSize, ContentAggregationRequest,
   ContentAggregationOnChannelRequest,
   SearchBehavior,
-  TermsAggregator
+  TermsAggregator,
+  TermFilter
 } from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
 
@@ -50,8 +51,11 @@ describe('ContentService', () => {
 
       // act
       const request = new ContentSearchRequest();
-      request.searchString = 'm';
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
+      request.filter = new TermFilter({
+         field: 'contentType',
+         term: 'Bitmap'
+      });
 
       const response = await contentService.search(request).toPromise();
       const result = await contentService.download(response!.results![0].id!, 'Original', 100, 100, null).toPromise();
