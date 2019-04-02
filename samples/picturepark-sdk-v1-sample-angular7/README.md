@@ -1,4 +1,4 @@
-# PictureparkSdkV1SampleAngular6
+# PictureparkSdkV1SampleAngular7
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.5.
 

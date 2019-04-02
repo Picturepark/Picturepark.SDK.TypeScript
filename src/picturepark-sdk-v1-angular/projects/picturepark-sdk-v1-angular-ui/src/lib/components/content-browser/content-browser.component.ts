@@ -26,13 +26,15 @@ import { BaseComponent } from '../base.component';
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
   private lastSelectedIndex = 0;
 
+  private _totalResults: number | null = null;
+
+  private _selectedItems: string[] = [];
+
   private readonly ItemsPerRequest = 50;
 
   private basketItems: string[] = [];
 
-  public selectedItems: string[] = [];
-
-  public totalResults: number | null = null;
+  public nextPageToken: string | undefined;
 
   public isLoading = false;
 
@@ -63,6 +65,30 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
+
+  @Output()
+  public totalResultsChange = new EventEmitter<number | null>();
+
+  @Output()
+  public selectedItemsChange = new EventEmitter<string[]>();
+
+  get totalResults(): number | null {
+    return this._totalResults;
+  }
+
+  set totalResults(total: number | null) {
+    this._totalResults = total;
+    this.totalResultsChange.emit(total);
+  }
+
+  get selectedItems(): string[] {
+    return this._selectedItems;
+  }
+
+  set selectedItems(items: string[]) {
+    this._selectedItems = items;
+    this.selectedItemsChange.emit(items);
+  }
 
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
@@ -119,6 +145,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   public update() {
     this.totalResults = null;
+    this.nextPageToken = undefined;
     this.items = [];
     this.loadData();
   }
@@ -184,7 +211,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
       const request = new ContentSearchRequest({
         debugMode: false,
-        start: this.items.length,
+        pageToken: this.nextPageToken,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         filter: this.filter ? this.filter : undefined,
         channelId: this.channel.id,
@@ -202,6 +229,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
       const searchSubscription = this.contentService.search(request).subscribe(searchResult => {
         this.totalResults = searchResult.totalResults;
+        this.nextPageToken = searchResult.pageToken;
 
         if (searchResult.results) {
           this.items.push(...searchResult.results.map(item => {

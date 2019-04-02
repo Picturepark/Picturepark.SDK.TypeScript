@@ -22,7 +22,7 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const channelSubscription = this.channelService.getChannels().subscribe(
+    const channelSubscription = this.channelService.getAll().subscribe(
       (channels) => {
         this.channels = channels;
 
@@ -49,5 +49,5 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   public trackByChannel(index, channel: Channel) {
     return channel.id;
-  } 
+  }
 }

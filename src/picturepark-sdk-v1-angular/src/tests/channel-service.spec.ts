@@ -12,7 +12,7 @@ describe('ChannelService', () => {
     // arrange
 
     // act
-    const channels = await channelService.getChannels().toPromise();
+    const channels = await channelService.getAll().toPromise();
 
     // assert
     expect(channels.length).toBeGreaterThanOrEqual(1);
@@ -23,7 +23,7 @@ describe('ChannelService', () => {
     // arrange
 
     // act
-    const channels = await channelService.getChannels().toPromise();
+    const channels = await channelService.getAll().toPromise();
     const channel = channels[0];
 
     // assert

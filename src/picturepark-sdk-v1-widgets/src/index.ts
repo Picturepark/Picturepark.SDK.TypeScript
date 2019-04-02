@@ -117,6 +117,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           detail: originalOutput ? originalOutput.detail : null,
 
           isMovie: s.contentSchemaId === "VideoMetadata",
+          isAudio: s.contentSchemaId === "AudioMetadata",
           isImage: s.contentSchemaId === "ImageMetadata",
           isPdf: pdfOutput !== undefined,
           isBinary: s.contentType !== "ContentItem" as any,
@@ -131,6 +132,8 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           videoUrl: 
             s.outputs.find(i => i.outputFormatId === "VideoLarge") ? s.outputs.find(i => i.outputFormatId === "VideoLarge").downloadUrl :
             s.outputs.find(i => i.outputFormatId === "VideoSmall") ? s.outputs.find(i => i.outputFormatId === "VideoSmall").downloadUrl : null,
+          audioUrl: 
+            s.outputs.find(i => i.outputFormatId === "AudioSmall") ? s.outputs.find(i => i.outputFormatId === "AudioSmall").downloadUrl : null,
           outputs: outputs
         };
       })
@@ -158,7 +161,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
 
       // Load movie players
       for (let item of share.items) {
-        if (item.isMovie) {
+        if (item.isMovie || item.isAudio) {
           let elementId = 'vjsplayer_' + item.index + "_" + id;
           setTimeout(() => {
             let element = document.getElementById(elementId);

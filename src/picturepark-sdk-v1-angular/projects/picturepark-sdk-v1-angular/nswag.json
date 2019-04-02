@@ -1,5 +1,6 @@
-{
+﻿{
   "runtime": "Default",
+  "defaultVariables": null,
   "swaggerGenerator": {
     "fromSwagger": {
       "json": "",
@@ -12,7 +13,7 @@
       "className": "{controller}Service",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 2.0,
+      "typeScriptVersion": 2.7,
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
@@ -24,9 +25,11 @@
       "generateClientClasses": true,
       "generateClientInterfaces": false,
       "generateOptionalParameters": false,
+      "exportTypes": true,
       "wrapDtoExceptions": false,
       "clientBaseClass": "PictureparkServiceBase",
       "wrapResponses": false,
+      "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "protectedMethods": [],
@@ -38,6 +41,7 @@
       "markOptionalProperties": true,
       "generateCloneMethod": false,
       "typeStyle": "Class",
+      "classTypes": [],
       "extendedClasses": [
         "TranslatedStringDictionary",
         "FilterBase",
@@ -54,7 +58,13 @@
       "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "PICTUREPARK_API_URL",
       "queryNullValue": "",
+      "inlineNamedDictionaries": false,
+      "templateDirectory": null,
+      "typeNameGeneratorType": null,
+      "propertyNameGeneratorType": null,
+      "enumNameGeneratorType": null,
       "serviceHost": ".",
+      "serviceSchemes": null,
       "output": "src/lib/api-services.ts"
     }
   }

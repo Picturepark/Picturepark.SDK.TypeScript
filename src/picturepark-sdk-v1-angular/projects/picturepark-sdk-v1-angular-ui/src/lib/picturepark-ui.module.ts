@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 // Angular material dependencies
 import { MatMenuModule } from '@angular/material/menu';
@@ -54,15 +53,14 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     BasketItemComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
-    LazyLoadDirective
+    LazyLoadDirective,
   ],
   providers: [
     ContentItemSelectionService,
     BasketService
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
@@ -89,7 +87,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ContentAggregationListComponent,
     BasketComponent,
     OutputDownloadMenuComponent,
-    TranslatePipe
+    TranslatePipe,
+    CommonModule,
   ]
 })
 export class PictureparkUiModule {
