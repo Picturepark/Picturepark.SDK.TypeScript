@@ -1,8 +1,8 @@
 <mat-menu #downloadmenu="matMenu" [overlapTrigger]="overlapTrigger" [yPosition]="yPosition" [xPosition]="xPosition">
   <ng-template matMenuContent>
-    <button mat-menu-item *ngFor="let format of outputFormats; trackBy: trackByFormat" (click)="download(format)">
+    <button mat-menu-item *ngFor="let format of outputFormats; trackBy: trackByFormat" (click)="download(format.outputFormatId)">
       <mat-icon aria-label="Download content item">get_app</mat-icon>
-      <span>{{format}}</span>
+      <span>{{format.name}}</span>
     </button>
   </ng-template>
 </mat-menu>

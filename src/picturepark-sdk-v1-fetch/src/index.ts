@@ -472,10 +472,10 @@ export class ChannelClient extends PictureparkClientBase {
     }
 
     /**
-     * Get channels
+     * Get all channels
      * @return List of channel
      */
-    getChannels(): Promise<Channel[]> {
+    getAll(): Promise<Channel[]> {
         let url_ = this.baseUrl + "/v1/channels";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -489,11 +489,11 @@ export class ChannelClient extends PictureparkClientBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processGetChannels(_response);
+            return this.processGetAll(_response);
         });
     }
 
-    protected processGetChannels(response: Response): Promise<Channel[]> {
+    protected processGetAll(response: Response): Promise<Channel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -544,6 +544,325 @@ export class ChannelClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<Channel[]>(<any>null);
+    }
+
+    /**
+     * Create channel
+     * @param request The request containing information needed to create new channel.
+     * @return Channel
+     */
+    create(request: ChannelCreateRequest): Promise<Channel> {
+        let url_ = this.baseUrl + "/v1/channels";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreate(_response);
+        });
+    }
+
+    protected processCreate(response: Response): Promise<Channel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Channel>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Channel>(<any>null);
+    }
+
+    /**
+     * Get channel
+     * @param id The channel ID.
+     * @return Channel
+     */
+    get(id: string): Promise<Channel> {
+        let url_ = this.baseUrl + "/v1/channels/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<Channel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Channel>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Channel>(<any>null);
+    }
+
+    /**
+     * Update channel
+     * @param id ID of channel to update
+     * @param request The request containing information needed to update the channel.
+     * @return Updated channel
+     */
+    update(id: string, request: ChannelUpdateRequest): Promise<Channel> {
+        let url_ = this.baseUrl + "/v1/channels/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdate(_response);
+        });
+    }
+
+    protected processUpdate(response: Response): Promise<Channel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Channel>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Channel>(<any>null);
+    }
+
+    /**
+     * Delete channel
+     * @param id ID of the channel that should be deleted.
+     * @return OK
+     */
+    delete(id: string): Promise<void> {
+        let url_ = this.baseUrl + "/v1/channels/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDelete(_response);
+        });
+    }
+
+    protected processDelete(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
     }
 }
 
@@ -6232,6 +6551,86 @@ export class OutputClient extends PictureparkClientBase {
         }
         return Promise.resolve<OutputDetail>(<any>null);
     }
+
+    /**
+     * Resets retry attempts counter on failed (optionally also completed) outputs and they will be subsequently picked up for re-rendering.
+     * @param request Request containing options to filter which outputs should be reset.
+     * @return Business process tracking the resetting
+     */
+    resetRetryAttempts(request: OutputResetRetryAttemptsRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputs/resetRetryAttempts";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processResetRetryAttempts(_response);
+        });
+    }
+
+    protected processResetRetryAttempts(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
 }
 
 export class OutputFormatClient extends PictureparkClientBase {
@@ -6569,11 +6968,9 @@ export class OutputFormatClient extends PictureparkClientBase {
      * @param ids (optional) Output format IDs to get information about
      * @return Output formats
      */
-    getMany(ids?: string[] | undefined): Promise<OutputFormat[]> {
+    getMany(ids?: string[] | null | undefined): Promise<OutputFormat[]> {
         let url_ = this.baseUrl + "/v1/outputFormats?";
-        if (ids === null)
-            throw new Error("The parameter 'ids' cannot be null.");
-        else if (ids !== undefined)
+        if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7709,16 +8106,13 @@ export class SchemaClient extends PictureparkClientBase {
     /**
      * Exists schema
      * @param schemaId The schema ID.
-     * @param fieldId (optional) The optional field ID.
-     * @return Exists response
+     * @return Schema Exists response
      */
-    exists(schemaId: string, fieldId?: string | null | undefined): Promise<ExistsResponse> {
-        let url_ = this.baseUrl + "/v1/schemas/{schemaId}/exists?";
+    exists(schemaId: string): Promise<SchemaExistsResponse> {
+        let url_ = this.baseUrl + "/v1/schemas/{schemaId}/exists";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
         url_ = url_.replace("{schemaId}", encodeURIComponent("" + schemaId)); 
-        if (fieldId !== undefined)
-            url_ += "fieldId=" + encodeURIComponent("" + fieldId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -7735,13 +8129,13 @@ export class SchemaClient extends PictureparkClientBase {
         });
     }
 
-    protected processExists(response: Response): Promise<ExistsResponse> {
+    protected processExists(response: Response): Promise<SchemaExistsResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <ExistsResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <SchemaExistsResponse>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7785,7 +8179,90 @@ export class SchemaClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ExistsResponse>(<any>null);
+        return Promise.resolve<SchemaExistsResponse>(<any>null);
+    }
+
+    /**
+     * Exists field in schema
+     * @param schemaId The schema ID.
+     * @param fieldId The field ID.
+     * @return Field Exists response
+     */
+    fieldExists(schemaId: string, fieldId: string): Promise<FieldExistsResponse> {
+        let url_ = this.baseUrl + "/v1/schemas/{schemaId}/{fieldId}/exists";
+        if (schemaId === undefined || schemaId === null)
+            throw new Error("The parameter 'schemaId' must be defined.");
+        url_ = url_.replace("{schemaId}", encodeURIComponent("" + schemaId)); 
+        if (fieldId === undefined || fieldId === null)
+            throw new Error("The parameter 'fieldId' must be defined.");
+        url_ = url_.replace("{fieldId}", encodeURIComponent("" + fieldId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processFieldExists(_response);
+        });
+    }
+
+    protected processFieldExists(response: Response): Promise<FieldExistsResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <FieldExistsResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FieldExistsResponse>(<any>null);
     }
 
     /**
@@ -12721,6 +13198,14 @@ export interface IllegalAuthorizationStateTransitionException extends Picturepar
 export interface TermsOfServiceConsentRequiredException extends PictureparkForbiddenException {
 }
 
+export interface PictureparkNotFoundException extends PictureparkBusinessException {
+    reference?: string | undefined;
+}
+
+export interface UserRolesNotFoundException extends PictureparkNotFoundException {
+    userRoleIds?: string[] | undefined;
+}
+
 export interface RenderingException extends PictureparkBusinessException {
 }
 
@@ -12738,10 +13223,6 @@ export interface ServiceProviderNotFoundException extends PictureparkException {
     missingServiceProviderId?: string | undefined;
 }
 
-export interface PictureparkNotFoundException extends PictureparkBusinessException {
-    reference?: string | undefined;
-}
-
 export interface DocumentVersionNotFoundException extends PictureparkNotFoundException {
     documentType?: string | undefined;
     documentId?: string | undefined;
@@ -12749,6 +13230,9 @@ export interface DocumentVersionNotFoundException extends PictureparkNotFoundExc
 }
 
 export interface DefaultChannelDeleteException extends PictureparkValidationException {
+}
+
+export interface ChannelsNotFoundException extends PictureparkNotFoundException {
 }
 
 export interface ElasticVersionUpdateException extends PictureparkException {
@@ -12798,6 +13282,15 @@ export interface OutputNotFoundException extends PictureparkBusinessException {
 }
 
 export interface UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException {
+}
+
+export interface NotSupportedFileMappingException extends PictureparkValidationException {
+}
+
+export interface NotSupportedFileExtensionException extends PictureparkValidationException {
+}
+
+export interface DuplicateOutputFormatIdException extends PictureparkValidationException {
 }
 
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
@@ -12904,6 +13397,9 @@ export interface CustomerNotFoundException extends PictureparkException {
 
 export interface CustomerNotActiveException extends PictureparkException {
     customerId?: string | undefined;
+}
+
+export interface CustomerBoostValuesInvalidException extends PictureparkValidationException {
 }
 
 export interface ConfigurationIndexNotFoundException extends PictureparkException {
@@ -13085,7 +13581,7 @@ export enum ContentRight {
     View = <any>"View", 
     AccessOriginal = <any>"AccessOriginal", 
     EditMetadata = <any>"EditMetadata", 
-    ReplaceFile = <any>"ReplaceFile", 
+    EditContent = <any>"EditContent", 
     ManagePermissions = <any>"ManagePermissions", 
     Delete = <any>"Delete", 
 }
@@ -13105,6 +13601,13 @@ export enum MetadataRight {
 export interface SchemaPermissionException extends PictureparkValidationException {
     schemaId?: string | undefined;
     metadataRight: MetadataRight;
+}
+
+/** This exception is an abstract base for permission set validation. */
+export interface PermissionSetValidationException extends PictureparkValidationException {
+}
+
+export interface PermissionSetInvalidRightCombinationException extends PermissionSetValidationException {
 }
 
 export interface UnsupportedListItemChangeCommandException extends PictureparkValidationException {
@@ -13165,6 +13668,18 @@ export interface TransferNotFoundException extends PictureparkNotFoundException 
 export interface WrongChunkSizeException extends PictureparkValidationException {
     actual: number;
     expected: number;
+}
+
+export interface ChunkSizeOutOfRangeException extends PictureparkValidationException {
+    actual: number;
+    minimum: number;
+    maximum: number;
+}
+
+export interface MaximumTransferSizeException extends PictureparkException {
+    transferSize: number;
+    maximumTransferSize: number;
+    transferId?: string | undefined;
 }
 
 export interface MissingDependenciesException extends PictureparkValidationException {
@@ -13236,7 +13751,17 @@ export interface AggregationSizeInvalidException extends PictureparkValidationEx
     aggregationSize: number;
 }
 
+export interface AggregationFilterNotSupportedException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+    notSupportedFilterType?: string | undefined;
+    supportedFilterTypes?: string[] | undefined;
+}
+
 export interface RelationTypeMissingException extends PictureparkBusinessException {
+}
+
+export interface ReferencesUpdateException extends PictureparkBusinessException {
+    exceptions?: ReferenceUpdateException[] | undefined;
 }
 
 export interface ReferenceUpdateException extends PictureparkBusinessException {
@@ -13265,6 +13790,18 @@ export interface SchemaFieldOverwriteIdException extends PictureparkValidationEx
 export interface SchemaFieldIdDuplicatedException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
+}
+
+export interface SchemaFieldIdPreviouslyUsedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    usedInSchemaId?: string | undefined;
+}
+
+export interface SchemaFieldIdAlreadyExistsInSchemaHierarchyException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    existingInSchemaId?: string | undefined;
 }
 
 export interface SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends PictureparkValidationException {
@@ -13337,11 +13874,6 @@ export interface SchemaInUseFieldException extends PictureparkValidationExceptio
     fieldNamespaces?: string[] | undefined;
 }
 
-export interface SchemaNotFoundInSearchIndexException extends PictureparkValidationException {
-    searchIndexId?: string | undefined;
-    schemaId?: string | undefined;
-}
-
 export interface DuplicateMetadataDisplayPatternException extends PictureparkValidationException {
     schemaId?: string | undefined;
     displayPatternId?: string | undefined;
@@ -13402,6 +13934,13 @@ export interface SchemaFieldNotSortableException extends PictureparkValidationEx
 export interface SchemaFieldNotSearchableException extends PictureparkValidationException {
     fieldId?: string | undefined;
     schemaId?: string | undefined;
+}
+
+export interface SchemaFieldInvalidBoostException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    boost: number;
+    allowedBoostValues?: number[] | undefined;
 }
 
 export interface SchemaNoContentException extends PictureparkValidationException {
@@ -13483,6 +14022,10 @@ export enum DisplayPatternType {
 }
 
 export interface SchemaViewForAllException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface SystemLayerReferenceInvalidModificationException extends PictureparkValidationException {
     schemaId?: string | undefined;
 }
 
@@ -13601,6 +14144,9 @@ export interface SnapshotTimeoutException extends PictureparkTimeoutException {
 export interface SnapshotFailedException extends PictureparkBusinessException {
 }
 
+export interface SnapshotSkippedException extends PictureparkBusinessException {
+}
+
 export interface AddMetadataLanguageTimeoutException extends PictureparkTimeoutException {
     environmentProcessId?: string | undefined;
 }
@@ -13613,6 +14159,7 @@ export enum EnvironmentProcessType {
     AddMetadataLanguage = <any>"AddMetadataLanguage", 
     CustomerUpdate = <any>"CustomerUpdate", 
     EnvironmentUpdate = <any>"EnvironmentUpdate", 
+    CustomerBoostValuesUpdate = <any>"CustomerBoostValuesUpdate", 
 }
 
 export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
@@ -13622,6 +14169,10 @@ export interface EnvironmentProcessNotFoundException extends PictureparkNotFound
 export interface EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException {
     environmentProcessId?: string | undefined;
     waitedLifecycles?: string | undefined;
+}
+
+export interface CustomerBoostValuesUpdateTimeoutException extends PictureparkTimeoutException {
+    environmentProcessId?: string | undefined;
 }
 
 export interface NoTermsOfServiceDefinedException extends PictureparkBusinessException {
@@ -13645,12 +14196,6 @@ export interface BusinessProcessLifeCycleNotHitException extends PictureparkTime
     actual: BusinessProcessLifeCycle;
 }
 
-export interface MaximumTransferSizeException extends PictureparkException {
-    transferSize: number;
-    maximumTransferSize: number;
-    transferId?: string | undefined;
-}
-
 export interface OnlyAccessibleToRecipientException extends PictureparkValidationException {
 }
 
@@ -13659,6 +14204,9 @@ export interface EnvironmentNotAvailableException extends PictureparkException {
 
 export interface CustomerNotAvailableException extends PictureparkException {
     customerId?: string | undefined;
+}
+
+export interface CustomerAliasHeaderMissingException extends PictureparkValidationException {
 }
 
 /** Search request to search for business processes */
@@ -13846,6 +14394,7 @@ export interface ParentFilter extends FilterBase {
 export enum SearchBehavior {
     DropInvalidCharactersOnFailure = <any>"DropInvalidCharactersOnFailure", 
     WildcardOnSingleTerm = <any>"WildcardOnSingleTerm", 
+    SimplifiedSearch = <any>"SimplifiedSearch", 
 }
 
 /** Result from waiting for life cycle(s) on a business process */
@@ -13991,9 +14540,6 @@ export interface Channel {
     sortOrder: number;
     /** The search index ID where the channel requests the content from. Only RootContentSearchIndex is supported. */
     searchIndexId: string;
-    /** An ID list of schemas with schema type content whose content documents should be found by the simple search.
-The search by filters and aggregations are unaffected. */
-    schemaIds: string[];
     /** An optional search filter. Limits the content document result set on each search and aggregation request. */
     filter?: FilterBase | undefined;
     /** Language specific names. */
@@ -14036,6 +14582,8 @@ export interface AggregatorBase {
     names?: TranslatedStringDictionary | undefined;
     /** An optional aggregator list for nested aggregations. */
     aggregators?: AggregatorBase[] | undefined;
+    /** An optional filter to limit the data set the aggregation is operation on. */
+    filter?: FilterBase | undefined;
 }
 
 /** A multi-bucket range aggregator dedicated for date values. */
@@ -14147,6 +14695,51 @@ export interface UserAudit {
     modifiedByUser?: string | undefined;
 }
 
+export interface ChannelCreateRequest {
+    id?: string | undefined;
+    sort?: SortInfo[] | undefined;
+    sortOrder: number;
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific names. */
+    searchIndexId?: string | undefined;
+    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+The search by filters and aggregations are unaffected. */
+    schemaIds?: string[] | undefined;
+    /** User roles granted access to the channel. */
+    grantedUserRoleIds?: string[] | undefined;
+    /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+    filter?: FilterBase | undefined;
+    /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+    extendedSimpleSearchFields?: string[] | undefined;
+    /** Display pattern to use for rendering details when 0 results are returned */
+    missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+}
+
+export interface ChannelUpdateRequest {
+    sort?: SortInfo[] | undefined;
+    sortOrder: number;
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific names. */
+    searchIndexId?: string | undefined;
+    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
+The search by filters and aggregations are unaffected. */
+    schemaIds?: string[] | undefined;
+    /** User roles granted access to the channel. */
+    grantedUserRoleIds?: string[] | undefined;
+    /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+    aggregations?: AggregatorBase[] | undefined;
+    /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+    filter?: FilterBase | undefined;
+    /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+    extendedSimpleSearchFields?: string[] | undefined;
+    /** Display pattern to use for rendering details when 0 results are returned */
+    missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+    /** Grants rights to all the users to view the channel. */
+    viewForAll: boolean;
+}
+
 /** A content detail. */
 export interface ContentDetail {
     /** Audit data with information regarding document creation and modification. */
@@ -14204,6 +14797,8 @@ export interface Output {
     detail?: OutputDataBase | undefined;
     /** Date and time of the backup of the output file. */
     backupTimestamp?: Date | undefined;
+    /** Number of rendering retry attempts left */
+    attemptsLeft: number;
 }
 
 export enum OutputRenderingState {
@@ -14212,6 +14807,7 @@ export enum OutputRenderingState {
     Failed = <any>"Failed", 
     Skipped = <any>"Skipped", 
     NoLicense = <any>"NoLicense", 
+    RerenderRequested = <any>"RerenderRequested", 
 }
 
 /** Base class for the output detail dependent on the file format. */
@@ -14463,7 +15059,7 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
 export interface ContentAggregationOnChannelRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
     searchBehaviors?: SearchBehavior[] | undefined;
@@ -14669,7 +15265,7 @@ export interface ContentFilterRequest {
     channelId?: string | undefined;
     /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
     searchLanguages?: string[] | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
     searchType: ContentSearchType;
@@ -15119,6 +15715,8 @@ export interface CustomerInfo {
     languages: Language[];
     /** Configured rendering outputs including translations for the customer instance. */
     outputFormats: OutputFormatInfo[];
+    /** Boost levels that can be applied to a metadata field to boost the the significance of the field in a search operation. */
+    boostValues: number[];
 }
 
 export interface LanguageConfiguration {
@@ -15244,7 +15842,7 @@ Warning! It severely affects performance. */
 
 /** Request to aggregate list items */
 export interface ListItemAggregationRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
     searchBehaviors?: SearchBehavior[] | undefined;
@@ -15328,7 +15926,7 @@ export interface ListItemDeleteManyFilterRequest {
 
 /** Request to filter list items */
 export interface ListItemFilterRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
+    /** The string used to query the data. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional filter to limit the list items. */
     filter?: FilterBase | undefined;
@@ -15614,6 +16212,19 @@ export interface OutputSearchRequest {
     fileExtensions?: string[] | undefined;
     /** The output format id of the outputs you want to fetch. */
     outputFormatIds?: string[] | undefined;
+}
+
+export interface OutputResetRetryAttemptsRequest {
+    /** List of output IDs you want to filter on. If this field is not empty, the other will be ignored. */
+    outputIds?: string[] | undefined;
+    /** List of Content IDs you want to filter on. */
+    contentIds?: string[] | undefined;
+    /** The file extension of the outputs you want to filter on. */
+    fileExtensions?: string[] | undefined;
+    /** The IDs of the output formats you want to filter on. */
+    outputFormatIds?: string[] | undefined;
+    /** Should the successful filter results also be reset (and subsequently re-rendered)? */
+    includeCompleted: boolean;
 }
 
 /** Represents the editable part of the output format. */
@@ -16533,9 +17144,22 @@ export enum IndexFieldsSearchMode {
 }
 
 /** Exists response */
-export interface ExistsResponse {
+export interface SchemaExistsResponse {
     /** It indicates if it exists. */
     exists: boolean;
+}
+
+/** Response for a query if a field exists */
+export interface FieldExistsResponse {
+    /** Indicates if a field with the specified ID currently exists. */
+    exists: boolean;
+    /** Indicates if a field with the specified ID was previously used.
+A field ID that was previously in use cannot be used again. */
+    previouslyUsed: boolean;
+    /** If the field does already exist or has already existed, this will contain the ID
+of the schema containing it. It case of parent-child schemas, a field ID
+has to be unique across the schema hierarchy. */
+    schemaId?: string | undefined;
 }
 
 /** Result of a schema create operation */
@@ -17487,7 +18111,9 @@ export interface UserAggregationRequest {
     sort?: SortInfo[] | undefined;
     /** An optional search filter. Limits the content document result set. */
     filter?: FilterBase | undefined;
-    /** List of aggregation filters, which are added to the search query and return documents meeting the aggregation condition. */
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** List of aggregators used while evaluating the request. */
     aggregators?: AggregatorBase[] | undefined;

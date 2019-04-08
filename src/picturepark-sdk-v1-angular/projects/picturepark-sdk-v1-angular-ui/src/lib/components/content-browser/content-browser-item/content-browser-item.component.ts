@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 
 import { BasketService } from './../../../services/basket.service';
@@ -35,6 +35,8 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
   public thumbnailUrl: SafeUrl | null = null;
 
   public virtualItemHtml: SafeHtml | null = null;
+
+  public listItemHtml: SafeHtml | null = null;
 
   private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
   private isVisible = false;
@@ -78,6 +80,10 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
           this.virtualItemHtml = this.sanitizer.bypassSecurityTrustHtml(this.itemModel.item.displayValues['thumbnail']);
         }
       }
+    }
+
+    if (this.itemModel.item.displayValues && this.itemModel.item.displayValues['list']) {
+      this.listItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.itemModel.item.displayValues['list']);
     }
 
     if (changes['thumbnailSize'] && this.virtualItemHtml === null && this.isVisible) {

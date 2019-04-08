@@ -7,7 +7,8 @@ Renders a list of content items for the given channel, filters and search query.
                     [channel]="selectedChannel" 
                     [filters]="filters" 
                     [query]="searchText"
-                    [(selectedItems)]="selectedItems" 
+                    (totalResultsChange)="totalResultsChange($event)"
+                    (selectedItemsChange)="selectedItemsChange($event)"
                     columns="3">
 </pp-content-browser>
 ```
@@ -20,7 +21,8 @@ Properties:
 - **query:** The search query (may be entered in the [pp-search-box](pp-search-box.md) component)
 - **filters:** The selected filters (may be choosen in the [pp-aggregation-filter](pp-aggregation-filter.md) component)
 - **columns (default: 2):** The number of columns to render
-- **selectedItems (two-way):** An array of the selected items
+- **totalResultsChange:** Event emitted when the amount of content items has changed.
+- **selectedItemsChange:** Event emitted when the array of the selected items has changed.
 
 CSS Classes:
 
