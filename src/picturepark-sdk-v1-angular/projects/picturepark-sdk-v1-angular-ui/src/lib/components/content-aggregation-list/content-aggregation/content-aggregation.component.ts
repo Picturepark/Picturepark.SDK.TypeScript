@@ -3,7 +3,7 @@ import { Component, LOCALE_ID, Inject, Input } from '@angular/core';
 
 import {
   ObjectAggregationResult, ContentAggregationRequest, BrokenDependenciesFilter,
-  ContentSearchType, LifeCycleFilter, ContentService, AggregationResultItem
+  ContentSearchType, LifeCycleFilter, ContentService
 } from '@picturepark/sdk-v1-angular';
 
 import { AggregationComponent } from '../../aggregation-list/aggregation.component';
@@ -38,18 +38,5 @@ export class ContentAggregationComponent extends AggregationComponent {
     });
 
     return this.contentService.aggregate(request);
-  }
-
-
-  get showLess(): boolean {
-    return !!this.expandedAggregationResult && !!this.expandedAggregationResult.aggregationResultItems && this.expandedAggregationResult.aggregationResultItems.filter(x => x && !x.active).length > this.pagingSize;
-  }
-
-  get active(): boolean {
-    return !!this.expandedAggregationResult && !!this.expandedAggregationResult.aggregationResultItems && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
-  }
-
-  public trackByName(index, aggregationResultItem: AggregationResultItem) {
-    return aggregationResultItem.name;
   }
 }
