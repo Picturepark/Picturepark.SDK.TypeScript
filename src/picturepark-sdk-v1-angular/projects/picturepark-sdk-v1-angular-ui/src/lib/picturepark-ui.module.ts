@@ -32,6 +32,8 @@ import { ContentBrowserItemComponent } from './components/content-browser/conten
 import { OutputDownloadMenuComponent } from './components/output-download-menu/output-download-menu.component';
 import { LayerPanelsComponent } from './components/layer-panels/layer-panels.component';
 import { FieldDetailInfoDialogComponent } from './components/layer-panels/field-detail-info-dialog/field-detail-info-dialog.component';
+import { ListItemAggregationComponent } from './components/list-item-aggregation-list/list-item-aggregation/list-item-aggregation.component';
+import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
 
 // SDK pipes
 import { TranslatePipe } from './pipes/translate.pipe';
@@ -50,6 +52,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     SearchBoxComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
+    ListItemAggregationComponent,
+    ListItemAggregationListComponent,
     ContentBrowserItemComponent,
     BasketComponent,
     BasketItemComponent,
@@ -90,6 +94,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     SearchBoxComponent,
     LayerPanelsComponent,
     ContentAggregationListComponent,
+    ListItemAggregationListComponent,
     BasketComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
