@@ -70,6 +70,10 @@ export abstract class AggregationListComponent extends BaseComponent implements 
     this.updateData();
   }
 
+  public trackByName(index, aggregator: AggregatorBase) {
+    return aggregator.name;
+  }
+
   private updateData() {
     const fetchDataSubscription = this.fetchData()
       .pipe(filter((result) => result !== null))

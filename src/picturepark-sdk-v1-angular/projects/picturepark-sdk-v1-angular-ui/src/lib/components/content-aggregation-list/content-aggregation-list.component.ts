@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 import {
   ContentService, ContentAggregationRequest, BrokenDependenciesFilter,
-  ContentSearchType, LifeCycleFilter, ObjectAggregationResult, Channel, AggregatorBase
+  ContentSearchType, LifeCycleFilter, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
 
 import { AggregationListComponent } from '../aggregation-list/aggregation-list.component';
@@ -38,9 +38,5 @@ export class ContentAggregationListComponent extends AggregationListComponent {
     }
 
     return of(null);
-  }
-
-  public trackByName(index, aggregator: AggregatorBase) {
-    return aggregator.name;
   }
 }

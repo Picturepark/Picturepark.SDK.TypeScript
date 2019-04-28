@@ -30,6 +30,10 @@ import { ContentBrowserComponent } from './components/content-browser/content-br
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
 import { OutputDownloadMenuComponent } from './components/output-download-menu/output-download-menu.component';
+import { LayerPanelsComponent } from './components/layer-panels/layer-panels.component';
+import { FieldDetailInfoDialogComponent } from './components/layer-panels/field-detail-info-dialog/field-detail-info-dialog.component';
+import { ListItemAggregationComponent } from './components/list-item-aggregation-list/list-item-aggregation/list-item-aggregation.component';
+import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
 
 // SDK pipes
 import { TranslatePipe } from './pipes/translate.pipe';
@@ -48,12 +52,16 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     SearchBoxComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
+    ListItemAggregationComponent,
+    ListItemAggregationListComponent,
     ContentBrowserItemComponent,
     BasketComponent,
     BasketItemComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
     LazyLoadDirective,
+    LayerPanelsComponent,
+    FieldDetailInfoDialogComponent
   ],
   providers: [
     ContentItemSelectionService,
@@ -84,11 +92,16 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
+    LayerPanelsComponent,
     ContentAggregationListComponent,
+    ListItemAggregationListComponent,
     BasketComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
     CommonModule,
+  ],
+  entryComponents: [
+    FieldDetailInfoDialogComponent
   ]
 })
 export class PictureparkUiModule {

@@ -36,8 +36,8 @@ Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app 
 ```typescript
 import { 
   PICTUREPARK_CONFIGURATION, 
-  PictureparkModule, 
-  PictureparkConfiguration } 
+  PictureparkConfiguration 
+} 
 from '@picturepark/sdk-v1-angular';
 
 @NgModule({
@@ -45,8 +45,7 @@ from '@picturepark/sdk-v1-angular';
     ...
   ],
   imports: [
-    ...,
-    PictureparkModule
+    ...
   ],
   providers: [
     {

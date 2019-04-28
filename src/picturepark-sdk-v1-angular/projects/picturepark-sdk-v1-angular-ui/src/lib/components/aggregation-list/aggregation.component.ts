@@ -144,6 +144,18 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
     this.aggregationFiltersChange.emit(filters);
   }
 
+  public get showLess(): boolean {
+    return !!this.expandedAggregationResult && !!this.expandedAggregationResult.aggregationResultItems && this.expandedAggregationResult.aggregationResultItems.filter(x => x && !x.active).length > this.pagingSize;
+  }
+
+  public get active(): boolean {
+    return !!this.expandedAggregationResult && !!this.expandedAggregationResult.aggregationResultItems && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
+  }
+
+  public trackByName(index, aggregationResultItem: AggregationResultItem) {
+    return aggregationResultItem.name;
+  }
+
   private updateAggregationResult(aggregationResult: AggregationResult | null) {
     this.expandedAggregationResult = aggregationResult ? this.expandAggregationResult(aggregationResult) : null;
   }
