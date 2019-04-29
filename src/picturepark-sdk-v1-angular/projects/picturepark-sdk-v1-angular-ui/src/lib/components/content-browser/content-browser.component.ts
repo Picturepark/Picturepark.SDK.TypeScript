@@ -234,8 +234,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         if (searchResult.results) {
           this.items.push(...searchResult.results.map(item => {
             const isInBasket = this.basketItems.some(basketItem => basketItem === item.id);
-
-            return new ContentModel(item, isInBasket);
+            const contentModel = new ContentModel(item, isInBasket);
+            contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
+            return contentModel;
           }));
         }
 
