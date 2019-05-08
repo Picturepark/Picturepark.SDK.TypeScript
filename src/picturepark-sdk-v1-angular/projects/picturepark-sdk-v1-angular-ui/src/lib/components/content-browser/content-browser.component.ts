@@ -15,7 +15,7 @@ import {
   SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
 } from '@picturepark/sdk-v1-angular';
 import { BaseComponent } from '../base.component';
-import Liquid from 'liquidjs';
+import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -54,8 +54,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public sortingTypes = SortingType;
 
   public activeSortingType = SortingType.relevance;
-
-  private liquidEngine: Liquid = new Liquid();
 
   @Input()
   public channel: Channel | null = null;
@@ -97,6 +95,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
+    private liquidRenderingService: LiquidRenderingService,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone) {
     super();
@@ -235,7 +234,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         this.nextPageToken = searchResult.pageToken;
 
         if (searchResult.results) {
-          await this.renderNestedDisplayValues(searchResult);
+          await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
           this.items.push(...searchResult.results.map(item => {
             const isInBasket = this.basketItems.some(basketItem => basketItem === item.id);
             const contentModel = new ContentModel(item, isInBasket);
@@ -259,43 +258,5 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   public trackByThumbnailSize(index, thumbnailSize: string) {
     return thumbnailSize;
-  }
-
-  traverseObject(obj: Object, callback: (key: string, value: any, obj: any) => void): void {
-    for (const property in obj) {
-      if (obj.hasOwnProperty(property) && obj[property] !== null && obj[property] !== undefined) {
-        try {
-          if (obj[property].constructor === Object) {
-            callback(property, obj[property], obj);
-            this.traverseObject(obj[property], callback);
-          } else if (obj[property].constructor === Array) {
-            for (let i = 0; i < obj[property].length; i++) {
-              this.traverseObject(obj[property][i], callback);
-            }
-          } else {
-            callback(property, obj[property], obj);
-          }
-        } catch (ex) {
-            console.error(ex);
-        }
-      }
-    }
-  }
-
-  async renderNestedDisplayValues(obj: Object): Promise<void> {
-    const displayValues: any[] = [];
-    this.traverseObject(obj, (key, value) => {
-      if (key === 'displayValue' || key === 'displayValues') {
-        displayValues.push(value);
-      }
-    });
-
-    for (const displayValueObject of displayValues) {
-      for (const key in displayValueObject) {
-        if (displayValueObject.hasOwnProperty(key) && displayValueObject[key] !== null && displayValueObject[key] !== undefined) {
-          displayValueObject[key] = await this.liquidEngine.parseAndRender(displayValueObject[key]);
-        }
-      }
-    }
   }
 }
