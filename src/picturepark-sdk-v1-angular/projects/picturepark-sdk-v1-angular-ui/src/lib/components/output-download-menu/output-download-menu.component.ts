@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {
-  ContentService, ContentResolveBehavior, ContentDownloadLinkCreateRequest, ContentType
+  ContentService, ContentResolveBehavior, ContentDownloadLinkCreateRequest, ContentType, OutputRenderingState
 } from '@picturepark/sdk-v1-angular';
 import { BaseComponent } from '../base.component';
 import { TranslationService } from '../../services/translation.service';
@@ -56,7 +56,7 @@ export class OutputDownloadMenuComponent extends BaseComponent implements OnInit
       }
 
       const translations = await this.translationService.getOutputFormatTranslations();
-      this.outputFormats = content!.outputs!.map(i => {
+      this.outputFormats = content!.outputs!.filter(i => i.renderingState === OutputRenderingState.Completed).map(i => {
         return {
           outputFormatId: i.outputFormatId,
           name: translations[i.outputFormatId]

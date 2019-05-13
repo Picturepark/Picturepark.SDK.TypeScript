@@ -12,7 +12,8 @@ import {
   ContentService, ThumbnailSize,
   ContentDownloadLinkCreateRequest,
   ContentSearchRequest, FilterBase, SortInfo,
-  SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
+  SortDirection, ContentSearchType, BrokenDependenciesFilter,
+  LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
 } from '@picturepark/sdk-v1-angular';
 import { BaseComponent } from '../base.component';
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
@@ -64,6 +65,12 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   @Input()
   public filter: FilterBase | null = null;
 
+  @Input()
+  public outputFormatFallback: {
+    fileSchemaId: string;
+    outputFormatId: string;
+  }[];
+
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
@@ -95,6 +102,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
+    private outputService: OutputService,
     private liquidRenderingService: LiquidRenderingService,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone) {
@@ -126,6 +134,14 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         }
       });
     this.subscription.add(scrollSubscription);
+
+    if (!this.outputFormatFallback) {
+      this.outputFormatFallback = [
+        { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
+        { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
+        { fileSchemaId: 'VideoMetadata', outputFormatId: 'VideoLarge' }
+      ];
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -161,16 +177,48 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   public downloadItems() {
-    const request = new ContentDownloadLinkCreateRequest({
-      contents: this.selectedItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
+    const outputSubscription = this.outputService.search(new OutputSearchRequest({
+      contentIds: this.selectedItems,
+      renderingStates: [OutputRenderingState.Completed],
+      limit: 10000
+    })).subscribe(outputs => {
+      const request = new ContentDownloadLinkCreateRequest({
+        contents: this.selectedItems.map(item => {
+          const contentOutputs = outputs.results.filter(i => i.contentId === item);
+          const content = this.items.find(i => i.item.id === item);
+          const output = this.getOutput(content!.item, contentOutputs);
+          return { contentId: item, outputFormatId: output.outputFormatId };
+        })
+      });
+
+      const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
+        if (data.downloadUrl) {
+          window.location.replace(data.downloadUrl);
+        }
+      });
+      this.subscription.add(linkSubscription);
+    });
+    this.subscription.add(outputSubscription);
+  }
+
+  public getOutput(content: Content, outputs: OutputItem[]): OutputItem {
+    // Try to use Original
+    let output = outputs.find(i => i.outputFormatId === 'Original');
+    if (output) {
+      return output;
+    }
+
+    // Fallback to configured output formats
+    this.outputFormatFallback.filter(i => i.fileSchemaId === content.contentSchemaId).forEach(fallback => {
+      output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
     });
 
-    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
-      if (data.downloadUrl) {
-        window.location.replace(data.downloadUrl);
-      }
-    });
-    this.subscription.add(linkSubscription);
+    // If still no output, fallback to Preview
+    if (!output) {
+      output = outputs.find(i => i.outputFormatId === 'Preview');
+    }
+
+    return output!;
   }
 
   public toggleItems(isSelected: boolean) {
@@ -221,7 +269,11 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         limit: this.ItemsPerRequest,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
-        searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
+        searchBehaviors: [
+          SearchBehavior.SimplifiedSearch,
+          SearchBehavior.DropInvalidCharactersOnFailure,
+          SearchBehavior.WildcardOnSingleTerm
+        ],
         sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
           new SortInfo({
             field: this.activeSortingType,
