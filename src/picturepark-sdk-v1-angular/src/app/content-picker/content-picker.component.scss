@@ -4,6 +4,9 @@
   left: 0;
   right: 0;
   z-index: 2;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  color: #000;
 }
 
 .container {
@@ -27,6 +30,7 @@
   flex-grow: 1;
   flex-basis: 0;
   overflow: auto;
+  background: #fafafa;
 }
 
 .footer {

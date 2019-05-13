@@ -8266,6 +8266,165 @@ export class SchemaClient extends PictureparkClientBase {
     }
 
     /**
+     * Gets all schemas referenced by the schema specified in
+     * @param schemaId The schema ID.
+     * @return Referenced schema details
+     */
+    getReferenced(schemaId: string): Promise<SchemaDetail[]> {
+        let url_ = this.baseUrl + "/v1/schemas/{schemaId}/referenced";
+        if (schemaId === undefined || schemaId === null)
+            throw new Error("The parameter 'schemaId' must be defined.");
+        url_ = url_.replace("{schemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetReferenced(_response);
+        });
+    }
+
+    protected processGetReferenced(response: Response): Promise<SchemaDetail[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<SchemaDetail[]>(<any>null);
+    }
+
+    /**
+     * Gets all schemas referenced by the schemas specified in
+     * @param ids (optional) The schema IDs.
+     * @return Referenced schema details
+     */
+    getManyReferenced(ids?: string[] | undefined): Promise<SchemaDetail[]> {
+        let url_ = this.baseUrl + "/v1/schemas/many/referenced?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetManyReferenced(_response);
+        });
+    }
+
+    protected processGetManyReferenced(response: Response): Promise<SchemaDetail[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<SchemaDetail[]>(<any>null);
+    }
+
+    /**
      * Create multiple schemas
      * @param schemas The schema create many request.
      * @return BusinessProcess which can be awaited.
@@ -13145,6 +13304,7 @@ export interface PictureparkException extends Exception {
     traceId?: string | undefined;
     traceJobId?: string | undefined;
     httpStatusCode: number;
+    exceptionMessage?: string | undefined;
 }
 
 export enum TraceLevel {
@@ -13204,6 +13364,9 @@ export interface PictureparkNotFoundException extends PictureparkBusinessExcepti
 
 export interface UserRolesNotFoundException extends PictureparkNotFoundException {
     userRoleIds?: string[] | undefined;
+}
+
+export interface UnauthorizedException extends PictureparkBusinessException {
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -13348,6 +13511,9 @@ export interface MissingCustomerDefaultLanguageException extends PictureparkVali
 export interface PartialOperationNotSupportedException extends PictureparkValidationException {
 }
 
+export interface ContractMismatchException extends PictureparkValidationException {
+}
+
 export interface InvalidArgumentException extends PictureparkValidationException {
     argumentName?: string | undefined;
     argumentValue?: string | undefined;
@@ -13362,6 +13528,10 @@ export interface OwnerTokenInUseException extends PictureparkValidationException
 }
 
 export interface InvalidValueFormatException extends PictureparkValidationException {
+}
+
+export interface ItemIdDuplicatedException extends PictureparkValidationException {
+    id?: string | undefined;
 }
 
 export interface CustomerViolationException extends PictureparkException {
@@ -13557,6 +13727,10 @@ export interface PermissionSetNotFoundException extends PictureparkNotFoundExcep
     permissionSetIds?: string[] | undefined;
 }
 
+export interface PermissionSetAggregateException extends PictureparkValidationException {
+    exceptions?: PictureparkException[] | undefined;
+}
+
 export interface DuplicateRightException extends PictureparkValidationException {
     permissionSetId?: string | undefined;
 }
@@ -13608,6 +13782,9 @@ export interface PermissionSetValidationException extends PictureparkValidationE
 }
 
 export interface PermissionSetInvalidRightCombinationException extends PermissionSetValidationException {
+}
+
+export interface AmbiguousUserRoleRightsException extends PermissionSetValidationException {
 }
 
 export interface UnsupportedListItemChangeCommandException extends PictureparkValidationException {
@@ -14029,6 +14206,22 @@ export interface SystemLayerReferenceInvalidModificationException extends Pictur
     schemaId?: string | undefined;
 }
 
+export interface SchemaFieldAnalyzerInvalidException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    analyzers?: Analyzer[] | undefined;
+    allowedAnalyzers?: Analyzer[] | undefined;
+}
+
+export enum Analyzer {
+    None = <any>"None", 
+    Simple = <any>"Simple", 
+    Language = <any>"Language", 
+    PathHierarchy = <any>"PathHierarchy", 
+    EdgeNGram = <any>"EdgeNGram", 
+    NGram = <any>"NGram", 
+}
+
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences: number;
     numberOfShares: number;
@@ -14395,6 +14588,7 @@ export enum SearchBehavior {
     DropInvalidCharactersOnFailure = <any>"DropInvalidCharactersOnFailure", 
     WildcardOnSingleTerm = <any>"WildcardOnSingleTerm", 
     SimplifiedSearch = <any>"SimplifiedSearch", 
+    WildcardOnEveryTerm = <any>"WildcardOnEveryTerm", 
 }
 
 /** Result from waiting for life cycle(s) on a business process */
@@ -14702,9 +14896,6 @@ export interface ChannelCreateRequest {
     names?: TranslatedStringDictionary | undefined;
     /** Language specific names. */
     searchIndexId?: string | undefined;
-    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
-The search by filters and aggregations are unaffected. */
-    schemaIds?: string[] | undefined;
     /** User roles granted access to the channel. */
     grantedUserRoleIds?: string[] | undefined;
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
@@ -14715,6 +14906,8 @@ The search by filters and aggregations are unaffected. */
     extendedSimpleSearchFields?: string[] | undefined;
     /** Display pattern to use for rendering details when 0 results are returned */
     missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+    /** Grants rights to all the users to view the channel. */
+    viewForAll: boolean;
 }
 
 export interface ChannelUpdateRequest {
@@ -14723,9 +14916,6 @@ export interface ChannelUpdateRequest {
     names?: TranslatedStringDictionary | undefined;
     /** Language specific names. */
     searchIndexId?: string | undefined;
-    /** An id list of schemas with schema type content whose content documents should be found by the simple search.
-The search by filters and aggregations are unaffected. */
-    schemaIds?: string[] | undefined;
     /** User roles granted access to the channel. */
     grantedUserRoleIds?: string[] | undefined;
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
@@ -14797,8 +14987,10 @@ export interface Output {
     detail?: OutputDataBase | undefined;
     /** Date and time of the backup of the output file. */
     backupTimestamp?: Date | undefined;
-    /** Number of rendering retry attempts left */
+    /** Number of rendering retry attempts left. */
     attemptsLeft: number;
+    /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
+    fileVersion: number;
 }
 
 export enum OutputRenderingState {
@@ -15514,8 +15706,8 @@ export interface UserRoleRightsOfPermissionSetRight {
 
 export interface PermissionSetUpdateRequestOfContentRight {
     names?: TranslatedStringDictionary | undefined;
-    userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
-    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
 }
 
@@ -15717,6 +15909,9 @@ export interface CustomerInfo {
     outputFormats: OutputFormatInfo[];
     /** Boost levels that can be applied to a metadata field to boost the the significance of the field in a search operation. */
     boostValues: number[];
+    /** Apps registered for this customer */
+    apps?: CustomerApp[] | undefined;
+    modificationDate: Date;
 }
 
 export interface LanguageConfiguration {
@@ -15746,6 +15941,11 @@ export interface OutputFormatInfo {
     id: string;
     /** Output translations. */
     names: TranslatedStringDictionary;
+}
+
+export interface CustomerApp {
+    appId?: string | undefined;
+    name?: TranslatedStringDictionary | undefined;
 }
 
 /** The version view item for the environment. */
@@ -16118,10 +16318,9 @@ export interface OutputRenderedEvent extends ApplicationEvent {
 
 export interface ConfigurationChangeEvent extends ApplicationEvent {
     documentType?: string | undefined;
-    documentIds?: string[] | undefined;
 }
 
-export interface CustomerChangeEvent extends ApplicationEvent {
+export interface CustomerChangeEvent extends ConfigurationChangeEvent {
     lifeCycle: LifeCycle;
 }
 
@@ -16869,15 +17068,6 @@ export interface EdgeNGramAnalyzer extends AnalyzerBase {
     fieldSuffix?: string | undefined;
 }
 
-export enum Analyzer {
-    None = <any>"None", 
-    Simple = <any>"Simple", 
-    Language = <any>"Language", 
-    PathHierarchy = <any>"PathHierarchy", 
-    EdgeNGram = <any>"EdgeNGram", 
-    NGram = <any>"NGram", 
-}
-
 /** An analyzer using an ElasticSearch's language tokenizer */
 export interface LanguageAnalyzer extends AnalyzerBase {
     /** The analyzer type: Language */
@@ -17287,8 +17477,8 @@ export interface UserRoleRightsOfMetadataRight {
 
 export interface PermissionSetUpdateRequestOfMetadataRight {
     names?: TranslatedStringDictionary | undefined;
-    userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
-    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
 }
 
@@ -17769,7 +17959,7 @@ export interface FileTransferDetail extends FileTransfer {
     audit: UserAudit;
     /** Metadata extracted for file. */
     fileMetadata?: FileMetadata | undefined;
-    /** Outputs being rendered for file. */
+    /** Outputs rendered during data extraction phase. */
     outputItems?: FileTransferOutput[] | undefined;
 }
 

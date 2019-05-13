@@ -4,14 +4,28 @@
 @include mat-core();
 @include angular-material-theme($picturepark-app-theme);
 
+body {
+  font-family: Roboto;
+}
 
 .filters .mat-tab-label {
   height: 64px;
 }
 
-.mat-expansion-panel,
+.form {
+  background: rgba(0,0,0,.24) !important;
+}
+.form:focus-within {
+  background: rgba(0,0,0,.14) !important;
+}
+
 .mat-expansion-panel-body,
+.mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
 .mat-expansion-panel-header.mat-expanded:hover {
   background: whitesmoke !important;
+}
+
+.content-browser__header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }

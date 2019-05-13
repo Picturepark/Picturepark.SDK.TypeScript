@@ -12,7 +12,7 @@ import {
   ContentService, ThumbnailSize,
   ContentDownloadLinkCreateRequest,
   ContentSearchRequest, FilterBase, SortInfo,
-  SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
+  SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
 import { BaseComponent } from '../base.component';
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
@@ -221,6 +221,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         limit: this.ItemsPerRequest,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
+        searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
         sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
           new SortInfo({
             field: this.activeSortingType,
