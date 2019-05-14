@@ -40,6 +40,7 @@ import { TranslatePipe } from './pipes/translate.pipe';
 
 import { ContentItemSelectionService } from './services/content-item-selection.service';
 import { BasketService } from './services/basket.service';
+import { LiquidRenderingService } from './services/liquid-rendering.service';
 
 import { LazyLoadDirective } from './directives/lazy-load.directive';
 
@@ -65,7 +66,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   ],
   providers: [
     ContentItemSelectionService,
-    BasketService
+    BasketService,
+    LiquidRenderingService
   ],
   imports: [
     CommonModule,

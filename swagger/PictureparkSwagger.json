@@ -12129,6 +12129,233 @@
         ]
       }
     },
+    "/v1/schemas/{schemaId}/referenced": {
+      "get": {
+        "tags": [
+          "Schema"
+        ],
+        "summary": "Gets all schemas referenced by the schema specified in ",
+        "operationId": "Schema_GetReferenced",
+        "parameters": [
+          {
+            "name": "schemaId",
+            "in": "path",
+            "required": true,
+            "description": "The schema ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Referenced schema details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SchemaDetail"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkNotFoundException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkConflictException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkValidationException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "schema_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/schemas/many/referenced": {
+      "get": {
+        "tags": [
+          "Schema"
+        ],
+        "summary": "Gets all schemas referenced by the schemas specified in ",
+        "operationId": "Schema_GetManyReferenced",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "The schema IDs.",
+            "collectionFormat": "multi",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Referenced schema details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SchemaDetail"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkNotFoundException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkConflictException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PictureparkValidationException"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "schema_read"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/schemas/many": {
       "post": {
         "tags": [
@@ -19242,6 +19469,7 @@
                 "TermsOfServiceConsentRequiredException": "#/components/schemas/TermsOfServiceConsentRequiredException",
                 "PictureparkNotFoundException": "#/components/schemas/PictureparkNotFoundException",
                 "UserRolesNotFoundException": "#/components/schemas/UserRolesNotFoundException",
+                "UnauthorizedException": "#/components/schemas/UnauthorizedException",
                 "RenderingException": "#/components/schemas/RenderingException",
                 "ServiceProviderDeleteException": "#/components/schemas/ServiceProviderDeleteException",
                 "ServiceProviderCreateException": "#/components/schemas/ServiceProviderCreateException",
@@ -19277,10 +19505,12 @@
                 "PictureparkApplicationException": "#/components/schemas/PictureparkApplicationException",
                 "MissingCustomerDefaultLanguageException": "#/components/schemas/MissingCustomerDefaultLanguageException",
                 "PartialOperationNotSupportedException": "#/components/schemas/PartialOperationNotSupportedException",
+                "ContractMismatchException": "#/components/schemas/ContractMismatchException",
                 "InvalidArgumentException": "#/components/schemas/InvalidArgumentException",
                 "UnknownException": "#/components/schemas/UnknownException",
                 "OwnerTokenInUseException": "#/components/schemas/OwnerTokenInUseException",
                 "InvalidValueFormatException": "#/components/schemas/InvalidValueFormatException",
+                "ItemIdDuplicatedException": "#/components/schemas/ItemIdDuplicatedException",
                 "CustomerViolationException": "#/components/schemas/CustomerViolationException",
                 "CustomerAliasNotFoundException": "#/components/schemas/CustomerAliasNotFoundException",
                 "CustomerAliasInUseException": "#/components/schemas/CustomerAliasInUseException",
@@ -19313,6 +19543,7 @@
                 "QueryException": "#/components/schemas/QueryException",
                 "PermissionOwnershipTransferException": "#/components/schemas/PermissionOwnershipTransferException",
                 "PermissionSetNotFoundException": "#/components/schemas/PermissionSetNotFoundException",
+                "PermissionSetAggregateException": "#/components/schemas/PermissionSetAggregateException",
                 "DuplicateRightException": "#/components/schemas/DuplicateRightException",
                 "PermissionValidationException": "#/components/schemas/PermissionValidationException",
                 "PermissionSetInUseException": "#/components/schemas/PermissionSetInUseException",
@@ -19321,6 +19552,7 @@
                 "SchemaPermissionException": "#/components/schemas/SchemaPermissionException",
                 "PermissionSetValidationException": "#/components/schemas/PermissionSetValidationException",
                 "PermissionSetInvalidRightCombinationException": "#/components/schemas/PermissionSetInvalidRightCombinationException",
+                "AmbiguousUserRoleRightsException": "#/components/schemas/AmbiguousUserRoleRightsException",
                 "UnsupportedListItemChangeCommandException": "#/components/schemas/UnsupportedListItemChangeCommandException",
                 "ListItemLayerException": "#/components/schemas/ListItemLayerException",
                 "ListItemNotFoundException": "#/components/schemas/ListItemNotFoundException",
@@ -19454,6 +19686,10 @@
               "httpStatusCode": {
                 "type": "integer",
                 "format": "int32"
+              },
+              "exceptionMessage": {
+                "type": "string",
+                "nullable": true
               },
               "kind": {
                 "type": "string"
@@ -19711,6 +19947,17 @@
                 "nullable": true
               }
             }
+          }
+        ]
+      },
+      "UnauthorizedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkBusinessException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
           }
         ]
       },
@@ -20298,6 +20545,17 @@
           }
         ]
       },
+      "ContractMismatchException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
       "InvalidArgumentException": {
         "allOf": [
           {
@@ -20361,6 +20619,23 @@
           {
             "type": "object",
             "additionalProperties": false
+          }
+        ]
+      },
+      "ItemIdDuplicatedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true
+              }
+            }
           }
         ]
       },
@@ -21132,6 +21407,26 @@
           }
         ]
       },
+      "PermissionSetAggregateException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "exceptions": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        ]
+      },
       "DuplicateRightException": {
         "allOf": [
           {
@@ -21316,6 +21611,17 @@
           {
             "type": "object",
             "description": "This exception is an abstract base for permission set validation.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AmbiguousUserRoleRightsException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PermissionSetValidationException"
+          },
+          {
+            "type": "object",
             "additionalProperties": false
           }
         ]
@@ -25800,6 +26106,7 @@
           "contentId",
           "renderingState",
           "attemptsLeft",
+          "fileVersion",
           "kind"
         ],
         "properties": {
@@ -25844,7 +26151,12 @@
           },
           "attemptsLeft": {
             "type": "integer",
-            "description": "Number of rendering retry attempts left",
+            "description": "Number of rendering retry attempts left.",
+            "format": "int32"
+          },
+          "fileVersion": {
+            "type": "integer",
+            "description": "Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded).",
             "format": "int32"
           },
           "kind": {
@@ -28105,14 +28417,14 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/PermissionUserRoleRightsOfContentRight"
+              "$ref": "#/components/schemas/UserRoleRightsOfContentRight"
             }
           },
           "userRolesPermissionSetRights": {
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/PermissionUserRoleRightsOfPermissionSetRight"
+              "$ref": "#/components/schemas/UserRoleRightsOfPermissionSetRight"
             }
           },
           "exclusive": {
@@ -28702,7 +29014,8 @@
           "languageConfiguration",
           "languages",
           "outputFormats",
-          "boostValues"
+          "boostValues",
+          "modificationDate"
         ],
         "properties": {
           "customerId": {
@@ -28758,6 +29071,19 @@
               "type": "number",
               "format": "double"
             }
+          },
+          "apps": {
+            "type": "array",
+            "description": "Apps registered for this customer",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CustomerApp"
+            }
+          },
+          "modificationDate": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
           }
         }
       },
@@ -28841,6 +29167,24 @@
           },
           "names": {
             "description": "Output translations.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TranslatedStringDictionary"
+              }
+            ]
+          }
+        }
+      },
+      "CustomerApp": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "appId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "nullable": true,
             "oneOf": [
               {
                 "$ref": "#/components/schemas/TranslatedStringDictionary"
@@ -30008,13 +30352,6 @@
               "documentType": {
                 "type": "string",
                 "nullable": true
-              },
-              "documentIds": {
-                "type": "array",
-                "nullable": true,
-                "items": {
-                  "type": "string"
-                }
               }
             }
           }
@@ -30023,7 +30360,7 @@
       "CustomerChangeEvent": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/ApplicationEvent"
+            "$ref": "#/components/schemas/ConfigurationChangeEvent"
           },
           {
             "type": "object",
@@ -33988,14 +34325,14 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/PermissionUserRoleRightsOfMetadataRight"
+              "$ref": "#/components/schemas/UserRoleRightsOfMetadataRight"
             }
           },
           "userRolesPermissionSetRights": {
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/PermissionUserRoleRightsOfPermissionSetRight"
+              "$ref": "#/components/schemas/UserRoleRightsOfPermissionSetRight"
             }
           },
           "exclusive": {
@@ -35575,7 +35912,7 @@
               },
               "outputItems": {
                 "type": "array",
-                "description": "Outputs being rendered for file.",
+                "description": "Outputs rendered during data extraction phase.",
                 "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/FileTransferOutput"

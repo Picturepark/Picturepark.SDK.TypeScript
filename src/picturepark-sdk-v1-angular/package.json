@@ -29,7 +29,8 @@
     "core-js": "^2.6.2",
     "oidc-client": "^1.6.1",
     "rxjs": "~6.4.0",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "liquidjs": "8.2.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.7",

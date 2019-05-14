@@ -24,7 +24,7 @@ describe('ChannelService', () => {
 
     // act
     const channels = await channelService.getAll().toPromise();
-    const channel = channels[0];
+    const channel = channels.find(i => i.id === 'rootChannel');
 
     // assert
     expect(channel!.names!.translate('en-US')).toBe('Root Channel');
