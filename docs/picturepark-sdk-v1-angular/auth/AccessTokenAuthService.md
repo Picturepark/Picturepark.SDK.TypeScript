@@ -20,7 +20,6 @@ Register the Picturepark OIDC module in your Angular app module and define the `
 
 ```typescript
 import {
-  PictureparkModule,
   PICTUREPARK_CONFIGURATION,
   PictureparkAccessTokenAuthConfiguration 
 } from '@picturepark/sdk-v1-angular';
@@ -30,8 +29,7 @@ import {
     ...
   ],
   imports: [
-    ...,
-    PictureparkModule
+    ...
   ],
   providers: [
     {
