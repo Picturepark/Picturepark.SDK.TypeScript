@@ -82,21 +82,13 @@ export class PictureparkPlayers {
     if (shareItem.isPdf && shareItems.length === 1) {
       this.showPdfJsItem(shareItem);
       PictureparkPlayers.loading = false;
-    } else if (shareItem.isImage || shareItem.isMovie || shareItem.isAudio || shareItem.isPdf || !shareItem.isBinary) {
+    } else {
       let savedOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       this.showPhotoSwipeItem(shareItem, shareItems, widgetId ? 'gallery_' + widgetId : undefined).then(() => {
         PictureparkPlayers.loading = false;
         document.body.style.overflow = savedOverflow;
       });
-    } else {
-      // download file
-      var link = document.createElement("a");
-      link.href = shareItem.originalUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      PictureparkPlayers.loading = false;
     }
   }
 
