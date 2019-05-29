@@ -32237,7 +32237,7 @@
         "description": "Used to remove multiple output formats at once.",
         "additionalProperties": false,
         "properties": {
-          "items": {
+          "ids": {
             "type": "array",
             "description": "List of IDs of output formats to remove.",
             "nullable": true,
@@ -35825,10 +35825,13 @@
         "type": "object",
         "description": "Represents a user role, which associates users with user rights.",
         "additionalProperties": false,
+        "required": [
+          "names",
+          "userRights"
+        ],
         "properties": {
           "names": {
             "description": "Language specific user role names.",
-            "nullable": true,
             "oneOf": [
               {
                 "$ref": "#/components/schemas/TranslatedStringDictionary"
@@ -35838,7 +35841,6 @@
           "userRights": {
             "type": "array",
             "description": "All user rights for this user role.",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/UserRight"
             }
@@ -37865,14 +37867,6 @@
           "ids"
         ],
         "properties": {
-          "items": {
-            "type": "array",
-            "description": "Warning: Please use Ids property instead.",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
-          },
           "ids": {
             "type": "array",
             "description": "IDs of the user roles to delete.",

@@ -16919,7 +16919,7 @@ export interface OutputFormatUpdateManyRequestItem extends OutputFormatEditable 
 /** Used to remove multiple output formats at once. */
 export interface OutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
-    items?: string[] | undefined;
+    ids?: string[] | undefined;
 }
 
 /** User profile. */
@@ -18005,9 +18005,9 @@ export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
 /** Represents a user role, which associates users with user rights. */
 export interface UserRoleEditable {
     /** Language specific user role names. */
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
+    userRights: UserRight[];
 }
 
 /** Represents a user role, which associates users with user rights. */
@@ -18588,8 +18588,6 @@ export interface UserRoleUpdateManyRequest {
 
 /** Holds information about which user roles are requested to be deleted. */
 export interface UserRoleDeleteManyRequest {
-    /** Warning: Please use Ids property instead. */
-    items?: string[] | undefined;
     /** IDs of the user roles to delete. */
     ids: string[];
 }

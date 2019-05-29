@@ -41895,7 +41895,7 @@ export interface IOutputFormatUpdateManyRequestItem extends IOutputFormatEditabl
 /** Used to remove multiple output formats at once. */
 export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
-    items?: string[] | undefined;
+    ids?: string[] | undefined;
 
     constructor(data?: IOutputFormatDeleteManyRequest) {
         if (data) {
@@ -41908,10 +41908,10 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 
     init(data?: any) {
         if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(item);
+            if (data["ids"] && data["ids"].constructor === Array) {
+                this.ids = [] as any;
+                for (let item of data["ids"])
+                    this.ids!.push(item);
             }
         }
     }
@@ -41925,10 +41925,10 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item);
+        if (this.ids && this.ids.constructor === Array) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
         }
         return data; 
     }
@@ -41937,7 +41937,7 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 /** Used to remove multiple output formats at once. */
 export interface IOutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
-    items?: string[] | undefined;
+    ids?: string[] | undefined;
 }
 
 /** User profile. */
@@ -48238,9 +48238,9 @@ export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
 /** Represents a user role, which associates users with user rights. */
 export class UserRoleEditable implements IUserRoleEditable {
     /** Language specific user role names. */
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
+    userRights!: UserRight[];
 
     constructor(data?: IUserRoleEditable) {
         if (data) {
@@ -48250,11 +48250,15 @@ export class UserRoleEditable implements IUserRoleEditable {
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+            this.userRights = [];
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [] as any;
                 for (let item of data["userRights"])
@@ -48285,9 +48289,9 @@ export class UserRoleEditable implements IUserRoleEditable {
 /** Represents a user role, which associates users with user rights. */
 export interface IUserRoleEditable {
     /** Language specific user role names. */
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
+    userRights: UserRight[];
 }
 
 /** Represents a user role, which associates users with user rights. */
@@ -51794,8 +51798,6 @@ export interface IUserRoleUpdateManyRequest {
 
 /** Holds information about which user roles are requested to be deleted. */
 export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
-    /** Warning: Please use Ids property instead. */
-    items?: string[] | undefined;
     /** IDs of the user roles to delete. */
     ids!: string[];
 
@@ -51813,11 +51815,6 @@ export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
 
     init(data?: any) {
         if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(item);
-            }
             if (data["ids"] && data["ids"].constructor === Array) {
                 this.ids = [] as any;
                 for (let item of data["ids"])
@@ -51835,11 +51832,6 @@ export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item);
-        }
         if (this.ids && this.ids.constructor === Array) {
             data["ids"] = [];
             for (let item of this.ids)
@@ -51851,8 +51843,6 @@ export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
 
 /** Holds information about which user roles are requested to be deleted. */
 export interface IUserRoleDeleteManyRequest {
-    /** Warning: Please use Ids property instead. */
-    items?: string[] | undefined;
     /** IDs of the user roles to delete. */
     ids: string[];
 }
