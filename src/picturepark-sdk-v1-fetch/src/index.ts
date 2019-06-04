@@ -6966,7 +6966,7 @@ export class OutputFormatClient extends PictureparkClientBase {
 
     /**
      * Get multiple output formats
-     * @param ids (optional) Output format IDs to get information about
+     * @param ids (optional) Output format IDs to get information about. If this is omitted, all output formats in the system will be returned.
      * @return Output formats
      */
     getMany(ids?: string[] | null | undefined): Promise<OutputFormat[]> {
@@ -12648,11 +12648,16 @@ export class UserRoleClient extends PictureparkClientBase {
     }
 
     /**
-     * Get all user roles
-     * @return List of all the user roles in the system
+     * Get multiple user roles
+     * @param ids User role IDs to get information about.
+     * @return List of user roles
      */
-    getAll(): Promise<UserRole[]> {
-        let url_ = this.baseUrl + "/v1/userRoles";
+    getMany(ids: string[] | null): Promise<UserRole[]> {
+        let url_ = this.baseUrl + "/v1/userRoles?";
+        if (ids === undefined)
+            throw new Error("The parameter 'ids' must be defined.");
+        else
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -12665,11 +12670,11 @@ export class UserRoleClient extends PictureparkClientBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processGetAll(_response);
+            return this.processGetMany(_response);
         });
     }
 
-    protected processGetAll(response: Response): Promise<UserRole[]> {
+    protected processGetMany(response: Response): Promise<UserRole[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -12959,6 +12964,166 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<UserRoleSearchResult>(<any>null);
+    }
+
+    /**
+     * Update user roles
+     * @param id ID of the user role to update.
+     * @param request User role update request.
+     * @return Updated user role
+     */
+    update(id: string, request: UserRoleEditable): Promise<UserRole> {
+        let url_ = this.baseUrl + "/v1/userRoles/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdate(_response);
+        });
+    }
+
+    protected processUpdate(response: Response): Promise<UserRole> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <UserRole>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserRole>(<any>null);
+    }
+
+    /**
+     * Delete user role
+     * @param id ID of user role to delete
+     * @return OK
+     */
+    delete(id: string): Promise<void> {
+        let url_ = this.baseUrl + "/v1/userRoles/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDelete(_response);
+        });
+    }
+
+    protected processDelete(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
     }
 
     /**
@@ -13399,6 +13564,9 @@ export interface DefaultChannelDeleteException extends PictureparkValidationExce
 export interface ChannelsNotFoundException extends PictureparkNotFoundException {
 }
 
+export interface SuperAdminRolesNotAssignableToChannelException extends PictureparkValidationException {
+}
+
 export interface ElasticVersionUpdateException extends PictureparkException {
     expectedVersion?: string | undefined;
     actualVersion?: string | undefined;
@@ -13455,6 +13623,11 @@ export interface NotSupportedFileExtensionException extends PictureparkValidatio
 }
 
 export interface DuplicateOutputFormatIdException extends PictureparkValidationException {
+}
+
+export interface OutputFormatResizingNotSupportedException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
 }
 
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
@@ -13748,7 +13921,7 @@ export interface PermissionSetInUseException extends PictureparkValidationExcept
 
 export interface ContentPermissionException extends PictureparkValidationException {
     contentId?: string | undefined;
-    contentRight: ContentRight;
+    contentRights?: ContentRight[] | undefined;
 }
 
 /** Content rights */
@@ -14221,6 +14394,11 @@ export enum Analyzer {
     PathHierarchy = <any>"PathHierarchy", 
     EdgeNGram = <any>"EdgeNGram", 
     NGram = <any>"NGram", 
+}
+
+export interface SchemaFieldRelationMultipleTypesException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
 }
 
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
@@ -15133,6 +15311,7 @@ export interface ContentRightAggregationCount {
 }
 
 export interface Content {
+    /** Audit information. */
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
@@ -15490,18 +15669,18 @@ export interface ContentFileUpdateRequest {
 
 /** Request to update content metadata */
 export interface ContentMetadataUpdateRequest {
-    /** An optional list of IDs of the schemas that form the layers of the content.
+    /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
     /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
 the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-whose ContentType is ContentItem). */
+whose ContentType is ContentItem).
+Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
     content?: DataDictionary | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 by the LayerSchemaIds property.
-For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
-an exception is thrown. */
+If there are no data for a specified LayerSchemaId, it is treated as empty. */
     metadata?: DataDictionary | undefined;
     /** Options to modify the behavior for updating the layers.
 Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
@@ -15947,6 +16126,8 @@ export interface OutputFormatInfo {
 export interface CustomerApp {
     appId?: string | undefined;
     name?: TranslatedStringDictionary | undefined;
+    description?: TranslatedStringDictionary | undefined;
+    icon?: string | undefined;
 }
 
 /** The version view item for the environment. */
@@ -15971,6 +16152,8 @@ export interface ListItemDetail {
     displayValues?: DisplayValueDictionary | undefined;
     /** The list item id. */
     id?: string | undefined;
+    /** Audit data with information regarding document creation and modification. */
+    audit?: UserAudit | undefined;
 }
 
 export enum ListItemResolveBehavior {
@@ -16003,6 +16186,8 @@ export interface ListItem {
     displayValues?: DisplayValueDictionary | undefined;
     /** The list item id. */
     id?: string | undefined;
+    /** Audit data with information regarding document creation and modification. */
+    audit?: UserAudit | undefined;
 }
 
 /** Request to search list items */
@@ -16244,6 +16429,8 @@ export enum TransferState {
     FileDeleteInProgress = <any>"FileDeleteInProgress", 
     TransferCleanup = <any>"TransferCleanup", 
     ImportCompletedWithErrors = <any>"ImportCompletedWithErrors", 
+    UploadCompletedWithErrors = <any>"UploadCompletedWithErrors", 
+    UploadCancellationInProgress = <any>"UploadCancellationInProgress", 
 }
 
 export interface ReindexEvent extends ApplicationEvent {
@@ -16315,6 +16502,7 @@ export interface OutputRenderedEvent extends ApplicationEvent {
     outputId?: string | undefined;
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    renderingState: OutputRenderingState;
 }
 
 export interface ConfigurationChangeEvent extends ApplicationEvent {
@@ -16323,6 +16511,17 @@ export interface ConfigurationChangeEvent extends ApplicationEvent {
 
 export interface CustomerChangeEvent extends ConfigurationChangeEvent {
     lifeCycle: LifeCycle;
+}
+
+export interface SearchReindexCompletedEvent extends ApplicationEvent {
+    searchIndex: SearchIndexType;
+    items: number;
+    duration: string;
+}
+
+export enum SearchIndexType {
+    Content = <any>"Content", 
+    ListItem = <any>"ListItem", 
 }
 
 export interface ConsoleMessage extends Message {
@@ -16720,7 +16919,7 @@ export interface OutputFormatUpdateManyRequestItem extends OutputFormatEditable 
 /** Used to remove multiple output formats at once. */
 export interface OutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
-    items?: string[] | undefined;
+    ids?: string[] | undefined;
 }
 
 /** User profile. */
@@ -17804,13 +18003,17 @@ export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
 }
 
 /** Represents a user role, which associates users with user rights. */
-export interface UserRole {
+export interface UserRoleEditable {
+    /** Language specific user role names. */
+    names: TranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface UserRole extends UserRoleEditable {
     /** User role ID. */
     id?: string | undefined;
-    /** Language specific user role names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
 }
 
 /** Create request for embed share */
@@ -18368,11 +18571,7 @@ export interface UserRoleSearchRequest {
 }
 
 /** Holds information needed for user role creation. */
-export interface UserRoleCreateRequest {
-    /** Language specific user role names. */
-    names: TranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights: UserRight[];
+export interface UserRoleCreateRequest extends UserRoleEditable {
 }
 
 /** Holds information needed to create multiple user roles. */
@@ -18384,16 +18583,7 @@ export interface UserRoleCreateManyRequest {
 /** Holds information about which user roles and how are requested to be updated. */
 export interface UserRoleUpdateManyRequest {
     /** New value for user roles with specified IDs. */
-    items: UserRoleDetail[];
-}
-
-export interface UserRoleDetail {
-    /** The user role id. */
-    id?: string | undefined;
-    /** Language specific user role names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
+    items: UserRole[];
 }
 
 /** Holds information about which user roles are requested to be deleted. */
