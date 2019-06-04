@@ -116,14 +116,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2887</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3351</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
 								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-							whose ContentType is ContentItem).</p>
+								whose ContentType is ContentItem).
+							Update of content data will be done only if this attribute has any data, i.e. if it&#39;s not null or empty.</p>
 						</div>
 					</div>
 				</section>
@@ -133,7 +134,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2930</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3393</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -149,12 +150,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2883</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3346</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of IDs of the schemas that form the layers of the content.
+							<p>An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 							The SchemaType of the specified schemas must be Layer.</p>
 						</div>
 					</div>
@@ -166,7 +167,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2900</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3363</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -187,7 +188,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2893</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3356</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -195,8 +196,7 @@
 							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 								by the LayerSchemaIds property.
-								For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
-							an exception is thrown.</p>
+							If there are no data for a specified LayerSchemaId, it is treated as empty.</p>
 						</div>
 					</div>
 				</section>
@@ -207,7 +207,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2907</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3370</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

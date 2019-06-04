@@ -135,7 +135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28253">lib/api-services.ts:28253</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34255">lib/api-services.ts:34255</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -158,14 +158,15 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="../interfaces/icontentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28233">lib/api-services.ts:28233</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34236">lib/api-services.ts:34236</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
 								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-							whose ContentType is ContentItem).</p>
+								whose ContentType is ContentItem).
+							Update of content data will be done only if this attribute has any data, i.e. if it&#39;s not null or empty.</p>
 						</div>
 					</div>
 				</section>
@@ -176,12 +177,12 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="../interfaces/icontentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28229">lib/api-services.ts:28229</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34231">lib/api-services.ts:34231</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of IDs of the schemas that form the layers of the content.
+							<p>An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 							The SchemaType of the specified schemas must be Layer.</p>
 						</div>
 					</div>
@@ -193,7 +194,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="../interfaces/icontentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28246">lib/api-services.ts:28246</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34248">lib/api-services.ts:34248</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -214,7 +215,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="../interfaces/icontentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28239">lib/api-services.ts:28239</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34241">lib/api-services.ts:34241</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -222,8 +223,7 @@
 							<p>The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 								by the LayerSchemaIds property.
-								For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
-							an exception is thrown.</p>
+							If there are no data for a specified LayerSchemaId, it is treated as empty.</p>
 						</div>
 					</div>
 				</section>
@@ -234,7 +234,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="../interfaces/icontentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28253">lib/api-services.ts:28253</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34255">lib/api-services.ts:34255</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -261,7 +261,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28266">lib/api-services.ts:28266</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34268">lib/api-services.ts:34268</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -284,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28287">lib/api-services.ts:28287</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34289">lib/api-services.ts:34289</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -307,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L28280">lib/api-services.ts:28280</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34282">lib/api-services.ts:34282</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

@@ -106,32 +106,65 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="breakevalonsigint" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> break<wbr>Eval<wbr>OnSigint</h3>
-					<div class="tsd-signature tsd-kind-icon">break<wbr>Eval<wbr>OnSigint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-signature tsd-kind-icon">break<wbr>Eval<wbr>OnSigint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:2000</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2236</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Stop evaluating the current piece of code when <code>SIGINT</code> is received, i.e. <code>Ctrl+C</code> is
+								pressed. This cannot be used together with a custom <code>eval</code> function.
+							Default: <code>false</code>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="completer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> completer</h3>
-					<div class="tsd-signature tsd-kind-icon">completer<span class="tsd-signature-symbol">:</span> <a href="function.html" class="tsd-signature-type">Function</a></div>
+					<div class="tsd-signature tsd-kind-icon">completer<span class="tsd-signature-symbol">:</span> <a href="../modules/_readline_.html#completer" class="tsd-signature-type">Completer</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_readline_.html#asynccompleter" class="tsd-signature-type">AsyncCompleter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1998</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2221</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional function used for custom Tab auto completion.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://nodejs.org/dist/latest-v11.x/docs/api/readline.html#readline_use_of_the_completer_function">https://nodejs.org/dist/latest-v11.x/docs/api/readline.html#readline_use_of_the_completer_function</a></p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="eval" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> eval</h3>
-					<div class="tsd-signature tsd-kind-icon">eval<span class="tsd-signature-symbol">:</span> <a href="function.html" class="tsd-signature-type">Function</a></div>
+					<div class="tsd-signature tsd-kind-icon">eval<span class="tsd-signature-symbol">:</span> <a href="../modules/_repl_.html#repleval" class="tsd-signature-type">REPLEval</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1993</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2188</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The function to be used when evaluating each given line of input.
+								Default: an async wrapper for the JavaScript <code>eval()</code> function. An <code>eval</code> function can
+								error with <code>repl.Recoverable</code> to indicate the input was incomplete and prompt for
+							additional lines.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://nodejs.org/dist/latest-v10.x/docs/api/repl.html#repl_default_evaluation">https://nodejs.org/dist/latest-v10.x/docs/api/repl.html#repl_default_evaluation</a></p>
+							</dd>
+							<dt>see</dt>
+							<dd><p><a href="https://nodejs.org/dist/latest-v10.x/docs/api/repl.html#repl_custom_evaluation_functions">https://nodejs.org/dist/latest-v10.x/docs/api/repl.html#repl_custom_evaluation_functions</a></p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="ignoreundefined" class="tsd-anchor"></a>
@@ -139,9 +172,16 @@
 					<div class="tsd-signature tsd-kind-icon">ignore<wbr>Undefined<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1996</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2208</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If <code>true</code>, specifies that the default writer will not output the return value of a
+								command if it evaluates to <code>undefined</code>.
+							Default: <code>false</code>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="input" class="tsd-anchor"></a>
@@ -149,9 +189,15 @@
 					<div class="tsd-signature tsd-kind-icon">input<span class="tsd-signature-symbol">:</span> <a href="nodejs.readablestream.html" class="tsd-signature-type">ReadableStream</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1990</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2166</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <code>Readable</code> stream from which REPL input will be read.
+							Default: <code>process.stdin</code></p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="output" class="tsd-anchor"></a>
@@ -159,9 +205,15 @@
 					<div class="tsd-signature tsd-kind-icon">output<span class="tsd-signature-symbol">:</span> <a href="nodejs.writablestream.html" class="tsd-signature-type">WritableStream</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1991</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2171</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <code>Writable</code> stream to which REPL output will be written.
+							Default: <code>process.stdout</code></p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="prompt" class="tsd-anchor"></a>
@@ -169,19 +221,37 @@
 					<div class="tsd-signature tsd-kind-icon">prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1989</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2161</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The input prompt to display.
+							Default: <code>&quot;&gt; &quot;</code></p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="replmode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> repl<wbr>Mode</h3>
-					<div class="tsd-signature tsd-kind-icon">repl<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-signature tsd-kind-icon">repl<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1999</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2230</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A flag that specifies whether the default evaluator executes all JavaScript commands in
+								strict mode or default (sloppy) mode.
+							Accepted values are:</p>
+							<ul>
+								<li><code>repl.REPL_MODE_SLOPPY</code> - evaluates expressions in sloppy mode.</li>
+								<li><code>repl.REPL_MODE_STRICT</code> - evaluates expressions in strict mode. This is equivalent to
+								prefacing every repl statement with <code>&#39;use strict&#39;</code>.</li>
+							</ul>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="terminal" class="tsd-anchor"></a>
@@ -189,9 +259,17 @@
 					<div class="tsd-signature tsd-kind-icon">terminal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1992</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2178</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If <code>true</code>, specifies that the output should be treated as a TTY terminal, and have
+								ANSI/VT100 escape codes written to it.
+								Default: checking the value of the <code>isTTY</code> property on the output stream upon
+							instantiation.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="usecolors" class="tsd-anchor"></a>
@@ -199,9 +277,17 @@
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1994</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2195</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If <code>true</code>, specifies that the default <code>writer</code> function should include ANSI color
+								styling to REPL output. If a custom <code>writer</code> function is provided then this has no
+								effect.
+							Default: the REPL instance&#39;s <code>terminal</code> value.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="useglobal" class="tsd-anchor"></a>
@@ -209,19 +295,38 @@
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Global<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1995</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2202</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If <code>true</code>, specifies that the default evaluation function will use the JavaScript
+								<code>global</code> as the context as opposed to creating a new separate context for the REPL
+								instance. The node CLI REPL sets this value to <code>true</code>.
+							Default: <code>false</code>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="writer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> writer</h3>
-					<div class="tsd-signature tsd-kind-icon">writer<span class="tsd-signature-symbol">:</span> <a href="function.html" class="tsd-signature-type">Function</a></div>
+					<div class="tsd-signature tsd-kind-icon">writer<span class="tsd-signature-symbol">:</span> <a href="../modules/_repl_.html#replwriter" class="tsd-signature-type">REPLWriter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1997</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:2215</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The function to invoke to format the output of each command before writing to <code>output</code>.
+							Default: a wrapper for <code>util.inspect</code>.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://nodejs.org/dist/latest-v10.x/docs/api/repl.html#repl_customizing_repl_output">https://nodejs.org/dist/latest-v10.x/docs/api/repl.html#repl_customizing_repl_output</a></p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -239,10 +344,13 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../classes/_repl_.replserver.html" class="tsd-kind-icon">REPLServer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="../classes/_repl_.recoverable.html" class="tsd-kind-icon">Recoverable</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="_repl_.replserver.html" class="tsd-kind-icon">REPLServer</a>
+						<a href="_repl_.replcommand.html" class="tsd-kind-icon">REPLCommand</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -289,6 +397,24 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/_repl_.html#replcommandaction" class="tsd-kind-icon">REPLCommand<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/_repl_.html#repleval" class="tsd-kind-icon">REPLEval</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/_repl_.html#replwriter" class="tsd-kind-icon">REPLWriter</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+						<a href="../modules/_repl_.html#repl_mode_sloppy" class="tsd-kind-icon">REPL_<wbr>MODE_<wbr>SLOPPY</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+						<a href="../modules/_repl_.html#repl_mode_strict" class="tsd-kind-icon">REPL_<wbr>MODE_<wbr>STRICT</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/_repl_.html#writer" class="tsd-kind-icon">writer</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="../modules/_repl_.html#start" class="tsd-kind-icon">start</a>
 					</li>

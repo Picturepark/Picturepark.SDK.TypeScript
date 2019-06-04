@@ -100,12 +100,15 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#apps" class="tsd-kind-icon">apps</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#boostvalues" class="tsd-kind-icon">boost<wbr>Values</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#customeralias" class="tsd-kind-icon">customer<wbr>Alias</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#customerid" class="tsd-kind-icon">customer<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#enablequerydetails" class="tsd-kind-icon">enable<wbr>Query<wbr>Details</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#identityserverurl" class="tsd-kind-icon">identity<wbr>Server<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#languageconfiguration" class="tsd-kind-icon">language<wbr>Configuration</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#languages" class="tsd-kind-icon">languages</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#modificationdate" class="tsd-kind-icon">modification<wbr>Date</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="customerinfo.html#outputformats" class="tsd-kind-icon">output<wbr>Formats</a></li>
 							</ul>
@@ -133,7 +136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30161">lib/api-services.ts:30161</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36954">lib/api-services.ts:36954</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -150,13 +153,45 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="apps" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> apps</h3>
+					<div class="tsd-signature tsd-kind-icon">apps<span class="tsd-signature-symbol">:</span> <a href="customerapp.html" class="tsd-signature-type">CustomerApp</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#apps">apps</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36953">lib/api-services.ts:36953</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Apps registered for this customer</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="boostvalues" class="tsd-anchor"></a>
+					<h3>boost<wbr>Values</h3>
+					<div class="tsd-signature tsd-kind-icon">boost<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#boostvalues">boostValues</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36951">lib/api-services.ts:36951</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Boost levels that can be applied to a metadata field to boost the the significance of the field in a search operation.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="customeralias" class="tsd-anchor"></a>
 					<h3>customer<wbr>Alias</h3>
 					<div class="tsd-signature tsd-kind-icon">customer<wbr>Alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#customeralias">customerAlias</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30151">lib/api-services.ts:30151</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36939">lib/api-services.ts:36939</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -172,7 +207,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#customerid">customerId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30147">lib/api-services.ts:30147</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36935">lib/api-services.ts:36935</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,7 +223,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#enablequerydetails">enableQueryDetails</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30155">lib/api-services.ts:30155</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36943">lib/api-services.ts:36943</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,7 +239,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#identityserverurl">identityServerUrl</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30153">lib/api-services.ts:30153</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36941">lib/api-services.ts:36941</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -220,7 +255,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#languageconfiguration">languageConfiguration</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30157">lib/api-services.ts:30157</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36945">lib/api-services.ts:36945</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,7 +271,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#languages">languages</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30159">lib/api-services.ts:30159</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36947">lib/api-services.ts:36947</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -246,13 +281,24 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="modificationdate" class="tsd-anchor"></a>
+					<h3>modification<wbr>Date</h3>
+					<div class="tsd-signature tsd-kind-icon">modification<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#modificationdate">modificationDate</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36954">lib/api-services.ts:36954</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
 					<h3>name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30149">lib/api-services.ts:30149</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36937">lib/api-services.ts:36937</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -268,7 +314,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icustomerinfo.html">ICustomerInfo</a>.<a href="../interfaces/icustomerinfo.html#outputformats">outputFormats</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30161">lib/api-services.ts:30161</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36949">lib/api-services.ts:36949</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -290,7 +336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30192">lib/api-services.ts:30192</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L36993">lib/api-services.ts:36993</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -313,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30220">lib/api-services.ts:30220</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37032">lib/api-services.ts:37032</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -336,7 +382,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L30213">lib/api-services.ts:30213</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37025">lib/api-services.ts:37025</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -370,6 +416,12 @@
 								<a href="customerinfo.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="customerinfo.html#apps" class="tsd-kind-icon">apps</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="customerinfo.html#boostvalues" class="tsd-kind-icon">boost<wbr>Values</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="customerinfo.html#customeralias" class="tsd-kind-icon">customer<wbr>Alias</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
@@ -386,6 +438,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="customerinfo.html#languages" class="tsd-kind-icon">languages</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="customerinfo.html#modificationdate" class="tsd-kind-icon">modification<wbr>Date</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="customerinfo.html#name" class="tsd-kind-icon">name</a>

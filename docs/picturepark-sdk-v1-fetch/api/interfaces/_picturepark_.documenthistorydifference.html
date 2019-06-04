@@ -86,9 +86,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorydifference.html#documentid" class="tsd-kind-icon">document<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorydifference.html#newdocumentversion" class="tsd-kind-icon">new<wbr>Document<wbr>Version</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorydifference.html#newvalues" class="tsd-kind-icon">new<wbr>Values</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorydifference.html#olddocumentversion" class="tsd-kind-icon">old<wbr>Document<wbr>Version</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorydifference.html#oldvalues" class="tsd-kind-icon">old<wbr>Values</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.documenthistorydifference.html#patch" class="tsd-kind-icon">patch</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,7 +101,7 @@
 					<div class="tsd-signature tsd-kind-icon">document<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3143</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3681</li>
 						</ul>
 					</aside>
 				</section>
@@ -112,17 +111,7 @@
 					<div class="tsd-signature tsd-kind-icon">new<wbr>Document<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3145</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="newvalues" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> new<wbr>Values</h3>
-					<div class="tsd-signature tsd-kind-icon">new<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3147</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3683</li>
 						</ul>
 					</aside>
 				</section>
@@ -132,19 +121,26 @@
 					<div class="tsd-signature tsd-kind-icon">old<wbr>Document<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3144</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3682</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="oldvalues" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> old<wbr>Values</h3>
-					<div class="tsd-signature tsd-kind-icon">old<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="patch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> patch</h3>
+					<div class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3146</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3687</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Contains an RFC 6902 compatible patch that can be applied on the old document to get the new document.
+								Use a library like jsondiffpatch.net (<a href="https://github.com/wbish/jsondiffpatch.net">https://github.com/wbish/jsondiffpatch.net</a>)
+							or jsondiffpatch (<a href="https://github.com/benjamine/jsondiffpatch">https://github.com/benjamine/jsondiffpatch</a>) to process this.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -173,13 +169,10 @@
 								<a href="_picturepark_.documenthistorydifference.html#newdocumentversion" class="tsd-kind-icon">new<wbr>Document<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.documenthistorydifference.html#newvalues" class="tsd-kind-icon">new<wbr>Values</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.documenthistorydifference.html#olddocumentversion" class="tsd-kind-icon">old<wbr>Document<wbr>Version</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.documenthistorydifference.html#oldvalues" class="tsd-kind-icon">old<wbr>Values</a>
+								<a href="_picturepark_.documenthistorydifference.html#patch" class="tsd-kind-icon">patch</a>
 							</li>
 						</ul>
 					</li>
