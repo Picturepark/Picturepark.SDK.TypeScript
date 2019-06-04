@@ -68,11 +68,40 @@ declare module "picturepark" {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Get channels
+         * Get all channels
          * @return List of channel
          */
-        getChannels(): Promise<Channel[]>;
-        protected processGetChannels(response: Response): Promise<Channel[]>;
+        getAll(): Promise<Channel[]>;
+        protected processGetAll(response: Response): Promise<Channel[]>;
+        /**
+         * Create channel
+         * @param request The request containing information needed to create new channel.
+         * @return Channel
+         */
+        create(request: ChannelCreateRequest): Promise<Channel>;
+        protected processCreate(response: Response): Promise<Channel>;
+        /**
+         * Get channel
+         * @param id The channel ID.
+         * @return Channel
+         */
+        get(id: string): Promise<Channel>;
+        protected processGet(response: Response): Promise<Channel>;
+        /**
+         * Update channel
+         * @param id ID of channel to update
+         * @param request The request containing information needed to update the channel.
+         * @return Updated channel
+         */
+        update(id: string, request: ChannelUpdateRequest): Promise<Channel>;
+        protected processUpdate(response: Response): Promise<Channel>;
+        /**
+         * Delete channel
+         * @param id ID of the channel that should be deleted.
+         * @return OK
+         */
+        delete(id: string): Promise<void>;
+        protected processDelete(response: Response): Promise<void>;
     }
     export class ContentClient extends PictureparkClientBase {
         private http;
@@ -305,19 +334,98 @@ declare module "picturepark" {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Search content permissions sets
-         * @param request The permission set search request.
-         * @return Permission set search result
-         */
-        search(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult>;
-        protected processSearch(response: Response): Promise<PermissionSetSearchResult>;
-        /**
-         * Get permission set
+         * Get content permission set
          * @param permissionSetId The content permission set ID.
          * @return Content permission set detail
          */
         get(permissionSetId: string): Promise<ContentPermissionSetDetail>;
         protected processGet(response: Response): Promise<ContentPermissionSetDetail>;
+        /**
+         * Create content permission set
+         * @param request The request containing information needed to create new permission set.
+         * @return Content permission set detail
+         */
+        create(request: ContentPermissionSetCreateRequest): Promise<ContentPermissionSetDetail>;
+        protected processCreate(response: Response): Promise<ContentPermissionSetDetail>;
+        /**
+         * Get multiple permission sets
+         * @param ids (optional) Permission set IDs to get information about
+         * @return Content permission set details
+         */
+        getMany(ids?: string[] | undefined): Promise<ContentPermissionSetDetail[]>;
+        protected processGetMany(response: Response): Promise<ContentPermissionSetDetail[]>;
+        /**
+         * Update content permission set
+         * @param id ID of permission set to update
+         * @param request The request containing information needed to update the permission set.
+         * @return Content permission set detail
+         */
+        update(id: string, request: ContentPermissionSetUpdateRequest): Promise<ContentPermissionSetDetail>;
+        protected processUpdate(response: Response): Promise<ContentPermissionSetDetail>;
+        /**
+         * Delete content permission set
+         * @param id ID of the permission set that should be deleted.
+         * @return OK
+         */
+        delete(id: string): Promise<void>;
+        protected processDelete(response: Response): Promise<void>;
+        /**
+         * Transfer ownership of content permission set
+         * @param id ID of the permission set to transfer
+         * @param request The request containing user who should be the new owner.
+         * @return OK
+         */
+        transferOwnership(id: string, request: PermissionSetOwnershipTransferRequest): Promise<void>;
+        protected processTransferOwnership(response: Response): Promise<void>;
+        /**
+         * Get permissions for the permission set
+         * @param id ID of the permission set to view permissions of.
+         * @return List of permissions
+         */
+        getPermissions(id: string): Promise<PermissionSetRight[]>;
+        protected processGetPermissions(response: Response): Promise<PermissionSetRight[]>;
+        /**
+         * Create multiple content permission sets
+         * @param request The request containing information needed to create new permission sets.
+         * @return Bulk response with information about created permission sets
+         */
+        createMany(request: ContentPermissionSetCreateManyRequest): Promise<BulkResponse>;
+        protected processCreateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Update multiple content permission sets
+         * @param request The request containing information needed to update the permission set.
+         * @return Bulk response with information about updated permission sets
+         */
+        updateMany(request: ContentPermissionSetUpdateManyRequest): Promise<BulkResponse>;
+        protected processUpdateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Delete multiple content permission sets
+         * @param request The request with permission set IDs to delete.
+         * @return Bulk response with information about success or failure
+         */
+        deleteMany(request: PermissionSetDeleteManyRequest): Promise<BulkResponse>;
+        protected processDeleteMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Transfer ownership of multiple content permission sets
+         * @param request The request containing information on which permission set to transfer to which user.
+         * @return OK
+         */
+        transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Promise<void>;
+        protected processTransferOwnershipMany(response: Response): Promise<void>;
+        /**
+         * Get permissions for multiple permission sets
+         * @param ids (optional) IDs of the permission sets to view permissions of.
+         * @return List of permissions
+         */
+        getPermissionsMany(ids?: string[] | undefined): Promise<PermissionSetUserPermissionRights[]>;
+        protected processGetPermissionsMany(response: Response): Promise<PermissionSetUserPermissionRights[]>;
+        /**
+         * Search content permission sets
+         * @param request The permission set search request.
+         * @return Permission set search result
+         */
+        search(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult>;
+        protected processSearch(response: Response): Promise<PermissionSetSearchResult>;
     }
     export class DocumentHistoryClient extends PictureparkClientBase {
         private http;
@@ -348,7 +456,7 @@ declare module "picturepark" {
          * @param documentVersion The version of the document.
          * @return Document history item
          */
-        getVersion(documentType: string, documentId: string, documentVersion: string): Promise<DocumentHistory>;
+        getVersion(documentType: string, documentId: string, documentVersion: number): Promise<DocumentHistory>;
         protected processGetVersion(response: Response): Promise<DocumentHistory>;
         /**
          * Compare with current
@@ -558,12 +666,19 @@ declare module "picturepark" {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * This endpoint cannot be used. It is kept to generate LiveStream message contracts
+         * This endpoint cannot be used. It is kept to generate LiveStream message contracts.
          * @return OK
          * @deprecated
          */
         getMessage(): Promise<LiveStreamMessage>;
         protected processGetMessage(response: Response): Promise<LiveStreamMessage>;
+        /**
+         * Search
+         * @param request Parameters for the search
+         * @return Resulting live stream events
+         */
+        search(request: LiveStreamSearchRequest): Promise<LiveStreamSearchResult>;
+        protected processSearch(response: Response): Promise<LiveStreamSearchResult>;
     }
     export class OutputClient extends PictureparkClientBase {
         private http;
@@ -586,6 +701,78 @@ declare module "picturepark" {
          */
         get(outputId: string): Promise<OutputDetail>;
         protected processGet(response: Response): Promise<OutputDetail>;
+        /**
+         * Resets retry attempts counter on failed (optionally also completed) outputs and they will be subsequently picked up for re-rendering.
+         * @param request Request containing options to filter which outputs should be reset.
+         * @return Business process tracking the resetting
+         */
+        resetRetryAttempts(request: OutputResetRetryAttemptsRequest): Promise<BusinessProcess>;
+        protected processResetRetryAttempts(response: Response): Promise<BusinessProcess>;
+    }
+    export class OutputFormatClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get output format
+         * @param id The output format ID.
+         * @return Output format
+         */
+        get(id: string): Promise<OutputFormat>;
+        protected processGet(response: Response): Promise<OutputFormat>;
+        /**
+         * Update output format
+         * @param id ID of output format to update
+         * @param request The request containing information needed to update the output format.
+         * @return Updated output format
+         */
+        update(id: string, request: OutputFormatEditable): Promise<OutputFormat>;
+        protected processUpdate(response: Response): Promise<OutputFormat>;
+        /**
+         * Delete output format
+         * @param id ID of the output format that should be deleted.
+         * @return OK
+         */
+        delete(id: string): Promise<void>;
+        protected processDelete(response: Response): Promise<void>;
+        /**
+         * Create output format
+         * @param request The request containing information needed to create new output format.
+         * @return Output format
+         */
+        create(request: OutputFormat): Promise<OutputFormat>;
+        protected processCreate(response: Response): Promise<OutputFormat>;
+        /**
+         * Get multiple output formats
+         * @param ids (optional) Output format IDs to get information about. If this is omitted, all output formats in the system will be returned.
+         * @return Output formats
+         */
+        getMany(ids?: string[] | null | undefined): Promise<OutputFormat[]>;
+        protected processGetMany(response: Response): Promise<OutputFormat[]>;
+        /**
+         * Create multiple output formats
+         * @param request The request containing information needed to create new output formats.
+         * @return Bulk response with information about created output formats
+         */
+        createMany(request: OutputFormatCreateManyRequest): Promise<BulkResponse>;
+        protected processCreateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Update multiple output formats
+         * @param request The request containing information needed to update the output format.
+         * @return Bulk response with information about updated output formats
+         */
+        updateMany(request: OutputFormatUpdateManyRequest): Promise<BulkResponse>;
+        protected processUpdateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Delete multiple output formats
+         * @param request The request with output formats IDs to delete.
+         * @return Bulk response with information about success or failure
+         */
+        deleteMany(request: OutputFormatDeleteManyRequest): Promise<BulkResponse>;
+        protected processDeleteMany(response: Response): Promise<BulkResponse>;
     }
     export class ProfileClient extends PictureparkClientBase {
         private http;
@@ -679,11 +866,39 @@ declare module "picturepark" {
         /**
          * Exists schema
          * @param schemaId The schema ID.
-         * @param fieldId (optional) The optional field ID.
-         * @return Exists response
+         * @return Schema Exists response
          */
-        exists(schemaId: string, fieldId?: string | null | undefined): Promise<ExistsResponse>;
-        protected processExists(response: Response): Promise<ExistsResponse>;
+        exists(schemaId: string): Promise<SchemaExistsResponse>;
+        protected processExists(response: Response): Promise<SchemaExistsResponse>;
+        /**
+         * Exists field in schema
+         * @param schemaId The schema ID.
+         * @param fieldId The field ID.
+         * @return Field Exists response
+         */
+        fieldExists(schemaId: string, fieldId: string): Promise<FieldExistsResponse>;
+        protected processFieldExists(response: Response): Promise<FieldExistsResponse>;
+        /**
+         * Gets all schemas referenced by the schema specified in
+         * @param schemaId The schema ID.
+         * @return Referenced schema details
+         */
+        getReferenced(schemaId: string): Promise<SchemaDetail[]>;
+        protected processGetReferenced(response: Response): Promise<SchemaDetail[]>;
+        /**
+         * Gets all schemas referenced by the schemas specified in
+         * @param ids (optional) The schema IDs.
+         * @return Referenced schema details
+         */
+        getManyReferenced(ids?: string[] | undefined): Promise<SchemaDetail[]>;
+        protected processGetManyReferenced(response: Response): Promise<SchemaDetail[]>;
+        /**
+         * Create multiple schemas
+         * @param schemas The schema create many request.
+         * @return BusinessProcess which can be awaited.
+         */
+        createMany(schemas: SchemaCreateManyRequest): Promise<BusinessProcess>;
+        protected processCreateMany(response: Response): Promise<BusinessProcess>;
     }
     export class SchemaPermissionSetClient extends PictureparkClientBase {
         private http;
@@ -693,19 +908,98 @@ declare module "picturepark" {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Search schema permission sets
-         * @param request The permission set search request.
-         * @return Permission set search result
-         */
-        search(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult>;
-        protected processSearch(response: Response): Promise<PermissionSetSearchResult>;
-        /**
          * Get schema permission set
          * @param permissionSetId The schema permission set ID.
          * @return Schema permission set detail
          */
         get(permissionSetId: string): Promise<SchemaPermissionSetDetail>;
         protected processGet(response: Response): Promise<SchemaPermissionSetDetail>;
+        /**
+         * Create schema permission set
+         * @param request The request containing information needed to create new permission set.
+         * @return Schema permission set detail
+         */
+        create(request: SchemaPermissionSetCreateRequest): Promise<SchemaPermissionSetDetail>;
+        protected processCreate(response: Response): Promise<SchemaPermissionSetDetail>;
+        /**
+         * Get multiple permission sets
+         * @param ids (optional) Permission set IDs to get information about
+         * @return Schema permission set details
+         */
+        getMany(ids?: string[] | undefined): Promise<SchemaPermissionSetDetail[]>;
+        protected processGetMany(response: Response): Promise<SchemaPermissionSetDetail[]>;
+        /**
+         * Update schema permission set
+         * @param id ID of permission set to update
+         * @param request The request containing information needed to update the permission set.
+         * @return Schema permission set detail
+         */
+        update(id: string, request: SchemaPermissionSetUpdateRequest): Promise<SchemaPermissionSetDetail>;
+        protected processUpdate(response: Response): Promise<SchemaPermissionSetDetail>;
+        /**
+         * Delete schema permission set
+         * @param id ID of the permission set that should be deleted.
+         * @return OK
+         */
+        delete(id: string): Promise<void>;
+        protected processDelete(response: Response): Promise<void>;
+        /**
+         * Transfer ownership of schema permission set
+         * @param id ID of the permission set to transfer
+         * @param request The request containing user who should be the new owner.
+         * @return OK
+         */
+        transferOwnership(id: string, request: PermissionSetOwnershipTransferRequest): Promise<void>;
+        protected processTransferOwnership(response: Response): Promise<void>;
+        /**
+         * Get permissions for the permission set
+         * @param id ID of the permission set to view permissions of.
+         * @return List of permissions
+         */
+        getPermissions(id: string): Promise<PermissionSetRight[]>;
+        protected processGetPermissions(response: Response): Promise<PermissionSetRight[]>;
+        /**
+         * Create multiple schema permission sets
+         * @param request The request containing information needed to create new permission sets.
+         * @return Bulk response with information about created permission sets
+         */
+        createMany(request: SchemaPermissionSetCreateManyRequest): Promise<BulkResponse>;
+        protected processCreateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Update multiple schema permission sets
+         * @param request The request containing information needed to update the permission set.
+         * @return Bulk response with information about updated permission sets
+         */
+        updateMany(request: SchemaPermissionSetUpdateManyRequest): Promise<BulkResponse>;
+        protected processUpdateMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Delete multiple schema permission sets
+         * @param request The request with permission set IDs to delete.
+         * @return Bulk response with information about success or failure
+         */
+        deleteMany(request: PermissionSetDeleteManyRequest): Promise<BulkResponse>;
+        protected processDeleteMany(response: Response): Promise<BulkResponse>;
+        /**
+         * Transfer ownership of multiple schema permission sets
+         * @param request The request containing information on which permission set to transfer to which user.
+         * @return OK
+         */
+        transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Promise<void>;
+        protected processTransferOwnershipMany(response: Response): Promise<void>;
+        /**
+         * Get permissions for multiple permission sets
+         * @param ids (optional) IDs of the permission sets to view permissions of.
+         * @return List of permissions
+         */
+        getPermissionsMany(ids?: string[] | undefined): Promise<PermissionSetUserPermissionRights[]>;
+        protected processGetPermissionsMany(response: Response): Promise<PermissionSetUserPermissionRights[]>;
+        /**
+         * Search schema permission sets
+         * @param request The permission set search request.
+         * @return Permission set search result
+         */
+        search(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult>;
+        protected processSearch(response: Response): Promise<PermissionSetSearchResult>;
     }
     export class SchemaTransferClient extends PictureparkClientBase {
         private http;
@@ -1030,11 +1324,12 @@ declare module "picturepark" {
             fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         });
         /**
-         * Get all user roles
-         * @return List of all the user roles in the system
+         * Get multiple user roles
+         * @param ids User role IDs to get information about.
+         * @return List of user roles
          */
-        getAll(): Promise<UserRole[]>;
-        protected processGetAll(response: Response): Promise<UserRole[]>;
+        getMany(ids: string[] | null): Promise<UserRole[]>;
+        protected processGetMany(response: Response): Promise<UserRole[]>;
         /**
          * Create user role
          * @param request User role creation request.
@@ -1056,6 +1351,21 @@ declare module "picturepark" {
          */
         search(searchRequest: UserRoleSearchRequest): Promise<UserRoleSearchResult>;
         protected processSearch(response: Response): Promise<UserRoleSearchResult>;
+        /**
+         * Update user roles
+         * @param id ID of the user role to update.
+         * @param request User role update request.
+         * @return Updated user role
+         */
+        update(id: string, request: UserRoleEditable): Promise<UserRole>;
+        protected processUpdate(response: Response): Promise<UserRole>;
+        /**
+         * Delete user role
+         * @param id ID of user role to delete
+         * @return OK
+         */
+        delete(id: string): Promise<void>;
+        protected processDelete(response: Response): Promise<void>;
         /**
          * Create multiple user roles
          * @param request Multiple user role creation request.
@@ -1082,6 +1392,7 @@ declare module "picturepark" {
         totalResults: number;
         results: BusinessProcess[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess {
         searchString?: string | undefined;
@@ -1170,6 +1481,7 @@ declare module "picturepark" {
         traceId?: string | undefined;
         traceJobId?: string | undefined;
         httpStatusCode: number;
+        exceptionMessage?: string | undefined;
     }
     export enum TraceLevel {
         Critical,
@@ -1207,6 +1519,16 @@ declare module "picturepark" {
     }
     export interface IllegalAuthorizationStateTransitionException extends PictureparkValidationException {
     }
+    export interface TermsOfServiceConsentRequiredException extends PictureparkForbiddenException {
+    }
+    export interface PictureparkNotFoundException extends PictureparkBusinessException {
+        reference?: string | undefined;
+    }
+    export interface UserRolesNotFoundException extends PictureparkNotFoundException {
+        userRoleIds?: string[] | undefined;
+    }
+    export interface UnauthorizedException extends PictureparkBusinessException {
+    }
     export interface RenderingException extends PictureparkBusinessException {
     }
     export interface ServiceProviderDeleteException extends PictureparkException {
@@ -1220,15 +1542,16 @@ declare module "picturepark" {
     export interface ServiceProviderNotFoundException extends PictureparkException {
         missingServiceProviderId?: string | undefined;
     }
-    export interface PictureparkNotFoundException extends PictureparkBusinessException {
-        reference?: string | undefined;
-    }
     export interface DocumentVersionNotFoundException extends PictureparkNotFoundException {
         documentType?: string | undefined;
         documentId?: string | undefined;
         documentVersion?: string | undefined;
     }
     export interface DefaultChannelDeleteException extends PictureparkValidationException {
+    }
+    export interface ChannelsNotFoundException extends PictureparkNotFoundException {
+    }
+    export interface SuperAdminRolesNotAssignableToChannelException extends PictureparkValidationException {
     }
     export interface ElasticVersionUpdateException extends PictureparkException {
         expectedVersion?: string | undefined;
@@ -1262,6 +1585,18 @@ declare module "picturepark" {
         outputId?: string | undefined;
     }
     export interface OutputNotFoundException extends PictureparkBusinessException {
+        contentId?: string | undefined;
+        outputFormatId?: string | undefined;
+    }
+    export interface UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException {
+    }
+    export interface NotSupportedFileMappingException extends PictureparkValidationException {
+    }
+    export interface NotSupportedFileExtensionException extends PictureparkValidationException {
+    }
+    export interface DuplicateOutputFormatIdException extends PictureparkValidationException {
+    }
+    export interface OutputFormatResizingNotSupportedException extends PictureparkValidationException {
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
     }
@@ -1304,6 +1639,10 @@ declare module "picturepark" {
     export interface MissingCustomerDefaultLanguageException extends PictureparkValidationException {
         customerDefaultLanguage?: string | undefined;
     }
+    export interface PartialOperationNotSupportedException extends PictureparkValidationException {
+    }
+    export interface ContractMismatchException extends PictureparkValidationException {
+    }
     export interface InvalidArgumentException extends PictureparkValidationException {
         argumentName?: string | undefined;
         argumentValue?: string | undefined;
@@ -1313,6 +1652,11 @@ declare module "picturepark" {
     }
     export interface OwnerTokenInUseException extends PictureparkValidationException {
         ownerTokenUserId?: string | undefined;
+    }
+    export interface InvalidValueFormatException extends PictureparkValidationException {
+    }
+    export interface ItemIdDuplicatedException extends PictureparkValidationException {
+        id?: string | undefined;
     }
     export interface CustomerViolationException extends PictureparkException {
         expectedCustomerId?: string | undefined;
@@ -1340,6 +1684,8 @@ declare module "picturepark" {
     }
     export interface CustomerNotActiveException extends PictureparkException {
         customerId?: string | undefined;
+    }
+    export interface CustomerBoostValuesInvalidException extends PictureparkValidationException {
     }
     export interface ConfigurationIndexNotFoundException extends PictureparkException {
         configurationIndex?: string | undefined;
@@ -1462,10 +1808,14 @@ declare module "picturepark" {
         ManageTermsOfService,
         ManageLiveStream,
         ManageDocumentHistory,
-        ManageAllShares
+        ManageAllShares,
+        ManageOutputFormats
     }
     export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
         permissionSetIds?: string[] | undefined;
+    }
+    export interface PermissionSetAggregateException extends PictureparkValidationException {
+        exceptions?: PictureparkException[] | undefined;
     }
     export interface DuplicateRightException extends PictureparkValidationException {
         permissionSetId?: string | undefined;
@@ -1480,14 +1830,14 @@ declare module "picturepark" {
     }
     export interface ContentPermissionException extends PictureparkValidationException {
         contentId?: string | undefined;
-        contentRight: ContentRight;
+        contentRights?: ContentRight[] | undefined;
     }
     /** Content rights */
     export enum ContentRight {
         View,
         AccessOriginal,
         EditMetadata,
-        ReplaceFile,
+        EditContent,
         ManagePermissions,
         Delete
     }
@@ -1500,6 +1850,17 @@ declare module "picturepark" {
         View,
         ManageItems,
         ManageSchema
+    }
+    export interface SchemaPermissionException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        metadataRight: MetadataRight;
+    }
+    /** This exception is an abstract base for permission set validation. */
+    export interface PermissionSetValidationException extends PictureparkValidationException {
+    }
+    export interface PermissionSetInvalidRightCombinationException extends PermissionSetValidationException {
+    }
+    export interface AmbiguousUserRoleRightsException extends PermissionSetValidationException {
     }
     export interface UnsupportedListItemChangeCommandException extends PictureparkValidationException {
         commandType?: string | undefined;
@@ -1547,6 +1908,16 @@ declare module "picturepark" {
     export interface WrongChunkSizeException extends PictureparkValidationException {
         actual: number;
         expected: number;
+    }
+    export interface ChunkSizeOutOfRangeException extends PictureparkValidationException {
+        actual: number;
+        minimum: number;
+        maximum: number;
+    }
+    export interface MaximumTransferSizeException extends PictureparkException {
+        transferSize: number;
+        maximumTransferSize: number;
+        transferId?: string | undefined;
     }
     export interface MissingDependenciesException extends PictureparkValidationException {
         itemIds?: string | undefined;
@@ -1605,7 +1976,15 @@ declare module "picturepark" {
         /** The invalid size of the aggregation: size must be equal or greater than 1. */
         aggregationSize: number;
     }
+    export interface AggregationFilterNotSupportedException extends PictureparkValidationException {
+        aggregationName?: string | undefined;
+        notSupportedFilterType?: string | undefined;
+        supportedFilterTypes?: string[] | undefined;
+    }
     export interface RelationTypeMissingException extends PictureparkBusinessException {
+    }
+    export interface ReferencesUpdateException extends PictureparkBusinessException {
+        exceptions?: ReferenceUpdateException[] | undefined;
     }
     export interface ReferenceUpdateException extends PictureparkBusinessException {
         referenceItemId?: string | undefined;
@@ -1630,6 +2009,16 @@ declare module "picturepark" {
         schemaId?: string | undefined;
         fieldId?: string | undefined;
     }
+    export interface SchemaFieldIdPreviouslyUsedException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        usedInSchemaId?: string | undefined;
+    }
+    export interface SchemaFieldIdAlreadyExistsInSchemaHierarchyException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
+        existingInSchemaId?: string | undefined;
+    }
     export interface SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends PictureparkValidationException {
         schemaId?: string | undefined;
         fieldId?: string | undefined;
@@ -1653,12 +2042,12 @@ declare module "picturepark" {
         schemaId?: string | undefined;
     }
     export interface IndexedFieldThresholdExceededException extends PictureparkValidationException {
-        schemaId?: string | undefined;
+        schemaIds?: string[] | undefined;
         indexedFieldCount: number;
         indexedFieldThreshold: number;
     }
     export interface SortableFieldThresholdExceededException extends PictureparkValidationException {
-        schemaId?: string | undefined;
+        schemaIds?: string[] | undefined;
         sortableFieldCount: number;
         sortableFieldThreshold: number;
     }
@@ -1687,10 +2076,6 @@ declare module "picturepark" {
         schemaId?: string | undefined;
         fieldNamespaces?: string[] | undefined;
     }
-    export interface SchemaNotFoundInSearchIndexException extends PictureparkValidationException {
-        searchIndexId?: string | undefined;
-        schemaId?: string | undefined;
-    }
     export interface DuplicateMetadataDisplayPatternException extends PictureparkValidationException {
         schemaId?: string | undefined;
         displayPatternId?: string | undefined;
@@ -1703,9 +2088,6 @@ declare module "picturepark" {
     export interface SchemaImportVersionMismatchException extends PictureparkValidationException {
         providedVersion?: string | undefined;
         expectedVersion?: string | undefined;
-    }
-    export interface SchemaCyclicDependencyException extends PictureparkValidationException {
-        schemaIds?: string[] | undefined;
     }
     export interface SchemaInheritanceFieldIndexDeviationException extends PictureparkValidationException {
         schemaId?: string | undefined;
@@ -1743,6 +2125,12 @@ declare module "picturepark" {
         fieldId?: string | undefined;
         schemaId?: string | undefined;
     }
+    export interface SchemaFieldInvalidBoostException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+        boost: number;
+        allowedBoostValues?: number[] | undefined;
+    }
     export interface SchemaNoContentException extends PictureparkValidationException {
         schemaId?: string | undefined;
     }
@@ -1762,7 +2150,7 @@ declare module "picturepark" {
         List,
         Struct
     }
-    export interface SchemaPermissionException extends PictureparkValidationException {
+    export interface SchemaPermissionConfigurationException extends PictureparkValidationException {
         schemaId?: string | undefined;
     }
     export interface SchemaNoLayerException extends PictureparkValidationException {
@@ -1808,6 +2196,27 @@ declare module "picturepark" {
     }
     export interface SchemaViewForAllException extends PictureparkValidationException {
         schemaId?: string | undefined;
+    }
+    export interface SystemLayerReferenceInvalidModificationException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface SchemaFieldAnalyzerInvalidException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+        analyzers?: Analyzer[] | undefined;
+        allowedAnalyzers?: Analyzer[] | undefined;
+    }
+    export enum Analyzer {
+        None,
+        Simple,
+        Language,
+        PathHierarchy,
+        EdgeNGram,
+        NGram
+    }
+    export interface SchemaFieldRelationMultipleTypesException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        fieldId?: string | undefined;
     }
     export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
         numberOfReferences: number;
@@ -1905,6 +2314,8 @@ declare module "picturepark" {
     }
     export interface SnapshotFailedException extends PictureparkBusinessException {
     }
+    export interface SnapshotSkippedException extends PictureparkBusinessException {
+    }
     export interface AddMetadataLanguageTimeoutException extends PictureparkTimeoutException {
         environmentProcessId?: string | undefined;
     }
@@ -1914,7 +2325,8 @@ declare module "picturepark" {
     export enum EnvironmentProcessType {
         AddMetadataLanguage,
         CustomerUpdate,
-        EnvironmentUpdate
+        EnvironmentUpdate,
+        CustomerBoostValuesUpdate
     }
     export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
         environmentProcessId?: string | undefined;
@@ -1922,6 +2334,9 @@ declare module "picturepark" {
     export interface EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutException {
         environmentProcessId?: string | undefined;
         waitedLifecycles?: string | undefined;
+    }
+    export interface CustomerBoostValuesUpdateTimeoutException extends PictureparkTimeoutException {
+        environmentProcessId?: string | undefined;
     }
     export interface NoTermsOfServiceDefinedException extends PictureparkBusinessException {
     }
@@ -1939,11 +2354,6 @@ declare module "picturepark" {
         expected?: BusinessProcessLifeCycle[] | undefined;
         actual: BusinessProcessLifeCycle;
     }
-    export interface MaximumTransferSizeException extends PictureparkException {
-        transferSize: number;
-        maximumTransferSize: number;
-        transferId?: string | undefined;
-    }
     export interface OnlyAccessibleToRecipientException extends PictureparkValidationException {
     }
     export interface EnvironmentNotAvailableException extends PictureparkException {
@@ -1951,12 +2361,14 @@ declare module "picturepark" {
     export interface CustomerNotAvailableException extends PictureparkException {
         customerId?: string | undefined;
     }
+    export interface CustomerAliasHeaderMissingException extends PictureparkValidationException {
+    }
     /** Search request to search for business processes */
     export interface BusinessProcessSearchRequest {
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
@@ -2113,7 +2525,9 @@ declare module "picturepark" {
     /** Search behaviors */
     export enum SearchBehavior {
         DropInvalidCharactersOnFailure,
-        WildcardOnSingleTerm
+        WildcardOnSingleTerm,
+        SimplifiedSearch,
+        WildcardOnEveryTerm
     }
     /** Result from waiting for life cycle(s) on a business process */
     export interface BusinessProcessWaitForLifeCycleResult {
@@ -2242,9 +2656,6 @@ declare module "picturepark" {
         sortOrder: number;
         /** The search index ID where the channel requests the content from. Only RootContentSearchIndex is supported. */
         searchIndexId: string;
-        /** An ID list of schemas with schema type content whose content documents should be found by the simple search.
-    The search by filters and aggregations are unaffected. */
-        schemaIds: string[];
         /** An optional search filter. Limits the content document result set on each search and aggregation request. */
         filter?: FilterBase | undefined;
         /** Language specific names. */
@@ -2261,6 +2672,8 @@ declare module "picturepark" {
         missingResultsDisplayPatterns: TranslatedStringDictionary;
         /** Audit information. */
         audit: UserAudit;
+        /** Grants rights to all the users to view the channel. */
+        viewForAll: boolean;
     }
     /** Sorting information */
     export interface SortInfo {
@@ -2282,6 +2695,8 @@ declare module "picturepark" {
         names?: TranslatedStringDictionary | undefined;
         /** An optional aggregator list for nested aggregations. */
         aggregators?: AggregatorBase[] | undefined;
+        /** An optional filter to limit the data set the aggregation is operation on. */
+        filter?: FilterBase | undefined;
     }
     /** A multi-bucket range aggregator dedicated for date values. */
     export interface DateRangeAggregator extends AggregatorBase {
@@ -2380,6 +2795,45 @@ declare module "picturepark" {
         /** ID of the last user who modified the document. */
         modifiedByUser?: string | undefined;
     }
+    export interface ChannelCreateRequest {
+        id?: string | undefined;
+        sort?: SortInfo[] | undefined;
+        sortOrder: number;
+        names?: TranslatedStringDictionary | undefined;
+        /** Language specific names. */
+        searchIndexId?: string | undefined;
+        /** User roles granted access to the channel. */
+        grantedUserRoleIds?: string[] | undefined;
+        /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+        aggregations?: AggregatorBase[] | undefined;
+        /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+        filter?: FilterBase | undefined;
+        /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+        extendedSimpleSearchFields?: string[] | undefined;
+        /** Display pattern to use for rendering details when 0 results are returned */
+        missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+        /** Grants rights to all the users to view the channel. */
+        viewForAll: boolean;
+    }
+    export interface ChannelUpdateRequest {
+        sort?: SortInfo[] | undefined;
+        sortOrder: number;
+        names?: TranslatedStringDictionary | undefined;
+        /** Language specific names. */
+        searchIndexId?: string | undefined;
+        /** User roles granted access to the channel. */
+        grantedUserRoleIds?: string[] | undefined;
+        /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
+        aggregations?: AggregatorBase[] | undefined;
+        /** An optional search filter. Limits the content document result set on each search and aggregation request. */
+        filter?: FilterBase | undefined;
+        /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
+        extendedSimpleSearchFields?: string[] | undefined;
+        /** Display pattern to use for rendering details when 0 results are returned */
+        missingResultsDisplayPatterns?: TranslatedStringDictionary | undefined;
+        /** Grants rights to all the users to view the channel. */
+        viewForAll: boolean;
+    }
     /** A content detail. */
     export interface ContentDetail {
         /** Audit data with information regarding document creation and modification. */
@@ -2432,13 +2886,18 @@ declare module "picturepark" {
         detail?: OutputDataBase | undefined;
         /** Date and time of the backup of the output file. */
         backupTimestamp?: Date | undefined;
+        /** Number of rendering retry attempts left. */
+        attemptsLeft: number;
+        /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
+        fileVersion: number;
     }
     export enum OutputRenderingState {
         InProgress,
         Completed,
         Failed,
         Skipped,
-        NoLicense
+        NoLicense,
+        RerenderRequested
     }
     /** Base class for the output detail dependent on the file format. */
     export interface OutputDataBase {
@@ -2535,6 +2994,7 @@ declare module "picturepark" {
         totalResults: number;
         results: Content[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfContent extends BaseResultOfContent {
         searchString?: string | undefined;
@@ -2554,6 +3014,7 @@ declare module "picturepark" {
         count: number;
     }
     export interface Content {
+        /** Audit information. */
         audit?: UserAudit | undefined;
         /** The id of the schema with schema type content. */
         contentSchemaId: string;
@@ -2590,10 +3051,10 @@ declare module "picturepark" {
         searchBehaviors?: SearchBehavior[] | undefined;
         /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first matching document. Defaults to 0. */
-        start: number;
         /** Limits the number of the returned schemas. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional filter to limit the contents. */
         filter?: FilterBase | undefined;
         /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
@@ -2667,7 +3128,7 @@ declare module "picturepark" {
     }
     /** Request to aggregate contents based on the aggregators defined on a channel */
     export interface ContentAggregationOnChannelRequest {
-        /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+        /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
         searchBehaviors?: SearchBehavior[] | undefined;
@@ -2708,6 +3169,7 @@ declare module "picturepark" {
         totalResults: number;
         results: MetadataReference[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     /** Result for getting references. */
     export interface MetadataReferenceResult extends BaseResultOfMetadataReference {
@@ -2732,6 +3194,7 @@ declare module "picturepark" {
         totalResults: number;
         results: ContentShareReference[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     /** Result class for share reference search */
     export interface ContentShareReferenceResult extends BaseResultOfContentShareReference {
@@ -2762,10 +3225,10 @@ declare module "picturepark" {
     }
     /** Request to page data */
     export interface PagingRequest {
-        /** Defines the offset from the first matching document. Defaults to 0. */
-        start: number;
         /** Limits the number of the returned schemas. Defaults to 0. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
     }
     /** Request to get paginated metadata references */
     export interface MetadataReferencesPagingRequest extends PagingRequest {
@@ -2849,7 +3312,7 @@ declare module "picturepark" {
         channelId?: string | undefined;
         /** Only searches the specified language values. Defaults to all metadata languages of the language configuration. */
         searchLanguages?: string[] | undefined;
-        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. Defaults to *. */
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** Type of search to be performed: against metadata, extracted fulltext from documents or both. Default to Metadata. */
         searchType: ContentSearchType;
@@ -2878,18 +3341,18 @@ declare module "picturepark" {
     }
     /** Request to update content metadata */
     export interface ContentMetadataUpdateRequest {
-        /** An optional list of IDs of the schemas that form the layers of the content.
+        /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
     The SchemaType of the specified schemas must be Layer. */
         layerSchemaIds?: string[] | undefined;
         /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
     the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-    whose ContentType is ContentItem). */
+    whose ContentType is ContentItem).
+    Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
         content?: DataDictionary | undefined;
         /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
     The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
     by the LayerSchemaIds property.
-    For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
-    an exception is thrown. */
+    If there are no data for a specified LayerSchemaId, it is treated as empty. */
         metadata?: DataDictionary | undefined;
         /** Options to modify the behavior for updating the layers.
     Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
@@ -3021,10 +3484,112 @@ declare module "picturepark" {
         /** Filters the contents on which the change commands must be applied. */
         filterRequest: ContentFilterRequest;
     }
+    export interface PermissionSetDetailOfContentRight {
+        id: string;
+        names?: TranslatedStringDictionary | undefined;
+        userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
+        userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+        exclusive: boolean;
+        ownerTokenId: string;
+    }
+    /** Detail of a content permission set */
+    export interface ContentPermissionSetDetail extends PermissionSetDetailOfContentRight {
+    }
+    export interface PermissionUserRoleRightsOfContentRight {
+        userRoleId?: string | undefined;
+        names?: TranslatedStringDictionary | undefined;
+        rights?: ContentRight[] | undefined;
+    }
+    export interface PermissionUserRoleRightsOfPermissionSetRight {
+        userRoleId?: string | undefined;
+        names?: TranslatedStringDictionary | undefined;
+        rights?: PermissionSetRight[] | undefined;
+    }
+    /** Permission set rights */
+    export enum PermissionSetRight {
+        Apply,
+        Manage
+    }
+    export interface PermissionSetCreateRequestOfContentRight {
+        names?: TranslatedStringDictionary | undefined;
+        userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+        userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+        exclusive: boolean;
+    }
+    export interface ContentPermissionSetCreateRequest extends PermissionSetCreateRequestOfContentRight {
+    }
+    export interface UserRoleRightsOfContentRight {
+        userRoleId?: string | undefined;
+        rights?: ContentRight[] | undefined;
+    }
+    export interface UserRoleRightsOfPermissionSetRight {
+        userRoleId?: string | undefined;
+        rights?: PermissionSetRight[] | undefined;
+    }
+    export interface PermissionSetUpdateRequestOfContentRight {
+        names?: TranslatedStringDictionary | undefined;
+        userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+        userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+        exclusive: boolean;
+    }
+    /** Request to update a content permission set */
+    export interface ContentPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfContentRight {
+    }
+    export interface PermissionSetOwnershipTransferRequest {
+        /** The ID of the user to whom the permission set ownership should be transferred to. */
+        transferUserId: string;
+    }
+    /** Response to a bulk operation */
+    export interface BulkResponse {
+        /** Rows of the bulk response. */
+        rows?: BulkResponseRow[] | undefined;
+    }
+    /** Row information of a bulk response */
+    export interface BulkResponseRow {
+        /** ID of the document. */
+        id: string;
+        /** Version of the document. */
+        version: number;
+        /** Eventual error. */
+        error?: string | undefined;
+        /** True if item successfully saved. False otherwise. */
+        succeeded: boolean;
+        /** Returned status code. */
+        status: number;
+    }
+    export interface ContentPermissionSetCreateManyRequest {
+        items?: ContentPermissionSetCreateRequest[] | undefined;
+    }
+    /** Request to update multiple content permission sets */
+    export interface ContentPermissionSetUpdateManyRequest {
+        /** Content permission sets update requests. */
+        items?: ContentPermissionSetUpdateRequestItem[] | undefined;
+    }
+    export interface PermissionSetUpdateRequestItemOfContentRight extends PermissionSetUpdateRequestOfContentRight {
+        id: string;
+    }
+    /** Request to update a content permission set */
+    export interface ContentPermissionSetUpdateRequestItem extends PermissionSetUpdateRequestItemOfContentRight {
+    }
+    export interface PermissionSetDeleteManyRequest {
+        permissionSetIds?: string[] | undefined;
+    }
+    export interface PermissionSetOwnershipTransferManyRequest {
+        items?: PermissionSetOwnershipTransferItem[] | undefined;
+    }
+    export interface PermissionSetOwnershipTransferItem extends PermissionSetOwnershipTransferRequest {
+        /** The permission set ID. */
+        permissionSetId?: string | undefined;
+    }
+    export interface PermissionSetUserPermissionRights {
+        permissionSetId?: string | undefined;
+        permissionSetRights?: PermissionSetRight[] | undefined;
+    }
     export interface BaseResultOfPermissionSet {
         totalResults: number;
         results: PermissionSet[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
         searchString?: string | undefined;
@@ -3050,10 +3615,10 @@ declare module "picturepark" {
         /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
         searchBehaviors?: SearchBehavior[] | undefined;
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first matching document. Defaults to 0. */
-        start: number;
         /** Limits the number of the returned schemas. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         filter?: FilterBase | undefined;
         /** Filters based on the PermissionSetRight of the user. */
         rightFilter?: PermissionSetRight | undefined;
@@ -3064,45 +3629,18 @@ declare module "picturepark" {
     If not specified, all metadata languages defined in the system are used. */
         searchLanguages?: string[] | undefined;
     }
-    /** Permission set rights */
-    export enum PermissionSetRight {
-        Apply,
-        Manage
-    }
-    export interface PermissionSetDetailOfContentRight {
-        id: string;
-        names?: TranslatedStringDictionary | undefined;
-        userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
-        userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-        exclusive: boolean;
-        ownerTokenId: string;
-    }
-    /** Detail of a content permission set */
-    export interface ContentPermissionSetDetail extends PermissionSetDetailOfContentRight {
-    }
-    export interface PermissionUserRoleRightsOfContentRight {
-        userRoleId?: string | undefined;
-        names?: TranslatedStringDictionary | undefined;
-        rights?: ContentRight[] | undefined;
-    }
-    export interface PermissionUserRoleRightsOfPermissionSetRight {
-        userRoleId?: string | undefined;
-        names?: TranslatedStringDictionary | undefined;
-        rights?: PermissionSetRight[] | undefined;
-    }
     export interface BaseResultOfDocumentHistory {
         totalResults: number;
         results: DocumentHistory[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface DocumentHistorySearchResult extends BaseResultOfDocumentHistory {
-        pageToken?: string | undefined;
     }
     export interface DocumentHistory {
         documentId?: string | undefined;
         documentVersion: number;
         documentType?: string | undefined;
-        documentTypeContract?: string | undefined;
         documentDate: Date;
         document?: string | undefined;
         timestamp: Date;
@@ -3143,8 +3681,10 @@ declare module "picturepark" {
         documentId?: string | undefined;
         oldDocumentVersion: number;
         newDocumentVersion: number;
-        oldValues?: any | undefined;
-        newValues?: any | undefined;
+        /** Contains an RFC 6902 compatible patch that can be applied on the old document to get the new document.
+    Use a library like jsondiffpatch.net (https://github.com/wbish/jsondiffpatch.net)
+    or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. */
+        patch?: any | undefined;
     }
     /** Customer configuration information */
     export interface CustomerInfo {
@@ -3164,6 +3704,11 @@ declare module "picturepark" {
         languages: Language[];
         /** Configured rendering outputs including translations for the customer instance. */
         outputFormats: OutputFormatInfo[];
+        /** Boost levels that can be applied to a metadata field to boost the the significance of the field in a search operation. */
+        boostValues: number[];
+        /** Apps registered for this customer */
+        apps?: CustomerApp[] | undefined;
+        modificationDate: Date;
     }
     export interface LanguageConfiguration {
         /** A list of languages serving as system languages. */
@@ -3191,6 +3736,12 @@ declare module "picturepark" {
         /** Output translations. */
         names: TranslatedStringDictionary;
     }
+    export interface CustomerApp {
+        appId?: string | undefined;
+        name?: TranslatedStringDictionary | undefined;
+        description?: TranslatedStringDictionary | undefined;
+        icon?: string | undefined;
+    }
     /** The version view item for the environment. */
     export interface VersionInfo {
         /** The manual file version of Picturepark.Contract.dll. */
@@ -3212,6 +3763,8 @@ declare module "picturepark" {
         displayValues?: DisplayValueDictionary | undefined;
         /** The list item id. */
         id?: string | undefined;
+        /** Audit data with information regarding document creation and modification. */
+        audit?: UserAudit | undefined;
     }
     export enum ListItemResolveBehavior {
         Content,
@@ -3225,6 +3778,7 @@ declare module "picturepark" {
         totalResults: number;
         results: ListItem[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     /** Encapsulates the result of a list item search. */
     export interface ListItemSearchResult extends BaseResultOfListItem {
@@ -3239,6 +3793,8 @@ declare module "picturepark" {
         displayValues?: DisplayValueDictionary | undefined;
         /** The list item id. */
         id?: string | undefined;
+        /** Audit data with information regarding document creation and modification. */
+        audit?: UserAudit | undefined;
     }
     /** Request to search list items */
     export interface ListItemSearchRequest {
@@ -3248,10 +3804,10 @@ declare module "picturepark" {
         searchBehaviors?: SearchBehavior[] | undefined;
         /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first matching document. Defaults to 0. */
-        start: number;
         /** Limits the number of the returned schemas. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional filter to limit the list items. */
         filter?: FilterBase | undefined;
         /** Broadens the search to include all schema descendant list items. */
@@ -3277,7 +3833,7 @@ declare module "picturepark" {
     }
     /** Request to aggregate list items */
     export interface ListItemAggregationRequest {
-        /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. Defaults to *. */
+        /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
         searchBehaviors?: SearchBehavior[] | undefined;
@@ -3353,7 +3909,7 @@ declare module "picturepark" {
     }
     /** Request to filter list items */
     export interface ListItemFilterRequest {
-        /** The string used to query the data. The Lucene query string syntax is supported. Defaults to *. */
+        /** The string used to query the data. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional filter to limit the list items. */
         filter?: FilterBase | undefined;
@@ -3457,7 +4013,9 @@ declare module "picturepark" {
         TransferReady,
         FileDeleteInProgress,
         TransferCleanup,
-        ImportCompletedWithErrors
+        ImportCompletedWithErrors,
+        UploadCompletedWithErrors,
+        UploadCancellationInProgress
     }
     export interface ReindexEvent extends ApplicationEvent {
         indexId?: string | undefined;
@@ -3519,6 +4077,22 @@ declare module "picturepark" {
         outputId?: string | undefined;
         contentId?: string | undefined;
         outputFormatId?: string | undefined;
+        renderingState: OutputRenderingState;
+    }
+    export interface ConfigurationChangeEvent extends ApplicationEvent {
+        documentType?: string | undefined;
+    }
+    export interface CustomerChangeEvent extends ConfigurationChangeEvent {
+        lifeCycle: LifeCycle;
+    }
+    export interface SearchReindexCompletedEvent extends ApplicationEvent {
+        searchIndex: SearchIndexType;
+        items: number;
+        duration: string;
+    }
+    export enum SearchIndexType {
+        Content,
+        ListItem
     }
     export interface ConsoleMessage extends Message {
         command?: string | undefined;
@@ -3539,18 +4113,56 @@ declare module "picturepark" {
         release?: string | undefined;
         logLevel?: string | undefined;
     }
+    export interface BaseResultOfLiveStream {
+        totalResults: number;
+        results: LiveStream[];
+        elapsedMilliseconds: number;
+        pageToken?: string | undefined;
+    }
+    /** Results of live stream search. */
+    export interface LiveStreamSearchResult extends BaseResultOfLiveStream {
+    }
+    export interface LiveStream {
+        id?: string | undefined;
+        document?: string | undefined;
+        scopeType?: string | undefined;
+        timestamp: Date;
+        traceJob?: LiveStreamTraceJob | undefined;
+        audit?: UserAudit | undefined;
+    }
+    export interface LiveStreamTraceJob {
+        traceJobId?: string | undefined;
+        ipAddress?: string | undefined;
+        userId?: string | undefined;
+        apiClientId?: string | undefined;
+    }
+    export interface LiveStreamSearchRequest {
+        /** Sets the start date and time for results based on Timestamp attribute. */
+        from: Date;
+        /** Sets the end date and time for results based on Timestamp attribute. */
+        to: Date;
+        /** Optionally limits the result to only the specified scope type. */
+        scopeType?: string | undefined;
+        /** An optional search filter. Limits the document result set. */
+        filter?: FilterBase | undefined;
+        /** Limits the document count of the result set. Defaults to 30. */
+        limit: number;
+        /** To get a large amount of data, page token returned from the response can be used to get all data. */
+        pageToken?: string | undefined;
+    }
     export interface BaseResultOfOutput {
         totalResults: number;
         results: Output[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface OutputSearchResult extends BaseResultOfOutput {
     }
     export interface OutputSearchRequest {
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** List of Content ids you want to use to fetch the outputs. */
         contentIds?: string[] | undefined;
         /** The allowed rendering states of the outputs you want to fetch. */
@@ -3559,6 +4171,275 @@ declare module "picturepark" {
         fileExtensions?: string[] | undefined;
         /** The output format id of the outputs you want to fetch. */
         outputFormatIds?: string[] | undefined;
+    }
+    export interface OutputResetRetryAttemptsRequest {
+        /** List of output IDs you want to filter on. If this field is not empty, the other will be ignored. */
+        outputIds?: string[] | undefined;
+        /** List of Content IDs you want to filter on. */
+        contentIds?: string[] | undefined;
+        /** The file extension of the outputs you want to filter on. */
+        fileExtensions?: string[] | undefined;
+        /** The IDs of the output formats you want to filter on. */
+        outputFormatIds?: string[] | undefined;
+        /** Should the successful filter results also be reset (and subsequently re-rendered)? */
+        includeCompleted: boolean;
+    }
+    /** Represents the editable part of the output format. */
+    export interface OutputFormatEditable {
+        /** Language specific names. */
+        names?: TranslatedStringDictionary | undefined;
+        /** Which output format should be used as a source of data. */
+        sourceOutputFormats?: SourceOutputFormats | undefined;
+        /** Information about the technical format of the data, e.g. JPEG, AAC or video still. */
+        format?: FormatBase | undefined;
+        /** How long should the dynamic outputs created from this format be kept. */
+        retentionTime: string;
+    }
+    /** Represents an output format. */
+    export interface OutputFormat extends OutputFormatEditable {
+        /** Output format ID. */
+        id?: string | undefined;
+        /** Marks if this is a system output format. */
+        system: boolean;
+        /** A dynamic output format is not rendered automatically, but only on demand. */
+        dynamic: boolean;
+        /** Specifies if output format should be taken into account during data extraction. */
+        dataExtraction: boolean;
+        /** Temporary outputs will not be backed up. */
+        temporary: boolean;
+    }
+    export interface SourceOutputFormats {
+        image?: string | undefined;
+        video?: string | undefined;
+        document?: string | undefined;
+        audio?: string | undefined;
+    }
+    export interface FormatBase {
+    }
+    export interface ImageFormatBase extends FormatBase {
+        colorProfile?: ColorProfile | undefined;
+        colorTransformationIntent: ColorTransformationIntent;
+        horizontalResolution?: number | undefined;
+        verticalResolution?: number | undefined;
+        renderFirstFrameOnly: boolean;
+        keepClippingPath: boolean;
+        cloneExif: boolean;
+        cloneIptc: boolean;
+        cloneAdobeResources: boolean;
+        cloneXmp: boolean;
+        resizeAction?: ResizeAction | undefined;
+        actions?: ImageActionBase[] | undefined;
+    }
+    export enum ColorProfile {
+        AdobeRgb1998,
+        AppleRgb,
+        ColorMatchRgb,
+        EciRgbV1,
+        EciRgbV2,
+        Srgb,
+        SrgbColorSpaceProfile,
+        EuropeIsoCoatedFogra27,
+        EuroscaleCoated,
+        EuroscaleUncoated,
+        IsoCoated,
+        IsoCoatedEciV2,
+        JapanColor2001Coated,
+        JapanColor2001Uncoated,
+        JapanColor2002Newspaper,
+        JapanWebCoated,
+        UsSheetfedCoated,
+        UsSheetfedUncoated,
+        UsWebCoatedSwop,
+        UsWebUncoated,
+        IsoCoatedV2Grey1cBas,
+        IsoCoated300EciV2,
+        CoatedFogra27,
+        CoatedFogra39,
+        UncoatedFogra29,
+        WebCoatedFogra28,
+        WebCoatedSwop2006Grade3,
+        WebCoatedSwop2006Grade5,
+        Isonewspaper26v4,
+        Isonewspaper26v4Grey
+    }
+    export enum ColorTransformationIntent {
+        RelativeColorimetricBpc,
+        AbsoluteColorimetric,
+        Perceptual,
+        RelativeColorimetric,
+        Saturation
+    }
+    /** Does not implement the IImageAction interface. The ResizeAction is directly exposed within ImageFormat. */
+    export interface ResizeAction {
+        width: number;
+        height: number;
+        resizeMode: ResizeMode;
+    }
+    export enum ResizeMode {
+        Fit,
+        Shrink,
+        Resize
+    }
+    export interface ImageActionBase {
+    }
+    export interface AlphaHandlingAction extends ImageActionBase {
+        alphaHandling: AlphaHandling;
+        replacementRgbColorHexCode?: string | undefined;
+    }
+    export enum AlphaHandling {
+        DiscardAlpha,
+        ReplaceAlpha,
+        ReplaceInvertedAlpha
+    }
+    export interface CropAction extends ImageActionBase {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    }
+    export interface UnsharpenMaskAction extends ImageActionBase {
+        amount: number;
+        radius: number;
+        threshold: number;
+    }
+    export interface WatermarkAction extends ImageActionBase {
+        watermarkFilePath?: string | undefined;
+        watermarkText?: string | undefined;
+        marginLeft?: number | undefined;
+        marginTop?: number | undefined;
+        marginRight?: number | undefined;
+        marginBottom?: number | undefined;
+        opacity: number;
+        widthRatio: number;
+        heightRatio: number;
+    }
+    export interface OriginalFormat extends FormatBase {
+        extension?: string | undefined;
+    }
+    export interface JpegFormat extends ImageFormatBase {
+        quality: number;
+        isProgressive: boolean;
+        chromaSubsamplingEnabled: boolean;
+        extension?: string | undefined;
+    }
+    export interface PngFormat extends ImageFormatBase {
+        interlaced: boolean;
+        extension?: string | undefined;
+    }
+    export interface TiffFormat extends ImageFormatBase {
+        alphaPremultiplied: boolean;
+        compressionType: CompressionType;
+        includeUnspecifiedTiffExtraChannels: boolean;
+        extension?: string | undefined;
+    }
+    export enum CompressionType {
+        None,
+        Lzw,
+        Rle,
+        Zip
+    }
+    export interface VideoFormatBase extends FormatBase {
+    }
+    export interface Mp4VideoFormat extends VideoFormatBase {
+        resizeAction?: ResizeAction2 | undefined;
+        /** Gets or sets the encoding audio codec. */
+        audioCodec?: AudioFormatBase | undefined;
+        /** Gets or sets the encoding codec preset. */
+        preset: Preset;
+        extension?: string | undefined;
+    }
+    export interface ResizeAction2 {
+        width: number;
+        height: number;
+        resizeMode: ResizeMode;
+    }
+    export interface AudioFormatBase extends FormatBase {
+    }
+    export enum Preset {
+        Ultrafast,
+        Superfast,
+        Veryfast,
+        Faster,
+        Fast,
+        Medium,
+        Slow,
+        Slower
+    }
+    export interface VideoSpriteFormat extends VideoFormatBase {
+        spriteResizeAction?: ResizeAction2 | undefined;
+        maxNumberOfSprites: number;
+        quality: number;
+        extension?: string | undefined;
+    }
+    export interface VideoStillFormat extends VideoFormatBase {
+        extension?: string | undefined;
+        positionInSeconds: number;
+    }
+    export interface AacAudioFormat extends AudioFormatBase {
+        extension?: string | undefined;
+        /** Gets or sets the encoding profile. */
+        profile: Profile;
+        /** Gets or sets the encoding coder. */
+        coder: Coder;
+        /** Gets or sets the bitrate of the encoding. */
+        bitrate?: number | undefined;
+        /** Gets or sets the encoding variable bit rate (VBR) - 1 is lowest quality and 5 is highest quality. */
+        variableBitRate?: number | undefined;
+    }
+    export enum Profile {
+        Aac_low,
+        Mpeg2_aac_low,
+        Aac_ltp,
+        Aac_main
+    }
+    export enum Coder {
+        Twoloop,
+        Anmr,
+        Fast
+    }
+    export interface AudioStillFormat extends AudioFormatBase {
+        extension?: string | undefined;
+    }
+    export interface Mp3AudioFormat extends AudioFormatBase {
+        extension?: string | undefined;
+        /** Gets or sets the encoding bitrate. */
+        bitrate?: number | undefined;
+        /** Gets or sets the encoding quality.
+    Values can be set it range of 0 to 9, where a lower value is a higher quality. */
+        quality?: number | undefined;
+    }
+    export interface DocumentFormatBase extends FormatBase {
+    }
+    export interface DocumentStillFormat extends DocumentFormatBase {
+        extension?: string | undefined;
+    }
+    export interface PdfFormat extends DocumentFormatBase {
+        /** JpegQuality parameter value must be between 0 and 100. */
+        jpegQuality: number;
+        fastWebView: boolean;
+        reduceFileSize: boolean;
+        extension?: string | undefined;
+        extractFullText: boolean;
+    }
+    /** Used to create multiple new output formats at once. */
+    export interface OutputFormatCreateManyRequest {
+        /** Output format items to be created. */
+        items?: OutputFormat[] | undefined;
+    }
+    /** Used to modify multiple output formats at once. */
+    export interface OutputFormatUpdateManyRequest {
+        /** Output format items to be modified. */
+        items?: OutputFormatUpdateManyRequestItem[] | undefined;
+    }
+    /** Represents one item to be modified in a bulk update operation on output formats. */
+    export interface OutputFormatUpdateManyRequestItem extends OutputFormatEditable {
+        /** ID of the output format to modify. */
+        id?: string | undefined;
+    }
+    /** Used to remove multiple output formats at once. */
+    export interface OutputFormatDeleteManyRequest {
+        /** List of IDs of output formats to remove. */
+        ids?: string[] | undefined;
     }
     /** User profile. */
     export interface UserProfile {
@@ -3879,14 +4760,6 @@ declare module "picturepark" {
         /** The suffix for the analyzed field: edgengram. */
         fieldSuffix?: string | undefined;
     }
-    export enum Analyzer {
-        None,
-        Simple,
-        Language,
-        PathHierarchy,
-        EdgeNGram,
-        NGram
-    }
     /** An analyzer using an ElasticSearch's language tokenizer */
     export interface LanguageAnalyzer extends AnalyzerBase {
         /** The analyzer type: Language */
@@ -4040,6 +4913,7 @@ declare module "picturepark" {
         totalResults: number;
         results: Schema[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema {
         searchString?: string | undefined;
@@ -4080,10 +4954,10 @@ declare module "picturepark" {
         searchBehaviors?: SearchBehavior[] | undefined;
         /** Sorts the search results. Currently only sorting on the Names property is allowed. */
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first matching document. Defaults to 0. */
-        start: number;
         /** Limits the number of the returned schemas. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional filter to limit the schemas. */
         filter?: FilterBase | undefined;
         /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the SchemaSearchResult.
@@ -4092,6 +4966,8 @@ declare module "picturepark" {
         /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
     If not specified, all metadata languages in the system are used. */
         searchLanguages?: string[] | undefined;
+        /** Limits the schemas to the ones the user has the specified MetadataRights. */
+        rightsFilter?: MetadataRight[] | undefined;
     }
     /** Contains compiled field information. */
     export interface IndexField {
@@ -4133,9 +5009,21 @@ declare module "picturepark" {
         SchemaAndParentFieldsOnly
     }
     /** Exists response */
-    export interface ExistsResponse {
+    export interface SchemaExistsResponse {
         /** It indicates if it exists. */
         exists: boolean;
+    }
+    /** Response for a query if a field exists */
+    export interface FieldExistsResponse {
+        /** Indicates if a field with the specified ID currently exists. */
+        exists: boolean;
+        /** Indicates if a field with the specified ID was previously used.
+    A field ID that was previously in use cannot be used again. */
+        previouslyUsed: boolean;
+        /** If the field does already exist or has already existed, this will contain the ID
+    of the schema containing it. It case of parent-child schemas, a field ID
+    has to be unique across the schema hierarchy. */
+        schemaId?: string | undefined;
     }
     /** Result of a schema create operation */
     export interface SchemaCreateResult {
@@ -4176,6 +5064,12 @@ declare module "picturepark" {
         /** If the schema if of type Layer, the list contains the schemas with type Content
     that reference the layer. */
         referencedInContentSchemaIds?: string[] | undefined;
+    }
+    /** Request to create multiple schemas */
+    export interface SchemaCreateManyRequest {
+        /** The schemas to create. Cyclic dependencies between schemas are supported, if the
+    are all in the same request. */
+        schemas: SchemaCreateRequest[];
     }
     /** Result of a schema update operation */
     export interface SchemaUpdateResult {
@@ -4229,6 +5123,41 @@ declare module "picturepark" {
         userRoleId?: string | undefined;
         names?: TranslatedStringDictionary | undefined;
         rights?: MetadataRight[] | undefined;
+    }
+    export interface PermissionSetCreateRequestOfMetadataRight {
+        names?: TranslatedStringDictionary | undefined;
+        userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+        userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+        exclusive: boolean;
+    }
+    export interface SchemaPermissionSetCreateRequest extends PermissionSetCreateRequestOfMetadataRight {
+    }
+    export interface UserRoleRightsOfMetadataRight {
+        userRoleId?: string | undefined;
+        rights?: MetadataRight[] | undefined;
+    }
+    export interface PermissionSetUpdateRequestOfMetadataRight {
+        names?: TranslatedStringDictionary | undefined;
+        userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+        userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+        exclusive: boolean;
+    }
+    /** Request to update a schema permission set */
+    export interface SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfMetadataRight {
+    }
+    export interface SchemaPermissionSetCreateManyRequest {
+        items?: SchemaPermissionSetCreateRequest[] | undefined;
+    }
+    /** Request to update multiple schema permissions sets */
+    export interface SchemaPermissionSetUpdateManyRequest {
+        /** Schema permission sets update requests. */
+        items?: SchemaPermissionSetUpdateRequestItem[] | undefined;
+    }
+    export interface PermissionSetUpdateRequestItemOfMetadataRight extends PermissionSetUpdateRequestOfMetadataRight {
+        id: string;
+    }
+    /** Request to update a schema permission set */
+    export interface SchemaPermissionSetUpdateRequestItem extends PermissionSetUpdateRequestItemOfMetadataRight {
     }
     /** Represents a transfer. */
     export interface Transfer {
@@ -4400,6 +5329,7 @@ declare module "picturepark" {
         totalResults: number;
         results: Share[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfShare extends BaseResultOfShare {
         searchString?: string | undefined;
@@ -4434,10 +5364,10 @@ declare module "picturepark" {
         searchBehaviors?: SearchBehavior[] | undefined;
         /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
@@ -4499,13 +5429,16 @@ declare module "picturepark" {
         languageCode: string;
     }
     /** Represents a user role, which associates users with user rights. */
-    export interface UserRole {
+    export interface UserRoleEditable {
+        /** Language specific user role names. */
+        names: TranslatedStringDictionary;
+        /** All user rights for this user role. */
+        userRights: UserRight[];
+    }
+    /** Represents a user role, which associates users with user rights. */
+    export interface UserRole extends UserRoleEditable {
         /** User role ID. */
         id?: string | undefined;
-        /** Language specific user role names. */
-        names?: TranslatedStringDictionary | undefined;
-        /** All user rights for this user role. */
-        userRights?: UserRight[] | undefined;
     }
     /** Create request for embed share */
     export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
@@ -4532,24 +5465,6 @@ declare module "picturepark" {
     }
     /** Update request for embed share */
     export interface ShareEmbedUpdateRequest extends ShareBaseUpdateRequest {
-    }
-    /** Response to a bulk operation */
-    export interface BulkResponse {
-        /** Rows of the bulk response. */
-        rows?: BulkResponseRow[] | undefined;
-    }
-    /** Row information of a bulk response */
-    export interface BulkResponseRow {
-        /** ID of the document. */
-        id: string;
-        /** Version of the document. */
-        version: number;
-        /** Eventual error. */
-        error?: string | undefined;
-        /** True if item successfully saved. False otherwise. */
-        succeeded: boolean;
-        /** Returned status code. */
-        status: number;
     }
     export interface ShareDeleteManyRequest {
         /** IDs of shares to delete. */
@@ -4580,6 +5495,7 @@ declare module "picturepark" {
         totalResults: number;
         results: Transfer[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer {
         searchString?: string | undefined;
@@ -4595,10 +5511,10 @@ declare module "picturepark" {
         searchString?: string | undefined;
         /** An optional list of search behaviors. All the passed behaviors will be applied. */
         searchBehaviors?: SearchBehavior[] | undefined;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
         /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the TransferSearchResult.
@@ -4656,7 +5572,7 @@ declare module "picturepark" {
         audit: UserAudit;
         /** Metadata extracted for file. */
         fileMetadata?: FileMetadata | undefined;
-        /** Outputs being rendered for file. */
+        /** Outputs rendered during data extraction phase. */
         outputItems?: FileTransferOutput[] | undefined;
     }
     export interface FileMetadata {
@@ -4793,6 +5709,7 @@ declare module "picturepark" {
         totalResults: number;
         results: FileTransfer[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTransfer {
         searchString?: string | undefined;
@@ -4808,10 +5725,10 @@ declare module "picturepark" {
         searchString?: string | undefined;
         /** An optional list of search behaviors. All the passed behaviors will be applied. */
         searchBehaviors?: SearchBehavior[] | undefined;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
     }
@@ -4903,6 +5820,7 @@ declare module "picturepark" {
         totalResults: number;
         results: UserWithRoles[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles {
         searchString?: string | undefined;
@@ -4941,10 +5859,10 @@ declare module "picturepark" {
         searchBehaviors?: SearchBehavior[] | undefined;
         /** Fields and respective directions requested to sort the search results. */
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** Filter applied to users. */
         filter?: FilterBase | undefined;
         /** Return only users in certain life cycle state(s). */
@@ -4965,7 +5883,9 @@ declare module "picturepark" {
         sort?: SortInfo[] | undefined;
         /** An optional search filter. Limits the content document result set. */
         filter?: FilterBase | undefined;
-        /** List of aggregation filters, which are added to the search query and return documents meeting the aggregation condition. */
+        /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+    filtering an aggregation that matches the same AggregationName or another aggregation.
+    In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
         aggregationFilters?: AggregationFilter[] | undefined;
         /** List of aggregators used while evaluating the request. */
         aggregators?: AggregatorBase[] | undefined;
@@ -4990,6 +5910,7 @@ declare module "picturepark" {
         totalResults: number;
         results: UserRole[];
         elapsedMilliseconds: number;
+        pageToken?: string | undefined;
     }
     export interface SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole {
         searchString?: string | undefined;
@@ -5006,10 +5927,10 @@ declare module "picturepark" {
         searchBehaviors?: SearchBehavior[] | undefined;
         /** Fields and respective directions requested to sort the search results. */
         sort?: SortInfo[] | undefined;
-        /** Defines the offset from the first result you want to fetch. Defaults to 0. */
-        start: number;
         /** Limits the document count of the result set. Defaults to 30. */
         limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
         /** Filter applied to user roles. */
         filter?: FilterBase | undefined;
         /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
@@ -5020,11 +5941,7 @@ declare module "picturepark" {
         includeAdministratorSystemUserRole: boolean;
     }
     /** Holds information needed for user role creation. */
-    export interface UserRoleCreateRequest {
-        /** Language specific user role names. */
-        names: TranslatedStringDictionary;
-        /** All user rights for this user role. */
-        userRights: UserRight[];
+    export interface UserRoleCreateRequest extends UserRoleEditable {
     }
     /** Holds information needed to create multiple user roles. */
     export interface UserRoleCreateManyRequest {
@@ -5034,15 +5951,7 @@ declare module "picturepark" {
     /** Holds information about which user roles and how are requested to be updated. */
     export interface UserRoleUpdateManyRequest {
         /** New value for user roles with specified IDs. */
-        items: UserRoleDetail[];
-    }
-    export interface UserRoleDetail {
-        /** The user role id. */
-        id?: string | undefined;
-        /** Language specific user role names. */
-        names?: TranslatedStringDictionary | undefined;
-        /** All user rights for this user role. */
-        userRights?: UserRight[] | undefined;
+        items: UserRole[];
     }
     /** Holds information about which user roles are requested to be deleted. */
     export interface UserRoleDeleteManyRequest {

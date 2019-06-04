@@ -97,11 +97,12 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#debugmode" class="tsd-kind-icon">debug<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#rightsfilter" class="tsd-kind-icon">rights<wbr>Filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ischemasearchrequest.html#start" class="tsd-kind-icon">start</a></li>
 							</ul>
 						</section>
 					</div>
@@ -115,7 +116,7 @@
 					<div class="tsd-signature tsd-kind-icon">debug<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35958">lib/api-services.ts:35958</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44991">lib/api-services.ts:44991</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -131,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../classes/filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35955">lib/api-services.ts:35955</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44988">lib/api-services.ts:44988</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,7 +147,7 @@
 					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35953">lib/api-services.ts:35953</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44984">lib/api-services.ts:44984</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,12 +157,42 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="pagetoken" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> page<wbr>Token</h3>
+					<div class="tsd-signature tsd-kind-icon">page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44986">lib/api-services.ts:44986</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="rightsfilter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> rights<wbr>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">rights<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/metadataright.html" class="tsd-signature-type">MetadataRight</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44996">lib/api-services.ts:44996</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Limits the schemas to the ones the user has the specified MetadataRights.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="searchbehaviors" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35947">lib/api-services.ts:35947</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44980">lib/api-services.ts:44980</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -176,7 +207,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Languages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35961">lib/api-services.ts:35961</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44994">lib/api-services.ts:44994</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -192,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35945">lib/api-services.ts:35945</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44978">lib/api-services.ts:44978</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -207,27 +238,12 @@
 					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="isortinfo.html" class="tsd-signature-type">ISortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35949">lib/api-services.ts:35949</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44982">lib/api-services.ts:44982</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Sorts the search results. Currently only sorting on the Names property is allowed.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="start" class="tsd-anchor"></a>
-					<h3>start</h3>
-					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L35951">lib/api-services.ts:35951</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the offset from the first matching document. Defaults to 0.</p>
 						</div>
 					</div>
 				</section>
@@ -258,6 +274,12 @@
 								<a href="ischemasearchrequest.html#limit" class="tsd-kind-icon">limit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="ischemasearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="ischemasearchrequest.html#rightsfilter" class="tsd-kind-icon">rights<wbr>Filter</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="ischemasearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -268,9 +290,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="ischemasearchrequest.html#sort" class="tsd-kind-icon">sort</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ischemasearchrequest.html#start" class="tsd-kind-icon">start</a>
 							</li>
 						</ul>
 					</li>

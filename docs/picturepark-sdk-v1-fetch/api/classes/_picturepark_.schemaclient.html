@@ -104,12 +104,16 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#createmany" class="tsd-kind-icon">create<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#delete" class="tsd-kind-icon">delete</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#exists" class="tsd-kind-icon">exists</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#fieldexists" class="tsd-kind-icon">field<wbr>Exists</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.schemaclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#getindexfields" class="tsd-kind-icon">get<wbr>Index<wbr>Fields</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#getmany" class="tsd-kind-icon">get<wbr>Many</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#getmanyreferenced" class="tsd-kind-icon">get<wbr>Many<wbr>Referenced</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#getreferenced" class="tsd-kind-icon">get<wbr>Referenced</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.schemaclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.schemaclient.html#update" class="tsd-kind-icon">update</a></li>
@@ -131,7 +135,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_picturepark_.pictureparkclientbase.html">PictureparkClientBase</a>.<a href="_picturepark_.pictureparkclientbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:619</li>
+									<li>Defined in docs/temp/picturepark.d.ts:806</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -154,7 +158,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in docs/temp/picturepark.d.ts:621</li>
+															<li>Defined in docs/temp/picturepark.d.ts:808</li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:618</li>
+							<li>Defined in docs/temp/picturepark.d.ts:805</li>
 						</ul>
 					</aside>
 				</section>
@@ -195,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:617</li>
+							<li>Defined in docs/temp/picturepark.d.ts:804</li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +209,7 @@
 					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:619</li>
+							<li>Defined in docs/temp/picturepark.d.ts:806</li>
 						</ul>
 					</aside>
 				</section>
@@ -222,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:663</li>
+									<li>Defined in docs/temp/picturepark.d.ts:850</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -252,6 +256,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createmany" class="tsd-anchor"></a>
+					<h3>create<wbr>Many</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Many<span class="tsd-signature-symbol">(</span>schemas<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.schemacreatemanyrequest.html" class="tsd-signature-type">SchemaCreateManyRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:900</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create multiple schemas</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>schemas: <a href="../interfaces/_picturepark_.schemacreatemanyrequest.html" class="tsd-signature-type">SchemaCreateManyRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The schema create many request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess which can be awaited.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="delete" class="tsd-anchor"></a>
 					<h3>delete</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -261,7 +297,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:647</li>
+									<li>Defined in docs/temp/picturepark.d.ts:834</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,13 +330,13 @@
 					<a name="exists" class="tsd-anchor"></a>
 					<h3>exists</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">exists<span class="tsd-signature-symbol">(</span>schemaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fieldId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.existsresponse.html" class="tsd-signature-type">ExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">exists<span class="tsd-signature-symbol">(</span>schemaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemaexistsresponse.html" class="tsd-signature-type">SchemaExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:685</li>
+									<li>Defined in docs/temp/picturepark.d.ts:871</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -316,15 +352,47 @@
 										<p>The schema ID.</p>
 									</div>
 								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemaexistsresponse.html" class="tsd-signature-type">SchemaExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Schema Exists response</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fieldexists" class="tsd-anchor"></a>
+					<h3>field<wbr>Exists</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">field<wbr>Exists<span class="tsd-signature-symbol">(</span>schemaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fieldId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.fieldexistsresponse.html" class="tsd-signature-type">FieldExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:879</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Exists field in schema</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fieldId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<h5>schemaId: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) The optional field ID.</p>
+										<p>The schema ID.</p>
+									</div>
+								</li>
+								<li>
+									<h5>fieldId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The field ID.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.existsresponse.html" class="tsd-signature-type">ExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>Exists response</p>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.fieldexistsresponse.html" class="tsd-signature-type">FieldExistsResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Field Exists response</p>
 						</li>
 					</ul>
 				</section>
@@ -338,7 +406,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:628</li>
+									<li>Defined in docs/temp/picturepark.d.ts:815</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -394,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:677</li>
+									<li>Defined in docs/temp/picturepark.d.ts:864</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -426,7 +494,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:654</li>
+									<li>Defined in docs/temp/picturepark.d.ts:841</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -449,6 +517,70 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getmanyreferenced" class="tsd-anchor"></a>
+					<h3>get<wbr>Many<wbr>Referenced</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Many<wbr>Referenced<span class="tsd-signature-symbol">(</span>ids<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadetail.html" class="tsd-signature-type">SchemaDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:893</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all schemas referenced by the schemas specified in</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> ids: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(optional) The schema IDs.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadetail.html" class="tsd-signature-type">SchemaDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Referenced schema details</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getreferenced" class="tsd-anchor"></a>
+					<h3>get<wbr>Referenced</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Referenced<span class="tsd-signature-symbol">(</span>schemaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadetail.html" class="tsd-signature-type">SchemaDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:886</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all schemas referenced by the schema specified in</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>schemaId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The schema ID.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.schemadetail.html" class="tsd-signature-type">SchemaDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Referenced schema details</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="search" class="tsd-anchor"></a>
 					<h3>search</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -458,7 +590,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:670</li>
+									<li>Defined in docs/temp/picturepark.d.ts:857</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -514,7 +646,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:638</li>
+									<li>Defined in docs/temp/picturepark.d.ts:825</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -585,10 +717,16 @@
 								<a href="_picturepark_.schemaclient.html#create" class="tsd-kind-icon">create</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.schemaclient.html#createmany" class="tsd-kind-icon">create<wbr>Many</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.schemaclient.html#delete" class="tsd-kind-icon">delete</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.schemaclient.html#exists" class="tsd-kind-icon">exists</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.schemaclient.html#fieldexists" class="tsd-kind-icon">field<wbr>Exists</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.schemaclient.html#get" class="tsd-kind-icon">get</a>
@@ -601,6 +739,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.schemaclient.html#getmany" class="tsd-kind-icon">get<wbr>Many</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.schemaclient.html#getmanyreferenced" class="tsd-kind-icon">get<wbr>Many<wbr>Referenced</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.schemaclient.html#getreferenced" class="tsd-kind-icon">get<wbr>Referenced</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_picturepark_.schemaclient.html#search" class="tsd-kind-icon">search</a>

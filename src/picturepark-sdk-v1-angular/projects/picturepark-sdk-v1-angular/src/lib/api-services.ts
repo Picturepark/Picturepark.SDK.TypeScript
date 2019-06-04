@@ -8580,7 +8580,7 @@ export class OutputFormatService extends PictureparkServiceBase {
 
     /**
      * Get multiple output formats
-     * @param ids (optional) Output format IDs to get information about
+     * @param ids (optional) Output format IDs to get information about. If this is omitted, all output formats in the system will be returned.
      * @return Output formats
      */
     getMany(ids: string[] | null | undefined): Observable<OutputFormat[]> {
@@ -10199,6 +10199,211 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<FieldExistsResponse>(<any>null);
+    }
+
+    /**
+     * Gets all schemas referenced by the schema specified in
+     * @param schemaId The schema ID.
+     * @return Referenced schema details
+     */
+    getReferenced(schemaId: string): Observable<SchemaDetail[]> {
+        let url_ = this.baseUrl + "/v1/schemas/{schemaId}/referenced";
+        if (schemaId === undefined || schemaId === null)
+            throw new Error("The parameter 'schemaId' must be defined.");
+        url_ = url_.replace("{schemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetReferenced(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetReferenced(<any>response_);
+                } catch (e) {
+                    return <Observable<SchemaDetail[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SchemaDetail[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetReferenced(response: HttpResponseBase): Observable<SchemaDetail[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SchemaDetail.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SchemaDetail[]>(<any>null);
+    }
+
+    /**
+     * Gets all schemas referenced by the schemas specified in
+     * @param ids (optional) The schema IDs.
+     * @return Referenced schema details
+     */
+    getManyReferenced(ids: string[] | undefined): Observable<SchemaDetail[]> {
+        let url_ = this.baseUrl + "/v1/schemas/many/referenced?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetManyReferenced(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetManyReferenced(<any>response_);
+                } catch (e) {
+                    return <Observable<SchemaDetail[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SchemaDetail[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetManyReferenced(response: HttpResponseBase): Observable<SchemaDetail[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SchemaDetail.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SchemaDetail[]>(<any>null);
     }
 
     /**
@@ -15411,11 +15616,16 @@ export class UserRoleService extends PictureparkServiceBase {
     }
 
     /**
-     * Get all user roles
-     * @return List of all the user roles in the system
+     * Get multiple user roles
+     * @param ids User role IDs to get information about.
+     * @return List of user roles
      */
-    getAll(): Observable<UserRole[]> {
-        let url_ = this.baseUrl + "/v1/userRoles";
+    getMany(ids: string[] | null): Observable<UserRole[]> {
+        let url_ = this.baseUrl + "/v1/userRoles?";
+        if (ids === undefined)
+            throw new Error("The parameter 'ids' must be defined.");
+        else
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15429,11 +15639,11 @@ export class UserRoleService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetAll(response_);
+            return this.processGetMany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAll(<any>response_);
+                    return this.processGetMany(<any>response_);
                 } catch (e) {
                     return <Observable<UserRole[]>><any>_observableThrow(e);
                 }
@@ -15442,7 +15652,7 @@ export class UserRoleService extends PictureparkServiceBase {
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<UserRole[]> {
+    protected processGetMany(response: HttpResponseBase): Observable<UserRole[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -15802,6 +16012,203 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<UserRoleSearchResult>(<any>null);
+    }
+
+    /**
+     * Update user roles
+     * @param id ID of the user role to update.
+     * @param request User role update request.
+     * @return Updated user role
+     */
+    update(id: string, request: UserRoleEditable): Observable<UserRole> {
+        let url_ = this.baseUrl + "/v1/userRoles/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<UserRole>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserRole>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<UserRole> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? UserRole.fromJS(resultData200) : new UserRole();
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserRole>(<any>null);
+    }
+
+    /**
+     * Delete user role
+     * @param id ID of user role to delete
+     * @return OK
+     */
+    delete(id: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/userRoles/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -16594,6 +17001,7 @@ export class PictureparkException extends Exception implements IPictureparkExcep
     traceId?: string | undefined;
     traceJobId?: string | undefined;
     httpStatusCode!: number;
+    exceptionMessage?: string | undefined;
 
     protected _discriminator: string;
 
@@ -16609,6 +17017,7 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             this.traceId = data["traceId"];
             this.traceJobId = data["traceJobId"];
             this.httpStatusCode = data["httpStatusCode"];
+            this.exceptionMessage = data["exceptionMessage"];
         }
     }
 
@@ -16684,6 +17093,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnauthorizedException") {
+            let result = new UnauthorizedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -16716,6 +17130,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "ChannelsNotFoundException") {
             let result = new ChannelsNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SuperAdminRolesNotAssignableToChannelException") {
+            let result = new SuperAdminRolesNotAssignableToChannelException();
             result.init(data);
             return result;
         }
@@ -16794,6 +17213,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatResizingNotSupportedException") {
+            let result = new OutputFormatResizingNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -16859,6 +17283,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContractMismatchException") {
+            let result = new ContractMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidArgumentException") {
             let result = new InvalidArgumentException();
             result.init(data);
@@ -16876,6 +17305,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "InvalidValueFormatException") {
             let result = new InvalidValueFormatException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ItemIdDuplicatedException") {
+            let result = new ItemIdDuplicatedException();
             result.init(data);
             return result;
         }
@@ -17039,6 +17473,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PermissionSetAggregateException") {
+            let result = new PermissionSetAggregateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
             result.init(data);
@@ -17076,6 +17515,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "PermissionSetInvalidRightCombinationException") {
             let result = new PermissionSetInvalidRightCombinationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AmbiguousUserRoleRightsException") {
+            let result = new AmbiguousUserRoleRightsException();
             result.init(data);
             return result;
         }
@@ -17469,6 +17913,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldRelationMultipleTypesException") {
+            let result = new SchemaFieldRelationMultipleTypesException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -17641,6 +18090,7 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         data["traceId"] = this.traceId;
         data["traceJobId"] = this.traceJobId;
         data["httpStatusCode"] = this.httpStatusCode;
+        data["exceptionMessage"] = this.exceptionMessage;
         super.toJSON(data);
         return data; 
     }
@@ -17651,6 +18101,7 @@ export interface IPictureparkException extends IException {
     traceId?: string | undefined;
     traceJobId?: string | undefined;
     httpStatusCode: number;
+    exceptionMessage?: string | undefined;
 }
 
 export enum TraceLevel {
@@ -17747,6 +18198,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnauthorizedException") {
+            let result = new UnauthorizedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -17764,6 +18220,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "ChannelsNotFoundException") {
             let result = new ChannelsNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SuperAdminRolesNotAssignableToChannelException") {
+            let result = new SuperAdminRolesNotAssignableToChannelException();
             result.init(data);
             return result;
         }
@@ -17814,6 +18275,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "DuplicateOutputFormatIdException") {
             let result = new DuplicateOutputFormatIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatResizingNotSupportedException") {
+            let result = new OutputFormatResizingNotSupportedException();
             result.init(data);
             return result;
         }
@@ -17882,6 +18348,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContractMismatchException") {
+            let result = new ContractMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidArgumentException") {
             let result = new InvalidArgumentException();
             result.init(data);
@@ -17899,6 +18370,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "InvalidValueFormatException") {
             let result = new InvalidValueFormatException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ItemIdDuplicatedException") {
+            let result = new ItemIdDuplicatedException();
             result.init(data);
             return result;
         }
@@ -18012,6 +18488,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PermissionSetAggregateException") {
+            let result = new PermissionSetAggregateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
             result.init(data);
@@ -18049,6 +18530,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "PermissionSetInvalidRightCombinationException") {
             let result = new PermissionSetInvalidRightCombinationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AmbiguousUserRoleRightsException") {
+            let result = new AmbiguousUserRoleRightsException();
             result.init(data);
             return result;
         }
@@ -18437,6 +18923,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldRelationMultipleTypesException") {
+            let result = new SchemaFieldRelationMultipleTypesException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -18646,6 +19137,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SuperAdminRolesNotAssignableToChannelException") {
+            let result = new SuperAdminRolesNotAssignableToChannelException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToCreateOrModifyStaticOutputFormatException") {
             let result = new UnableToCreateOrModifyStaticOutputFormatException();
             result.init(data);
@@ -18663,6 +19159,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "DuplicateOutputFormatIdException") {
             let result = new DuplicateOutputFormatIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatResizingNotSupportedException") {
+            let result = new OutputFormatResizingNotSupportedException();
             result.init(data);
             return result;
         }
@@ -18691,6 +19192,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContractMismatchException") {
+            let result = new ContractMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidArgumentException") {
             let result = new InvalidArgumentException();
             result.init(data);
@@ -18703,6 +19209,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidValueFormatException") {
             let result = new InvalidValueFormatException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ItemIdDuplicatedException") {
+            let result = new ItemIdDuplicatedException();
             result.init(data);
             return result;
         }
@@ -18746,6 +19257,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PermissionSetAggregateException") {
+            let result = new PermissionSetAggregateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
             result.init(data);
@@ -18783,6 +19299,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "PermissionSetInvalidRightCombinationException") {
             let result = new PermissionSetInvalidRightCombinationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AmbiguousUserRoleRightsException") {
+            let result = new AmbiguousUserRoleRightsException();
             result.init(data);
             return result;
         }
@@ -19088,6 +19609,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldAnalyzerInvalidException") {
             let result = new SchemaFieldAnalyzerInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationMultipleTypesException") {
+            let result = new SchemaFieldRelationMultipleTypesException();
             result.init(data);
             return result;
         }
@@ -19716,6 +20242,34 @@ export interface IUserRolesNotFoundException extends IPictureparkNotFoundExcepti
     userRoleIds?: string[] | undefined;
 }
 
+export class UnauthorizedException extends PictureparkBusinessException implements IUnauthorizedException {
+
+    constructor(data?: IUnauthorizedException) {
+        super(data);
+        this._discriminator = "UnauthorizedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): UnauthorizedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnauthorizedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnauthorizedException extends IPictureparkBusinessException {
+}
+
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
 
     constructor(data?: IRenderingException) {
@@ -19950,6 +20504,34 @@ export class ChannelsNotFoundException extends PictureparkNotFoundException impl
 }
 
 export interface IChannelsNotFoundException extends IPictureparkNotFoundException {
+}
+
+export class SuperAdminRolesNotAssignableToChannelException extends PictureparkValidationException implements ISuperAdminRolesNotAssignableToChannelException {
+
+    constructor(data?: ISuperAdminRolesNotAssignableToChannelException) {
+        super(data);
+        this._discriminator = "SuperAdminRolesNotAssignableToChannelException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): SuperAdminRolesNotAssignableToChannelException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SuperAdminRolesNotAssignableToChannelException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISuperAdminRolesNotAssignableToChannelException extends IPictureparkValidationException {
 }
 
 export class ElasticVersionUpdateException extends PictureparkException implements IElasticVersionUpdateException {
@@ -20442,6 +21024,44 @@ export class DuplicateOutputFormatIdException extends PictureparkValidationExcep
 export interface IDuplicateOutputFormatIdException extends IPictureparkValidationException {
 }
 
+export class OutputFormatResizingNotSupportedException extends PictureparkValidationException implements IOutputFormatResizingNotSupportedException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputFormatResizingNotSupportedException) {
+        super(data);
+        this._discriminator = "OutputFormatResizingNotSupportedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentId = data["contentId"];
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatResizingNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatResizingNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatResizingNotSupportedException extends IPictureparkValidationException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
 export class LeaseNotAcquiredException extends PictureparkBusinessException implements ILeaseNotAcquiredException {
     resourceId?: string | undefined;
 
@@ -20891,6 +21511,34 @@ export class PartialOperationNotSupportedException extends PictureparkValidation
 export interface IPartialOperationNotSupportedException extends IPictureparkValidationException {
 }
 
+export class ContractMismatchException extends PictureparkValidationException implements IContractMismatchException {
+
+    constructor(data?: IContractMismatchException) {
+        super(data);
+        this._discriminator = "ContractMismatchException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ContractMismatchException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContractMismatchException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContractMismatchException extends IPictureparkValidationException {
+}
+
 export class InvalidArgumentException extends PictureparkValidationException implements IInvalidArgumentException {
     argumentName?: string | undefined;
     argumentValue?: string | undefined;
@@ -21023,6 +21671,40 @@ export class InvalidValueFormatException extends PictureparkValidationException 
 }
 
 export interface IInvalidValueFormatException extends IPictureparkValidationException {
+}
+
+export class ItemIdDuplicatedException extends PictureparkValidationException implements IItemIdDuplicatedException {
+    id?: string | undefined;
+
+    constructor(data?: IItemIdDuplicatedException) {
+        super(data);
+        this._discriminator = "ItemIdDuplicatedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ItemIdDuplicatedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ItemIdDuplicatedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IItemIdDuplicatedException extends IPictureparkValidationException {
+    id?: string | undefined;
 }
 
 export class CustomerViolationException extends PictureparkException implements ICustomerViolationException {
@@ -22410,6 +23092,48 @@ export interface IPermissionSetNotFoundException extends IPictureparkNotFoundExc
     permissionSetIds?: string[] | undefined;
 }
 
+export class PermissionSetAggregateException extends PictureparkValidationException implements IPermissionSetAggregateException {
+    exceptions?: PictureparkException[] | undefined;
+
+    constructor(data?: IPermissionSetAggregateException) {
+        super(data);
+        this._discriminator = "PermissionSetAggregateException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (data["exceptions"] && data["exceptions"].constructor === Array) {
+                this.exceptions = [] as any;
+                for (let item of data["exceptions"])
+                    this.exceptions!.push(PictureparkException.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionSetAggregateException {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionSetAggregateException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.exceptions && this.exceptions.constructor === Array) {
+            data["exceptions"] = [];
+            for (let item of this.exceptions)
+                data["exceptions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IPermissionSetAggregateException extends IPictureparkValidationException {
+    exceptions?: PictureparkException[] | undefined;
+}
+
 export class DuplicateRightException extends PictureparkValidationException implements IDuplicateRightException {
     permissionSetId?: string | undefined;
 
@@ -22522,7 +23246,7 @@ export interface IPermissionSetInUseException extends IPictureparkValidationExce
 
 export class ContentPermissionException extends PictureparkValidationException implements IContentPermissionException {
     contentId?: string | undefined;
-    contentRight!: ContentRight;
+    contentRights?: ContentRight[] | undefined;
 
     constructor(data?: IContentPermissionException) {
         super(data);
@@ -22533,7 +23257,11 @@ export class ContentPermissionException extends PictureparkValidationException i
         super.init(data);
         if (data) {
             this.contentId = data["contentId"];
-            this.contentRight = data["contentRight"];
+            if (data["contentRights"] && data["contentRights"].constructor === Array) {
+                this.contentRights = [] as any;
+                for (let item of data["contentRights"])
+                    this.contentRights!.push(item);
+            }
         }
     }
 
@@ -22547,7 +23275,11 @@ export class ContentPermissionException extends PictureparkValidationException i
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["contentId"] = this.contentId;
-        data["contentRight"] = this.contentRight;
+        if (this.contentRights && this.contentRights.constructor === Array) {
+            data["contentRights"] = [];
+            for (let item of this.contentRights)
+                data["contentRights"].push(item);
+        }
         super.toJSON(data);
         return data; 
     }
@@ -22555,7 +23287,7 @@ export class ContentPermissionException extends PictureparkValidationException i
 
 export interface IContentPermissionException extends IPictureparkValidationException {
     contentId?: string | undefined;
-    contentRight: ContentRight;
+    contentRights?: ContentRight[] | undefined;
 }
 
 /** Content rights */
@@ -22670,6 +23402,11 @@ export class PermissionSetValidationException extends PictureparkValidationExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "AmbiguousUserRoleRightsException") {
+            let result = new AmbiguousUserRoleRightsException();
+            result.init(data);
+            return result;
+        }
         let result = new PermissionSetValidationException();
         result.init(data);
         return result;
@@ -22712,6 +23449,34 @@ export class PermissionSetInvalidRightCombinationException extends PermissionSet
 }
 
 export interface IPermissionSetInvalidRightCombinationException extends IPermissionSetValidationException {
+}
+
+export class AmbiguousUserRoleRightsException extends PermissionSetValidationException implements IAmbiguousUserRoleRightsException {
+
+    constructor(data?: IAmbiguousUserRoleRightsException) {
+        super(data);
+        this._discriminator = "AmbiguousUserRoleRightsException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): AmbiguousUserRoleRightsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AmbiguousUserRoleRightsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAmbiguousUserRoleRightsException extends IPermissionSetValidationException {
 }
 
 export class UnsupportedListItemChangeCommandException extends PictureparkValidationException implements IUnsupportedListItemChangeCommandException {
@@ -25928,6 +26693,44 @@ export enum Analyzer {
     PathHierarchy = "PathHierarchy", 
     EdgeNGram = "EdgeNGram", 
     NGram = "NGram", 
+}
+
+export class SchemaFieldRelationMultipleTypesException extends PictureparkValidationException implements ISchemaFieldRelationMultipleTypesException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+
+    constructor(data?: ISchemaFieldRelationMultipleTypesException) {
+        super(data);
+        this._discriminator = "SchemaFieldRelationMultipleTypesException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.fieldId = data["fieldId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldRelationMultipleTypesException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldRelationMultipleTypesException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldRelationMultipleTypesException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
 }
 
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
@@ -30678,8 +31481,10 @@ export class Output implements IOutput {
     detail?: OutputDataBase | undefined;
     /** Date and time of the backup of the output file. */
     backupTimestamp?: Date | undefined;
-    /** Number of rendering retry attempts left */
+    /** Number of rendering retry attempts left. */
     attemptsLeft!: number;
+    /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
+    fileVersion!: number;
 
     protected _discriminator: string;
 
@@ -30702,6 +31507,7 @@ export class Output implements IOutput {
             this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
             this.backupTimestamp = data["backupTimestamp"] ? new Date(data["backupTimestamp"].toString()) : <any>undefined;
             this.attemptsLeft = data["attemptsLeft"];
+            this.fileVersion = data["fileVersion"];
         }
     }
 
@@ -30727,6 +31533,7 @@ export class Output implements IOutput {
         data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
         data["backupTimestamp"] = this.backupTimestamp ? this.backupTimestamp.toISOString() : <any>undefined;
         data["attemptsLeft"] = this.attemptsLeft;
+        data["fileVersion"] = this.fileVersion;
         return data; 
     }
 }
@@ -30745,8 +31552,10 @@ export interface IOutput {
     detail?: OutputDataBase | undefined;
     /** Date and time of the backup of the output file. */
     backupTimestamp?: Date | undefined;
-    /** Number of rendering retry attempts left */
+    /** Number of rendering retry attempts left. */
     attemptsLeft: number;
+    /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
+    fileVersion: number;
 }
 
 export enum OutputRenderingState {
@@ -31460,6 +32269,7 @@ export interface IContentRightAggregationCount {
 }
 
 export class Content implements IContent {
+    /** Audit information. */
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId!: string;
@@ -31571,6 +32381,7 @@ export class Content implements IContent {
 }
 
 export interface IContent {
+    /** Audit information. */
     audit?: IUserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
@@ -33415,18 +34226,18 @@ export interface IContentFileUpdateRequest {
 
 /** Request to update content metadata */
 export class ContentMetadataUpdateRequest implements IContentMetadataUpdateRequest {
-    /** An optional list of IDs of the schemas that form the layers of the content.
+    /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
     /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
 the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-whose ContentType is ContentItem). */
+whose ContentType is ContentItem).
+Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
     content?: DataDictionary | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 by the LayerSchemaIds property.
-For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
-an exception is thrown. */
+If there are no data for a specified LayerSchemaId, it is treated as empty. */
     metadata?: DataDictionary | undefined;
     /** Options to modify the behavior for updating the layers.
 Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
@@ -33492,18 +34303,18 @@ Defaults to Merge. */
 
 /** Request to update content metadata */
 export interface IContentMetadataUpdateRequest {
-    /** An optional list of IDs of the schemas that form the layers of the content.
+    /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
     /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
 the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-whose ContentType is ContentItem). */
+whose ContentType is ContentItem).
+Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
     content?: IDataDictionary | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 by the LayerSchemaIds property.
-For every layer schema specified in the LayerSchemaIds property there must be a corresponding dictionary inside the Metadata one, otherwise
-an exception is thrown. */
+If there are no data for a specified LayerSchemaId, it is treated as empty. */
     metadata?: IDataDictionary | undefined;
     /** Options to modify the behavior for updating the layers.
 Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
@@ -34864,8 +35675,8 @@ export interface IUserRoleRightsOfPermissionSetRight {
 
 export abstract class PermissionSetUpdateRequestOfContentRight implements IPermissionSetUpdateRequestOfContentRight {
     names?: TranslatedStringDictionary | undefined;
-    userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
-    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive!: boolean;
 
     constructor(data?: IPermissionSetUpdateRequestOfContentRight) {
@@ -34879,14 +35690,14 @@ export abstract class PermissionSetUpdateRequestOfContentRight implements IPermi
                 this.userRolesRights = [];
                 for (let i = 0; i < data.userRolesRights.length; i++) {
                     let item = data.userRolesRights[i];
-                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfContentRight(item) : <PermissionUserRoleRightsOfContentRight>item;
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfContentRight(item) : <UserRoleRightsOfContentRight>item;
                 }
             }
             if (data.userRolesPermissionSetRights) {
                 this.userRolesPermissionSetRights = [];
                 for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
                     let item = data.userRolesPermissionSetRights[i];
-                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfPermissionSetRight(item) : <PermissionUserRoleRightsOfPermissionSetRight>item;
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfPermissionSetRight(item) : <UserRoleRightsOfPermissionSetRight>item;
                 }
             }
         }
@@ -34898,12 +35709,12 @@ export abstract class PermissionSetUpdateRequestOfContentRight implements IPermi
             if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(PermissionUserRoleRightsOfContentRight.fromJS(item));
+                    this.userRolesRights!.push(UserRoleRightsOfContentRight.fromJS(item));
             }
             if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
                 this.userRolesPermissionSetRights = [] as any;
                 for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+                    this.userRolesPermissionSetRights!.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
             }
             this.exclusive = data["exclusive"];
         }
@@ -34934,8 +35745,8 @@ export abstract class PermissionSetUpdateRequestOfContentRight implements IPermi
 
 export interface IPermissionSetUpdateRequestOfContentRight {
     names?: ITranslatedStringDictionary | undefined;
-    userRolesRights?: IPermissionUserRoleRightsOfContentRight[] | undefined;
-    userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    userRolesRights?: IUserRoleRightsOfContentRight[] | undefined;
+    userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
 }
 
@@ -36138,6 +36949,9 @@ export class CustomerInfo implements ICustomerInfo {
     outputFormats!: OutputFormatInfo[];
     /** Boost levels that can be applied to a metadata field to boost the the significance of the field in a search operation. */
     boostValues!: number[];
+    /** Apps registered for this customer */
+    apps?: CustomerApp[] | undefined;
+    modificationDate!: Date;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -36158,6 +36972,13 @@ export class CustomerInfo implements ICustomerInfo {
                 for (let i = 0; i < data.outputFormats.length; i++) {
                     let item = data.outputFormats[i];
                     this.outputFormats[i] = item && !(<any>item).toJSON ? new OutputFormatInfo(item) : <OutputFormatInfo>item;
+                }
+            }
+            if (data.apps) {
+                this.apps = [];
+                for (let i = 0; i < data.apps.length; i++) {
+                    let item = data.apps[i];
+                    this.apps[i] = item && !(<any>item).toJSON ? new CustomerApp(item) : <CustomerApp>item;
                 }
             }
         }
@@ -36192,6 +37013,12 @@ export class CustomerInfo implements ICustomerInfo {
                 for (let item of data["boostValues"])
                     this.boostValues!.push(item);
             }
+            if (data["apps"] && data["apps"].constructor === Array) {
+                this.apps = [] as any;
+                for (let item of data["apps"])
+                    this.apps!.push(CustomerApp.fromJS(item));
+            }
+            this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
         }
     }
 
@@ -36225,6 +37052,12 @@ export class CustomerInfo implements ICustomerInfo {
             for (let item of this.boostValues)
                 data["boostValues"].push(item);
         }
+        if (this.apps && this.apps.constructor === Array) {
+            data["apps"] = [];
+            for (let item of this.apps)
+                data["apps"].push(item.toJSON());
+        }
+        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
         return data; 
     }
 }
@@ -36249,6 +37082,9 @@ export interface ICustomerInfo {
     outputFormats: IOutputFormatInfo[];
     /** Boost levels that can be applied to a metadata field to boost the the significance of the field in a search operation. */
     boostValues: number[];
+    /** Apps registered for this customer */
+    apps?: ICustomerApp[] | undefined;
+    modificationDate: Date;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -36431,6 +37267,56 @@ export interface IOutputFormatInfo {
     names: ITranslatedStringDictionary;
 }
 
+export class CustomerApp implements ICustomerApp {
+    appId?: string | undefined;
+    name?: TranslatedStringDictionary | undefined;
+    description?: TranslatedStringDictionary | undefined;
+    icon?: string | undefined;
+
+    constructor(data?: ICustomerApp) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.name = data.name && !(<any>data.name).toJSON ? new TranslatedStringDictionary(data.name) : <TranslatedStringDictionary>this.name; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.appId = data["appId"];
+            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : <any>undefined;
+            this.description = data["description"] ? TranslatedStringDictionary.fromJS(data["description"]) : <any>undefined;
+            this.icon = data["icon"];
+        }
+    }
+
+    static fromJS(data: any): CustomerApp {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerApp();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["appId"] = this.appId;
+        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
+        data["icon"] = this.icon;
+        return data; 
+    }
+}
+
+export interface ICustomerApp {
+    appId?: string | undefined;
+    name?: ITranslatedStringDictionary | undefined;
+    description?: ITranslatedStringDictionary | undefined;
+    icon?: string | undefined;
+}
+
 /** The version view item for the environment. */
 export class VersionInfo implements IVersionInfo {
     /** The manual file version of Picturepark.Contract.dll. */
@@ -36499,6 +37385,8 @@ export class ListItemDetail implements IListItemDetail {
     displayValues?: DisplayValueDictionary | undefined;
     /** The list item id. */
     id?: string | undefined;
+    /** Audit data with information regarding document creation and modification. */
+    audit?: UserAudit | undefined;
 
     constructor(data?: IListItemDetail) {
         if (data) {
@@ -36507,6 +37395,7 @@ export class ListItemDetail implements IListItemDetail {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
         }
     }
 
@@ -36516,6 +37405,7 @@ export class ListItemDetail implements IListItemDetail {
             this.contentSchemaId = data["contentSchemaId"];
             this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
         }
     }
 
@@ -36532,6 +37422,7 @@ export class ListItemDetail implements IListItemDetail {
         data["contentSchemaId"] = this.contentSchemaId;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["id"] = this.id;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -36546,6 +37437,8 @@ export interface IListItemDetail {
     displayValues?: IDisplayValueDictionary | undefined;
     /** The list item id. */
     id?: string | undefined;
+    /** Audit data with information regarding document creation and modification. */
+    audit?: IUserAudit | undefined;
 }
 
 export enum ListItemResolveBehavior {
@@ -36662,6 +37555,8 @@ export class ListItem implements IListItem {
     displayValues?: DisplayValueDictionary | undefined;
     /** The list item id. */
     id?: string | undefined;
+    /** Audit data with information regarding document creation and modification. */
+    audit?: UserAudit | undefined;
 
     constructor(data?: IListItem) {
         if (data) {
@@ -36670,6 +37565,7 @@ export class ListItem implements IListItem {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
         }
     }
 
@@ -36679,6 +37575,7 @@ export class ListItem implements IListItem {
             this.contentSchemaId = data["contentSchemaId"];
             this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
         }
     }
 
@@ -36695,6 +37592,7 @@ export class ListItem implements IListItem {
         data["contentSchemaId"] = this.contentSchemaId;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["id"] = this.id;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -36709,6 +37607,8 @@ export interface IListItem {
     displayValues?: IDisplayValueDictionary | undefined;
     /** The list item id. */
     id?: string | undefined;
+    /** Audit data with information regarding document creation and modification. */
+    audit?: IUserAudit | undefined;
 }
 
 /** Request to search list items */
@@ -38088,6 +38988,11 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SearchReindexCompletedEvent") {
+            let result = new SearchReindexCompletedEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -38159,6 +39064,8 @@ export enum TransferState {
     FileDeleteInProgress = "FileDeleteInProgress", 
     TransferCleanup = "TransferCleanup", 
     ImportCompletedWithErrors = "ImportCompletedWithErrors", 
+    UploadCompletedWithErrors = "UploadCompletedWithErrors", 
+    UploadCancellationInProgress = "UploadCancellationInProgress", 
 }
 
 export class ReindexEvent extends ApplicationEvent implements IReindexEvent {
@@ -38539,6 +39446,7 @@ export class OutputRenderedEvent extends ApplicationEvent implements IOutputRend
     outputId?: string | undefined;
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    renderingState!: OutputRenderingState;
 
     constructor(data?: IOutputRenderedEvent) {
         super(data);
@@ -38551,6 +39459,7 @@ export class OutputRenderedEvent extends ApplicationEvent implements IOutputRend
             this.outputId = data["outputId"];
             this.contentId = data["contentId"];
             this.outputFormatId = data["outputFormatId"];
+            this.renderingState = data["renderingState"];
         }
     }
 
@@ -38566,6 +39475,7 @@ export class OutputRenderedEvent extends ApplicationEvent implements IOutputRend
         data["outputId"] = this.outputId;
         data["contentId"] = this.contentId;
         data["outputFormatId"] = this.outputFormatId;
+        data["renderingState"] = this.renderingState;
         super.toJSON(data);
         return data; 
     }
@@ -38575,11 +39485,11 @@ export interface IOutputRenderedEvent extends IApplicationEvent {
     outputId?: string | undefined;
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+    renderingState: OutputRenderingState;
 }
 
 export class ConfigurationChangeEvent extends ApplicationEvent implements IConfigurationChangeEvent {
     documentType?: string | undefined;
-    documentIds?: string[] | undefined;
 
     constructor(data?: IConfigurationChangeEvent) {
         super(data);
@@ -38590,16 +39500,16 @@ export class ConfigurationChangeEvent extends ApplicationEvent implements IConfi
         super.init(data);
         if (data) {
             this.documentType = data["documentType"];
-            if (data["documentIds"] && data["documentIds"].constructor === Array) {
-                this.documentIds = [] as any;
-                for (let item of data["documentIds"])
-                    this.documentIds!.push(item);
-            }
         }
     }
 
     static fromJS(data: any): ConfigurationChangeEvent {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "CustomerChangeEvent") {
+            let result = new CustomerChangeEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ConfigurationChangeEvent();
         result.init(data);
         return result;
@@ -38608,11 +39518,6 @@ export class ConfigurationChangeEvent extends ApplicationEvent implements IConfi
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["documentType"] = this.documentType;
-        if (this.documentIds && this.documentIds.constructor === Array) {
-            data["documentIds"] = [];
-            for (let item of this.documentIds)
-                data["documentIds"].push(item);
-        }
         super.toJSON(data);
         return data; 
     }
@@ -38620,10 +39525,9 @@ export class ConfigurationChangeEvent extends ApplicationEvent implements IConfi
 
 export interface IConfigurationChangeEvent extends IApplicationEvent {
     documentType?: string | undefined;
-    documentIds?: string[] | undefined;
 }
 
-export class CustomerChangeEvent extends ApplicationEvent implements ICustomerChangeEvent {
+export class CustomerChangeEvent extends ConfigurationChangeEvent implements ICustomerChangeEvent {
     lifeCycle!: LifeCycle;
 
     constructor(data?: ICustomerChangeEvent) {
@@ -38653,8 +39557,55 @@ export class CustomerChangeEvent extends ApplicationEvent implements ICustomerCh
     }
 }
 
-export interface ICustomerChangeEvent extends IApplicationEvent {
+export interface ICustomerChangeEvent extends IConfigurationChangeEvent {
     lifeCycle: LifeCycle;
+}
+
+export class SearchReindexCompletedEvent extends ApplicationEvent implements ISearchReindexCompletedEvent {
+    searchIndex!: SearchIndexType;
+    items!: number;
+    duration!: string;
+
+    constructor(data?: ISearchReindexCompletedEvent) {
+        super(data);
+        this._discriminator = "SearchReindexCompletedEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.searchIndex = data["searchIndex"];
+            this.items = data["items"];
+            this.duration = data["duration"];
+        }
+    }
+
+    static fromJS(data: any): SearchReindexCompletedEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchReindexCompletedEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchIndex"] = this.searchIndex;
+        data["items"] = this.items;
+        data["duration"] = this.duration;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchReindexCompletedEvent extends IApplicationEvent {
+    searchIndex: SearchIndexType;
+    items: number;
+    duration: string;
+}
+
+export enum SearchIndexType {
+    Content = "Content", 
+    ListItem = "ListItem", 
 }
 
 export class ConsoleMessage extends Message implements IConsoleMessage {
@@ -40944,7 +41895,7 @@ export interface IOutputFormatUpdateManyRequestItem extends IOutputFormatEditabl
 /** Used to remove multiple output formats at once. */
 export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
-    items?: string[] | undefined;
+    ids?: string[] | undefined;
 
     constructor(data?: IOutputFormatDeleteManyRequest) {
         if (data) {
@@ -40957,10 +41908,10 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 
     init(data?: any) {
         if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(item);
+            if (data["ids"] && data["ids"].constructor === Array) {
+                this.ids = [] as any;
+                for (let item of data["ids"])
+                    this.ids!.push(item);
             }
         }
     }
@@ -40974,10 +41925,10 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item);
+        if (this.ids && this.ids.constructor === Array) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
         }
         return data; 
     }
@@ -40986,7 +41937,7 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 /** Used to remove multiple output formats at once. */
 export interface IOutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
-    items?: string[] | undefined;
+    ids?: string[] | undefined;
 }
 
 /** User profile. */
@@ -45219,8 +46170,8 @@ export interface IUserRoleRightsOfMetadataRight {
 
 export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPermissionSetUpdateRequestOfMetadataRight {
     names?: TranslatedStringDictionary | undefined;
-    userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
-    userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive!: boolean;
 
     constructor(data?: IPermissionSetUpdateRequestOfMetadataRight) {
@@ -45234,14 +46185,14 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPerm
                 this.userRolesRights = [];
                 for (let i = 0; i < data.userRolesRights.length; i++) {
                     let item = data.userRolesRights[i];
-                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfMetadataRight(item) : <PermissionUserRoleRightsOfMetadataRight>item;
+                    this.userRolesRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfMetadataRight(item) : <UserRoleRightsOfMetadataRight>item;
                 }
             }
             if (data.userRolesPermissionSetRights) {
                 this.userRolesPermissionSetRights = [];
                 for (let i = 0; i < data.userRolesPermissionSetRights.length; i++) {
                     let item = data.userRolesPermissionSetRights[i];
-                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new PermissionUserRoleRightsOfPermissionSetRight(item) : <PermissionUserRoleRightsOfPermissionSetRight>item;
+                    this.userRolesPermissionSetRights[i] = item && !(<any>item).toJSON ? new UserRoleRightsOfPermissionSetRight(item) : <UserRoleRightsOfPermissionSetRight>item;
                 }
             }
         }
@@ -45253,12 +46204,12 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPerm
             if (data["userRolesRights"] && data["userRolesRights"].constructor === Array) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(PermissionUserRoleRightsOfMetadataRight.fromJS(item));
+                    this.userRolesRights!.push(UserRoleRightsOfMetadataRight.fromJS(item));
             }
             if (data["userRolesPermissionSetRights"] && data["userRolesPermissionSetRights"].constructor === Array) {
                 this.userRolesPermissionSetRights = [] as any;
                 for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+                    this.userRolesPermissionSetRights!.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
             }
             this.exclusive = data["exclusive"];
         }
@@ -45289,8 +46240,8 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPerm
 
 export interface IPermissionSetUpdateRequestOfMetadataRight {
     names?: ITranslatedStringDictionary | undefined;
-    userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
-    userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
+    userRolesRights?: IUserRoleRightsOfMetadataRight[] | undefined;
+    userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
 }
 
@@ -47217,13 +48168,6 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
                     this.recipientsUser[i] = item && !(<any>item).toJSON ? new User(item) : <User>item;
                 }
             }
-            if (data.recipientsGroup) {
-                this.recipientsGroup = [];
-                for (let i = 0; i < data.recipientsGroup.length; i++) {
-                    let item = data.recipientsGroup[i];
-                    this.recipientsGroup[i] = item && !(<any>item).toJSON ? new UserRole(item) : <UserRole>item;
-                }
-            }
         }
         this._discriminator = "ShareBasicCreateRequest";
     }
@@ -47286,21 +48230,19 @@ export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
     /** List of internal recipients which are Picturepark users. */
     recipientsUser?: IUser[] | undefined;
     /** List of user roles. All assignees of these roles receive the share. */
-    recipientsGroup?: IUserRole[] | undefined;
+    recipientsGroup?: UserRole[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
 }
 
 /** Represents a user role, which associates users with user rights. */
-export class UserRole implements IUserRole {
-    /** User role ID. */
-    id?: string | undefined;
+export class UserRoleEditable implements IUserRoleEditable {
     /** Language specific user role names. */
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
+    userRights!: UserRight[];
 
-    constructor(data?: IUserRole) {
+    constructor(data?: IUserRoleEditable) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -47308,17 +48250,63 @@ export class UserRole implements IUserRole {
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+            this.userRights = [];
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (data["userRights"] && data["userRights"].constructor === Array) {
                 this.userRights = [] as any;
                 for (let item of data["userRights"])
                     this.userRights!.push(item);
             }
+        }
+    }
+
+    static fromJS(data: any): UserRoleEditable {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleEditable();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (this.userRights && this.userRights.constructor === Array) {
+            data["userRights"] = [];
+            for (let item of this.userRights)
+                data["userRights"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface IUserRoleEditable {
+    /** Language specific user role names. */
+    names: ITranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
+}
+
+/** Represents a user role, which associates users with user rights. */
+export class UserRole extends UserRoleEditable implements IUserRole {
+    /** User role ID. */
+    id?: string | undefined;
+
+    constructor(data?: IUserRole) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.id = data["id"];
         }
     }
 
@@ -47332,24 +48320,15 @@ export class UserRole implements IUserRole {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (this.userRights && this.userRights.constructor === Array) {
-            data["userRights"] = [];
-            for (let item of this.userRights)
-                data["userRights"].push(item);
-        }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Represents a user role, which associates users with user rights. */
-export interface IUserRole {
+export interface IUserRole extends IUserRoleEditable {
     /** User role ID. */
     id?: string | undefined;
-    /** Language specific user role names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
 }
 
 /** Create request for embed share */
@@ -48189,7 +49168,7 @@ export class FileTransferDetail extends FileTransfer implements IFileTransferDet
     audit!: UserAudit;
     /** Metadata extracted for file. */
     fileMetadata?: FileMetadata | undefined;
-    /** Outputs being rendered for file. */
+    /** Outputs rendered during data extraction phase. */
     outputItems?: FileTransferOutput[] | undefined;
 
     constructor(data?: IFileTransferDetail) {
@@ -48249,7 +49228,7 @@ export interface IFileTransferDetail extends IFileTransfer {
     audit: IUserAudit;
     /** Metadata extracted for file. */
     fileMetadata?: FileMetadata | undefined;
-    /** Outputs being rendered for file. */
+    /** Outputs rendered during data extraction phase. */
     outputItems?: IFileTransferOutput[] | undefined;
 }
 
@@ -49585,13 +50564,6 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
     constructor(data?: IUserUpdateRequest) {
         super(data);
         if (data) {
-            if (data.userRoles) {
-                this.userRoles = [];
-                for (let i = 0; i < data.userRoles.length; i++) {
-                    let item = data.userRoles[i];
-                    this.userRoles[i] = item && !(<any>item).toJSON ? new UserRole(item) : <UserRole>item;
-                }
-            }
             this.address = data.address && !(<any>data.address).toJSON ? new UserAddress(data.address) : <UserAddress>this.address; 
         }
     }
@@ -49635,7 +50607,7 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
 /** Represents the updateable fields of the user. */
 export interface IUserUpdateRequest extends IUser {
     /** User roles the user should be assigned to. Overwrites the original user roles. */
-    userRoles?: IUserRole[] | undefined;
+    userRoles?: UserRole[] | undefined;
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
@@ -50456,13 +51428,6 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            if (data.results) {
-                this.results = [];
-                for (let i = 0; i < data.results.length; i++) {
-                    let item = data.results[i];
-                    this.results[i] = item && !(<any>item).toJSON ? new UserRole(item) : <UserRole>item;
-                }
-            }
         }
         if (!data) {
             this.results = [];
@@ -50505,7 +51470,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
 
 export interface IBaseResultOfUserRole {
     totalResults: number;
-    results: IUserRole[];
+    results: UserRole[];
     elapsedMilliseconds: number;
     pageToken?: string | undefined;
 }
@@ -50701,35 +51666,14 @@ export interface IUserRoleSearchRequest {
 }
 
 /** Holds information needed for user role creation. */
-export class UserRoleCreateRequest implements IUserRoleCreateRequest {
-    /** Language specific user role names. */
-    names!: TranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights!: UserRight[];
+export class UserRoleCreateRequest extends UserRoleEditable implements IUserRoleCreateRequest {
 
     constructor(data?: IUserRoleCreateRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-        if (!data) {
-            this.names = new TranslatedStringDictionary();
-            this.userRights = [];
-        }
+        super(data);
     }
 
     init(data?: any) {
-        if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
-            if (data["userRights"] && data["userRights"].constructor === Array) {
-                this.userRights = [] as any;
-                for (let item of data["userRights"])
-                    this.userRights!.push(item);
-            }
-        }
+        super.init(data);
     }
 
     static fromJS(data: any): UserRoleCreateRequest {
@@ -50741,22 +51685,13 @@ export class UserRoleCreateRequest implements IUserRoleCreateRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (this.userRights && this.userRights.constructor === Array) {
-            data["userRights"] = [];
-            for (let item of this.userRights)
-                data["userRights"].push(item);
-        }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Holds information needed for user role creation. */
-export interface IUserRoleCreateRequest {
-    /** Language specific user role names. */
-    names: ITranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights: UserRight[];
+export interface IUserRoleCreateRequest extends IUserRoleEditable {
 }
 
 /** Holds information needed to create multiple user roles. */
@@ -50769,13 +51704,6 @@ export class UserRoleCreateManyRequest implements IUserRoleCreateManyRequest {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.items) {
-                this.items = [];
-                for (let i = 0; i < data.items.length; i++) {
-                    let item = data.items[i];
-                    this.items[i] = item && !(<any>item).toJSON ? new UserRoleCreateRequest(item) : <UserRoleCreateRequest>item;
-                }
             }
         }
         if (!data) {
@@ -50814,26 +51742,19 @@ export class UserRoleCreateManyRequest implements IUserRoleCreateManyRequest {
 /** Holds information needed to create multiple user roles. */
 export interface IUserRoleCreateManyRequest {
     /** Multiple user creation requests. */
-    items: IUserRoleCreateRequest[];
+    items: UserRoleCreateRequest[];
 }
 
 /** Holds information about which user roles and how are requested to be updated. */
 export class UserRoleUpdateManyRequest implements IUserRoleUpdateManyRequest {
     /** New value for user roles with specified IDs. */
-    items!: UserRoleDetail[];
+    items!: UserRole[];
 
     constructor(data?: IUserRoleUpdateManyRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.items) {
-                this.items = [];
-                for (let i = 0; i < data.items.length; i++) {
-                    let item = data.items[i];
-                    this.items[i] = item && !(<any>item).toJSON ? new UserRoleDetail(item) : <UserRoleDetail>item;
-                }
             }
         }
         if (!data) {
@@ -50846,7 +51767,7 @@ export class UserRoleUpdateManyRequest implements IUserRoleUpdateManyRequest {
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items!.push(UserRoleDetail.fromJS(item));
+                    this.items!.push(UserRole.fromJS(item));
             }
         }
     }
@@ -50872,66 +51793,7 @@ export class UserRoleUpdateManyRequest implements IUserRoleUpdateManyRequest {
 /** Holds information about which user roles and how are requested to be updated. */
 export interface IUserRoleUpdateManyRequest {
     /** New value for user roles with specified IDs. */
-    items: IUserRoleDetail[];
-}
-
-export class UserRoleDetail implements IUserRoleDetail {
-    /** The user role id. */
-    id?: string | undefined;
-    /** Language specific user role names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
-
-    constructor(data?: IUserRoleDetail) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (data["userRights"] && data["userRights"].constructor === Array) {
-                this.userRights = [] as any;
-                for (let item of data["userRights"])
-                    this.userRights!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): UserRoleDetail {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserRoleDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (this.userRights && this.userRights.constructor === Array) {
-            data["userRights"] = [];
-            for (let item of this.userRights)
-                data["userRights"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IUserRoleDetail {
-    /** The user role id. */
-    id?: string | undefined;
-    /** Language specific user role names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** All user rights for this user role. */
-    userRights?: UserRight[] | undefined;
+    items: UserRole[];
 }
 
 /** Holds information about which user roles are requested to be deleted. */

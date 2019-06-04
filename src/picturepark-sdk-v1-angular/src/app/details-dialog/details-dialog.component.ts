@@ -11,6 +11,7 @@ import {
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
   selector: 'app-details-dialog',
@@ -27,6 +28,7 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
   private subscription: Subscription = new Subscription();
 
   constructor(private contentService: ContentService,
+    private liquidRenderingService: LiquidRenderingService,
     private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: string) {
 
@@ -45,7 +47,8 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
         ContentResolveBehavior.LinkedListItems,
         ContentResolveBehavior.InnerDisplayValueName,
         ContentResolveBehavior.Outputs
-      ]).subscribe((content: ContentDetail) => {
+      ]).subscribe(async (content: ContentDetail) => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
         this.content = content;
       });
 

@@ -16,7 +16,6 @@ The `@picturepark/sdk-v1-angular` package provides Angular 6.1+ service classes 
 
 2. Register one of the Picturepark modules: 
 
-- **PictureparkModule:** Registers the **all** client services to access the Picturepark API.
 - **PictureparkOidcModule:** Registers the [OidcAuthService](auth/OidcAuthService.md) to authenticate using the OIDC implict flow. 
 - **PictureparkUiModule:** Registers the UI components.
 
@@ -36,8 +35,8 @@ Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app 
 ```typescript
 import { 
   PICTUREPARK_CONFIGURATION, 
-  PictureparkModule, 
-  PictureparkConfiguration } 
+  PictureparkConfiguration 
+} 
 from '@picturepark/sdk-v1-angular';
 
 @NgModule({
@@ -45,8 +44,7 @@ from '@picturepark/sdk-v1-angular';
     ...
   ],
   imports: [
-    ...,
-    PictureparkModule
+    ...
   ],
   providers: [
     {

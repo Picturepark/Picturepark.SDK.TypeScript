@@ -73,14 +73,31 @@
 						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="../classes/_repl_.replserver.html" class="tsd-kind-icon">REPLServer</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="../classes/_repl_.recoverable.html" class="tsd-kind-icon">Recoverable</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="../interfaces/_repl_.replserver.html" class="tsd-kind-icon">REPLServer</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="../interfaces/_repl_.replcommand.html" class="tsd-kind-icon">REPLCommand</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="../interfaces/_repl_.reploptions.html" class="tsd-kind-icon">Repl<wbr>Options</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="_repl_.html#replcommandaction" class="tsd-kind-icon">REPLCommand<wbr>Action</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="_repl_.html#repleval" class="tsd-kind-icon">REPLEval</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="_repl_.html#replwriter" class="tsd-kind-icon">REPLWriter</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-external"><a href="_repl_.html#repl_mode_sloppy" class="tsd-kind-icon">REPL_<wbr>MODE_<wbr>SLOPPY</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-external"><a href="_repl_.html#repl_mode_strict" class="tsd-kind-icon">REPL_<wbr>MODE_<wbr>STRICT</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="_repl_.html#writer" class="tsd-kind-icon">writer</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
@@ -93,27 +110,221 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="replcommandaction" class="tsd-anchor"></a>
+					<h3>REPLCommand<wbr>Action</h3>
+					<div class="tsd-signature tsd-kind-icon">REPLCommand<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2248</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a>, text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>this: <a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></h5>
+											</li>
+											<li>
+												<h5>text: <span class="tsd-signature-type">string</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="repleval" class="tsd-anchor"></a>
+					<h3>REPLEval</h3>
+					<div class="tsd-signature tsd-kind-icon">REPLEval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2239</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a>, evalCmd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, context<span class="tsd-signature-symbol">: </span><a href="../interfaces/_vm_.context.html" class="tsd-signature-type">Context</a>, file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cb<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>this: <a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></h5>
+											</li>
+											<li>
+												<h5>evalCmd: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>context: <a href="../interfaces/_vm_.context.html" class="tsd-signature-type">Context</a></h5>
+											</li>
+											<li>
+												<h5>file: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>cb: <span class="tsd-signature-type">function</span></h5>
+												<ul class="tsd-parameters">
+													<li class="tsd-parameter-siganture">
+														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+														</ul>
+														<ul class="tsd-descriptions">
+															<li class="tsd-description">
+																<h4 class="tsd-parameters-title">Parameters</h4>
+																<ul class="tsd-parameters">
+																	<li>
+																		<h5>err: <span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+																	</li>
+																	<li>
+																		<h5>result: <span class="tsd-signature-type">any</span></h5>
+																	</li>
+																</ul>
+																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="replwriter" class="tsd-anchor"></a>
+					<h3>REPLWriter</h3>
+					<div class="tsd-signature tsd-kind-icon">REPLWriter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2240</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a>, obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>this: <a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></h5>
+											</li>
+											<li>
+												<h5>obj: <span class="tsd-signature-type">any</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+					<a name="repl_mode_sloppy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> REPL_<wbr>MODE_<wbr>SLOPPY</h3>
+					<div class="tsd-signature tsd-kind-icon">REPL_<wbr>MODE_<wbr>SLOPPY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">symbol</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2496</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A flag passed in the REPL options. Evaluates expressions in sloppy mode.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+					<a name="repl_mode_strict" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> REPL_<wbr>MODE_<wbr>STRICT</h3>
+					<div class="tsd-signature tsd-kind-icon">REPL_<wbr>MODE_<wbr>STRICT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">symbol</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2502</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A flag passed in the REPL options. Evaluates expressions in strict mode.
+							This is equivalent to prefacing every repl statement with <code>&#39;use strict&#39;</code>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="writer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> writer</h3>
+					<div class="tsd-signature tsd-kind-icon">writer<span class="tsd-signature-symbol">:</span> <a href="_repl_.html#replwriter" class="tsd-signature-type">REPLWriter</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:2246</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This is the default &quot;writer&quot; value, if none is passed in the REPL options,
+							and it can be overridden by custom print functions.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 					<a name="start" class="tsd-anchor"></a>
 					<h3>start</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_repl_.reploptions.html" class="tsd-signature-type">ReplOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></li>
+						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_repl_.reploptions.html" class="tsd-signature-type">ReplOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:2042</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:2510</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates and starts a <code>repl.REPLServer</code> instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_repl_.reploptions.html" class="tsd-signature-type">ReplOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The options for the <code>REPLServer</code>. If <code>options</code> is a string, then it specifies
+										the input prompt.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/_repl_.replserver.html" class="tsd-signature-type">REPLServer</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -133,13 +344,34 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../classes/_repl_.replserver.html" class="tsd-kind-icon">REPLServer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="../classes/_repl_.recoverable.html" class="tsd-kind-icon">Recoverable</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="../interfaces/_repl_.replserver.html" class="tsd-kind-icon">REPLServer</a>
+						<a href="../interfaces/_repl_.replcommand.html" class="tsd-kind-icon">REPLCommand</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="../interfaces/_repl_.reploptions.html" class="tsd-kind-icon">Repl<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="_repl_.html#replcommandaction" class="tsd-kind-icon">REPLCommand<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="_repl_.html#repleval" class="tsd-kind-icon">REPLEval</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="_repl_.html#replwriter" class="tsd-kind-icon">REPLWriter</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+						<a href="_repl_.html#repl_mode_sloppy" class="tsd-kind-icon">REPL_<wbr>MODE_<wbr>SLOPPY</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+						<a href="_repl_.html#repl_mode_strict" class="tsd-kind-icon">REPL_<wbr>MODE_<wbr>STRICT</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="_repl_.html#writer" class="tsd-kind-icon">writer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="_repl_.html#start" class="tsd-kind-icon">start</a>

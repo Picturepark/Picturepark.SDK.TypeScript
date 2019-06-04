@@ -88,11 +88,11 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#includeadministratorsystemuserrole" class="tsd-kind-icon">include<wbr>Administrator<wbr>System<wbr>User<wbr>Role</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#searchlanguages" class="tsd-kind-icon">search<wbr>Languages</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#sort" class="tsd-kind-icon">sort</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.userrolesearchrequest.html#start" class="tsd-kind-icon">start</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,7 +106,7 @@
 					<div class="tsd-signature tsd-kind-icon">debug<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5016</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5937</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -121,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5014</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5935</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -136,7 +136,7 @@
 					<div class="tsd-signature tsd-kind-icon">include<wbr>Administrator<wbr>System<wbr>User<wbr>Role<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5020</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5941</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -151,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5012</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5931</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -161,12 +161,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pagetoken" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> page<wbr>Token</h3>
+					<div class="tsd-signature tsd-kind-icon">page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:5933</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="searchbehaviors" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5006</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5927</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Languages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5018</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5939</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -196,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5004</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5925</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,27 +226,12 @@
 					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.sortinfo.html" class="tsd-signature-type">SortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5008</li>
+							<li>Defined in docs/temp/picturepark.d.ts:5929</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Fields and respective directions requested to sort the search results.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="start" class="tsd-anchor"></a>
-					<h3>start</h3>
-					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5010</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the offset from the first result you want to fetch. Defaults to 0.</p>
 						</div>
 					</div>
 				</section>
@@ -268,6 +268,9 @@
 								<a href="_picturepark_.userrolesearchrequest.html#limit" class="tsd-kind-icon">limit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.userrolesearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.userrolesearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -278,9 +281,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.userrolesearchrequest.html#sort" class="tsd-kind-icon">sort</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.userrolesearchrequest.html#start" class="tsd-kind-icon">start</a>
 							</li>
 						</ul>
 					</li>
