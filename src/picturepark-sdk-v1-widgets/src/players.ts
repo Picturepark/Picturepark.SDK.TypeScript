@@ -224,7 +224,7 @@ export class PictureparkPlayers {
       }
 
       let photoSwipeItems = shareItems.map(i => {
-        if (i.isImage) {
+        if (i.isImage && i.detail) {
           return {
             src: i.previewUrl,
             w: i.detail.width,
