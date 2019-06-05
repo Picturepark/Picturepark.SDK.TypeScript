@@ -5239,6 +5239,8 @@ declare module "picturepark" {
         contentType: ContentType;
         /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
         displayValues: DisplayValueDictionary;
+        /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
+        iconUrl: string;
     }
     /** Base of shared output */
     export interface ShareOutputBase {
