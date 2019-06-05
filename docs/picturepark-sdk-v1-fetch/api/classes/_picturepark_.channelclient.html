@@ -103,9 +103,13 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.channelclient.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.channelclient.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.channelclient.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.channelclient.html#getall" class="tsd-kind-icon">get<wbr>All</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.channelclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.channelclient.html#getchannels" class="tsd-kind-icon">get<wbr>Channels</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_picturepark_.channelclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_picturepark_.channelclient.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 					</div>
@@ -205,6 +209,125 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.channelcreaterequest.html" class="tsd-signature-type">ChannelCreateRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:81</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create channel</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>request: <a href="../interfaces/_picturepark_.channelcreaterequest.html" class="tsd-signature-type">ChannelCreateRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The request containing information needed to create new channel.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Channel</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="delete" class="tsd-anchor"></a>
+					<h3>delete</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:103</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete channel</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of the channel that should be deleted.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>OK</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:88</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get channel</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The channel ID.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Channel</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getall" class="tsd-anchor"></a>
+					<h3>get<wbr>All</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:74</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get all channels</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>List of channel</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="getbaseurl" class="tsd-anchor"></a>
 					<h3>get<wbr>Base<wbr>Url</h3>
@@ -229,29 +352,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getchannels" class="tsd-anchor"></a>
-					<h3>get<wbr>Channels</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Channels<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in docs/temp/picturepark.d.ts:74</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get channels</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>List of channel</p>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="transformoptions" class="tsd-anchor"></a>
 					<h3>transform<wbr>Options</h3>
@@ -273,6 +373,44 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/requestinit.html" class="tsd-signature-type">RequestInit</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/_picturepark_.channelupdaterequest.html" class="tsd-signature-type">ChannelUpdateRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in docs/temp/picturepark.d.ts:96</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update channel</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of channel to update</p>
+									</div>
+								</li>
+								<li>
+									<h5>request: <a href="../interfaces/_picturepark_.channelupdaterequest.html" class="tsd-signature-type">ChannelUpdateRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The request containing information needed to update the channel.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_picturepark_.channel.html" class="tsd-signature-type">Channel</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Updated channel</p>
 						</li>
 					</ul>
 				</section>
@@ -308,14 +446,26 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="_picturepark_.channelclient.html#jsonparsereviver" class="tsd-kind-icon">json<wbr>Parse<wbr>Reviver</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.channelclient.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.channelclient.html#delete" class="tsd-kind-icon">delete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.channelclient.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.channelclient.html#getall" class="tsd-kind-icon">get<wbr>All</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_picturepark_.channelclient.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_picturepark_.channelclient.html#getchannels" class="tsd-kind-icon">get<wbr>Channels</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_picturepark_.channelclient.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_picturepark_.channelclient.html#update" class="tsd-kind-icon">update</a>
 							</li>
 						</ul>
 					</li>

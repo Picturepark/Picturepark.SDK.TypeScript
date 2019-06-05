@@ -46760,6 +46760,8 @@ export class ShareContentDetail implements IShareContentDetail {
     contentType!: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
     displayValues!: DisplayValueDictionary;
+    /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
+    iconUrl!: string;
 
     constructor(data?: IShareContentDetail) {
         if (data) {
@@ -46796,6 +46798,7 @@ export class ShareContentDetail implements IShareContentDetail {
             }
             this.contentType = data["contentType"];
             this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : new DisplayValueDictionary();
+            this.iconUrl = data["iconUrl"];
         }
     }
 
@@ -46824,6 +46827,7 @@ export class ShareContentDetail implements IShareContentDetail {
         }
         data["contentType"] = this.contentType;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
+        data["iconUrl"] = this.iconUrl;
         return data; 
     }
 }
@@ -46846,6 +46850,8 @@ export interface IShareContentDetail {
     contentType: ContentType;
     /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
     displayValues: IDisplayValueDictionary;
+    /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
+    iconUrl: string;
 }
 
 /** Base of shared output */

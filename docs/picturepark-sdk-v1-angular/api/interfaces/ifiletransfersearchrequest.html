@@ -96,9 +96,9 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ifiletransfersearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ifiletransfersearchrequest.html#limit" class="tsd-kind-icon">limit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ifiletransfersearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ifiletransfersearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ifiletransfersearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ifiletransfersearchrequest.html#start" class="tsd-kind-icon">start</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,7 +112,7 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../classes/filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40720">lib/api-services.ts:40720</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50204">lib/api-services.ts:50204</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -127,7 +127,7 @@
 					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40718">lib/api-services.ts:40718</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50200">lib/api-services.ts:50200</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -137,12 +137,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="pagetoken" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> page<wbr>Token</h3>
+					<div class="tsd-signature tsd-kind-icon">page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50202">lib/api-services.ts:50202</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="searchbehaviors" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40714">lib/api-services.ts:40714</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50198">lib/api-services.ts:50198</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -157,27 +172,12 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40712">lib/api-services.ts:40712</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/677aff95/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50196">lib/api-services.ts:50196</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Limits the search by using a query string filter. The Lucene query string syntax is supported.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="start" class="tsd-anchor"></a>
-					<h3>start</h3>
-					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/9254d5e5/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40716">lib/api-services.ts:40716</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the offset from the first result you want to fetch. Defaults to 0.</p>
 						</div>
 					</div>
 				</section>
@@ -205,13 +205,13 @@
 								<a href="ifiletransfersearchrequest.html#limit" class="tsd-kind-icon">limit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="ifiletransfersearchrequest.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="ifiletransfersearchrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="ifiletransfersearchrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ifiletransfersearchrequest.html#start" class="tsd-kind-icon">start</a>
 							</li>
 						</ul>
 					</li>

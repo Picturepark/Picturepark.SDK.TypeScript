@@ -119,6 +119,9 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#readablehighwatermark" class="tsd-kind-icon">readable<wbr>High<wbr>Water<wbr>Mark</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#readablelength" class="tsd-kind-icon">readable<wbr>Length</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#rstcode" class="tsd-kind-icon">rst<wbr>Code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#sentheaders" class="tsd-kind-icon">sent<wbr>Headers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#sentinfoheaders" class="tsd-kind-icon">sent<wbr>Info<wbr>Headers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#senttrailers" class="tsd-kind-icon">sent<wbr>Trailers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#session" class="tsd-kind-icon">session</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#state" class="tsd-kind-icon">state</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#writable" class="tsd-kind-icon">writable</a></li>
@@ -161,6 +164,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#removelistener" class="tsd-kind-icon">remove<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#resume" class="tsd-kind-icon">resume</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_http2_.http2stream.html#sendtrailers" class="tsd-kind-icon">send<wbr>Trailers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#setdefaultencoding" class="tsd-kind-icon">set<wbr>Default<wbr>Encoding</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#setencoding" class="tsd-kind-icon">set<wbr>Encoding</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_http2_.http2stream.html#setmaxlisteners" class="tsd-kind-icon">set<wbr>Max<wbr>Listeners</a></li>
@@ -190,7 +194,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#constructor">constructor</a></p>
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6683</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7225</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,7 +216,7 @@
 					<div class="tsd-signature tsd-kind-icon">aborted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7575</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8117</li>
 						</ul>
 					</aside>
 				</section>
@@ -222,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">closed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7576</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8118</li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">destroyed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7577</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8119</li>
 						</ul>
 					</aside>
 				</section>
@@ -242,7 +246,7 @@
 					<div class="tsd-signature tsd-kind-icon">end<wbr>After<wbr>Headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7586</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8131</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -258,7 +262,7 @@
 					<div class="tsd-signature tsd-kind-icon">pending<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7578</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8120</li>
 						</ul>
 					</aside>
 				</section>
@@ -269,7 +273,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#readable">readable</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6494</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:7036</li>
 						</ul>
 					</aside>
 				</section>
@@ -280,7 +284,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#readablehighwatermark">readableHighWaterMark</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6495</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:7037</li>
 						</ul>
 					</aside>
 				</section>
@@ -291,7 +295,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#readablelength">readableLength</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6496</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:7038</li>
 						</ul>
 					</aside>
 				</section>
@@ -301,7 +305,37 @@
 					<div class="tsd-signature tsd-kind-icon">rst<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7579</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8121</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sentheaders" class="tsd-anchor"></a>
+					<h3>sent<wbr>Headers</h3>
+					<div class="tsd-signature tsd-kind-icon">sent<wbr>Headers<span class="tsd-signature-symbol">:</span> <a href="_http_.outgoinghttpheaders.html" class="tsd-signature-type">OutgoingHttpHeaders</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:8122</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sentinfoheaders" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sent<wbr>Info<wbr>Headers</h3>
+					<div class="tsd-signature tsd-kind-icon">sent<wbr>Info<wbr>Headers<span class="tsd-signature-symbol">:</span> <a href="_http_.outgoinghttpheaders.html" class="tsd-signature-type">OutgoingHttpHeaders</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:8123</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="senttrailers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sent<wbr>Trailers</h3>
+					<div class="tsd-signature tsd-kind-icon">sent<wbr>Trailers<span class="tsd-signature-symbol">:</span> <a href="_http_.outgoinghttpheaders.html" class="tsd-signature-type">OutgoingHttpHeaders</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:8124</li>
 						</ul>
 					</aside>
 				</section>
@@ -311,7 +345,7 @@
 					<div class="tsd-signature tsd-kind-icon">session<span class="tsd-signature-symbol">:</span> <a href="_http2_.http2session.html" class="tsd-signature-type">Http2Session</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7580</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8125</li>
 						</ul>
 					</aside>
 				</section>
@@ -321,7 +355,7 @@
 					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <a href="_http2_.streamstate.html" class="tsd-signature-type">StreamState</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7581</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8126</li>
 						</ul>
 					</aside>
 				</section>
@@ -332,7 +366,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#writable">writable</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6681</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:7223</li>
 						</ul>
 					</aside>
 				</section>
@@ -343,7 +377,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#writablehighwatermark">writableHighWaterMark</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6682</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:7224</li>
 						</ul>
 					</aside>
 				</section>
@@ -354,7 +388,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#writablelength">writableLength</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6683</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:7225</li>
 						</ul>
 					</aside>
 				</section>
@@ -365,7 +399,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#defaultmaxlisteners">defaultMaxListeners</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:1079</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:1110</li>
 						</ul>
 					</aside>
 				</section>
@@ -383,7 +417,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#___asynciterator">__@asyncIterator</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6569</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7111</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="asynciterableiterator.html" class="tsd-signature-type">AsyncIterableIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -402,7 +436,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#_destroy">_destroy</a></p>
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#_destroy">_destroy</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6687</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7229</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -447,7 +481,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#_final">_final</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6688</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7230</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -489,7 +523,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#_read">_read</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6498</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7040</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -513,7 +547,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#_write">_write</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6685</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7227</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -561,7 +595,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#_writev">_writev</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6686</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7228</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -613,13 +647,14 @@
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"streamClosed"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"timeout"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"trailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"wantTrailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7591</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8136</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -655,7 +690,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7592</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8137</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -685,7 +720,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7593</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8138</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -715,7 +750,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7594</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8139</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -751,7 +786,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7595</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8140</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -781,7 +816,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7596</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8141</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -811,7 +846,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7597</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8142</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -847,7 +882,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7598</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8143</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -877,7 +912,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7599</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8144</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -916,7 +951,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7600</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8145</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -952,7 +987,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7601</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8146</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -988,7 +1023,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7602</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8147</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1024,7 +1059,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7603</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8148</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1054,7 +1089,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7604</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8149</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1089,6 +1124,36 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#addlistener">addListener</a></p>
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8150</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">"wantTrailers"</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -1101,7 +1166,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7587</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8132</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1140,7 +1205,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#cork">cork</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6695</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7237</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1158,7 +1223,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#destroy">destroy</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6509</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7051</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1189,13 +1254,14 @@
 						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"streamClosed"</span>, code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"timeout"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"trailers"</span>, trailers<span class="tsd-signature-symbol">: </span><a href="_http2_.incominghttpheaders.html" class="tsd-signature-type">IncomingHttpHeaders</a>, flags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"wantTrailers"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7606</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8152</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1213,7 +1279,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7607</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8153</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1228,7 +1294,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7608</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8154</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1243,7 +1309,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7609</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8155</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1261,7 +1327,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7610</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8156</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1276,7 +1342,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7611</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8157</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1291,7 +1357,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7612</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8158</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1309,7 +1375,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7613</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8159</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1324,7 +1390,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7614</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8160</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1345,7 +1411,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7615</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8161</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1363,7 +1429,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7616</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8162</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1381,7 +1447,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7617</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8163</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1399,7 +1465,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7618</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8164</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1414,7 +1480,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7619</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8165</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1427,6 +1493,21 @@
 								</li>
 								<li>
 									<h5>flags: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#emit">emit</a></p>
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8166</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">"wantTrailers"</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1446,7 +1527,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#end">end</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6692</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7234</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1473,7 +1554,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#end">end</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6693</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7235</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1503,7 +1584,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#end">end</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6694</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7236</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1546,7 +1627,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#eventnames">eventNames</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#eventnames">eventNames</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1094</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1125</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="array.html" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1565,7 +1646,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#getmaxlisteners">getMaxListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#getmaxlisteners">getMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1090</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1121</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1583,7 +1664,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#ispaused">isPaused</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6503</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7045</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1602,7 +1683,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#listenercount">listenerCount</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#listenercount">listenerCount</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1095</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1126</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1627,7 +1708,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#listeners">listeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#listeners">listeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1091</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1122</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1652,7 +1733,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#off">off</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#off">off</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1087</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1118</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1704,13 +1785,14 @@
 						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"streamClosed"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"timeout"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"trailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"wantTrailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7621</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8168</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1746,7 +1828,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7622</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8169</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1776,7 +1858,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7623</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8170</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1806,7 +1888,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7624</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8171</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1842,7 +1924,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7625</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8172</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1872,7 +1954,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7626</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8173</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1902,7 +1984,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7627</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8174</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1938,7 +2020,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7628</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8175</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1968,7 +2050,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7629</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8176</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2007,7 +2089,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7630</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8177</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2043,7 +2125,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7631</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8178</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2079,7 +2161,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7632</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8179</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2115,7 +2197,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7633</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8180</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2145,7 +2227,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7634</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8181</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2171,6 +2253,36 @@
 															<h5>flags: <span class="tsd-signature-type">number</span></h5>
 														</li>
 													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#on">on</a></p>
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8182</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">"wantTrailers"</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 												</li>
 											</ul>
@@ -2200,13 +2312,14 @@
 						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"streamClosed"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"timeout"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"trailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"wantTrailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7636</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8184</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2242,7 +2355,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7637</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8185</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2272,7 +2385,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7638</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8186</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2302,7 +2415,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7639</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8187</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2338,7 +2451,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7640</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8188</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2368,7 +2481,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7641</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8189</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2398,7 +2511,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7642</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8190</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2434,7 +2547,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7643</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8191</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2464,7 +2577,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7644</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8192</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2503,7 +2616,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7645</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8193</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2539,7 +2652,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7646</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8194</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2575,7 +2688,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7647</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8195</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2611,7 +2724,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7648</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8196</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2641,7 +2754,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7649</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8197</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2676,6 +2789,36 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#once">once</a></p>
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8198</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">"wantTrailers"</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
@@ -2689,7 +2832,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6501</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7043</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -2707,7 +2850,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.html">internal</a>.<a href="../classes/_stream_.internal.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6479</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7021</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -2752,13 +2895,14 @@
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"streamClosed"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"timeout"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"trailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"wantTrailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7651</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8200</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2794,7 +2938,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7652</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8201</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2824,7 +2968,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7653</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8202</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2854,7 +2998,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7654</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8203</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2890,7 +3034,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7655</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8204</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2920,7 +3064,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7656</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8205</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2950,7 +3094,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7657</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8206</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2986,7 +3130,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7658</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8207</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3016,7 +3160,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7659</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8208</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3055,7 +3199,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7660</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8209</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3091,7 +3235,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7661</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8210</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3127,7 +3271,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7662</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8211</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3163,7 +3307,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7663</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8212</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3193,7 +3337,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7664</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8213</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3219,6 +3363,36 @@
 															<h5>flags: <span class="tsd-signature-type">number</span></h5>
 														</li>
 													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependlistener">prependListener</a></p>
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8214</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">"wantTrailers"</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 												</li>
 											</ul>
@@ -3248,13 +3422,14 @@
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"streamClosed"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"timeout"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"trailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">prepend<wbr>Once<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"wantTrailers"</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7666</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8216</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3290,7 +3465,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7667</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8217</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3320,7 +3495,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7668</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8218</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3350,7 +3525,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7669</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8219</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3386,7 +3561,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7670</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8220</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3416,7 +3591,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7671</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8221</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3446,7 +3621,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7672</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8222</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3482,7 +3657,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7673</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8223</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3512,7 +3687,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7674</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8224</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3551,7 +3726,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7675</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8225</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3587,7 +3762,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7676</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8226</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3623,7 +3798,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7677</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8227</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3659,7 +3834,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7678</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8228</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3689,7 +3864,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7679</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8229</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3724,6 +3899,36 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#prependoncelistener">prependOnceListener</a></p>
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8230</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">"wantTrailers"</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -3736,7 +3941,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7588</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8133</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3760,7 +3965,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#push">push</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6507</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7049</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3788,7 +3993,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#rawlisteners">rawListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#rawlisteners">rawListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1092</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1123</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3812,7 +4017,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#read">read</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6499</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7041</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3837,7 +4042,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removealllisteners">removeAllListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1088</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1119</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3867,7 +4072,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6562</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7104</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3898,7 +4103,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6563</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7105</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3935,7 +4140,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6564</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7106</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3966,7 +4171,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6565</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7107</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3997,7 +4202,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6566</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7108</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4034,7 +4239,7 @@
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6567</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7109</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4079,9 +4284,32 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6502</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7044</li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external">
+					<a name="sendtrailers" class="tsd-anchor"></a>
+					<h3>send<wbr>Trailers</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Trailers<span class="tsd-signature-symbol">(</span>headers<span class="tsd-signature-symbol">: </span><a href="_http_.outgoinghttpheaders.html" class="tsd-signature-type">OutgoingHttpHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/@types/node/index.d.ts:8232</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>headers: <a href="_http_.outgoinghttpheaders.html" class="tsd-signature-type">OutgoingHttpHeaders</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
@@ -4097,7 +4325,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#setdefaultencoding">setDefaultEncoding</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6691</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7233</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4121,7 +4349,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#setencoding">setEncoding</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6500</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7042</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4146,7 +4374,7 @@
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#setmaxlisteners">setMaxListeners</a></p>
 								<p>Overrides <a href="../classes/nodejs.eventemitter.html">EventEmitter</a>.<a href="../classes/nodejs.eventemitter.html#setmaxlisteners">setMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1089</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1120</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4169,7 +4397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:7589</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:8134</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4208,7 +4436,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#uncork">uncork</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6696</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7238</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -4226,7 +4454,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#unpipe">unpipe</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6504</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7046</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4250,7 +4478,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#unshift">unshift</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6505</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7047</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4274,7 +4502,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.readable.html">Readable</a>.<a href="../classes/_stream_.internal.readable.html#wrap">wrap</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6506</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7048</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4299,7 +4527,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#write">write</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6689</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7231</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4335,7 +4563,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_stream_.internal.duplex.html">Duplex</a>.<a href="../classes/_stream_.internal.duplex.html#write">write</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:6690</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:7232</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4383,7 +4611,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="../classes/_events_.internal.eventemitter.html">EventEmitter</a>.<a href="../classes/_events_.internal.eventemitter.html#listenercount-1">listenerCount</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/index.d.ts:1078</li>
+									<li>Defined in node_modules/@types/node/index.d.ts:1109</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -4487,6 +4715,15 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="_http2_.http2stream.html#rstcode" class="tsd-kind-icon">rst<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_http2_.http2stream.html#sentheaders" class="tsd-kind-icon">sent<wbr>Headers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_http2_.http2stream.html#sentinfoheaders" class="tsd-kind-icon">sent<wbr>Info<wbr>Headers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_http2_.http2stream.html#senttrailers" class="tsd-kind-icon">sent<wbr>Trailers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="_http2_.http2stream.html#session" class="tsd-kind-icon">session</a>
@@ -4598,6 +4835,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="_http2_.http2stream.html#resume" class="tsd-kind-icon">resume</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external">
+								<a href="_http2_.http2stream.html#sendtrailers" class="tsd-kind-icon">send<wbr>Trailers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="_http2_.http2stream.html#setdefaultencoding" class="tsd-kind-icon">set<wbr>Default<wbr>Encoding</a>
