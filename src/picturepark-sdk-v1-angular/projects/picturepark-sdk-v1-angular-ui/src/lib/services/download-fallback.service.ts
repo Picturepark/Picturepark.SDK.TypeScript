@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import {
     Content, Output, OutputSearchRequest, OutputService, OutputRenderingState,
     ContentDownloadLinkCreateRequest,
-    ContentService
+    ContentService,
+    ContentType
 } from '@picturepark/sdk-v1-angular';
+import { IDownloadData } from '../components/content-download-dialog/download-data';
+import { ContentDownloadDialogComponent } from '../components/content-download-dialog/content-download-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +18,7 @@ export class DownloadFallbackService {
         outputFormatId: string;
     }[];
 
-    constructor(private outputService: OutputService, private contentService: ContentService) {
+    constructor(private outputService: OutputService, private contentService: ContentService, private dialog: MatDialog) {
         this.outputFormatFallback = [
             { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
             { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
@@ -49,6 +53,33 @@ export class DownloadFallbackService {
             limit: 10000
         })).subscribe(outputs => {
             outputSubscription.unsubscribe();
+            const items: IDownloadData = {};
+
+            contents.forEach(content => {
+                const isBinary = content.contentType !== ContentType.ContentItem;
+                const schemaId = isBinary ? content.contentSchemaId : ContentType.ContentItem.toString();
+                const schemaItems = items[schemaId] = items[schemaId] || {};
+                const contentOutputs = outputs.results.filter(i => i.contentId === content.id);
+                contentOutputs.forEach(output => {
+                    const outputFormatItems = schemaItems[output.outputFormatId] = schemaItems[output.outputFormatId] || [];
+                    outputFormatItems.push({
+                        content: content,
+                        output: output
+                    });
+                });
+            });
+
+            this.dialog.open(ContentDownloadDialogComponent, {
+                data: items,
+                width: '50vw',
+            });
+
+            console.log(outputs.results
+                .filter(i => i.detail)
+                .map(i => i.detail!.fileSizeInBytes!)
+                .reduce((total, value) => total + value )
+            );
+            console.log(items);
 
             const request = new ContentDownloadLinkCreateRequest({
                 contents: contents.map(item => {
@@ -57,12 +88,13 @@ export class DownloadFallbackService {
                     return { contentId: item.id, outputFormatId: output.outputFormatId };
                 })
             });
+            /*
             const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
                 linkSubscription.unsubscribe();
                 if (data.downloadUrl) {
                     window.location.replace(data.downloadUrl);
                 }
-            });
+            });*/
         });
     }
 }

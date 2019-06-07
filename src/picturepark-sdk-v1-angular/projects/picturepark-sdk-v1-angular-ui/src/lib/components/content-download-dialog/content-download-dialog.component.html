@@ -1,0 +1,9 @@
+<form class="example-container">
+  <div *ngFor="let filetype of data | keyvalue">
+    <b>{{filetype.key}}</b>
+
+    <div *ngFor="let output of filetype.value | keyvalue">
+      <mat-checkbox>{{output.key}} ({{output.value.length}})</mat-checkbox>
+    </div>
+  </div>
+</form>

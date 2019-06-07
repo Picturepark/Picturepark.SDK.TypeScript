@@ -19,6 +19,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 // SDK components
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
@@ -34,6 +35,7 @@ import { LayerPanelsComponent } from './components/layer-panels/layer-panels.com
 import { FieldDetailInfoDialogComponent } from './components/layer-panels/field-detail-info-dialog/field-detail-info-dialog.component';
 import { ListItemAggregationComponent } from './components/list-item-aggregation-list/list-item-aggregation/list-item-aggregation.component';
 import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
+import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
 
 // SDK pipes
 import { TranslatePipe } from './pipes/translate.pipe';
@@ -62,7 +64,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     TranslatePipe,
     LazyLoadDirective,
     LayerPanelsComponent,
-    FieldDetailInfoDialogComponent
+    FieldDetailInfoDialogComponent,
+    ContentDownloadDialogComponent
   ],
   providers: [
     ContentItemSelectionService,
@@ -88,6 +91,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     MatProgressBarModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatCheckboxModule,
     ScrollingModule
   ],
   exports: [
@@ -101,9 +105,11 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     OutputDownloadMenuComponent,
     TranslatePipe,
     CommonModule,
+    ContentDownloadDialogComponent,
   ],
   entryComponents: [
-    FieldDetailInfoDialogComponent
+    FieldDetailInfoDialogComponent,
+    ContentDownloadDialogComponent
   ]
 })
 export class PictureparkUiModule {
