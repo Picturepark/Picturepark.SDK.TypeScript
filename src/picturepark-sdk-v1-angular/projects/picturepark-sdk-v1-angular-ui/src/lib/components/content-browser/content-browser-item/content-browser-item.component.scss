@@ -54,7 +54,8 @@
     position: relative;
   }
   &__image-virtual-item-container {
-    display: flex;
+    display: block;
+    padding: 8px;
     align-items: center;
     justify-content: center;
     position: absolute;

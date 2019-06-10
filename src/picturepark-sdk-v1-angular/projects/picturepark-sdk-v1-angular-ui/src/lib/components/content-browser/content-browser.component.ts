@@ -12,9 +12,12 @@ import {
   ContentService, ThumbnailSize,
   ContentDownloadLinkCreateRequest,
   ContentSearchRequest, FilterBase, SortInfo,
-  SortDirection, ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel
+  SortDirection, ContentSearchType, BrokenDependenciesFilter,
+  LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
 } from '@picturepark/sdk-v1-angular';
 import { BaseComponent } from '../base.component';
+import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+import { DownloadFallbackService } from '../../services/download-fallback.service';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -94,6 +97,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
+    private outputService: OutputService,
+    private liquidRenderingService: LiquidRenderingService,
+    private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone) {
     super();
@@ -159,16 +165,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   public downloadItems() {
-    const request = new ContentDownloadLinkCreateRequest({
-      contents: this.selectedItems.map(item => ({ contentId: item, outputFormatId: 'Original' }))
-    });
-
-    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
-      if (data.downloadUrl) {
-        window.location.replace(data.downloadUrl);
-      }
-    });
-    this.subscription.add(linkSubscription);
+    this.downloadFallbackService.download(this.items.filter(i => i.isSelected).map(i => i.item));
   }
 
   public toggleItems(isSelected: boolean) {
@@ -219,6 +216,11 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         limit: this.ItemsPerRequest,
         searchString: this.query,
         searchType: ContentSearchType.MetadataAndFullText,
+        searchBehaviors: [
+          SearchBehavior.SimplifiedSearch,
+          SearchBehavior.DropInvalidCharactersOnFailure,
+          SearchBehavior.WildcardOnSingleTerm
+        ],
         sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
           new SortInfo({
             field: this.activeSortingType,
@@ -227,15 +229,17 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         ]
       });
 
-      const searchSubscription = this.contentService.search(request).subscribe(searchResult => {
+      const searchSubscription = this.contentService.search(request).subscribe(async searchResult => {
         this.totalResults = searchResult.totalResults;
         this.nextPageToken = searchResult.pageToken;
 
         if (searchResult.results) {
+          await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
           this.items.push(...searchResult.results.map(item => {
             const isInBasket = this.basketItems.some(basketItem => basketItem === item.id);
-
-            return new ContentModel(item, isInBasket);
+            const contentModel = new ContentModel(item, isInBasket);
+            contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
+            return contentModel;
           }));
         }
 

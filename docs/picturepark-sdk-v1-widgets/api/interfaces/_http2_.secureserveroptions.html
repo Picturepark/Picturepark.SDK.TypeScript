@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#cert" class="tsd-kind-icon">cert</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#ciphers" class="tsd-kind-icon">ciphers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#clientcertengine" class="tsd-kind-icon">client<wbr>Cert<wbr>Engine</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#createconnection" class="tsd-kind-icon">create<wbr>Connection</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#crl" class="tsd-kind-icon">crl</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#dhparam" class="tsd-kind-icon">dhparam</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_http2_.secureserveroptions.html#ecdhcurve" class="tsd-kind-icon">ecdh<wbr>Curve</a></li>
@@ -133,7 +134,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#alpnprotocols">ALPNProtocols</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6012</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6522</li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +145,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#npnprotocols">NPNProtocols</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6011</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6521</li>
 						</ul>
 					</aside>
 				</section>
@@ -155,7 +156,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#snicallback">SNICallback</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6013</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6523</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -210,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">allowHTTP1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7932</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8486</li>
 						</ul>
 					</aside>
 				</section>
@@ -221,7 +222,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#ca">ca</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6102</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6612</li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +233,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#cert">cert</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6101</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6611</li>
 						</ul>
 					</aside>
 				</section>
@@ -243,7 +244,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#ciphers">ciphers</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6103</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6613</li>
 						</ul>
 					</aside>
 				</section>
@@ -254,9 +255,41 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#clientcertengine">clientCertEngine</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6106</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6616</li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="createconnection" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create<wbr>Connection</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Connection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#createconnection">createConnection</a></p>
+						<ul>
+							<li>Defined in node_modules/@types/node/index.d.ts:8472</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>option<span class="tsd-signature-symbol">: </span><a href="_http2_.sessionoptions.html" class="tsd-signature-type">SessionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">stream.Duplex</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>option: <a href="_http2_.sessionoptions.html" class="tsd-signature-type">SessionOptions</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">stream.Duplex</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="crl" class="tsd-anchor"></a>
@@ -265,7 +298,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#crl">crl</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6107</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6617</li>
 						</ul>
 					</aside>
 				</section>
@@ -276,7 +309,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#dhparam">dhparam</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6108</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6618</li>
 						</ul>
 					</aside>
 				</section>
@@ -287,7 +320,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#ecdhcurve">ecdhCurve</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6105</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6615</li>
 						</ul>
 					</aside>
 				</section>
@@ -298,7 +331,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#handshaketimeout">handshakeTimeout</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6008</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6518</li>
 						</ul>
 					</aside>
 				</section>
@@ -309,7 +342,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#honorcipherorder">honorCipherOrder</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6104</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6614</li>
 						</ul>
 					</aside>
 				</section>
@@ -320,7 +353,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#key">key</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6099</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6609</li>
 						</ul>
 					</aside>
 				</section>
@@ -331,7 +364,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#maxdeflatedynamictablesize">maxDeflateDynamicTableSize</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7912</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8465</li>
 						</ul>
 					</aside>
 				</section>
@@ -342,7 +375,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#maxreservedremotestreams">maxReservedRemoteStreams</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7913</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8466</li>
 						</ul>
 					</aside>
 				</section>
@@ -353,7 +386,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#maxsendheaderblocklength">maxSendHeaderBlockLength</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7914</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8467</li>
 						</ul>
 					</aside>
 				</section>
@@ -364,7 +397,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#paddingstrategy">paddingStrategy</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7915</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8468</li>
 						</ul>
 					</aside>
 				</section>
@@ -375,7 +408,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#passphrase">passphrase</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6100</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6610</li>
 						</ul>
 					</aside>
 				</section>
@@ -386,7 +419,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#peermaxconcurrentstreams">peerMaxConcurrentStreams</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7916</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8469</li>
 						</ul>
 					</aside>
 				</section>
@@ -397,7 +430,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#pfx">pfx</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6098</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6608</li>
 						</ul>
 					</aside>
 				</section>
@@ -408,7 +441,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#rejectunauthorized">rejectUnauthorized</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6010</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6520</li>
 						</ul>
 					</aside>
 				</section>
@@ -419,7 +452,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#requestcert">requestCert</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6009</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6519</li>
 						</ul>
 					</aside>
 				</section>
@@ -430,7 +463,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#secureoptions">secureOptions</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6109</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6619</li>
 						</ul>
 					</aside>
 				</section>
@@ -441,7 +474,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#secureprotocol">secureProtocol</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6110</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6620</li>
 						</ul>
 					</aside>
 				</section>
@@ -452,7 +485,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#selectpadding">selectPadding</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7917</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8470</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -487,7 +520,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.securecontextoptions.html">SecureContextOptions</a>.<a href="_tls_.securecontextoptions.html#sessionidcontext">sessionIdContext</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6111</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6621</li>
 						</ul>
 					</aside>
 				</section>
@@ -498,7 +531,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#sessiontimeout">sessionTimeout</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6014</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6524</li>
 						</ul>
 					</aside>
 				</section>
@@ -509,7 +542,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_http2_.sessionoptions.html">SessionOptions</a>.<a href="_http2_.sessionoptions.html#settings">settings</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:7918</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:8471</li>
 						</ul>
 					</aside>
 				</section>
@@ -520,7 +553,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_tls_.tlsoptions.html">TlsOptions</a>.<a href="_tls_.tlsoptions.html#ticketkeys">ticketKeys</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/index.d.ts:6015</li>
+							<li>Defined in node_modules/@types/node/index.d.ts:6525</li>
 						</ul>
 					</aside>
 				</section>
@@ -611,6 +644,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="_http2_.secureserveroptions.html#clientcertengine" class="tsd-kind-icon">client<wbr>Cert<wbr>Engine</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="_http2_.secureserveroptions.html#createconnection" class="tsd-kind-icon">create<wbr>Connection</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="_http2_.secureserveroptions.html#crl" class="tsd-kind-icon">crl</a>

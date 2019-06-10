@@ -1,7 +1,40 @@
 @import '~@angular/material/theming';
 
-$picturepark-app-primary: mat-palette($mat-indigo, 600, 400, 900);
-$picturepark-app-accent: mat-palette($mat-pink, 400,200,700);
-// The warn palette is optional (defaults to red).
+$mat-picturepark-accent: (
+    50 : #e8f6f6,
+    100 : #c5e8e8,
+    200 : #9fd9d8,
+    300 : #79cac8,
+    400 : #5cbebd,
+    500 : #3fb3b1,
+    600 : #39acaa,
+    700 : #31a3a1,
+    800 : #299a98,
+    900 : #1b8b88,
+    A100 : #c3fffd,
+    A200 : #90fffc,
+    A400 : #5dfffb,
+    A700 : #44fffa,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$picturepark-app-primary: mat-palette($mat-picturepark-accent, 600, 400, 900);
+$picturepark-app-accent: mat-palette($mat-picturepark-accent, 400,200,700);
 $picturepark-app-warn : mat-palette($mat-red);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
