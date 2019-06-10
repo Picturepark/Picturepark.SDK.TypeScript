@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.0.9.0 (NJsonSchema v9.13.10.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.14.0 (Newtonsoft.Json v11.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "Picturepark API V1",
@@ -15,12 +15,6 @@
       "backgroundColor": "#FFFFFF"
     }
   },
-  "consumes": [
-    "application/json-patch+json",
-    "application/json",
-    "text/json",
-    "application/*+json"
-  ],
   "paths": {
     "/v1/businessProcesses/search": {
       "post": {
@@ -1358,10 +1352,10 @@
             "description": "A value indicating whether references to the content should be removed.",
             "schema": {
               "type": "boolean",
+              "default": false,
               "nullable": true
             },
-            "x-position": 2,
-            "default": false
+            "x-position": 2
           },
           {
             "name": "timeout",
@@ -1664,10 +1658,10 @@
             "in": "query",
             "description": "Allows creating contents that refer to list items or contents that don't exist in the system.",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
-            "x-position": 3,
-            "default": false
+            "x-position": 3
           },
           {
             "name": "timeout",
@@ -2554,7 +2548,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -2564,7 +2559,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -2709,7 +2705,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -3153,10 +3150,10 @@
             "in": "query",
             "description": "Allows restoring contents that refer to list items or contents that don't exist in the system.",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
-            "x-position": 2,
-            "default": false
+            "x-position": 2
           },
           {
             "name": "timeout",
@@ -3549,10 +3546,10 @@
             "in": "query",
             "description": "Allows storing references to list items or contents that don't exist in the system.",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
-            "x-position": 4,
-            "default": false
+            "x-position": 4
           },
           {
             "name": "timeout",
@@ -7162,10 +7159,10 @@
             "in": "query",
             "description": "Allows creating list items that refer to list items or contents that don't exist in the system.",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
-            "x-position": 4,
-            "default": false
+            "x-position": 4
           },
           {
             "name": "timeout",
@@ -7305,10 +7302,10 @@
             "description": "A value indicating whether references to the list item should be removed.",
             "schema": {
               "type": "boolean",
+              "default": false,
               "nullable": true
             },
-            "x-position": 2,
-            "default": false
+            "x-position": 2
           },
           {
             "name": "timeout",
@@ -7611,10 +7608,10 @@
             "in": "query",
             "description": "Allows creating list items that refer to list items or contents that don't exist in the system.",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
-            "x-position": 3,
-            "default": false
+            "x-position": 3
           },
           {
             "name": "timeout",
@@ -8443,10 +8440,10 @@
             "in": "query",
             "description": "Allows restoring list items that refer to list items or contents that don't exist in the system.",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
-            "x-position": 2,
-            "default": false
+            "x-position": 2
           },
           {
             "name": "timeout",
@@ -15034,7 +15031,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -15044,7 +15042,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -15197,7 +15196,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -15207,7 +15207,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -15370,7 +15371,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -15380,7 +15382,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "type": "file"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -16702,7 +16705,8 @@
             "in": "formData",
             "description": "Gets or sets the form file.",
             "schema": {
-              "type": "file",
+              "type": "string",
+              "format": "binary",
               "nullable": true
             },
             "nullable": true
@@ -22570,14 +22574,17 @@
             "properties": {
               "referenceItemId": {
                 "type": "string",
+                "description": "This is the source of the reference.",
                 "nullable": true
               },
               "referenceType": {
                 "type": "string",
+                "description": "This is the DocType of the source of the reference.",
                 "nullable": true
               },
               "exceptions": {
                 "type": "array",
+                "description": "These exceptions describe why the source metadata item could not be updated.",
                 "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/PictureparkException"
@@ -25075,13 +25082,15 @@
           "DropInvalidCharactersOnFailure",
           "WildcardOnSingleTerm",
           "SimplifiedSearch",
-          "WildcardOnEveryTerm"
+          "WildcardOnEveryTerm",
+          "SimplifiedSearchOr"
         ],
         "enum": [
           "DropInvalidCharactersOnFailure",
           "WildcardOnSingleTerm",
           "SimplifiedSearch",
-          "WildcardOnEveryTerm"
+          "WildcardOnEveryTerm",
+          "SimplifiedSearchOr"
         ]
       },
       "BusinessProcessWaitForLifeCycleResult": {
@@ -25266,6 +25275,11 @@
                 "$ref": "#/components/schemas/ErrorResponse"
               }
             ]
+          },
+          "requestId": {
+            "type": "string",
+            "description": "The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation.",
+            "nullable": true
           }
         }
       },
@@ -27775,6 +27789,11 @@
             "items": {
               "type": "string"
             }
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Optional client reference for this request.\nWill be returned back in response to make easier for clients to match request items with the respective results.\nIt is not persisted anywhere and it is ignored in single operations.",
+            "nullable": true
           }
         }
       },
@@ -28645,6 +28664,10 @@
           },
           "exclusive": {
             "type": "boolean"
+          },
+          "requestId": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -28792,6 +28815,11 @@
             "type": "integer",
             "description": "Returned status code.",
             "format": "int32"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation.",
+            "nullable": true
           }
         }
       },
@@ -29888,9 +29916,9 @@
             "description": "The id of the schema with schema type list.",
             "nullable": true
           },
-          "listItemId": {
+          "requestId": {
             "type": "string",
-            "description": "The list item id. When not provided a Guid is generated.",
+            "description": "Optional client reference for this request.\nWill be returned back in response to make easier for clients to match request items with the respective results.\nIt is not persisted anywhere and it is ignored in single operations.",
             "nullable": true
           }
         }
@@ -34652,6 +34680,10 @@
           },
           "exclusive": {
             "type": "boolean"
+          },
+          "requestId": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -35000,8 +35032,7 @@
           "id",
           "outputs",
           "contentType",
-          "displayValues",
-          "iconUrl"
+          "displayValues"
         ],
         "properties": {
           "contentSchemaId": {
@@ -35066,7 +35097,7 @@
           "iconUrl": {
             "type": "string",
             "description": "Contains an URL that can be used to retrieve the icon corresponding to the file type.",
-            "minLength": 1
+            "nullable": true
           }
         }
       },
@@ -37827,7 +37858,14 @@
           {
             "type": "object",
             "description": "Holds information needed for user role creation.",
-            "additionalProperties": false
+            "additionalProperties": false,
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "description": "Optional client reference for this request.\nWill be returned back in response to make easier for clients to match request items with the respective results.\nIt is not persisted anywhere and it is ignored in single operations.",
+                "nullable": true
+              }
+            }
           }
         ]
       },
@@ -37930,6 +37968,11 @@
       }
     }
   },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
   "tags": [
     {
       "name": "BusinessProcess",
