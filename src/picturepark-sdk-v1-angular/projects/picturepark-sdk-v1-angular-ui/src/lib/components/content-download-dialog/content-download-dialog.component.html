@@ -1,9 +1,19 @@
+<h2 mat-dialog-title>Download</h2>
+
 <form class="example-container">
   <div *ngFor="let filetype of data | keyvalue">
     <b>{{filetype.key}}</b>
 
-    <div *ngFor="let output of filetype.value.values | keyvalue">
-      <mat-checkbox [(ngModel)]="output.checked">{{output.key}} ({{output.value.length}})</mat-checkbox>
+    <div *ngFor="let output of filetype.value | keyvalue">
+      <mat-checkbox [name]="output.key" [(ngModel)]="output.value.selected" (change)="update()">{{output.key}} ({{output.value.values.length}})</mat-checkbox>
     </div>
   </div>
+
+  {{fileSize}}
 </form>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+  <button mat-button (click)="download()" [disabled]="fileSize === 0" cdkFocusInitial>Download</button>
+</mat-dialog-actions>
+

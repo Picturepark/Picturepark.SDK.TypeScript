@@ -18,7 +18,7 @@ export class DownloadFallbackService {
         outputFormatId: string;
     }[];
 
-    constructor(private outputService: OutputService, private contentService: ContentService, private dialog: MatDialog) {
+    constructor(private outputService: OutputService, private dialog: MatDialog) {
         this.outputFormatFallback = [
             { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
             { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
@@ -61,8 +61,10 @@ export class DownloadFallbackService {
                 const schemaItems = items[schemaId] = items[schemaId] || {};
                 const contentOutputs = outputs.results.filter(i => i.contentId === content.id);
                 contentOutputs.forEach(output => {
-                    const outputFormatItems = schemaItems[output.outputFormatId] = schemaItems[output.outputFormatId] || [];
-                    outputFormatItems.push({
+                    const outputFormatItems = schemaItems[output.outputFormatId]
+                          = schemaItems[output.outputFormatId] || { selected: false, values: [] };
+
+                    outputFormatItems.values.push({
                         content: content,
                         output: output
                     });

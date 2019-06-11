@@ -20,6 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // SDK components
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
@@ -92,6 +93,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     MatCardModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatDialogModule,
     ScrollingModule
   ],
   exports: [
