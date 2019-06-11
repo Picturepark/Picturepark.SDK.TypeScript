@@ -10304,6 +10304,105 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
+     * Transfer ownership
+     * @param schemaId The schema ID.
+     * @param request Request detailing which user to transfer to.
+     * @return OK
+     */
+    transferOwnership(schemaId: string, request: SchemaOwnershipTransferRequest): Observable<void> {
+        let url_ = this.baseUrl + "/v1/schemas/{schemaId}/ownership";
+        if (schemaId === undefined || schemaId === null)
+            throw new Error("The parameter 'schemaId' must be defined.");
+        url_ = url_.replace("{schemaId}", encodeURIComponent("" + schemaId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processTransferOwnership(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTransferOwnership(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTransferOwnership(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * Gets all schemas referenced by the schemas specified in
      * @param ids (optional) The schema IDs.
      * @return Referenced schema details
@@ -10492,6 +10591,105 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Transfer ownership of multiple schemas
+     * @param request Schema ownership transfer many request.
+     * @return Business process
+     */
+    transferOwnershipMany(request: SchemaOwnershipTransferManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/schemas/many/ownership";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processTransferOwnershipMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTransferOwnershipMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTransferOwnershipMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 ? PictureparkException.fromJS(resultData500) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = resultData404 ? PictureparkNotFoundException.fromJS(resultData404) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = resultData409 ? PictureparkConflictException.fromJS(resultData409) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? PictureparkValidationException.fromJS(resultData400) : <any>null;
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -45307,6 +45505,44 @@ has to be unique across the schema hierarchy. */
     schemaId?: string | undefined;
 }
 
+export class SchemaOwnershipTransferRequest implements ISchemaOwnershipTransferRequest {
+    /** The id of the user to whom the schema has to be transfered to. */
+    transferUserId?: string | undefined;
+
+    constructor(data?: ISchemaOwnershipTransferRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.transferUserId = data["transferUserId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaOwnershipTransferRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaOwnershipTransferRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferUserId"] = this.transferUserId;
+        return data; 
+    }
+}
+
+export interface ISchemaOwnershipTransferRequest {
+    /** The id of the user to whom the schema has to be transfered to. */
+    transferUserId?: string | undefined;
+}
+
 /** Result of a schema create operation */
 export class SchemaCreateResult implements ISchemaCreateResult {
     /** The details of the created schema. */
@@ -45884,6 +46120,58 @@ export class SchemaDeleteResult implements ISchemaDeleteResult {
 
 /** Result of a schema delete operation */
 export interface ISchemaDeleteResult {
+}
+
+export class SchemaOwnershipTransferManyRequest implements ISchemaOwnershipTransferManyRequest {
+    /** The schema ids. */
+    schemaIds?: string[] | undefined;
+    /** The id of user to whom the schemas have to be transfered to. */
+    transferUserId?: string | undefined;
+
+    constructor(data?: ISchemaOwnershipTransferManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["schemaIds"])) {
+                this.schemaIds = [] as any;
+                for (let item of data["schemaIds"])
+                    this.schemaIds!.push(item);
+            }
+            this.transferUserId = data["transferUserId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaOwnershipTransferManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaOwnershipTransferManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.schemaIds)) {
+            data["schemaIds"] = [];
+            for (let item of this.schemaIds)
+                data["schemaIds"].push(item);
+        }
+        data["transferUserId"] = this.transferUserId;
+        return data; 
+    }
+}
+
+export interface ISchemaOwnershipTransferManyRequest {
+    /** The schema ids. */
+    schemaIds?: string[] | undefined;
+    /** The id of user to whom the schemas have to be transfered to. */
+    transferUserId?: string | undefined;
 }
 
 export abstract class PermissionSetDetailOfMetadataRight implements IPermissionSetDetailOfMetadataRight {
