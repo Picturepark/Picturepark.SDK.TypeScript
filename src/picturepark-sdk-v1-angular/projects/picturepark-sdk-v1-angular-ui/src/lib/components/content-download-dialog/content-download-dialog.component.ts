@@ -49,8 +49,7 @@ export class ContentDownloadDialogComponent implements OnInit {
   private getSelectedOutputs(): Output[] {
     const fileFormats = Object.keys(this.data).map(fileFormat => this.data[fileFormat]);
     const selectedOutputs = fileFormats
-      .map(fileFormat => Object.keys(fileFormat).map(outputFormat => fileFormat[outputFormat] ));
-
+      .map(fileFormat => Object.keys(fileFormat.outputs).map(outputFormat => fileFormat.outputs[outputFormat] ));
     const outputs = this.flatMap(this.flatMap(selectedOutputs, i => i).filter(i => i.selected), i => i.values).map(i => i.output);
     return outputs;
   }

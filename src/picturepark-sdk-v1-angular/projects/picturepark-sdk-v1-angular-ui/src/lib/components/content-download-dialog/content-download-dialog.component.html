@@ -2,14 +2,14 @@
 
 <form class="example-container">
   <div *ngFor="let filetype of data | keyvalue">
-    <b>{{filetype.key}}</b>
+    <b>{{filetype.value.name}} ({{filetype.value.contentCount}})</b>
 
-    <div *ngFor="let output of filetype.value | keyvalue">
-      <mat-checkbox [name]="output.key" [(ngModel)]="output.value.selected" (change)="update()">{{output.key}} ({{output.value.values.length}})</mat-checkbox>
+    <div *ngFor="let output of filetype.value.outputs | keyvalue">
+      <mat-checkbox [name]="output.key" [(ngModel)]="output.value.selected" (change)="update()">{{output.value.name}} ({{output.value.values.length}})</mat-checkbox>
     </div>
   </div>
 
-  {{fileSize}}
+  {{fileSize}} bytes
 </form>
 
 <mat-dialog-actions align="end">

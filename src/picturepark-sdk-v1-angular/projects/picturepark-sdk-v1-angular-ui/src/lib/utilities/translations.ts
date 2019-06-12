@@ -219,6 +219,32 @@ export let TRANSLATIONS = {
       en: 'Search',
       de: 'Suchen'
     }
+  },
+  ContentDownloadDialog: {
+    AudioMetadata: {
+      en: 'Audio',
+      de: 'Audio'
+    },
+    ImageMetadata: {
+      en: 'Images',
+      de: 'Bilder'
+    },
+    FileMetadata: {
+      en: 'Other',
+      de: 'Andere'
+    },
+    VideoMetadata: {
+      en: 'Videos',
+      de: 'Videos'
+    },
+    DocumentMetadata: {
+      en: 'Documents',
+      de: 'Dokumente'
+    },
+    ContentItem: {
+      en: 'Virtual content',
+      de: 'Virtueller content'
+    }
   }
 };
 
