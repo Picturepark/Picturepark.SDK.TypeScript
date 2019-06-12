@@ -9,6 +9,7 @@ export interface IDownloadData {
             {
                 name: string;
                 selected: boolean;
+                hidden: boolean;
                 values: [{
                     content: Content,
                     output: Output

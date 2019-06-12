@@ -29,6 +29,7 @@ export class ContentDownloadDialogComponent implements OnInit {
         linkSubscription.unsubscribe();
         if (data.downloadUrl) {
             window.location.replace(data.downloadUrl);
+            this.dialogRef.close(true);
         }
     });
   }

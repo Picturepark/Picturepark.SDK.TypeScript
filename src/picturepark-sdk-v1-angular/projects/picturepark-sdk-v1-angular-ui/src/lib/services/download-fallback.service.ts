@@ -75,12 +75,25 @@ export class DownloadFallbackService {
             const contentOutputs = outputs.filter(i => i.contentId === content.id);
             contentOutputs.forEach(output => {
                 const outputFormatItems = schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[output.outputFormatId] ||
-                { selected: false, values: [], name: translations[output.outputFormatId] };
+                {
+                    hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
+                    values: [],
+                    name: translations[output.outputFormatId]
+                };
 
                 outputFormatItems.values.push({
                     content: content,
                     output: output
                 });
+            });
+        });
+
+        // Preselect originals if all available
+        Object.keys(items).map(key => items[key]).forEach(fileFormat => {
+            Object.keys(fileFormat.outputs).map(key => ({ key: key, value: fileFormat.outputs[key]})).forEach(output => {
+                if (output.key === 'Original' && output.value.values.length === fileFormat.contentCount) {
+                    output.value.selected = true;
+                }
             });
         });
 
