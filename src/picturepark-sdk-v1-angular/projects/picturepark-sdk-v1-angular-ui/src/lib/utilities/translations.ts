@@ -252,10 +252,10 @@ export let TRANSLATIONS = {
       en: 'Download'
     },
     Advanced: {
-      en: 'Advanced'
+      en: 'Show more formats'
     },
     Simple: {
-      en: 'Simple'
+      en: 'Show less formats'
     },
     Download: {
       en: 'Download'
