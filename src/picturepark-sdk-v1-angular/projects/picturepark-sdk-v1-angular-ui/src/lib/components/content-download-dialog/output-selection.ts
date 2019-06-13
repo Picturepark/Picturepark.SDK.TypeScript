@@ -21,7 +21,13 @@ export interface IOutputPerSchemaSelection {
 }
 
 export class OutputSelection {
+    public hasThumbnails = false;
+
     private selection: { [fileSchemaId: string]: IOutputPerSchemaSelection };
+
+    public get hasHiddenThumbnails(): boolean {
+        return this.getThumbnailOutputs().some(i => i.hidden);
+    }
 
     constructor(
         outputs: Output[],
@@ -59,6 +65,8 @@ export class OutputSelection {
                     });
                 });
             });
+
+            this.hasThumbnails = this.getThumbnailOutputs().length > 0;
     }
 
     public getFileFormats(): IOutputPerSchemaSelection[] {
@@ -72,9 +80,23 @@ export class OutputSelection {
     }
 
     public getSelectedOutputs(): Output[] {
-        const selectedOutputs = this.getFileFormats().map(fileFormat => this.getOutputs(fileFormat));
-        const outputs = this.flatMap(this.flatMap(selectedOutputs, i => i).filter(i => i.selected), i => i.values).map(i => i.output);
+        const selectedOutputs = this.getAllOutputs();
+        const outputs = this.flatMap(selectedOutputs.filter(i => i.selected), i => i.values).map(i => i.output);
         return outputs;
+    }
+
+    public toggleThumbnails(): void {
+        const thumbnails = this.getThumbnailOutputs();
+        const hasHidden = thumbnails.some(i => i.hidden);
+        thumbnails.forEach(i => i.hidden = !hasHidden);
+    }
+
+    private getAllOutputs(): IOutputPerOutputFormatSelection[] {
+        return this.flatMap(this.getFileFormats().map(fileFormat => this.getOutputs(fileFormat)), i => i);
+    }
+
+    private getThumbnailOutputs(): IOutputPerOutputFormatSelection[] {
+        return this.getAllOutputs().filter(output => output.id.indexOf('Thumbnail') === 0);
     }
 
     private flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {

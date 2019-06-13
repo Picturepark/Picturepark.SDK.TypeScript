@@ -251,6 +251,12 @@ export let TRANSLATIONS = {
     Title: {
       en: 'Download'
     },
+    Advanced: {
+      en: 'Advanced'
+    },
+    Simple: {
+      en: 'Simple'
+    },
     Download: {
       en: 'Download'
     },

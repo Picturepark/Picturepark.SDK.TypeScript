@@ -11,6 +11,8 @@ import { Output, ContentDownloadLinkCreateRequest, ContentService } from '@pictu
 })
 export class ContentDownloadDialogComponent implements OnInit {
   public fileSize = 0;
+  public enableAdvanced = false;
+  public advancedMode = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: OutputSelection,
@@ -34,11 +36,14 @@ export class ContentDownloadDialogComponent implements OnInit {
     });
   }
 
-  public cancel(): void {
-    this.dialogRef.close(false);
+  public toggleAdvanced(): void {
+    this.data.toggleThumbnails();
+    this.update();
   }
 
   public update(): void {
+    this.enableAdvanced = this.data.hasThumbnails;
+    this.advancedMode = !this.data.hasHiddenThumbnails;
     const outputs = this.data.getSelectedOutputs();
     if (outputs.length > 0) {
       this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes!).reduce((total, value) => total + value );
