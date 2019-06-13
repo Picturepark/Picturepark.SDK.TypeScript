@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Download</h2>
+<h2 mat-dialog-title>{{ 'ContentDownloadDialog.Title' | pptranslate }}</h2>
 
 <mat-dialog-content>
   <form class="example-container">
@@ -13,11 +13,10 @@
     </fieldset>
   </form>
 
-  <div class="filesize">{{fileSize}} bytes</div>
+  <div class="filesize" *ngIf="fileSize">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{fileSize | filesize}}</div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-  <button mat-button (click)="download()" [disabled]="fileSize === 0" cdkFocusInitial>Download</button>
+  <button mat-button mat-dialog-close (click)="cancel()">{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
+  <button mat-button (click)="download()" [disabled]="fileSize === 0" cdkFocusInitial>{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
 </mat-dialog-actions>
-

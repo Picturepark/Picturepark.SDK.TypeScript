@@ -1,6 +1,5 @@
 import { Content, Output, ContentType } from '@picturepark/sdk-v1-angular';
-import { IOutputFormatTranslations } from '@picturepark/sdk-v1-angular-ui/lib/services/translation.service';
-import { TranslationService } from '../../services/translation.service';
+import { TranslationService, IOutputFormatTranslations } from '../../services/translation.service';
 
 export interface IOutputPerOutputFormatSelection {
     id: string;

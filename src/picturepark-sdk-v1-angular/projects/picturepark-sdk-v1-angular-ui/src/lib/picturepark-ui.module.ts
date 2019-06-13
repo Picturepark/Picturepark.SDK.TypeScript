@@ -40,6 +40,7 @@ import { ContentDownloadDialogComponent } from './components/content-download-di
 
 // SDK pipes
 import { TranslatePipe } from './pipes/translate.pipe';
+import { FileSizePipe } from './pipes/filesize.pipe';
 
 import { ContentItemSelectionService } from './services/content-item-selection.service';
 import { BasketService } from './services/basket.service';
@@ -66,7 +67,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     LazyLoadDirective,
     LayerPanelsComponent,
     FieldDetailInfoDialogComponent,
-    ContentDownloadDialogComponent
+    ContentDownloadDialogComponent,
+    FileSizePipe
   ],
   providers: [
     ContentItemSelectionService,
@@ -106,6 +108,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     BasketComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
+    FileSizePipe,
     CommonModule,
     ContentDownloadDialogComponent,
   ],

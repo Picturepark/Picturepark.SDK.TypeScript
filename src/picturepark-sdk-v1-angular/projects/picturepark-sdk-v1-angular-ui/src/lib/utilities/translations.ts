@@ -244,6 +244,18 @@ export let TRANSLATIONS = {
     ContentItem: {
       en: 'Virtual content',
       de: 'Virtueller content'
+    },
+    FileSize: {
+      en: 'Download size: ~'
+    },
+    Title: {
+      en: 'Download'
+    },
+    Download: {
+      en: 'Download'
+    },
+    Cancel: {
+      en: 'Cancel'
     }
   }
 };

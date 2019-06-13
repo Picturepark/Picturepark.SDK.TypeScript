@@ -18,7 +18,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-import { FileSizePipe } from './pipes/filesize.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
@@ -48,7 +47,6 @@ export function PictureparkConfigurationFactory() {
 @NgModule({
   entryComponents: [DetailsDialogComponent],
   declarations: [
-    FileSizePipe,
     AppComponent,
     HomeComponent,
 
