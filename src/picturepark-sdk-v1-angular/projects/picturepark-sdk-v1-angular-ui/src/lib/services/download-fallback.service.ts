@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-    Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, ContentType, fetchAll
+    Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, fetchAll
 } from '@picturepark/sdk-v1-angular';
-import { IDownloadData } from '../components/content-download-dialog/download-data';
+import { OutputSelection } from '../components/content-download-dialog/output-selection';
 import { ContentDownloadDialogComponent } from '../components/content-download-dialog/content-download-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslationService } from './translation.service';
@@ -60,45 +60,19 @@ export class DownloadFallbackService {
 
     private async showDialog(contents: Content[], outputs: Output[]): Promise<void> {
         const translations = await this.translationService.getOutputFormatTranslations();
-        const items: IDownloadData = {};
-
-        contents.forEach(content => {
-            const isBinary = content.contentType !== ContentType.ContentItem;
-            const schemaId = isBinary ? content.contentSchemaId : ContentType.ContentItem.toString();
-            const schemaItems = items[schemaId] = items[schemaId] ||
-                {
-                    contentCount: contents.filter(i => i.contentSchemaId === schemaId).length,
-                    outputs: {},
-                    name: this.translationService.translate(`ContentDownloadDialog.${schemaId}`)
-                };
-
-            const contentOutputs = outputs.filter(i => i.contentId === content.id);
-            contentOutputs.forEach(output => {
-                const outputFormatItems = schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[output.outputFormatId] ||
-                {
-                    hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
-                    values: [],
-                    name: translations[output.outputFormatId]
-                };
-
-                outputFormatItems.values.push({
-                    content: content,
-                    output: output
-                });
-            });
-        });
+        const selection = new OutputSelection(outputs, contents, translations, this.translationService);
 
         // Preselect originals if all available
-        Object.keys(items).map(key => items[key]).forEach(fileFormat => {
-            Object.keys(fileFormat.outputs).map(key => ({ key: key, value: fileFormat.outputs[key]})).forEach(output => {
-                if (output.key === 'Original' && output.value.values.length === fileFormat.contentCount) {
-                    output.value.selected = true;
+        selection.getFileFormats().forEach(fileFormat => {
+            selection.getOutputs(fileFormat).forEach(output => {
+                if (output.id === 'Original' && output.values.length === fileFormat.contentCount) {
+                    output.selected = true;
                 }
             });
         });
 
         this.dialog.open(ContentDownloadDialogComponent, {
-            data: items,
+            data: selection,
             width: '50vw',
         });
     }

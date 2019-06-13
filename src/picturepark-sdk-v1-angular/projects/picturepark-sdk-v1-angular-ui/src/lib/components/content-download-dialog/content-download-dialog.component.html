@@ -1,18 +1,20 @@
 <h2 mat-dialog-title>Download</h2>
 
-<form class="example-container">
-  <fieldset *ngFor="let filetype of data | keyvalue">
-    <legend>{{filetype.value.name}} ({{filetype.value.contentCount}})</legend>
+<mat-dialog-content>
+  <form class="example-container">
+    <fieldset *ngFor="let filetype of data.getFileFormats()">
+      <legend>{{filetype.name}} ({{filetype.contentCount}})</legend>
 
-    <div *ngFor="let output of filetype.value.outputs | keyvalue">
-        <mat-checkbox *ngIf="!output.value.hidden" [name]="output.key" [(ngModel)]="output.value.selected" (change)="update()">
-          {{output.value.name}} ({{output.value.values.length}})
-        </mat-checkbox>
-      </div>
-  </fieldset>
+      <div *ngFor="let output of data.getOutputs(filetype)">
+          <mat-checkbox *ngIf="!output.hidden" [name]="output.id" [(ngModel)]="output.selected" (change)="update()">
+            {{output.name}} ({{output.values.length}})
+          </mat-checkbox>
+        </div>
+    </fieldset>
+  </form>
 
-  {{fileSize}} bytes
-</form>
+  <div class="filesize">{{fileSize}} bytes</div>
+</mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
