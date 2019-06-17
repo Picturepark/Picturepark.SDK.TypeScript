@@ -21,6 +21,7 @@ export class DownloadFallbackService {
         private translationService: TranslationService,
         private dialog: MatDialog) {
         this.outputFormatFallback = [
+            { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
             { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
             { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
             { fileSchemaId: 'VideoMetadata', outputFormatId: 'VideoLarge' }
@@ -62,10 +63,32 @@ export class DownloadFallbackService {
         const translations = await this.translationService.getOutputFormatTranslations();
         const selection = new OutputSelection(outputs, contents, translations, this.translationService);
 
-        // Preselect originals if all available
+        // Preselect logic with fallback
         selection.getFileFormats().forEach(fileFormat => {
-            selection.getOutputs(fileFormat).forEach(output => {
-                if (output.id === 'Original' && output.values.length === fileFormat.contentCount) {
+            const fileFormatOutputs = selection.getOutputs(fileFormat);
+            const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
+            if (fileFormat.contents.length === 0) {
+                return;
+            }
+
+            const fallbackOutputs = fileFormat.contents
+                .map(content => this.getOutput(
+                    content,
+                    fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
+                )
+                .filter(i => i);
+
+            if (fallbackOutputs.length === 0) {
+                return;
+            }
+
+            const grouped = this.groupBy(fallbackOutputs, i => i.outputFormatId);
+            fileFormatOutputs.forEach(output => {
+                const fallback = grouped.get(output.id);
+                if (!fallback) {
+                    return;
+                }
+                if (fallback && fallback.length === fileFormat.contents.length) {
                     output.selected = true;
                 }
             });
@@ -75,5 +98,19 @@ export class DownloadFallbackService {
             data: selection,
             width: '50vw',
         });
+    }
+
+    groupBy<T, K>(list: T[], getKey: (item: T) => K): Map<K, T[]> {
+        const map = new Map<K, T[]>();
+        list.forEach((item) => {
+            const key = getKey(item);
+            const collection = map.get(key);
+            if (!collection) {
+                map.set(key, [item]);
+            } else {
+                collection.push(item);
+            }
+        });
+        return map;
     }
 }

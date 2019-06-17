@@ -13,8 +13,9 @@ export interface IOutputPerOutputFormatSelection {
 }
 
 export interface IOutputPerSchemaSelection {
+    id: string;
     name: string;
-    contentCount: number;
+    contents: Content[];
     outputs: {
         [outputFormatId: string]: IOutputPerOutputFormatSelection
     };
@@ -41,8 +42,9 @@ export class OutputSelection {
                 const schemaId = isBinary ? content.contentSchemaId : ContentType.ContentItem.toString();
                 const schemaItems = this.selection[schemaId] = this.selection[schemaId] ||
                     {
-                        contentCount: isBinary ? contents.filter(i => i.contentSchemaId === schemaId).length :
-                                      contents.filter(i => i.contentType === ContentType.ContentItem).length,
+                        id: schemaId,
+                        contents: isBinary ? contents.filter(i => i.contentSchemaId === schemaId) :
+                                      contents.filter(i => i.contentType === ContentType.ContentItem),
                         outputs: {},
                         name: translationService.translate(`ContentDownloadDialog.${schemaId}`)
                     };
@@ -55,6 +57,7 @@ export class OutputSelection {
                     {
                         id: output.outputFormatId,
                         hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
+                        selected: false,
                         values: [],
                         name: outputTranslations[output.outputFormatId]
                     };
@@ -91,15 +94,15 @@ export class OutputSelection {
         thumbnails.forEach(i => i.hidden = !hasHidden);
     }
 
+    public flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
+        return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]> []);
+    }
+
     private getAllOutputs(): IOutputPerOutputFormatSelection[] {
         return this.flatMap(this.getFileFormats().map(fileFormat => this.getOutputs(fileFormat)), i => i);
     }
 
     private getThumbnailOutputs(): IOutputPerOutputFormatSelection[] {
         return this.getAllOutputs().filter(output => output.id.indexOf('Thumbnail') === 0);
-    }
-
-    private flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
-        return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]> []);
     }
 }

@@ -1,12 +1,12 @@
 <h2 mat-dialog-title>{{ 'ContentDownloadDialog.Title' | pptranslate }}</h2>
 
 <mat-dialog-content>
-  <form class="example-container">
+  <form>
     <fieldset *ngFor="let filetype of data.getFileFormats()">
-      <legend>{{filetype.name}} ({{filetype.contentCount}})</legend>
+      <legend>{{filetype.name}} ({{filetype.contents.length}})</legend>
 
       <div *ngFor="let output of data.getOutputs(filetype)">
-          <mat-checkbox *ngIf="!output.hidden" [name]="output.id" [(ngModel)]="output.selected" (change)="update()">
+          <mat-checkbox *ngIf="!output.hidden" [name]="filetype.id + '-' + output.id" [(ngModel)]="output.selected" (change)="update()">
             {{output.name}} ({{output.values.length}})
           </mat-checkbox>
         </div>
