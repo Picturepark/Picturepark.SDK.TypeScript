@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 // Angular material dependencies
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,6 +44,7 @@ import { BasketService } from './services/basket.service';
 import { LiquidRenderingService } from './services/liquid-rendering.service';
 
 import { LazyLoadDirective } from './directives/lazy-load.directive';
+import { ShareImagesDialogComponent } from './components/share-images-dialog/share-images-dialog.component';
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 
@@ -62,7 +64,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     TranslatePipe,
     LazyLoadDirective,
     LayerPanelsComponent,
-    FieldDetailInfoDialogComponent
+    FieldDetailInfoDialogComponent,
+    ShareImagesDialogComponent
   ],
   providers: [
     ContentItemSelectionService,
@@ -74,6 +77,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
+    MatTabsModule,
     MatButtonModule,
     MatInputModule,
     MatExpansionModule,
@@ -103,7 +107,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     CommonModule,
   ],
   entryComponents: [
-    FieldDetailInfoDialogComponent
+    FieldDetailInfoDialogComponent,
+    ShareImagesDialogComponent
   ]
 })
 export class PictureparkUiModule {

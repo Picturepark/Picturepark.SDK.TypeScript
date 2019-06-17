@@ -51,7 +51,6 @@ export function PictureparkConfigurationFactory() {
     FileSizePipe,
     AppComponent,
     HomeComponent,
-
     ContentPickerComponent,
     DetailsDialogComponent
   ],

@@ -64,6 +64,9 @@ export let TRANSLATIONS = {
     SelectMenu: {
       en: 'Select'
     },
+    ShareImages: {
+      en: 'Share'
+    },
     SelectFirstItems: {
       en: 'Select first {0}'
     },

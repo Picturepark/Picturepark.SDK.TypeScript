@@ -2,6 +2,7 @@ import {
   Component, Input, Output, OnChanges, EventEmitter,
   SimpleChanges, OnInit, NgZone
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { SortingType } from './models/sorting-type';
@@ -15,7 +16,12 @@ import {
   SortDirection, ContentSearchType, BrokenDependenciesFilter,
   LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
 } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
+import { ShareImagesDialogComponent } from '../share-images-dialog/share-images-dialog.component';
 import { BaseComponent } from '../base.component';
+
+// SERVICES
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 
@@ -97,10 +103,12 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
+    public dialog: MatDialog,
     private outputService: OutputService,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
+    
     private ngZone: NgZone) {
     super();
 
@@ -259,4 +267,13 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public trackByThumbnailSize(index, thumbnailSize: string) {
     return thumbnailSize;
   }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ShareImagesDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }
