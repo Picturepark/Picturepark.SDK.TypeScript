@@ -1,5 +1,6 @@
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
 import { InfoService, CustomerInfo } from '@picturepark/sdk-v1-angular';
+import { translate } from '../utilities/translations';
 
 export interface IOutputFormatTranslations {
     [outputFormatId: string]: string;
@@ -26,5 +27,9 @@ export class TranslationService {
     });
 
     return outputTranslations;
+  }
+
+  public translate(key: any) {
+    return translate(key, this.locale);
   }
 }

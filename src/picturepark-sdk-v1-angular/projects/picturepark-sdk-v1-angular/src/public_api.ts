@@ -9,3 +9,6 @@ export * from './lib/access-token-auth.service';
 
 // services
 export * from './lib/api-services';
+
+// functions
+export * from './lib/helper';

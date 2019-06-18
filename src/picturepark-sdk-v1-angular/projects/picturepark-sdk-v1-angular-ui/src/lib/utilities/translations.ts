@@ -258,6 +258,50 @@ export let TRANSLATIONS = {
       en: 'Search',
       de: 'Suchen'
     }
+  },
+  ContentDownloadDialog: {
+    AudioMetadata: {
+      en: 'Audio',
+      de: 'Audio'
+    },
+    ImageMetadata: {
+      en: 'Images',
+      de: 'Bilder'
+    },
+    FileMetadata: {
+      en: 'Other',
+      de: 'Andere'
+    },
+    VideoMetadata: {
+      en: 'Videos',
+      de: 'Videos'
+    },
+    DocumentMetadata: {
+      en: 'Documents',
+      de: 'Dokumente'
+    },
+    ContentItem: {
+      en: 'Virtual content',
+      de: 'Virtueller content'
+    },
+    FileSize: {
+      en: 'Download size: ~'
+    },
+    Title: {
+      en: 'Download'
+    },
+    Advanced: {
+      en: 'Show more formats'
+    },
+    Simple: {
+      en: 'Show less formats'
+    },
+    Download: {
+      en: 'Download'
+    },
+    Cancel: {
+      en: 'Cancel'
+    }
   }
 };
 
