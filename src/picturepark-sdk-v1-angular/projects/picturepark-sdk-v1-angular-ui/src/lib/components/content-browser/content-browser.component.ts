@@ -11,7 +11,6 @@ import { BasketService } from './../../services/basket.service';
 import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import {
   ContentService, ThumbnailSize,
-  ContentDownloadLinkCreateRequest,
   ContentSearchRequest, FilterBase, SortInfo,
   SortDirection, ContentSearchType, BrokenDependenciesFilter,
   LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
@@ -116,12 +115,14 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
+
     this.subscription.add(basketSubscription);
 
     const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
+    
     this.subscription.add(contentItemSelectionSubscription);
   }
 
@@ -269,10 +270,13 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(ShareImagesDialogComponent);
+
+    const dialogRef = this.dialog.open(ShareImagesDialogComponent, {
+      data: this.selectedItems
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      //do something when dialog close
     });
   }
 

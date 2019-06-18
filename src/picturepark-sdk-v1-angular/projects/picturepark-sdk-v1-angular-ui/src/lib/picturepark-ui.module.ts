@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 
 // Angular material dependencies
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from  '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -35,16 +38,20 @@ import { LayerPanelsComponent } from './components/layer-panels/layer-panels.com
 import { FieldDetailInfoDialogComponent } from './components/layer-panels/field-detail-info-dialog/field-detail-info-dialog.component';
 import { ListItemAggregationComponent } from './components/list-item-aggregation-list/list-item-aggregation/list-item-aggregation.component';
 import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
+import { ShareImagesDialogComponent } from './components/share-images-dialog/share-images-dialog.component';
+import { ShareImagesDialogItemComponent } from './components/share-images-dialog/share-images-dialog-item/share-images-dialog-item.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
-// SDK pipes
-import { TranslatePipe } from './pipes/translate.pipe';
-
+// SDK services
 import { ContentItemSelectionService } from './services/content-item-selection.service';
 import { BasketService } from './services/basket.service';
 import { LiquidRenderingService } from './services/liquid-rendering.service';
 
+// SDK pipes
+import { TranslatePipe } from './pipes/translate.pipe';
+
+// SDK directives
 import { LazyLoadDirective } from './directives/lazy-load.directive';
-import { ShareImagesDialogComponent } from './components/share-images-dialog/share-images-dialog.component';
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 
@@ -65,17 +72,23 @@ import { ShareImagesDialogComponent } from './components/share-images-dialog/sha
     LazyLoadDirective,
     LayerPanelsComponent,
     FieldDetailInfoDialogComponent,
-    ShareImagesDialogComponent
+    ShareImagesDialogComponent,
+    ShareImagesDialogItemComponent,
+    DatePickerComponent
   ],
   providers: [
     ContentItemSelectionService,
     BasketService,
-    LiquidRenderingService
+    LiquidRenderingService,
+    MatDatepickerModule
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatDialogModule,
     MatMenuModule,
     MatTabsModule,
     MatButtonModule,
@@ -108,7 +121,8 @@ import { ShareImagesDialogComponent } from './components/share-images-dialog/sha
   ],
   entryComponents: [
     FieldDetailInfoDialogComponent,
-    ShareImagesDialogComponent
+    ShareImagesDialogComponent,
+    ShareImagesDialogItemComponent
   ]
 })
 export class PictureparkUiModule {

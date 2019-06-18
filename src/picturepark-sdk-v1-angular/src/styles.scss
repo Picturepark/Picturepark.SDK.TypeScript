@@ -29,3 +29,14 @@ body {
 .content-browser__header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
+
+// OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
+.cdk-focused.cdk-program-focused { background-color: transparent !important; }
+
+// OVERWRITE DEFAULT DATE PICKER STYLES
+.mat-form-field-appearance-legacy .mat-form-field-underline { height: 1px; display: none;}
+.mat-form-field-appearance-legacy .mat-form-field-label { top: 2.2em; left: 0.8em; }
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label { top: 1.3em; color: rgba(0,0,0,0.54); }
+.mat-form-field-appearance-legacy.mat-focused input { border: 1px solid rgba(0,0,0,0.54);}
+.mat-form-field-suffix { bottom: 1em; right: 1.2em; }
+.mat-form-field-infix { border-top: 0; }
