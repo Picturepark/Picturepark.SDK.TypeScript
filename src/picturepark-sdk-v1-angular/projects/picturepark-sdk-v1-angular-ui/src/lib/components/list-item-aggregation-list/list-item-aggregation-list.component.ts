@@ -20,7 +20,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
-    if (this.aggregators) {
+    if (this.aggregators && this.aggregators.length) {
       this.isLoading.next(true);
 
       const request = new ListItemAggregationRequest({
