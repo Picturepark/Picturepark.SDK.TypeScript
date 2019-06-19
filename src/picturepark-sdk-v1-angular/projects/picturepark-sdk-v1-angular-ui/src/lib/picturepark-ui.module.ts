@@ -23,10 +23,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 // SDK components
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
 import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
+import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
 import { BasketItemComponent } from './components/basket/basket-item/basket-item.component';
 import { BasketComponent } from './components/basket/basket.component';
 import { ChannelPickerComponent } from './components/channel-picker/channel-picker.component';
@@ -48,6 +51,7 @@ import { BasketService } from './services/basket.service';
 import { LiquidRenderingService } from './services/liquid-rendering.service';
 
 // SDK pipes
+import { FileSizePipe } from './pipes/filesize.pipe';
 import { TranslatePipe } from './pipes/translate.pipe';
 
 // SDK directives
@@ -74,7 +78,9 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     FieldDetailInfoDialogComponent,
     ShareImagesDialogComponent,
     ShareImagesDialogItemComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    ContentDownloadDialogComponent,
+    FileSizePipe
   ],
   providers: [
     ContentItemSelectionService,
@@ -105,6 +111,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     MatProgressBarModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatDialogModule,
     ScrollingModule
   ],
   exports: [
@@ -117,12 +125,15 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     BasketComponent,
     OutputDownloadMenuComponent,
     TranslatePipe,
+    FileSizePipe,
     CommonModule,
+    ContentDownloadDialogComponent,
   ],
   entryComponents: [
     FieldDetailInfoDialogComponent,
     ShareImagesDialogComponent,
-    ShareImagesDialogItemComponent
+    ShareImagesDialogItemComponent,
+    ContentDownloadDialogComponent
   ]
 })
 export class PictureparkUiModule {
