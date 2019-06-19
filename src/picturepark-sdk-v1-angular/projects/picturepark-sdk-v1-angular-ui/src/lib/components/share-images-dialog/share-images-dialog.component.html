@@ -2,47 +2,56 @@
 
   <h3>Create Share <mat-icon (click)="closeDialog()">close</mat-icon></h3>
 
-  <mat-dialog-content>
-    <ul>
-      <li class="label-content"><label for="share-name">Share name:</label></li>
-      <li class="input-content">
-        <input id="recipients" type="text">
-      </li>
-    </ul>
-    <ul>
-      <li class="label-content"><label for="recipients">Recipients:</label></li>
-      <li class="input-content"><pp-chip-input></pp-chip-input></li>
-    </ul>
-    <ul>
-      <li class="label-content"><label for="expiry-date">Expiry date:</label></li>
-      <li class="input-content"><pp-date-picker [placeHolderMessage]="'Expiration Date'"></pp-date-picker></li>
-    </ul>
-  </mat-dialog-content>
+  <form [formGroup]="sharedImagesForm" class="example-form" (ngSubmit)="onFormSubmit()">
+    <mat-dialog-content class="inputs-content">
+      <ul>
+        <li class="label-content"><label for="share-name">Share name:</label></li>
+        <li class="input-content">
+          <input id="share-name" type="text" formControlName="share_name">
+          <div class="share-name-error" [ngClass]="{active: sharedImagesForm.controls['share_name'].touched && sharedImagesForm.controls['share_name'].hasError('required') }">
+            Please, add a share name
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li class="label-content"><label for="recipients">Recipients:</label></li>
+        <li class="input-content"><pp-chip-input [parentForm]="sharedImagesForm"></pp-chip-input></li>
+      </ul>
+      <ul>
+        <li class="label-content"><label for="expiry-date">Expiry date:</label></li>
+        <li class="input-content">
+          <pp-date-picker [parentForm]="sharedImagesForm" [placeHolderMessage]="'DD/MM/YYYY'"></pp-date-picker>
+        </li>
+      </ul>
+    </mat-dialog-content>
 
-  <mat-dialog-content>
-    <mat-tab-group autoFocus="false">
-      <!--<mat-tab label="GENERAL">
-        <ng-template matTabContent>
-          <ul>
-            <li><label for="share-name">Share name:</label><input id="share-name" type="text"></li>
-            <li><label for="recipients">Recipients:</label><input id="recipients" type="text"></li>
-            <li><label for="expiry-date">Expiry date:</label><input id="expiry-date" type="text"></li>
-          </ul>
-        </ng-template>
-      </mat-tab>-->
-      <mat-tab label="ITEMS">
-        <ng-template matTabContent>
-          <ul>
-            <li *ngFor="let image of selectedImages">
-              <pp-share-images-dialog-item class="basket__item" [itemId]="image" (deletedImage)="deleteImage($event)" (dblclick)="previewItem(image)"></pp-share-images-dialog-item>
-            </li>
-          </ul>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-button (click)="shareImages()">Share</button>
-  </mat-dialog-actions>
+    <mat-dialog-content>
+      <mat-tab-group autoFocus="false">
+        <!--<mat-tab label="GENERAL">
+          <ng-template matTabContent>
+            <ul>
+              <li><label for="share-name">Share name:</label><input id="share-name" type="text"></li>
+              <li><label for="recipients">Recipients:</label><input id="recipients" type="text"></li>
+              <li><label for="expiry-date">Expiry date:</label><input id="expiry-date" type="text"></li>
+            </ul>
+          </ng-template>
+        </mat-tab>-->
+        <mat-tab label="ITEMS">
+          <ng-template matTabContent>
+            <ul>
+              <li *ngFor="let image of selectedImages">
+                <pp-share-images-dialog-item class="basket__item" [itemId]="image" (deletedImage)="deleteImage($event)" (dblclick)="previewItem(image)"></pp-share-images-dialog-item>
+              </li>
+            </ul>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+      <button mat-button [ngClass]="{'active': sharedImagesForm.valid }">Share</button>
+    </mat-dialog-actions>
+
+  </form>
 </div>
 

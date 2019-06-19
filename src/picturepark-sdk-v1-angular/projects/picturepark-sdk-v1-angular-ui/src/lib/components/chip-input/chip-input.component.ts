@@ -1,10 +1,7 @@
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
-
-export interface Email {
-  name: string;
-}
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, Input } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'pp-chip-input',
@@ -13,20 +10,24 @@ export interface Email {
 })
 export class ChipInputComponent {
 
+  @Input() parentForm: FormGroup;
+
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits: Email[] = [];
+
+  readonly separatorKeysCodes: number[] = [ ENTER, COMMA ];
+  emails: String[] = [];
 
   add(event: MatChipInputEvent): void {
+
     const input = event.input;
     const value = event.value;
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.fruits.push({name: value.trim()});
+      this.emails.push(value.trim());
     }
 
     // Reset the input value
@@ -35,11 +36,12 @@ export class ChipInputComponent {
     }
   }
 
-  remove(fruit: Email): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(email: string): void {
+    const index = this.emails.indexOf(email);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.emails.splice(index, 1);
     }
   }
+
 }

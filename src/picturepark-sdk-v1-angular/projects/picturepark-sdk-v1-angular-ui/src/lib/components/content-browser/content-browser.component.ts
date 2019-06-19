@@ -1,7 +1,4 @@
-import {
-  Component, Input, Output, OnChanges, EventEmitter,
-  SimpleChanges, OnInit, NgZone
-} from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
