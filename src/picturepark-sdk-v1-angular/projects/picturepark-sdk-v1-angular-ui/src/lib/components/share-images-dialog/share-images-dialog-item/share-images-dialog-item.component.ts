@@ -1,9 +1,12 @@
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-
-import { ContentItemSelectionService } from '../../../services/content-item-selection.service';
 import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseComponent } from '../../base.component';
+
+// SERVICES
+import { ContentItemSelectionService } from '../../../services/content-item-selection.service';
 
 @Component({
   selector: 'pp-share-images-dialog-item',

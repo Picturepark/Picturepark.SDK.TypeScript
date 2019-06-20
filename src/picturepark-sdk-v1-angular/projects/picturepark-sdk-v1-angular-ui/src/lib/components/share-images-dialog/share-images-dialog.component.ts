@@ -40,7 +40,6 @@ export class ShareImagesDialogComponent implements OnInit, OnDestroy {
       ]),
       recipients: new FormControl([], [
         Validators.required,
-        Validators.pattern(this.reg),
       ]),
       expire_date: new FormControl('', [
         Validators.required,

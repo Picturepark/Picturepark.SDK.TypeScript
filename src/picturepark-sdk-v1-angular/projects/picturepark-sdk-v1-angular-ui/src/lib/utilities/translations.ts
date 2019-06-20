@@ -305,6 +305,9 @@ export let TRANSLATIONS = {
     Cancel: {
       en: 'Cancel'
     }
+  },
+  ShareImagesDialog: {
+    RemoveItem: 'Remove item'
   }
 };
 
