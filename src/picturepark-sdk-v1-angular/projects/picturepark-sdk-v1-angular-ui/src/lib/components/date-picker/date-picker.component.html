@@ -1,6 +1,10 @@
 <mat-form-field [formGroup]="parentForm">
-  <input matInput [matDatepicker]="picker" placeholder="{{placeHolderMessage}}" formControlName="expire_date">
-  <div class="date-picker-error" [ngClass]="{active: parentForm.controls['expire_date'].hasError('pattern') }">
+  <input matInput [matDatepicker]="picker" placeholder="{{placeHolderMessage}}" formControlName="expire_date" 
+    [ngClass]="{'error-active': parentForm.controls['expire_date'].touched && (
+      parentForm.controls['expire_date'].hasError('pattern') ||
+      parentForm.controls['expire_date'].hasError('required')
+    )}">
+  <div class="date-picker-error" [ngClass]="{active: parentForm.controls['expire_date'].touched && parentForm.controls['expire_date'].hasError('pattern') }">
     There is an error on the date format
   </div>
   <div class="date-picker-error" [ngClass]="{active: parentForm.controls['expire_date'].touched && parentForm.controls['expire_date'].hasError('required') }">

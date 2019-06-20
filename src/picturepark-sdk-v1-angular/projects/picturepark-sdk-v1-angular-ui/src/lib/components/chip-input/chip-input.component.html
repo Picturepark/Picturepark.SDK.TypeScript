@@ -1,5 +1,5 @@
-<div [formGroup]="parentForm">
-  <mat-form-field class="example-chip-list" >
+<div [formGroup]="parentForm" class="chip-list-container">
+  <mat-form-field class="chip-list-content">
     <mat-chip-list #chipList aria-label="Share name">
       <mat-chip *ngFor="let email of emails" [selectable]="selectable" [removable]="removable" (removed)="remove(email)">
         {{email}} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -10,10 +10,13 @@
             (matChipInputTokenEnd)="add($event)"
             formControlName="recipients">
 
-      <div class="date-picker-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['expire_date'].hasError('required') }">
-        Please, add a recipient for sharing the images
-      </div>
-
     </mat-chip-list>
+    
   </mat-form-field>
+  <div class="chip-input-error" [ngClass]="{ active: (parentForm.controls['recipients'].touched && parentForm.controls['recipients'].hasError('required')) }">
+    Please, add a recipient for sharing the images
+  </div>
+  <div class="chip-input-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['recipients'].errors?.error && !parentForm.controls['recipients'].hasError('required') }">
+    Sorry, but this is not an email
+  </div>
 </div>

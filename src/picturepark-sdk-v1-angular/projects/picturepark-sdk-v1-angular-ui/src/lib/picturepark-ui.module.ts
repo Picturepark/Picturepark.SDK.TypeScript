@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 // Angular material dependencies
+import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from  '@angular/material';
@@ -27,15 +28,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 // SDK components
-import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
-import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
-import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
 import { BasketItemComponent } from './components/basket/basket-item/basket-item.component';
 import { BasketComponent } from './components/basket/basket.component';
+import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
+import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
+import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
+import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
+import { ChipInputComponent } from './components/chip-input/chip-input.component';
 import { ChannelPickerComponent } from './components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from './components/content-browser/content-browser.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
-import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
 import { OutputDownloadMenuComponent } from './components/output-download-menu/output-download-menu.component';
 import { LayerPanelsComponent } from './components/layer-panels/layer-panels.component';
 import { FieldDetailInfoDialogComponent } from './components/layer-panels/field-detail-info-dialog/field-detail-info-dialog.component';
@@ -43,7 +46,6 @@ import { ListItemAggregationComponent } from './components/list-item-aggregation
 import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
 import { ShareImagesDialogComponent } from './components/share-images-dialog/share-images-dialog.component';
 import { ShareImagesDialogItemComponent } from './components/share-images-dialog/share-images-dialog-item/share-images-dialog-item.component';
-import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 // SDK services
 import { ContentItemSelectionService } from './services/content-item-selection.service';
@@ -64,6 +66,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ChannelPickerComponent,
     ContentBrowserComponent,
     SearchBoxComponent,
+    ChipInputComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
     ListItemAggregationComponent,
@@ -80,7 +83,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ShareImagesDialogItemComponent,
     DatePickerComponent,
     ContentDownloadDialogComponent,
-    FileSizePipe
+    FileSizePipe,
   ],
   providers: [
     ContentItemSelectionService,
@@ -92,6 +95,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatChipsModule,
     MatNativeDateModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -130,10 +134,12 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ContentDownloadDialogComponent,
   ],
   entryComponents: [
+    ContentDownloadDialogComponent,
+    ChipInputComponent,
+    DatePickerComponent,
     FieldDetailInfoDialogComponent,
     ShareImagesDialogComponent,
-    ShareImagesDialogItemComponent,
-    ContentDownloadDialogComponent
+    ShareImagesDialogItemComponent
   ]
 })
 export class PictureparkUiModule {

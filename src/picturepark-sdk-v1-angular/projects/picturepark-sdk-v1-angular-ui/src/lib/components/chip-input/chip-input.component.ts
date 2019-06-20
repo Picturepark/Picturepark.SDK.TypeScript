@@ -20,20 +20,24 @@ export class ChipInputComponent {
   readonly separatorKeysCodes: number[] = [ ENTER, COMMA ];
   emails: String[] = [];
 
+  // REGULAR EXPRESSION FOR EMAIL VALIDATION
+  private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
   add(event: MatChipInputEvent): void {
 
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
-    if ((value || '').trim()) {
+    // Add our email
+    if (value.match(this.reg)) {
       this.emails.push(value.trim());
+      input.value = '';
+    } else if(value.length > 0) {
+      this.parentForm.controls['recipients'].setErrors({'error': true});
     }
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
+    console.log(this.parentForm)
+
   }
 
   remove(email: string): void {
