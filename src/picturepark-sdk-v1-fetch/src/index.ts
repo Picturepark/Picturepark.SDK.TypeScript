@@ -884,7 +884,7 @@ export class ContentClient extends PictureparkClientBase {
      * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @return Content detail
      */
-    get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail | null> {
+    get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -907,7 +907,7 @@ export class ContentClient extends PictureparkClientBase {
         });
     }
 
-    protected processGet(response: Response): Promise<ContentDetail | null> {
+    protected processGet(response: Response): Promise<ContentDetail> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 404) {
@@ -957,7 +957,7 @@ export class ContentClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ContentDetail | null>(<any>null);
+        return Promise.resolve<ContentDetail>(<any>null);
     }
 
     /**
@@ -15448,6 +15448,10 @@ export enum ContentResolveBehavior {
     InnerDisplayValueName = <any>"InnerDisplayValueName", 
     Owner = <any>"Owner", 
     Permissions = <any>"Permissions", 
+    OuterDisplayValueThumbnail = <any>"OuterDisplayValueThumbnail", 
+    OuterDisplayValueList = <any>"OuterDisplayValueList", 
+    OuterDisplayValueDetail = <any>"OuterDisplayValueDetail", 
+    OuterDisplayValueName = <any>"OuterDisplayValueName", 
 }
 
 export interface BaseResultOfContent {
@@ -16060,7 +16064,6 @@ export interface PermissionSetUpdateRequestOfContentRight {
     names?: TranslatedStringDictionary | undefined;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
-    exclusive: boolean;
 }
 
 /** Request to update a content permission set */
@@ -16151,7 +16154,8 @@ export interface PermissionSetSearchResult extends SearchBehaviorBaseResultOfPer
 export interface PermissionSet {
     /** The permission set ID. */
     id: string;
-    /** When true this permission set will derogate all other configured permission sets. */
+    /** When true this permission set will derogate all other configured permission sets.
+Cannot be changed after creation. */
     exclusive: boolean;
     /** Language specific permission set names. */
     names?: TranslatedStringDictionary | undefined;
@@ -16337,6 +16341,10 @@ export enum ListItemResolveBehavior {
     InnerDisplayValueList = <any>"InnerDisplayValueList", 
     InnerDisplayValueDetail = <any>"InnerDisplayValueDetail", 
     InnerDisplayValueName = <any>"InnerDisplayValueName", 
+    OuterDisplayValueThumbnail = <any>"OuterDisplayValueThumbnail", 
+    OuterDisplayValueList = <any>"OuterDisplayValueList", 
+    OuterDisplayValueDetail = <any>"OuterDisplayValueDetail", 
+    OuterDisplayValueName = <any>"OuterDisplayValueName", 
 }
 
 export interface BaseResultOfListItem {
@@ -16382,22 +16390,18 @@ export interface ListItemSearchRequest {
     includeAllSchemaChildren: boolean;
     /** Limits the search among the list items of the provided schemas. */
     schemaIds?: string[] | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
     /** Limits the search to the list items that have or not have broken references. By default it includes both. */
     brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Defines the display values included in the search response for the referenced fields. Defaults to no display value. */
-    referencedFieldsDisplayPatternIds?: string[] | undefined;
     /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
 If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** When set to true the content data is included in the result items. */
-    includeContentData: boolean;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
 Warning! It severely affects performance. */
     debugMode: boolean;
     /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
+    /** List of enums that control which parts of the list item are resolved and returned. */
+    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
 }
 
 /** Request to aggregate list items */
@@ -17868,7 +17872,6 @@ export interface PermissionSetUpdateRequestOfMetadataRight {
     names?: TranslatedStringDictionary | undefined;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
-    exclusive: boolean;
 }
 
 /** Request to update a schema permission set */
