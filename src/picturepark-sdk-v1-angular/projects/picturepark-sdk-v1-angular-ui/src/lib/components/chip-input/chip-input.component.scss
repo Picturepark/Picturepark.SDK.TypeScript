@@ -1,5 +1,6 @@
 .chip-list-container { position: relative; }
 .chip-list-container .chip-list-content { width: 100%; }
+.chip-list-container .chip-list-content.error-active { border: 1px solid #f74931; border-radius: 4px; }
 
 mat-chip-list { position: relative; z-index: 10; }
 input { font-weight: 200; font-size: 13px; color: #2f2f2f; line-height: 30px; border-radius: 0px; padding: 0px; border: 0px; transition: .5s; background-color: white; margin: 0px; position: relative; z-index: 10; }
