@@ -34,10 +34,11 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
     this.contentId = data;
     if (data) {
-      const downloadThumbnailSubscription = this.contentService.downloadThumbnail(data, ThumbnailSize.Medium, null, null).subscribe(response => {
-        this.thumbnailUrl = URL.createObjectURL(response!.data!);
-        this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
-      });
+      const downloadThumbnailSubscription = this.contentService.downloadThumbnail(data, ThumbnailSize.Medium, null, null)
+        .subscribe(response => {
+          this.thumbnailUrl = URL.createObjectURL(response!.data!);
+          this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+        });
 
       this.subscription.add(downloadThumbnailSubscription);
 

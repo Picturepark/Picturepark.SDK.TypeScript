@@ -1,8 +1,8 @@
 import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import {
-  ContentService, ContentDownloadLinkCreateRequest, ContentSearchRequest, LifeCycleFilter,
-  BrokenDependenciesFilter, ContentSearchType, TermsFilter
+  ContentService, ContentSearchRequest, LifeCycleFilter,
+  BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll
 } from '@picturepark/sdk-v1-angular';
 import { BasketService } from '../../services/basket.service';
 import { BaseComponent } from '../base.component';
@@ -34,8 +34,8 @@ export class BasketComponent extends BaseComponent {
   }
 
   public downloadItems() {
-    const contentSearch = this.contentService.search(new ContentSearchRequest({
-      limit: 10000,
+    const contentSearch = fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
+      limit: 1000,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       searchType: ContentSearchType.MetadataAndFullText,

@@ -1,131 +1,170 @@
 export let TRANSLATIONS = {
-  // TODO: add deutsch translations.
+ 
   Basket: {
     RemoveItem: {
-      en: 'Remove'
+      en: 'Remove',
+      de: 'Entfernen'
     },
     Download: {
-      en: 'Download'
+      en: 'Download',
+      de: 'Download'
     },
     ClearBasket: {
-      en: 'Clear'
+      en: 'Clear',
+      de: 'Leeren'
     },
     EmptyBasket: {
-      en: 'Basket is empty.'
+      en: 'Basket is empty.',
+      de: 'Warenkorb ist leer.'
     }
   },
   ChannelPicker: {
     SelectChannel: {
-      en: 'Select channel'
+      en: 'Select channel',
+      de: 'Channel selektieren'
     }
   },
   ContentAggregationList: {
     ClearFilters: {
-      en: 'Clear filters'
+      en: 'Clear filters',
+      de: 'Filter entfernen'
     },
     Search: {
-      en: 'Search'
+      en: 'Search',
+      de: 'Suche'
     },
     ShowMoreFilters: {
-      en: 'Show more'
+      en: 'Show more',
+      de: 'Mehr zeigen'
     },
     ShowLessFilters: {
-      en: 'Show less'
+      en: 'Show less',
+      de: 'Weniger zeigen'
     },
     NoActiveFilters: {
-      en: 'No active filters'
+      en: 'No active filters',
+      de: 'Keine aktiven Filter'
     },
     SingleActiveFilter: {
-      en: '1 active filter'
+      en: '1 active filter',
+      de: '1 aktiver Filter'
     },
     MultipleActiveFilters: {
-      en: '{0} active filters'
+      en: '{0} active filters',
+      de: '{0} aktive Filter'
     },
     ClearAllFilters: {
-      en: 'Clear all filters'
+      en: 'Clear all filters',
+      de: 'Alle Filter entfernen'
     }
   },
   ContentBrowser: {
     NoImageForItem: {
-      en: 'There is no image.'
+      en: 'There is no image.',
+      de: 'Es ist kein Bild vorhanden'
     },
     PreviewItem: {
-      en: 'Preview'
+      en: 'Preview',
+      de: 'Vorschau'
     },
     DownloadItem: {
-      en: 'Download'
+      en: 'Download',
+      de: 'Download'
     },
     AddToBasket: {
-      en: 'Add to basket'
+      en: 'Add to basket',
+      de: 'In Warenkorb legen'
     },
     RemoveFromBasket: {
-      en: 'Remove from basket'
+      en: 'Remove from basket',
+      de: 'Aus dem Warenkorb entfernen'
     },
     SelectMenu: {
-      en: 'Select'
+      en: 'Select',
+      de: 'Selektieren'
+
     },
     SelectFirstItems: {
-      en: 'Select first {0}'
+      en: 'Select first {0}',
+      de: 'Erste {0} selektieren'
     },
     DeselectAll: {
-      en: 'Deselect all'
+      en: 'Deselect all',
+      de: 'Alle abwählen'
     },
     Preview: {
-      en: 'Preview'
+      en: 'Preview',
+      de: 'Vorschau'
     },
     Download: {
-      en: 'Download'
+      en: 'Download',
+      de: 'Download'
     },
     ItemsLength: {
-      en: '{0} contents'
+      en: '{0} contents',
+      de: '{0} Contents'
     },
     SortingMenu: {
-      en: 'Sort'
+      en: 'Sort',
+      de: 'Sortieren'
     },
     SortingAscending: {
-      en: 'Ascending'
+      en: 'Ascending',
+      de: 'Aufsteigend'
     },
     SortingDescending: {
-      en: 'Descending'
+      en: 'Descending',
+      de: 'Absteigend'
     },
     SortingByRelevance: {
-      en: 'Relevance'
+      en: 'Relevance',
+      de: 'Relevanz'
     },
     SortingByName: {
-      en: 'File name'
+      en: 'File name',
+      de: 'Dateiname'
     },
     SortingByDateCreated: {
-      en: 'Date created'
+      en: 'Date created',
+      de: 'Erstellungsdatum'
     },
     SortingByDateModified: {
-      en: 'Date modified'
+      en: 'Date modified',
+      de: 'Modifikationsdatum'
     },
     ViewTypeMenu: {
-      en: 'View type'
+      en: 'View type',
+      de: 'Ansichtsart'
     },
     ViewTypeThumbnail: {
-      en: 'Thumbnail'
+      en: 'Thumbnail',
+      de: 'Miniaturenansicht'
     },
     ViewTypeList: {
-      en: 'List'
+      en: 'List',
+      de: 'Liste'
     },
     NoItems: {
       en: 'There is no content found using your search string',
+      de: 'Es wird kein Inhalt mit Ihrem Suchbegriff gefunden'
     },
     NoItemsHist: {
-      en: 'You may do the following:'
+      en: 'You may do the following:',
+      de: 'Sie können Folgendes tun:'
     },
     NoItemsActionChannel: {
-      en: 'Switch to another channel'
+      en: 'Switch to another channel',
+      de: 'Channel wechseln'
     },
     NoItemsActionSearchString: {
-      en: 'Change your search string'
+      en: 'Change your search string',
+      de: 'Ändern Sie Ihren Suchbegriff'
     }
   },
   ContentPicker: {
     LabelChannel: {
       en: 'Channel',
-      de: 'Kanal'
+      de: 'Channel'
     },
     LabelSearch: {
       en: 'Search',
@@ -149,11 +188,11 @@ export let TRANSLATIONS = {
     },
     TextSelectedSingle: {
       en: 'You have selected 1 item.',
-      de: 'Sie haben ein Element ausgewählt.'
+      de: 'Sie haben ein Item ausgewählt.'
     },
     TextSelectedMultiple: {
       en: 'You have selected {0} items.',
-      de: 'Sie haben {0} Elemente ausgewählt.'
+      de: 'Sie haben {0} Items ausgewählt.'
     }
   },
   ContentPickerDetails: {
@@ -163,7 +202,7 @@ export let TRANSLATIONS = {
     },
     ButtonChoose: {
       en: 'Choose item',
-      de: 'Element auswählen'
+      de: 'Item auswählen'
     },
     LabelFileExtension: {
       en: 'File extension',
@@ -211,13 +250,57 @@ export let TRANSLATIONS = {
     },
     TextLogoutFailed: {
       en: 'Could not log out, please try again.',
-      de: 'Abmeldung ist fehlgeschlagen.'
+      de: 'Abmeldung ist fehlgeschlagen, bitte erneut versuchen'
     }
   },
   SearchBox: {
     Search: {
       en: 'Search',
       de: 'Suchen'
+    }
+  },
+  ContentDownloadDialog: {
+    AudioMetadata: {
+      en: 'Audio',
+      de: 'Audio'
+    },
+    ImageMetadata: {
+      en: 'Images',
+      de: 'Bilder'
+    },
+    FileMetadata: {
+      en: 'Other',
+      de: 'Andere'
+    },
+    VideoMetadata: {
+      en: 'Videos',
+      de: 'Videos'
+    },
+    DocumentMetadata: {
+      en: 'Documents',
+      de: 'Dokumente'
+    },
+    ContentItem: {
+      en: 'Virtual content',
+      de: 'Virtueller content'
+    },
+    FileSize: {
+      en: 'Download size: ~'
+    },
+    Title: {
+      en: 'Download'
+    },
+    Advanced: {
+      en: 'Show more formats'
+    },
+    Simple: {
+      en: 'Show less formats'
+    },
+    Download: {
+      en: 'Download'
+    },
+    Cancel: {
+      en: 'Cancel'
     }
   }
 };

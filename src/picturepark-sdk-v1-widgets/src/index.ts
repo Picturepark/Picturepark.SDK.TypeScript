@@ -122,7 +122,7 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
           isPdf: pdfOutput !== undefined,
           isBinary: s.contentType !== "ContentItem" as any,
 
-          previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput ? originalOutput.viewUrl : s.iconUrl,
+          previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput && s.contentSchemaId === "ImageMetadata" ? originalOutput.viewUrl : s.iconUrl,
           previewOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
 
           originalUrl: originalOutput ? originalOutput.downloadUrl : null,
