@@ -11,6 +11,12 @@
           <div class="share-name-error" [ngClass]="{active: sharedImagesForm.controls['share_name'].touched && sharedImagesForm.controls['share_name'].hasError('required') }">
             Please, add a share name
           </div>
+          <div class="share-name-error" [ngClass]="{active: sharedImagesForm.controls['share_name'].touched && sharedImagesForm.controls['share_name'].errors?.maxlength }">
+            Sorry, your share name is too long
+          </div>
+          <div class="share-name-error" [ngClass]="{active: sharedImagesForm.controls['share_name'].touched && sharedImagesForm.controls['share_name'].errors?.minlength }">
+            Sorry, your share name is too short
+          </div>
         </li>
       </ul>
       <ul>

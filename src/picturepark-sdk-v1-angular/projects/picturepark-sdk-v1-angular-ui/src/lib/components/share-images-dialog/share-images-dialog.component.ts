@@ -35,6 +35,7 @@ export class ShareImagesDialogComponent implements OnInit, OnDestroy {
     this.sharedImagesForm = new FormGroup({
       share_name: new FormControl('', [
         Validators.required,
+        Validators.minLength(5),
         Validators.maxLength(100),
       ]),
       recipients: new FormControl([], [
