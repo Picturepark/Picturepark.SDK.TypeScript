@@ -1,10 +1,10 @@
-.share-images-container { 
+.share-content-container { 
     
     width: 960px; max-width: 800px;
     
     mat-dialog-content { padding: 0px; background-color: #f8f8f8; position: relative; }
     mat-dialog-content.inputs-content { border-top: 1px solid #eeeeee; }
-    mat-dialog-content.images-content { padding: 0px 0px 30px 0px; }
+    mat-dialog-content.selected-items-content { padding: 0px 0px 30px 0px; }
 
     h3 { color: rgb(68,68,68); margin: 0px 0px 30px 0px; font-weight: 200; }
     h3 mat-icon { color:rgb(68,68,68); cursor: pointer; float: right; }
@@ -22,7 +22,7 @@
     mat-dialog-actions { justify-content: flex-end; } 
     mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #3fb3b1; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px;}
     
-    pp-chip-input { width: 100%; }
+    pp-share-content-recipients-input { width: 100%; }
 
     .share-name-error { position: absolute; top: 45px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px; }
     .share-name-error.active { top: 75px; }

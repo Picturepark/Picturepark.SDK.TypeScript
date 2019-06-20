@@ -2,7 +2,8 @@
 @import "~normalize.css";
 @import "theme.scss";
 @import "date-picker.scss";
-@import "chip-input.scss";
+@import "share-content-recipients-input.scss";
+@import "share-content-dialog.scss";
 
 @include mat-core();
 @include angular-material-theme($picturepark-app-theme);

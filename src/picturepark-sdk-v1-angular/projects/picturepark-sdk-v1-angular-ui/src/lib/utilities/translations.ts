@@ -306,14 +306,50 @@ export let TRANSLATIONS = {
       en: 'Cancel'
     }
   },
-  ShareImagesDialog: {
-    RemoveItem: 'Remove item'
+  ShareContentDialog: {
+    Clear: {
+      en: 'Clear'
+    },
+    CreateShare: {
+      en: 'Create Share'
+    },
+    General: {
+      en: 'General'
+    },
+    Items: {
+      en: 'Items'
+    },
+    ShareName: {
+      en: 'Share name'
+    },
+    RemoveItem: {
+      en: 'Remove item'
+    },
+    ShareContent: {
+      en: 'Share'
+    },
+    Recipients: {
+      en: 'Recipients'
+    },
+    ExpireDate: {
+      en: 'Expire Date'
+    },
+    AddShareNameError: {
+      en: 'Please, add a share name'
+    },
+    ShareNameTooLongError: {
+      en: 'Sorry, your share name is too long'
+    },
+    ShareNameTooShortError: {
+      en: 'Sorry, your share name is too short'
+    }
   }
 };
 
 const fallbackLanguage = 'en';
 
 export function translate(key: any, locale: string) {
+
   const language = locale ? locale.split('-')[0].toLowerCase() : '';
   let translations: any = TRANSLATIONS;
 

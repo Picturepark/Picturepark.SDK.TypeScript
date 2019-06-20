@@ -4,22 +4,22 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
-import { BasketService } from './../../services/basket.service';
-import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import {
   ContentService, ThumbnailSize,
   ContentSearchRequest, FilterBase, SortInfo,
   SortDirection, ContentSearchType, BrokenDependenciesFilter,
-  LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
+  LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { ShareImagesDialogComponent } from '../share-images-dialog/share-images-dialog.component';
+import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 import { BaseComponent } from '../base.component';
-
+  
 // SERVICES
-import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+import { BasketService } from './../../services/basket.service';
+import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
+import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -100,12 +100,12 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private basketService: BasketService,
     private contentService: ContentService,
     public dialog: MatDialog,
-    private outputService: OutputService,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
+    private ngZone: NgZone
+  ) {
     
-    private ngZone: NgZone) {
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
@@ -266,9 +266,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     return thumbnailSize;
   }
 
-  openDialog() {
+  openShareContentDialog() {
 
-    const dialogRef = this.dialog.open(ShareImagesDialogComponent, {
+    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems
     });
 

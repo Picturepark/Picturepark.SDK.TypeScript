@@ -9,16 +9,16 @@ import { BaseComponent } from '../../base.component';
 import { ContentItemSelectionService } from '../../../services/content-item-selection.service';
 
 @Component({
-  selector: 'pp-share-images-dialog-item',
-  templateUrl: './share-images-dialog-item.component.html',
-  styleUrls: ['./share-images-dialog-item.component.scss']
+  selector: 'pp-share-content-dialog-item',
+  templateUrl: './share-content-dialog-item.component.html',
+  styleUrls: ['./share-content-dialog-item.component.scss']
 })
-export class ShareImagesDialogItemComponent extends BaseComponent implements OnInit {
+export class ShareContentDialogItemComponent extends BaseComponent implements OnInit {
 
   @Input()
   public itemId: string;
 
-  @Output() deletedImage = new EventEmitter<string>();
+  @Output() removeDialogContent = new EventEmitter<string>();
 
   public imageUrl: SafeUrl;
 
@@ -40,7 +40,7 @@ export class ShareImagesDialogItemComponent extends BaseComponent implements OnI
   }
 
   public remove() {
-    this.deletedImage.emit(this.itemId);
+    this.removeDialogContent.emit(this.itemId);
     this.contentItemSelectionService.removeItem(this.itemId);
   }
   

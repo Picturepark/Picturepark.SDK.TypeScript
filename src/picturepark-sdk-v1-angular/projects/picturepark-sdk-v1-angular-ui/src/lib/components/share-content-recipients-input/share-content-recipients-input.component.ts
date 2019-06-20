@@ -4,11 +4,11 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'pp-chip-input',
-  templateUrl: './chip-input.component.html',
-  styleUrls: ['./chip-input.component.scss']
+  selector: 'pp-share-content-recipients-input',
+  templateUrl: './share-content-recipients-input.component.html',
+  styleUrls: ['./share-content-recipients-input.component.scss']
 })
-export class ChipInputComponent {
+export class ShareContentRecipientsInputComponent {
 
   @Input() parentForm: FormGroup;
 
@@ -35,8 +35,6 @@ export class ChipInputComponent {
     } else if(value.length > 0) {
       this.parentForm.controls['recipients'].setErrors({'error': true});
     }
-
-    console.log(this.parentForm)
 
   }
 

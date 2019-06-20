@@ -1,38 +1,37 @@
-import { Component, EventEmitter, Inject, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'pp-share-images-dialog',
-  templateUrl: './share-images-dialog.component.html',
-  styleUrls: ['./share-images-dialog.component.scss']
+  selector: 'pp-share-content-dialog',
+  templateUrl: './share-content-dialog.component.html',
+  styleUrls: ['./share-content-dialog.component.scss']
 })
-export class ShareImagesDialogComponent implements OnInit, OnDestroy {
+export class ShareContentDialogComponent {
 
   contentItemSelectionSubscription: Subscription;
   downloadThumbnailSubscription: Subscription;
 
-  selectedImages: Array<any> = [];
+  selectedContent: Array<any> = [];
 
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
   private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  sharedImagesForm: FormGroup;
+  sharedContentForm: FormGroup;
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<ShareImagesDialogComponent>,
-
+    public dialogRef: MatDialogRef<ShareContentDialogComponent>,
   ) {
 
-    this.selectedImages = data;
+    this.selectedContent = data;
 
-    this.sharedImagesForm = new FormGroup({
+    this.sharedContentForm = new FormGroup({
       share_name: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
@@ -54,34 +53,22 @@ export class ShareImagesDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   } 
 
-  // DELETE IMAGE FROM DIALOG
-  public deleteImage(event): void {
-    this.selectedImages.map((item, index) => {
-      if(event === item) this.selectedImages.splice(index,1);
+  // REMOVE CONTENT FROM DIALOG
+  public removeContent(event): void {
+    this.selectedContent.map((item, index) => {
+      if(event === item) this.selectedContent.splice(index,1);
     });
     // CLOSE DIALOG IF NOT SELECTED IMAGES
-    if(this.selectedImages.length === 0) this.closeDialog();
+    if(this.selectedContent.length === 0) this.closeDialog();
   }
 
   public previewItem(itemId: string) {
     this.previewItemChange.emit(itemId);
   }
 
-  // SHARE IMAGES SUBMIT BUTTON ACTION
+  // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
-    console.log(this.sharedImagesForm)
-  }
-
-  ngOnInit() {
-    
-    
-
-  }
-
-  ngOnDestroy() {
-
-    //if(this.downloadThumbnailSubscription) this.downloadThumbnailSubscription.unsubscribe();
-    
+  
   }
 
 }
