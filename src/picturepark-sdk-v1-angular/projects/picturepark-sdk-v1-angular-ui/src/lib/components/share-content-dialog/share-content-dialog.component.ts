@@ -5,10 +5,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail } from '@picturepark/sdk-v1-angular';
 
+// PIPES
+import { TranslatePipe } from '../../pipes/translate.pipe';
+
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['./share-content-dialog.component.scss']
+  styleUrls: ['./share-content-dialog.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class ShareContentDialogComponent {
 
@@ -32,6 +36,7 @@ export class ShareContentDialogComponent {
     public dialogRef: MatDialogRef<ShareContentDialogComponent>,
     private formBuilder: FormBuilder,
     private shareService: ShareService,
+    private translatePipe: TranslatePipe,
   ) {
 
     this.selectedContent = data;
@@ -85,7 +90,7 @@ export class ShareContentDialogComponent {
       this.loader = false;
       
       // SET NOTIFICATION PROPERTIES
-      this.notificationMessage = `<a href="">#${response.shareId}</a> Your content was shared correctly!`;
+      this.notificationMessage = `#${response.shareId} ${this.translatePipe.transform('ShareContentDialog.SuccessNotification')}`;
       this.notificationType = 'success';
       this.notificationStatus = true;
 
@@ -97,7 +102,7 @@ export class ShareContentDialogComponent {
       this.loader = false;
 
       // SET ERROR NOTIFICATION PROPERTIES
-      this.notificationMessage = "There was an error sharing your content";
+      this.notificationMessage = this.translatePipe.transform('ShareContentDialog.ErrorNotification')!;
       this.notificationType = 'error';
       this.notificationStatus = true;
 

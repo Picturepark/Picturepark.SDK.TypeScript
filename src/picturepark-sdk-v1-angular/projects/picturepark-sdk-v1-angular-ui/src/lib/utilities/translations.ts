@@ -345,6 +345,12 @@ export let TRANSLATIONS = {
     },
     ShareNameTooShortError: {
       en: 'Sorry, your share name is too short'
+    },
+    SuccessNotification: {
+      en: 'Your content was shared correctly!'
+    },
+    ErrorNotification: {
+      en: 'There was an error sharing your content, please try again'
     }
   }
 };
