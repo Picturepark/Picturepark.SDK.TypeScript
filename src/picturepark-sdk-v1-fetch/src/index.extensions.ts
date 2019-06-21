@@ -2,8 +2,8 @@ export class AuthClient {
   constructor(private pictureparkApiUrl: string, private customerAlias?: string) {
   }
 
-  getBaseUrl(defaultUrl: string) {
-    return this.pictureparkApiUrl;
+  getBaseUrl(defaultUrl: string, requestedUrl?: string) {
+    return requestedUrl ? requestedUrl : this.pictureparkApiUrl;
   }
 
   transformHttpRequestOptions(options: RequestInit): Promise<RequestInit> {
