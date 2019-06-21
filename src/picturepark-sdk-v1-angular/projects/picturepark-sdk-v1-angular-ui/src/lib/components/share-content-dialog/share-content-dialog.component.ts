@@ -2,8 +2,8 @@ import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { ShareService, OutputAccess, ShareContent, ShareEmbedCreateRequest } from '@picturepark/sdk-v1-angular';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-share-content-dialog',
@@ -64,13 +64,17 @@ export class ShareContentDialogComponent {
   }
 
   // CREATE NEW SHARED CONTENT
-  async newSharedContent(contentItems) {
-    
-    const response = await this.shareService.create(new ShareEmbedCreateRequest({
-      name: 'Embed',
+  async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]) {
+
+    const response = await this.shareService.create(new ShareBasicCreateRequest({
+      name: this.sharedContentForm.get('share_name')!.value,
+      recipientsEmail: recipientsEmails,
       contents: contentItems,
-      outputAccess: OutputAccess.Full
+      outputAccess: OutputAccess.Full,
+      languageCode: 'EN'
     })).toPromise();
+
+    
 
   }
 
@@ -79,16 +83,19 @@ export class ShareContentDialogComponent {
 
     if(this.sharedContentForm.valid && this.selectedContent.length > 0) {
 
-      const selectedContent = <FormArray>this.sharedContentForm.get('recipients');
-
       // CONTENT ITEMS
-      const contentItems = selectedContent.value.map(i => new ShareContent({
-        contentId: i,
+      const contentItems = this.selectedContent.map(item => new ShareContent({
+        contentId: item,
         outputFormatIds: ['Original']
       }));
 
+      // RECIPIENTS EMAILS
+      const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map(recipientEmail => {
+       return { emailAddress: recipientEmail } 
+      });
+
       // CREATE NEW SHARE
-      this.newSharedContent(contentItems);
+      this.newSharedContent(contentItems, recipientsEmails);
 
     }
   }
