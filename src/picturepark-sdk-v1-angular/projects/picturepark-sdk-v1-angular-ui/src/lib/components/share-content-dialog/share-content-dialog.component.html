@@ -59,6 +59,18 @@
       </mat-tab-group>
     </mat-dialog-content>
 
+    <pp-share-content-dialog-notification 
+      [notificationMessage]="notificationMessage" 
+      [notificationStatus]="notificationStatus"
+      [notificationType]="notificationType">
+    </pp-share-content-dialog-notification>
+
+    <div class="loader-container" *ngIf="loader">
+      <div class="loader">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+    
     <mat-dialog-actions>
       <button mat-button [ngClass]="{'active': sharedContentForm.valid }">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
     </mat-dialog-actions>

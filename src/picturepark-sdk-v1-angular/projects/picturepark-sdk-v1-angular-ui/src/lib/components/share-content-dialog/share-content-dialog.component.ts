@@ -17,6 +17,12 @@ export class ShareContentDialogComponent {
 
   selectedContent: Array<any> = [];
   sharedContentForm: FormGroup;
+  
+  loader = false;
+  
+  notificationMessage = '';
+  notificationStatus = false;
+  notificationType = 'success';
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
@@ -65,16 +71,39 @@ export class ShareContentDialogComponent {
 
   // CREATE NEW SHARED CONTENT
   async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]) {
+    try {
 
-    const response = await this.shareService.create(new ShareBasicCreateRequest({
-      name: this.sharedContentForm.get('share_name')!.value,
-      recipientsEmail: recipientsEmails,
-      contents: contentItems,
-      outputAccess: OutputAccess.Full,
-      languageCode: 'EN'
-    })).toPromise();
+      const response = await this.shareService.create(new ShareBasicCreateRequest({
+        name: this.sharedContentForm.get('share_name')!.value,
+        recipientsEmail: recipientsEmails,
+        contents: contentItems,
+        outputAccess: OutputAccess.Full,
+        languageCode: 'EN'
+      })).toPromise();
 
-    
+      // HIDE LOADER
+      this.loader = false;
+      
+      // SET NOTIFICATION PROPERTIES
+      this.notificationMessage = `<a href="">#${response.shareId}</a> Your content was shared correctly!`;
+      this.notificationType = 'success';
+      this.notificationStatus = true;
+
+      setTimeout(() => { this.notificationStatus = false; }, 10000);
+
+    } catch(err) {
+
+      // HIDE LOADER
+      this.loader = false;
+
+      // SET ERROR NOTIFICATION PROPERTIES
+      this.notificationMessage = "There was an error sharing your content";
+      this.notificationType = 'error';
+      this.notificationStatus = true;
+
+      setTimeout(() => { this.notificationStatus = false; }, 10000);
+
+    }
 
   }
 
@@ -82,6 +111,8 @@ export class ShareContentDialogComponent {
   public onFormSubmit(): void {
 
     if(this.sharedContentForm.valid && this.selectedContent.length > 0) {
+
+      this.loader = true;
 
       // CONTENT ITEMS
       const contentItems = this.selectedContent.map(item => new ShareContent({

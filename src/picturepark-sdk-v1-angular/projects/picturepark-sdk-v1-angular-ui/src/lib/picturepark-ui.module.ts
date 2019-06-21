@@ -46,6 +46,7 @@ import { ListItemAggregationComponent } from './components/list-item-aggregation
 import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
 import { ShareContentDialogComponent } from './components/share-content-dialog/share-content-dialog.component';
 import { ShareContentDialogItemComponent } from './components/share-content-dialog/share-content-dialog-item/share-content-dialog-item.component';
+import { ShareContentDialogNotificationComponent } from './components/share-content-dialog/share-content-dialog-notification/share-content-dialog-notification.component';
 
 // SDK services
 import { ContentItemSelectionService } from './services/content-item-selection.service';
@@ -63,27 +64,28 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 @NgModule({
   declarations: [
-    ChannelPickerComponent,
-    ContentBrowserComponent,
-    SearchBoxComponent,
-    ShareContentRecipientsInputComponent,
-    ContentAggregationComponent,
-    ContentAggregationListComponent,
-    ListItemAggregationComponent,
-    ListItemAggregationListComponent,
-    ContentBrowserItemComponent,
     BasketComponent,
     BasketItemComponent,
+    ChannelPickerComponent,
+    ContentBrowserComponent,
+    ContentAggregationComponent,
+    ContentAggregationListComponent,
+    ContentBrowserItemComponent,
+    ContentDownloadDialogComponent,
+    DatePickerComponent,
+    FileSizePipe,
+    FieldDetailInfoDialogComponent,
+    ListItemAggregationComponent,
+    ListItemAggregationListComponent,
     OutputDownloadMenuComponent,
-    TranslatePipe,
     LazyLoadDirective,
     LayerPanelsComponent,
-    FieldDetailInfoDialogComponent,
+    ShareContentRecipientsInputComponent,
     ShareContentDialogComponent,
     ShareContentDialogItemComponent,
-    DatePickerComponent,
-    ContentDownloadDialogComponent,
-    FileSizePipe,
+    ShareContentDialogNotificationComponent,
+    SearchBoxComponent,
+    TranslatePipe,
   ],
   providers: [
     ContentItemSelectionService,
@@ -139,7 +141,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     DatePickerComponent,
     FieldDetailInfoDialogComponent,
     ShareContentDialogComponent,
-    ShareContentDialogItemComponent
+    ShareContentDialogItemComponent,
+    ShareContentDialogNotificationComponent
   ]
 })
 export class PictureparkUiModule {}
