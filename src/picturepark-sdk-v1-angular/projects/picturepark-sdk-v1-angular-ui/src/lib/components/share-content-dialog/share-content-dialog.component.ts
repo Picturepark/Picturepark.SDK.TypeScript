@@ -63,6 +63,17 @@ export class ShareContentDialogComponent {
     this.previewItemChange.emit(itemId);
   }
 
+  // CREATE NEW SHARED CONTENT
+  async newSharedContent(contentItems) {
+    
+    const response = await this.shareService.create(new ShareEmbedCreateRequest({
+      name: 'Embed',
+      contents: contentItems,
+      outputAccess: OutputAccess.Full
+    })).toPromise();
+
+  }
+
   // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
 
@@ -77,11 +88,7 @@ export class ShareContentDialogComponent {
       }));
 
       // CREATE NEW SHARE
-      this.shareService.create(new ShareEmbedCreateRequest({
-        name: 'Embed',
-        contents: contentItems,
-        outputAccess: OutputAccess.Full
-      }));
+      this.newSharedContent(contentItems);
 
     }
   }
