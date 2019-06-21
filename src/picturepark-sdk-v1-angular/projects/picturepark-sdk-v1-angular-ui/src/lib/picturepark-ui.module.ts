@@ -34,7 +34,7 @@ import { ContentAggregationComponent } from './components/content-aggregation-li
 import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
 import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
 import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
-import { ShareContentRecipientsInputComponent } from './components/share-content-recipients-input/share-content-recipients-input.component';
+import { ShareContentRecipientsInputComponent } from './components/share-content-dialog/share-content-recipients-input/share-content-recipients-input.component';
 import { ChannelPickerComponent } from './components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from './components/content-browser/content-browser.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
