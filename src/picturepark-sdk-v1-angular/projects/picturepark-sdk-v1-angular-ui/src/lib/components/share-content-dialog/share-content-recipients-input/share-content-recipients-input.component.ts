@@ -1,8 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input,ElementRef, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input,ElementRef, HostListener, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { FormGroup } from '@angular/forms';
-import { TargetLocator } from 'selenium-webdriver';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pp-share-content-recipients-input',
@@ -27,7 +26,7 @@ export class ShareContentRecipientsInputComponent {
   private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   constructor(private myElement: ElementRef,) {
-    this.elementRef = myElement;
+    this.elementRef = this.myElement;
   }
 
   // ADD RECIPIENT TO LIST
@@ -36,10 +35,18 @@ export class ShareContentRecipientsInputComponent {
     const input = event.input;
     const value = event.value;
 
+    this.parentForm.controls['recipients'].markAsTouched();
+
     // Add our email
     if (value.match(this.reg)) {
+
       this.recipients.push(value.trim());
+
+      const recipientsControl = <FormArray>this.parentForm.controls['recipients'];
+      recipientsControl.push(new FormControl(value, [ Validators.required, Validators.pattern(this.reg) ]));
+      
       input.value = '';
+
     } else if(value.length > 0) {
       this.parentForm.controls['recipients'].setErrors({'error': true });
     }
@@ -59,7 +66,7 @@ export class ShareContentRecipientsInputComponent {
   handleEnterDown(event: any) {
     if(event.srcElement.id && event.srcElement.id === 'mat-chip-list-input-0') {
       
-      this.parentForm.controls['recipients'].markAsTouched()
+      this.parentForm.controls['recipients'].markAsTouched();
 
       if(event.srcElement.value.length > 0 && this.recipients.length === 0 && !event.srcElement.value.match(this.reg)) {
         this.parentForm.controls['recipients'].setErrors({'error': true });
@@ -75,6 +82,7 @@ export class ShareContentRecipientsInputComponent {
   handleEscapeDown(event: any) {
 
     if(event.srcElement.id && event.srcElement.id === 'mat-chip-list-input-0') {
+      
       if(event.srcElement.value.length > 1 && !event.srcElement.value.match(this.reg)) {
         this.parentForm.controls['recipients'].setErrors({'error': true });
       } else if(event.srcElement.value.length <= 1 && this.recipients.length > 0) {
@@ -82,6 +90,7 @@ export class ShareContentRecipientsInputComponent {
       } else if(event.srcElement.value.length === 0 && this.recipients.length === 0) {
         this.parentForm.controls['recipients'].setErrors({'required': true });
       }
+      
     }
 
   }

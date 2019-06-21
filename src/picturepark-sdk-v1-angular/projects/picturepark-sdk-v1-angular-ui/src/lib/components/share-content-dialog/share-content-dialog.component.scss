@@ -20,8 +20,9 @@
     #share-name.error-active { border: 1px solid #f74931; }
 
     mat-dialog-actions { justify-content: flex-end; } 
-    mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #3fb3b1; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px;}
-    
+    mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px;}
+    mat-dialog-actions button.active { background-color: #3fb3b1; }
+
     pp-share-content-recipients-input { width: 100%; }
 
     .share-name-error { position: absolute; top: 45px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px; }

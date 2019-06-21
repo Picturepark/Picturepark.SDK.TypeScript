@@ -16,6 +16,9 @@ export let TRANSLATIONS = {
     EmptyBasket: {
       en: 'Basket is empty.',
       de: 'Warenkorb ist leer.'
+    },
+    Share: {
+      en: 'Share items'
     }
   },
   ChannelPicker: {

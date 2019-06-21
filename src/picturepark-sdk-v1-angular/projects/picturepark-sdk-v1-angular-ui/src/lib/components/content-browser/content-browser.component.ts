@@ -266,14 +266,10 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     return thumbnailSize;
   }
 
-  openShareContentDialog() {
+  openShareContentDialog(): void {
 
-    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+    this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      //do something when dialog close
     });
   }
 
