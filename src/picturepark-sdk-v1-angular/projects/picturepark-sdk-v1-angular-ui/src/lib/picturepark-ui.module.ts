@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from  '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';

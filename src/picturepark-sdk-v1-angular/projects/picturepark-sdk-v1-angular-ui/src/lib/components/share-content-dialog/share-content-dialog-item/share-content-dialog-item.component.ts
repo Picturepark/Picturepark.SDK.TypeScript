@@ -1,12 +1,12 @@
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../base.component';
 
 // SERVICES
 import { ContentItemSelectionService } from '../../../services/content-item-selection.service';
+import { ContentService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-share-content-dialog-item',
@@ -23,15 +23,16 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   public imageUrl: SafeUrl;
 
   constructor(
-    private contentItemSelectionService: ContentItemSelectionService, 
-    private contentService: ContentService, 
+    private contentItemSelectionService: ContentItemSelectionService,
+    private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {
     super();
   }
 
   public ngOnInit(): void {
-    const downloadThumbnailSubscription = this.contentService.downloadThumbnail(this.itemId, ThumbnailSize.Small, null, null).subscribe(result => {
+    const downloadThumbnailSubscription = this.contentService
+    .downloadThumbnail(this.itemId, ThumbnailSize.Small, null, null).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
       }
@@ -43,5 +44,4 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
     this.removeDialogContent.emit(this.itemId);
     this.contentItemSelectionService.removeItem(this.itemId);
   }
-  
 }

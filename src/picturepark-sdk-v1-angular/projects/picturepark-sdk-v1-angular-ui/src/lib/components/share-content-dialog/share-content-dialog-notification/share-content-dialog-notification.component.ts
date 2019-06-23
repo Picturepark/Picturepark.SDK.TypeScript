@@ -10,7 +10,7 @@ export class ShareContentDialogNotificationComponent implements OnChanges {
   @Input() notificationMessage: string;
   @Input() notificationType: string;
   @Input() notificationStatus: boolean;
-  
+
   constructor() { }
 
   closeNotification() {
@@ -20,7 +20,6 @@ export class ShareContentDialogNotificationComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.notificationMessage = changes.notificationMessage && changes.notificationMessage.currentValue;
     this.notificationStatus = changes.notificationStatus && changes.notificationStatus.currentValue;
-    this.notificationType = changes.notificationType && changes.notificationType.currentValue
+    this.notificationType = changes.notificationType && changes.notificationType.currentValue;
   }
-  
 }
