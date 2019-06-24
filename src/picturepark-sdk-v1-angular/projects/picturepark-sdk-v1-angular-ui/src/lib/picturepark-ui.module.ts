@@ -31,10 +31,6 @@ import { ContentItemSelectionService } from './services/content-item-selection.s
 import { BasketService } from './services/basket.service';
 import { LiquidRenderingService } from './services/liquid-rendering.service';
 
-// SDK pipes
-import { FileSizePipe } from './pipes/filesize.pipe';
-import { TranslatePipe } from './pipes/translate.pipe';
-
 // SDK directives
 import { LazyLoadDirective } from './directives/lazy-load.directive';
 
@@ -51,7 +47,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ContentBrowserItemComponent,
     ContentDownloadDialogComponent,
     DatePickerComponent,
-    FileSizePipe,
     FieldDetailInfoDialogComponent,
     ListItemAggregationComponent,
     ListItemAggregationListComponent,
@@ -63,7 +58,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ShareContentDialogItemComponent,
     ShareContentDialogNotificationComponent,
     SearchBoxComponent,
-    TranslatePipe,
   ],
   providers: [
     ContentItemSelectionService,
@@ -85,10 +79,9 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ListItemAggregationListComponent,
     BasketComponent,
     OutputDownloadMenuComponent,
-    TranslatePipe,
-    FileSizePipe,
     CommonModule,
     ContentDownloadDialogComponent,
+    SharedModule
   ],
   entryComponents: [
     ContentDownloadDialogComponent,

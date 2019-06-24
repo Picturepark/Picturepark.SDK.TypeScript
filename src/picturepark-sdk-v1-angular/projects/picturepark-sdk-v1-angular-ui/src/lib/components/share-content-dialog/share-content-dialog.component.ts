@@ -3,10 +3,18 @@ import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail, PictureparkException } from '@picturepark/sdk-v1-angular';
+
+// MD5 HASH
+import { Md5 } from 'ts-md5/dist/md5';
+
+// LIBRARIES
+import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail, ShareDataBasic } from '@picturepark/sdk-v1-angular';
 
 // PIPES
-import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+
+// INTERFACES
+import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
 
 @Component({
   selector: 'pp-share-content-dialog',
@@ -27,6 +35,9 @@ export class ShareContentDialogComponent {
   notificationMessage = '';
   notificationStatus = false;
   notificationType = 'success';
+  notificationDisplayTime = 10000;
+
+  recipients: ConfirmRecipients[] = [];
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
@@ -47,7 +58,7 @@ export class ShareContentDialogComponent {
         Validators.minLength(5),
         Validators.maxLength(100),
       ]),
-      recipients: this.formBuilder.array([]),
+      recipients: this.formBuilder.array([],[ Validators.required ]),
       expire_date: new FormControl('')
     });
 
@@ -71,6 +82,11 @@ export class ShareContentDialogComponent {
     this.previewItemChange.emit(itemId);
   }
 
+  // COPY URL TO CLIPBOARD
+  public copyToClipboard(url: string): void {
+
+  }
+
   // CREATE NEW SHARED CONTENT
   async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]) {
     try {
@@ -83,27 +99,37 @@ export class ShareContentDialogComponent {
         languageCode: 'en'
       })).toPromise();
 
+      const share = await this.shareService.get(response.shareId!).toPromise();
+
+      (share.data as ShareDataBasic).mailRecipients.map(recipient => this.recipients.push({
+        email: recipient.userEmail.emailAddress,
+        url: recipient.url!,
+        img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`
+      }))
+
       // HIDE LOADER
       this.loader = false;
-      
-      // SET NOTIFICATION PROPERTIES
-      this.notificationMessage = `#${response.shareId} ${this.translatePipe.transform('ShareContentDialog.SuccessNotification')}`;
-      this.notificationType = 'success';
-      this.notificationStatus = true;
 
-      setTimeout(() => { this.notificationStatus = false; }, 10000);
+      setTimeout(() => {
+        // SET NOTIFICATION PROPERTIES
+        this.notificationMessage = `#${response.shareId} ${this.translatePipe.transform('ShareContentDialog.SuccessNotification')}`;
+        this.notificationType = 'success';
+        this.notificationStatus = true;
+        this.notificationDisplayTime = 10000;
+      }, 200);
 
     } catch(err) {
       
       // HIDE LOADER
       this.loader = false;
 
-      // SET ERROR NOTIFICATION PROPERTIES
-      this.notificationMessage = err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!;
-      this.notificationType = 'error';
-      this.notificationStatus = true;
-
-      setTimeout(() => { this.notificationStatus = false; }, 10000);
+      setTimeout(() => {
+        // SET ERROR NOTIFICATION PROPERTIES
+        this.notificationMessage = err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!;
+        this.notificationType = 'error';
+        this.notificationStatus = true;
+        this.notificationDisplayTime = 10000;
+      }, 200);
 
     }
 
@@ -112,7 +138,7 @@ export class ShareContentDialogComponent {
   // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
 
-    if(this.sharedContentForm.valid && this.selectedContent.length > 0) {
+    if(this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length > 0) {
 
       this.loader = true;
 
@@ -130,6 +156,8 @@ export class ShareContentDialogComponent {
       // CREATE NEW SHARE
       this.newSharedContent(contentItems, recipientsEmails);
 
+    } else if(this.recipients.length === 0) {
+      this.closeDialog();
     }
   }
 

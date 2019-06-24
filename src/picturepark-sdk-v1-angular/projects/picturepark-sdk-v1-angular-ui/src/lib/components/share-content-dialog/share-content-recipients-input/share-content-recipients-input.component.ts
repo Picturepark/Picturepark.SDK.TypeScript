@@ -43,7 +43,7 @@ export class ShareContentRecipientsInputComponent {
       this.recipients.push(value.trim());
 
       const recipientsControl = <FormArray>this.parentForm.controls['recipients'];
-      recipientsControl.push(new FormControl(value, [ Validators.required, Validators.pattern(this.reg) ]));
+      recipientsControl.push(new FormControl(value, [ Validators.pattern(this.reg) ]));
       
       input.value = '';
 
