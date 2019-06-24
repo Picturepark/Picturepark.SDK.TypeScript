@@ -29,10 +29,10 @@ export class ContentDownloadDialogComponent implements OnInit {
     });
     const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
       linkSubscription.unsubscribe();
-        if (data.downloadUrl) {
-            window.location.replace(data.downloadUrl);
-            this.dialogRef.close(true);
-        }
+      if (data.downloadUrl) {
+          window.location.replace(data.downloadUrl);
+          this.dialogRef.close(true);
+      }
     });
   }
 
