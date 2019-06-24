@@ -37,6 +37,12 @@
       ],
       "@picturepark/sdk-v1-angular-ui/*": [
         "dist/picturepark-sdk-v1-angular-ui/*"
+      ],
+      "common": [
+        "dist/common"
+      ],
+      "common/*": [
+        "dist/common/*"
       ]
     }
   }
