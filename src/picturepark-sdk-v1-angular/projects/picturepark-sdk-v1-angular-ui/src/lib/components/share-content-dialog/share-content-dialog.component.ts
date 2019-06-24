@@ -48,9 +48,7 @@ export class ShareContentDialogComponent {
         Validators.maxLength(100),
       ]),
       recipients: this.formBuilder.array([]),
-      expire_date: new FormControl('', [
-        // USE VALIDATION FUNCTION
-      ])
+      expire_date: new FormControl('')
     });
 
   }
