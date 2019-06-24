@@ -2,9 +2,8 @@
 .notifications-container { overflow: hidden; }
 
 mat-dialog-content { padding: 0px; background-color: #f8f8f8; position: relative; }
-mat-dialog-content.inputs-content { border-top: 1px solid #eeeeee; }
 
-h3 { color: rgb(68,68,68); margin: 0px 0px 25px 0px; font-weight: 200; }
+h3 { color: #444; margin: 0 -24px 0 -24px; font-weight: 200; padding: 0px 24px 24px 24px; border-bottom: 1px solid #eee; }
 h3 mat-icon { color:rgb(68,68,68); cursor: pointer; float: right; }
 
 mat-dialog-content.selected-items-content { padding: 0px 0px 30px 0px; max-height: 25vh; }
@@ -24,12 +23,12 @@ ul li input:focus { outline: 0px; border: 1px solid rgba(0,0,0,0.54); }
 
 #share-name.error-active { border: 1px solid #f74931; }
 
-.loader-container { background-color: #f8f8f8; position: absolute; display: table; width: 848px; top: 52px; left: -24px; height: 481px; z-index: 20; }
+.loader-container { background-color: #f8f8f8; position: absolute; display: table; width: 848px; top: 46px; left: -24px; height: 513px; z-index: 20; }
 .loader-container .loader { display: table-cell; vertical-align: middle; text-align: center; }
 .loader-container .loader mat-spinner {  margin: 0 auto; }
 
-mat-dialog-actions { justify-content: flex-end; }
-mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px;}
+mat-dialog-actions { justify-content: flex-end; border-top: 1px solid #eee; margin: 0px -24px -24px -24px; }
+mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px; margin: 0px 24px 0px 0px;}
 mat-dialog-actions button.active { background-color: #3fb3b1; }
 
 pp-share-content-recipients-input { width: 100%; }
@@ -44,3 +43,4 @@ pp-share-content-recipients-input { width: 100%; }
 .share-content-confirmation-container .share-content-confirmation .user-info-container ul { margin: 0px; padding: 0px; }
 .share-content-confirmation-container .share-content-confirmation .user-info-container ul li { float: none; }
 .share-content-confirmation-container .share-content-confirmation .user-info-container ul li mat-icon { font-size: 18px; color: #727272; position: relative; top: 5px; }
+.share-content-confirmation-container .share-content-confirmation .user-info-container ul li a { color: #727272; }

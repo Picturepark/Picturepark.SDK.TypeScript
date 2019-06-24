@@ -26,7 +26,7 @@ export class ShareContentDialogNotificationComponent implements OnChanges {
     this.notificationStatus = changes.notificationStatus && changes.notificationStatus.currentValue;
     this.notificationDisplayTime ? changes.notificationDisplayTime && changes.notificationDisplayTime.currentValue : 10000;
 
-    if(this.notificationStatus) setTimeout(() => { this.closeNotification() }, this.notificationDisplayTime);
+    if(this.notificationStatus) setTimeout(() => { this.closeNotification() }, 60000);
 
   }
 }

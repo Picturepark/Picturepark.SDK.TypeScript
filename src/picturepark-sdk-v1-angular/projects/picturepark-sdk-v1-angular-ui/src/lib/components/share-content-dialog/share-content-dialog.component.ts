@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, ViewChild, ElementRef, Renderer2, OnInit, AfterViewInit  } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -22,7 +22,10 @@ import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
   styleUrls: ['./share-content-dialog.component.scss'],
   providers: [ TranslatePipe ]
 })
-export class ShareContentDialogComponent {
+export class ShareContentDialogComponent implements AfterViewInit {
+
+  @ViewChild('shareContentContainer', {static: true}) shareContentContainer: ElementRef;
+  @ViewChild('loaderContainer', {static: true}) loaderContainer: ElementRef;
 
   contentItemSelectionSubscription: Subscription;
   downloadThumbnailSubscription: Subscription;
@@ -48,6 +51,8 @@ export class ShareContentDialogComponent {
     private formBuilder: FormBuilder,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
+    private el: ElementRef, 
+    private renderer: Renderer2
   ) {
 
     this.selectedContent = data;
@@ -159,6 +164,11 @@ export class ShareContentDialogComponent {
     } else if(this.recipients.length > 0) {
       this.closeDialog();
     }
+  }
+
+  ngAfterViewInit() {
+    const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
+    this.renderer.setStyle(this.loaderContainer.nativeElement, "height", `${containerHeight - 115}px`);
   }
 
 }
