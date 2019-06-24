@@ -49,12 +49,6 @@ export function PictureparkConfigurationFactory() {
     AppRoutingModule,
     PictureparkUiModule,
     PictureparkOidcModule,
-    
-    /*RouterModule.forRoot([
-      { path: '', component: AppComponent },
-      { path: 'details', component: AppComponent },
-      { path: 'pcpToken/:type?postUrl=:postUrl', redirectTo: '/content-picker?postUrl=:postUrl' }
-    ]),*/
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },

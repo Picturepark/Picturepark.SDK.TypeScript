@@ -138,7 +138,7 @@ export class ShareContentDialogComponent {
   // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
 
-    if(this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length > 0) {
+    if(this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length === 0) {
 
       this.loader = true;
 
@@ -156,7 +156,7 @@ export class ShareContentDialogComponent {
       // CREATE NEW SHARE
       this.newSharedContent(contentItems, recipientsEmails);
 
-    } else if(this.recipients.length === 0) {
+    } else if(this.recipients.length > 0) {
       this.closeDialog();
     }
   }
