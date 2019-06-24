@@ -94,6 +94,7 @@ export class ShareContentDialogComponent {
       setTimeout(() => { this.notificationStatus = false; }, 10000);
 
     } catch(err) {
+      
       // HIDE LOADER
       this.loader = false;
 

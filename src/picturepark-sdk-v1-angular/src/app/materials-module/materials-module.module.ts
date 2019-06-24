@@ -1,24 +1,8 @@
 import { NgModule } from '@angular/core';
 
 // MATERIAL MODULES
-import { 
-  MatChipsModule,
-  MatMenuModule,
-  MatDatepickerModule,
+import {
   MatTabsModule,
-  MatNativeDateModule,
-  MatInputModule,
-  MatIconModule,
-  MatExpansionModule,
-  MatListModule,
-  MatSelectModule,
-  MatProgressSpinnerModule,
-  MatAutocompleteModule,
-  MatGridListModule,
-  MatDividerModule,
-  MatProgressBarModule,
-  MatTooltipModule,
-  MatCheckboxModule,
   MatBadgeModule,
   MatDialogModule,
   MatButtonModule,
@@ -33,9 +17,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [],
   imports: [
-    MatChipsModule,
-    MatMenuModule,
-    MatDatepickerModule,
     MatToolbarModule,
     MatTabsModule,
     MatButtonModule,
@@ -43,27 +24,11 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatListModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatGridListModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    MatCheckboxModule,
     // CDK
     LayoutModule,
     ScrollingModule
   ],
   exports: [
-    MatChipsModule,
-    MatMenuModule,
-    MatDatepickerModule,
     MatToolbarModule,
     MatTabsModule,
     MatButtonModule,
@@ -71,19 +36,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatListModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatGridListModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    MatCheckboxModule,
     // CDK
     LayoutModule,
     ScrollingModule
