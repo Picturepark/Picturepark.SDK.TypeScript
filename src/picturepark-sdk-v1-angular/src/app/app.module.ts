@@ -10,15 +10,7 @@ import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
-
-// MATERIALS
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MaterialsModule } from './materials-module/materials-module.module';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
@@ -56,17 +48,9 @@ export function PictureparkConfigurationFactory() {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
-    MatToolbarModule,
-    LayoutModule,
-    MatTabsModule,
-    MatBadgeModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatCardModule,
-    
     PictureparkUiModule,
-    PictureparkOidcModule
+    PictureparkOidcModule,
+    MaterialsModule
     /*RouterModule.forRoot([
       { path: '', component: AppComponent },
       { path: 'details', component: AppComponent },
