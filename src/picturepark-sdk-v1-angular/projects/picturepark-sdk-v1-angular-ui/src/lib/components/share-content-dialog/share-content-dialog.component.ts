@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail } from '@picturepark/sdk-v1-angular';
+import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail, PictureparkException } from '@picturepark/sdk-v1-angular';
 
 // PIPES
 import { TranslatePipe } from '../../pipes/translate.pipe';
@@ -80,7 +80,7 @@ export class ShareContentDialogComponent {
         recipientsEmail: recipientsEmails,
         contents: contentItems,
         outputAccess: OutputAccess.Full,
-        languageCode: 'EN'
+        languageCode: 'en'
       })).toPromise();
 
       // HIDE LOADER
@@ -94,12 +94,11 @@ export class ShareContentDialogComponent {
       setTimeout(() => { this.notificationStatus = false; }, 10000);
 
     } catch(err) {
-
       // HIDE LOADER
       this.loader = false;
 
       // SET ERROR NOTIFICATION PROPERTIES
-      this.notificationMessage = this.translatePipe.transform('ShareContentDialog.ErrorNotification')!;
+      this.notificationMessage = err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!;
       this.notificationType = 'error';
       this.notificationStatus = true;
 
