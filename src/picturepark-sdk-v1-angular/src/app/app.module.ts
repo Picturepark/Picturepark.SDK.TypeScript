@@ -10,7 +10,7 @@ import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
-
+import { MaterialsModule } from './materials-module/materials-module.module';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
@@ -48,9 +48,9 @@ export function PictureparkConfigurationFactory() {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
     PictureparkUiModule,
-    PictureparkOidcModule
+    PictureparkOidcModule,
+    MaterialsModule
     /*RouterModule.forRoot([
       { path: '', component: AppComponent },
       { path: 'details', component: AppComponent },

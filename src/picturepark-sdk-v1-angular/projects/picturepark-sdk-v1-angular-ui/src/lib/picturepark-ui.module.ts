@@ -2,30 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-// Angular material dependencies
-import { MatChipsModule } from '@angular/material/chips';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from  '@angular/material';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-
+// MODULES
+import { SharedModule } from './shared-module/shared-module.module';
 
 // SDK components
 import { BasketItemComponent } from './components/basket/basket-item/basket-item.component';
@@ -91,35 +69,12 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ContentItemSelectionService,
     BasketService,
     LiquidRenderingService,
-    MatDatepickerModule
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatChipsModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatExpansionModule,
-    MatAutocompleteModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatListModule,
-    MatSelectModule,
-    MatGridListModule,
-    MatDividerModule,
-    MatToolbarModule,
-    MatProgressBarModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    ScrollingModule
+    SharedModule,
   ],
   exports: [
     ChannelPickerComponent,
