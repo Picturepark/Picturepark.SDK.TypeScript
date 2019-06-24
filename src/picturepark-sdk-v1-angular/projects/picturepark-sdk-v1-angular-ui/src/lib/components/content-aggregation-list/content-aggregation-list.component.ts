@@ -22,7 +22,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
-    if (this.channelId && this.aggregators) {
+    if (this.channelId && this.aggregators && this.aggregators.length) {
       this.isLoading.next(true);
       const request = new ContentAggregationRequest({
         aggregators: this.aggregators,
