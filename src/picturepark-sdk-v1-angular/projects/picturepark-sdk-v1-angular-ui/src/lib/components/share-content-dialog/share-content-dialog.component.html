@@ -1,9 +1,19 @@
-<div class="share-content-container">
-
+<div class="share-content-container" #shareContentContainer>
+  
   <h3>{{ 'ShareContentDialog.CreateShare' | pptranslate }} <mat-icon (click)="closeDialog()">close</mat-icon></h3>
-
+  
+  <mat-dialog-content class="notifications-container">
+    <pp-share-content-dialog-notification 
+      [notificationMessage]="notificationMessage" 
+      [notificationStatus]="notificationStatus"
+      [notificationType]="notificationType"
+      [notificationDisplayTime]="notificationDisplayTime">
+    </pp-share-content-dialog-notification>
+  </mat-dialog-content>
+  
   <form [formGroup]="sharedContentForm" class="example-form" (ngSubmit)="onFormSubmit()">
-    <mat-dialog-content class="inputs-content">
+    
+    <mat-dialog-content class="inputs-content" *ngIf="recipients.length === 0">
       <ul>
         <li class="label-content"><label for="share-name">{{ 'ShareContentDialog.ShareName' | pptranslate }}:</label></li>
         <li class="input-content">
@@ -36,7 +46,7 @@
       </ul>
     </mat-dialog-content>
 
-    <mat-dialog-content class="selected-items-content">
+    <mat-dialog-content class="selected-items-content" *ngIf="recipients.length === 0">
       <mat-tab-group autoFocus="false">
         <!--<mat-tab label="'ShareContentDialog.General' | pptranslate">
           <ng-template matTabContent>
@@ -59,20 +69,33 @@
       </mat-tab-group>
     </mat-dialog-content>
 
-    <pp-share-content-dialog-notification 
-      [notificationMessage]="notificationMessage" 
-      [notificationStatus]="notificationStatus"
-      [notificationType]="notificationType">
-    </pp-share-content-dialog-notification>
+    <mat-dialog-content class="share-content-confirmation-container" *ngIf="recipients.length > 0">
+      <div class="share-content-confirmation" *ngFor="let recipient of recipients">
+        <div class="user-image-container">
+          <img src="{{recipient.img}}">
+        </div>
+        <div class="user-info-container">
+          <ul>
+            <li>
+              <span>{{recipient.email}}</span>
+            </li>
+            <li>
+              <mat-icon (click)="copyToClipboard(recipient.url)">file_copy</mat-icon><a href="{{recipient.url}}" target="_blank">{{recipient.url}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </mat-dialog-content>
 
-    <div class="loader-container" *ngIf="loader">
+    <div class="loader-container" #loaderContainer [ngClass]="{active: loader}">
       <div class="loader">
         <mat-spinner></mat-spinner>
       </div>
     </div>
     
     <mat-dialog-actions>
-      <button mat-button [ngClass]="{'active': sharedContentForm.valid }">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
+      <button mat-button [ngClass]="{'active': sharedContentForm.valid }" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
+      <button mat-button [ngClass]="{'active': sharedContentForm.valid }" *ngIf="recipients.length > 0">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
     </mat-dialog-actions>
 
   </form>

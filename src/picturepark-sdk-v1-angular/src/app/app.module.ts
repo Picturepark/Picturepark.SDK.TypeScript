@@ -11,7 +11,6 @@ import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
 
-
 // COMPONENTS
 import { AppComponent } from './app.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
@@ -48,14 +47,8 @@ export function PictureparkConfigurationFactory() {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
     PictureparkUiModule,
-    PictureparkOidcModule
-    /*RouterModule.forRoot([
-      { path: '', component: AppComponent },
-      { path: 'details', component: AppComponent },
-      { path: 'pcpToken/:type?postUrl=:postUrl', redirectTo: '/content-picker?postUrl=:postUrl' }
-    ]),*/
+    PictureparkOidcModule,
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },

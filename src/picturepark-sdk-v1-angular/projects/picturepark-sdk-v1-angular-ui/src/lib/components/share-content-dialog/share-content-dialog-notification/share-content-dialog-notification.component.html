@@ -1,5 +1,5 @@
-<div class="share-content-dialog-notification">
-  <div class="notification" [ngClass]="{ active: notificationStatus, error: notificationType === 'error' }">
+<div class="share-content-dialog-notification" [ngClass]="{ active: notificationStatus, error: notificationType === 'error' }">
+  <div class="notification" [matTooltip]="notificationMessage">
     {{notificationMessage}}<mat-icon (click)="closeNotification()">close</mat-icon>
   </div>
 </div>

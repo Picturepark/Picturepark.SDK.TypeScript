@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -6,25 +6,29 @@ import { RouterModule } from '@angular/router';
 // MODULES
 import { MaterialsModule } from '../materials-module/materials-module.module';
 
+// PIPES
+import { FileSizePipe } from './pipes/filesize.pipe';
+import { TranslatePipe } from './pipes/translate.pipe';
+
 @NgModule({
-  declarations: [],
+  declarations: [
+    // PIPES
+    FileSizePipe,
+    TranslatePipe
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    MaterialsModule
+    MaterialsModule,
   ],
   exports: [
     FormsModule,
-    MaterialsModule
+    MaterialsModule,
+    // PIPES
+    FileSizePipe,
+    TranslatePipe
   ]
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SharedModule,
-      providers: []
-    };
-  }
-}
+export class SharedModule {}
