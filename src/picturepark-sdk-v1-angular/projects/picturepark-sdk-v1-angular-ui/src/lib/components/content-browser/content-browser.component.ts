@@ -35,7 +35,7 @@ import { ContentModel } from './models/content-model';
   providers: [  ]
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
-  
+
   private lastSelectedIndex = 0;
 
   private _totalResults: number | null = null;
@@ -130,7 +130,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   public ngOnInit(): void {
 
-    this.configActions = this.pictureParkUIConfig[this.constructor.name];
+    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
 
     const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {

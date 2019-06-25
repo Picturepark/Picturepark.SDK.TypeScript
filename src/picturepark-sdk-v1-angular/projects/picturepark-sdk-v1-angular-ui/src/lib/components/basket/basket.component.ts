@@ -1,7 +1,9 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 
 // LIBRARIES
-import { ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll } from '@picturepark/sdk-v1-angular';
+import {
+  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, 
+  ContentSearchType, TermsFilter, fetchAll } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -17,7 +19,7 @@ import { DownloadFallbackService } from '../../services/download-fallback.servic
   styleUrls: ['./basket.component.scss']
 })
 export class BasketComponent extends BaseComponent implements OnInit {
-  
+
   public basketItems: string[] = [];
 
   public configActions: ConfigActions;
@@ -66,7 +68,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configActions = this.pictureParkUIConfig[this.constructor.name];
+    this.configActions = this.pictureParkUIConfig['BasketComponent'];
   }
 
 }
