@@ -1,19 +1,17 @@
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, InjectionToken, Inject } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-
-// PICTURE PARK UI CONFIG ACTIONS
-import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // LIBRARIES
 import {
-  ContentService, ThumbnailSize,
-  ContentSearchRequest, FilterBase, SortInfo,
-  SortDirection, ContentSearchType, BrokenDependenciesFilter,
-  LifeCycleFilter, Channel, SearchBehavior
+  ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
+import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
+import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from './../../services/basket.service';
@@ -35,7 +33,7 @@ import { ContentModel } from './models/content-model';
   providers: [  ]
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
-  
+
   private lastSelectedIndex = 0;
 
   private _totalResults: number | null = null;
@@ -109,22 +107,27 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
+    public dialog: MatDialog,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
-    private ngZone: NgZone) {
+    private ngZone: NgZone
+  ) {
+
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
+
     this.subscription.add(basketSubscription);
 
     const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
+    
     this.subscription.add(contentItemSelectionSubscription);
   }
 
@@ -273,4 +276,12 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public trackByThumbnailSize(index, thumbnailSize: string) {
     return thumbnailSize;
   }
+
+  openShareContentDialog(): void {
+
+    this.dialog.open(ShareContentDialogComponent, {
+      data: this.selectedItems
+    });
+  }
+
 }

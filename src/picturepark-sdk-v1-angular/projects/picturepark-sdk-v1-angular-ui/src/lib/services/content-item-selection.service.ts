@@ -36,7 +36,6 @@ export class ContentItemSelectionService {
 
   private updateSubject() {
     const itemsArray = Array.from(this.items);
-
     this.selectedItemsSubject.next(itemsArray);
   }
 }
