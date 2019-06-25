@@ -15,6 +15,9 @@ export let TRANSLATIONS = {
     EmptyBasket: {
       en: 'Basket is empty.',
       de: 'Warenkorb ist leer.'
+    },
+    Share: {
+      en: 'Share items'
     }
   },
   ChannelPicker: {
@@ -82,6 +85,9 @@ export let TRANSLATIONS = {
       en: 'Select',
       de: 'Selektieren'
 
+    },
+    ShareImages: {
+      en: 'Share'
     },
     SelectFirstItems: {
       en: 'Select first {0}',
@@ -301,12 +307,60 @@ export let TRANSLATIONS = {
     Cancel: {
       en: 'Cancel'
     }
+  },
+  ShareContentDialog: {
+    Clear: {
+      en: 'Clear'
+    },
+    CreateShare: {
+      en: 'Create Share'
+    },
+    General: {
+      en: 'General'
+    },
+    Items: {
+      en: 'Items'
+    },
+    ShareName: {
+      en: 'Share name'
+    },
+    RemoveItem: {
+      en: 'Remove item'
+    },
+    ShareContent: {
+      en: 'Share'
+    },
+    CloseDialog: {
+      en: 'Close'
+    },
+    Recipients: {
+      en: 'Recipients'
+    },
+    ExpireDate: {
+      en: 'Expire Date'
+    },
+    AddShareNameError: {
+      en: 'Please, add a share name'
+    },
+    ShareNameTooLongError: {
+      en: 'Sorry, your share name is too long'
+    },
+    ShareNameTooShortError: {
+      en: 'Sorry, your share name is too short'
+    },
+    SuccessNotification: {
+      en: 'Your content was shared correctly!'
+    },
+    ErrorNotification: {
+      en: 'There was an error sharing your content, please try again'
+    }
   }
 };
 
 const fallbackLanguage = 'en';
 
 export function translate(key: any, locale: string) {
+
   const language = locale ? locale.split('-')[0].toLowerCase() : '';
   let translations: any = TRANSLATIONS;
 

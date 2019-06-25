@@ -4,6 +4,9 @@
       <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()" *ngIf="configActions.downloadContent">
         <mat-icon aria-label="Download items">get_app</mat-icon>
       </button>
+      <button mat-icon-button [matTooltip]="'Basket.Share' | pptranslate" (click)="openShareContentDialog()">
+        <mat-icon aria-label="Share items">share</mat-icon>
+      </button>
       <div style="flex-grow: 1;"></div>
       <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
         <mat-icon aria-label="Clear basket">clear</mat-icon>

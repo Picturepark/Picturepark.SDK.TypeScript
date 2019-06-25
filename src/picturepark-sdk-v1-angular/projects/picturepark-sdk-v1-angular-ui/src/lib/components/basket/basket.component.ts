@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 
 // LIBRARIES
@@ -8,18 +9,35 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
+=======
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import {
+  ContentService, ContentSearchRequest, LifeCycleFilter,
+  BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll
+} from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
+import { BaseComponent } from '../base.component';
+import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
+>>>>>>> master
 
 // SERVICES
 import { BasketService } from '../../services/basket.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'pp-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
+<<<<<<< HEAD
 export class BasketComponent extends BaseComponent implements OnInit {
 
+=======
+export class BasketComponent extends BaseComponent {
+  
+>>>>>>> master
   public basketItems: string[] = [];
 
   public configActions: ConfigActions;
@@ -31,18 +49,22 @@ export class BasketComponent extends BaseComponent implements OnInit {
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentService: ContentService,
     private basketService: BasketService,
+    public dialog: MatDialog,
     private downloadFallbackService: DownloadFallbackService
     ) {
+
     super();
+
     const basketSubscription = this.basketService.basketChange.subscribe((items) => this.basketItems = items);
     this.subscription.add(basketSubscription);
+
   }
 
-  public previewItem(itemId: string) {
+  public previewItem(itemId: string): void {
     this.previewItemChange.emit(itemId);
   }
 
-  public downloadItems() {
+  public downloadItems(): void {
     const contentSearch = fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
       limit: 1000,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -59,11 +81,19 @@ export class BasketComponent extends BaseComponent implements OnInit {
     });
   }
 
-  public clearBasket() {
+  public openShareContentDialog(): void {
+
+    this.dialog.open(ShareContentDialogComponent, {
+      data: this.basketItems
+    });
+    
+  } 
+
+  public clearBasket(): void {
     this.basketService.clearBasket();
   }
 
-  public trackByBasket(index, basket: string) {
+  public trackByBasket(index, basket: string): string {
     return basket;
   }
 

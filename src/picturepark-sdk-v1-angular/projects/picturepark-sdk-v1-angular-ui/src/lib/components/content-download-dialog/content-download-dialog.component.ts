@@ -28,11 +28,11 @@ export class ContentDownloadDialogComponent implements OnInit {
       contents: this.data.getSelectedOutputs().map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }))
     });
     const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
-        linkSubscription.unsubscribe();
-        if (data.downloadUrl) {
-            window.location.replace(data.downloadUrl);
-            this.dialogRef.close(true);
-        }
+      linkSubscription.unsubscribe();
+      if (data.downloadUrl) {
+          window.location.replace(data.downloadUrl);
+          this.dialogRef.close(true);
+      }
     });
   }
 

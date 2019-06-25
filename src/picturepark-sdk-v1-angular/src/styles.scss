@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~normalize.css";
 @import "theme.scss";
+@import "date-picker.scss";
+@import "share-content-recipients-input.scss";
+@import "share-content-dialog.scss";
+
 @include mat-core();
 @include angular-material-theme($picturepark-app-theme);
 
@@ -22,10 +26,9 @@ body {
 .mat-expansion-panel-body,
 .mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
-.mat-expansion-panel-header.mat-expanded:hover {
-  background: whitesmoke !important;
-}
+.mat-expansion-panel-header.mat-expanded:hover { background: whitesmoke !important; }
 
-.content-browser__header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
-}
+.content-browser__header { border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important; }
+
+// OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
+.cdk-focused.cdk-program-focused { background-color: transparent !important; }
