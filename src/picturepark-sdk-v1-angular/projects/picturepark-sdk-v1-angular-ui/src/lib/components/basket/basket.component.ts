@@ -1,11 +1,14 @@
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 
-import {
-  ContentService, ContentSearchRequest, LifeCycleFilter,
-  BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll
-} from '@picturepark/sdk-v1-angular';
-import { BasketService } from '../../services/basket.service';
+// LIBRARIES
+import { ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
+
+// COMPONENTS
 import { BaseComponent } from '../base.component';
+
+// SERVICES
+import { BasketService } from '../../services/basket.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 
 @Component({
@@ -13,13 +16,17 @@ import { DownloadFallbackService } from '../../services/download-fallback.servic
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
-export class BasketComponent extends BaseComponent {
+export class BasketComponent extends BaseComponent implements OnInit {
+  
   public basketItems: string[] = [];
+
+  public configActions: ConfigActions;
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
   constructor(
+    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentService: ContentService,
     private basketService: BasketService,
     private downloadFallbackService: DownloadFallbackService
@@ -57,4 +64,9 @@ export class BasketComponent extends BaseComponent {
   public trackByBasket(index, basket: string) {
     return basket;
   }
+
+  ngOnInit() {
+    this.configActions = this.pictureParkUIConfig[this.constructor.name];
+  }
+
 }

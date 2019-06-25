@@ -1,15 +1,25 @@
-export interface PictureparkUIConfiguration {}
-export declare const PICTUREPARK_UI_CONFIGURATION: string;
+import { InjectionToken } from '@angular/core';
+
+export interface ConfigActions {
+    [key: string]: boolean
+}
+
+export interface PictureparkUIConfiguration {
+    'ContentBrowserComponent': ConfigActions,
+    'BasketComponent': ConfigActions
+}
+
+export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_UI_CONFIGURATION');
 export function PictureparkUIConfigurationFactory() {
-    return <PictureparkUIConfiguration>{
-        content_browser: {
+    return<PictureparkUIConfiguration> {
+        'ContentBrowserComponent': {
+            select: true,
             downloadContent: true,
             shareContent: true
         },
-        basket: {
+        'BasketComponent': {
             downloadContent: true,
             shareContent: true
         }
     }
 }
-  

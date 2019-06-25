@@ -1,7 +1,7 @@
 <div class="basket">
   <ng-container *ngIf="basketItems.length > 0; else emptyBasket">
     <mat-toolbar class="basket__header">
-      <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()">
+      <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()" *ngIf="configActions.downloadContent">
         <mat-icon aria-label="Download items">get_app</mat-icon>
       </button>
       <div style="flex-grow: 1;"></div>

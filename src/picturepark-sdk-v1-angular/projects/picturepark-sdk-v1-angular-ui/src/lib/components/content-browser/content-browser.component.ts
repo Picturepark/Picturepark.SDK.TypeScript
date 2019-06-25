@@ -1,5 +1,8 @@
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, InjectionToken, Inject } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
+
+// PICTURE PARK UI CONFIG ACTIONS
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // LIBRARIES
 import {
@@ -22,12 +25,14 @@ import { LiquidRenderingService } from '../../services/liquid-rendering.service'
 import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
 
+
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
-  styleUrls: ['./content-browser.component.scss']
+  styleUrls: ['./content-browser.component.scss'],
+  providers: [  ]
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
   
@@ -60,6 +65,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public sortingTypes = SortingType;
 
   public activeSortingType = SortingType.relevance;
+
+  public configActions: ConfigActions;
 
   @Input()
   public channel: Channel | null = null;
@@ -98,6 +105,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   constructor(
+    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
@@ -121,6 +129,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   public ngOnInit(): void {
+
+    this.configActions = this.pictureParkUIConfig[this.constructor.name];
+
     const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {
         if (scrollable) {

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from '../lib/configuration';
+
 // Angular material dependencies
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -73,7 +75,8 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   providers: [
     ContentItemSelectionService,
     BasketService,
-    LiquidRenderingService
+    LiquidRenderingService,
+    { provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }
   ],
   imports: [
     CommonModule,
@@ -115,7 +118,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   entryComponents: [
     FieldDetailInfoDialogComponent,
     ContentDownloadDialogComponent
-  ]
+  ],
 })
 export class PictureparkUiModule {
 }
