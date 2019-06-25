@@ -1,23 +1,26 @@
-import {
-  Component, Input, Output, OnChanges, EventEmitter,
-  SimpleChanges, OnInit, NgZone
-} from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import { SortingType } from './models/sorting-type';
-import { ContentModel } from './models/content-model';
-import { BasketService } from './../../services/basket.service';
-import { ContentItemSelectionService } from './../../services/content-item-selection.service';
+// LIBRARIES
 import {
   ContentService, ThumbnailSize,
-  ContentDownloadLinkCreateRequest,
   ContentSearchRequest, FilterBase, SortInfo,
   SortDirection, ContentSearchType, BrokenDependenciesFilter,
-  LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
+  LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseComponent } from '../base.component';
-import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+
+// SERVICES
+import { BasketService } from './../../services/basket.service';
+import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
+import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+
+// INTERFACES
+import { SortingType } from './models/sorting-type';
+import { ContentModel } from './models/content-model';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -27,6 +30,7 @@ import { DownloadFallbackService } from '../../services/download-fallback.servic
   styleUrls: ['./content-browser.component.scss']
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
+  
   private lastSelectedIndex = 0;
 
   private _totalResults: number | null = null;
@@ -97,7 +101,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
-    private outputService: OutputService,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,

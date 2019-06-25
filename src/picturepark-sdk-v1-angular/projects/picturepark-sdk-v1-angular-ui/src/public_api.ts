@@ -1,6 +1,7 @@
 /*
  * Public API Surface of picturepark-sdk-v1-angular-ui
  */
+export { PICTUREPARK_UI_CONFIGURATION } from './lib/configuration';
 
 export { ContentItemSelectionService } from './lib/services/content-item-selection.service';
 export { BasketService } from './lib/services/basket.service';

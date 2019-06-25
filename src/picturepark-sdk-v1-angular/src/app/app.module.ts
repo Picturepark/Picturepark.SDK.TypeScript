@@ -20,11 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  PictureparkOidcAuthConfiguration,
-  PictureparkOidcModule
-} from '@picturepark/sdk-v1-angular-oidc';
-import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
+import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
+import { PictureparkUiModule, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from '@picturepark/sdk-v1-angular-ui';
 import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 
 export function LocaleIdFactory() {
@@ -79,7 +76,8 @@ export function PictureparkConfigurationFactory() {
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
-    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
+    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
+    { provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }
   ],
   bootstrap: [AppComponent]
 })
