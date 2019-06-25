@@ -1,23 +1,25 @@
-import {
-  Component, Input, Output, OnChanges, EventEmitter,
-  SimpleChanges, OnInit, NgZone
-} from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
-import { BasketService } from './../../services/basket.service';
-import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import {
   ContentService, ThumbnailSize,
-  ContentDownloadLinkCreateRequest,
   ContentSearchRequest, FilterBase, SortInfo,
   SortDirection, ContentSearchType, BrokenDependenciesFilter,
-  LifeCycleFilter, Channel, SearchBehavior, OutputService, OutputSearchRequest, Content, Output as OutputItem, OutputRenderingState
+  LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
+import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 import { BaseComponent } from '../base.component';
-import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+  
+// SERVICES
+import { BasketService } from './../../services/basket.service';
+import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
+import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -97,23 +99,27 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
-    private outputService: OutputService,
+    public dialog: MatDialog,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
-    private ngZone: NgZone) {
+    private ngZone: NgZone
+  ) {
+    
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
+
     this.subscription.add(basketSubscription);
 
     const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
+    
     this.subscription.add(contentItemSelectionSubscription);
   }
 
@@ -259,4 +265,12 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public trackByThumbnailSize(index, thumbnailSize: string) {
     return thumbnailSize;
   }
+
+  openShareContentDialog(): void {
+
+    this.dialog.open(ShareContentDialogComponent, {
+      data: this.selectedItems
+    });
+  }
+
 }

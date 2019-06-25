@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+// COMPONENTS
 import { HomeComponent } from './home/home.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
 

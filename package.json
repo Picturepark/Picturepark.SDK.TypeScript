@@ -24,5 +24,7 @@
     "uglify-js": "3.0.28",
     "watch": "^1.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ts-md5": "^1.2.4"
+  }
 }

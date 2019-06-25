@@ -1,0 +1,47 @@
+.share-content-container { position: relative; width: 960px; max-width: 800px; }
+.notifications-container { overflow: hidden; }
+
+mat-dialog-content { padding: 0px; background-color: #f8f8f8; position: relative; }
+
+h3 { color: #444; margin: 0 -24px 0 -24px; font-weight: 200; padding: 0px 24px 24px 24px; border-bottom: 1px solid #eee; }
+h3 mat-icon { color:rgb(68,68,68); cursor: pointer; float: right; }
+
+mat-dialog-content.selected-items-content { padding: 0px 0px 30px 0px; max-height: 25vh; }
+mat-dialog-content.selected-items-content ul li { float: left; width: 18%; margin: 0 2.5% 10px 0; }
+mat-dialog-content.selected-items-content ul li:nth-child(5n) { margin: 0 0 10px 0;}
+
+ul { list-style: none; color: #727272; font-size: 13px; margin: 30px 0px 30px 0px; min-height: 35px; padding: 0px 25px; }
+ul li {  float: left; }
+
+ul .label-content { width: 20%; }
+ul .label-content label { line-height: 40px; }
+ul .input-content { width: 80%; display: flex; }
+
+ul li:last-child label { position: relative; bottom: 0.9em; }
+ul li input { font-weight: 400; font-size: 13px; color: #2f2f2f; line-height: 17px; border-radius: 4px; padding: 11px 6px 10px; border: none; border: 1px solid #fff; transition: 500ms; width: 100%; position: relative; z-index: 10; }
+ul li input:focus { outline: 0px; border: 1px solid rgba(0,0,0,0.54); }
+
+#share-name.error-active { border: 1px solid #f74931; }
+
+.loader-container { background-color: #f8f8f8; position: absolute; display: none; width: 848px; top: 46px; left: -24px; height: 513px; z-index: 20; }
+.loader-container.active { display: table; }
+.loader-container .loader { display: table-cell; vertical-align: middle; text-align: center; }
+.loader-container .loader mat-spinner {  margin: 0 auto; }
+
+mat-dialog-actions { justify-content: flex-end; border-top: 1px solid #eee; margin: 0px -24px -24px -24px; position: relative; z-index: 25; }
+mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px; margin: 0px 24px 0px 0px;}
+mat-dialog-actions button.active { background-color: #3fb3b1; }
+
+pp-share-content-recipients-input { width: 100%; }
+
+.share-name-error { position: absolute; top: 45px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px; }
+.share-name-error.active { top: 75px; }
+
+.share-content-confirmation-container .share-content-confirmation { padding: 24px 24px; overflow: hidden; border-bottom: 1px solid #ccc; }
+.share-content-confirmation-container .share-content-confirmation:last-child { border-bottom: 0px; }
+.share-content-confirmation-container .share-content-confirmation .user-image-container { width: 48px; float: left; border-radius: 50%; height: 48px; overflow: hidden; margin: 0px 25px 0px 0px; }
+.share-content-confirmation-container .share-content-confirmation .user-info-container { float: left; }
+.share-content-confirmation-container .share-content-confirmation .user-info-container ul { margin: 0px; padding: 0px; }
+.share-content-confirmation-container .share-content-confirmation .user-info-container ul li { float: none; }
+.share-content-confirmation-container .share-content-confirmation .user-info-container ul li mat-icon { font-size: 18px; color: #727272; position: relative; top: 5px; }
+.share-content-confirmation-container .share-content-confirmation .user-info-container ul li a { color: #727272; }
