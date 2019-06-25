@@ -12,6 +12,7 @@
   </mat-dialog-content>
   
   <form [formGroup]="sharedContentForm" class="example-form" (ngSubmit)="onFormSubmit()">
+    
     <mat-dialog-content class="inputs-content" *ngIf="recipients.length === 0">
       <ul>
         <li class="label-content"><label for="share-name">{{ 'ShareContentDialog.ShareName' | pptranslate }}:</label></li>

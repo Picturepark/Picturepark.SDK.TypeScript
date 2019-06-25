@@ -50,8 +50,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<ShareContentDialogComponent>,
     private formBuilder: FormBuilder,
     private shareService: ShareService,
-    private translatePipe: TranslatePipe,
-    private el: ElementRef, 
+    private translatePipe: TranslatePipe, 
     private renderer: Renderer2
   ) {
 
