@@ -11,7 +11,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['./share-content-dialog.component.scss'],
+  styleUrls: ['./share-content-dialog.component.scss', 'share-content-dialog.component-resp.scss'],
   providers: [ TranslatePipe ]
 })
 export class ShareContentDialogComponent {
