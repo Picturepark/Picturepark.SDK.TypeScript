@@ -33,7 +33,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
   selectedContent: Array<any> = [];
   sharedContentForm: FormGroup;
 
-  loader = true;
+  loader = false;
 
   notificationMessage = '';
   notificationStatus = false;
