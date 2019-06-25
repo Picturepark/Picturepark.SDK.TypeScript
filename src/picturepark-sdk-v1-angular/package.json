@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build-libraries": "ng build picturepark-sdk-v1-angular && ng build picturepark-sdk-v1-angular-oidc && ng build picturepark-sdk-v1-angular-ui",
-    "build": "ng lint && npm run init && npm run build-libraries && ng build --prod",
+    "build": "npm run lint && npm run init && npm run build-libraries && ng build --prod",
     "test": "ng test",
     "test-nowatch": "ng test",
     "lint": "ng lint",
