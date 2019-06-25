@@ -10,6 +10,7 @@ export interface PictureparkUIConfiguration {
 }
 
 export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_UI_CONFIGURATION');
+
 export function PictureparkUIConfigurationFactory() {
     return<PictureparkUIConfiguration> {
         'ContentBrowserComponent': {
