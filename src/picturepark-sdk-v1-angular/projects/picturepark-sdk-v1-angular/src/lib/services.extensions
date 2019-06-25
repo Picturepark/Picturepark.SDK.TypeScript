@@ -4,6 +4,7 @@ import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './services'; /
 
 import { PictureparkServiceBase } from './base.service';
 import * as generated from './services';
+import 'reflect-metadata';
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
     translate(locale: string) {
@@ -52,4 +53,27 @@ export abstract class AuthService {
 
     abstract get isAuthenticated(): boolean;
     abstract transformHttpRequestOptions(options: any): Promise<any>;
+}
+
+export class DTOBase {
+    constructor(data?: any) {
+        
+    }
+
+    public setProperty(propertyKey, info): void {
+        console.log(propertyKey);
+        console.log(info);
+    }
+}
+
+export function ServiceContract() : ClassDecorator {
+    return function ( constructor : Function ) {
+        console.log(constructor.name);
+    }
+}
+
+export function ServiceProperty(info: { required: boolean, type: any }) : PropertyDecorator {
+    return function (target: any, propertyKey: string | symbol) {
+        target.setProperty(propertyKey, info);
+    }
 }

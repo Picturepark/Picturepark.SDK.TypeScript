@@ -1,4 +1,4 @@
-import { Observable, empty } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { expand, reduce, map } from 'rxjs/operators';
 
 export interface ISearchRequest {
@@ -16,7 +16,7 @@ export function fetchAll<T, U extends ISearchRequest>(
     return searchDelegate(request).pipe(
         expand(firstResult => {
           if (!firstResult.pageToken) {
-            return empty();
+            return EMPTY;
           }
           request.pageToken = firstResult.pageToken;
 

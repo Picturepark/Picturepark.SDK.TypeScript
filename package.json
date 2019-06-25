@@ -16,12 +16,12 @@
   },
   "devDependencies": {
     "http-server": "^0.11.1",
-    "marked": "^0.3.19",
+    "marked": "^0.6.2",
     "nswag": "12.0.20",
-    "typedoc": "0.13.0",
-    "typescript": "^3.2.2",
-    "typescript-bundle": "0.8.7",
-    "uglify-js": "3.0.28",
+    "typedoc": "0.14.2",
+    "typescript": "^3.5.2",
+    "typescript-bundle": "1.0.16",
+    "uglify-js": "3.6.0",
     "watch": "^1.0.2"
   },
   "dependencies": {}
