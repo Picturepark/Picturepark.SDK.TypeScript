@@ -11,7 +11,7 @@
     </pp-share-content-dialog-notification>
   </mat-dialog-content>
   
-  <form [formGroup]="sharedContentForm" class="example-form" (ngSubmit)="onFormSubmit()">
+  <form [formGroup]="sharedContentForm" class="example-form">
     
     <mat-dialog-content class="inputs-content" *ngIf="recipients.length === 0">
       <ul>
@@ -87,15 +87,16 @@
       </div>
     </mat-dialog-content>
 
-    <div class="loader-container" #loaderContainer [ngClass]="{active: loader}">
+    <div class="loader-container" #loaderContainer [ngClass]="{ active: loader }">
       <div class="loader">
         <mat-spinner></mat-spinner>
       </div>
     </div>
     
     <mat-dialog-actions>
-      <button mat-button [ngClass]="{'active': sharedContentForm.valid }" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
-      <button mat-button [ngClass]="{'active': sharedContentForm.valid }" *ngIf="recipients.length > 0">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
+      <button mat-button [ngClass]="{'active': sharedContentForm.valid }" (click)="onFormSubmit()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
+      <button mat-button [ngClass]="{'active': true }" (click)="closeDialog()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.CancelShare' | pptranslate }}</button>
+      <button mat-button [ngClass]="{'active': true }" (click)="closeDialog()" *ngIf="recipients.length > 0">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
     </mat-dialog-actions>
 
   </form>

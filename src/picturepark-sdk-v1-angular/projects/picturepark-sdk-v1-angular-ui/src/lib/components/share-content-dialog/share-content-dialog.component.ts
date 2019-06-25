@@ -17,9 +17,6 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../base.component';
 
-// SERVICES
-import { DownloadFallbackService } from '../../services/download-fallback.service';
-
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 
@@ -59,7 +56,6 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
     public dialogRef: MatDialogRef<ShareContentDialogComponent>,
-    private downloadFallbackService: DownloadFallbackService,
     private formBuilder: FormBuilder,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
@@ -75,7 +71,7 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
         Validators.minLength(5),
         Validators.maxLength(100),
       ]),
-      recipients: this.formBuilder.array([],[ Validators.required ]),
+      recipients: this.formBuilder.array([], [ Validators.required ]),
       expire_date: new FormControl('')
     });
 
@@ -123,7 +119,7 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
         email: recipient.userEmail.emailAddress,
         url: recipient.url!,
         img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`
-      }))
+      }));
 
       // HIDE LOADER
       this.loader = false;
@@ -156,7 +152,7 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
   // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
 
-    if (this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length === 0) {
+    if (this.sharedContentForm.valid) {
 
       this.loader = true;
 
@@ -174,8 +170,6 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
       // CREATE NEW SHARE
       this.newSharedContent(contentItems, recipientsEmails);
 
-    } else if (this.recipients.length > 0) {
-      this.closeDialog();
     }
   }
 

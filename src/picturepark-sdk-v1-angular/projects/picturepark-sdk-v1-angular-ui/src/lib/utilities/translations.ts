@@ -334,6 +334,9 @@ export let TRANSLATIONS = {
     CloseDialog: {
       en: 'Close'
     },
+    CancelShare: {
+      en: 'Cancel'
+    },
     Recipients: {
       en: 'Recipients'
     },
