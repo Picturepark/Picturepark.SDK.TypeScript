@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./basket.component.scss']
 })
 export class BasketComponent extends BaseComponent {
-  
+
   public basketItems: string[] = [];
 
   @Output()
@@ -65,8 +65,8 @@ export class BasketComponent extends BaseComponent {
     this.dialog.open(ShareContentDialogComponent, {
       data: this.basketItems
     });
-    
-  } 
+
+  }
 
   public clearBasket(): void {
     this.basketService.clearBasket();
