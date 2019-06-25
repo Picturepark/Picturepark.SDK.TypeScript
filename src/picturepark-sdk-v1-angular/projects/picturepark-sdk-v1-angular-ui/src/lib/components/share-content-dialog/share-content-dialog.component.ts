@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Md5 } from 'ts-md5/dist/md5';
 
 // LIBRARIES
-import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail, ShareDataBasic } from '@picturepark/sdk-v1-angular';
+import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail, ShareDataBasic, BasicTemplate } from '@picturepark/sdk-v1-angular';
 
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
@@ -100,7 +100,8 @@ export class ShareContentDialogComponent implements AfterViewInit {
         recipientsEmail: recipientsEmails,
         contents: contentItems,
         outputAccess: OutputAccess.Full,
-        languageCode: 'en'
+        languageCode: 'en',
+        template: new BasicTemplate({ width: 366, height: 366 })
       })).toPromise();
 
       const share = await this.shareService.get(response.shareId!).toPromise();
