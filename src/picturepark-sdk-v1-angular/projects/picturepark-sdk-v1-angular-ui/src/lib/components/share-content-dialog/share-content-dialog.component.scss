@@ -23,11 +23,12 @@ ul li input:focus { outline: 0px; border: 1px solid rgba(0,0,0,0.54); }
 
 #share-name.error-active { border: 1px solid #f74931; }
 
-.loader-container { background-color: #f8f8f8; position: absolute; display: table; width: 848px; top: 46px; left: -24px; height: 513px; z-index: 20; }
+.loader-container { background-color: #f8f8f8; position: absolute; display: none; width: 848px; top: 46px; left: -24px; height: 513px; z-index: 20; }
+.loader-container.active { display: table; }
 .loader-container .loader { display: table-cell; vertical-align: middle; text-align: center; }
 .loader-container .loader mat-spinner {  margin: 0 auto; }
 
-mat-dialog-actions { justify-content: flex-end; border-top: 1px solid #eee; margin: 0px -24px -24px -24px; }
+mat-dialog-actions { justify-content: flex-end; border-top: 1px solid #eee; margin: 0px -24px -24px -24px; position: relative; z-index: 25; }
 mat-dialog-actions button { cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px; margin: 0px 24px 0px 0px;}
 mat-dialog-actions button.active { background-color: #3fb3b1; }
 

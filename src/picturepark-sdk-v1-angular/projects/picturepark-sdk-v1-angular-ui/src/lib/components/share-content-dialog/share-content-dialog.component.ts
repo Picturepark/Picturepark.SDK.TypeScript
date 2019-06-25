@@ -32,9 +32,9 @@ export class ShareContentDialogComponent implements AfterViewInit {
 
   selectedContent: Array<any> = [];
   sharedContentForm: FormGroup;
-  
-  loader = false;
-  
+
+  loader = true;
+
   notificationMessage = '';
   notificationStatus = false;
   notificationType = 'success';
@@ -71,15 +71,15 @@ export class ShareContentDialogComponent implements AfterViewInit {
   // CLOSE DIALOG WHEN PRESSING ON THE CROSS
   public closeDialog(): void {
     this.dialogRef.close();
-  } 
+  }
 
   // REMOVE CONTENT FROM DIALOG
   public removeContent(event): void {
     this.selectedContent.map((item, index) => {
-      if(event === item) this.selectedContent.splice(index,1);
+      if (event === item) { this.selectedContent.splice(index, 1); }
     });
     // CLOSE DIALOG IF NOT SELECTED IMAGES
-    if(this.selectedContent.length === 0) this.closeDialog();
+    if (this.selectedContent.length === 0) { this.closeDialog(); }
   }
 
   public previewItem(itemId: string) {
@@ -123,7 +123,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
       }, 200);
 
     } catch(err) {
-      
+
       // HIDE LOADER
       this.loader = false;
 
@@ -142,7 +142,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
   // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
 
-    if(this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length === 0) {
+    if (this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length === 0) {
 
       this.loader = true;
 
@@ -160,14 +160,17 @@ export class ShareContentDialogComponent implements AfterViewInit {
       // CREATE NEW SHARE
       this.newSharedContent(contentItems, recipientsEmails);
 
-    } else if(this.recipients.length > 0) {
+    } else if (this.recipients.length > 0) {
       this.closeDialog();
     }
   }
 
   ngAfterViewInit() {
+
+    // SET LOADER HEIGHT DYNAMIC
     const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
-    this.renderer.setStyle(this.loaderContainer.nativeElement, "height", `${containerHeight - 115}px`);
+    this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
+
   }
 
 }
