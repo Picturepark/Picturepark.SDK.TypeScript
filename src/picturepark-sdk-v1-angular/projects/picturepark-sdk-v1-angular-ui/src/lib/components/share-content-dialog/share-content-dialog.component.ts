@@ -97,17 +97,11 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
 
   // COPY URL TO CLIPBOARD
   public copyToClipboard(recipienturl: string): void {
-    let selBox = document.createElement('textarea');
-        selBox.style.position = 'fixed';
-        selBox.style.left = '0';
-        selBox.style.top = '0';
-        selBox.style.opacity = '0';
-        selBox.value = recipienturl;
-        document.body.appendChild(selBox);
-        selBox.focus();
-        selBox.select();
+    let copyBox = document.createElement('textarea');
+        copyBox.value = recipienturl;
+        document.body.appendChild(copyBox);
         document.execCommand('copy');
-        document.body.removeChild(selBox);
+        document.body.removeChild(copyBox);
   }
 
   // CREATE NEW SHARED CONTENT
