@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 
 // LIBRARIES
 import {
-  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, 
+  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
   ContentSearchType, TermsFilter, fetchAll } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 

@@ -33,10 +33,12 @@ export class LayerPanelsComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+
     this.layers = [];
     const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
-
+    /* tslint:disable-next-line */
     contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
+
       if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
         return;
       }
@@ -49,6 +51,7 @@ export class LayerPanelsComponent implements OnInit {
           layer: schema.names && schema.names['x-default'],
           items: []
         };
+        /* tslint:disable-next-line */
         schema.fields && schema.fields.forEach(field => {
           if (schemaMetadata[field.id]) {
             let value = '';
