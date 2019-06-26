@@ -5,3 +5,6 @@
 @media all and (max-width: 700px) {}
 @media all and (max-width: 640px) {}
 @media all and (max-width: 535px) {}
+@media (max-width: 535px) and (min-width: 340px) {
+  .filters .mat-tab-label { height: 56px; }
+}

@@ -2,8 +2,6 @@ import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnIni
 import { MatDialog } from '@angular/material/dialog';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import { SortingType } from './models/sorting-type';
-import { ContentModel } from './models/content-model';
 import {
   ContentService, ThumbnailSize,
   ContentSearchRequest, FilterBase, SortInfo,
@@ -14,19 +12,23 @@ import {
 // COMPONENTS
 import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 import { BaseComponent } from '../base.component';
-  
+
 // SERVICES
 import { BasketService } from './../../services/basket.service';
 import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 
+// INTERFACES
+import { ContentModel } from './models/content-model';
+import { SortingType } from './models/sorting-type';
+
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
-  styleUrls: ['./content-browser.component.scss']
+  styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
   private lastSelectedIndex = 0;
@@ -105,7 +107,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone
   ) {
-    
+
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
@@ -119,7 +121,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
-    
+
     this.subscription.add(contentItemSelectionSubscription);
   }
 

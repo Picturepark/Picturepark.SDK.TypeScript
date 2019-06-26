@@ -1,22 +1,25 @@
-import {
-  ContentItemSelectionService,
-  BasketService
-} from '@picturepark/sdk-v1-angular-ui';
-import { DetailsDialogComponent } from './../details-dialog/details-dialog.component';
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
+// LIBRARIES
 import { AggregationResult, AuthService, Channel, FilterBase } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
-import { MatDialog } from '@angular/material/dialog';
+import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
+
+// COMPONENTS
+import { DetailsDialogComponent } from './../details-dialog/details-dialog.component';
+
+// SERVICES
 import { EmbedService } from '../embed.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './content-picker.component.html',
-  styleUrls: ['./content-picker.component.scss']
+  styleUrls: ['./content-picker.component.scss', './content-picker-resp.component.scss']
 })
 export class ContentPickerComponent implements OnInit, OnDestroy {
+
   public basketItemsCount = 0;
 
   public selectedItems: string[] = [];
@@ -41,7 +44,8 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private embedService: EmbedService,
     private basketService: BasketService,
     private contentItemSelectionService: ContentItemSelectionService,
-    @Inject(AuthService) public authService: OidcAuthService) {
+    @Inject(AuthService) public authService: OidcAuthService
+  ) {
 
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
@@ -92,4 +96,5 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
 }

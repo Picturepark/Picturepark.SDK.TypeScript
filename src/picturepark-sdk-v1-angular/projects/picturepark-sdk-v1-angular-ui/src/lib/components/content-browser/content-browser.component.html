@@ -3,12 +3,12 @@
     <mat-toolbar>
       <div class="content-browser__toolbar">
         <button mat-button [matMenuTriggerFor]="selectMenu">
-          {{ 'ContentBrowser.SelectMenu' | pptranslate }}
+          <span class="desc">{{ 'ContentBrowser.SelectMenu' | pptranslate }}</span>
           <mat-icon>more_vert</mat-icon>
         </button>
 
         <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1">
-          {{ 'ContentBrowser.ShareImages' | pptranslate }}
+          <span class="desc">{{ 'ContentBrowser.ShareImages' | pptranslate }}</span>
           <mat-icon>share</mat-icon>
         </button>
 

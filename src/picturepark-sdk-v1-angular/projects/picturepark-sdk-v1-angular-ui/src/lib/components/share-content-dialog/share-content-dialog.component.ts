@@ -26,7 +26,7 @@ import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['./share-content-dialog.component.scss', 'share-content-dialog.component-resp.scss'],
+  styleUrls: ['./share-content-dialog.component.scss', 'share-content-dialog-resp.component.scss'],
   providers: [ TranslatePipe ]
 })
 export class ShareContentDialogComponent extends BaseComponent implements AfterViewInit {
