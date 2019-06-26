@@ -10,11 +10,11 @@ import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
   ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
-import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
-import { BaseComponent } from '../base.component';
 import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
+import { BaseComponent } from '../base.component';
 
 // SERVICES
 import { BasketService } from './../../services/basket.service';
@@ -25,7 +25,6 @@ import { LiquidRenderingService } from '../../services/liquid-rendering.service'
 // INTERFACES
 import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
-
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
