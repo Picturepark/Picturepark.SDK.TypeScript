@@ -22,7 +22,14 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
 
   public ngOnInit(): void {
     const downloadThumbnailSubscription = this.contentService.downloadThumbnail(
+<<<<<<< HEAD
       this.itemId, ThumbnailSize.Small, null, null
+=======
+      this.itemId,
+      ThumbnailSize.Small,
+      null,
+      null
+>>>>>>> 6c751f76f5e2df7c8c6118f89f66f685244308b5
     ).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));

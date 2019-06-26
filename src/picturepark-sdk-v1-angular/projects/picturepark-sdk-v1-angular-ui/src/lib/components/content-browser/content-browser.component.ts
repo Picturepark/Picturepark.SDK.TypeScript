@@ -1,16 +1,16 @@
 import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
   ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
-import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
-import { BaseComponent } from '../base.component';
 import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
+import { BaseComponent } from '../base.component';
 
 // SERVICES
 import { BasketService } from './../../services/basket.service';
