@@ -297,18 +297,49 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     let clickedComponent = event.target;
     let inside = false;
 
-    console.log(event);
+    if (this.dialog.openDialogs.length === 0) {
 
-    do {
-      if (clickedComponent === this.elementRef.nativeElement) {
-        inside = true;
+      do {
+        if (clickedComponent === this.elementRef.nativeElement) {
+          inside = true;
+        }
+        clickedComponent = clickedComponent.parentNode;
+      } while (clickedComponent);
+
+      if (!inside && !this.checkContains(event.srcElement.className)) {
+        this.contentItemSelectionService.clear();
+      } else if (
+        (event.srcElement.offsetParent.id && event.srcElement.offsetParent.id === 'content-browser-container')
+        || (event.srcElement.offsetParent.id && event.srcElement.offsetParent.id === 'content-browser-header'
+        && !this.checkContains(event.srcElement.className))
+      ) {
+        this.contentItemSelectionService.clear();
       }
-      console.log(inside);
-      clickedComponent = clickedComponent.parentNode;
-    } while (clickedComponent);
-    if (!inside) {
-      this.contentItemSelectionService.clear();
     }
+  }
+
+  // CHECK IF ELEMENT CONTAINS CLASS NAME
+  public checkContains(element): boolean {
+
+    let flag = false;
+
+    const containClasses = [
+      'aggregation',
+      'cdk-overlay-backdrop',
+      'mat-icon',
+      'mat-button',
+      'mat-tab-label',
+      'mat-badge'
+    ];
+
+    containClasses.map(iClass => {
+      if (element.className.includes(iClass)) {
+        flag = true;
+      }
+    });
+
+    return flag;
+
   }
 
 }
