@@ -7,16 +7,12 @@
           <mat-icon>more_vert</mat-icon>
         </button>
 
-<<<<<<< HEAD
-        <mat-menu  #selectMenu="matMenu">
-=======
         <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1">
           {{ 'ContentBrowser.ShareImages' | pptranslate }}
           <mat-icon>share</mat-icon>
         </button>
 
         <mat-menu #selectMenu="matMenu">
->>>>>>> master
           <ng-template matMenuContent>
             <button mat-menu-item (click)="toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate:items.length }}</button>
             <button mat-menu-item (click)="toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }} </button>

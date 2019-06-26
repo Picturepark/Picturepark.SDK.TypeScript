@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./date-picker.component.css']
 })
 export class DatePickerComponent {
-  
+
   @Input() parentForm: FormGroup;
   @Input() placeHolderMessage: string;
 

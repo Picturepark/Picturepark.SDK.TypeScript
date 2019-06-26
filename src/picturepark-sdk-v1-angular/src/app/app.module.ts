@@ -14,25 +14,8 @@ import { AppRoutingModule } from './app-routing.module';
 // COMPONENTS
 import { AppComponent } from './app.component';
 import { ContentPickerComponent } from './content-picker/content-picker.component';
-<<<<<<< HEAD
-
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
-import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
-import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
-=======
 import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 import { HomeComponent } from './home/home.component';
->>>>>>> master
 
 export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;

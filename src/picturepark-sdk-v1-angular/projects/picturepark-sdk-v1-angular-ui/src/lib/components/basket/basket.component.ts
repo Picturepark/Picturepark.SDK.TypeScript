@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 
 // LIBRARIES
@@ -9,17 +8,7 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
-=======
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
-import {
-  ContentService, ContentSearchRequest, LifeCycleFilter,
-  BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll
-} from '@picturepark/sdk-v1-angular';
-
-// COMPONENTS
-import { BaseComponent } from '../base.component';
 import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
->>>>>>> master
 
 // SERVICES
 import { BasketService } from '../../services/basket.service';
@@ -31,13 +20,8 @@ import { MatDialog } from '@angular/material';
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
-<<<<<<< HEAD
 export class BasketComponent extends BaseComponent implements OnInit {
 
-=======
-export class BasketComponent extends BaseComponent {
-  
->>>>>>> master
   public basketItems: string[] = [];
 
   public configActions: ConfigActions;
@@ -86,8 +70,8 @@ export class BasketComponent extends BaseComponent {
     this.dialog.open(ShareContentDialogComponent, {
       data: this.basketItems
     });
-    
-  } 
+
+  }
 
   public clearBasket(): void {
     this.basketService.clearBasket();
