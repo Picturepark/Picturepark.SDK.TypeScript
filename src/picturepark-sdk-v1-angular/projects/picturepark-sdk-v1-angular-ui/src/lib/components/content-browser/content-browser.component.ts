@@ -133,7 +133,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   public ngOnInit(): void {
 
-    this.configActions = this.pictureParkUIConfig[this.constructor.name];
+    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
 
     const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {

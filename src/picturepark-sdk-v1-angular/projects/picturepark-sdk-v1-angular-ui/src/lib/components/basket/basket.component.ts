@@ -83,7 +83,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configActions = this.pictureParkUIConfig[this.constructor.name];
+    this.configActions = this.pictureParkUIConfig['BasketComponent'];
   }
 
 }
