@@ -124,8 +124,10 @@ export abstract class AggregationListComponent extends BaseComponent implements 
 
   private getNestedAggregator(aggregation: AggregationResult): AggregationResult {
     if (aggregation.aggregationResultItems) {
-      const filtered: AggregationResult[][] = aggregation.aggregationResultItems.filter(item => item.aggregationResults != null).map(m => m.aggregationResults as AggregationResult[]);
-      const aggs = filtered.reduce((acc, val) => acc.concat(val), [])
+      const filtered: AggregationResult[][] = aggregation.aggregationResultItems.filter(
+        item => item.aggregationResults != null
+      ).map(m => m.aggregationResults as AggregationResult[]);
+      const aggs = filtered.reduce((acc, val) => acc.concat(val), []);
 
       if (aggs.length === 1) {
         return aggs[0];

@@ -1,5 +1,5 @@
 export let TRANSLATIONS = {
- 
+
   Basket: {
     RemoveItem: {
       en: 'Remove',
