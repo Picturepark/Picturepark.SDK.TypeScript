@@ -52,7 +52,7 @@ export function PictureparkConfigurationFactory() {
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
-    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
+    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
   ],
   bootstrap: [AppComponent],
   entryComponents: [DetailsDialogComponent]

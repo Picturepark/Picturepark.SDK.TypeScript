@@ -1,8 +1,8 @@
 <div class="content-browser" cdkScrollable>
   <div class="content-browser__header">
     <mat-toolbar>
-      <div class="content-browser__toolbar">
-        <button mat-button [matMenuTriggerFor]="selectMenu">
+      <div class="content-browser__toolbar" >
+        <button mat-button [matMenuTriggerFor]="selectMenu" *ngIf="configActions.select">
           {{ 'ContentBrowser.SelectMenu' | pptranslate }}
           <mat-icon>more_vert</mat-icon>
         </button>

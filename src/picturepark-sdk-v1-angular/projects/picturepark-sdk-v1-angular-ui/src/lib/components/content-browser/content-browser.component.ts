@@ -1,34 +1,39 @@
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import { SortingType } from './models/sorting-type';
-import { ContentModel } from './models/content-model';
+// LIBRARIES
 import {
-  ContentService, ThumbnailSize,
-  ContentSearchRequest, FilterBase, SortInfo,
-  SortDirection, ContentSearchType, BrokenDependenciesFilter,
-  LifeCycleFilter, Channel, SearchBehavior
+  ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
+import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
 
 // COMPONENTS
-import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 import { BaseComponent } from '../base.component';
-  
+import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
+
 // SERVICES
 import { BasketService } from './../../services/basket.service';
 import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 
+// INTERFACES
+import { SortingType } from './models/sorting-type';
+import { ContentModel } from './models/content-model';
+
+
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
-  styleUrls: ['./content-browser.component.scss']
+  styleUrls: ['./content-browser.component.scss'],
+  providers: [  ]
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
+
   private lastSelectedIndex = 0;
 
   private _totalResults: number | null = null;
@@ -58,6 +63,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public sortingTypes = SortingType;
 
   public activeSortingType = SortingType.relevance;
+
+  public configActions: ConfigActions;
 
   @Input()
   public channel: Channel | null = null;
@@ -96,6 +103,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   constructor(
+    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
@@ -105,7 +113,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone
   ) {
-    
+
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
@@ -124,6 +132,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   public ngOnInit(): void {
+
+    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
+
     const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {
         if (scrollable) {

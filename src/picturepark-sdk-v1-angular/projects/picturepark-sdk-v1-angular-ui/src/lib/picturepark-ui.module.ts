@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+// PICTURE PARK ACTIONS CONFIG
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from '../lib/configuration';
+
 // MODULES
 import { SharedModule } from './shared-module/shared-module.module';
 
@@ -63,6 +66,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     ContentItemSelectionService,
     BasketService,
     LiquidRenderingService,
+    { provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }
   ],
   imports: [
     CommonModule,

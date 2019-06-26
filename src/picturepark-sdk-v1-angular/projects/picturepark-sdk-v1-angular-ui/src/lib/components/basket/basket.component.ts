@@ -1,8 +1,11 @@
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
+
+// LIBRARIES
 import {
-  ContentService, ContentSearchRequest, LifeCycleFilter,
-  BrokenDependenciesFilter, ContentSearchType, TermsFilter, fetchAll
+  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
+  ContentSearchType, TermsFilter, fetchAll
 } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
@@ -18,14 +21,17 @@ import { MatDialog } from '@angular/material';
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
-export class BasketComponent extends BaseComponent {
-  
+export class BasketComponent extends BaseComponent implements OnInit {
+
   public basketItems: string[] = [];
+
+  public configActions: ConfigActions;
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
   constructor(
+    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentService: ContentService,
     private basketService: BasketService,
     public dialog: MatDialog,
@@ -65,8 +71,8 @@ export class BasketComponent extends BaseComponent {
     this.dialog.open(ShareContentDialogComponent, {
       data: this.basketItems
     });
-    
-  } 
+
+  }
 
   public clearBasket(): void {
     this.basketService.clearBasket();
@@ -75,4 +81,9 @@ export class BasketComponent extends BaseComponent {
   public trackByBasket(index, basket: string): string {
     return basket;
   }
+
+  ngOnInit() {
+    this.configActions = this.pictureParkUIConfig['BasketComponent'];
+  }
+
 }
