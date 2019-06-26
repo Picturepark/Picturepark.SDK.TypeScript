@@ -98,8 +98,14 @@
   <div *ngIf="totalResults !== 0" class="content-browser__items" [class.content-browser__items--list]="isListView" [class.content-browser__items--large]=" activeThumbnailSize === thumbnailSizes.Large"
        [class.content-browser__items--medium]=" activeThumbnailSize === thumbnailSizes.Medium">
     <div class="content-browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
-      <pp-content-browser-item class="content-browser__item" [itemModel]="itemModel" (previewItemChange)="previewItem($event)"
-                               [thumbnailSize]="activeThumbnailSize" [isListView]="isListView" (click)="itemClicked($event,i)" (dblclick)="previewItem(itemModel.item.id)">
+      <pp-content-browser-item 
+        class="content-browser__item" 
+        [itemModel]="itemModel" 
+        [thumbnailSize]="activeThumbnailSize" 
+        [isListView]="isListView" 
+        (previewItemChange)="previewItem($event)"
+        (click)="itemClicked($event,i)" 
+        (dblclick)="previewItem(itemModel.item.id)">
       </pp-content-browser-item>
     </div>
   </div>

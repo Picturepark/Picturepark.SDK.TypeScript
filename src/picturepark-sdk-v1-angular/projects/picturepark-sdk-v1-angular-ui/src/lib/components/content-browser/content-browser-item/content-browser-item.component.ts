@@ -1,13 +1,22 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, OnChanges,
+  SimpleChanges, OnInit, SecurityContext
+} from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
-
-import { BasketService } from './../../../services/basket.service';
-import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
-import { ContentModel } from '../models/content-model';
-import { BaseComponent } from '../../base.component';
 import { switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
+// LIBRARIES
+import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
+import { BaseComponent } from '../../base.component';
+
+// SERVICES
+import { BasketService } from './../../../services/basket.service';
+
+// INTERFACES
+import { ContentModel } from '../models/content-model';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -42,8 +51,14 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
   private isVisible = false;
   private loadItem = new Subject<void>();
 
-  constructor(private basketService: BasketService, private contentService: ContentService, private sanitizer: DomSanitizer) {
+  constructor(
+    private basketService: BasketService,
+    private contentService: ContentService,
+    private sanitizer: DomSanitizer,
+  ) {
+
     super();
+
   }
 
   public ngOnInit(): void {
@@ -132,4 +147,5 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
       this.basketService.addItem(this.itemModel.item.id);
     }
   }
+
 }

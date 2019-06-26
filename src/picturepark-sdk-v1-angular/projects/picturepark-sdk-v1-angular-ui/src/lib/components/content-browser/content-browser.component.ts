@@ -1,4 +1,7 @@
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, Inject } from '@angular/core';
+import {
+  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
+  OnInit, NgZone, Inject, HostListener, ElementRef
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
@@ -33,6 +36,8 @@ import { ContentModel } from './models/content-model';
   providers: [  ]
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
+
+  public elementRef: ElementRef;
 
   private lastSelectedIndex = 0;
 
@@ -111,10 +116,13 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private myElement: ElementRef
   ) {
 
     super();
+
+    this.elementRef = this.myElement;
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
@@ -127,7 +135,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
-    
+
     this.subscription.add(contentItemSelectionSubscription);
   }
 
@@ -278,10 +286,30 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   openShareContentDialog(): void {
-
     this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems
     });
+  }
+
+  // HANDLE COMPONENENT CLICK EVENT
+  @HostListener('document:click', ['$event'])
+  handleClick(event: any): void {
+
+    let clickedComponent = event.target;
+    let inside = false;
+
+    console.log(event);
+
+    do {
+      if (clickedComponent === this.elementRef.nativeElement) {
+        inside = true;
+      }
+      console.log(inside);
+      clickedComponent = clickedComponent.parentNode;
+    } while (clickedComponent);
+    if (!inside) {
+      this.contentItemSelectionService.clear();
+    }
   }
 
 }
