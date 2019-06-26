@@ -1,17 +1,16 @@
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import {
-  ContentService, ThumbnailSize,
-  ContentSearchRequest, FilterBase, SortInfo,
-  SortDirection, ContentSearchType, BrokenDependenciesFilter,
-  LifeCycleFilter, Channel, SearchBehavior
+  ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
+import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
 
 // COMPONENTS
-import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 import { BaseComponent } from '../base.component';
+import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from './../../services/basket.service';
@@ -31,6 +30,7 @@ import { SortingType } from './models/sorting-type';
   styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
+
   private lastSelectedIndex = 0;
 
   private _totalResults: number | null = null;
@@ -60,6 +60,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public sortingTypes = SortingType;
 
   public activeSortingType = SortingType.relevance;
+
+  public configActions: ConfigActions;
 
   @Input()
   public channel: Channel | null = null;
@@ -98,6 +100,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   constructor(
+    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
@@ -126,6 +129,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   public ngOnInit(): void {
+
+    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
+
     const scrollSubscription = this.scrollDispatcher.scrolled()
       .subscribe(scrollable => {
         if (scrollable) {
