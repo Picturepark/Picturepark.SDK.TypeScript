@@ -9,7 +9,6 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 // LIBRARIES
 import {
-<<<<<<< HEAD
   ContentSearchRequest, ContentSearchType, ShareService, OutputAccess, ShareContent,
   ShareBasicCreateRequest, BrokenDependenciesFilter, LifeCycleFilter, IUserEmail,
   ShareDataBasic, BasicTemplate, ContentService, fetchAll, TermsFilter
@@ -17,11 +16,6 @@ import {
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
-=======
-  ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest,
-  IUserEmail, ShareDataBasic, BasicTemplate
-} from '@picturepark/sdk-v1-angular';
->>>>>>> 6c751f76f5e2df7c8c6118f89f66f685244308b5
 
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';

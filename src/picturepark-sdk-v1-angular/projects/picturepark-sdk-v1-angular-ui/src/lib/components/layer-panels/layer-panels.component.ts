@@ -36,12 +36,8 @@ export class LayerPanelsComponent implements OnInit {
 
     this.layers = [];
     const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
-<<<<<<< HEAD
 
     // tslint:disable-next-line
-=======
-    /* tslint:disable-next-line */
->>>>>>> 6c751f76f5e2df7c8c6118f89f66f685244308b5
     contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
 
       if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
@@ -57,12 +53,8 @@ export class LayerPanelsComponent implements OnInit {
           layer: schema.names && schema.names['x-default'],
           items: []
         };
-<<<<<<< HEAD
 
         // tslint:disable-next-line
-=======
-        /* tslint:disable-next-line */
->>>>>>> 6c751f76f5e2df7c8c6118f89f66f685244308b5
         schema.fields && schema.fields.forEach(field => {
           if (schemaMetadata[field.id]) {
             let value = '';

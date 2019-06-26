@@ -27,13 +27,9 @@ export class ShareContentDialogNotificationComponent implements OnChanges {
     // tslint:disable-next-line
     this.notificationDisplayTime ? changes.notificationDisplayTime && changes.notificationDisplayTime.currentValue : 10000;
 
-<<<<<<< HEAD
     if (this.notificationStatus) {
       setTimeout(() => { this.closeNotification(); }, this.notificationDisplayTime);
     }
-=======
-    if (this.notificationStatus) { setTimeout(() => { this.closeNotification(); }, 60000); }
->>>>>>> 6c751f76f5e2df7c8c6118f89f66f685244308b5
 
   }
 }

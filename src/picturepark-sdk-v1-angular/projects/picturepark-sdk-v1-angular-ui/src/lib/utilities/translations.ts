@@ -1,8 +1,4 @@
 export let TRANSLATIONS = {
-<<<<<<< HEAD
-
-=======
->>>>>>> 6c751f76f5e2df7c8c6118f89f66f685244308b5
   Basket: {
     RemoveItem: {
       en: 'Remove',
