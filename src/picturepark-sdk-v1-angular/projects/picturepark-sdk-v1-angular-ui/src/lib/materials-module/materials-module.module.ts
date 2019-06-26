@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 // MATERIAL MODULES
-import { 
+import {
   MatChipsModule,
   MatMenuModule,
   MatDatepickerModule,
@@ -23,7 +23,7 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatCardModule,
-  MatToolbarModule 
+  MatToolbarModule
 } from '@angular/material';
 
 // CDK MODULES

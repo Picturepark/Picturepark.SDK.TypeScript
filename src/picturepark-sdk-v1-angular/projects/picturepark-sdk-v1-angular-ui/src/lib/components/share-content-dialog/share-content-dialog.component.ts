@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output, ViewChild, ElementRef, Renderer2, OnInit, AfterViewInit  } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, ViewChild, ElementRef, Renderer2, AfterViewInit  } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -8,7 +8,10 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Md5 } from 'ts-md5/dist/md5';
 
 // LIBRARIES
-import { ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest, IUserEmail, ShareDataBasic, BasicTemplate } from '@picturepark/sdk-v1-angular';
+import {
+  ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest,
+  IUserEmail, ShareDataBasic, BasicTemplate
+} from '@picturepark/sdk-v1-angular';
 
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
@@ -50,7 +53,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<ShareContentDialogComponent>,
     private formBuilder: FormBuilder,
     private shareService: ShareService,
-    private translatePipe: TranslatePipe, 
+    private translatePipe: TranslatePipe,
     private renderer: Renderer2
   ) {
 
@@ -62,7 +65,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
         Validators.minLength(5),
         Validators.maxLength(100),
       ]),
-      recipients: this.formBuilder.array([],[ Validators.required ]),
+      recipients: this.formBuilder.array([], [ Validators.required ]),
       expire_date: new FormControl('')
     });
 
@@ -110,7 +113,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
         email: recipient.userEmail.emailAddress,
         url: recipient.url!,
         img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`
-      }))
+      }));
 
       // HIDE LOADER
       this.loader = false;
@@ -123,7 +126,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
         this.notificationDisplayTime = 10000;
       }, 200);
 
-    } catch(err) {
+    } catch (err) {
 
       // HIDE LOADER
       this.loader = false;
@@ -155,7 +158,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
 
       // RECIPIENTS EMAILS
       const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map(recipientEmail => {
-       return { emailAddress: recipientEmail } 
+       return { emailAddress: recipientEmail };
       });
 
       // CREATE NEW SHARE

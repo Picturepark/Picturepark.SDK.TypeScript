@@ -1,6 +1,7 @@
 import { Directive, Output, EventEmitter, ElementRef, NgZone, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 
 @Directive({
+  /* tslint:disable-next-line */
   selector: '[lazyload]'
 })
 export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
