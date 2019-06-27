@@ -32,13 +32,5 @@ body {
 
 // OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
 .cdk-focused.cdk-program-focused { background-color: transparent !important; }
-mat-spinner { 
-  width: 20px !important;
-  height: 20px !important;
-  position: absolute !important;
-  left: 8px;
-  top: 10px;
-  z-index: 20;
- }
-mat-spinner svg { width: 20px !important; height: 20px !important; }
+
 @import "styles-resp.scss";

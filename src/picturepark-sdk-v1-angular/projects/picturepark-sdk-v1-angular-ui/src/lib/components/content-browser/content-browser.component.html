@@ -3,6 +3,7 @@
     <mat-toolbar>
 
       <div class="content-browser__toolbar">
+
         <button mat-button [matMenuTriggerFor]="selectMenu" *ngIf="configActions.select">
           <span class="desc">{{ 'ContentBrowser.SelectMenu' | pptranslate }}</span>
           <mat-icon>more_vert</mat-icon>
@@ -113,8 +114,9 @@
 
   <div *ngIf="totalResults === 0" class="content-browser__empty-result mat-typography">
     {{ 'ContentBrowser.NoItems' | pptranslate }}
-    <strong> {{ query}}</strong>
-    <br> {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
+    <strong> {{ query }}</strong>
+    <br/>
+    {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
     <ul>
       <li>{{ 'ContentBrowser.NoItemsActionChannel' | pptranslate }}</li>
       <li>{{ 'ContentBrowser.NoItemsActionSearchString' | pptranslate }}</li>

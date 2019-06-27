@@ -97,6 +97,7 @@ export class DownloadFallbackService {
         this.dialog.open(ContentDownloadDialogComponent, {
             data: selection,
             width: '50vw',
+            autoFocus: false
         });
     }
 

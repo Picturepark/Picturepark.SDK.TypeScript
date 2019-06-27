@@ -4,21 +4,21 @@
   </div>
 
   <div *ngIf="authService.isAuthenticated">
+
     <mat-toolbar class="navbar" color="primary">
-      <pp-channel-picker [(channel)]="selectedChannel">
-      </pp-channel-picker>
-
+      <pp-channel-picker [(channel)]="selectedChannel"></pp-channel-picker>
       <span class="spacer"></span>
-
-      <pp-search-box [(query)]="searchText">
-      </pp-search-box>
+      <pp-search-box [(query)]="searchText"></pp-search-box>
     </mat-toolbar>
 
     <div class="container">
       <div class="filters">
         <mat-tab-group style="height: 100%;">
           <mat-tab label="Filters">
-            <pp-content-aggregation-list [query]="searchText" [channelId]="selectedChannel?.id" [aggregators]="selectedChannel?.aggregations"
+            <pp-content-aggregation-list 
+              [query]="searchText" 
+              [channelId]="selectedChannel?.id" 
+              [aggregators]="selectedChannel?.aggregations"
               (filterChange)="selectedFilter = $event">
             </pp-content-aggregation-list>
           </mat-tab>
@@ -32,7 +32,11 @@
       </div>
 
       <div class="content">
-        <pp-content-browser [channel]="selectedChannel" [filter]="selectedFilter" [query]="searchText" (previewItemChange)="openDetails($event)">
+        <pp-content-browser 
+          [channel]="selectedChannel"
+          [filter]="selectedFilter"
+          [query]="searchText"
+          (previewItemChange)="openDetails($event)">
         </pp-content-browser>
       </div>
     </div>
