@@ -15,7 +15,7 @@
 
         <mat-menu #selectMenu="matMenu">
           <ng-template matMenuContent>
-            <button mat-menu-item (click)="toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate:items.length }}</button>
+            <button mat-menu-item (click)="toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: items.length }}</button>
             <button mat-menu-item (click)="toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }} </button>
           </ng-template>
         </mat-menu>

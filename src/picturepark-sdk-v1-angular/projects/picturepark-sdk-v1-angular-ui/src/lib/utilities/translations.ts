@@ -321,6 +321,9 @@ export let TRANSLATIONS = {
     Items: {
       en: 'Items'
     },
+    ItemsMore: {
+      en: '{0} (and {1} items more)'
+    },
     ShareName: {
       en: 'Share name'
     },

@@ -191,7 +191,9 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
         terms: selectedContent
       })
     })).subscribe(data => {
-      const subject = `${data.results[0].displayValues.name} (and ${data.results.length - 1} items more)`;
+      const subject = this.translatePipe.transform(
+        'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.results.length - 1]
+      );
       this.sharedContentForm.get('share_name')!.setValue(subject);
     });
 
