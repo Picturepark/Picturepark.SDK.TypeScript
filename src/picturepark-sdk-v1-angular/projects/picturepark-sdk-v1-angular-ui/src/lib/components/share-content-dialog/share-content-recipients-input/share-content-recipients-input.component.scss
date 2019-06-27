@@ -15,7 +15,7 @@ input { font-weight: 200; font-size: 13px; color: #2f2f2f; line-height: 30px; bo
 }
 
 .mat-chip {
-    & .mat-standard-chip {
+    &.mat-standard-chip {
         background-color: #3fb3b1; color: white; min-height: 24px; margin: 3px 7px 3px 0px;
         & .mat-chip-remove { color: #246f6e; opacity: 0.7; font-size: 13px; position: relative; top: 3px; }
     }
