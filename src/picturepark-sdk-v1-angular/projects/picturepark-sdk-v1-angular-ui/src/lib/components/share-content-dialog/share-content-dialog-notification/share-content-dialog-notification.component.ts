@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'pp-share-content-dialog-notification',
   templateUrl: './share-content-dialog-notification.component.html',
-  styleUrls: ['./share-content-dialog-notification.component.css']
+  styleUrls: ['./share-content-dialog-notification.component.scss']
 })
 export class ShareContentDialogNotificationComponent implements OnChanges {
 
