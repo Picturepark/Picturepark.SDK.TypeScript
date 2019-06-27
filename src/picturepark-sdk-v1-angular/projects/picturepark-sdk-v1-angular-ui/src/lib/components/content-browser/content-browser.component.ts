@@ -295,18 +295,18 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
     if (this.dialog.openDialogs.length > 0) { return; }
 
-      do {
-        if (clickedComponent === this.myElement.nativeElement) {
-          inside = true;
-        }
-        clickedComponent = clickedComponent.parentNode;
-      } while (clickedComponent);
-
-      if (!inside && this.checkContains(event.srcElement.className)) {
-        this.contentItemSelectionService.clear();
-      } else if (this.checkContains(event.srcElement.className)) {
-        this.contentItemSelectionService.clear();
+    do {
+      if (clickedComponent === this.myElement.nativeElement) {
+        inside = true;
       }
+      clickedComponent = clickedComponent.parentNode;
+    } while (clickedComponent);
+
+    if (!inside && this.checkContains(event.srcElement.className)) {
+      this.contentItemSelectionService.clear();
+    } else if (this.checkContains(event.srcElement.className)) {
+      this.contentItemSelectionService.clear();
+    }
 
   }
 
