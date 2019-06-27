@@ -129,6 +129,7 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
 
   onKeyDown = (e: KeyboardEvent) => {
+    /* tslint:disable-next-line */
     if (e.target instanceof HTMLBodyElement && e.keyCode === 27) {
       e.cancelBubble = true;
       e.preventDefault();
@@ -140,15 +141,12 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
 interface IShareItem {
   id: string;
-
   isImage: boolean;
   isPdf: boolean;
   isMovie: boolean;
   isBinary: boolean;
-
   displayValues: any;
   previewUrl: string;
-
   originalUrl: string;
   originalFileExtension: string;
 
