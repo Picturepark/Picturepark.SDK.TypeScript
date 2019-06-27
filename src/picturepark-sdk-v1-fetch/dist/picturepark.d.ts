@@ -3,7 +3,7 @@ declare module "picturepark" {
         private pictureparkApiUrl;
         private customerAlias?;
         constructor(pictureparkApiUrl: string, customerAlias?: string);
-        getBaseUrl(defaultUrl: string): string;
+        getBaseUrl(defaultUrl: string, requestedUrl?: string): string;
         transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
     }
     export class PictureparkClientBase {
@@ -116,8 +116,8 @@ declare module "picturepark" {
          * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
          * @return Content detail
          */
-        get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail | null>;
-        protected processGet(response: Response): Promise<ContentDetail | null>;
+        get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail>;
+        protected processGet(response: Response): Promise<ContentDetail>;
         /**
          * Delete content
          * @param contentId The ID of the content to delete.
@@ -886,6 +886,14 @@ declare module "picturepark" {
         getReferenced(schemaId: string): Promise<SchemaDetail[]>;
         protected processGetReferenced(response: Response): Promise<SchemaDetail[]>;
         /**
+         * Transfer ownership
+         * @param schemaId The schema ID.
+         * @param request Request detailing which user to transfer to.
+         * @return OK
+         */
+        transferOwnership(schemaId: string, request: SchemaOwnershipTransferRequest): Promise<void>;
+        protected processTransferOwnership(response: Response): Promise<void>;
+        /**
          * Gets all schemas referenced by the schemas specified in
          * @param ids (optional) The schema IDs.
          * @return Referenced schema details
@@ -899,6 +907,13 @@ declare module "picturepark" {
          */
         createMany(schemas: SchemaCreateManyRequest): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Transfer ownership of multiple schemas
+         * @param request Schema ownership transfer many request.
+         * @return Business process
+         */
+        transferOwnershipMany(request: SchemaOwnershipTransferManyRequest): Promise<BusinessProcess>;
+        protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess>;
     }
     export class SchemaPermissionSetClient extends PictureparkClientBase {
         private http;
@@ -1987,8 +2002,11 @@ declare module "picturepark" {
         exceptions?: ReferenceUpdateException[] | undefined;
     }
     export interface ReferenceUpdateException extends PictureparkBusinessException {
+        /** This is the source of the reference. */
         referenceItemId?: string | undefined;
+        /** This is the DocType of the source of the reference. */
         referenceType?: string | undefined;
+        /** These exceptions describe why the source metadata item could not be updated. */
         exceptions?: PictureparkException[] | undefined;
     }
     export interface DuplicatedItemAssignedException extends PictureparkValidationException {
@@ -2527,7 +2545,8 @@ declare module "picturepark" {
         DropInvalidCharactersOnFailure,
         WildcardOnSingleTerm,
         SimplifiedSearch,
-        WildcardOnEveryTerm
+        WildcardOnEveryTerm,
+        SimplifiedSearchOr
     }
     /** Result from waiting for life cycle(s) on a business process */
     export interface BusinessProcessWaitForLifeCycleResult {
@@ -2575,6 +2594,8 @@ declare module "picturepark" {
         version: number;
         /** If the operation did not succeeded, this contains error information. */
         error?: ErrorResponse | undefined;
+        /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+        requestId?: string | undefined;
     }
     /** Business process detailed information regarding Schema / ListItems import operation */
     export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
@@ -2988,7 +3009,11 @@ declare module "picturepark" {
         InnerDisplayValueDetail,
         InnerDisplayValueName,
         Owner,
-        Permissions
+        Permissions,
+        OuterDisplayValueThumbnail,
+        OuterDisplayValueList,
+        OuterDisplayValueDetail,
+        OuterDisplayValueName
     }
     export interface BaseResultOfContent {
         totalResults: number;
@@ -3281,6 +3306,10 @@ declare module "picturepark" {
         metadata?: DataDictionary | undefined;
         /** An optional id list of content permission sets.  */
         contentPermissionSetIds?: string[] | undefined;
+        /** Optional client reference for this request.
+    Will be returned back in response to make easier for clients to match request items with the respective results.
+    It is not persisted anywhere and it is ignored in single operations. */
+        requestId?: string | undefined;
     }
     /** A request structure for creating multiple content documents. */
     export interface ContentCreateManyRequest {
@@ -3515,6 +3544,7 @@ declare module "picturepark" {
         userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
+        requestId?: string | undefined;
     }
     export interface ContentPermissionSetCreateRequest extends PermissionSetCreateRequestOfContentRight {
     }
@@ -3530,7 +3560,6 @@ declare module "picturepark" {
         names?: TranslatedStringDictionary | undefined;
         userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
-        exclusive: boolean;
     }
     /** Request to update a content permission set */
     export interface ContentPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfContentRight {
@@ -3556,6 +3585,8 @@ declare module "picturepark" {
         succeeded: boolean;
         /** Returned status code. */
         status: number;
+        /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+        requestId?: string | undefined;
     }
     export interface ContentPermissionSetCreateManyRequest {
         items?: ContentPermissionSetCreateRequest[] | undefined;
@@ -3603,7 +3634,8 @@ declare module "picturepark" {
     export interface PermissionSet {
         /** The permission set ID. */
         id: string;
-        /** When true this permission set will derogate all other configured permission sets. */
+        /** When true this permission set will derogate all other configured permission sets.
+    Cannot be changed after creation. */
         exclusive: boolean;
         /** Language specific permission set names. */
         names?: TranslatedStringDictionary | undefined;
@@ -3772,7 +3804,11 @@ declare module "picturepark" {
         InnerDisplayValueThumbnail,
         InnerDisplayValueList,
         InnerDisplayValueDetail,
-        InnerDisplayValueName
+        InnerDisplayValueName,
+        OuterDisplayValueThumbnail,
+        OuterDisplayValueList,
+        OuterDisplayValueDetail,
+        OuterDisplayValueName
     }
     export interface BaseResultOfListItem {
         totalResults: number;
@@ -3814,22 +3850,18 @@ declare module "picturepark" {
         includeAllSchemaChildren: boolean;
         /** Limits the search among the list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Limits the display values included in the search response. Defaults to all display values. */
-        displayPatternIds?: string[] | undefined;
         /** Limits the search to the list items that have or not have broken references. By default it includes both. */
         brokenDependenciesFilter: BrokenDependenciesFilter;
-        /** Defines the display values included in the search response for the referenced fields. Defaults to no display value. */
-        referencedFieldsDisplayPatternIds?: string[] | undefined;
         /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
     If not specified, all metadata languages defined in the system are used. */
         searchLanguages?: string[] | undefined;
-        /** When set to true the content data is included in the result items. */
-        includeContentData: boolean;
         /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
     Warning! It severely affects performance. */
         debugMode: boolean;
         /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** List of enums that control which parts of the list item are resolved and returned. */
+        resolveBehaviors?: ListItemResolveBehavior[] | undefined;
     }
     /** Request to aggregate list items */
     export interface ListItemAggregationRequest {
@@ -3863,8 +3895,10 @@ declare module "picturepark" {
         content?: any | undefined;
         /** The id of the schema with schema type list. */
         contentSchemaId?: string | undefined;
-        /** The list item id. When not provided a Guid is generated. */
-        listItemId?: string | undefined;
+        /** Optional client reference for this request.
+    Will be returned back in response to make easier for clients to match request items with the respective results.
+    It is not persisted anywhere and it is ignored in single operations. */
+        requestId?: string | undefined;
     }
     /** A request structure for creating multiple list items. */
     export interface ListItemCreateManyRequest {
@@ -5025,6 +5059,10 @@ declare module "picturepark" {
     has to be unique across the schema hierarchy. */
         schemaId?: string | undefined;
     }
+    export interface SchemaOwnershipTransferRequest {
+        /** The id of the user to whom the schema has to be transfered to. */
+        transferUserId?: string | undefined;
+    }
     /** Result of a schema create operation */
     export interface SchemaCreateResult {
         /** The details of the created schema. */
@@ -5108,6 +5146,12 @@ declare module "picturepark" {
     /** Result of a schema delete operation */
     export interface SchemaDeleteResult {
     }
+    export interface SchemaOwnershipTransferManyRequest {
+        /** The schema ids. */
+        schemaIds?: string[] | undefined;
+        /** The id of user to whom the schemas have to be transfered to. */
+        transferUserId?: string | undefined;
+    }
     export interface PermissionSetDetailOfMetadataRight {
         id: string;
         names?: TranslatedStringDictionary | undefined;
@@ -5129,6 +5173,7 @@ declare module "picturepark" {
         userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
+        requestId?: string | undefined;
     }
     export interface SchemaPermissionSetCreateRequest extends PermissionSetCreateRequestOfMetadataRight {
     }
@@ -5140,7 +5185,6 @@ declare module "picturepark" {
         names?: TranslatedStringDictionary | undefined;
         userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
-        exclusive: boolean;
     }
     /** Request to update a schema permission set */
     export interface SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfMetadataRight {
@@ -5240,7 +5284,7 @@ declare module "picturepark" {
         /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
         displayValues: DisplayValueDictionary;
         /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
-        iconUrl: string;
+        iconUrl?: string | undefined;
     }
     /** Base of shared output */
     export interface ShareOutputBase {
@@ -5944,6 +5988,10 @@ declare module "picturepark" {
     }
     /** Holds information needed for user role creation. */
     export interface UserRoleCreateRequest extends UserRoleEditable {
+        /** Optional client reference for this request.
+    Will be returned back in response to make easier for clients to match request items with the respective results.
+    It is not persisted anywhere and it is ignored in single operations. */
+        requestId?: string | undefined;
     }
     /** Holds information needed to create multiple user roles. */
     export interface UserRoleCreateManyRequest {

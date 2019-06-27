@@ -9,9 +9,13 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 // LIBRARIES
 import {
-  ShareService, OutputAccess, ShareContent, ShareBasicCreateRequest,
-  IUserEmail, ShareDataBasic, BasicTemplate
+  ContentSearchRequest, ContentSearchType, ShareService, OutputAccess, ShareContent,
+  ShareBasicCreateRequest, BrokenDependenciesFilter, LifeCycleFilter, IUserEmail,
+  ShareDataBasic, BasicTemplate, ContentService, fetchAll, TermsFilter
 } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
+import { BaseComponent } from '../base.component';
 
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
@@ -22,21 +26,22 @@ import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['./share-content-dialog.component.scss'],
+  styleUrls: ['./share-content-dialog.component.scss', 'share-content-dialog-resp.component.scss'],
   providers: [ TranslatePipe ]
 })
-export class ShareContentDialogComponent implements AfterViewInit {
+export class ShareContentDialogComponent extends BaseComponent implements AfterViewInit {
 
-  @ViewChild('shareContentContainer', {static: true}) shareContentContainer: ElementRef;
-  @ViewChild('loaderContainer', {static: true}) loaderContainer: ElementRef;
+  @ViewChild('shareContentContainer', { static: true }) shareContentContainer: ElementRef;
+  @ViewChild('loaderContainer', { static: true }) loaderContainer: ElementRef;
 
   contentItemSelectionSubscription: Subscription;
   downloadThumbnailSubscription: Subscription;
 
-  selectedContent: Array<any> = [];
+  selectedContent: Array<string> = [];
   sharedContentForm: FormGroup;
 
   loader = false;
+  spinnerLoader = true;
 
   notificationMessage = '';
   notificationStatus = false;
@@ -50,12 +55,14 @@ export class ShareContentDialogComponent implements AfterViewInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private contentService: ContentService,
     public dialogRef: MatDialogRef<ShareContentDialogComponent>,
     private formBuilder: FormBuilder,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
     private renderer: Renderer2
   ) {
+    super();
 
     this.selectedContent = data;
 
@@ -77,7 +84,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
   }
 
   // REMOVE CONTENT FROM DIALOG
-  public removeContent(event): void {
+  public removeContent(event: string): void {
     this.selectedContent.map((item, index) => {
       if (event === item) { this.selectedContent.splice(index, 1); }
     });
@@ -85,17 +92,21 @@ export class ShareContentDialogComponent implements AfterViewInit {
     if (this.selectedContent.length === 0) { this.closeDialog(); }
   }
 
-  public previewItem(itemId: string) {
+  public previewItem(itemId: string): void {
     this.previewItemChange.emit(itemId);
   }
 
   // COPY URL TO CLIPBOARD
-  public copyToClipboard(url: string): void {
-
+  public copyToClipboard(recipienturl: string): void {
+    const copyBox = document.createElement('textarea');
+        copyBox.value = recipienturl;
+        document.body.appendChild(copyBox);
+        document.execCommand('copy');
+        document.body.removeChild(copyBox);
   }
 
   // CREATE NEW SHARED CONTENT
-  async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]) {
+  async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]): Promise<void> {
     try {
 
       const response = await this.shareService.create(new ShareBasicCreateRequest({
@@ -114,6 +125,10 @@ export class ShareContentDialogComponent implements AfterViewInit {
         url: recipient.url!,
         img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`
       }));
+
+      // SET LOADER HEIGHT DYNAMIC
+      const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
+      this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
 
       // HIDE LOADER
       this.loader = false;
@@ -146,7 +161,7 @@ export class ShareContentDialogComponent implements AfterViewInit {
   // SHARE CONTENT SUBMIT BUTTON ACTION
   public onFormSubmit(): void {
 
-    if (this.sharedContentForm.valid && this.selectedContent.length > 0 && this.recipients.length === 0) {
+    if (this.sharedContentForm.valid) {
 
       this.loader = true;
 
@@ -164,16 +179,43 @@ export class ShareContentDialogComponent implements AfterViewInit {
       // CREATE NEW SHARE
       this.newSharedContent(contentItems, recipientsEmails);
 
-    } else if (this.recipients.length > 0) {
-      this.closeDialog();
     }
+  }
+
+  // SET PREFILL SUBJECT
+  public setPrefillSubject(selectedContent: string[]): void {
+
+    const contentSearch = fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
+      limit: 1,
+      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+      brokenDependenciesFilter: BrokenDependenciesFilter.All,
+      searchType: ContentSearchType.MetadataAndFullText,
+      debugMode: false,
+      filter: new TermsFilter({
+        field: 'id',
+        terms: selectedContent
+      })
+    })).subscribe(data => {
+      const subject = this.translatePipe.transform(
+        'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.results.length - 1]
+      );
+
+      // DISPLAY TRANSLATION AND HIDE INPUT SPINNER
+      setTimeout(() => {
+        this.spinnerLoader = false;
+        this.sharedContentForm.get('share_name')!.setValue(subject);
+      }, 500);
+
+    });
+
+    this.subscription.add(contentSearch);
+
   }
 
   ngAfterViewInit() {
 
-    // SET LOADER HEIGHT DYNAMIC
-    const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
-    this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
+    // PREFILL SUBJECT
+    this.setPrefillSubject(this.selectedContent);
 
   }
 

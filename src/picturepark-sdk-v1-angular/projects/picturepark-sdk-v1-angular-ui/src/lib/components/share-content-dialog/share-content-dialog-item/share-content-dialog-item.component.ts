@@ -11,7 +11,7 @@ import { ContentService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 @Component({
   selector: 'pp-share-content-dialog-item',
   templateUrl: './share-content-dialog-item.component.html',
-  styleUrls: ['./share-content-dialog-item.component.scss']
+  styleUrls: ['./share-content-dialog-item.component.scss', './share-content-dialog-item-resp.component.scss']
 })
 export class ShareContentDialogItemComponent extends BaseComponent implements OnInit {
 
@@ -31,8 +31,9 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   }
 
   public ngOnInit(): void {
-    const downloadThumbnailSubscription = this.contentService
-    .downloadThumbnail(this.itemId, ThumbnailSize.Small, null, null).subscribe(result => {
+    const downloadThumbnailSubscription = this.contentService.downloadThumbnail(
+      this.itemId, ThumbnailSize.Small, null, null
+    ).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
       }

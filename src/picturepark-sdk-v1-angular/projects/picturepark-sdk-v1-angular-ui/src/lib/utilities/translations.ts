@@ -321,6 +321,9 @@ export let TRANSLATIONS = {
     Items: {
       en: 'Items'
     },
+    ItemsMore: {
+      en: '{0} (and {1} items more)'
+    },
     ShareName: {
       en: 'Share name'
     },
@@ -332,6 +335,9 @@ export let TRANSLATIONS = {
     },
     CloseDialog: {
       en: 'Close'
+    },
+    CancelShare: {
+      en: 'Cancel'
     },
     Recipients: {
       en: 'Recipients'

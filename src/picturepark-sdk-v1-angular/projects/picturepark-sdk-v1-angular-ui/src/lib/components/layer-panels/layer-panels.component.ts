@@ -36,13 +36,15 @@ export class LayerPanelsComponent implements OnInit {
 
     this.layers = [];
     const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
-    /* tslint:disable-next-line */
+
+    // tslint:disable-next-line
     contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
 
       if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
         return;
       }
 
+      // tslint:disable-next-line
       const schema = this.schemas.find(i => i.id === layerSchemaId);
       if (schema) {
         const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
@@ -51,7 +53,8 @@ export class LayerPanelsComponent implements OnInit {
           layer: schema.names && schema.names['x-default'],
           items: []
         };
-        /* tslint:disable-next-line */
+
+        // tslint:disable-next-line
         schema.fields && schema.fields.forEach(field => {
           if (schemaMetadata[field.id]) {
             let value = '';

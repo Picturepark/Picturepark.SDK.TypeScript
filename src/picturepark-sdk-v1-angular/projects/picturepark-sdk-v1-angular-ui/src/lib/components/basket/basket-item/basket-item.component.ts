@@ -1,5 +1,5 @@
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { BasketService } from '../../../services/basket.service';
 import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
@@ -22,10 +22,7 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
 
   public ngOnInit(): void {
     const downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.itemId,
-      ThumbnailSize.Small,
-      null,
-      null
+      this.itemId, ThumbnailSize.Small, null, null
     ).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OutputSelection } from './output-selection';
-import { Output, ContentDownloadLinkCreateRequest, ContentService } from '@picturepark/sdk-v1-angular';
+import { ContentDownloadLinkCreateRequest, ContentService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -10,6 +10,7 @@ import { Output, ContentDownloadLinkCreateRequest, ContentService } from '@pictu
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentDownloadDialogComponent implements OnInit {
+
   public fileSize = 0;
   public enableAdvanced = false;
   public advancedMode = false;

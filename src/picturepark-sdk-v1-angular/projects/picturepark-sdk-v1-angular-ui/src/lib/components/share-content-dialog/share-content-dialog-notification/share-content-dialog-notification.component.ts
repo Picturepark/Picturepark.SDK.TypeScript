@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'pp-share-content-dialog-notification',
   templateUrl: './share-content-dialog-notification.component.html',
-  styleUrls: ['./share-content-dialog-notification.component.css']
+  styleUrls: ['./share-content-dialog-notification.component.scss']
 })
 export class ShareContentDialogNotificationComponent implements OnChanges {
 
@@ -27,7 +27,9 @@ export class ShareContentDialogNotificationComponent implements OnChanges {
     // tslint:disable-next-line
     this.notificationDisplayTime ? changes.notificationDisplayTime && changes.notificationDisplayTime.currentValue : 10000;
 
-    if (this.notificationStatus) { setTimeout(() => { this.closeNotification(); }, 60000); }
+    if (this.notificationStatus) {
+      setTimeout(() => { this.closeNotification(); }, this.notificationDisplayTime);
+    }
 
   }
 }

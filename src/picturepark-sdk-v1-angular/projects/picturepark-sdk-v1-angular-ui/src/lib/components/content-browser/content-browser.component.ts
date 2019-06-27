@@ -5,7 +5,6 @@ import {
 import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-// LIBRARIES
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
   ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
@@ -23,16 +22,15 @@ import { DownloadFallbackService } from '../../services/download-fallback.servic
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
 
 // INTERFACES
-import { SortingType } from './models/sorting-type';
 import { ContentModel } from './models/content-model';
+import { SortingType } from './models/sorting-type';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
-  styleUrls: ['./content-browser.component.scss'],
-  providers: [  ]
+  styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
 
@@ -281,7 +279,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   openShareContentDialog(): void {
     this.dialog.open(ShareContentDialogComponent, {
-      data: this.selectedItems
+      data: this.selectedItems,
+      autoFocus: false
     });
   }
 
