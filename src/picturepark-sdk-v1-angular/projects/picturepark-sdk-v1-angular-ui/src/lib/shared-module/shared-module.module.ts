@@ -4,7 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 // MODULES
+import { DialogModule } from './dialog/dialog.module';
 import { MaterialsModule } from '../materials-module/materials-module.module';
+import { NotificationModule } from './notification/notification.module';
 
 // PIPES
 import { FileSizePipe } from './pipes/filesize.pipe';
@@ -18,14 +20,18 @@ import { TranslatePipe } from './pipes/translate.pipe';
   ],
   imports: [
     CommonModule,
+    DialogModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     MaterialsModule,
+    NotificationModule
   ],
   exports: [
+    DialogModule,
     FormsModule,
     MaterialsModule,
+    NotificationModule,
     // PIPES
     FileSizePipe,
     TranslatePipe

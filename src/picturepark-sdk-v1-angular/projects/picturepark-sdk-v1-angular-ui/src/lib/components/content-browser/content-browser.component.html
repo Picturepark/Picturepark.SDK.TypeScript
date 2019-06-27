@@ -17,7 +17,7 @@
         <mat-menu #selectMenu="matMenu">
           <ng-template matMenuContent>
             <button mat-menu-item (click)="toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: items.length }}</button>
-            <button mat-menu-item (click)="toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }} </button>
+            <button mat-menu-item (click)="toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
           </ng-template>
         </mat-menu>
 
@@ -30,9 +30,8 @@
           <mat-icon aria-label="Download selected items">get_app</mat-icon>
         </button>
         <ng-content select="[content-buttons]"></ng-content>
-        <div class="content-browser__spacer">
-        </div>
-        <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1"> {{ 'ContentBrowser.ItemsLength' | pptranslate:totalResults }} </span>
+        <div class="content-browser__spacer"></div>
+        <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1">{{ 'ContentBrowser.ItemsLength' | pptranslate:totalResults }}</span>
 
         <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
           <mat-icon aria-label="Select sorting">sort</mat-icon>
