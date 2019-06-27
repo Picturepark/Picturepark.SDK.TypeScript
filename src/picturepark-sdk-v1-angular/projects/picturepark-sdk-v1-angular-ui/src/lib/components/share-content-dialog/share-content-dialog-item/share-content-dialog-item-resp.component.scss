@@ -5,18 +5,23 @@
 @media all and (max-width: 700px) {}
 @media all and (max-width: 640px) {}
 @media all and (max-width: 535px) {
-    ul .label-content { width: 30%; line-height: 24px; }
-    ul .input-content { width: 70%; }
+    ul {
+        .label-content { width: 30%; line-height: 24px; }
+        .input-content { width: 70%; }
+    }
     .selected-items-content ul li { width: 30%; }
 }
 
 @media (max-width: 535px) and (min-width: 340px) {
  
-    ul .label-content { width: 30%; line-height: 24px; }
-    ul .input-content { width: 70%; }
-    .selected-items-content ul li { width: 30%; margin: 0 5% 10px 0; }
-    .selected-items-content ul li:nth-child(5n) { margin: 0 5% 10px 0; }
-    .selected-items-content ul li:nth-child(3n) { margin: 0 0 10px 0; }
+    ul {
+        .label-content { width: 30%; line-height: 24px; }
+        .input-content { width: 70%; }
+    }
+    .selected-items-content ul li { 
+        width: 30%; margin: 0 5% 10px 0;
+    }
+
     .share-content-item { height: 95px; }
 
 }
