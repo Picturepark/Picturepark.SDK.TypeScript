@@ -41,6 +41,7 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
   sharedContentForm: FormGroup;
 
   loader = false;
+  spinnerLoader = true;
 
   notificationMessage = '';
   notificationStatus = false;
@@ -125,6 +126,10 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
         img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`
       }));
 
+      // SET LOADER HEIGHT DYNAMIC
+      const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
+      this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
+
       // HIDE LOADER
       this.loader = false;
 
@@ -194,7 +199,13 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
       const subject = this.translatePipe.transform(
         'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.results.length - 1]
       );
-      this.sharedContentForm.get('share_name')!.setValue(subject);
+
+      // DISPLAY TRANSLATION AND HIDE INPUT SPINNER
+      setTimeout(() => {
+        this.spinnerLoader = false;
+        this.sharedContentForm.get('share_name')!.setValue(subject);
+      }, 500);
+
     });
 
     this.subscription.add(contentSearch);
@@ -205,10 +216,6 @@ export class ShareContentDialogComponent extends BaseComponent implements AfterV
 
     // PREFILL SUBJECT
     this.setPrefillSubject(this.selectedContent);
-
-    // SET LOADER HEIGHT DYNAMIC
-    const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
-    this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
 
   }
 
