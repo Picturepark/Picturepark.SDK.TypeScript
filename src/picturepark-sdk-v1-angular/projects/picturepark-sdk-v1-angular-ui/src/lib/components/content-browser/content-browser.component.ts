@@ -36,8 +36,6 @@ import { ContentModel } from './models/content-model';
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
 
-  public elementRef: ElementRef;
-
   private lastSelectedIndex = 0;
 
   private _totalResults: number | null = null;
@@ -120,8 +118,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   ) {
 
     super();
-
-    this.elementRef = this.myElement;
 
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
@@ -297,33 +293,31 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     let clickedComponent = event.target;
     let inside = false;
 
-    if (this.dialog.openDialogs.length === 0) {
+    if (this.dialog.openDialogs.length > 0) { return; }
 
       do {
-        if (clickedComponent === this.elementRef.nativeElement) {
+        if (clickedComponent === this.myElement.nativeElement) {
           inside = true;
         }
         clickedComponent = clickedComponent.parentNode;
       } while (clickedComponent);
 
-      if (!inside && !this.checkContains(event.srcElement.className)) {
+      if (!inside && this.checkContains(event.srcElement.className)) {
         this.contentItemSelectionService.clear();
-      } else if (
-        (event.srcElement.offsetParent.id && event.srcElement.offsetParent.id === 'content-browser-container')
-        || (event.srcElement.offsetParent.id && event.srcElement.offsetParent.id === 'content-browser-header'
-        && !this.checkContains(event.srcElement.className))
-      ) {
+      } else if (this.checkContains(event.srcElement.className)) {
         this.contentItemSelectionService.clear();
       }
-    }
+
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
-  public checkContains(element): boolean {
+  public checkContains(elementClassName: string): boolean {
 
-    let flag = false;
-
+    /*
     const containClasses = [
+      'content-browser__spacer',
+      'content-item__image',
+      'mat-pseudo-checkbox',
       'aggregation',
       'cdk-overlay-backdrop',
       'mat-icon',
@@ -331,14 +325,10 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       'mat-tab-label',
       'mat-badge'
     ];
+    */
+    const containClasses = ['content-browser__items'];
 
-    containClasses.map(iClass => {
-      if (element.className.includes(iClass)) {
-        flag = true;
-      }
-    });
-
-    return flag;
+    return containClasses.some(iClass => elementClassName.includes(iClass));
 
   }
 
