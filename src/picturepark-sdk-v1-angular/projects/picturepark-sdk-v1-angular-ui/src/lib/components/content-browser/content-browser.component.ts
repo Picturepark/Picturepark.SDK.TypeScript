@@ -1,6 +1,6 @@
 import {
   Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
-  OnInit, NgZone, Inject, HostListener, ElementRef
+  OnInit, NgZone, Inject, HostListener
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
@@ -113,8 +113,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
-    private ngZone: NgZone,
-    private myElement: ElementRef
+    private ngZone: NgZone
   ) {
 
     super();
@@ -290,21 +289,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   @HostListener('document:click', ['$event'])
   handleClick(event: any): void {
 
-    let clickedComponent = event.target;
-    let inside = false;
-
     if (this.dialog.openDialogs.length > 0) { return; }
 
-    do {
-      if (clickedComponent === this.myElement.nativeElement) {
-        inside = true;
-      }
-      clickedComponent = clickedComponent.parentNode;
-    } while (clickedComponent);
-
-    if (!inside && this.checkContains(event.srcElement.className)) {
-      this.contentItemSelectionService.clear();
-    } else if (this.checkContains(event.srcElement.className)) {
+    if (this.checkContains(event.srcElement.className)) {
       this.contentItemSelectionService.clear();
     }
 
@@ -312,24 +299,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   public checkContains(elementClassName: string): boolean {
-
-    /*
-    const containClasses = [
-      'content-browser__spacer',
-      'content-item__image',
-      'mat-pseudo-checkbox',
-      'aggregation',
-      'cdk-overlay-backdrop',
-      'mat-icon',
-      'mat-button',
-      'mat-tab-label',
-      'mat-badge'
-    ];
-    */
     const containClasses = ['content-browser__items'];
-
     return containClasses.some(iClass => elementClassName.includes(iClass));
-
   }
 
 }
