@@ -63,7 +63,7 @@ export class ShareContentRecipientsInputComponent {
 
   // HANDLE COMPONENENT ENTER KEY PRESS EVENT
   @HostListener('document:keydown.Enter', ['$event'])
-  handleEnterDown(event: any) {
+  handleEnterDown(event: any): void {
     if (event.srcElement.id && event.srcElement.id === 'mat-chip-list-input-0') {
 
       this.parentForm.controls['recipients'].markAsTouched();
@@ -79,7 +79,7 @@ export class ShareContentRecipientsInputComponent {
 
   // HANDLE COMPONENENT BACKSPACE KEY PRESS EVENT
   @HostListener('document:keydown.backspace', ['$event'])
-  handleEscapeDown(event: any) {
+  handleEscapeDown(event: any): void {
 
     if (event.srcElement.id && event.srcElement.id === 'mat-chip-list-input-0') {
 

@@ -1,5 +1,8 @@
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, OnInit, NgZone, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
+  OnInit, NgZone, Inject, HostListener
+} from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import {
@@ -275,10 +278,27 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   openShareContentDialog(): void {
-
     this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems
     });
+  }
+
+  // HANDLE COMPONENENT CLICK EVENT
+  @HostListener('document:click', ['$event'])
+  handleClick(event: any): void {
+
+    if (this.dialog.openDialogs.length > 0) { return; }
+
+    if (this.checkContains(event.srcElement.className)) {
+      this.contentItemSelectionService.clear();
+    }
+
+  }
+
+  // CHECK IF ELEMENT CONTAINS CLASS NAME
+  public checkContains(elementClassName: string): boolean {
+    const containClasses = ['content-browser__items'];
+    return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
 }
