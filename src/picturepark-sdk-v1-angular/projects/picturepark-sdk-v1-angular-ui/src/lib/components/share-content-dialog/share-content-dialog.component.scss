@@ -1,6 +1,6 @@
 .share-content-container {
     position: relative;
-    
+    min-width: 500px;
     & .notifications-container { overflow: hidden; }
 
     mat-dialog-content { padding: 0px; background-color: #f8f8f8; position: relative; }
@@ -39,7 +39,7 @@
     & .selected-items-content { 
         padding: 0px 0px 30px 0px; max-height: 25vh;
         ul li { 
-            float: left; width: 10%; min-width: 150px;
+            float: left; width: 10%; min-width: 120px; min-height: 150px;
         }
     }
 
