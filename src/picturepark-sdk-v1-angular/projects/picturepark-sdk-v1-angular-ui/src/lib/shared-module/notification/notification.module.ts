@@ -7,7 +7,6 @@ import { NotificationComponent } from './components/notification/notification.co
   declarations: [
     NotificationComponent
   ],
-  imports: [],
   exports: [
     NotificationComponent
   ]

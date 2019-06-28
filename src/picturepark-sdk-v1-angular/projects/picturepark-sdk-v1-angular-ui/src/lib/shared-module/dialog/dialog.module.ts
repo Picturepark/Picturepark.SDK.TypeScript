@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 
 // COMPONENTS
-import { DialogComponent } from './components/dialog/dialog.component';
-import { HeaderComponent } from './components/header/header.component';
+import { DialogBaseComponent } from './components/dialog/dialog.component';
+import { ShareDialogComponentComponent } from './components/share-dialog-component/share-dialog-component.component';
 
 @NgModule({
-  declarations: [DialogComponent, HeaderComponent],
+  declarations: [DialogBaseComponent, ShareDialogComponentComponent],
   exports: [
-    DialogComponent
+    DialogBaseComponent,
+    ShareDialogComponentComponent
   ]
 })
 export class DialogModule { }

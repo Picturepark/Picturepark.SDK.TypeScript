@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+
+// SERVICES
+import { NotificationService } from '../../../services/notification/notification.service';
 
 // INTERFACES
 import { Notification } from '../../interfaces/notification.interface';
@@ -13,7 +16,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
   notificationSubscriber: Subscription;
 
-  @Input() notificationService: Observable<Notification>;
+  @Input() notificationService: NotificationService;
   notificationData: Notification;
 
   constructor() {}
@@ -26,16 +29,17 @@ export class NotificationComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     // NOTIFICATION SUBSCRIBER
-    this.notificationSubscriber = this.notificationService.subscribe(notification => {
-      this.notificationData = notification;
+    this.notificationSubscriber = this.notificationService.notificationSubscriber().subscribe(data => {
+
     });
 
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
 
     // UNSUBSCRIBE
     this.notificationSubscriber.unsubscribe();
+
   }
 
 }
