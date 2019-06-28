@@ -1,19 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
 // COMPONENTS
-import { DialogBaseComponent } from '../dialog/dialog.component';
+import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
+
+// SERVICES
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
-  selector: 'pp-share-dialog-component',
+  selector: 'pp-share-content-dialog-component',
   templateUrl: './share-dialog-component.component.html',
-  styleUrls: ['./share-dialog-component.component.css']
+  styleUrls: ['./share-dialog-component.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class ShareDialogComponentComponent extends DialogBaseComponent implements OnInit {
+export class ShareContentDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
 
-  constructor() {
-    super();
+  constructor(
+    protected notificationService: NotificationService
+  ) {
+    super(notificationService);
   }
 
-  ngOnInit() {}
+  // CLOSE DIALOG
+  public closeDialog(): void {
+    super.closeDialog();
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+  }
 
 }

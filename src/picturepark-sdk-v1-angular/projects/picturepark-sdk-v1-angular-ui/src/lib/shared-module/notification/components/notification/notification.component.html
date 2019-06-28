@@ -1,3 +1,5 @@
-<p>
-  notification works!
-</p>
+<div class="notification-container" [ngClass]="{ active: notificationData.status, error: notificationData.type === 'error' }">
+  <div class="notification">
+    {{ notificationData.message }}<span (click)="closeNotification()">close</span>
+  </div>
+</div>

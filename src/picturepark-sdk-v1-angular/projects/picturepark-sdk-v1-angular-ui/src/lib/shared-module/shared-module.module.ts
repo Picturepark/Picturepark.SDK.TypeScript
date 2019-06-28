@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -22,13 +22,13 @@ import { TranslatePipe } from './pipes/translate.pipe';
     TranslatePipe
   ],
   imports: [
-    CommonModule,
     DialogModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     MaterialsModule,
-    NotificationModule
+    NotificationModule,
+    CommonModule
   ],
   exports: [
     DialogModule,
@@ -38,15 +38,9 @@ import { TranslatePipe } from './pipes/translate.pipe';
     // PIPES
     FileSizePipe,
     TranslatePipe
+  ],
+  providers: [
+    NotificationService
   ]
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SharedModule,
-      providers: [
-        NotificationService,
-      ]
-    };
-  }
-}
+export class SharedModule {}

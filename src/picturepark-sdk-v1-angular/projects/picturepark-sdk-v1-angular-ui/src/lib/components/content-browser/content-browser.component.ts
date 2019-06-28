@@ -12,7 +12,7 @@ import {
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
-import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
+import { ShareContentDialogComponent } from '../../shared-module/dialog/components/share-dialog-component/share-dialog-component.component';
 import { BaseComponent } from '../base.component';
 
 // SERVICES

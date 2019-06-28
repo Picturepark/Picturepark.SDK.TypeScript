@@ -1,8 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-// SERVICES
-import { NotificationService } from '../../../services/notification/notification.service';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 // INTERFACES
 import { Notification } from '../../interfaces/notification.interface';
@@ -10,13 +6,11 @@ import { Notification } from '../../interfaces/notification.interface';
 @Component({
   selector: 'pp-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.css']
+  styleUrls: ['./notification.component.scss']
 })
-export class NotificationComponent implements OnInit, OnDestroy {
+export class NotificationComponent implements OnChanges {
 
-  notificationSubscriber: Subscription;
-
-  @Input() notificationService: NotificationService;
+  @Input() notification: Notification;
   notificationData: Notification;
 
   constructor() {}
@@ -26,20 +20,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     this.notificationData.status = false;
   }
 
-  ngOnInit() {
-
-    // NOTIFICATION SUBSCRIBER
-    this.notificationSubscriber = this.notificationService.notificationSubscriber().subscribe(data => {
-
-    });
-
-  }
-
-  ngOnDestroy() {
-
-    // UNSUBSCRIBE
-    this.notificationSubscriber.unsubscribe();
-
+  ngOnChanges(changes: SimpleChanges) {
+    this.notificationData = changes.notification && changes.notification.currentValue;
   }
 
 }
