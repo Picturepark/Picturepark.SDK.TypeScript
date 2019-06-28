@@ -278,10 +278,14 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   openShareContentDialog(): void {
-    this.dialog.open(ShareContentDialogComponent, {
+    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
       autoFocus: false
     });
+
+    const instance = dialogRef.componentInstance;
+    instance.title = 'Share content';
+
   }
 
   // HANDLE COMPONENENT CLICK EVENT

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+// MODULES
+import { MaterialsModule } from '../../materials-module/materials-module.module';
+
 // COMPONENTS
 import { NotificationComponent } from './components/notification/notification.component';
 
@@ -13,6 +16,7 @@ import { NotificationComponent } from './components/notification/notification.co
   ],
   imports: [
     CommonModule,
+    MaterialsModule,
   ]
 })
 export class NotificationModule { }

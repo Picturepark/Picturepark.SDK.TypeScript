@@ -1,1 +1,6 @@
-h3 { font-size: 24px; }
+h3 { 
+    color: #444; margin: 0 -24px 0 -24px; font-weight: 200; padding: 0px 24px 24px 24px; border-bottom: 1px solid #eee;
+    mat-icon { color:rgb(68,68,68); cursor: pointer; float: right; }
+}
+
+.mat-dialog-container { padding: 0px !important; }

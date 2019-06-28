@@ -21,7 +21,14 @@ export class NotificationComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.notificationData = changes.notification && changes.notification.currentValue;
+
+    console.log(changes)
+
+    if (changes.notification && changes.notification.currentValue) {
+      this.notificationData = changes.notification.currentValue;
+      setTimeout(() => { this.closeNotification(); }, this.notificationData.displayTime);
+    }
+
   }
 
 }

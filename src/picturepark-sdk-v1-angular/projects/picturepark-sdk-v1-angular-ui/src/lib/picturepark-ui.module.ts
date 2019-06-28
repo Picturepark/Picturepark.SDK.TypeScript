@@ -80,7 +80,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule,
+    SharedModule.forRoot(),
   ],
   exports: [
     ChannelPickerComponent,

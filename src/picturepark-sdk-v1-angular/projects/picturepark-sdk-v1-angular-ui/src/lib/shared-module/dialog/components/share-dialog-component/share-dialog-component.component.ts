@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 // COMPONENTS
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
@@ -9,15 +10,16 @@ import { NotificationService } from '../../../services/notification/notification
 @Component({
   selector: 'pp-share-content-dialog-component',
   templateUrl: './share-dialog-component.component.html',
-  styleUrls: ['./share-dialog-component.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['../dialog-base/dialog-base.component.scss', './share-dialog-component.component.scss']
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    protected dialogRef: MatDialogRef<any>,
     protected notificationService: NotificationService
   ) {
-    super(notificationService);
+    super(data, dialogRef, notificationService);
   }
 
   // CLOSE DIALOG
