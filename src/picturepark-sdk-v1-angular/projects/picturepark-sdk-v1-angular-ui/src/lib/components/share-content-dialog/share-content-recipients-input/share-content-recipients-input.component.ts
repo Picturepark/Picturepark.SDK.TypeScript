@@ -54,7 +54,7 @@ export class ShareContentRecipientsInputComponent {
   }
 
   remove(email: string): void {
-    
+
     const index = this.recipients.indexOf(email);
     const recipientsControl = <FormArray>this.parentForm.controls['recipients'];
     const recipientsControlIndex = recipientsControl.value.indexOf(email);
