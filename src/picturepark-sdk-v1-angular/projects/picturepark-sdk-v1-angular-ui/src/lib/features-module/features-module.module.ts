@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 // MODULES
 import { BasketModule } from './basket/basket.module';
+import { ContentBrowserModule } from './content-browser/content-browser.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { DialogModule } from './dialog/dialog.module';
@@ -14,6 +15,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
   declarations: [],
   imports: [
     BasketModule,
+    ContentBrowserModule,
     ChannelPickerModule,
     CommonModule,
     DatePickerModule,
@@ -24,6 +26,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
   ],
   exports: [
     BasketModule,
+    ContentBrowserModule,
     ChannelPickerModule,
     DatePickerModule,
     DialogModule,

@@ -11,9 +11,6 @@ import { SharedModule } from './shared-module/shared-module.module';
 // SDK components
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
 import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
-import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
-
-import { ContentBrowserComponent } from './components/content-browser/content-browser.component';
 
 
 import { LayerPanelsComponent } from './components/layer-panels/layer-panels.component';
@@ -34,14 +31,11 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 @NgModule({
   declarations: [
-    ContentBrowserComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
-    ContentBrowserItemComponent,
     FieldDetailInfoDialogComponent,
     ListItemAggregationComponent,
     ListItemAggregationListComponent,
-
     LazyLoadDirective,
     LayerPanelsComponent,
   ],
@@ -56,7 +50,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   ],
   exports: [
     CommonModule,
-    ContentBrowserComponent,
     LayerPanelsComponent,
     ContentAggregationListComponent,
     ListItemAggregationListComponent,

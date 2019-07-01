@@ -10,13 +10,13 @@ import { Subject } from 'rxjs';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseComponent } from '../../../shared-module/components/base.component';
+import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
-import { BasketService } from '../../../shared-module/services/basket/basket.service';
+import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { ContentModel } from '../models/content-model';
+import { ContentModel } from '../../models/content-model';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -25,18 +25,15 @@ import { ContentModel } from '../models/content-model';
 })
 export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
 
-  @Input()
-  public itemModel: ContentModel;
+  // INPUTS
+  @Input() public itemModel: ContentModel;
+  @Input() thumbnailSize: ThumbnailSize | null;
+  @Input() isListView: boolean;
 
-  @Input()
-  thumbnailSize: ThumbnailSize | null;
+  // OUTPUTS
+  @Output() public previewItemChange = new EventEmitter<string>();
 
-  @Input()
-  isListView: boolean;
-
-  @Output()
-  public previewItemChange = new EventEmitter<string>();
-
+  // VARS
   public thumbnailSizes = ThumbnailSize;
 
   public isLoading = true;
@@ -62,8 +59,9 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
   }
 
   public ngOnInit(): void {
-    const downloadSubscription = this.loadItem
-      .pipe(switchMap(() => {
+
+    const downloadSubscription = this.loadItem.pipe(
+      switchMap(() => {
         return this.contentService.downloadThumbnail(
           this.itemModel.item.id,
           this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
@@ -71,6 +69,9 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
           null);
       }))
       .subscribe(response => {
+
+        console.log(response);
+
         if (response) {
           this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
           this.isLoading = false;

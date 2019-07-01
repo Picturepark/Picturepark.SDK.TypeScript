@@ -11,6 +11,9 @@ import { BaseComponent } from '../../shared-module/components/base.component';
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
 
+// INTERFACES
+import { Formats } from './interfaces/formats.interface';
+
 @Component({
   selector: 'pp-output-download-menu',
   templateUrl: './output-download-menu.component.html',
@@ -19,20 +22,12 @@ import { TranslationService } from '../../shared-module/services/translations/tr
 export class OutputDownloadMenuComponent extends BaseComponent implements OnInit {
 
   @Input() public id: string;
-  @Input() public formats: {
-    outputFormatId: string;
-    name: string;
-  }[];
+  @Input() public formats: Formats[];
   @Input() public overlapTrigger = false;
-  // possible values  'above' | 'below'
-  @Input() public yPosition = 'above';
-  // possible values 'before' | 'after'
-  @Input() public xPosition = 'before';
+  @Input() public yPosition = 'above'; // possible values  'above' | 'below'
+  @Input() public xPosition = 'before'; // possible values 'before' | 'after'
 
-  public outputFormats: {
-    outputFormatId: string;
-    name: string;
-  }[];
+  public outputFormats: Formats[];
 
   constructor(
     private contentService: ContentService,
@@ -41,7 +36,7 @@ export class OutputDownloadMenuComponent extends BaseComponent implements OnInit
     super();
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     if (!this.id) {
       throw new Error('Image is not defined !');
     }

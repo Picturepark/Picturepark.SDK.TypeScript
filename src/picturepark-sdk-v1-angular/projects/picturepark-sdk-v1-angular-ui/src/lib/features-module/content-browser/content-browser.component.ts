@@ -17,11 +17,11 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 import { BaseComponent } from '../../shared-module/components/base.component';
 import {
   ContentDownloadDialogComponent
-} from '../../features-module/dialog/components/content-download-dialog/content-download-dialog.component';
+} from '../dialog/components/content-download-dialog/content-download-dialog.component';
 import {
   ShareContentDialogComponent
-} from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
-import { OutputSelection } from '../../features-module/dialog/components/content-download-dialog/components/output-selection';
+} from '../dialog/components/share-content-dialog/share-content-dialog.component';
+import { OutputSelection } from '../dialog/components/content-download-dialog/components/output-selection';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
@@ -174,10 +174,10 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       // OPEN DOWNLOAD CONTENT DIALOG
       this.openDownloadContentDialog(this.items.filter(i => i.isSelected).map(i => i.item), outputs);
 
-    });
+      // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
+      this.subscription.add(this.downloadContentSubscriber);
 
-    // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
-    this.subscription.add(this.downloadContentSubscriber);
+    });
 
   }
 
