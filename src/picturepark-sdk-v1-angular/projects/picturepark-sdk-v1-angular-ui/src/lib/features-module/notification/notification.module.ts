@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // MODULES
-import { MaterialsModule } from '../../materials-module/materials-module.module';
+import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
 import { NotificationComponent } from './components/notification/notification.component';
@@ -11,12 +11,12 @@ import { NotificationComponent } from './components/notification/notification.co
   declarations: [
     NotificationComponent
   ],
-  exports: [
-    NotificationComponent
-  ],
   imports: [
     CommonModule,
-    MaterialsModule,
+    SharedModule,
+  ],
+  exports: [
+    NotificationComponent
   ]
 })
 export class NotificationModule { }

@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 // SERVICES
-import { NotificationService } from '../../../services/notification/notification.service';
+import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
 
 // INTERFACES
 import { Notification } from '../../../notification/interfaces/notification.interface';

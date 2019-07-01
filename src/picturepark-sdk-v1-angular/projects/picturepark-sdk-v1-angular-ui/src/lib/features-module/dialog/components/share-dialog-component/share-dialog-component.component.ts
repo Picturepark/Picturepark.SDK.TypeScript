@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
 
 // SERVICES
-import { NotificationService } from '../../../services/notification/notification.service';
+import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
 
 @Component({
   selector: 'pp-share-content-dialog-component',

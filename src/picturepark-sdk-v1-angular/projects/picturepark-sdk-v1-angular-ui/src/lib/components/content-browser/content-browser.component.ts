@@ -12,8 +12,10 @@ import {
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
-import { ShareContentDialogComponent } from '../../shared-module/dialog/components/share-dialog-component/share-dialog-component.component';
 import { BaseComponent } from '../base.component';
+import {
+  ShareContentDialogComponent
+} from '../../features-module/dialog/components/share-dialog-component/share-dialog-component.component';
 
 // SERVICES
 import { BasketService } from './../../services/basket.service';
@@ -247,6 +249,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       });
 
       const searchSubscription = this.contentService.search(request).subscribe(async searchResult => {
+
         this.totalResults = searchResult.totalResults;
         this.nextPageToken = searchResult.pageToken;
 
@@ -277,7 +280,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     return thumbnailSize;
   }
 
+  // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
+
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
       autoFocus: false

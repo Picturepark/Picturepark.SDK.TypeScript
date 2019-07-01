@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 // INTERFACES
-import { Notification } from '../../notification/interfaces/notification.interface';
+import { Notification } from '../../../features-module/notification/interfaces/notification.interface';
 
 @Injectable()
 export class NotificationService {

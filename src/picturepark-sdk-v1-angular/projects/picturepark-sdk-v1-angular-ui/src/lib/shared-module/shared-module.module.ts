@@ -1,12 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 // MODULES
-import { DialogModule } from './dialog/dialog.module';
 import { MaterialsModule } from '../materials-module/materials-module.module';
-import { NotificationModule } from './notification/notification.module';
 
 // SERVICES
 import { NotificationService } from './services/notification/notification.service';
@@ -23,18 +20,13 @@ import { TranslatePipe } from './pipes/translate.pipe';
   ],
   imports: [
     CommonModule,
-    DialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
     MaterialsModule,
-    NotificationModule
   ],
   exports: [
-    DialogModule,
+    CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialsModule,
-    NotificationModule,
     // PIPES
     FileSizePipe,
     TranslatePipe
@@ -45,7 +37,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        NotificationService
+        NotificationService,
       ]
     };
   }

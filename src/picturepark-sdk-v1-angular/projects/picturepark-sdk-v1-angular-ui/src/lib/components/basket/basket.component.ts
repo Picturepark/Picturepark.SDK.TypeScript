@@ -8,7 +8,9 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
-import { ShareContentDialogComponent } from '../share-content-dialog/share-content-dialog.component';
+import {
+  ShareContentDialogComponent
+} from '../../features-module/dialog/components/share-dialog-component/share-dialog-component.component';
 
 // SERVICES
 import { BasketService } from '../../services/basket.service';
@@ -67,9 +69,13 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   public openShareContentDialog(): void {
 
-    this.dialog.open(ShareContentDialogComponent, {
-      data: this.basketItems
+    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+      data: this.basketItems,
+      autoFocus: false
     });
+
+    const instance = dialogRef.componentInstance;
+    instance.title = 'Download content';
 
   }
 
