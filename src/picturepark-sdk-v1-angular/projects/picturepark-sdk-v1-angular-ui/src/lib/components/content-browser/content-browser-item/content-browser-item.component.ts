@@ -13,7 +13,7 @@ import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from 
 import { BaseComponent } from '../../../shared-module/components/base.component';
 
 // SERVICES
-import { BasketService } from './../../../services/basket.service';
+import { BasketService } from '../../../shared-module/services/basket/basket.service';
 
 // INTERFACES
 import { ContentModel } from '../models/content-model';

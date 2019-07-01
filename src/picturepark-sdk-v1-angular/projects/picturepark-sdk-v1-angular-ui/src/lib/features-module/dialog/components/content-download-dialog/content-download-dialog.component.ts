@@ -13,7 +13,7 @@ import { NotificationService } from '../../../../shared-module/services/notifica
 @Component({
   selector: 'pp-content-download-dialog',
   templateUrl: './content-download-dialog.component.html',
-  styleUrls: ['../dialog-base/dialog-base.component.scss', './content-download-dialog.component.css']
+  styleUrls: ['../dialog-base/dialog-base.component.scss', './content-download-dialog.component.scss']
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
 

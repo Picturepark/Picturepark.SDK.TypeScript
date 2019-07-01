@@ -1,5 +1,9 @@
-import { Component, EventEmitter, Input, Output, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef } from '@angular/core';
+
+// LIBRARIES
 import { ChannelService, Channel } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
 
 @Component({
@@ -7,17 +11,17 @@ import { BaseComponent } from '../../shared-module/components/base.component';
   templateUrl: './channel-picker.component.html'
 })
 export class ChannelPickerComponent extends BaseComponent implements OnInit {
-  @Input()
-  public channel: Channel | null = null;
-  @Output()
-  public channelChange = new EventEmitter<Channel>();
+
+  @Input() public channel: Channel | null = null;
+  @Output() public channelChange = new EventEmitter<Channel>();
+  @Output() public channelsChange = new EventEmitter<Channel[]>();
 
   public channels: Channel[] = [];
 
-  @Output()
-  public channelsChange = new EventEmitter<Channel[]>();
-
-  public constructor(private channelService: ChannelService, private ref: ApplicationRef) {
+  public constructor(
+    private channelService: ChannelService,
+    private ref: ApplicationRef,
+  ) {
     super();
   }
 

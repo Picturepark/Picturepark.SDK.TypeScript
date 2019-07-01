@@ -1,4 +1,4 @@
-<div class="share-content-dialog-container">
+<div class="download-content-dialog-container">
   <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content>
@@ -15,7 +15,7 @@
     </form>
   
     <div class="filesize" *ngIf="fileSize" align="end">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{fileSize | filesize}}</div>
-    <mat-divider></mat-divider>
+
   </mat-dialog-content>
   
   <mat-dialog-actions align="end">

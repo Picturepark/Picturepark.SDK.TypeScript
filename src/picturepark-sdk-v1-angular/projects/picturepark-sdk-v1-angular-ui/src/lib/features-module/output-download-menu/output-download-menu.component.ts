@@ -1,9 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
+
+// LIBRARY
 import {
   ContentService, ContentResolveBehavior, ContentDownloadLinkCreateRequest, ContentType, OutputRenderingState
 } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { TranslationService } from '../../services/translation.service';
+
+// SERVICES
+import { TranslationService } from '../../shared-module/services/translations/translation.service';
 
 @Component({
   selector: 'pp-output-download-menu',
@@ -11,6 +17,7 @@ import { TranslationService } from '../../services/translation.service';
   styleUrls: ['./output-download-menu.component.scss']
 })
 export class OutputDownloadMenuComponent extends BaseComponent implements OnInit {
+
   @Input() public id: string;
   @Input() public formats: {
     outputFormatId: string;
@@ -27,7 +34,10 @@ export class OutputDownloadMenuComponent extends BaseComponent implements OnInit
     name: string;
   }[];
 
-  constructor(private contentService: ContentService, private translationService: TranslationService) {
+  constructor(
+    private contentService: ContentService,
+    private translationService: TranslationService,
+  ) {
     super();
   }
 

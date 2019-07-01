@@ -13,7 +13,7 @@ import {
 } from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
-import { BasketService } from '../../services/basket.service';
+import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 import { MatDialog } from '@angular/material';
 

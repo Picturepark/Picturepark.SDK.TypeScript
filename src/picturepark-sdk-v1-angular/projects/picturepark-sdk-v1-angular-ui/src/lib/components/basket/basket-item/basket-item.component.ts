@@ -1,7 +1,7 @@
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { BasketService } from '../../../services/basket.service';
+import { BasketService } from '../../../shared-module/services/basket/basket.service';
 import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
 import { BaseComponent } from '../../../shared-module/components/base.component';
 

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
-import { ContentItemSelectionService } from '../../../../services/content-item-selection.service';
+import { ContentItemSelectionService } from '../../../../shared-module/services/content-item-selection/content-item-selection.service';
 import { ContentService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 
 @Component({

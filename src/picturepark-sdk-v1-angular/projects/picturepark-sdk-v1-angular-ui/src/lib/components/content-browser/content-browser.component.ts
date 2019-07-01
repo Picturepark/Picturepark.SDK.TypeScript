@@ -21,14 +21,14 @@ import {
 import {
   ShareContentDialogComponent
 } from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
-import { OutputSelection } from '../../components/content-download-dialog/output-selection';
+import { OutputSelection } from '../../features-module/dialog/components/content-download-dialog/components/output-selection';
 
 // SERVICES
-import { BasketService } from './../../services/basket.service';
-import { ContentItemSelectionService } from './../../services/content-item-selection.service';
+import { BasketService } from '../../shared-module/services/basket/basket.service';
+import { ContentItemSelectionService } from '../../shared-module/services/content-item-selection/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
-import { TranslationService } from '../../services/translation.service';
+import { TranslationService } from '../../shared-module/services/translations/translation.service';
 
 // INTERFACES
 import { ContentModel } from './models/content-model';

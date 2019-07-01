@@ -3,9 +3,9 @@
  */
 export { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from './lib/configuration';
 
-export { ContentItemSelectionService } from './lib/services/content-item-selection.service';
-export { BasketService } from './lib/services/basket.service';
-export { TranslationService } from './lib/services/translation.service';
+export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
+export { BasketService } from './lib/shared-module/services/basket/basket.service';
+export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
 export { LiquidRenderingService } from './lib/services/liquid-rendering.service';
 export { DownloadFallbackService } from './lib/services/download-fallback.service';

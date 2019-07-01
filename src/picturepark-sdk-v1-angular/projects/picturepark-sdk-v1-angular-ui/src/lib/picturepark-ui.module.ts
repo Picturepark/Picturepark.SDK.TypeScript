@@ -14,13 +14,10 @@ import { BasketComponent } from './components/basket/basket.component';
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
 import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
 import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
-import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
 
-import { ChannelPickerComponent } from './components/channel-picker/channel-picker.component';
 import { ContentBrowserComponent } from './components/content-browser/content-browser.component';
 
-import { SearchBoxComponent } from './components/search-box/search-box.component';
-import { OutputDownloadMenuComponent } from './components/output-download-menu/output-download-menu.component';
+
 import { LayerPanelsComponent } from './components/layer-panels/layer-panels.component';
 import { FieldDetailInfoDialogComponent } from './components/layer-panels/field-detail-info-dialog/field-detail-info-dialog.component';
 import {
@@ -29,8 +26,7 @@ import {
 import { ListItemAggregationListComponent } from './components/list-item-aggregation-list/list-item-aggregation-list.component';
 
 // SDK services
-import { ContentItemSelectionService } from './services/content-item-selection.service';
-import { BasketService } from './services/basket.service';
+
 import { LiquidRenderingService } from './services/liquid-rendering.service';
 
 // SDK directives
@@ -42,27 +38,18 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   declarations: [
     BasketComponent,
     BasketItemComponent,
-    ChannelPickerComponent,
     ContentBrowserComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
     ContentBrowserItemComponent,
-    ContentDownloadDialogComponent,
     FieldDetailInfoDialogComponent,
     ListItemAggregationComponent,
     ListItemAggregationListComponent,
-    OutputDownloadMenuComponent,
+
     LazyLoadDirective,
     LayerPanelsComponent,
-    // ShareContentRecipientsInputComponent,
-    // ShareContentDialogComponent,
-    // ShareContentDialogItemComponent,
-    // ShareContentDialogNotificationComponent,
-    SearchBoxComponent,
   ],
   providers: [
-    ContentItemSelectionService,
-    BasketService,
     LiquidRenderingService,
     { provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }
   ],
@@ -73,25 +60,17 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   ],
   exports: [
     CommonModule,
-    ChannelPickerComponent,
     ContentBrowserComponent,
-    SearchBoxComponent,
     LayerPanelsComponent,
     ContentAggregationListComponent,
     ListItemAggregationListComponent,
     BasketComponent,
-    OutputDownloadMenuComponent,
-    ContentDownloadDialogComponent,
+
     FeaturesModule,
     SharedModule
   ],
   entryComponents: [
-    ContentDownloadDialogComponent,
-    // ShareContentRecipientsInputComponent,
     FieldDetailInfoDialogComponent,
-    // ShareContentDialogComponent,
-    // ShareContentDialogItemComponent,
-    // ShareContentDialogNotificationComponent
   ]
 })
 export class PictureparkUiModule {}

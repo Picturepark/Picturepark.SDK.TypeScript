@@ -1,3 +1,8 @@
+.download-content-dialog-container {
+    position: relative; min-width: 500px;
+    mat-dialog-content { padding: 24px; }
+}
+
 fieldset {
     border: 1px solid lightgray;
     margin-bottom: 10px;
