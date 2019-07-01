@@ -1,14 +1,18 @@
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
+// LIBRARIES
 import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
   AggregatorBase, FilterBase, OrFilter, AndFilter
 } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../base.component';
+
+// COMPONENTS
+import { BaseComponent } from '../../shared-module/components/base.component';
 
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
+
   @Input()
   public query = '';
 

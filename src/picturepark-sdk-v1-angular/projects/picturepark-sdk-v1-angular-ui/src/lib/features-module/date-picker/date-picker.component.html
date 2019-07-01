@@ -1,5 +1,5 @@
 <mat-form-field [formGroup]="parentForm">
-  <input matInput [matDatepicker]="picker" placeholder="{{placeHolderMessage}}" formControlName="expire_date">
+  <input id="expire-date" matInput [matDatepicker]="picker" placeholder="{{placeHolderMessage}}" formControlName="expire_date" autocomplete="off">
   <!--
   <div class="date-picker-error" [ngClass]="{active: parentForm.controls['expire_date'].touched }">
     There is an error on the date format

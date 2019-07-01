@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {
   ContentService, ContentResolveBehavior, ContentDownloadLinkCreateRequest, ContentType, OutputRenderingState
 } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from '../../shared-module/components/base.component';
 import { TranslationService } from '../../services/translation.service';
 
 @Component({

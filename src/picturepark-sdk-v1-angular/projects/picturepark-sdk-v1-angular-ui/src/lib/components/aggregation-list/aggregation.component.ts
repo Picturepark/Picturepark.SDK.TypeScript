@@ -7,7 +7,7 @@ import {
   AggregationFilter, AggregationResult, AggregatorBase,
   AggregationResultItem, TermsAggregator, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from '../../shared-module/components/base.component';
 
 
 export abstract class AggregationComponent extends BaseComponent implements OnChanges {

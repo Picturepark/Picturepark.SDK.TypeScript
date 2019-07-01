@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 import { ChannelService, Channel } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from '../../shared-module/components/base.component';
 
 @Component({
   selector: 'pp-channel-picker',

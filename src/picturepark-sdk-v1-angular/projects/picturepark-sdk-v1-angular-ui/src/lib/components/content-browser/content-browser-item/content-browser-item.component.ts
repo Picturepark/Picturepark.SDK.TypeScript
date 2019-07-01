@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseComponent } from '../../base.component';
+import { BaseComponent } from '../../../shared-module/components/base.component';
 
 // SERVICES
 import { BasketService } from './../../../services/basket.service';

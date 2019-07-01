@@ -1,0 +1,90 @@
+.share-content-dialog-container {
+    position: relative;
+    min-width: 500px;
+    & .notifications-container { overflow: hidden; }
+
+    mat-dialog-content { padding: 0px; background-color: #f8f8f8; position: relative; }
+
+    h3 { 
+        color: #444; margin: 0 -24px 0 -24px; font-weight: 200; padding: 0px 24px 24px 24px; border-bottom: 1px solid #eee;
+        mat-icon { color:rgb(68,68,68); cursor: pointer; float: right; }
+    }
+
+    ul {
+        list-style: none; color: #727272; font-size: 13px; margin: 30px 0px 30px 0px; min-height: 35px; padding: 0px 25px;
+        li { 
+            position: relative;
+            float: left;
+            &:last-child label { position: relative; bottom: 0.9em; }
+            input { 
+                font-weight: 400; font-size: 13px; color: #2f2f2f; line-height: 17px; border-radius: 4px; padding: 11px 6px 10px; border: none; border: 1px solid #fff; transition: 500ms; width: 100%; position: relative; z-index: 10;
+                &:focus { border: 1px solid rgba(0,0,0,0.54); }
+            }
+        }
+        .label-content {
+            width: 20%;
+            label { line-height: 40px; }
+        }
+        .input-content {
+            width: 80%; display: flex;
+            &.active {
+                input { outline: none; }
+                mat-spinner { display: inherit; }
+            }
+            mat-spinner { display: none; }
+            mat-spinner svg { width: 20px !important; height: 20px !important; }
+        }
+    }
+
+    & .selected-items-content { 
+        padding: 0px 0px 30px 0px; max-height: 25vh;
+        ul li { 
+            float: left; width: 10%; min-width: 120px; min-height: 150px;
+        }
+    }
+
+    #share-name.error-active { border: 1px solid #f74931; }
+
+    & .loader-container { 
+        background-color: #f8f8f8; position: absolute; display: none; width: calc(100% + 48px); top: 46px; left:-24px; height: 515px; z-index: 20;
+        &.active { display: table; }
+        & .loader { 
+            display: table-cell; vertical-align: middle; text-align: center;
+            mat-spinner {  margin: 0 auto; }
+        }
+    }
+
+    pp-share-content-recipients-input { width: 100%; }
+    mat-dialog-actions { 
+        justify-content: flex-end; border-top: 1px solid #eee; margin: 0px -24px -24px -24px; position: relative; z-index: 25; background-color: white;
+        button { 
+            cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px; margin: 0px 24px 0px 0px;
+            &.active { background-color: #3fb3b1; }
+            &.cancel { background-color: #ffffff; color: #727272; }
+        }
+    }
+
+    & .share-name-error { 
+        position: absolute; top: 25px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px; 
+        &.active { top: 45px; }
+    }
+
+    & .share-content-confirmation-container {
+        & .share-content-confirmation { 
+            padding: 24px 24px; overflow: hidden; border-bottom: 1px solid #ccc;
+            & .user-image-container { width: 48px; float: left; border-radius: 50%; height: 48px; overflow: hidden; margin: 0px 25px 0px 0px; }
+            & .user-info-container { 
+                float: left;
+                ul { 
+                    margin: 0px; padding: 0px;
+                    li { 
+                        float: none; 
+                        mat-icon { font-size: 18px; color: #727272; position: relative; top: 5px; cursor: pointer; }
+                        a { color: #727272; }
+                    }
+                }
+            }
+            &:last-child { border-bottom: 0px; }
+        }
+    }
+}

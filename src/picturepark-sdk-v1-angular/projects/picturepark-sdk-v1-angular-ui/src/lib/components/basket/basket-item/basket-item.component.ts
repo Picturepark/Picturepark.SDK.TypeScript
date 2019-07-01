@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { BasketService } from '../../../services/basket.service';
 import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../../base.component';
+import { BaseComponent } from '../../../shared-module/components/base.component';
 
 @Component({
   selector: 'pp-basket-item',
@@ -11,6 +11,7 @@ import { BaseComponent } from '../../base.component';
   styleUrls: ['./basket-item.component.scss']
 })
 export class BasketItemComponent extends BaseComponent implements OnInit {
+
   @Input()
   public itemId: string;
 

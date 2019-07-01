@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy, Inject, ViewEncapsulation } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
+// COMPONENTS
+import { BaseComponent } from '../../../../shared-module/components/base.component'
+
 // SERVICES
 import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
 
@@ -11,7 +14,7 @@ import { Notification } from '../../../notification/interfaces/notification.inte
 @Component({
   template: ''
 })
-export class DialogBaseComponent implements OnInit, OnDestroy {
+export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
 
   // SUBSCRIBERS
   notificationSubscriber: Subscription;
@@ -23,7 +26,9 @@ export class DialogBaseComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     protected dialogRef: MatDialogRef<any>,
     protected notificationService: NotificationService
-  ) {}
+  ) {
+    super();
+  }
 
   // CLOSE DIALOG
   public closeDialog(): void {
@@ -37,12 +42,15 @@ export class DialogBaseComponent implements OnInit, OnDestroy {
       this.notification = notification;
     });
 
+    this.subscription.add(this.notificationSubscriber);
+
   }
 
   ngOnDestroy() {
 
-    // UNSUBSCRIBE
-    this.notificationSubscriber.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
 
   }
 

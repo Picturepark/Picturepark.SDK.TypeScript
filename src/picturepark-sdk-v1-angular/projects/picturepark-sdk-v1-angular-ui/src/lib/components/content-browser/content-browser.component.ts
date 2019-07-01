@@ -12,7 +12,7 @@ import {
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from '../../shared-module/components/base.component';
 import {
   ShareContentDialogComponent
 } from '../../features-module/dialog/components/share-dialog-component/share-dialog-component.component';
@@ -289,7 +289,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     });
 
     const instance = dialogRef.componentInstance;
-    instance.title = 'Share content';
+    instance.title = 'ShareContentDialog.CreateShare';
 
   }
 
