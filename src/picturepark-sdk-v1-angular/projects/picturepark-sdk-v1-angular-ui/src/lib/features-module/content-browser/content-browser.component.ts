@@ -26,8 +26,8 @@ import { OutputSelection } from '../dialog/components/content-download-dialog/co
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentItemSelectionService } from '../../shared-module/services/content-item-selection/content-item-selection.service';
-import { DownloadFallbackService } from '../../services/download-fallback.service';
-import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+import { DownloadFallbackService } from '../../shared-module/services/download-fallback/download-fallback.service';
+import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
 
 // INTERFACES

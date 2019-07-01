@@ -9,7 +9,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseComponent } from '../../shared-module/components/base.component';
+import { BaseComponent } from '../../components/base.component';
 
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
 

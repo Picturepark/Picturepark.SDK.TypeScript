@@ -8,6 +8,8 @@ import { MaterialsModule } from '../materials-module/materials-module.module';
 // SERVICES
 import { BasketService } from './services/basket/basket.service';
 import { ContentItemSelectionService } from './services/content-item-selection/content-item-selection.service';
+import { DownloadFallbackService } from './services/download-fallback/download-fallback.service';
+import { LiquidRenderingService } from './services/liquid-rendering/liquid-rendering.service';
 import { NotificationService } from './services/notification/notification.service';
 import { TranslationService } from './services/translations/translation.service';
 
@@ -42,7 +44,9 @@ export class SharedModule {
       providers: [
         BasketService,
         ContentItemSelectionService,
+        LiquidRenderingService,
         NotificationService,
+        DownloadFallbackService,
         TranslationService,
       ]
     };

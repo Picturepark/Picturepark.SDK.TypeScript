@@ -6,7 +6,6 @@ import {
     Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, fetchAll, ISearchResult
 } from '@picturepark/sdk-v1-angular';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -15,9 +14,8 @@ export class DownloadFallbackService {
     downloadSubject = new Subject<Output[]>();
 
     constructor(
-        private outputService: OutputService) {
-
-    }
+        private outputService: OutputService
+    ) {}
 
     public async download(contents: Content[]): Promise<void> {
         const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
@@ -33,8 +31,6 @@ export class DownloadFallbackService {
             // this.showDialog(contents, outputs.results);
         });
     }
-
-
 
     // DOWNLOAD CONTENT SUBSCRIBER
     downloadContentSubscriber(): Observable<Output[]> {

@@ -1,12 +1,14 @@
 import { Observable } from 'rxjs';
 import { Component, LOCALE_ID, Inject, Input } from '@angular/core';
 
+// LIBRARIES
 import {
   ObjectAggregationResult, ContentAggregationRequest, BrokenDependenciesFilter,
   ContentSearchType, LifeCycleFilter, ContentService
 } from '@picturepark/sdk-v1-angular';
 
-import { AggregationComponent } from '../../aggregation-list/aggregation.component';
+// COMPONENTS
+import { AggregationComponent } from '../../../../shared-module/components/aggregation-list/aggregation.component';
 
 @Component({
   selector: 'pp-content-aggregation',

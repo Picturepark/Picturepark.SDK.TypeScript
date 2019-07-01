@@ -1,9 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-  SimpleChanges, OnInit, SecurityContext
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
-import { switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 // LIBRARIES

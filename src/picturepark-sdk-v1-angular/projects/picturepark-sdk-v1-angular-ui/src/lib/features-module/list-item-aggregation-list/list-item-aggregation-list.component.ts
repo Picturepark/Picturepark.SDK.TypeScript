@@ -1,12 +1,14 @@
 import { Observable, of } from 'rxjs';
 import { Component, Input } from '@angular/core';
 
+// LIBRARIES
 import {
   BrokenDependenciesFilter, LifeCycleFilter,
   ObjectAggregationResult, ListItemAggregationRequest, ListItemService
 } from '@picturepark/sdk-v1-angular';
 
-import { AggregationListComponent } from '../aggregation-list/aggregation-list.component';
+// COMPONENTS
+import { AggregationListComponent } from '../../shared-module/components/aggregation-list/aggregation-list.component';
 
 @Component({
   selector: 'pp-list-item-aggregation-list',

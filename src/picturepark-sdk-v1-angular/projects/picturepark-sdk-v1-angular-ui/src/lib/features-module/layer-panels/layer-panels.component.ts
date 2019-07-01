@@ -1,9 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+
+// LIBRARIES
 import {
   SchemaDetail, ContentDetail, FieldMultiTagbox, FieldSingleTagbox, FieldString, FieldTranslatedString, FieldBoolean
 } from '@picturepark/sdk-v1-angular';
-import { FieldDetailInfoDialogComponent } from './field-detail-info-dialog/field-detail-info-dialog.component';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+
+// COMPONENTS
+import { FieldDetailInfoDialogComponent } from './components/field-detail-info-dialog/field-detail-info-dialog.component';
 
 @Component({
   selector: 'pp-layer-panels',

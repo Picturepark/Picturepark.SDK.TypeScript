@@ -14,7 +14,7 @@ import {
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-import { DownloadFallbackService } from '../../services/download-fallback.service';
+import { DownloadFallbackService } from '../../shared-module/services/download-fallback/download-fallback.service';
 import { MatDialog } from '@angular/material';
 
 @Component({

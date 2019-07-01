@@ -3,12 +3,14 @@ import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
 
+// LIBRARIES
 import {
   AggregationFilter, AggregationResult, AggregatorBase,
   AggregationResultItem, TermsAggregator, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../../shared-module/components/base.component';
 
+// COMPONENTS
+import { BaseComponent } from '../base.component';
 
 export abstract class AggregationComponent extends BaseComponent implements OnChanges {
   // Used for performing aggregate request (autocomplete functionality).
