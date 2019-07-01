@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 // COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component'
+import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
 import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
@@ -19,6 +19,7 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
   // SUBSCRIBERS
   notificationSubscriber: Subscription;
 
+  // VARS
   public notification: Notification;
   public title: string;
 

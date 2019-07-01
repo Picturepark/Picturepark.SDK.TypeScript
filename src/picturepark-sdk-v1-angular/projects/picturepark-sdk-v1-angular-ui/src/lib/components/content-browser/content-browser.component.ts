@@ -2,26 +2,33 @@ import {
   Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
   OnInit, NgZone, Inject, HostListener
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
+// LIBRARIES
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, Output as IOutPut
 } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
 import {
+  ContentDownloadDialogComponent
+} from '../../features-module/dialog/components/content-download-dialog/content-download-dialog.component';
+import {
   ShareContentDialogComponent
-} from '../../features-module/dialog/components/share-dialog-component/share-dialog-component.component';
+} from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
+import { OutputSelection } from '../../components/content-download-dialog/output-selection';
 
 // SERVICES
 import { BasketService } from './../../services/basket.service';
 import { ContentItemSelectionService } from './../../services/content-item-selection.service';
 import { DownloadFallbackService } from '../../services/download-fallback.service';
 import { LiquidRenderingService } from '../../services/liquid-rendering.service';
+import { TranslationService } from '../../services/translation.service';
 
 // INTERFACES
 import { ContentModel } from './models/content-model';
@@ -35,6 +42,9 @@ import { SortingType } from './models/sorting-type';
   styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
+
+  // SUBSCRIBERS
+  downloadContentSubscriber: Subscription;
 
   private lastSelectedIndex = 0;
 
@@ -67,6 +77,13 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public activeSortingType = SortingType.relevance;
 
   public configActions: ConfigActions;
+
+  public outputFormatFallback = [
+    { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
+    { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
+    { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
+    { fileSchemaId: 'VideoMetadata', outputFormatId: 'VideoLarge' }
+  ];
 
   @Input()
   public channel: Channel | null = null;
@@ -113,7 +130,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private liquidRenderingService: LiquidRenderingService,
     private downloadFallbackService: DownloadFallbackService,
     private scrollDispatcher: ScrollDispatcher,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private translationService: TranslationService,
   ) {
 
     super();
@@ -149,6 +167,18 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
         }
       });
     this.subscription.add(scrollSubscription);
+
+    // DOWNLOAD CONTENT SUBSCRIBER
+    this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
+
+      // OPEN DOWNLOAD CONTENT DIALOG
+      this.openDownloadContentDialog(this.items.filter(i => i.isSelected).map(i => i.item), outputs);
+
+    });
+
+    // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
+    this.subscription.add(this.downloadContentSubscriber);
+
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -292,6 +322,88 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     instance.title = 'ShareContentDialog.CreateShare';
 
   }
+
+  async openDownloadContentDialog(contents: Content[], outputs: IOutPut[]): Promise<void> {
+
+    const translations = await this.translationService.getOutputFormatTranslations();
+    const selection = new OutputSelection(outputs, contents, translations, this.translationService);
+
+    // Preselect logic with fallback
+    selection.getFileFormats().forEach(fileFormat => {
+      const fileFormatOutputs = selection.getOutputs(fileFormat);
+      const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
+      if (fileFormat.contents.length === 0) {
+          return;
+      }
+
+      const fallbackOutputs = fileFormat.contents
+          .map(content => this.getOutput(
+              content,
+              fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
+          )
+          .filter(i => i);
+
+      if (fallbackOutputs.length === 0) {
+          return;
+      }
+
+      const grouped = this.groupBy(fallbackOutputs, i => i.outputFormatId);
+      fileFormatOutputs.forEach(output => {
+          const fallback = grouped.get(output.id);
+          if (!fallback) {
+              return;
+          }
+          if (fallback && fallback.length === fileFormat.contents.length) {
+              output.selected = true;
+          }
+      });
+    });
+
+    // OPEN DIALOG
+    const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
+      data: selection,
+      autoFocus: false
+    });
+
+    const instance = dialogRef.componentInstance;
+    instance.title = 'ContentDownloadDialog.Title';
+
+  }
+
+  public getOutput(content: Content, outputs: IOutPut[]): IOutPut {
+
+    // Try to use Original
+    let output = outputs.find(i => i.outputFormatId === 'Original');
+    if (output) {
+        return output;
+    }
+
+    // Fallback to configured output formats
+    this.outputFormatFallback.filter(i => i.fileSchemaId === content.contentSchemaId).forEach(fallback => {
+        output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
+    });
+
+    // If still no output, fallback to Preview
+    if (!output) {
+        output = outputs.find(i => i.outputFormatId === 'Preview');
+    }
+
+    return output!;
+  }
+
+  groupBy<T, K>(list: T[], getKey: (item: T) => K): Map<K, T[]> {
+    const map = new Map<K, T[]>();
+    list.forEach((item) => {
+        const key = getKey(item);
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    });
+    return map;
+}
 
   // HANDLE COMPONENENT CLICK EVENT
   @HostListener('document:click', ['$event'])

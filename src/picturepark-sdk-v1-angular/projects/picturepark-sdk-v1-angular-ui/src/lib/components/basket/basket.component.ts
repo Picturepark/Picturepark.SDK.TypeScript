@@ -10,7 +10,7 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 import { BaseComponent } from '../../shared-module/components/base.component';
 import {
   ShareContentDialogComponent
-} from '../../features-module/dialog/components/share-dialog-component/share-dialog-component.component';
+} from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../services/basket.service';

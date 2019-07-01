@@ -27,8 +27,8 @@ import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
 
 @Component({
   selector: 'pp-share-content-dialog',
-  templateUrl: './share-dialog-component.component.html',
-  styleUrls: ['../dialog-base/dialog-base.component.scss', './share-dialog-component.component.scss'],
+  templateUrl: './share-content-dialog.component.html',
+  styleUrls: ['../dialog-base/dialog-base.component.scss', './share-content-dialog.component.scss'],
   providers: [ TranslatePipe ]
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -58,7 +58,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
-    protected dialogRef: MatDialogRef<any>,
+    protected dialogRef: MatDialogRef<ShareContentDialogComponent>,
     private formBuilder: FormBuilder,
     protected notificationService: NotificationService,
     private shareService: ShareService,
@@ -195,14 +195,15 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         terms: selectedContent
       })
     })).subscribe(data => {
-      const subject = this.translatePipe.transform(
+
+      const shareName = this.translatePipe.transform(
         'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.results.length - 1]
       );
 
       // DISPLAY TRANSLATION AND HIDE INPUT SPINNER
       setTimeout(() => {
         this.spinnerLoader = false;
-        this.sharedContentForm.get('share_name')!.setValue(subject);
+        this.sharedContentForm.get('share_name')!.setValue(shareName);
       }, 500);
 
     });

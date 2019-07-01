@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 
+// LIBRARIES
 import { ContentSearchResult } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -8,13 +9,15 @@ import { ContentSearchResult } from '@picturepark/sdk-v1-angular';
   styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent implements OnChanges {
+
   public result: ContentSearchResult | null = null;
 
   @Input()
   public query = '';
+
   @Output()
   public queryChange = new EventEmitter<string>();
-
+  
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['query']) {
       this.search();
