@@ -5,6 +5,82 @@ import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './services'; /
 import { PictureparkServiceBase } from './base.service';
 import * as generated from './services';
 
+export abstract class DTOBase {
+    // tslint:disable-next-line: variable-name
+    private _fields: {
+        type: 'object' | 'array' | 'dictionary';
+        propertyName: string;
+        supportsConstructorConversion: boolean;
+        builder?: (item: any) => any;
+    }[] = [];
+
+    constructor(data?: any) {
+        if (data) {
+            for (const property in data) {
+                if (data.hasOwnProperty(property)) {
+                    (this)[property] = (data)[property];
+                }
+            }
+        }
+    }
+
+    construct(data?: any): void {
+        this._fields.forEach(field => {
+            if (!field.supportsConstructorConversion) {
+                return;
+            }
+
+            switch (field.type) {
+                case 'array':
+                    this.constructArray(data, field.propertyName, field.builder);
+                    break;
+                case 'dictionary':
+                    this.constructDict(data, field.propertyName, field.builder);
+                    break;
+                case 'object':
+                    this.constructObject(data, field.propertyName, field.builder);
+                    break;
+            }
+        });
+    }
+
+    setProp(
+        type: 'object' | 'array' | 'dictionary',
+        propertyName: string,
+        supportsConstructorConversion: boolean,
+        builder?: (item: any) => any
+    ): void {
+        this._fields.push({type, supportsConstructorConversion, propertyName, builder});
+    }
+
+    constructArray<T>(data: any, propertyName: string, builder: (item: any) => T): void {
+        if (data[propertyName]) {
+            this[propertyName] = [];
+            for (let i = 0; i < data[propertyName].length; i++) {
+                const item = data[propertyName][i];
+                this[propertyName][i] = item && !(item as any).toJSON ? builder(item) : item as T;
+            }
+        }
+    }
+
+    constructDict<T>(data: any, propertyName: string, builder: (item: any) => T): void {
+        if (data[propertyName]) {
+            this[propertyName] = {};
+            for (const key in data[propertyName]) {
+                if (data[propertyName].hasOwnProperty(key)) {
+                    const item = data[propertyName][key];
+                    this[propertyName][key] = item && !(item as any).toJSON ? builder(item) : item as T;
+                }
+            }
+        }
+    }
+
+    constructObject<T>(data: any, propertyName: string, builder: (item: any) => T): void {
+        this[propertyName] = data[propertyName] && !(data[propertyName] as any).toJSON
+            ? builder(data[propertyName]) : this[propertyName] as T;
+    }
+}
+
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
     translate(locale: string) {
         const language = locale.split('-')[0];
