@@ -174,10 +174,10 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       // OPEN DOWNLOAD CONTENT DIALOG
       this.openDownloadContentDialog(this.items.filter(i => i.isSelected).map(i => i.item), outputs);
 
-      // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
-      this.subscription.add(this.downloadContentSubscriber);
-
     });
+
+    // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
+    this.subscription.add(this.downloadContentSubscriber);
 
   }
 

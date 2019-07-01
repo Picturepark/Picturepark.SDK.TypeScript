@@ -60,26 +60,20 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
 
   public ngOnInit(): void {
 
-    const downloadSubscription = this.loadItem.pipe(
-      switchMap(() => {
-        return this.contentService.downloadThumbnail(
-          this.itemModel.item.id,
-          this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
-          null,
-          null);
-      }))
-      .subscribe(response => {
-
-        console.log(response);
-
-        if (response) {
-          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-          this.isLoading = false;
-        }
-      }, () => {
-        this.thumbnailUrl = null;
+    const downloadSubscription = this.contentService.downloadThumbnail(
+      this.itemModel.item.id,
+      this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
+      null,
+      null
+    ).subscribe(response => {
+      if (response) {
+        this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
         this.isLoading = false;
-      });
+      }
+    }, () => {
+      this.thumbnailUrl = null;
+      this.isLoading = false;
+    });
 
     this.subscription.add(downloadSubscription);
   }
