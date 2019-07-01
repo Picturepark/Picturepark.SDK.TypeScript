@@ -19,13 +19,13 @@
   </mat-dialog-content>
   
   <mat-dialog-actions align="end">
-    <button mat-button (click)="toggleAdvanced()" *ngIf="enableAdvanced">
+    <button mat-button class="option" (click)="toggleAdvanced()" *ngIf="enableAdvanced">
       <span *ngIf="!advancedMode">{{ 'ContentDownloadDialog.Advanced' | pptranslate }}</span>
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
     <span class="spacer"></span>
-    <button mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
-    <button mat-flat-button color="primary" (click)="download()" [disabled]="fileSize === 0" cdkFocusInitial>{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
+    <button class="cancel" mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
+    <button class="active" (click)="download()" [disabled]="fileSize === 0">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
   </mat-dialog-actions>
 </div>
 

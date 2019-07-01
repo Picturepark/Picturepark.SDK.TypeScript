@@ -32,6 +32,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   // DOWNLOAD SELECTED CONTENT
   public download(): void {
+
     const request = new ContentDownloadLinkCreateRequest({
       contents: this.data.getSelectedOutputs().map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }))
     });
@@ -42,6 +43,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
           this.dialogRef.close(true);
       }
     });
+
   }
 
   // TOGGLE ADVANCED
