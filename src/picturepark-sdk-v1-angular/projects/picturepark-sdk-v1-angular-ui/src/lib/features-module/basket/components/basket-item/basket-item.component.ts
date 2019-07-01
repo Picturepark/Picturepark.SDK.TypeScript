@@ -1,9 +1,14 @@
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { BasketService } from '../../../shared-module/services/basket/basket.service';
+// LIBRARIES
 import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
-import { BaseComponent } from '../../../shared-module/components/base.component';
+
+// COMPONENTS
+import { BaseComponent } from '../../../../shared-module/components/base.component';
+
+// SERVICES
+import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 
 @Component({
   selector: 'pp-basket-item',
@@ -17,7 +22,11 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
 
   public imageUrl: SafeUrl;
 
-  constructor(private basketService: BasketService, private contentService: ContentService, private sanitizer: DomSanitizer) {
+  constructor(
+    private basketService: BasketService,
+    private contentService: ContentService,
+    private sanitizer: DomSanitizer
+  ) {
     super();
   }
 

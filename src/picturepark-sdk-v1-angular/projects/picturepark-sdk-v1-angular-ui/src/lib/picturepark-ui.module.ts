@@ -9,8 +9,6 @@ import { FeaturesModule } from './features-module/features-module.module';
 import { SharedModule } from './shared-module/shared-module.module';
 
 // SDK components
-import { BasketItemComponent } from './components/basket/basket-item/basket-item.component';
-import { BasketComponent } from './components/basket/basket.component';
 import { ContentAggregationComponent } from './components/content-aggregation-list/content-aggregation/content-aggregation.component';
 import { ContentAggregationListComponent } from './components/content-aggregation-list/content-aggregation-list.component';
 import { ContentBrowserItemComponent } from './components/content-browser/content-browser-item/content-browser-item.component';
@@ -36,8 +34,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 @NgModule({
   declarations: [
-    BasketComponent,
-    BasketItemComponent,
     ContentBrowserComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
@@ -64,8 +60,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     LayerPanelsComponent,
     ContentAggregationListComponent,
     ListItemAggregationListComponent,
-    BasketComponent,
-
     FeaturesModule,
     SharedModule
   ],
