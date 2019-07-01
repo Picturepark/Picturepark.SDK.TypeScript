@@ -17,7 +17,7 @@ export class SearchBoxComponent implements OnChanges {
 
   @Output()
   public queryChange = new EventEmitter<string>();
-  
+
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['query']) {
       this.search();
