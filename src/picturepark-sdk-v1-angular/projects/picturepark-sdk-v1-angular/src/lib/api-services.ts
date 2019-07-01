@@ -68,7 +68,7 @@ export abstract class DTOBase {
             this[propertyName] = [];
             for (let i = 0; i < data[propertyName].length; i++) {
                 const item = data[propertyName][i];
-                this[propertyName][i] = item && !(item as any).toJSON && builder ? builder(item) : item as T;
+                this[propertyName][i] = item && !(item as any).toJSON && builder  ? builder(item) : item as T;
             }
         }
     }
@@ -29280,7 +29280,7 @@ export class TranslatedStringDictionary extends DTOBase {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         for (var property in this) {
-            if (this.hasOwnProperty(property))
+            if (this.hasOwnProperty(property) && property !== '_fields')
                 data[property] = this[property];
         }
         return data; 
@@ -32279,7 +32279,7 @@ export class DisplayValueDictionary extends DTOBase {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         for (var property in this) {
-            if (this.hasOwnProperty(property))
+            if (this.hasOwnProperty(property) && property !== '_fields')
                 data[property] = this[property];
         }
         return data; 
@@ -32319,7 +32319,7 @@ export class DataDictionary extends DTOBase {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         for (var property in this) {
-            if (this.hasOwnProperty(property))
+            if (this.hasOwnProperty(property) && property !== '_fields')
                 data[property] = this[property];
         }
         return data; 

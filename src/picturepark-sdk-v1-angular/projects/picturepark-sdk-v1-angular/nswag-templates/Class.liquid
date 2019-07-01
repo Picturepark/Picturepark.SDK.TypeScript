@@ -117,7 +117,7 @@
         data = typeof data === 'object' ? data : {};
 {% if HasIndexerProperty -%}
         for (var property in this) {
-            if (this.hasOwnProperty(property))
+            if (this.hasOwnProperty(property) && property !== '_fields')
                 data[property] = this[property];
         }
 {% endif -%}

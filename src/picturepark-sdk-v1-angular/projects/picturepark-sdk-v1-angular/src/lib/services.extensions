@@ -53,30 +53,30 @@ export abstract class DTOBase {
         this._fields.push({type, supportsConstructorConversion, propertyName, builder});
     }
 
-    constructArray<T>(data: any, propertyName: string, builder: (item: any) => T): void {
+    constructArray<T>(data: any, propertyName: string, builder?: (item: any) => T): void {
         if (data[propertyName]) {
             this[propertyName] = [];
             for (let i = 0; i < data[propertyName].length; i++) {
                 const item = data[propertyName][i];
-                this[propertyName][i] = item && !(item as any).toJSON ? builder(item) : item as T;
+                this[propertyName][i] = item && !(item as any).toJSON  && builder ? builder(item) : item as T;
             }
         }
     }
 
-    constructDict<T>(data: any, propertyName: string, builder: (item: any) => T): void {
+    constructDict<T>(data: any, propertyName: string, builder?: (item: any) => T): void {
         if (data[propertyName]) {
             this[propertyName] = {};
             for (const key in data[propertyName]) {
                 if (data[propertyName].hasOwnProperty(key)) {
                     const item = data[propertyName][key];
-                    this[propertyName][key] = item && !(item as any).toJSON ? builder(item) : item as T;
+                    this[propertyName][key] = item && !(item as any).toJSON && builder ? builder(item) : item as T;
                 }
             }
         }
     }
 
-    constructObject<T>(data: any, propertyName: string, builder: (item: any) => T): void {
-        this[propertyName] = data[propertyName] && !(data[propertyName] as any).toJSON
+    constructObject<T>(data: any, propertyName: string, builder?: (item: any) => T): void {
+        this[propertyName] = data[propertyName] && !(data[propertyName] as any).toJSON && builder
             ? builder(data[propertyName]) : this[propertyName] as T;
     }
 }
