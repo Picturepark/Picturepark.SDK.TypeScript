@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-    Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, fetchAll, ISearchResult
+    Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, fetchAll
 } from '@picturepark/sdk-v1-angular';
 
 @Injectable({

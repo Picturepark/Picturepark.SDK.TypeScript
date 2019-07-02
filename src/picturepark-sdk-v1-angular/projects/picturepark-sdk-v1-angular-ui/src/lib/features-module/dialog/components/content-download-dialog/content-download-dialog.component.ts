@@ -9,6 +9,7 @@ import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
 
 // SERVICES
 import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
+import { OutputSelection } from './components/output-selection';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -22,7 +23,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public advancedMode = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: OutputSelection,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     protected notificationService: NotificationService,
@@ -63,18 +64,4 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       this.fileSize = 0;
     }
   }
-
-  // CLOSE DIALOG
-  public closeDialog(): void {
-    super.closeDialog();
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
-  }
-
 }

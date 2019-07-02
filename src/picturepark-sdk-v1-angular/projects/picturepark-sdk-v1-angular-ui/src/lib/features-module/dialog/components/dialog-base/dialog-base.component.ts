@@ -46,13 +46,4 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
     this.subscription.add(this.notificationSubscriber);
 
   }
-
-  ngOnDestroy() {
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-
-  }
-
 }
