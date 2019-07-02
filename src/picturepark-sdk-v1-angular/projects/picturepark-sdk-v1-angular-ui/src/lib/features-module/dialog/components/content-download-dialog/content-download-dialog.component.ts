@@ -42,7 +42,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   ];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Content[],
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     private downloadFallbackService: DownloadFallbackService,
@@ -54,18 +54,14 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     // DISPLAY LOADER
     this.loader = true;
 
-    // SET FILTERED DATA
-    this.filteredData = this.data.filter(i => i.isSelected).map(i => i.item);
-
     // DOWNLOAD SELECTED CONTENT INFO
-    this.downloadFallbackService.download(this.filteredData);
+    this.downloadFallbackService.download(this.data);
 
   }
 
   async getSelection(outputs: IOutPut[], contents: Content[]) {
 
     const translations = await this.translationService.getOutputFormatTranslations();
-
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
     selection.getFileFormats().forEach(fileFormat => {
       const fileFormatOutputs = selection.getOutputs(fileFormat);
@@ -179,7 +175,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     // DOWNLOAD CONTENT SUBSCRIBER
     this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
-      this.getSelection(outputs, this.filteredData);
+      this.getSelection(outputs, this.data);
     });
 
     // UNSUBSCRIBE

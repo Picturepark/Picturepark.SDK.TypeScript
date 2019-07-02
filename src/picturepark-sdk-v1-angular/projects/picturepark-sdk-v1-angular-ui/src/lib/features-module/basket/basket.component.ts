@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 // LIBRARIES
 import {
@@ -8,14 +9,13 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
+import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
 import {
   ShareContentDialogComponent
 } from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-import { DownloadFallbackService } from '../../shared-module/services/download-fallback/download-fallback.service';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'pp-basket',
@@ -36,7 +36,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private contentService: ContentService,
     private basketService: BasketService,
     public dialog: MatDialog,
-    private downloadFallbackService: DownloadFallbackService
     ) {
 
     super();
@@ -51,6 +50,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   public downloadItems(): void {
+
     const contentSearch = fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
       limit: 1000,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -62,9 +62,19 @@ export class BasketComponent extends BaseComponent implements OnInit {
         terms: this.basketItems
       })
     })).subscribe(data => {
+
+      const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
+        data: data.results,
+        autoFocus: false
+      });
+
+      const instance = dialogRef.componentInstance;
+      instance.title = 'ContentDownloadDialog.Title';
+
       contentSearch.unsubscribe();
-      this.downloadFallbackService.download(data.results);
+
     });
+
   }
 
   public openShareContentDialog(): void {

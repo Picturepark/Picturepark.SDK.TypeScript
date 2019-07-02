@@ -301,7 +301,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   openDownloadContentDialog(): void {
 
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-      data: this.items,
+      data: this.items.filter(i => i.isSelected).map(i => i.item),
       autoFocus: false
     });
 
