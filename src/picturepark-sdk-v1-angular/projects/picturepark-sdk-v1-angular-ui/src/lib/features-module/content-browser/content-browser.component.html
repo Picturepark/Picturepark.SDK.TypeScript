@@ -26,7 +26,7 @@
         <button *ngIf="selectedItems.length === 1" mat-icon-button [matTooltip]="'ContentBrowser.Preview' | pptranslate">
           <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
         </button>
-        <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="downloadItems()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
+        <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
           <mat-icon aria-label="Download selected items">get_app</mat-icon>
         </button>
         <ng-content select="[content-buttons]"></ng-content>

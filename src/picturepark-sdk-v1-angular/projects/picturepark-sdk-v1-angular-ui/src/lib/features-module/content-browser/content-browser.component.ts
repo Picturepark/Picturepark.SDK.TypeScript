@@ -21,14 +21,12 @@ import {
 import {
   ShareContentDialogComponent
 } from '../dialog/components/share-content-dialog/share-content-dialog.component';
-import { OutputSelection } from '../dialog/components/content-download-dialog/components/output-selection';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentItemSelectionService } from '../../shared-module/services/content-item-selection/content-item-selection.service';
 import { DownloadFallbackService } from '../../shared-module/services/download-fallback/download-fallback.service';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
-import { TranslationService } from '../../shared-module/services/translations/translation.service';
 
 // INTERFACES
 import { ContentModel } from './models/content-model';
@@ -128,10 +126,9 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentService: ContentService,
     public dialog: MatDialog,
     private liquidRenderingService: LiquidRenderingService,
-    private downloadFallbackService: DownloadFallbackService,
+
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone,
-    private translationService: TranslationService,
   ) {
 
     super();
@@ -168,17 +165,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       });
     this.subscription.add(scrollSubscription);
 
-    // DOWNLOAD CONTENT SUBSCRIBER
-    this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
-
-      // OPEN DOWNLOAD CONTENT DIALOG
-      this.openDownloadContentDialog(this.items.filter(i => i.isSelected).map(i => i.item), outputs);
-
-    });
-
-    // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
-    this.subscription.add(this.downloadContentSubscriber);
-
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -213,9 +199,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     this.previewItem(this.selectedItems[0]);
   }
 
-  public downloadItems() {
-    this.downloadFallbackService.download(this.items.filter(i => i.isSelected).map(i => i.item));
-  }
+
 
   public toggleItems(isSelected: boolean) {
     if (isSelected === true) {
@@ -313,6 +297,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
 
+    // OPEN DIALOG
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
       autoFocus: false
@@ -323,45 +308,12 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
 
   }
 
-  async openDownloadContentDialog(contents: Content[], outputs: IOutPut[]): Promise<void> {
-
-    const translations = await this.translationService.getOutputFormatTranslations();
-    const selection = new OutputSelection(outputs, contents, translations, this.translationService);
-
-    // Preselect logic with fallback
-    selection.getFileFormats().forEach(fileFormat => {
-      const fileFormatOutputs = selection.getOutputs(fileFormat);
-      const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
-      if (fileFormat.contents.length === 0) {
-          return;
-      }
-
-      const fallbackOutputs = fileFormat.contents
-          .map(content => this.getOutput(
-              content,
-              fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
-          )
-          .filter(i => i);
-
-      if (fallbackOutputs.length === 0) {
-          return;
-      }
-
-      const grouped = this.groupBy(fallbackOutputs, i => i.outputFormatId);
-      fileFormatOutputs.forEach(output => {
-          const fallback = grouped.get(output.id);
-          if (!fallback) {
-              return;
-          }
-          if (fallback && fallback.length === fileFormat.contents.length) {
-              output.selected = true;
-          }
-      });
-    });
+  // OPEN DOWNLOAD CONTENT DIALOG
+  openDownloadContentDialog(): void {
 
     // OPEN DIALOG
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-      data: selection,
+      data: this.selectedItems,
       autoFocus: false
     });
 

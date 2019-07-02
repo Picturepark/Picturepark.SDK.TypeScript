@@ -1,14 +1,18 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { ContentDownloadLinkCreateRequest, ContentService } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
+import { OutputSelection } from './components/output-selection';
 
 // SERVICES
+import { DownloadFallbackService } from '../../../../shared-module/services/download-fallback/download-fallback.service';
 import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
+import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -16,6 +20,9 @@ import { NotificationService } from '../../../../shared-module/services/notifica
   styleUrls: ['../dialog-base/dialog-base.component.scss', './content-download-dialog.component.scss']
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
+
+  // SUBSCRIBERS
+  downloadContentSubscriber: Subscription;
 
   public fileSize = 0;
   public enableAdvanced = false;
@@ -25,9 +32,52 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
+    private downloadFallbackService: DownloadFallbackService,
     protected notificationService: NotificationService,
+    private translationService: TranslationService,
   ) {
     super(data, dialogRef, notificationService);
+
+    this.downloadFallbackService.download(this.data.filter(i => i.isSelected).map(i => i.item));
+
+  }
+
+
+  async getTranslations() {
+
+    const translations = await this.translationService.getOutputFormatTranslations();
+    const selection = new OutputSelection(outputs, contents, translations, this.translationService);
+    // Preselect logic with fallback
+    selection.getFileFormats().forEach(fileFormat => {
+      const fileFormatOutputs = selection.getOutputs(fileFormat);
+      const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
+      if (fileFormat.contents.length === 0) {
+          return;
+      }
+
+      const fallbackOutputs = fileFormat.contents
+          .map(content => this.getOutput(
+              content,
+              fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
+          )
+          .filter(i => i);
+
+      if (fallbackOutputs.length === 0) {
+          return;
+      }
+
+      const grouped = this.groupBy(fallbackOutputs, i => i.outputFormatId);
+      fileFormatOutputs.forEach(output => {
+          const fallback = grouped.get(output.id);
+          if (!fallback) {
+              return;
+          }
+          if (fallback && fallback.length === fileFormat.contents.length) {
+              output.selected = true;
+          }
+      });
+    });
+    
   }
 
   // DOWNLOAD SELECTED CONTENT
@@ -71,6 +121,18 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   ngOnInit() {
     super.ngOnInit();
+
+    // DOWNLOAD CONTENT SUBSCRIBER
+    this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
+
+      // OPEN DOWNLOAD CONTENT DIALOG
+      this.openDownloadContentDialog(this.items.filter(i => i.isSelected).map(i => i.item), outputs);
+
+    });
+
+    // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
+    this.subscription.add(this.downloadContentSubscriber);
+
   }
 
   ngOnDestroy() {
