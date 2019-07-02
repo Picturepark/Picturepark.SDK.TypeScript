@@ -14,12 +14,13 @@ export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREP
 export function PictureparkUIConfigurationFactory() {
     return<PictureparkUIConfiguration> {
         'ContentBrowserComponent': {
-            select: true,
             downloadContent: true,
+            selectContent: true,
             shareContent: true
         },
         'BasketComponent': {
             downloadContent: true,
+            selectContent: false,
             shareContent: true
         }
     };
