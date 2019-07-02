@@ -85,6 +85,10 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   public removeContent(event: string): void {
     this.selectedContent.map((item, index) => {
       if (event === item) { this.selectedContent.splice(index, 1); }
+
+      // PREFILL SUBJECT
+      this.setPrefillSubject(this.selectedContent);
+
     });
     // CLOSE DIALOG IF NOT SELECTED IMAGES
     if (this.selectedContent.length === 0) { this.closeDialog(); }
@@ -184,6 +188,12 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   // SET PREFILL SUBJECT
   public setPrefillSubject(selectedContent: string[]): void {
 
+    // REMOVE SHARE NAME FORM FIELD VALUE
+    this.sharedContentForm.get('share_name')!.setValue('');
+
+    // SHOW SHARE NAME LOADER
+    this.spinnerLoader = true;
+
     const contentSearch = this.contentService.search(new ContentSearchRequest({
       limit: 1,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -196,14 +206,19 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       })
     })).subscribe(data => {
 
-      const shareName = this.translatePipe.transform(
-        'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.totalResults - 1]
-      );
+      // GENERATE SHARE NAME
+      const shareName = data.totalResults - 1 > 0 ? this.translatePipe.transform(
+        'ShareContentDialog.ItemsMore', [ data.results[0].displayValues.name, data.totalResults - 1 ]
+      ) : data.results[0].displayValues.name;
 
-      // DISPLAY TRANSLATION AND HIDE INPUT SPINNER
       setTimeout(() => {
+
+        // HIDE SHARE NAME LOADER
         this.spinnerLoader = false;
+
+        // SET SHARE NAME FORM FIELD VALUE
         this.sharedContentForm.get('share_name')!.setValue(shareName);
+
       }, 500);
 
     });
