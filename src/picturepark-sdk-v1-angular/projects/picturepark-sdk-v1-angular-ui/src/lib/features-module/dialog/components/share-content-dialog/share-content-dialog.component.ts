@@ -32,7 +32,7 @@ import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  @ViewChild('shareContentContainer', { static: true }) shareContentContainer: ElementRef;
+  @ViewChild('contentContainer', { static: true }) contentContainer: ElementRef;
   @ViewChild('loaderContainer', { static: true }) loaderContainer: ElementRef;
 
   // SUBSCRIBERS
@@ -130,7 +130,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       }));
 
       // SET LOADER HEIGHT DYNAMIC
-      const containerHeight = this.shareContentContainer.nativeElement.offsetHeight;
+      const containerHeight = this.contentContainer.nativeElement.offsetHeight;
       this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
 
       // HIDE LOADER

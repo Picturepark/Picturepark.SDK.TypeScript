@@ -54,10 +54,4 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
     this.contentItemSelectionService.removeItem(this.itemId);
   }
 
-  ngOnDestroy() {
-
-    super.ngOnDestroy();
-
-  }
-
 }

@@ -1,7 +1,5 @@
 .share-content-dialog-container {
-    position: relative;
-    min-width: 500px;
-
+    position: relative; min-width: 500px;
     ul {
         list-style: none; color: #727272; font-size: 13px; margin: 30px 0px 30px 0px; min-height: 35px; padding: 0px 25px;
         li { 
@@ -36,15 +34,6 @@
     }
 
     #share-name.error-active { border: 1px solid #f74931; }
-
-    & .loader-container { 
-        background-color: #f8f8f8; position: absolute; display: none; width: calc(100% + 48px); top: 46px; left:-24px; height: 515px; z-index: 20;
-        &.active { display: table; }
-        & .loader { 
-            display: table-cell; vertical-align: middle; text-align: center;
-            mat-spinner {  margin: 0 auto; }
-        }
-    }
 
     pp-share-content-recipients-input { width: 100%; }
 

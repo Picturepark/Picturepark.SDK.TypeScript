@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, Injector } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 
@@ -21,6 +21,9 @@ import { TranslationService } from '../../../../shared-module/services/translati
   styleUrls: ['../dialog-base/dialog-base.component.scss', './content-download-dialog.component.scss']
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
+
+  @ViewChild('contentContainer', { static: true }) contentContainer: ElementRef;
+  @ViewChild('loaderContainer', { static: true }) loaderContainer: ElementRef;
 
   // SUBSCRIBERS
   downloadContentSubscriber: Subscription;
@@ -47,6 +50,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     private downloadFallbackService: DownloadFallbackService,
     protected injector: Injector,
+    private renderer: Renderer2,
     private translationService: TranslationService,
   ) {
     super(data, dialogRef, injector);
@@ -91,10 +95,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
               output.selected = true;
           }
       });
-    });
 
-    this.loader = false;
-    this.selection = selection;
+      this.selection = selection;
+      setTimeout(() => { this.loader = false; }, 500);
+
+    });
 
   }
 
@@ -172,6 +177,10 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   ngOnInit() {
 
     super.ngOnInit();
+
+    // SET LOADER HEIGHT DYNAMIC
+    const containerHeight = this.contentContainer.nativeElement.offsetHeight;
+    this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
     // DOWNLOAD CONTENT SUBSCRIBER
     this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
