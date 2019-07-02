@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
-  ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut
+  ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut,
+  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -12,7 +13,6 @@ import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
 import { OutputSelection } from './components/output-selection';
 
 // SERVICES
-import { DownloadFallbackService } from '../../../../shared-module/services/download-fallback/download-fallback.service';
 import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
 
 @Component({
@@ -48,7 +48,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     @Inject(MAT_DIALOG_DATA) public data: Content[],
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
-    private downloadFallbackService: DownloadFallbackService,
+    private outputService: OutputService,
     protected injector: Injector,
     private renderer: Renderer2,
     private translationService: TranslationService,
@@ -57,10 +57,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     // DISPLAY LOADER
     this.loader = true;
-
-    // DOWNLOAD SELECTED CONTENT INFO
-    this.downloadFallbackService.download(this.data);
-
   }
 
   async getSelection(outputs: IOutPut[], contents: Content[]) {
@@ -97,8 +93,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       });
 
       this.selection = selection;
-      setTimeout(() => { this.loader = false; }, 500);
-
     });
 
   }
@@ -182,14 +176,20 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
-    // DOWNLOAD CONTENT SUBSCRIBER
-    this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
-      this.getSelection(outputs, this.data);
-    });
+    this.fetchOutputs();
+  }
 
-    // UNSUBSCRIBE
-    this.subscription.add(this.downloadContentSubscriber);
-
+  private fetchOutputs(): void {
+      const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
+          contentIds: this.data.map(i => i.id),
+          renderingStates: [ OutputRenderingState.Completed ],
+          limit: 1000
+      })).subscribe(async outputs => {
+        await this.getSelection(outputs.results, this.data);
+        this.update();
+        this.loader = false;
+      });
+      this.subscription.add(outputSubscription);
   }
 
 }
