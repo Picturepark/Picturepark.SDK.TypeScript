@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, Injector } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 // LIBRARIES
@@ -8,7 +8,6 @@ import { ContentDownloadLinkCreateRequest, ContentService } from '@picturepark/s
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
 
 // SERVICES
-import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
 import { OutputSelection } from './components/output-selection';
 
 @Component({
@@ -26,9 +25,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     @Inject(MAT_DIALOG_DATA) public data: OutputSelection,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
-    protected notificationService: NotificationService,
+    injector: Injector
   ) {
-    super(data, dialogRef, notificationService);
+    super(data, dialogRef, injector);
   }
 
   // DOWNLOAD SELECTED CONTENT
