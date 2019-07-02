@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'list-browser',
-    loadChildren: './list-browser/list-browser.module#ListBrowser'
+    loadChildren: './list-browser/list-browser.module#ListBrowserModule'
   }
 ];
 

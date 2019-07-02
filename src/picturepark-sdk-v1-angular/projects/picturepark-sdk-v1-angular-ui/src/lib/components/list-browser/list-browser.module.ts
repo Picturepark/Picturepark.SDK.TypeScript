@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// COMPONENTS
 import { ListBrowserComponent } from './list-browser.component';
 
 @NgModule({
@@ -10,6 +8,9 @@ import { ListBrowserComponent } from './list-browser.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    ListBrowserComponent
   ]
 })
-export class ListItemPickerModule { }
+export class ListBrowserModule { }

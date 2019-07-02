@@ -9,7 +9,10 @@ import { ContentPickerComponent } from './content-picker.component';
     ContentPickerComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+  ],
+  exports: [
+    ContentPickerComponent
   ]
 })
 export class ContentPickerModule { }

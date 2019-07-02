@@ -6,7 +6,9 @@ import { CommonModule } from '@angular/common';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from '../lib/configuration';
 
 // MODULES
+import { ChannelPickerModule } from '../lib/components/channel-picker/channel-picker.module';
 import { SharedModule } from './shared-module/shared-module.module';
+import { ListBrowserModule } from '../lib/components/list-browser/list-browser.module';
 
 // SDK components
 import { BasketItemComponent } from './components/basket/basket-item/basket-item.component';
@@ -18,7 +20,7 @@ import { ContentDownloadDialogComponent } from './components/content-download-di
 import {
   ShareContentRecipientsInputComponent
 } from './components/share-content-dialog/share-content-recipients-input/share-content-recipients-input.component';
-import { ChannelPickerComponent } from './components/channel-picker/channel-picker.component';
+
 import { ContentBrowserComponent } from './components/content-browser/content-browser.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
@@ -51,7 +53,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   declarations: [
     BasketComponent,
     BasketItemComponent,
-    ChannelPickerComponent,
     ContentBrowserComponent,
     ContentAggregationComponent,
     ContentAggregationListComponent,
@@ -79,19 +80,21 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   imports: [
     CommonModule,
     FormsModule,
+    ChannelPickerModule,
+    ListBrowserModule,
     ReactiveFormsModule,
     SharedModule,
   ],
   exports: [
-    ChannelPickerComponent,
     ContentBrowserComponent,
+    ChannelPickerModule,
+    ListBrowserModule,
     SearchBoxComponent,
     LayerPanelsComponent,
     ContentAggregationListComponent,
     ListItemAggregationListComponent,
     BasketComponent,
     OutputDownloadMenuComponent,
-    CommonModule,
     ContentDownloadDialogComponent,
     SharedModule
   ],
