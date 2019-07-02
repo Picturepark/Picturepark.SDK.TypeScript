@@ -3,7 +3,6 @@
  */
 export { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from './lib/configuration';
 
-
 // MODULES
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
 
@@ -14,6 +13,7 @@ export { ChannelPickerModule } from './lib/features-module/channel-picker/channe
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
 export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-panels.module';
+export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';
 export { ListItemAggregationListModule } from './lib/features-module/list-item-aggregation-list/list-item-aggregation-list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
