@@ -1,0 +1,24 @@
+<div [formGroup]="parentForm" class="chip-list-container">
+  <mat-form-field class="chip-list-content" [ngClass]="{'error-active': parentForm.controls['recipients'].touched && (
+    parentForm.controls['recipients'].hasError('required') ||
+    parentForm.controls['recipients'].errors?.error
+  )}">
+    <mat-chip-list #chipList aria-label="Share name">
+      <mat-chip *ngFor="let recipient of recipients" [selectable]="selectable" [removable]="removable" (removed)="remove(recipient)">
+        {{recipient}} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+            id="recipient">
+    </mat-chip-list>
+    
+  </mat-form-field>
+  <div class="chip-input-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['recipients'].hasError('required') && recipients.length === 0 }">
+    Please, add a recipient for sharing the images
+  </div>
+  <div class="chip-input-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['recipients'].errors?.error && !parentForm.controls['recipients'].hasError('required') }">
+    Sorry, but this is not an email
+  </div>
+</div>
