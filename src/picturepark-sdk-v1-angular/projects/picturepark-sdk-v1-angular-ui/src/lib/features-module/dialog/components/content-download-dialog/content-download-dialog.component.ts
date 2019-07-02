@@ -1,9 +1,11 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, Injector } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { ContentDownloadLinkCreateRequest, ContentService } from '@picturepark/sdk-v1-angular';
+import {
+  ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut
+} from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
@@ -11,7 +13,6 @@ import { OutputSelection } from './components/output-selection';
 
 // SERVICES
 import { DownloadFallbackService } from '../../../../shared-module/services/download-fallback/download-fallback.service';
-import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
 import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
 
 @Component({
@@ -24,30 +25,48 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   // SUBSCRIBERS
   downloadContentSubscriber: Subscription;
 
+  // VARS
+  public selection: OutputSelection;
   public fileSize = 0;
   public enableAdvanced = false;
   public advancedMode = false;
+  public filteredData: Content[];
+
+  public loader = false;
+
+  public outputFormatFallback = [
+    { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
+    { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
+    { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
+    { fileSchemaId: 'VideoMetadata', outputFormatId: 'VideoLarge' }
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     private downloadFallbackService: DownloadFallbackService,
-    protected notificationService: NotificationService,
+    protected injector: Injector,
     private translationService: TranslationService,
   ) {
-    super(data, dialogRef, notificationService);
+    super(data, dialogRef, injector);
 
-    this.downloadFallbackService.download(this.data.filter(i => i.isSelected).map(i => i.item));
+    // DISPLAY LOADER
+    this.loader = true;
+
+    // SET FILTERED DATA
+    this.filteredData = this.data.filter(i => i.isSelected).map(i => i.item);
+
+    // DOWNLOAD SELECTED CONTENT INFO
+    this.downloadFallbackService.download(this.filteredData);
 
   }
 
-
-  async getTranslations() {
+  async getSelection(outputs: IOutPut[], contents: Content[]) {
 
     const translations = await this.translationService.getOutputFormatTranslations();
+
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
-    // Preselect logic with fallback
     selection.getFileFormats().forEach(fileFormat => {
       const fileFormatOutputs = selection.getOutputs(fileFormat);
       const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
@@ -77,14 +96,17 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
           }
       });
     });
-    
+
+    this.loader = false;
+    this.selection = selection;
+
   }
 
   // DOWNLOAD SELECTED CONTENT
   public download(): void {
 
     const request = new ContentDownloadLinkCreateRequest({
-      contents: this.data.getSelectedOutputs().map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }))
+      contents: this.selection.getSelectedOutputs().map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }))
     });
     const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
       linkSubscription.unsubscribe();
@@ -98,15 +120,15 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   // TOGGLE ADVANCED
   public toggleAdvanced(): void {
-    this.data.toggleThumbnails();
+    this.selection.toggleThumbnails();
     this.update();
   }
 
   // UPDATE
   public update(): void {
-    this.enableAdvanced = this.data.hasThumbnails;
-    this.advancedMode = !this.data.hasHiddenThumbnails;
-    const outputs = this.data.getSelectedOutputs();
+    this.enableAdvanced = this.selection.hasThumbnails;
+    this.advancedMode = !this.selection.hasHiddenThumbnails;
+    const outputs = this.selection.getSelectedOutputs();
     if (outputs.length > 0) {
       this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes!).reduce((total, value) => total + value );
     } else {
@@ -114,29 +136,55 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
   }
 
-  // CLOSE DIALOG
-  public closeDialog(): void {
-    super.closeDialog();
+  // GROUP BY CATEGORIES
+  public groupBy<T, K>(list: T[], getKey: (item: T) => K): Map<K, T[]> {
+    const map = new Map<K, T[]>();
+    list.forEach((item) => {
+        const key = getKey(item);
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    });
+    return map;
+  }
+
+  // GET OUTPUT
+  public getOutput(content: Content, outputs: IOutPut[]): IOutPut {
+
+    // Try to use Original
+    let output = outputs.find(i => i.outputFormatId === 'Original');
+    if (output) {
+        return output;
+    }
+
+    // Fallback to configured output formats
+    this.outputFormatFallback.filter(i => i.fileSchemaId === content.contentSchemaId).forEach(fallback => {
+        output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
+    });
+
+    // If still no output, fallback to Preview
+    if (!output) {
+        output = outputs.find(i => i.outputFormatId === 'Preview');
+    }
+
+    return output!;
   }
 
   ngOnInit() {
+
     super.ngOnInit();
 
     // DOWNLOAD CONTENT SUBSCRIBER
     this.downloadContentSubscriber = this.downloadFallbackService.downloadContentSubscriber().subscribe(outputs => {
-
-      // OPEN DOWNLOAD CONTENT DIALOG
-      this.openDownloadContentDialog(this.items.filter(i => i.isSelected).map(i => i.item), outputs);
-
+      this.getSelection(outputs, this.filteredData);
     });
 
-    // ADD SUBSCRIBER TO SUBSCRIPTIONS ON BASE COMPONENT
+    // UNSUBSCRIBE
     this.subscription.add(this.downloadContentSubscriber);
 
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
 }

@@ -1,20 +1,20 @@
 <div class="download-content-dialog-container">
   <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
   <pp-notification [notification]="notification"></pp-notification>
-  <mat-dialog-content>
+  <mat-dialog-content *ngIf="selection">
     <form>
-      <fieldset *ngFor="let filetype of data.getFileFormats()">
-        <legend>{{filetype.name}} ({{filetype.contents.length}})</legend>
+      <fieldset *ngFor="let filetype of selection.getFileFormats()">
+        <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
   
-        <div *ngFor="let output of data.getOutputs(filetype)">
+        <div *ngFor="let output of selection.getOutputs(filetype)">
             <mat-checkbox *ngIf="!output.hidden" [name]="filetype.id + '-' + output.id" [(ngModel)]="output.selected" (change)="update()">
-              {{output.name}} ({{output.values.length}})
+              {{ output.name }} ({{ output.values.length }})
             </mat-checkbox>
           </div>
       </fieldset>
     </form>
   
-    <div class="filesize" *ngIf="fileSize" align="end">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{fileSize | filesize}}</div>
+    <div class="filesize" *ngIf="fileSize" align="end">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{ fileSize | filesize }}</div>
 
   </mat-dialog-content>
   

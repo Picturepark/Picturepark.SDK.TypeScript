@@ -2,14 +2,13 @@ import {
   Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
   OnInit, NgZone, Inject, HostListener
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 // LIBRARIES
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, Output as IOutPut
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
 } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
@@ -25,7 +24,6 @@ import {
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentItemSelectionService } from '../../shared-module/services/content-item-selection/content-item-selection.service';
-import { DownloadFallbackService } from '../../shared-module/services/download-fallback/download-fallback.service';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 
 // INTERFACES
@@ -40,9 +38,6 @@ import { SortingType } from './models/sorting-type';
   styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
-
-  // SUBSCRIBERS
-  downloadContentSubscriber: Subscription;
 
   private lastSelectedIndex = 0;
 
@@ -75,13 +70,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public activeSortingType = SortingType.relevance;
 
   public configActions: ConfigActions;
-
-  public outputFormatFallback = [
-    { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
-    { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
-    { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
-    { fileSchemaId: 'VideoMetadata', outputFormatId: 'VideoLarge' }
-  ];
 
   @Input()
   public channel: Channel | null = null;
@@ -126,54 +114,58 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     private contentService: ContentService,
     public dialog: MatDialog,
     private liquidRenderingService: LiquidRenderingService,
-
     private scrollDispatcher: ScrollDispatcher,
     private ngZone: NgZone,
   ) {
 
     super();
 
+  }
+
+  ngOnInit() {
+
+    // GET COMPONENT CONFIG ACTIONS
+    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
+
+    // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
 
-    this.subscription.add(basketSubscription);
-
+    // CONTENT ITEM SELECTION SUBSCRIBER
     const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
 
-    this.subscription.add(contentItemSelectionSubscription);
-  }
+    // SCROLL SUBSCRIBER
+    const scrollSubscription = this.scrollDispatcher.scrolled().subscribe(scrollable => {
+      if (scrollable) {
 
-  public ngOnInit(): void {
+        const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+        const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
-    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
-
-    const scrollSubscription = this.scrollDispatcher.scrolled()
-      .subscribe(scrollable => {
-        if (scrollable) {
-          const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
-          const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
-
-          if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
-            this.ngZone.run(() => this.loadData());
-          }
+        if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
+          this.ngZone.run(() => this.loadData());
         }
-      });
+      }
+    });
+
+    // UNSUBSCRIBE
+    this.subscription.add(basketSubscription);
+    this.subscription.add(contentItemSelectionSubscription);
     this.subscription.add(scrollSubscription);
 
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['channel'] || changes['filter'] || changes['query']) {
       this.update();
     }
   }
 
-  public setSortingType(newValue: SortingType) {
+  public setSortingType(newValue: SortingType): void {
     if (newValue === SortingType.relevance) {
       this.isAscending = null;
     } else if (this.isAscending === null) {
@@ -184,24 +176,22 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     this.update();
   }
 
-  public update() {
+  public update(): void {
     this.totalResults = null;
     this.nextPageToken = undefined;
     this.items = [];
     this.loadData();
   }
 
-  public previewItem(id: string) {
+  public previewItem(id: string): void {
     this.previewItemChange.emit(id);
   }
 
-  public previewSelectedItem() {
+  public previewSelectedItem(): void {
     this.previewItem(this.selectedItems[0]);
   }
 
-
-
-  public toggleItems(isSelected: boolean) {
+  public toggleItems(isSelected: boolean): void {
     if (isSelected === true) {
       this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
     } else {
@@ -209,7 +199,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     }
   }
 
-  public itemClicked($event: MouseEvent, index: number) {
+  public itemClicked($event: MouseEvent, index: number): void {
     const itemModel = this.items[index];
 
     if ($event.ctrlKey) {
@@ -235,7 +225,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     }
   }
 
-  private loadData() {
+  private loadData(): void {
     if (this.channel && this.channel.id && !this.isLoading) {
       this.isLoading = true;
 
@@ -286,18 +276,17 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     }
   }
 
-  public trackByItem(index, item: ContentModel) {
+  public trackByItem(index, item: ContentModel): string {
     return item.item.id;
   }
 
-  public trackByThumbnailSize(index, thumbnailSize: string) {
+  public trackByThumbnailSize(index, thumbnailSize: string): string {
     return thumbnailSize;
   }
 
   // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
 
-    // OPEN DIALOG
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
       autoFocus: false
@@ -311,9 +300,8 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
 
-    // OPEN DIALOG
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-      data: this.selectedItems,
+      data: this.items,
       autoFocus: false
     });
 
@@ -321,41 +309,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     instance.title = 'ContentDownloadDialog.Title';
 
   }
-
-  public getOutput(content: Content, outputs: IOutPut[]): IOutPut {
-
-    // Try to use Original
-    let output = outputs.find(i => i.outputFormatId === 'Original');
-    if (output) {
-        return output;
-    }
-
-    // Fallback to configured output formats
-    this.outputFormatFallback.filter(i => i.fileSchemaId === content.contentSchemaId).forEach(fallback => {
-        output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
-    });
-
-    // If still no output, fallback to Preview
-    if (!output) {
-        output = outputs.find(i => i.outputFormatId === 'Preview');
-    }
-
-    return output!;
-  }
-
-  groupBy<T, K>(list: T[], getKey: (item: T) => K): Map<K, T[]> {
-    const map = new Map<K, T[]>();
-    list.forEach((item) => {
-        const key = getKey(item);
-        const collection = map.get(key);
-        if (!collection) {
-            map.set(key, [item]);
-        } else {
-            collection.push(item);
-        }
-    });
-    return map;
-}
 
   // HANDLE COMPONENENT CLICK EVENT
   @HostListener('document:click', ['$event'])

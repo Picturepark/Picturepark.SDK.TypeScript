@@ -3,11 +3,6 @@
  */
 export { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from './lib/configuration';
 
-// export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
-// export { BasketService } from './lib/shared-module/services/basket/basket.service';
-// export { TranslationService } from './lib/shared-module/services/translations/translation.service';
-// export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
-// export { DownloadFallbackService } from './lib/shared-module/services/download-fallback/download-fallback.service';
 
 // MODULES
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
@@ -23,3 +18,10 @@ export { ListItemAggregationListModule } from './lib/features-module/list-item-a
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
+
+// SERVICES
+export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
+export { BasketService } from './lib/shared-module/services/basket/basket.service';
+export { TranslationService } from './lib/shared-module/services/translations/translation.service';
+export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
+export { DownloadFallbackService } from './lib/shared-module/services/download-fallback/download-fallback.service';

@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-    Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, fetchAll, ISearchResult
+    Content, Output, OutputSearchRequest, OutputService, OutputRenderingState, fetchAll
 } from '@picturepark/sdk-v1-angular';
 
 @Injectable({
@@ -11,6 +11,7 @@ import {
 })
 export class DownloadFallbackService {
 
+    // DOWNLOAD CONTENT SUBJECT
     downloadSubject = new Subject<Output[]>();
 
     constructor(
@@ -18,9 +19,10 @@ export class DownloadFallbackService {
     ) {}
 
     public async download(contents: Content[]): Promise<void> {
+
         const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
             contentIds: contents.map(i => i.id),
-            renderingStates: [OutputRenderingState.Completed],
+            renderingStates: [ OutputRenderingState.Completed ],
             limit: 1000
         })).subscribe(outputs => {
 
@@ -28,7 +30,7 @@ export class DownloadFallbackService {
             this.downloadSubject.next(outputs.results);
 
             outputSubscription.unsubscribe();
-            // this.showDialog(contents, outputs.results);
+
         });
     }
 

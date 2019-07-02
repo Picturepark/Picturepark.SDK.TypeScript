@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, Output, EventEmitter, Renderer2, AfterViewInit } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, Output, EventEmitter, Renderer2, AfterViewInit, Injector
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -10,14 +12,11 @@ import { Md5 } from 'ts-md5/dist/md5';
 import {
   ContentSearchRequest, ContentSearchType, ShareService, OutputAccess, ShareContent,
   ShareBasicCreateRequest, BrokenDependenciesFilter, LifeCycleFilter, IUserEmail,
-  ShareDataBasic, BasicTemplate, ContentService, fetchAll, TermsFilter
+  ShareDataBasic, BasicTemplate, ContentService, TermsFilter
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
-
-// SERVICES
-import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
 
 // INTERFACES
 import { ConfirmRecipients } from '../../interfaces/confirm-recipients.interface';
@@ -36,6 +35,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   @ViewChild('shareContentContainer', { static: true }) shareContentContainer: ElementRef;
   @ViewChild('loaderContainer', { static: true }) loaderContainer: ElementRef;
 
+  // SUBSCRIBERS
   contentItemSelectionSubscription: Subscription;
   downloadThumbnailSubscription: Subscription;
 
@@ -59,13 +59,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ShareContentDialogComponent>,
+    protected injector: Injector,
     private formBuilder: FormBuilder,
-    protected notificationService: NotificationService,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
     private renderer: Renderer2
   ) {
-    super(data, dialogRef, notificationService);
+    super(data, dialogRef, injector);
 
     this.selectedContent = data;
 
@@ -184,7 +184,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   // SET PREFILL SUBJECT
   public setPrefillSubject(selectedContent: string[]): void {
 
-    const contentSearch = fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
+    const contentSearch = this.contentService.search(new ContentSearchRequest({
       limit: 1,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
@@ -197,7 +197,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     })).subscribe(data => {
 
       const shareName = this.translatePipe.transform(
-        'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.results.length - 1]
+        'ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.totalResults - 1]
       );
 
       // DISPLAY TRANSLATION AND HIDE INPUT SPINNER
@@ -218,18 +218,4 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     this.setPrefillSubject(this.selectedContent);
 
   }
-
-  // CLOSE DIALOG
-  public closeDialog(): void {
-    super.closeDialog();
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
-  }
-
 }
