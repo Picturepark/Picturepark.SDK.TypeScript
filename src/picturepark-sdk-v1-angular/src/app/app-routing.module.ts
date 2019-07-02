@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 // COMPONENTS
 import { HomeComponent } from './home/home.component';
-import { ContentPickerComponent } from './content-picker/content-picker.component';
 
 const routes: Routes = [
   {
@@ -12,7 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'content-picker',
-    component: ContentPickerComponent
+    loadChildren: './content-picker/content-picker.module#ContentPickerModule'
+  },
+  {
+    path: 'list-browser',
+    loadChildren: './list-browser/list-browser.module#ListBrowser'
   }
 ];
 
