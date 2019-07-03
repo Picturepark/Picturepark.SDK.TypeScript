@@ -26,6 +26,7 @@ import { ContentItemSelectionService } from '../../shared-module/services/conten
 // INTERFACES
 import { ContentModel } from '../../shared-module/models/content-model';
 import { SortingType } from '../../shared-module/models/sorting-type';
+import { Observable } from 'rxjs';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -35,7 +36,6 @@ import { SortingType } from '../../shared-module/models/sorting-type';
   styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-
   private lastSelectedIndex = 0;
 
   private basketItems: string[] = [];
@@ -86,6 +86,35 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   onScroll(): void {
     this.loadData();
+  }
+
+  getSearchRequest(): Observable<any> | undefined {
+    if (!this.channel || !this.channel.id) { return; }
+
+    const request = new ContentSearchRequest({
+      debugMode: false,
+      pageToken: this.nextPageToken,
+      brokenDependenciesFilter: BrokenDependenciesFilter.All,
+      filter: this.filter ? this.filter : undefined,
+      channelId: this.channel!.id,
+      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+      limit: this.pageSize,
+      searchString: this.searchString,
+      searchType: ContentSearchType.MetadataAndFullText,
+      searchBehaviors: [
+        SearchBehavior.SimplifiedSearch,
+        SearchBehavior.DropInvalidCharactersOnFailure,
+        SearchBehavior.WildcardOnSingleTerm
+      ],
+      sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
+        new SortInfo({
+          field: this.activeSortingType,
+          direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
+        })
+      ]
+    });
+
+    return this.contentService.search(request);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -151,57 +180,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       this.lastSelectedIndex = index;
       this.contentItemSelectionService.clear();
       this.contentItemSelectionService.addItem(itemModel.item.id || '');
-    }
-  }
-
-  private loadData(): void {
-    if (this.channel && this.channel.id && !this.isLoading) {
-      this.isLoading = true;
-
-      const request = new ContentSearchRequest({
-        debugMode: false,
-        pageToken: this.nextPageToken,
-        brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        filter: this.filter ? this.filter : undefined,
-        channelId: this.channel.id,
-        lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        limit: this.pageSize,
-        searchString: this.searchString,
-        searchType: ContentSearchType.MetadataAndFullText,
-        searchBehaviors: [
-          SearchBehavior.SimplifiedSearch,
-          SearchBehavior.DropInvalidCharactersOnFailure,
-          SearchBehavior.WildcardOnSingleTerm
-        ],
-        sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
-          new SortInfo({
-            field: this.activeSortingType,
-            direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
-          })
-        ]
-      });
-
-      const searchSubscription = this.contentService.search(request).subscribe(async searchResult => {
-
-        this.totalResults = searchResult.totalResults;
-        this.nextPageToken = searchResult.pageToken;
-
-        if (searchResult.results) {
-          await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
-          this.items.push(...searchResult.results.map(item => {
-            const isInBasket = this.basketItems.some(basketItem => basketItem === item.id);
-            const contentModel = new ContentModel(item, isInBasket);
-            contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
-            return contentModel;
-          }));
-        }
-
-        this.isLoading = false;
-      }, () => {
-        this.totalResults = null;
-        this.isLoading = false;
-      });
-      this.subscription.add(searchSubscription);
     }
   }
 

@@ -6,6 +6,7 @@ import { ContentModel } from '../models/content-model';
 import { FilterBase } from '@picturepark/sdk-v1-angular';
 import { SortingType } from '../models/sorting-type';
 import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
+import { Observable } from 'rxjs';
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
     // Services
@@ -34,6 +35,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
 
     abstract init(): void;
     abstract onScroll(): void;
+    abstract getSearchRequest(): Observable<any> | undefined;
 
     constructor(protected componentName: string, injector: Injector) {
         super();
@@ -82,7 +84,36 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         this.selectedItemsChange.emit(items);
     }
 
-    public trackByItem(index, item: ContentModel<TEntity>): string {
+    public trackByItem(index: number, item: ContentModel<TEntity>): string {
         return item.item.id;
-      }
+    }
+
+    public loadData(): void {
+        const request = this.getSearchRequest();
+
+        if (this.isLoading || !request) {
+            return;
+        }
+
+        this.isLoading = true;
+        const searchSubscription = request.subscribe(async searchResult => {
+            this.totalResults = searchResult.totalResults;
+            this.nextPageToken = searchResult.pageToken;
+
+            if (searchResult.results) {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                this.items.push(...searchResult.results.map(item => {
+                const contentModel = new ContentModel(item, false);
+                contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
+                return contentModel;
+                }));
+            }
+
+            this.isLoading = false;
+        }, () => {
+            this.totalResults = null;
+            this.isLoading = false;
+        });
+        this.subscription.add(searchSubscription);
+    }
 }
