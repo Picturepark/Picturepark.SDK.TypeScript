@@ -70,11 +70,11 @@ export class MetaDataPreviewService {
     return allData;
   }
 
-  public getListItemsTableData(metadataItems: any[], schema: SchemaDetail, info: CustomerInfo, withId: boolean = true): never[] {
+  public getListItemsTableData(metadataItems: any[], schema: SchemaDetail, info: CustomerInfo, withId: boolean = true): any[] {
     return metadataItems.map(data => this.getPreviewData(schema, data, info, withId)).filter(x => Object.keys(x).length > 0);
   }
 
-  private getPreviewData(schema: SchemaDetail, metadata: any, customerInfo: CustomerInfo, withId: boolean = true): never {
+  private getPreviewData(schema: SchemaDetail, metadata: any, customerInfo: CustomerInfo, withId: boolean = true): any {
 
     const fields: any = {};
 
