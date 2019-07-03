@@ -36,8 +36,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-  private lastSelectedIndex = 0;
-
   private basketItems: string[] = [];
 
   public thumbnailSizes = ThumbnailSize;
@@ -55,7 +53,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   public previewItemChange = new EventEmitter<string>();
 
   constructor(
-    private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
     public dialog: MatDialog,
@@ -154,32 +151,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
     } else {
       this.contentItemSelectionService.clear();
-    }
-  }
-
-  public itemClicked($event: MouseEvent, index: number): void {
-    const itemModel = this.items[index];
-
-    if ($event.ctrlKey) {
-      this.lastSelectedIndex = index;
-
-      if (itemModel.isSelected === true) {
-        this.contentItemSelectionService.removeItem(itemModel.item.id || '');
-      } else {
-        this.contentItemSelectionService.addItem(itemModel.item.id || '');
-      }
-    } else if ($event.shiftKey) {
-      const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
-      const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
-
-      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(model => model.item.id || '');
-
-      this.contentItemSelectionService.clear();
-      this.contentItemSelectionService.addItems(itemsToAdd);
-    } else {
-      this.lastSelectedIndex = index;
-      this.contentItemSelectionService.clear();
-      this.contentItemSelectionService.addItem(itemModel.item.id || '');
     }
   }
 

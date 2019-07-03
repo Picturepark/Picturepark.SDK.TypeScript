@@ -7,6 +7,7 @@ import { FilterBase } from '@picturepark/sdk-v1-angular';
 import { SortingType } from '../models/sorting-type';
 import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
 import { Observable } from 'rxjs';
+import { ContentItemSelectionService } from '../services/content-item-selection/content-item-selection.service';
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
     // Services
@@ -14,6 +15,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     protected ngZone: NgZone;
     protected pictureParkUIConfig: PictureparkUIConfiguration;
     protected liquidRenderingService: LiquidRenderingService;
+    protected contentItemSelectionService: ContentItemSelectionService;
 
     public configActions: ConfigActions;
     public isLoading = false;
@@ -32,6 +34,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
 
     private _totalResults: number | null = null;
     private _selectedItems: string[] = [];
+    private lastSelectedIndex = 0;
 
     abstract init(): void;
     abstract onScroll(): void;
@@ -43,6 +46,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         this.scrollDispatcher = injector.get(ScrollDispatcher);
         this.ngZone = injector.get(NgZone);
         this.liquidRenderingService = injector.get(LiquidRenderingService);
+        this.contentItemSelectionService = injector.get(ContentItemSelectionService);
         this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
     }
 
@@ -115,5 +119,34 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
             this.isLoading = false;
         });
         this.subscription.add(searchSubscription);
+    }
+
+    /**
+     * Click event to trigger selection (ctrl + shift click)
+     */
+    public itemClicked($event: MouseEvent, index: number): void {
+        const itemModel = this.items[index];
+
+        if ($event.ctrlKey) {
+            this.lastSelectedIndex = index;
+
+            if (itemModel.isSelected === true) {
+            this.contentItemSelectionService.removeItem(itemModel.item.id || '');
+            } else {
+            this.contentItemSelectionService.addItem(itemModel.item.id || '');
+            }
+        } else if ($event.shiftKey) {
+            const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
+            const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
+
+            const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(model => model.item.id || '');
+
+            this.contentItemSelectionService.clear();
+            this.contentItemSelectionService.addItems(itemsToAdd);
+        } else {
+            this.lastSelectedIndex = index;
+            this.contentItemSelectionService.clear();
+            this.contentItemSelectionService.addItem(itemModel.item.id || '');
+        }
     }
 }
