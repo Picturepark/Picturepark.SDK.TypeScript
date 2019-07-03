@@ -11,11 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'content-picker',
-    loadChildren: './content-picker/content-picker.module#ContentPickerModule'
+    loadChildren: () => import('./content-picker/content-picker.module').then(m => m.ContentPickerModule)
   },
   {
     path: 'list-item-picker',
-    loadChildren: './list-item-picker/list-item-picker.module#ListItemPickerModule'
+    loadChildren: () => import('./list-item-picker/list-item-picker.module').then(m => m.ListItemPickerModule)
   }
 ];
 
