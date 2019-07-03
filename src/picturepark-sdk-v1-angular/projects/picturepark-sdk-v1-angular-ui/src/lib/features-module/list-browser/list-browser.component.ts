@@ -43,7 +43,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
 
   @Input() schema: Observable<SchemaDetail>;
   @Input() search: Observable<string>;
-  @Input() selectedItemIds: string[];
+  @Input() selectedItemIds: string[] | any;
   @Input() filter: Observable<FilterBase | null>;
   @Input() public enableSelection: boolean;
   @Input() refreshAll: Observable<boolean>;
@@ -55,7 +55,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource([]);
   public displayedColumns: string[];
   public displayedColumnNames: any[];
-  public nextPageToken: string | null;
+  public nextPageToken: string | undefined;
   public loadMore = new BehaviorSubject(false);
   public activeSortColumn: string;
   public activeSortDirection: string;
@@ -66,7 +66,8 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   private sortInfo: BehaviorSubject<any>;
   private schemaDetail: SchemaDetail;
 
-  constructor(private listItemService: ListItemService,
+  constructor(
+    private listItemService: ListItemService,
     private metaDataPreviewService: MetaDataPreviewService,
     private scrollDispatcher: ScrollDispatcher,
     private infoService: InfoService,
@@ -81,6 +82,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(100))
       .subscribe(scrollable => {
         if (scrollable) {
+
           const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
           const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
@@ -100,8 +102,9 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
       this.filter,
       this.search,
       this.infoService.getInfo())
-      .pipe(
-        filter(([, , schema]) => schema !== null),
+        .pipe(filter(
+          ([, , schema]) => schema !== null
+        ),
         startWith([]),
         pairwise(),
         switchMap(
@@ -115,90 +118,93 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
             [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string, CustomerInfo]
           ]) => {
 
-        // tslint:disable-next-line: max-line-length
-          const needDataRefresh = false;
+            // tslint:disable-next-line: max-line-length
+            const needDataRefresh = false;
 
-          // check default sort for the schema
-          let sort: SortInfo[] = [];
+            // check default sort for the schema
+            let sort: SortInfo[] = [];
 
-          // use to show sorting on the table
-          let activeColumn: { name: string | undefined; direction: string; } | null = null;
+            // use to show sorting on the table
+            let activeColumn: { name: string | undefined; direction: string; } | null = null;
 
-          if (!sortInfo) {
-            if (schema.sort && schema.sort.length > 0) {
-              // get first as mat table does not support multiple sorting
-              const name = schema.sort[0].field;
-              const direction = schema.sort[0].direction.toLowerCase();
-              activeColumn = { name: name, direction: direction };
+            if (!sortInfo) {
+              if (schema.sort && schema.sort.length > 0) {
+                // get first as mat table does not support multiple sorting
+                const name = schema.sort[0].field;
+                const direction = schema.sort[0].direction.toLowerCase();
+                activeColumn = { name: name, direction: direction };
 
-              sort = schema.sort.map((s) => {
-                return new SortInfo({
-                  field: lodash.lowerFirst(schema.id) + '.' + s.field,
-                  direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc
+                sort = schema.sort.map((s) => {
+                  return new SortInfo({
+                    field: lodash.lowerFirst(schema.id) + '.' + s.field,
+                    direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc
+                  });
                 });
-              });
+              }
             }
+
+            const request = new ListItemSearchRequest({
+              pageToken: needDataRefresh ? undefined : this.nextPageToken,
+              limit: this.itemsPerRequest,
+              searchString: nextQuery,
+              sort: sortInfo ? [sortInfo] : sort,
+              searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
+              schemaIds: [schema.id],
+              filter: nextFilter ? nextFilter : undefined,
+              includeContentData: true,
+              referencedFieldsDisplayPatternIds: ['Name'],
+              includeAllSchemaChildren: true,
+              brokenDependenciesFilter: BrokenDependenciesFilter.All,
+              debugMode: false,
+              lifeCycleFilter: LifeCycleFilter.ActiveOnly
+            });
+
+            return zip(of(needDataRefresh), of(schema), of(activeColumn), of(info), this.listItemService.search(request));
+
+        }).subscribe(
+          ([needDataRefresh, schema, activeColumn, info, listItemResult]) => {
+
+            this.schemaDetail = schema;
+            this.nextPageToken = listItemResult.pageToken;
+            this.totalResults = listItemResult.totalResults;
+
+            const metadataItems = listItemResult.results.map(m => Object.assign(m.content, { id: m.id }));
+            const items = this.metaDataPreviewService.getListItemsTableData(metadataItems, schema, info);
+
+            if (activeColumn) {
+              // mark column header as sorted
+              this.activeSortColumn = activeColumn.name;
+              this.activeSortDirection = activeColumn.direction;
+            }
+
+            if (needDataRefresh) {
+              this.tableItems = [];
+              // need to show column names
+              this.displayedColumnNames = schema.fields.map(field => {
+                const id = lodash.last(field.id.split('.'));
+                const names = field.names;
+                return { id, names, field };
+              });
+
+              this.displayedColumns = schema.fields.map(field => {
+                const id = lodash.last(field.id.split('.'));
+                return id;
+              });
+              if (this.enableSelection) {
+                this.displayedColumns.unshift('select');
+              }
+            }
+
+            this.tableItems.push(...items);
+
+            this.dataSource.data = this.tableItems;
+            const selected = this.tableItems.filter(i => this.selectedItemIds && this.selectedItemIds.indexOf(i._refId) !== -1);
+            selected.forEach(row => this.selection.toggle(row));
+
+            this.cdr.detectChanges();
+
           }
-
-          const request = new ListItemSearchRequest({
-            pageToken: needDataRefresh ? undefined : this.nextPageToken,
-            limit: this.itemsPerRequest,
-            searchString: nextQuery,
-            sort: sortInfo ? [sortInfo] : sort,
-            searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
-            schemaIds: [schema.id],
-            filter: nextFilter ? nextFilter : undefined,
-            includeContentData: true,
-            referencedFieldsDisplayPatternIds: ['Name'],
-            includeAllSchemaChildren: true,
-            brokenDependenciesFilter: BrokenDependenciesFilter.All,
-            debugMode: false,
-            lifeCycleFilter: LifeCycleFilter.ActiveOnly
-          });
-
-          return zip(of(needDataRefresh), of(schema), of(activeColumn), of(info), this.listItemService.search(request));
-        }
-      ).subscribe(([needDataRefresh, schema, activeColumn, info, listItemResult]) => {
-
-        this.schemaDetail = schema;
-        this.nextPageToken = listItemResult.pageToken;
-        this.totalResults = listItemResult.totalResults;
-
-        const metadataItems = listItemResult.results.map(m => Object.assign(m.content, { id: m.id }));
-        const items = this.metaDataPreviewService.getListItemsTableData(metadataItems, schema, info);
-
-        if (activeColumn) {
-          // mark column header as sorted
-          this.activeSortColumn = activeColumn.name;
-          this.activeSortDirection = activeColumn.direction;
-        }
-
-        if (needDataRefresh) {
-          this.tableItems = [];
-          // need to show column names
-          this.displayedColumnNames = schema.fields.map(field => {
-            const id = lodash.last(field.id.split('.'));
-            const names = field.names;
-            return { id, names, field };
-          });
-
-          this.displayedColumns = schema.fields.map(field => {
-            const id = lodash.last(field.id.split('.'));
-            return id;
-          });
-          if (this.enableSelection) {
-            this.displayedColumns.unshift('select');
-          }
-        }
-
-        this.tableItems.push(...items);
-
-        this.dataSource.data = this.tableItems;
-        const selected = this.tableItems.filter(i => this.selectedItemIds && this.selectedItemIds.indexOf(i._refId) !== -1);
-        selected.forEach(row => this.selection.toggle(row));
-
-        this.cdr.detectChanges();
-      });
+        );
 
     // this.subscription.add(listSubscription);
 
