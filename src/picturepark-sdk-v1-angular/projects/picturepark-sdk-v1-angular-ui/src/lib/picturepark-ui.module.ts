@@ -26,7 +26,6 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     SharedModule.forRoot(),
   ],
   exports: [
-    CommonModule,
     FeaturesModule,
     SharedModule
   ]

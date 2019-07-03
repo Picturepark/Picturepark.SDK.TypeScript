@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 // COMPONENTS
 import { HomeComponent } from './home/home.component';
-import { ContentPickerComponent } from './content-picker/content-picker.component';
 
 const routes: Routes = [
   {
@@ -12,13 +11,17 @@ const routes: Routes = [
   },
   {
     path: 'content-picker',
-    component: ContentPickerComponent
+    loadChildren: () => import('./content-picker/content-picker.module').then(m => m.ContentPickerModule)
+  },
+  {
+    path: 'list-item-picker',
+    loadChildren: () => import('./list-item-picker/list-item-picker.module').then(m => m.ListItemPickerModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ],
   providers: []
 })
 export class AppRoutingModule { }

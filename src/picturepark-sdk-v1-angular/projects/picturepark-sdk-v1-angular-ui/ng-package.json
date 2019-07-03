@@ -6,6 +6,7 @@
   },
   "whitelistedNonPeerDependencies":[
     "tslib",
-    "ts-md5"
+    "ts-md5",
+    "moment"
   ]
 }
