@@ -1,3 +1,4 @@
+import {LazyGetter} from 'lazy-get-decorator';
 import { BaseComponent } from './base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
@@ -11,11 +12,24 @@ import { ContentItemSelectionService } from '../services/content-item-selection/
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
     // Services
-    protected scrollDispatcher: ScrollDispatcher;
-    protected ngZone: NgZone;
+    @LazyGetter()
+    protected get scrollDispatcher(): ScrollDispatcher {
+        return this.injector.get(ScrollDispatcher);
+    }
+    @LazyGetter()
+    protected get ngZone(): NgZone {
+        return this.injector.get(NgZone);
+    }
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+    @LazyGetter()
+    protected get contentItemSelectionService(): ContentItemSelectionService {
+        return this.injector.get(ContentItemSelectionService);
+    }
+
     protected pictureParkUIConfig: PictureparkUIConfiguration;
-    protected liquidRenderingService: LiquidRenderingService;
-    protected contentItemSelectionService: ContentItemSelectionService;
 
     public configActions: ConfigActions;
     public isLoading = false;
@@ -40,13 +54,9 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     abstract onScroll(): void;
     abstract getSearchRequest(): Observable<any> | undefined;
 
-    constructor(protected componentName: string, injector: Injector) {
+    constructor(protected componentName: string, protected injector: Injector) {
         super();
 
-        this.scrollDispatcher = injector.get(ScrollDispatcher);
-        this.ngZone = injector.get(NgZone);
-        this.liquidRenderingService = injector.get(LiquidRenderingService);
-        this.contentItemSelectionService = injector.get(ContentItemSelectionService);
         this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
     }
 
@@ -107,9 +117,9 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
             if (searchResult.results) {
                 await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
                 this.items.push(...searchResult.results.map(item => {
-                const contentModel = new ContentModel(item, false);
-                contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
-                return contentModel;
+                    const contentModel = new ContentModel(item, false);
+                    contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
+                    return contentModel;
                 }));
             }
 
