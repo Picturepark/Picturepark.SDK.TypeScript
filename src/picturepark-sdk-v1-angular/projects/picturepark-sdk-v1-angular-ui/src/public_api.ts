@@ -24,4 +24,3 @@ export { ContentItemSelectionService } from './lib/shared-module/services/conten
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
-export { DownloadFallbackService } from './lib/shared-module/services/download-fallback/download-fallback.service';
