@@ -1,6 +1,6 @@
 import {
   Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
-  OnInit, NgZone, Inject, HostListener, Injector
+  HostListener, Injector
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
@@ -9,7 +9,6 @@ import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
   ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content
 } from '@picturepark/sdk-v1-angular';
-import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base.component';
@@ -23,11 +22,10 @@ import {
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentItemSelectionService } from '../../shared-module/services/content-item-selection/content-item-selection.service';
-import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 
 // INTERFACES
 import { ContentModel } from '../../shared-module/models/content-model';
-import { SortingType } from './models/sorting-type';
+import { SortingType } from '../../shared-module/models/sorting-type';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -40,17 +38,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   private lastSelectedIndex = 0;
 
-  private _totalResults: number | null = null;
-
-  private _selectedItems: string[] = [];
-
-  private readonly ItemsPerRequest = 50;
-
   private basketItems: string[] = [];
-
-  public nextPageToken: string | undefined;
-
-  public isAscending: boolean | null = null;
 
   public thumbnailSizes = ThumbnailSize;
 
@@ -60,52 +48,17 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   public isListView = false;
 
-  public sortingTypes = SortingType;
-
-  public activeSortingType = SortingType.relevance;
-
   @Input()
   public channel: Channel | null = null;
 
-  @Input()
-  public query = '';
-
-  @Input()
-  public filter: FilterBase | null = null;
-
   @Output()
   public previewItemChange = new EventEmitter<string>();
-
-  @Output()
-  public totalResultsChange = new EventEmitter<number | null>();
-
-  @Output()
-  public selectedItemsChange = new EventEmitter<string[]>();
-
-  get totalResults(): number | null {
-    return this._totalResults;
-  }
-
-  set totalResults(total: number | null) {
-    this._totalResults = total;
-    this.totalResultsChange.emit(total);
-  }
-
-  get selectedItems(): string[] {
-    return this._selectedItems;
-  }
-
-  set selectedItems(items: string[]) {
-    this._selectedItems = items;
-    this.selectedItemsChange.emit(items);
-  }
 
   constructor(
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
     public dialog: MatDialog,
-    private liquidRenderingService: LiquidRenderingService,
     injector: Injector
   ) {
 
@@ -132,13 +85,11 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   onScroll(): void {
-    if (this.items.length !== this.totalResults) {
-      this.ngZone.run(() => this.loadData());
-    }
+    this.loadData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['channel'] || changes['filter'] || changes['query']) {
+    if (changes['channel'] || changes['filter'] || changes['searchString']) {
       this.update();
     }
   }
@@ -214,8 +165,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
         filter: this.filter ? this.filter : undefined,
         channelId: this.channel.id,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        limit: this.ItemsPerRequest,
-        searchString: this.query,
+        limit: this.pageSize,
+        searchString: this.searchString,
         searchType: ContentSearchType.MetadataAndFullText,
         searchBehaviors: [
           SearchBehavior.SimplifiedSearch,
@@ -252,10 +203,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       });
       this.subscription.add(searchSubscription);
     }
-  }
-
-  public trackByItem(index, item: ContentModel<Content>): string {
-    return item.item.id;
   }
 
   public trackByThumbnailSize(index, thumbnailSize: string): string {

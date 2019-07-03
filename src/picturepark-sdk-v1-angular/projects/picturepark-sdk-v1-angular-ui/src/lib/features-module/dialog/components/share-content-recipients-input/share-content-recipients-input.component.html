@@ -11,9 +11,16 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
             (matChipInputTokenEnd)="add($event)"
-            id="recipient">
+            id="recipient" formControlName="recipientsSearch" [matAutocomplete]="auto">
     </mat-chip-list>
-    
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+        <ng-container *ngIf="!isLoading">
+          <mat-option *ngFor="let recipient of recipientsAutocomplete" [value]="recipient">
+            <span>{{ recipient }}</span>
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>    
   </mat-form-field>
   <div class="chip-input-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['recipients'].hasError('required') && recipients.length === 0 }">
     Please, add a recipient for sharing the images

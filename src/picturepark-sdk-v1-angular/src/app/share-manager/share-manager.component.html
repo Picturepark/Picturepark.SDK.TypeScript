@@ -1,5 +1,5 @@
 <p>
   share-manager works!
 
-  <pp-share-browser></pp-share-browser>
+  <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
 </p>
