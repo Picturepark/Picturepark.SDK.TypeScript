@@ -1,19 +1,18 @@
 import {
   Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
-  OnInit, NgZone, Inject, HostListener
+  OnInit, NgZone, Inject, HostListener, Injector
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 // LIBRARIES
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content
 } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
-import { BaseComponent } from '../../shared-module/components/base.component';
+import { BaseBrowserComponent } from '../../shared-module/components/browser-base.component';
 import {
   ContentDownloadDialogComponent
 } from '../dialog/components/content-download-dialog/content-download-dialog.component';
@@ -27,7 +26,7 @@ import { ContentItemSelectionService } from '../../shared-module/services/conten
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 
 // INTERFACES
-import { ContentModel } from './models/content-model';
+import { ContentModel } from '../../shared-module/models/content-model';
 import { SortingType } from './models/sorting-type';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
@@ -37,7 +36,7 @@ import { SortingType } from './models/sorting-type';
   templateUrl: './content-browser.component.html',
   styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
 })
-export class ContentBrowserComponent extends BaseComponent implements OnChanges, OnInit {
+export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
 
   private lastSelectedIndex = 0;
 
@@ -50,10 +49,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   private basketItems: string[] = [];
 
   public nextPageToken: string | undefined;
-
-  public isLoading = false;
-
-  public items: ContentModel[] = [];
 
   public isAscending: boolean | null = null;
 
@@ -68,8 +63,6 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   public sortingTypes = SortingType;
 
   public activeSortingType = SortingType.relevance;
-
-  public configActions: ConfigActions;
 
   @Input()
   public channel: Channel | null = null;
@@ -108,25 +101,19 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
   }
 
   constructor(
-    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentItemSelectionService: ContentItemSelectionService,
     private basketService: BasketService,
     private contentService: ContentService,
     public dialog: MatDialog,
     private liquidRenderingService: LiquidRenderingService,
-    private scrollDispatcher: ScrollDispatcher,
-    private ngZone: NgZone,
+    injector: Injector
   ) {
 
-    super();
+    super('ContentBrowserComponent', injector);
 
   }
 
-  ngOnInit() {
-
-    // GET COMPONENT CONFIG ACTIONS
-    this.configActions = this.pictureParkUIConfig['ContentBrowserComponent'];
-
+  init() {
     // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
       this.basketItems = basketItems;
@@ -139,24 +126,15 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
     });
 
-    // SCROLL SUBSCRIBER
-    const scrollSubscription = this.scrollDispatcher.scrolled().subscribe(scrollable => {
-      if (scrollable) {
-
-        const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
-        const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
-
-        if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
-          this.ngZone.run(() => this.loadData());
-        }
-      }
-    });
-
     // UNSUBSCRIBE
     this.subscription.add(basketSubscription);
     this.subscription.add(contentItemSelectionSubscription);
-    this.subscription.add(scrollSubscription);
+  }
 
+  onScroll(): void {
+    if (this.items.length !== this.totalResults) {
+      this.ngZone.run(() => this.loadData());
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -276,7 +254,7 @@ export class ContentBrowserComponent extends BaseComponent implements OnChanges,
     }
   }
 
-  public trackByItem(index, item: ContentModel): string {
+  public trackByItem(index, item: ContentModel<Content>): string {
     return item.item.id;
   }
 

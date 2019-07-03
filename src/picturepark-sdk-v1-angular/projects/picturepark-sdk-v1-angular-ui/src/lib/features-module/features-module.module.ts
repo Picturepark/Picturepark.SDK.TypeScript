@@ -14,6 +14,7 @@ import { ListItemAggregationListModule } from './list-item-aggregation-list/list
 import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { SearchBoxModule } from './search-box/search-box.module';
+import { ShareBrowserModule } from './share-browser/share-browser.module';
 
 @NgModule({
   declarations: [],
@@ -31,6 +32,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
     NotificationModule,
     OutputDownloadMenuModule,
     SearchBoxModule,
+    ShareBrowserModule
   ],
   exports: [
     BasketModule,
@@ -45,6 +47,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
     NotificationModule,
     OutputDownloadMenuModule,
     SearchBoxModule,
+    ShareBrowserModule
   ]
 })
 export class FeaturesModule { }

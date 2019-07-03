@@ -21,6 +21,7 @@ export { OutputDownloadMenuModule } from './lib/features-module/output-download-
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { FeaturesModule } from './lib/features-module/features-module.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
+export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
