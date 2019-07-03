@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatToolbar } from '@angular/material';
 import {
   BrokenDependenciesFilter,
   CustomerInfo,
@@ -33,10 +34,14 @@ import { debounceTime, filter, pairwise, startWith, switchMap } from 'rxjs/opera
 // SERVICES
 import { MetaDataPreviewService } from '../../shared-module/services/metadata-preview/metadata-preview.service';
 
+// PIPES
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+
 @Component({
   selector: 'pp-list-browser',
   templateUrl: './list-browser.component.html',
   styleUrls: ['./list-browser.component.scss'],
+  providers: [ TranslatePipe ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListBrowserComponent implements OnInit, OnDestroy {
@@ -63,7 +68,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
 
   private readonly itemsPerRequest = 50;
   private subscription = new Subscription();
-  private sortInfo: BehaviorSubject<any>;
+  private sortInfo: BehaviorSubject<any> = new BehaviorSubject(null);
   private schemaDetail: SchemaDetail;
 
   constructor(
@@ -73,9 +78,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
     private infoService: InfoService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {
-    this.sortInfo = new BehaviorSubject(null);
-  }
+  ) {}
 
   ngOnInit() {
     const scrollSubscription = this.scrollDispatcher.scrolled()

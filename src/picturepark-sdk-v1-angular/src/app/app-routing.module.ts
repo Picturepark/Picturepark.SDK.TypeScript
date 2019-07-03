@@ -14,14 +14,14 @@ const routes: Routes = [
     loadChildren: './content-picker/content-picker.module#ContentPickerModule'
   },
   {
-    path: 'list-browser',
-    loadChildren: './list-browser/list-browser.module#ListBrowserModule'
+    path: 'list-item-picker',
+    loadChildren: './list-item-picker/list-item-picker.module#ListItemPickerModule'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ],
   providers: []
 })
 export class AppRoutingModule { }

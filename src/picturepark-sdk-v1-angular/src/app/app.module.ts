@@ -11,6 +11,7 @@ import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
 
+
 // COMPONENTS
 import { AppComponent } from './app.component';
 

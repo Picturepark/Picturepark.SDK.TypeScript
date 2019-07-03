@@ -5,7 +5,7 @@
         <ng-content select="[content-buttons]"></ng-content>
         <div class="content-browser__spacer">
         </div>
-        <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1">{{totalResults}} {{'ListItemsLowercase' | translate}}</span>
+        <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1">{{totalResults}} {{'ListItemsLowercase' | pptranslate}}</span>
       </div>
     </mat-toolbar>
   </div>
@@ -29,7 +29,7 @@
       </ng-container>
       <ng-container *ngFor="let column of displayedColumnNames; let i = index" [cdkColumnDef]="column.id">
         <th mat-header-cell mat-sort-header [disabled]="!column.field.sortable" disableClear="true" *matHeaderCellDef>
-          {{column.names | translate}}
+          {{column.names | pptranslate}}
         </th>
         <td mat-cell *matCellDef="let element" matTooltip="{{element[column.id]}}"> {{element[column.id]}}</td>
       </ng-container>
@@ -40,6 +40,6 @@
   </div>
 
   <div *ngIf="totalResults === 0" class="content-browser__empty-result mat-typography">
-    {{'ItemsWereNotFound' | translate}}
+    {{'ItemsWereNotFound' | pptranslate}}
   </div>
 </div>

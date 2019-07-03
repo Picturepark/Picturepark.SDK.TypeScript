@@ -21,10 +21,11 @@ import {
   FieldStringArray,
   FieldTranslatedString,
   SchemaDetail,
-  FieldBase,
 } from '@picturepark/sdk-v1-angular';
+
 import * as lodash from 'lodash';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
+const moment = moment_;
 
 import { LocalizationService } from '../localization/localization.service';
 
@@ -36,7 +37,7 @@ export class MetaDataPreviewService {
 
   public prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
 
-    const existedColumnsSet = new Set();
+    const existedColumnsSet = new Set<string>();
 
     tableData.forEach(data => {
       for (const property of data) {
@@ -44,8 +45,8 @@ export class MetaDataPreviewService {
     }
     });
 
-    const existedColumns = Array.from(existedColumnsSet)
-    const intersections = allColumnNames.filter(x => existedColumns.includes(x));
+    const existedColumns = Array.from(existedColumnsSet);
+    const intersections = allColumnNames.filter((x: string) => existedColumns.map(i => i.includes(x)));
 
     return intersections;
   }

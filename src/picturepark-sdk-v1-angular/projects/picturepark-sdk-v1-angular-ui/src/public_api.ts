@@ -15,9 +15,12 @@ export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-panels.module';
 export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';
 export { ListItemAggregationListModule } from './lib/features-module/list-item-aggregation-list/list-item-aggregation-list.module';
+export { MaterialsModule } from './lib/materials-module/materials-module.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
+export { FeaturesModule } from './lib/features-module/features-module.module';
+export { SharedModule } from './lib/shared-module/shared-module.module';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';

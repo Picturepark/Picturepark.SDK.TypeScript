@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+
+import {MatSortModule} from '@angular/material/sort';
 // MATERIAL MODULES
 import {
   MatChipsModule,
@@ -17,6 +19,7 @@ import {
   MatGridListModule,
   MatDividerModule,
   MatProgressBarModule,
+  MatTableModule,
   MatTooltipModule,
   MatCheckboxModule,
   MatBadgeModule,
@@ -29,6 +32,7 @@ import {
 // CDK MODULES
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [],
@@ -38,6 +42,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatDatepickerModule,
     MatToolbarModule,
     MatTabsModule,
+    MatTableModule,
+    MatSortModule,
     MatButtonModule,
     MatDialogModule,
     MatBadgeModule,
@@ -57,6 +63,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatTooltipModule,
     MatCheckboxModule,
     // CDK
+    CdkTableModule,
     LayoutModule,
     ScrollingModule
   ],
@@ -65,6 +72,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatMenuModule,
     MatDatepickerModule,
     MatToolbarModule,
+    MatTableModule,
+    MatSortModule,
     MatTabsModule,
     MatButtonModule,
     MatDialogModule,
@@ -85,6 +94,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatTooltipModule,
     MatCheckboxModule,
     // CDK
+    CdkTableModule,
     LayoutModule,
     ScrollingModule
   ]

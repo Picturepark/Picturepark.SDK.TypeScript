@@ -24,6 +24,10 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     CommonModule,
     FeaturesModule,
     SharedModule.forRoot(),
+  ],
+  exports: [
+    FeaturesModule,
+    SharedModule
   ]
 })
 export class PictureparkUiModule {}
