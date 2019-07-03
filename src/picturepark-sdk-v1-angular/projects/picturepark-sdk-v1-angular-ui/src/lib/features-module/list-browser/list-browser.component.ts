@@ -30,6 +30,7 @@ import * as lodash from 'lodash';
 import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
 import { debounceTime, filter, pairwise, startWith, switchMap } from 'rxjs/operators';
 
+// SERVICES
 import { MetaDataPreviewService } from '../../shared-module/services/metadata-preview/metadata-preview.service';
 
 @Component({
@@ -70,9 +71,10 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
     private scrollDispatcher: ScrollDispatcher,
     private infoService: InfoService,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef) {
-      this.sortInfo = new BehaviorSubject(null);
-    }
+    private cdr: ChangeDetectorRef
+  ) {
+    this.sortInfo = new BehaviorSubject(null);
+  }
 
   ngOnInit() {
     const scrollSubscription = this.scrollDispatcher.scrolled()
@@ -99,20 +101,29 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
       this.search,
       this.infoService.getInfo())
       .pipe(
-        filter(([, , schema]) => schema != null),
+        filter(([, , schema]) => schema !== null),
         startWith([]),
         pairwise(),
-        switchMap(([[, , prevRefresh, , prevFilter, prevQuery], [sortInfo, , nextRefresh, schema, nextFilter, nextQuery, info]]:
-          [[SortInfo, boolean, boolean, SchemaDetail, FilterBase, string], [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string, CustomerInfo]]) => {
+        switchMap(
+          (
+            [
+              [, , prevRefresh, , prevFilter, prevQuery],
+              [sortInfo, , nextRefresh, schema, nextFilter, nextQuery, info]
+            ]:
+          [
+            [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string],
+            [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string, CustomerInfo]
+          ]) => {
 
-          const needDataRefresh = prevFilter !== nextFilter
-            || prevQuery !== nextQuery
-            || (prevRefresh === true && prevRefresh !== nextRefresh);
+        // tslint:disable-next-line: max-line-length
+          const needDataRefresh = false;
 
           // check default sort for the schema
-          let sort: SortInfo[] = null;
+          let sort: SortInfo[] = [];
+
           // use to show sorting on the table
-          let activeColumn: { name: string, direction: string } = null;
+          let activeColumn: { name: string | undefined; direction: string; } | null = null;
+
           if (!sortInfo) {
             if (schema.sort && schema.sort.length > 0) {
               // get first as mat table does not support multiple sorting
@@ -129,25 +140,24 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
             }
           }
 
-          const request = new ListItemSearchRequest(
-            {
-              pageToken: needDataRefresh ? undefined : this.nextPageToken,
-              limit: this.itemsPerRequest,
-              searchString: nextQuery,
-              sort: sortInfo ? [sortInfo] : sort,
-              searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
-              schemaIds: [schema.id],
-              filter: nextFilter ? nextFilter : undefined,
-              includeContentData: true,
-              referencedFieldsDisplayPatternIds: ['Name'],
-              includeAllSchemaChildren: true,
-              brokenDependenciesFilter: BrokenDependenciesFilter.All,
-              debugMode: false,
-              lifeCycleFilter: LifeCycleFilter.ActiveOnly
-            });
+          const request = new ListItemSearchRequest({
+            pageToken: needDataRefresh ? undefined : this.nextPageToken,
+            limit: this.itemsPerRequest,
+            searchString: nextQuery,
+            sort: sortInfo ? [sortInfo] : sort,
+            searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
+            schemaIds: [schema.id],
+            filter: nextFilter ? nextFilter : undefined,
+            includeContentData: true,
+            referencedFieldsDisplayPatternIds: ['Name'],
+            includeAllSchemaChildren: true,
+            brokenDependenciesFilter: BrokenDependenciesFilter.All,
+            debugMode: false,
+            lifeCycleFilter: LifeCycleFilter.ActiveOnly
+          });
 
           return zip(of(needDataRefresh), of(schema), of(activeColumn), of(info), this.listItemService.search(request));
-        })
+        }
       ).subscribe(([needDataRefresh, schema, activeColumn, info, listItemResult]) => {
 
         this.schemaDetail = schema;
@@ -190,7 +200,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       });
 
-    this.subscription.add(listSubscription);
+    // this.subscription.add(listSubscription);
 
     if (this.deselectAll) {
       const deselectAllSubscription = this.deselectAll.subscribe(() => {
