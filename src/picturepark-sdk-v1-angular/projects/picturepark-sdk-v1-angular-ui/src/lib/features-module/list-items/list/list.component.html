@@ -1,0 +1,60 @@
+<div class="content" [style.top.px]="mobileQuery.matches ? 168 : 68">
+  <mat-sidenav-container style="width:100%" #snav *ngIf="schemaDetail">
+    <mat-sidenav-content>
+      <app-list-browser [schema]="schema"
+                        [search]="searchQuery"
+                        [filter]="filter"
+                        [refreshAll]="refreshAll"
+                        [deselectAll]="deselectAll"
+                        [enableSelection]="true"
+                        [selectedItemIds]="selectedItems"
+                        (selectedItemsChange)="selectedItemsChange($event)">
+        <ng-container content-buttons>
+          <button mat-stroked-button class="browser-buttons" matTooltip="{{'Import' | translate}}" (click)="import()" *ngIf="isImportAllowed | async">
+            <mat-icon>open_in_browser</mat-icon>
+            {{'Import' | translate}}
+          </button>
+          <button mat-stroked-button class="browser-buttons" matTooltip="{{'Export' | translate}}" (click)="export()">
+            <mat-icon>save_alt</mat-icon>
+            {{'Export' | translate}}
+          </button>
+        </ng-container>
+      </app-list-browser>
+    </mat-sidenav-content>
+
+    <mat-sidenav #snav position="end" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="168"
+                 [opened]="mobileQuery.matches ? false : true" style="width: 375px;">
+      <mat-tab-group class="content-panel">
+        <mat-tab label="{{'Filters' | translate}}">
+
+          <div class="nofilters" *ngIf="aggregations.length===0 ; else listItemFilter">
+            <p>
+              <span>{{'NoFiltersApplied' | translate}}</span>
+            </p>
+          </div>
+          <ng-template #listItemFilter>
+            <pp-list-item-aggregation-list [schemaId]="schemaId"
+                                           [aggregators]="aggregations"
+                                           [aggregationFilters]="aggregationFilters"
+                                           (aggregationFiltersChange)="changeAggregationFilters($event)"
+                                           [query]="searchQuery | async"
+                                           (filterChange)="filter.next($event)"></pp-list-item-aggregation-list>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</div>
+
+<mat-toolbar color="primary" class="header" *ngIf="isImportActive | async">
+  <button mat-icon-button (click)="closeImport()">
+    <mat-icon aria-label="Close item">clear</mat-icon>
+  </button>
+  <div class="spacer"></div>
+  <mat-divider [vertical]=" true " class="divider">
+  </mat-divider>
+</mat-toolbar>
+
+<div class="item" *ngIf="isImportActive | async" [style.top.px]="mobileQuery.matches ? 56 : 68">
+  <app-import [isImportActive]="isImportActive"></app-import>
+</div>

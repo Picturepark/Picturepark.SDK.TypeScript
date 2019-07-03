@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 
-
-import {MatSortModule} from '@angular/material/sort';
 // MATERIAL MODULES
 import {
   MatChipsModule,
@@ -26,7 +24,8 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatCardModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatSortModule
 } from '@angular/material';
 
 // CDK MODULES

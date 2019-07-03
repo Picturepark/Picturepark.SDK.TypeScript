@@ -5,6 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // MODULES
 import { MaterialsModule } from '../materials-module/materials-module.module';
 
+// COMPONENTS
+import { ExportBaseComponent } from './components/export/export-base.component';
+
 // SERVICES
 import { BasketService } from './services/basket/basket.service';
 import { ContentItemSelectionService } from './services/content-item-selection/content-item-selection.service';
@@ -16,12 +19,16 @@ import { TranslationService } from './services/translations/translation.service'
 // PIPES
 import { FileSizePipe } from './pipes/filesize.pipe';
 import { TranslatePipe } from './pipes/translate.pipe';
+import { ImportBaseComponent } from './components/import/import-base/import-base.component';
 
 @NgModule({
   declarations: [
+    // COMPONENTS
+    //ExportBaseComponent,
     // PIPES
     FileSizePipe,
-    TranslatePipe
+    TranslatePipe,
+    ImportBaseComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +39,8 @@ import { TranslatePipe } from './pipes/translate.pipe';
     FormsModule,
     ReactiveFormsModule,
     MaterialsModule,
+    // COMPONENTS
+    //ExportBaseComponent,
     // PIPES
     FileSizePipe,
     TranslatePipe

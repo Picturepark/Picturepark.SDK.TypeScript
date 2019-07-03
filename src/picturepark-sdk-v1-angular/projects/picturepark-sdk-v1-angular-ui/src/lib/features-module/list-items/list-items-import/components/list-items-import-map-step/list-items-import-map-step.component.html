@@ -1,0 +1,116 @@
+<ng-container *ngIf="!(isVisible | async); else isGoing">
+    <ng-container *ngIf="hasImportedData; else noData">
+      <form name="map-step" #mapform>
+        <div class="mapping-row header">
+          <div class="left">{{'SystemFields' | translate}}</div>
+          <div class="right">{{'ExcelColumns' | translate}}</div>
+        </div>
+        <div class="content">
+          <div *ngFor="let field of fields; let i = index;">
+            <div class="mapping-row" *ngIf="!isValueMappable(field) && !isReferencedField(field) && !isTranslation(field)">
+              <div class="left">{{field.names | pptranslate }} <span *ngIf="field.required">*</span></div>
+              <div class="right">{{'DataCannotBeImportedIntoThisFieldType' | translate}}</div>
+            </div>
+  
+            <div class="mapping-row" *ngIf="isValueMappable(field)">
+              <div class="left">{{field.names | pptranslate}} <span *ngIf="field.required">*</span></div>
+              <div class="right">
+                <mat-form-field floatLabel="never">
+                  <mat-select placeholder="{{'SelectMappingColumn' | translate}}" [(ngModel)]="mappings[field.id]" (selectionChange)="changeMapping(field)" name="importColumn{{i}}">
+                    <mat-option [value]="null">
+                    </mat-option>
+                    <mat-option *ngFor="let importColumn of importColumns" [value]="importColumn">
+                      {{importColumn}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <ng-container *ngIf="isTranslation(field)">
+              <app-translation-mapping class="translations"
+                                       [property]="field.property"
+                                       [mapping]="mappings[field.id]"
+                                       [importColumns]="importColumns"
+                                       [customerInfo]="customerInfo"
+                                       (onChange)="onTranslationChange($event, field)">
+              </app-translation-mapping>
+            </ng-container>
+  
+            <ng-container *ngIf="isReferencedField(field)">
+              <div class="mapping-row">
+                <div>{{field.names | pptranslate }} <span *ngIf="field.required">*</span></div>
+              </div>
+              <div class="mapping-row">
+                <div class="left">
+                  <mat-icon>subdirectory_arrow_right</mat-icon>
+                  <mat-form-field floatLabel="never">
+                    <mat-select placeholder="{{'SelectMappingField' | translate}}" [(ngModel)]="referenceMappings[field.id]" (selectionChange)="changeMapping(field)" name="mappingField{{i}}">
+                      <mat-option [value]="null">
+                      </mat-option>
+                      <mat-option value="_refId" *ngIf="isTagBox(field)">
+                        {{'ReferenceId' | translate}}
+                      </mat-option>
+                      <mat-option *ngFor="let mappingField of schemaMap[field.schemaId].fields" [value]="mappingField.id">
+                        {{mappingField.names | pptranslate}}<span *ngIf="mappingField.required">*</span>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+  
+                <div class="tagbox-right">
+                  <mat-form-field floatLabel="never">
+                    <mat-select placeholder="{{'SelectMappingColumn' | translate}}" [(ngModel)]="mappings[field.id]" (selectionChange)="changeMapping(field)" name="importColumn{{i}}">
+                      <mat-option [value]="null">
+                      </mat-option>
+                      <mat-option *ngFor="let importColumn of importColumns" [value]="importColumn">
+                        {{importColumn}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+  
+                <div class="tagbox-right">
+                  <div *ngIf="referenceMappingStatus[field.id] && referenceMappings[field.id] && referenceMappingStatus[field.id][referenceMappings[field.id]]">
+                    <div *ngIf="!referenceMappingStatus[field.id][referenceMappings[field.id]].loading"
+                         class="sub-label">
+                      {{referenceMappingStatus[field.id][referenceMappings[field.id]].matches}} {{'MatchedItems' | translate}}
+  
+                      <span *ngIf="referenceMappingStatus[field.id][referenceMappings[field.id]].notMatched" class="error" (click)="moreDetails()">
+                        <ng-container *ngIf="referenceMappingStatus[field.id][referenceMappings[field.id]].notMatched == 1;else items">
+                          {{'ValidationFailedForItem' | translate : referenceMappingStatus[field.id][referenceMappings[field.id]].notMatched}}
+                        </ng-container>
+                        <ng-template #items>
+                          {{'ValidationFailedForItems' | translate : referenceMappingStatus[field.id][referenceMappings[field.id]].notMatched}}
+                        </ng-template>
+                      </span>
+  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+  
+      <div class="step-footer">
+        <button mat-stroked-button matStepperPrevious>{{'Previous' | translate}}</button>
+        <button mat-stroked-button matStepperNext>{{'Next' | translate}}s</button>
+      </div>
+    </ng-container>
+    <ng-template #noData>
+      <div class="mapping-row message">
+        <p>{{'NoImportedData' | translate}}</p>
+      </div>
+      <div class="step-footer">
+        <button mat-stroked-button matStepperPrevious>{{'Previous' | translate}}</button>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #isGoing>
+    <div class="mapping-row message">
+      <p>{{'MappingYourData' | translate}}</p>
+    </div>
+  </ng-template>
+  
+  <mat-progress-spinner *ngIf="isMapping | async" class="map-spinner" [mode]="'indeterminate'"></mat-progress-spinner>

@@ -1,19 +1,17 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { ScrollDispatcher } from '@angular/cdk/overlay';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  Output,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  EventEmitter, Input, NgZone, OnDestroy, OnInit, Output
 } from '@angular/core';
+import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
+import { debounceTime, filter, pairwise, startWith, switchMap } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatToolbar } from '@angular/material';
+
+// ANGULAR CDK
+import { SelectionModel } from '@angular/cdk/collections';
+import { ScrollDispatcher } from '@angular/cdk/overlay';
+
+// LIBRARIES
 import {
   BrokenDependenciesFilter,
   CustomerInfo,
@@ -28,8 +26,6 @@ import {
   SortInfo,
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
-import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
-import { debounceTime, filter, pairwise, startWith, switchMap } from 'rxjs/operators';
 
 // SERVICES
 import { MetaDataPreviewService } from '../../shared-module/services/metadata-preview/metadata-preview.service';
@@ -50,10 +46,10 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   @Input() search: Observable<string>;
   @Input() selectedItemIds: string[] | any;
   @Input() filter: Observable<FilterBase | null>;
-  @Input() public enableSelection: boolean;
+  @Input() enableSelection: boolean;
   @Input() refreshAll: Observable<boolean>;
   @Input() deselectAll: Observable<boolean>;
-  @Output() public selectedItemsChange = new EventEmitter<string[]>();
+  @Output() selectedItemsChange = new EventEmitter<string[]>();
 
   public totalResults: number;
   public tableItems: any[] = [];
@@ -206,7 +202,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
           }
         );
 
-    // this.subscription.add(listSubscription);
+    this.subscription.add(listSubscription);
 
     if (this.deselectAll) {
       const deselectAllSubscription = this.deselectAll.subscribe(() => {

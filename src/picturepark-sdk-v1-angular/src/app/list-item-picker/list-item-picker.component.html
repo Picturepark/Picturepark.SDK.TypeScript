@@ -1,1 +1,10 @@
-<pp-list-browser></pp-list-browser>
+<pp-list-browser
+    [schema]="schema"
+    [search]="searchQuery"
+    [filter]="filter"
+    [refreshAll]="refreshAll"
+    [deselectAll]="deselectAll"
+    [enableSelection]="true"
+    [selectedItemIds]="selectedItems"
+    (selectedItemsChange)="selectedItemsChange($event)">
+</pp-list-browser>

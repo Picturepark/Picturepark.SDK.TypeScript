@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>{{'Export' | translate}}</h2>
+<ng-container *ngIf="!(isExporting | async); else exporting">
+  <button *ngIf="isSelectAllActive" mat-button (click)="selectAll()">{{(isAllSelected ?  'DeselectAll' : 'SelectAll') | translate}}</button>
+  <mat-dialog-content>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" *ngIf="itemsNodes">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-checkbox class="checklist-leaf-node" [disabled]="!isSelectableNode(node)"
+                      [checked]="checklistSelection.isSelected(node)"
+                      (change)="todoLeafItemSelectionToggle(node)">{{node.names }}<span *ngIf="node.required">*</span></mat-checkbox>
+      </mat-tree-node>
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <ng-container *ngIf="node.isSelectable; else noExpanded">
+          <button mat-icon-button matTreeNodeToggle 
+                  [attr.aria-label]="'toggle ' + node.id">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+        </ng-container>
+        <ng-template #noExpanded>
+          <button mat-icon-button disabled></button>
+        </ng-template>
+        <mat-checkbox [checked]="descendantsAllSelected(node)" [disabled]="!isSelectableNode(node)"
+                      [indeterminate]="descendantsPartiallySelected(node)"
+                      (change)="todoItemSelectionToggle(node)">{{node.names}}<span *ngIf="node.required">*</span></mat-checkbox>
+      </mat-tree-node>
+    </mat-tree>
+  </mat-dialog-content>
+</ng-container>
+<ng-template #exporting>
+  <div>{{'ExportMessage' | translate}}</div>
+</ng-template>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="cancel()">{{'Cancel' | translate}}</button>
+  <button mat-button (click)="export()" [disabled]="hasSomeFieldsSelected" cdkFocusInitial *ngIf="!(isExporting | async)">{{'Export' | translate}}</button>
+</mat-dialog-actions>

@@ -1,0 +1,38 @@
+<div class="import-panel">
+  <mat-card>
+    <mat-card-title>{{'Import' | translate}}</mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-horizontal-stepper class="content" [linear]="isLinear" #stepper (selectionChange)="change($event)">
+
+        <mat-step>
+          <ng-template matStepLabel>{{'Upload' | translate}}</ng-template>
+          <div class="step-base step-load">
+            <app-import-load-step [parsedData]="parsedData" [stepper]="stepper"></app-import-load-step>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>{{'Map' | translate}}</ng-template>
+          <div class="step-base">
+            <app-import-map-step [parsedData]="parsedData" [stepper]="stepper"></app-import-map-step>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>{{'Preview' | translate}}</ng-template>
+          <div class="step-base" *ngIf="isPreviewStepSelected">
+            <app-import-preview-step [stepper]="stepper"></app-import-preview-step>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>{{'Update' | translate}}</ng-template>
+          <div class="step-base" *ngIf="isUpdateStepSelected">
+            <app-import-update-step [isImportActive]="isImportActive" ></app-import-update-step>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>
