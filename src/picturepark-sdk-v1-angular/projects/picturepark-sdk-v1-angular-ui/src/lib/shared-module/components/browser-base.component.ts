@@ -1,6 +1,6 @@
 import {LazyGetter} from 'lazy-get-decorator';
 import { BaseComponent } from './base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, Input } from '@angular/core';
+import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
 import { ContentModel } from '../models/content-model';
@@ -9,6 +9,7 @@ import { SortingType } from '../models/sorting-type';
 import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
 import { Observable } from 'rxjs';
 import { ContentItemSelectionService } from '../services/content-item-selection/content-item-selection.service';
+import { MatDialog } from '@angular/material';
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
     // Services
@@ -27,6 +28,10 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     @LazyGetter()
     protected get contentItemSelectionService(): ContentItemSelectionService {
         return this.injector.get(ContentItemSelectionService);
+    }
+    @LazyGetter()
+    protected get dialog(): MatDialog {
+        return this.injector.get(MatDialog);
     }
 
     protected pictureParkUIConfig: PictureparkUIConfiguration;
@@ -53,6 +58,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     abstract init(): void;
     abstract onScroll(): void;
     abstract getSearchRequest(): Observable<any> | undefined;
+    abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string, protected injector: Injector) {
         super();
@@ -101,6 +107,13 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     public trackByItem(index: number, item: ContentModel<TEntity>): string {
         return item.item.id;
     }
+
+    public update(): void {
+        this.totalResults = null;
+        this.nextPageToken = undefined;
+        this.items = [];
+        this.loadData();
+      }
 
     public loadData(): void {
         const request = this.getSearchRequest();
@@ -157,6 +170,25 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
             this.lastSelectedIndex = index;
             this.contentItemSelectionService.clear();
             this.contentItemSelectionService.addItem(itemModel.item.id || '');
+        }
+    }
+
+    public toggleItems(isSelected: boolean): void {
+        if (isSelected === true) {
+            this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
+        } else {
+            this.contentItemSelectionService.clear();
+        }
+    }
+
+    // HANDLE COMPONENENT CLICK EVENT
+    @HostListener('document:click', ['$event'])
+    handleClick(event: any): void {
+        if (this.dialog.openDialogs.length > 0) { return; }
+
+        console.log('clear', event.srcElement);
+        if (this.checkContains(event.srcElement.className)) {
+            this.contentItemSelectionService.clear();
         }
     }
 }

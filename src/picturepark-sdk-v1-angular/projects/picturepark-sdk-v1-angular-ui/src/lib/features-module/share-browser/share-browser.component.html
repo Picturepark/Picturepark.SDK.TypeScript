@@ -1,7 +1,9 @@
-<p>
-  share-browser works!
-</p>
+<div class="share-browser">
+  <p>
+    share-browser works!
+  </p>
 
-<div *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
-  {{itemModel.item.id}}
+  <div *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+    <div (click)="itemClicked($event, i)">{{itemModel.item.id}}</div>
+  </div>
 </div>

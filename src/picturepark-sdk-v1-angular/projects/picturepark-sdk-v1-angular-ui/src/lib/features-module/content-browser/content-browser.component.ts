@@ -55,7 +55,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
-    public dialog: MatDialog,
     injector: Injector
   ) {
 
@@ -131,27 +130,12 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.update();
   }
 
-  public update(): void {
-    this.totalResults = null;
-    this.nextPageToken = undefined;
-    this.items = [];
-    this.loadData();
-  }
-
   public previewItem(id: string): void {
     this.previewItemChange.emit(id);
   }
 
   public previewSelectedItem(): void {
     this.previewItem(this.selectedItems[0]);
-  }
-
-  public toggleItems(isSelected: boolean): void {
-    if (isSelected === true) {
-      this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
-    } else {
-      this.contentItemSelectionService.clear();
-    }
   }
 
   public trackByThumbnailSize(index, thumbnailSize: string): string {
@@ -184,20 +168,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   }
 
-  // HANDLE COMPONENENT CLICK EVENT
-  @HostListener('document:click', ['$event'])
-  handleClick(event: any): void {
-
-    if (this.dialog.openDialogs.length > 0) { return; }
-
-    if (this.checkContains(event.srcElement.className)) {
-      this.contentItemSelectionService.clear();
-    }
-
-  }
-
   // CHECK IF ELEMENT CONTAINS CLASS NAME
-  public checkContains(elementClassName: string): boolean {
+  checkContains(elementClassName: string): boolean {
     const containClasses = ['content-browser__items'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }

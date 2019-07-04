@@ -45,4 +45,10 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
 
     return this.shareService.search(request);
   }
+
+  // CHECK IF ELEMENT CONTAINS CLASS NAME
+  checkContains(elementClassName: string): boolean {
+    const containClasses = ['share-browser'];
+    return containClasses.some(iClass => elementClassName.includes(iClass));
+  }
 }
