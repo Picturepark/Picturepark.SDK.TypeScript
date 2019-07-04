@@ -2,7 +2,7 @@
   <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
     <mat-panel-title class="aggregation__title">
       <span>
-        {{ expandedAggregator?.names | pptranslate}}
+        {{ expandedAggregator?.names | pptranslate }}
       </span>
       <button mat-icon-button *ngIf="aggregationsFiltersCount > 0" [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate">
         <mat-icon aria-label="Clear filters for this category" (click)="aggregationFiltersChange.emit([]); $event.stopPropagation();">clear</mat-icon>
@@ -11,13 +11,20 @@
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
     <mat-form-field *ngIf="expandedAggregationResult?.sumOtherDocCount" class="aggregation__search">
-      <input type="text" [placeholder]="'ContentAggregationList.Search' | pptranslate" aria-label="Search" matInput [formControl]="aggregationQuery"
-             [matAutocomplete]="searchAutocomplete">
+      <input 
+        matInput
+        type="text"
+        [placeholder]="'ContentAggregationList.Search' | pptranslate"
+        aria-label="Search"
+        [formControl]="aggregationQuery" 
+        [matAutocomplete]="searchAutocomplete">
       <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
-      <mat-autocomplete #searchAutocomplete="matAutocomplete" (optionSelected)="autoCompleteOptionSelected($event.option.value)"
-                        [displayWith]="queryDisplay">
+      <mat-autocomplete 
+        #searchAutocomplete="matAutocomplete"
+        (optionSelected)="autoCompleteOptionSelected($event.option.value)"
+        [displayWith]="queryDisplay">
         <mat-option *ngFor="let option of autoCompleteOptions | async; trackBy: trackByName" [value]="option">
           {{option.name}}
         </mat-option>
@@ -25,8 +32,11 @@
     </mat-form-field>
 
     <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
-      <mat-list-option *ngFor="let item of expandedAggregationResult?.aggregationResultItems" checkboxPosition="before" [selected]="item.active"
-                       [value]="item">
+      <mat-list-option 
+        *ngFor="let item of expandedAggregationResult?.aggregationResultItems"
+        checkboxPosition="before"
+        [selected]="item.active"
+        [value]="item">
         <div class="aggregation__option-title" matTooltip="{{item.getDisplayName(locale)}}" [matTooltipDisabled]="false">
           <div class="aggregation__option-name">{{item.getDisplayName(locale)}} </div>
           <div>{{item.count}} </div>

@@ -1,18 +1,20 @@
 <mat-card (click)="setUpActiveSchema()">
   <mat-card-content class="schema-content">
-    <div class="schema-icon" [ngClass]="{'parent': schema.childCount, 'child': schema.parentSchemaId}">
+    <div class="schema-icon" [ngClass]="{'parent': schema.childCount, 'child': schema.parentSchemaId }">
       <mat-icon>reorder</mat-icon>
     </div>
     <div class="schema-info">
       <div class="title">
-        <span>{{schema.names | pptranslate}}</span>
+        <span>Schema Name</span>
+        <!--<span>{{ schema.names | pptranslate }}</span>-->
       </div>
       <div class="sub-title">
-        <span>{{schema.fieldCount}} {{'FieldsLowercase' | translate}}</span>
+        <span>schema.fieldCount</span>
+        <!--<span>{{ schema.fieldCount }} {{ 'FieldsLowercase' | pptranslate }}</span>-->
       </div>
     </div>
     <div class="schema-menu">
-      <button mat-button (click)="setUpActiveSchema()" matTooltip="{{'ShowItemList' | translate}}">
+      <button mat-button (click)="setUpActiveSchema()" matTooltip="{{'ShowItemList' | pptranslate}}">
         <mat-icon>open_in_new</mat-icon>
       </button>
     </div>

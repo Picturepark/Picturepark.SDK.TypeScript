@@ -5,7 +5,7 @@
         <div class="content-browser__spacer"></div>
         <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1">{{ totalResults }} {{'SchemasLowercase' | pptranslate}}</span>
 
-        <button mat-icon-button [matMenuTriggerFor]="sortMenu" matTooltip="{{'Sort' | translate}}">
+        <button mat-icon-button [matMenuTriggerFor]="sortMenu" matTooltip="{{'Sort' | pptranslate}}">
           <mat-icon aria-label="Select sorting">sort</mat-icon>
         </button>
 
@@ -51,6 +51,6 @@
   </div>
 
   <div *ngIf="totalResults === 0" class="content-browser__empty-result mat-typography">
-    {{'ItemsWereNotFound' | pptranslate}}
+    {{ 'ItemsWereNotFound' | pptranslate}}
   </div>
 </div>

@@ -1,12 +1,12 @@
 <mat-toolbar color="primary" class="header list" *ngIf="(activeSchemaId | async ) !== ''">
 
-  <a routerLink="/">{{'AppName'| translate}}</a>
+  <a routerLink="/">{{'AppName'| pptranslate}}</a>
   <mat-divider [vertical]=" true " class="divider"></mat-divider>
 
   <mat-toolbar class="breadcrumb">
-    <button mat-button (click)="closeList()" class="breadcrumb-title">{{'ListItems' | translate}}</button>
+    <button mat-button (click)="closeList()" class="breadcrumb-title">{{'ListItems' | pptranslate}}</button>
     <mat-icon class="breadcrumb-icon">keyboard_arrow_right</mat-icon>
-    <button mat-button *ngIf="activeSchema | async as schema">{{schema.names | translate}}</button>
+    <button mat-button *ngIf="activeSchema | async as schema">{{schema.names | pptranslate}}</button>
   </mat-toolbar>
   <div class="spacer"></div>
   <mat-divider [vertical]=" true " class="divider">
@@ -15,15 +15,15 @@
 </mat-toolbar>
 
 <mat-toolbar color="primary" class="header" *ngIf="activeParentSchema | async as parentSchema">
-  <a routerLink="/">{{'AppName'| translate}}</a>
+  <a routerLink="/">{{'AppName'| pptranslate}}</a>
   <mat-divider [vertical]=" true " class="divider">
   </mat-divider>
 
   <mat-toolbar class="breadcrumb">
-    <button mat-button (click)="closeParent()" class="breadcrumb-title">{{'ListItems' | translate}}</button>
+    <button mat-button (click)="closeParent()" class="breadcrumb-title">{{'ListItems' | pptranslate}}</button>
     <mat-icon class="breadcrumb-icon">keyboard_arrow_right</mat-icon>
     <button mat-button>
-      {{parentSchema.names | translate}}
+      {{parentSchema.names | pptranslate}}
     </button>
   </mat-toolbar>
   <div class="spacer"></div>
@@ -33,10 +33,16 @@
 
 <div class="content" [style.top.px]="mobileQuery.matches ? 168 : 68">
   <div style="width:100%">
-    <app-schema-browser [activeParentSchema]="activeParentSchema" class="content-browser" [search]="search" [filter]="filter" (activeSchemaChange)="setUpActiveSchema($event)"></app-schema-browser>
+    <pp-schema-browser 
+      class="content-browser" 
+      [activeParentSchema]="activeParentSchema" 
+      [search]="search" 
+      [filter]="filter" 
+      (activeSchemaChange)="setUpActiveSchema($event)">
+    </pp-schema-browser>
   </div>
 </div>
 
 <div class="item" *ngIf="(activeSchemaId | async ) !== ''" [style.top.px]="mobileQuery.matches ? 56 : 68">
-  <app-list [activeSchema]="activeSchema"></app-list>
+  <!--<pp-list [activeSchema]="activeSchema"></pp-list>-->
 </div>

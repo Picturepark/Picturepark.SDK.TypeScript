@@ -25,7 +25,8 @@ import {
   MatButtonModule,
   MatCardModule,
   MatToolbarModule,
-  MatSortModule
+  MatSortModule,
+  MatSidenavModule
 } from '@angular/material';
 
 // CDK MODULES
@@ -61,6 +62,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatProgressBarModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatSidenavModule,
     // CDK
     CdkTableModule,
     LayoutModule,
@@ -92,6 +94,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatProgressBarModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatSidenavModule,
     // CDK
     CdkTableModule,
     LayoutModule,

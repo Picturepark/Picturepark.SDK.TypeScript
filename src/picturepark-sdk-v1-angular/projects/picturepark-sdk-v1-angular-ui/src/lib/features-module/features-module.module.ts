@@ -9,6 +9,7 @@ import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { DialogModule } from './dialog/dialog.module';
 import { LayerPanelsModule } from './layer-panels/layer-panels.module';
+import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
 import { ListItemAggregationListModule } from './list-item-aggregation-list/list-item-aggregation-list.module';
 import { NotificationModule } from './notification/notification.module';
@@ -27,6 +28,7 @@ import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
     DatePickerModule,
     DialogModule,
     LayerPanelsModule,
+    ListItemsModule,
     ListBrowserModule,
     ListItemAggregationListModule,
     NotificationModule,
@@ -42,6 +44,7 @@ import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
     DatePickerModule,
     DialogModule,
     LayerPanelsModule,
+    ListItemsModule,
     ListBrowserModule,
     ListItemAggregationListModule,
     NotificationModule,

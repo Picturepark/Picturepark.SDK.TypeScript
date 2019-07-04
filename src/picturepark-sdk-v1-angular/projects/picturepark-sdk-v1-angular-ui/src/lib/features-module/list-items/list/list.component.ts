@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 // ANGULAR CDK
 import { MediaMatcher } from '@angular/cdk/layout';
 
 // LIBRARIES
-import { MatDialog } from '@angular/material/dialog';
 import {
   AggregationFilter,
   AggregatorBase,
@@ -21,23 +20,18 @@ import {
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
 
-// COMPONENTS
-import { ListItemsExportComponent } from '../list-items-export/list-items-export.component';
-import { ListItemsImportDataService } from '../list-items-import/services/list-items-import-data.service';
-
 @Component({
   selector: 'pp-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  providers: [ListItemsImportDataService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnDestroy {
 
-  @Input() activeSchema: Subject<SchemaDetail>;
+  @Input() activeSchema: Subject<SchemaDetail | null>;
   public mobileQuery: MediaQueryList;
   public aggregationFilters: AggregationFilter[] = [];
-  public isImportActive: Subject<boolean> = new BehaviorSubject(false);
+  public isImportActive = new BehaviorSubject(false);
   public searchQuery: Observable<string>;
   public filter = new Subject<FilterBase>();
   public aggregations: AggregatorBase[];
@@ -51,14 +45,14 @@ export class ListComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private media: MediaMatcher,
+  constructor(
+    private media: MediaMatcher,
     private schemaService: SchemaService,
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private importDataService: ListItemsImportDataService,
     private router: Router,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
 
@@ -77,6 +71,7 @@ export class ListComponent implements OnInit, OnDestroy {
       map(q => q.get('listsearch')), distinctUntilChanged(), tap(() => this.deselectSelectedItems()),
       map((query) => query || ''));
 
+    // tslint:disable-next-line: deprecation
     const listSubscription = combineLatest(
       this.schema,
       this.route.paramMap,
@@ -122,8 +117,9 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   import() {
-    this.importDataService.changeSchemaId(this.schemaId);
-    this.isImportActive.next(true);
+    return;
+    // this.importDataService.changeSchemaId(this.schemaId);
+    // this.isImportActive.next(true);
   }
 
   closeImport() {
@@ -139,6 +135,8 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   public export() {
+    return;
+    /*
     const dialogRef = this.dialog.open(ListItemsExportComponent, {
       data: {
         schema: of(this.schemaDetail),
@@ -155,6 +153,7 @@ export class ListComponent implements OnInit, OnDestroy {
       }
     });
     this.subscription.add(closeDialogSubscription);
+    */
   }
 
   public changeAggregationFilters(aggregationFilters: AggregationFilter[]) {

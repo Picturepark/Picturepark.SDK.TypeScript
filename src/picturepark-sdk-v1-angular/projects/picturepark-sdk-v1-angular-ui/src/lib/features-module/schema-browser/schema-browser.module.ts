@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // MODULES
-import { SharedModule } from '@picturepark/sdk-v1-angular-ui/public_api';
+import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
 import { SchemaBrowserComponent } from './schema-browser.component';

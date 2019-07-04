@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>{{'Export' | translate}}</h2>
+<h2 mat-dialog-title>{{'Export' | pptranslate}}</h2>
 <ng-container *ngIf="!(isExporting | async); else exporting">
-  <button *ngIf="isSelectAllActive" mat-button (click)="selectAll()">{{(isAllSelected ?  'DeselectAll' : 'SelectAll') | translate}}</button>
+  <button *ngIf="isSelectAllActive" mat-button (click)="selectAll()">{{(isAllSelected ?  'DeselectAll' : 'SelectAll') | pptranslate}}</button>
   <mat-dialog-content>
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" *ngIf="itemsNodes">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
@@ -29,9 +29,9 @@
   </mat-dialog-content>
 </ng-container>
 <ng-template #exporting>
-  <div>{{'ExportMessage' | translate}}</div>
+  <div>{{'ExportMessage' | pptranslate}}</div>
 </ng-template>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close (click)="cancel()">{{'Cancel' | translate}}</button>
-  <button mat-button (click)="export()" [disabled]="hasSomeFieldsSelected" cdkFocusInitial *ngIf="!(isExporting | async)">{{'Export' | translate}}</button>
+  <button mat-button mat-dialog-close (click)="cancel()">{{'Cancel' | pptranslate}}</button>
+  <button mat-button (click)="export()" [disabled]="hasSomeFieldsSelected" cdkFocusInitial *ngIf="!(isExporting | async)">{{'Export' | pptranslate}}</button>
 </mat-dialog-actions>

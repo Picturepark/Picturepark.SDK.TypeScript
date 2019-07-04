@@ -21,6 +21,7 @@ import { SchemaSortingType } from './interfaces/schema-sorting-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemaBrowserComponent implements OnInit, OnDestroy {
+
   @Input() public search: Subject<string>;
   @Input() public filter: Subject<FilterBase>;
   @Input() public activeParentSchema: Subject<Schema>;
@@ -43,6 +44,7 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    // tslint:disable-next-line: deprecation
     const schemaSearchResult = combineLatest(
       this.activeSortingType,
       this.activeSortDirection,
