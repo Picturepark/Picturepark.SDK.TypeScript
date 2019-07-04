@@ -186,7 +186,6 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     handleClick(event: any): void {
         if (this.dialog.openDialogs.length > 0) { return; }
 
-        console.log('clear', event.srcElement);
         if (this.checkContains(event.srcElement.className)) {
             this.contentItemSelectionService.clear();
         }

@@ -13,7 +13,7 @@
             (matChipInputTokenEnd)="add($event)"
             id="recipient" formControlName="recipientsSearch" [matAutocomplete]="auto">
     </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
         <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
         <ng-container *ngIf="!isLoading">
           <mat-option *ngFor="let recipient of recipientsAutocomplete" [value]="recipient">

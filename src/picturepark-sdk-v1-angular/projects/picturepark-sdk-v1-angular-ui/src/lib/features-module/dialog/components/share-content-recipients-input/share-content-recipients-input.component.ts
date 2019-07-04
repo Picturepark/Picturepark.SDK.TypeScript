@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { BaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/components/base.component';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, SearchBehavior } from '@picturepark/sdk-v1-angular';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'pp-share-content-recipients-input',
@@ -60,12 +61,18 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
     )
     .subscribe(users => {
       this.recipientsAutocomplete = users.aggregationResults[0]!.aggregationResultItems!.map(i => i.name);
-      console.log(this.recipientsAutocomplete);
     });
+  }
+
+  optionSelected(event: MatAutocompleteSelectedEvent): void {
+    this.recipientsAutocomplete = [];
+    this.add({ input: document.getElementById('recipient')! as HTMLInputElement, value: event.option.value });
   }
 
   // ADD RECIPIENT TO LIST
   add(event: MatChipInputEvent): void {
+    // Exit if suggestions open
+    if (this.recipientsAutocomplete.length) { return; }
 
     const input = event.input;
     const value = event.value;
