@@ -57,7 +57,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
 
     abstract init(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<any> | undefined;
+    abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string, protected injector: Injector) {

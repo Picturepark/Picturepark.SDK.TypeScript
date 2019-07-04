@@ -1,6 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base.component';
-import { Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo } from '@picturepark/sdk-v1-angular';
+import { Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult } from '@picturepark/sdk-v1-angular';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     this.loadData();
   }
 
-  getSearchRequest(): Observable<any> | undefined {
+  getSearchRequest(): Observable<ShareSearchResult> | undefined {
     if (this.isLoading) { return; }
 
     const request = new ShareSearchRequest({

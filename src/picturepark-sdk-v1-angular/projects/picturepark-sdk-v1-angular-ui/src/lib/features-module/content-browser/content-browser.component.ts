@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material';
 // LIBRARIES
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -84,7 +84,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.loadData();
   }
 
-  getSearchRequest(): Observable<any> | undefined {
+  getSearchRequest(): Observable<ContentSearchResult> | undefined {
     if (!this.channel || !this.channel.id) { return; }
 
     const request = new ContentSearchRequest({
