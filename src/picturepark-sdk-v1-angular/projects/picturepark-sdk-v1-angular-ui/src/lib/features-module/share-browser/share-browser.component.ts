@@ -1,6 +1,8 @@
 import { Component, Injector } from '@angular/core';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base.component';
-import { Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult } from '@picturepark/sdk-v1-angular';
+import {
+  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult
+} from '@picturepark/sdk-v1-angular';
 import { Observable } from 'rxjs';
 
 @Component({
