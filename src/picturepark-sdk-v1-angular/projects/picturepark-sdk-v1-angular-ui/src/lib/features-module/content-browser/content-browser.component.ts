@@ -1,8 +1,6 @@
 import {
-  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges,
-  HostListener, Injector
+  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, Injector
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
 
 // LIBRARIES
 import {
@@ -21,10 +19,8 @@ import {
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-import { ContentItemSelectionService } from '../../shared-module/services/content-item-selection/content-item-selection.service';
 
 // INTERFACES
-import { ContentModel } from '../../shared-module/models/content-model';
 import { SortingType } from '../../shared-module/models/sorting-type';
 import { Observable } from 'rxjs';
 
@@ -49,9 +45,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   @Input()
   public channel: Channel | null = null;
 
-  @Output()
-  public previewItemChange = new EventEmitter<string>();
-
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
@@ -71,8 +64,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
     // CONTENT ITEM SELECTION SUBSCRIBER
     const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
-      this.selectedItems = items;
-      this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem === model.item.id));
+      this.selectedItems = items.map(i => i);
+      this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
     });
 
     // UNSUBSCRIBE
@@ -128,10 +121,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
     this.activeSortingType = newValue;
     this.update();
-  }
-
-  public previewItem(id: string): void {
-    this.previewItemChange.emit(id);
   }
 
   public previewSelectedItem(): void {

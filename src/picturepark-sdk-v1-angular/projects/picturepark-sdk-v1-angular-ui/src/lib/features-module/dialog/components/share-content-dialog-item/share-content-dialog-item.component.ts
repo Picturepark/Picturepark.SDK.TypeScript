@@ -7,7 +7,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // SERVICES
 import { ContentItemSelectionService } from '../../../../shared-module/services/content-item-selection/content-item-selection.service';
-import { ContentService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { ContentService, ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-share-content-dialog-item',
@@ -27,7 +27,7 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   public imageUrl: SafeUrl;
 
   constructor(
-    private contentItemSelectionService: ContentItemSelectionService,
+    private contentItemSelectionService: ContentItemSelectionService<Content>,
     private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {

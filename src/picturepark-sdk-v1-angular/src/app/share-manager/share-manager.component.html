@@ -1,5 +1,20 @@
-<p>
-  share-manager works!
+<div class="container">
+  <div class="filters">
+    <mat-tab-group style="height: 100%;">
+      <mat-tab label="Filters">
+        <!--
+        <pp-content-aggregation-list
+          [query]="searchText"
+          [channelId]="selectedChannel?.id"
+          [aggregators]="selectedChannel?.aggregations"
+          (filterChange)="selectedFilter = $event">
+        </pp-content-aggregation-list>
+        -->
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 
-  <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
-</p>
+  <div class="content">
+    <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
+  </div>
+</div>

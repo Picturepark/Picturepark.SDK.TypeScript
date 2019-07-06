@@ -26,8 +26,8 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         return this.injector.get(LiquidRenderingService);
     }
     @LazyGetter()
-    protected get contentItemSelectionService(): ContentItemSelectionService {
-        return this.injector.get(ContentItemSelectionService);
+    protected get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
+        return new ContentItemSelectionService<TEntity>();
     }
     @LazyGetter()
     protected get dialog(): MatDialog {
@@ -46,13 +46,14 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     public sortingTypes = SortingType;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
-    @Output() public selectedItemsChange = new EventEmitter<string[]>();
+    @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
+    @Output() public previewItemChange = new EventEmitter<TEntity>();
 
     @Input() public searchString = '';
     @Input() public filter: FilterBase | null = null;
 
     private _totalResults: number | null = null;
-    private _selectedItems: string[] = [];
+    private _selectedItems: TEntity[] = [];
     private lastSelectedIndex = 0;
 
     abstract init(): void;
@@ -95,11 +96,11 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         this.totalResultsChange.emit(total);
     }
 
-    get selectedItems(): string[] {
+    get selectedItems(): TEntity[] {
         return this._selectedItems;
     }
 
-    set selectedItems(items: string[]) {
+    set selectedItems(items: TEntity[]) {
         this._selectedItems = items;
         this.selectedItemsChange.emit(items);
     }
@@ -131,7 +132,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
                 await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
                 this.items.push(...searchResult.results.map(item => {
                     const contentModel = new ContentModel(item, false);
-                    contentModel.isSelected = this.selectedItems.indexOf(item.id) !== -1;
+                    contentModel.isSelected = this.selectedItems.some(selected => selected.id === item.id);
                     return contentModel;
                 }));
             }
@@ -154,32 +155,36 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
             this.lastSelectedIndex = index;
 
             if (itemModel.isSelected === true) {
-            this.contentItemSelectionService.removeItem(itemModel.item.id || '');
+            this.contentItemSelectionService.removeItem(itemModel.item);
             } else {
-            this.contentItemSelectionService.addItem(itemModel.item.id || '');
+            this.contentItemSelectionService.addItem(itemModel.item);
             }
         } else if ($event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
             const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
-            const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(model => model.item.id || '');
+            const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
 
             this.contentItemSelectionService.clear();
             this.contentItemSelectionService.addItems(itemsToAdd);
         } else {
             this.lastSelectedIndex = index;
             this.contentItemSelectionService.clear();
-            this.contentItemSelectionService.addItem(itemModel.item.id || '');
+            this.contentItemSelectionService.addItem(itemModel.item);
         }
     }
 
     public toggleItems(isSelected: boolean): void {
         if (isSelected === true) {
-            this.contentItemSelectionService.addItems(this.items.map((model) => model.item.id || ''));
+            this.contentItemSelectionService.addItems(this.items.map(model => model.item));
         } else {
             this.contentItemSelectionService.clear();
         }
     }
+
+    public previewItem(item: TEntity): void {
+        this.previewItemChange.emit(item);
+      }
 
     // HANDLE COMPONENENT CLICK EVENT
     @HostListener('document:click', ['$event'])
