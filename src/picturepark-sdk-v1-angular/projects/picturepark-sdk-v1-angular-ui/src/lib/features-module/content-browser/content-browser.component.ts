@@ -57,13 +57,13 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   init() {
     // BASKET SUBSCRIBER
-    const basketSubscription = this.basketService.basketChange.subscribe((basketItems) => {
+    const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
       this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
 
     // CONTENT ITEM SELECTION SUBSCRIBER
-    const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe((items) => {
+    const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
       this.selectedItems = items.map(i => i);
       this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
     });
@@ -127,7 +127,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.previewItem(this.selectedItems[0]);
   }
 
-  public trackByThumbnailSize(index, thumbnailSize: string): string {
+  public trackByThumbnailSize(index: number, thumbnailSize: string): string {
     return thumbnailSize;
   }
 

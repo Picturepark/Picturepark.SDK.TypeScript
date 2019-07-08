@@ -20,9 +20,9 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   downloadThumbnailSubscription: Subscription;
 
   @Input()
-  public itemId: string;
+  public item: Content;
 
-  @Output() removeDialogContent = new EventEmitter<string>();
+  @Output() removeDialogContent = new EventEmitter<Content>();
 
   public imageUrl: SafeUrl;
 
@@ -38,7 +38,7 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
 
     // SUBSCRIBERS
     this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.itemId, ThumbnailSize.Small, null, null
+      this.item.id, ThumbnailSize.Small, null, null
     ).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
@@ -50,8 +50,8 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   }
 
   public remove() {
-    this.removeDialogContent.emit(this.itemId);
-    this.contentItemSelectionService.removeItem(this.itemId);
+    this.removeDialogContent.emit(this.item);
+    this.contentItemSelectionService.removeItem(this.item);
   }
 
 }

@@ -13,6 +13,7 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
 
 // INTERFACES
 import { ContentModel } from '../../../../shared-module/models/content-model';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -56,12 +57,16 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
 
   public ngOnInit(): void {
 
-    const downloadSubscription = this.contentService.downloadThumbnail(
-      this.itemModel.item.id,
-      this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
-      null,
-      null
-    ).subscribe(response => {
+    const downloadSubscription = this.loadItem.pipe(
+      switchMap(
+        () => {
+          return this.contentService.downloadThumbnail(
+            this.itemModel.item.id,
+            this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
+            null,
+            null);
+        })
+      ).subscribe(response => {
       if (response) {
         this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
         this.isLoading = false;
