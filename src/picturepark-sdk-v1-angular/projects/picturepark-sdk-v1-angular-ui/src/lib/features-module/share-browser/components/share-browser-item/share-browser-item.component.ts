@@ -14,7 +14,10 @@ import { ContentModel } from '../../../../shared-module/models/content-model';
 @Component({
   selector: 'pp-share-browser-item',
   templateUrl: './share-browser-item.component.html',
-  styleUrls: ['./share-browser-item.component.scss']
+  styleUrls: [
+    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+    './share-browser-item.component.scss'
+  ]
 })
 export class ShareBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
 

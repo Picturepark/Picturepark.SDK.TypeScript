@@ -18,7 +18,10 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'pp-content-browser-item',
   templateUrl: './content-browser-item.component.html',
-  styleUrls: ['./content-browser-item.component.scss']
+  styleUrls: [
+    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+    './content-browser-item.component.scss'
+  ]
 })
 export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
 
