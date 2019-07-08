@@ -31,13 +31,11 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() activeSchema: Subject<SchemaDetail | null>;
   public mobileQuery: MediaQueryList;
   public aggregationFilters: AggregationFilter[] = [];
-  public isImportActive = new BehaviorSubject(false);
   public searchQuery: Observable<string>;
   public filter = new Subject<FilterBase>();
   public aggregations: AggregatorBase[];
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
-  public refreshAll: Observable<boolean>;
   public deselectAll: Subject<void> = new Subject<void>();
   public schemaId: string;
   public isImportAllowed: Observable<boolean>;
@@ -60,10 +58,9 @@ export class ListComponent implements OnInit, OnDestroy {
       map(t => t.userRights && t.userRights.indexOf(UserRight.ManageListItems) !== -1));
 
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-    this.refreshAll = this.isImportActive.pipe(map((isImportActive: boolean) => isImportActive));
 
     this.schema = <Observable<SchemaDetail>>this.route.paramMap.pipe(flatMap((paramMap) => {
-      const schemaId = paramMap.get('schemaId')!;
+      const schemaId = paramMap.get('id')!;
       return this.schemaService.get(schemaId);
     }));
 
@@ -80,7 +77,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
         this.aggregations = schemaDetail.aggregations!;
-        this.schemaId = paramMap.get('schemaId')!;
+        this.schemaId = paramMap.get('id')!;
 
         const filterQuery = queryParamMap.getAll('filter');
         if (filterQuery) {
@@ -91,6 +88,8 @@ export class ListComponent implements OnInit, OnDestroy {
           }
           const createdFilter = this.createFilter(this.aggregationFilters);
           this.filter.next(createdFilter!);
+        } else {
+          this.filter.next(undefined);
         }
 
         // Get selected from url
@@ -98,10 +97,6 @@ export class ListComponent implements OnInit, OnDestroy {
         if (selectedQuery) {
           const items = selectedQuery.split(',');
           this.selectedItems = items;
-        }
-
-        if (this.router.isActive(`list-items/${this.schemaId}/export`, false)) {
-          this.export();
         }
 
         this.cdr.detectChanges();
@@ -116,44 +111,12 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  import() {
-    return;
-    // this.importDataService.changeSchemaId(this.schemaId);
-    // this.isImportActive.next(true);
-  }
-
-  closeImport() {
-    this.isImportActive.next(false);
-  }
-
   public selectedItemsChange(selectedItems: string[]) {
     this.selectedItems = selectedItems;
   }
 
   public get queryParams(): Params {
     return Object.assign({}, this.route.snapshot.queryParams);
-  }
-
-  public export() {
-    return;
-    /*
-    const dialogRef = this.dialog.open(ListItemsExportComponent, {
-      data: {
-        schema: of(this.schemaDetail),
-        filter: this.filter,
-        searchString : this.searchQuery,
-        selectedItems: this.selectedItems
-      },
-      width: '50vw',
-    });
-
-    const closeDialogSubscription = dialogRef.afterClosed().subscribe((isExported) => {
-      if (isExported) {
-        this.deselectSelectedItems();
-      }
-    });
-    this.subscription.add(closeDialogSubscription);
-    */
   }
 
   public changeAggregationFilters(aggregationFilters: AggregationFilter[]) {
@@ -169,7 +132,7 @@ export class ListComponent implements OnInit, OnDestroy {
       delete query['filter'];
     }
 
-    this.router.navigate(['/list-items', this.schemaId], { queryParams: query });
+  //  this.router.navigate([this.schemaId], { relativeTo: this.route });
   }
 
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {

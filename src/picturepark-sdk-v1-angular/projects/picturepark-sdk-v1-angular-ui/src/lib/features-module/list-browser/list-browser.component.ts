@@ -47,7 +47,6 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   @Input() selectedItemIds: string[] | any;
   @Input() filter: Observable<FilterBase | null>;
   @Input() enableSelection: boolean;
-  @Input() refreshAll: Observable<boolean>;
   @Input() deselectAll: Observable<boolean>;
 
   @Output() selectedItemsChange = new EventEmitter<string[]>();
@@ -93,31 +92,19 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
       });
 
     this.subscription.add(scrollSubscription);
-
+      console.log('list browser');
+      console.log('list browser');
     const listSubscription = combineLatest([
       this.sortInfo,
       this.loadMore,
-      this.refreshAll,
       this.schema,
       this.filter,
       this.search,
       this.infoService.getInfo()])
-        .pipe(filter(
-          ([, , schema]) => schema !== null
-          ),
-          startWith([]),
-          pairwise(),
+        .pipe(
           switchMap(
-            (
-              [
-                [, , prevRefresh, , prevFilter, prevQuery],
-                [sortInfo, , nextRefresh, schema, nextFilter, nextQuery, info]
-              ]:
-            [
-              [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string],
-              [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string, CustomerInfo]
-            ]) => {
-
+            ([sortInfo, loadMore, schema, nextFilter, nextQuery, info]) => {
+              console.log('switchmap')
               // tslint:disable-next-line: max-line-length
               const needDataRefresh = false;
 

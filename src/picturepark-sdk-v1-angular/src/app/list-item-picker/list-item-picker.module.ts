@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // LIBRARIES
-import { SchemaBrowserModule, ListBrowserModule } from '@picturepark/sdk-v1-angular-ui';
+import { SchemaBrowserModule, ListModule, ListBrowserModule } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
 import { ListItemPickerRoutingModule } from './list-item-picker-routing.module';
@@ -19,6 +19,7 @@ import { ListItemBrowserComponent } from './components/list-item-browser/list-it
   imports: [
     CommonModule,
     ListBrowserModule,
+    ListModule,
     ListItemPickerRoutingModule,
     SchemaBrowserModule
   ]

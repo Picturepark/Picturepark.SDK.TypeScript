@@ -5,21 +5,11 @@
         [schema]="schema"
         [search]="searchQuery"
         [filter]="filter"
-        [refreshAll]="refreshAll"
         [deselectAll]="deselectAll"
         [enableSelection]="true"
         [selectedItemIds]="selectedItems"
         (selectedItemsChange)="selectedItemsChange($event)">
-        <ng-container content-buttons>
-          <button mat-stroked-button class="browser-buttons" matTooltip="{{ 'Import' | pptranslate}}" (click)="import()" *ngIf="isImportAllowed | async">
-            <mat-icon>open_in_browser</mat-icon>
-            {{ 'Import' | pptranslate}}
-          </button>
-          <button mat-stroked-button class="browser-buttons" matTooltip="{{ 'Export' | pptranslate}}" (click)="export()">
-            <mat-icon>save_alt</mat-icon>
-            {{ 'Export' | pptranslate}}
-          </button>
-        </ng-container>
+
       </pp-list-browser>
     </mat-sidenav-content>
 
@@ -53,17 +43,4 @@
       </mat-tab-group>
     </mat-sidenav>
   </mat-sidenav-container>
-</div>
-
-<mat-toolbar color="primary" class="header" *ngIf="isImportActive | async">
-  <button mat-icon-button (click)="closeImport()">
-    <mat-icon aria-label="Close item">clear</mat-icon>
-  </button>
-  <div class="spacer"></div>
-  <mat-divider [vertical]=" true " class="divider">
-  </mat-divider>
-</mat-toolbar>
-
-<div class="item" *ngIf="isImportActive | async" [style.top.px]="mobileQuery.matches ? 56 : 68">
-  <!--<app-import [isImportActive]="isImportActive"></app-import>-->
 </div>

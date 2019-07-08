@@ -225,6 +225,9 @@ export let TRANSLATIONS = {
   ListBrowser: {
     ListItemsLowercase: {
       en: 'items list'
+    },
+    ItemsWereNotFound: {
+      en: 'Items were not found'
     }
   },
   Login: {

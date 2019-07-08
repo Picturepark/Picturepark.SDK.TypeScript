@@ -16,6 +16,7 @@ export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-pane
 export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';
 export { ListItemAggregationListModule } from './lib/features-module/list-item-aggregation-list/list-item-aggregation-list.module';
 export { ListItemsModule } from './lib/features-module/list-items/list-items.module';
+export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
