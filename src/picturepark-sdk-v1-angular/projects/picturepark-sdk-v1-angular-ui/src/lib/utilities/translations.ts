@@ -222,6 +222,11 @@ export let TRANSLATIONS = {
       de: 'Grösse'
     },
   },
+  ListBrowser: {
+    ListItemsLowercase: {
+      en: 'items list'
+    }
+  },
   Login: {
     LabelUsername: {
       en: 'Username',
@@ -335,6 +340,9 @@ export let TRANSLATIONS = {
     },
     FieldsLowercase: {
       en: 'fields'
+    },
+    ShowItemList: {
+      en: 'Show item list'
     }
   },
   ShareContentDialog: {

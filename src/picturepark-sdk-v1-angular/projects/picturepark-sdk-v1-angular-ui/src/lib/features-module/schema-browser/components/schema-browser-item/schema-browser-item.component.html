@@ -5,14 +5,14 @@
     </div>
     <div class="schema-info">
       <div class="title">
-        <span>{{ schema.names | pptranslate }}</span>
+        <span *ngIf="schema && schema.names">{{ schema.names | pptranslate }}</span>
       </div>
       <div class="sub-title">
         <span>{{ schema.fieldCount }} {{ 'SchemaBrowser.FieldsLowercase' | pptranslate }}</span>
       </div>
     </div>
     <div class="schema-menu">
-      <button mat-button (click)="setUpActiveSchema()" matTooltip="{{'ShowItemList' | pptranslate}}">
+      <button mat-button (click)="setUpActiveSchema()" matTooltip="{{ 'SchemaBrowser.ShowItemList' | pptranslate }}">
         <mat-icon>open_in_new</mat-icon>
       </button>
     </div>

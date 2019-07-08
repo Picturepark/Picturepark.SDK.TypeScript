@@ -46,11 +46,6 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    console.log(this.search);
-    console.log(this.filter);
-    console.log(this.activeParentSchema);
-    console.log(this.activeSortingType);
-    console.log(this.activeSortDirection)
     // tslint:disable-next-line: deprecation
     const schemaSearchResult = combineLatest(
       this.activeSortingType,
@@ -59,8 +54,6 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
       this.search,
       this.activeParentSchema).pipe(
         switchMap(([activeSortingType, activeSortDirection, filter, search, activeParentSchema]) => {
-
-        console.log(activeParentSchema);
 
         if (activeParentSchema) {
           filter = new OrFilter({
@@ -90,10 +83,6 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
         return zip(of(activeParentSchema), this.schemaService.search(request));
 
       })).subscribe(([activeParentSchema, result]: [Schema, SchemaSearchResult]) => {
-
-        console.log(activeParentSchema);
-        console.log(result);
-
         this.parentSchema = activeParentSchema;
         this.totalResults = result.totalResults;
         this.schemas = result.results;
@@ -109,15 +98,15 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setSortingType(newValue: SchemaSortingType) {
+  public setSortingType(newValue: SchemaSortingType): void {
     this.activeSortingType.next(newValue);
   }
 
-  public update(sortDirection: SortDirection) {
+  public update(sortDirection: SortDirection): void {
     this.activeSortDirection.next(sortDirection);
   }
 
-  public setUpActiveSchema(schema: Schema) {
+  public setUpActiveSchema(schema: Schema): void {
     if (schema.childCount > 0 && !this.parentSchema) {
       this.activeParentSchema.next(schema);
     } else {
@@ -125,7 +114,7 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
     }
   }
 
-  public trackById(index: number, schema: Schema) {
+  public trackById(index: number, schema: Schema): string | undefined {
     return schema.id;
   }
 }

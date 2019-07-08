@@ -12,7 +12,6 @@ import { SharedModule } from './shared-module/shared-module.module';
 import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
-
 @NgModule({
   declarations: [
     LazyLoadDirective

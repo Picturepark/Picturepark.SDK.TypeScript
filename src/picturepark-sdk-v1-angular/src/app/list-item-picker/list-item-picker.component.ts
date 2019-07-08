@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
@@ -31,11 +31,11 @@ export class ListItemPickerComponent implements OnInit {
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    this.updateRoute(schema.id!, this.queryParams);
+    this.updateRoute(schema.id!);
   }
 
-  private updateRoute(schemaId: string, queryParams: Params): void {
-    this.router.navigate([schemaId], { queryParams });
+  private updateRoute(schemaId: string): void {
+    this.router.navigate([schemaId], { relativeTo: this.route });
   }
 
   private createFilter(): FilterBase {

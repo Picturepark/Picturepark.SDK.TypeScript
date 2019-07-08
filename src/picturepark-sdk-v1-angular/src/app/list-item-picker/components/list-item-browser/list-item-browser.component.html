@@ -1,3 +1,10 @@
-<p>
-  list-item-browser works!
-</p>
+<pp-list-browser 
+  [schema]="schema"
+  [search]="searchQuery"
+  [filter]="filter"
+  [refreshAll]="refreshAll"
+  [deselectAll]="deselectAll"
+  [enableSelection]="true"
+  [selectedItemIds]="selectedItems"
+  (selectedItemsChange)="selectedItemsChange($event)">
+</pp-list-browser>
