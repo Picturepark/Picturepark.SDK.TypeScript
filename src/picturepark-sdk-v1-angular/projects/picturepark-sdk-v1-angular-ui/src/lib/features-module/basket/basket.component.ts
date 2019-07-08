@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 // LIBRARIES
 import {
   ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
-  ContentSearchType, TermsFilter, fetchAll } from '@picturepark/sdk-v1-angular';
+  ContentSearchType, TermsFilter, fetchAll, ISearchResult, Content } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -16,6 +16,7 @@ import {
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-basket',
@@ -51,42 +52,30 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   public downloadItems(): void {
 
-    const contentSearch = fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
-      limit: 1000,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      searchType: ContentSearchType.MetadataAndFullText,
-      debugMode: false,
-      filter: new TermsFilter({
-        field: 'id',
-        terms: this.basketItems
-      })
-    })).subscribe(data => {
+    const contentSearch = this.fetch().subscribe(data => {
+      contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
         data: data.results,
         autoFocus: false
       });
-
-      const instance = dialogRef.componentInstance;
-      instance.title = 'ContentDownloadDialog.Title';
-
-      contentSearch.unsubscribe();
-
+      dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
     });
 
   }
 
   public openShareContentDialog(): void {
 
-    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: this.basketItems,
-      autoFocus: false
+    const contentSearch = this.fetch().subscribe(data => {
+      contentSearch.unsubscribe();
+
+      const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+        data: data.results,
+        autoFocus: false
+      });
+
+      dialogRef.componentInstance.title = 'Download content';
     });
-
-    const instance = dialogRef.componentInstance;
-    instance.title = 'Download content';
-
   }
 
   public clearBasket(): void {
@@ -99,6 +88,20 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.configActions = this.pictureParkUIConfig['BasketComponent'];
+  }
+
+  private fetch(): Observable<ISearchResult<Content>> {
+    return fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
+      limit: 1000,
+      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+      brokenDependenciesFilter: BrokenDependenciesFilter.All,
+      searchType: ContentSearchType.MetadataAndFullText,
+      debugMode: false,
+      filter: new TermsFilter({
+        field: 'id',
+        terms: this.basketItems
+      })
+    }));
   }
 
 }

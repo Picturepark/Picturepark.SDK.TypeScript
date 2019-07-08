@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
-import { ContentItemSelectionService } from '../../../../shared-module/services/content-item-selection/content-item-selection.service';
 import { ContentService, ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -27,7 +26,6 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   public imageUrl: SafeUrl;
 
   constructor(
-    private contentItemSelectionService: ContentItemSelectionService<Content>,
     private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {
@@ -51,7 +49,5 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
 
   public remove() {
     this.removeDialogContent.emit(this.item);
-    this.contentItemSelectionService.removeItem(this.item);
   }
-
 }
