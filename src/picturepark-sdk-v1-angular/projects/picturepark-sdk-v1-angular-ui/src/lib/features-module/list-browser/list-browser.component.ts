@@ -24,6 +24,7 @@ import {
   SearchBehavior,
   SortDirection,
   SortInfo,
+  ListItemResolveBehavior,
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
 
@@ -106,7 +107,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
             ([sortInfo, loadMore, schema, nextFilter, nextQuery, info]) => {
               console.log('switchmap')
               // tslint:disable-next-line: max-line-length
-              const needDataRefresh = false;
+              const needDataRefresh = true;
 
               // check default sort for the schema
               let sort: SortInfo[] = [];
@@ -141,7 +142,8 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
                 includeAllSchemaChildren: true,
                 brokenDependenciesFilter: BrokenDependenciesFilter.All,
                 debugMode: false,
-                lifeCycleFilter: LifeCycleFilter.ActiveOnly
+                lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+                resolveBehaviors: [ListItemResolveBehavior.Content, ListItemResolveBehavior.InnerDisplayValueName]
               });
 
               return zip(of(needDataRefresh), of(schema), of(activeColumn), of(info), this.listItemService.search(request));
@@ -154,7 +156,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
 
             const metadataItems = listItemResult.results.map(m => Object.assign(m.content, { id: m.id }));
             const items = this.metaDataPreviewService.getListItemsTableData(metadataItems, schema, info);
-
+            console.log(items);
             if (activeColumn) {
               // mark column header as sorted
               this.activeSortColumn = activeColumn.name!;
