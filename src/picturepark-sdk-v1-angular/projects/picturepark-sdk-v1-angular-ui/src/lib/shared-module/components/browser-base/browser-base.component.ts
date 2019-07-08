@@ -1,14 +1,14 @@
 import {LazyGetter} from 'lazy-get-decorator';
-import { BaseComponent } from './base.component';
+import { BaseComponent } from '../base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
-import { ContentModel } from '../models/content-model';
+import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
+import { ContentModel } from '../../models/content-model';
 import { FilterBase } from '@picturepark/sdk-v1-angular';
-import { SortingType } from '../models/sorting-type';
-import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
+import { SortingType } from '../../models/sorting-type';
+import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
 import { Observable } from 'rxjs';
-import { ContentItemSelectionService } from '../services/content-item-selection/content-item-selection.service';
+import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
 import { MatDialog } from '@angular/material';
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
@@ -85,6 +85,13 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
             }
         });
         this.subscription.add(scrollSubscription);
+
+        // ITEM SELECTION SUBSCRIBER
+        const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
+            this.selectedItems = items;
+            this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
+        });
+        this.subscription.add(contentItemSelectionSubscription);
     }
 
     get totalResults(): number | null {

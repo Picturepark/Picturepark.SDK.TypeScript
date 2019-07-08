@@ -1,15 +1,15 @@
 import {
-  Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, Injector
+  Component, Input, OnChanges, SimpleChanges, Injector
 } from '@angular/core';
 
 // LIBRARIES
 import {
-  ContentService, ThumbnailSize, ContentSearchRequest, FilterBase, SortInfo, SortDirection,
+  ContentService, ThumbnailSize, ContentSearchRequest, SortInfo, SortDirection,
   ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseBrowserComponent } from '../../shared-module/components/browser-base.component';
+import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import {
   ContentDownloadDialogComponent
 } from '../dialog/components/content-download-dialog/content-download-dialog.component';
@@ -29,7 +29,11 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
-  styleUrls: ['./content-browser.component.scss', './content-browser-resp.component.scss']
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './content-browser.component.scss',
+    './content-browser-resp.component.scss'
+  ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
   private basketItems: string[] = [];
@@ -62,15 +66,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
 
-    // CONTENT ITEM SELECTION SUBSCRIBER
-    const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
-      this.selectedItems = items.map(i => i);
-      this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
-    });
-
     // UNSUBSCRIBE
     this.subscription.add(basketSubscription);
-    this.subscription.add(contentItemSelectionSubscription);
   }
 
   onScroll(): void {
@@ -159,7 +156,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
-    const containClasses = ['content-browser__items'];
+    const containClasses = ['browser__items'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 

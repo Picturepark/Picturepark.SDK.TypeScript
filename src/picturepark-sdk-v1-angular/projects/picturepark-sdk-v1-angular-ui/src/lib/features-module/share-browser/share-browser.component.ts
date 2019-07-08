@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { BaseBrowserComponent } from '../../shared-module/components/browser-base.component';
+import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import {
   Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult
 } from '@picturepark/sdk-v1-angular';
@@ -8,7 +8,10 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'pp-share-browser',
   templateUrl: './share-browser.component.html',
-  styleUrls: ['./share-browser.component.scss']
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './share-browser.component.scss'
+  ]
 })
 export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
   constructor(injector: Injector, private shareService: ShareService) {
@@ -50,7 +53,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
-    const containClasses = ['share-browser'];
+    const containClasses = ['browser'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 }

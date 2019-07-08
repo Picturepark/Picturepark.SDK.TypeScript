@@ -1,17 +1,17 @@
-<div class="share-browser" cdkScrollable>
-    <div class="share-browser__header">
+<div class="browser" cdkScrollable>
+    <div class="browser__header">
       <mat-toolbar>
   
-        <div class="share-browser__toolbar">
+        <div class="browser__toolbar">
         </div>
       </mat-toolbar>
       <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     </div>
   
-    <div *ngIf="totalResults !== 0" class="share-browser__items">
-      <div class="share-browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+    <div *ngIf="totalResults !== 0" class="browser__items">
+      <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
           <pp-share-browser-item 
-          class="share-browser__item" 
+          class="browser__item" 
           [itemModel]="itemModel" 
           [thumbnailSize]="" 
           [isListView]="false" 
@@ -22,7 +22,7 @@
       </div>
     </div>
   
-    <div *ngIf="totalResults === 0" class="share-browser__empty-result mat-typography">
+    <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
       {{ 'ContentBrowser.NoItems' | pptranslate }}
       <strong> {{ searchString }}</strong>
       <br/>
