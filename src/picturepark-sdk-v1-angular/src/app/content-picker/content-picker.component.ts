@@ -54,8 +54,8 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     this.subscription.add(itemsSubscription);
   }
 
-  public openDetails(itemId: string) {
-    this.dialog.open(DetailsDialogComponent, { data: itemId });
+  public openDetails(item: any) {
+    this.dialog.open(DetailsDialogComponent, { data: item.item.id });
   }
 
 

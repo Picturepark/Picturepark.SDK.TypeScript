@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component';
+import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
@@ -23,15 +23,7 @@ import { switchMap } from 'rxjs/operators';
     './content-browser-item.component.scss'
   ]
 })
-export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
-
-  // INPUTS
-  @Input() public itemModel: ContentModel<Content>;
-  @Input() thumbnailSize: ThumbnailSize | null;
-  @Input() isListView: boolean;
-
-  // OUTPUTS
-  @Output() public previewItemChange = new EventEmitter<string>();
+export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
   // VARS
   public thumbnailSizes = ThumbnailSize;
@@ -45,8 +37,6 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
   public listItemHtml: SafeHtml | null = null;
 
   private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
-  private isVisible = false;
-  private loadItem = new Subject<void>();
 
   constructor(
     private basketService: BasketService,
@@ -82,11 +72,6 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
     this.subscription.add(downloadSubscription);
   }
 
-  public markAsVisible() {
-    this.isVisible = true;
-    this.loadItem.next();
-  }
-
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['itemModel'] && changes['itemModel'].firstChange) {
       if (this.itemModel.item.contentSchemaId && this.nonVirtualContentSchemasIds.indexOf(this.itemModel.item.contentSchemaId) === -1) {
@@ -112,12 +97,6 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
         this.thumbnailUrl = null;
         this.loadItem.next();
       }
-    }
-  }
-
-  public previewItem() {
-    if (this.itemModel.item.id) {
-      this.previewItemChange.emit(this.itemModel.item.id);
     }
   }
 
