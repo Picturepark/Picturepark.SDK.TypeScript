@@ -29,6 +29,7 @@ export class ListItemAggregationComponent extends AggregationComponent {
   }
 
   protected fetchData(): Observable<ObjectAggregationResult> {
+
     const request = new ListItemAggregationRequest({
       schemaIds: [this.schemaId],
       searchString: this.query,

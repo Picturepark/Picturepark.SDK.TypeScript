@@ -23,8 +23,7 @@
 
       <mat-tab-group class="content-panel">
         <mat-tab label="{{'Filters' | pptranslate}}">
-
-          <div class="nofilters" *ngIf="aggregations.length===0 ; else listItemFilter">
+          <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
             <p>
               <span>{{ 'NoFiltersApplied' | pptranslate}}</span>
             </p>

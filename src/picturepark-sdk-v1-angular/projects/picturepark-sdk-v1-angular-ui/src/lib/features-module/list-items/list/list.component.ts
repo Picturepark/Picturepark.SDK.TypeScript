@@ -32,7 +32,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public mobileQuery: MediaQueryList;
   public aggregationFilters: AggregationFilter[] = [];
   public searchQuery: Observable<string>;
-  public filter = new Subject<FilterBase>();
+  public filter: BehaviorSubject<FilterBase | null>;
   public aggregations: AggregatorBase[];
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
@@ -50,7 +50,9 @@ export class ListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+    this.filter = new BehaviorSubject(null);
+  }
 
   ngOnInit() {
 
@@ -88,8 +90,6 @@ export class ListComponent implements OnInit, OnDestroy {
           }
           const createdFilter = this.createFilter(this.aggregationFilters);
           this.filter.next(createdFilter!);
-        } else {
-          this.filter.next(undefined);
         }
 
         // Get selected from url
@@ -119,7 +119,8 @@ export class ListComponent implements OnInit, OnDestroy {
     return Object.assign({}, this.route.snapshot.queryParams);
   }
 
-  public changeAggregationFilters(aggregationFilters: AggregationFilter[]) {
+  public changeAggregationFilters(aggregationFilters: AggregationFilter[]): void {
+
     this.deselectSelectedItems();
     this.aggregationFilters = aggregationFilters;
     const filtersQuery = this.aggregationFilters.map(filter => JSON.stringify(filter.toJSON()));

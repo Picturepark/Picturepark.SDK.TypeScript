@@ -46,7 +46,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   @Input() schema: Observable<SchemaDetail>;
   @Input() search: Observable<string>;
   @Input() selectedItemIds: string[] | any;
-  @Input() filter: Observable<FilterBase | null>;
+  @Input() filter: Observable<FilterBase>;
   @Input() enableSelection: boolean;
   @Input() deselectAll: Observable<boolean>;
 
@@ -78,34 +78,31 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const scrollSubscription = this.scrollDispatcher.scrolled()
-      .pipe(debounceTime(100))
-      .subscribe(scrollable => {
-        if (scrollable) {
 
-          const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
-          const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
+    const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(100)).subscribe(scrollable => {
+      if (scrollable) {
 
-          if (scrollCriteria && this.tableItems.length !== this.totalResults) {
-            this.ngZone.run(() => this.loadMore.next(true));
-          }
+        const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+        const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
+
+        if (scrollCriteria && this.tableItems.length !== this.totalResults) {
+          this.ngZone.run(() => this.loadMore.next(true));
         }
-      });
+      }
+    });
 
     this.subscription.add(scrollSubscription);
-      console.log('list browser');
-      console.log('list browser');
+
     const listSubscription = combineLatest([
       this.sortInfo,
       this.loadMore,
       this.schema,
       this.filter,
       this.search,
-      this.infoService.getInfo()])
-        .pipe(
+      this.infoService.getInfo()]).pipe(
           switchMap(
             ([sortInfo, loadMore, schema, nextFilter, nextQuery, info]) => {
-              console.log('switchmap')
+
               // tslint:disable-next-line: max-line-length
               const needDataRefresh = true;
 
@@ -156,7 +153,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
 
             const metadataItems = listItemResult.results.map(m => Object.assign(m.content, { id: m.id }));
             const items = this.metaDataPreviewService.getListItemsTableData(metadataItems, schema, info);
-            console.log(items);
+
             if (activeColumn) {
               // mark column header as sorted
               this.activeSortColumn = activeColumn.name!;
