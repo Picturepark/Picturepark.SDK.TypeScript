@@ -39,10 +39,16 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private itemsPerRequest = 200;
 
-  constructor(private schemaService: SchemaService,
-    private cdr: ChangeDetectorRef) { }
+  constructor(
+    private schemaService: SchemaService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
+
+    console.log(this.search);
+    console.log(this.filter);
+    console.log(this.activeParentSchema);
 
     // tslint:disable-next-line: deprecation
     const schemaSearchResult = combineLatest(
@@ -52,6 +58,9 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
       this.search,
       this.activeParentSchema).pipe(
         switchMap(([activeSortingType, activeSortDirection, filter, search, activeParentSchema]) => {
+
+        console.log(activeParentSchema);
+
         if (activeParentSchema) {
           filter = new OrFilter({
             filters: [
@@ -78,7 +87,12 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
         });
 
         return zip(of(activeParentSchema), this.schemaService.search(request));
+
       })).subscribe(([activeParentSchema, result]: [Schema, SchemaSearchResult]) => {
+
+        console.log(activeParentSchema);
+        console.log(result);
+
         this.parentSchema = activeParentSchema;
         this.totalResults = result.totalResults;
         this.schemas = result.results;

@@ -308,6 +308,32 @@ export let TRANSLATIONS = {
       en: 'Cancel'
     }
   },
+  SchemaBrowser: {
+    Ascending: {
+      en: 'Ascending'
+    },
+    Descending: {
+      en: 'Descending'
+    },
+    Relevance: {
+      en: 'Relevance'
+    },
+    Title: {
+      en: 'Title'
+    },
+    DateCreated: {
+      en: 'Date Created'
+    },
+    DateModified: {
+      en: 'Date Created'
+    },
+    SchemasLowercase: {
+      en: 'schema'
+    },
+    ItemsWereNotFound: {
+      en: 'Items were not found'
+    }
+  },
   ShareContentDialog: {
     Clear: {
       en: 'Clear'

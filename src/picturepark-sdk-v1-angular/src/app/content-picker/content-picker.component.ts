@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { AggregationResult, AuthService, Channel, FilterBase } from '@picturepark/sdk-v1-angular';
+import { AggregationResult, AuthService, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
@@ -43,14 +43,14 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
-    private contentItemSelectionService: ContentItemSelectionService,
+    private contentItemSelectionService: ContentItemSelectionService<Content>,
     @Inject(AuthService) public authService: OidcAuthService
   ) {
 
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
 
-    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => this.selectedItems = items);
+    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => this.selectedItems = items.map(i => i.id));
     this.subscription.add(itemsSubscription);
   }
 

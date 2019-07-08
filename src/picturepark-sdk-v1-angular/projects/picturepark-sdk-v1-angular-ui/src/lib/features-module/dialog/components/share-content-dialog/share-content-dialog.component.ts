@@ -76,9 +76,9 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         Validators.maxLength(100),
       ]),
       recipients: this.formBuilder.array([], [ Validators.required ]),
-      expire_date: new FormControl('')
+      expire_date: new FormControl(''),
+      recipientsSearch: new FormControl('')
     });
-
   }
 
   // REMOVE CONTENT FROM DIALOG

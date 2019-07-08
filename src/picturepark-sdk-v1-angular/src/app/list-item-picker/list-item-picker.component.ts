@@ -1,24 +1,52 @@
-import { Component } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Router, Params, ActivatedRoute } from '@angular/router';
+
+// LIBRARIES
+import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-list-item-picker',
   templateUrl: './list-item-picker.component.html',
   styleUrls: ['./list-item-picker.component.scss']
 })
-export class ListItemPickerComponent {
+export class ListItemPickerComponent implements OnInit {
 
-  schema = null;
-  search = '';
-  filter = null;
-  enableSelection = true;
-  refreshAll = new Subject<string>();
-  deselectAll = new Subject<string>();
+  public activeParentSchema = new Subject<Schema>();
+  public search = new Subject<string>();
+  public filter = new Subject<FilterBase>();
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
-  selectedItemsChange(event): void {
-    console.log(event);
+  public get queryParams(): Params {
+    return Object.assign({}, this.route.snapshot.queryParams);
+  }
+
+  public setUpActiveSchema(schema: Schema): void {
+    this.updateRoute(schema.id!, this.queryParams);
+  }
+
+  private updateRoute(schemaId: string, queryParams: Params): void {
+    this.router.navigate(['/list-items', schemaId], { queryParams });
+  }
+
+  private createFilter() {
+    const filter = new AndFilter({ filters: [] });
+
+    filter.filters!.push(new TermsFilter({ terms: ['List'], field: 'types' }));
+    filter.filters!.push(new NotFilter({ filter: new ExistsFilter({ field: 'parentSchemaId' }) }));
+
+    return filter;
+  }
+
+  ngOnInit() {
+    const newFilter = this.createFilter();
+    this.activeParentSchema.next();
+    this.filter = new BehaviorSubject<FilterBase>(newFilter);
+    this.search.next('anton');
   }
 
 }

@@ -3,7 +3,7 @@
     <mat-toolbar>
       <div class="content-browser__toolbar">
         <div class="content-browser__spacer"></div>
-        <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1">{{ totalResults }} {{'SchemasLowercase' | pptranslate}}</span>
+        <span *ngIf="totalResults !== null" class="content-browser__items-count mat-body-1">{{ totalResults }} {{ 'SchemaBrowser.SchemasLowercase' | pptranslate }}</span>
 
         <button mat-icon-button [matMenuTriggerFor]="sortMenu" matTooltip="{{'Sort' | pptranslate}}">
           <mat-icon aria-label="Select sorting">sort</mat-icon>
@@ -12,29 +12,29 @@
         <mat-menu #sortMenu="matMenu">
           <div matMenuContent>
             <button mat-menu-item [disabled]="(activeSortingType | async )  && ((activeSortingType | async) === SchemaSortingType.relevance)" (click)="update(SortDirection.Asc);">
-              <span>{{'Ascending' | pptranslate}}</span>
+              <span>{{ 'SchemaBrowser.Ascending' | pptranslate }}</span>
               <mat-icon *ngIf="(activeSortDirection | async) === SortDirection.Asc && ((activeSortingType | async) !== SchemaSortingType.relevance)">check</mat-icon>
             </button>
             <button mat-menu-item [disabled]="(activeSortingType | async) === SchemaSortingType.relevance" (click)="update(SortDirection.Desc);">
-              <span>{{'Descending'| pptranslate}}</span>
+              <span>{{ 'SchemaBrowser.Descending' | pptranslate }}</span>
               <mat-icon *ngIf="(activeSortDirection | async) === SortDirection.Desc && ((activeSortingType | async) !== SchemaSortingType.relevance)">check</mat-icon>
             </button>
             <mat-divider></mat-divider>
             <ng-container [ngSwitch]="activeSortingType | async">
               <button mat-menu-item (click)="setSortingType(SchemaSortingType.relevance)">
-                <span>{{'Relevance'| pptranslate}}</span>
+                <span>{{ 'SchemaBrowser.Relevance' | pptranslate }}</span>
                 <mat-icon *ngSwitchCase="SchemaSortingType.relevance">check</mat-icon>
               </button>
               <button mat-menu-item (click)="setSortingType(SchemaSortingType.fileName)">
-                <span>{{'Title'| pptranslate}}</span>
+                <span>{{ 'SchemaBrowser.Title' | pptranslate }}</span>
                 <mat-icon *ngSwitchCase="SchemaSortingType.fileName">check</mat-icon>
               </button>
               <button mat-menu-item (click)="setSortingType(SchemaSortingType.dateCreated)">
-                <span>{{'DateCreated'| pptranslate}}</span>
+                <span>{{ 'SchemaBrowser.DateCreated' | pptranslate }}</span>
                 <mat-icon *ngSwitchCase="SchemaSortingType.dateCreated">check</mat-icon>
               </button>
               <button mat-menu-item (click)="setSortingType(SchemaSortingType.dateModified)">
-                <span>{{'DateModified'| pptranslate}}</span>
+                <span>{{ 'SchemaBrowser.DateModified' | pptranslate }}</span>
                 <mat-icon *ngSwitchCase="SchemaSortingType.dateModified">check</mat-icon>
               </button>
             </ng-container>
@@ -51,6 +51,6 @@
   </div>
 
   <div *ngIf="totalResults === 0" class="content-browser__empty-result mat-typography">
-    {{ 'ItemsWereNotFound' | pptranslate}}
+    {{ 'SchemaBrowser.ItemsWereNotFound' | pptranslate }}
   </div>
 </div>

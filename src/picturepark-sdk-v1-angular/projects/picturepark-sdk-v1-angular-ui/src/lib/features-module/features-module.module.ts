@@ -16,6 +16,7 @@ import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
+import { ShareBrowserModule } from './share-browser/share-browser.module';
 
 @NgModule({
   declarations: [],
@@ -34,7 +35,8 @@ import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
     NotificationModule,
     OutputDownloadMenuModule,
     SearchBoxModule,
-    SchemaBrowserModule
+    SchemaBrowserModule,
+    ShareBrowserModule
   ],
   exports: [
     BasketModule,
@@ -50,7 +52,8 @@ import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
     NotificationModule,
     OutputDownloadMenuModule,
     SearchBoxModule,
-    SchemaBrowserModule
+    SchemaBrowserModule,
+    ShareBrowserModule
   ]
 })
 export class FeaturesModule { }

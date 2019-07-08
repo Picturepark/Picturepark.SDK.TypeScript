@@ -554,6 +554,222 @@ export class BusinessProcessService extends PictureparkServiceBase {
 @Injectable({
     providedIn: 'root'
 })
+export class BusinessRuleService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Get the current business rule configuration
+     * @return BusinessRuleConfiguration
+     */
+    getConfiguration(): Observable<BusinessRuleConfiguration> {
+        let url_ = this.baseUrl + "/v1/businessrules/configuration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetConfiguration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetConfiguration(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessRuleConfiguration>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessRuleConfiguration>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetConfiguration(response: HttpResponseBase): Observable<BusinessRuleConfiguration> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessRuleConfiguration.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessRuleConfiguration>(<any>null);
+    }
+
+    /**
+     * Updates the business rule configuration.
+     * @param disableRuleEngine (optional) Disables the rule engine completely.
+     * @param rules (optional) Rules
+     * @return Business process
+     */
+    updateConfiguration(disableRuleEngine: boolean | undefined, rules: BusinessRule[] | null | undefined): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessrules/configuration?";
+        if (disableRuleEngine === null)
+            throw new Error("The parameter 'disableRuleEngine' cannot be null.");
+        else if (disableRuleEngine !== undefined)
+            url_ += "DisableRuleEngine=" + encodeURIComponent("" + disableRuleEngine) + "&"; 
+        if (rules !== undefined)
+            rules && rules.forEach((item, index) => { 
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "Rules[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateConfiguration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateConfiguration(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateConfiguration(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class ChannelService extends PictureparkServiceBase {
     private http: HttpClient;
     private baseUrl: string;
@@ -14291,17 +14507,17 @@ export class TransferService extends PictureparkServiceBase {
      * @param totalSize Total size in bytes of the uploading file.
      * @param totalChunks Total chunks of the uploading file.
      * @param transferId ID of transfer.
-     * @param identifier Identifier of file.
+     * @param requestId Identifier of file.
      * @return OK
      */
-    uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string): Observable<void> {
-        let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{identifier}/upload?";
+    uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
         url_ = url_.replace("{transferId}", encodeURIComponent("" + transferId)); 
-        if (identifier === undefined || identifier === null)
-            throw new Error("The parameter 'identifier' must be defined.");
-        url_ = url_.replace("{identifier}", encodeURIComponent("" + identifier)); 
+        if (requestId === undefined || requestId === null)
+            throw new Error("The parameter 'requestId' must be defined.");
+        url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId)); 
         if (relativePath === undefined)
             throw new Error("The parameter 'relativePath' must be defined.");
         else
@@ -17296,6 +17512,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UserUnlockDisallowedException") {
+            let result = new UserUnlockDisallowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -18191,6 +18412,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
+            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SnapshotTimeoutException") {
             let result = new SnapshotTimeoutException();
             result.init(data);
@@ -18273,6 +18499,61 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "CustomerAliasHeaderMissingException") {
             let result = new CustomerAliasHeaderMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionInvalidDocumentTypeException") {
+            let result = new BusinessRuleActionInvalidDocumentTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionInvalidExecutionScopeException") {
+            let result = new BusinessRuleActionInvalidExecutionScopeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionsMissingException") {
+            let result = new BusinessRuleActionsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConditionMissingException") {
+            let result = new BusinessRuleConditionMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConditionsMissingException") {
+            let result = new BusinessRuleConditionsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConfigurationValidationException") {
+            let result = new BusinessRuleConfigurationValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleLayerIdInvalidException") {
+            let result = new BusinessRuleLayerIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleRuleIdDuplicationException") {
+            let result = new BusinessRuleRuleIdDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleRuleIdMissingException") {
+            let result = new BusinessRuleRuleIdMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTriggerPointMissingException") {
+            let result = new BusinessRuleTriggerPointMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleValidationException") {
+            let result = new BusinessRuleValidationException();
             result.init(data);
             return result;
         }
@@ -18398,6 +18679,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UnauthorizedException") {
             let result = new UnauthorizedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserUnlockDisallowedException") {
+            let result = new UserUnlockDisallowedException();
             result.init(data);
             return result;
         }
@@ -19201,6 +19487,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
+            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SnapshotTimeoutException") {
             let result = new SnapshotTimeoutException();
             result.init(data);
@@ -19276,6 +19567,61 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleActionInvalidDocumentTypeException") {
+            let result = new BusinessRuleActionInvalidDocumentTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionInvalidExecutionScopeException") {
+            let result = new BusinessRuleActionInvalidExecutionScopeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionsMissingException") {
+            let result = new BusinessRuleActionsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConditionMissingException") {
+            let result = new BusinessRuleConditionMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConditionsMissingException") {
+            let result = new BusinessRuleConditionsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConfigurationValidationException") {
+            let result = new BusinessRuleConfigurationValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleLayerIdInvalidException") {
+            let result = new BusinessRuleLayerIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleRuleIdDuplicationException") {
+            let result = new BusinessRuleRuleIdDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleRuleIdMissingException") {
+            let result = new BusinessRuleRuleIdMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTriggerPointMissingException") {
+            let result = new BusinessRuleTriggerPointMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleValidationException") {
+            let result = new BusinessRuleValidationException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -19327,6 +19673,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "IllegalAuthorizationStateTransitionException") {
             let result = new IllegalAuthorizationStateTransitionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserUnlockDisallowedException") {
+            let result = new UserUnlockDisallowedException();
             result.init(data);
             return result;
         }
@@ -19855,6 +20206,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
+            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SnapshotTimeoutException") {
             let result = new SnapshotTimeoutException();
             result.init(data);
@@ -19907,6 +20263,61 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "CustomerAliasHeaderMissingException") {
             let result = new CustomerAliasHeaderMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionInvalidDocumentTypeException") {
+            let result = new BusinessRuleActionInvalidDocumentTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionInvalidExecutionScopeException") {
+            let result = new BusinessRuleActionInvalidExecutionScopeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleActionsMissingException") {
+            let result = new BusinessRuleActionsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConditionMissingException") {
+            let result = new BusinessRuleConditionMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConditionsMissingException") {
+            let result = new BusinessRuleConditionsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleConfigurationValidationException") {
+            let result = new BusinessRuleConfigurationValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleLayerIdInvalidException") {
+            let result = new BusinessRuleLayerIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleRuleIdDuplicationException") {
+            let result = new BusinessRuleRuleIdDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleRuleIdMissingException") {
+            let result = new BusinessRuleRuleIdMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTriggerPointMissingException") {
+            let result = new BusinessRuleTriggerPointMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleValidationException") {
+            let result = new BusinessRuleValidationException();
             result.init(data);
             return result;
         }
@@ -20466,6 +20877,34 @@ export class UnauthorizedException extends PictureparkBusinessException implemen
 }
 
 export interface IUnauthorizedException extends IPictureparkBusinessException {
+}
+
+export class UserUnlockDisallowedException extends PictureparkValidationException implements IUserUnlockDisallowedException {
+
+    constructor(data?: IUserUnlockDisallowedException) {
+        super(data);
+        this._discriminator = "UserUnlockDisallowedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): UserUnlockDisallowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserUnlockDisallowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserUnlockDisallowedException extends IPictureparkValidationException {
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -21776,7 +22215,6 @@ export interface IInvalidArgumentException extends IPictureparkValidationExcepti
 }
 
 export class UnknownException extends PictureparkBusinessException implements IUnknownException {
-    exceptionDetail?: string | undefined;
 
     constructor(data?: IUnknownException) {
         super(data);
@@ -21785,9 +22223,6 @@ export class UnknownException extends PictureparkBusinessException implements IU
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-            this.exceptionDetail = data["exceptionDetail"];
-        }
     }
 
     static fromJS(data: any): UnknownException {
@@ -21799,14 +22234,12 @@ export class UnknownException extends PictureparkBusinessException implements IU
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["exceptionDetail"] = this.exceptionDetail;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IUnknownException extends IPictureparkBusinessException {
-    exceptionDetail?: string | undefined;
 }
 
 export class OwnerTokenInUseException extends PictureparkValidationException implements IOwnerTokenInUseException {
@@ -27629,6 +28062,56 @@ export interface ISchemaFieldNotSupportedException extends IPictureparkValidatio
     fieldType?: string | undefined;
 }
 
+export class SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException implements ISchemaFieldDisplayPatternTypeNotSupportedException {
+    fieldId?: string | undefined;
+    displayPatternType!: DisplayPatternType;
+    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+
+    constructor(data?: ISchemaFieldDisplayPatternTypeNotSupportedException) {
+        super(data);
+        this._discriminator = "SchemaFieldDisplayPatternTypeNotSupportedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldId = data["fieldId"];
+            this.displayPatternType = data["displayPatternType"];
+            if (Array.isArray(data["supportedDisplayPatternTypes"])) {
+                this.supportedDisplayPatternTypes = [] as any;
+                for (let item of data["supportedDisplayPatternTypes"])
+                    this.supportedDisplayPatternTypes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldDisplayPatternTypeNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["displayPatternType"] = this.displayPatternType;
+        if (Array.isArray(this.supportedDisplayPatternTypes)) {
+            data["supportedDisplayPatternTypes"] = [];
+            for (let item of this.supportedDisplayPatternTypes)
+                data["supportedDisplayPatternTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldDisplayPatternTypeNotSupportedException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    displayPatternType: DisplayPatternType;
+    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+}
+
 export class SnapshotTimeoutException extends PictureparkTimeoutException implements ISnapshotTimeoutException {
 
     constructor(data?: ISnapshotTimeoutException) {
@@ -28194,6 +28677,389 @@ export class CustomerAliasHeaderMissingException extends PictureparkValidationEx
 }
 
 export interface ICustomerAliasHeaderMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleActionInvalidDocumentTypeException extends PictureparkValidationException implements IBusinessRuleActionInvalidDocumentTypeException {
+    allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
+
+    constructor(data?: IBusinessRuleActionInvalidDocumentTypeException) {
+        super(data);
+        this._discriminator = "BusinessRuleActionInvalidDocumentTypeException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["allowedDocumentTypes"])) {
+                this.allowedDocumentTypes = [] as any;
+                for (let item of data["allowedDocumentTypes"])
+                    this.allowedDocumentTypes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleActionInvalidDocumentTypeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleActionInvalidDocumentTypeException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.allowedDocumentTypes)) {
+            data["allowedDocumentTypes"] = [];
+            for (let item of this.allowedDocumentTypes)
+                data["allowedDocumentTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleActionInvalidDocumentTypeException extends IPictureparkValidationException {
+    allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
+}
+
+export enum BusinessRuleTriggerDocType {
+    Content = "Content", 
+}
+
+export class BusinessRuleActionInvalidExecutionScopeException extends PictureparkValidationException implements IBusinessRuleActionInvalidExecutionScopeException {
+    allowedScopes?: BusinessRuleExecutionScope[] | undefined;
+
+    constructor(data?: IBusinessRuleActionInvalidExecutionScopeException) {
+        super(data);
+        this._discriminator = "BusinessRuleActionInvalidExecutionScopeException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["allowedScopes"])) {
+                this.allowedScopes = [] as any;
+                for (let item of data["allowedScopes"])
+                    this.allowedScopes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleActionInvalidExecutionScopeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleActionInvalidExecutionScopeException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.allowedScopes)) {
+            data["allowedScopes"] = [];
+            for (let item of this.allowedScopes)
+                data["allowedScopes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleActionInvalidExecutionScopeException extends IPictureparkValidationException {
+    allowedScopes?: BusinessRuleExecutionScope[] | undefined;
+}
+
+export enum BusinessRuleExecutionScope {
+    MainDoc = "MainDoc", 
+    SearchDoc = "SearchDoc", 
+}
+
+export class BusinessRuleActionsMissingException extends PictureparkValidationException implements IBusinessRuleActionsMissingException {
+
+    constructor(data?: IBusinessRuleActionsMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleActionsMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleActionsMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleActionsMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleActionsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleConditionMissingException extends PictureparkValidationException implements IBusinessRuleConditionMissingException {
+
+    constructor(data?: IBusinessRuleConditionMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleConditionMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleConditionMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleConditionMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleConditionMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleConditionsMissingException extends PictureparkValidationException implements IBusinessRuleConditionsMissingException {
+
+    constructor(data?: IBusinessRuleConditionsMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleConditionsMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleConditionsMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleConditionsMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleConditionsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleConfigurationValidationException extends PictureparkValidationException implements IBusinessRuleConfigurationValidationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+
+    constructor(data?: IBusinessRuleConfigurationValidationException) {
+        super(data);
+        this._discriminator = "BusinessRuleConfigurationValidationException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["innerExceptions"])) {
+                this.innerExceptions = [] as any;
+                for (let item of data["innerExceptions"])
+                    this.innerExceptions!.push(PictureparkValidationException.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleConfigurationValidationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleConfigurationValidationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.innerExceptions)) {
+            data["innerExceptions"] = [];
+            for (let item of this.innerExceptions)
+                data["innerExceptions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleConfigurationValidationException extends IPictureparkValidationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+}
+
+export class BusinessRuleLayerIdInvalidException extends PictureparkValidationException implements IBusinessRuleLayerIdInvalidException {
+    layerId?: string | undefined;
+
+    constructor(data?: IBusinessRuleLayerIdInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleLayerIdInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.layerId = data["layerId"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleLayerIdInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleLayerIdInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["layerId"] = this.layerId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleLayerIdInvalidException extends IPictureparkValidationException {
+    layerId?: string | undefined;
+}
+
+export class BusinessRuleRuleIdDuplicationException extends PictureparkValidationException implements IBusinessRuleRuleIdDuplicationException {
+
+    constructor(data?: IBusinessRuleRuleIdDuplicationException) {
+        super(data);
+        this._discriminator = "BusinessRuleRuleIdDuplicationException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleRuleIdDuplicationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleRuleIdDuplicationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleRuleIdDuplicationException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleRuleIdMissingException extends PictureparkValidationException implements IBusinessRuleRuleIdMissingException {
+
+    constructor(data?: IBusinessRuleRuleIdMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleRuleIdMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleRuleIdMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleRuleIdMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleRuleIdMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleTriggerPointMissingException extends PictureparkValidationException implements IBusinessRuleTriggerPointMissingException {
+
+    constructor(data?: IBusinessRuleTriggerPointMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleTriggerPointMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleTriggerPointMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleTriggerPointMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleTriggerPointMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleValidationException extends PictureparkValidationException implements IBusinessRuleValidationException {
+    ruleId?: string | undefined;
+    innerExceptions?: PictureparkValidationException[] | undefined;
+
+    constructor(data?: IBusinessRuleValidationException) {
+        super(data);
+        this._discriminator = "BusinessRuleValidationException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.ruleId = data["ruleId"];
+            if (Array.isArray(data["innerExceptions"])) {
+                this.innerExceptions = [] as any;
+                for (let item of data["innerExceptions"])
+                    this.innerExceptions!.push(PictureparkValidationException.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleValidationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleValidationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["ruleId"] = this.ruleId;
+        if (Array.isArray(this.innerExceptions)) {
+            data["innerExceptions"] = [];
+            for (let item of this.innerExceptions)
+                data["innerExceptions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleValidationException extends IPictureparkValidationException {
+    ruleId?: string | undefined;
+    innerExceptions?: PictureparkValidationException[] | undefined;
 }
 
 /** Search request to search for business processes */
@@ -30226,6 +31092,620 @@ export interface IContentImportResult {
     error?: IErrorResponse | undefined;
 }
 
+/** Represents the business rule configuration. */
+export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
+    /** Disables the rule completely. */
+    disableRuleEngine!: boolean;
+    /** Rules */
+    rules?: BusinessRule[] | undefined;
+
+    constructor(data?: IBusinessRuleConfiguration) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.disableRuleEngine = data["disableRuleEngine"];
+            if (Array.isArray(data["rules"])) {
+                this.rules = [] as any;
+                for (let item of data["rules"])
+                    this.rules!.push(BusinessRule.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleConfiguration {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleConfiguration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["disableRuleEngine"] = this.disableRuleEngine;
+        if (Array.isArray(this.rules)) {
+            data["rules"] = [];
+            for (let item of this.rules)
+                data["rules"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Represents the business rule configuration. */
+export interface IBusinessRuleConfiguration {
+    /** Disables the rule completely. */
+    disableRuleEngine: boolean;
+    /** Rules */
+    rules?: BusinessRule[] | undefined;
+}
+
+/** A business rule */
+export abstract class BusinessRule implements IBusinessRule {
+    /** User defined ID of the rule. */
+    id?: string | undefined;
+    /** Trigger point. */
+    triggerPoint?: BusinessRuleTriggerPoint | undefined;
+    /** Enable. */
+    isEnabled!: boolean;
+    /** Language specific rule names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific rule description. */
+    description?: TranslatedStringDictionary | undefined;
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessRule) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.triggerPoint = data.triggerPoint && !(<any>data.triggerPoint).toJSON ? new BusinessRuleTriggerPoint(data.triggerPoint) : <BusinessRuleTriggerPoint>this.triggerPoint; 
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
+        }
+        this._discriminator = "BusinessRule";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.triggerPoint = data["triggerPoint"] ? BusinessRuleTriggerPoint.fromJS(data["triggerPoint"]) : <any>undefined;
+            this.isEnabled = data["isEnabled"];
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.description = data["description"] ? TranslatedStringDictionary.fromJS(data["description"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BusinessRule {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessRuleConfigurable") {
+            let result = new BusinessRuleConfigurable();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScript") {
+            let result = new BusinessRuleScript();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BusinessRule' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["id"] = this.id;
+        data["triggerPoint"] = this.triggerPoint ? this.triggerPoint.toJSON() : <any>undefined;
+        data["isEnabled"] = this.isEnabled;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** A business rule */
+export interface IBusinessRule {
+    /** User defined ID of the rule. */
+    id?: string | undefined;
+    /** Trigger point. */
+    triggerPoint?: IBusinessRuleTriggerPoint | undefined;
+    /** Enable. */
+    isEnabled: boolean;
+    /** Language specific rule names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific rule description. */
+    description?: ITranslatedStringDictionary | undefined;
+}
+
+/** Represents a trigger point for a business rule */
+export class BusinessRuleTriggerPoint implements IBusinessRuleTriggerPoint {
+    /** Execution scope. */
+    executionScope!: BusinessRuleExecutionScope;
+    /** Document type. */
+    documentType!: BusinessRuleTriggerDocType;
+    /** Action performed. */
+    action!: BusinessRuleTriggerAction;
+
+    constructor(data?: IBusinessRuleTriggerPoint) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.executionScope = data["executionScope"];
+            this.documentType = data["documentType"];
+            this.action = data["action"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleTriggerPoint {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleTriggerPoint();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["executionScope"] = this.executionScope;
+        data["documentType"] = this.documentType;
+        data["action"] = this.action;
+        return data; 
+    }
+}
+
+/** Represents a trigger point for a business rule */
+export interface IBusinessRuleTriggerPoint {
+    /** Execution scope. */
+    executionScope: BusinessRuleExecutionScope;
+    /** Document type. */
+    documentType: BusinessRuleTriggerDocType;
+    /** Action performed. */
+    action: BusinessRuleTriggerAction;
+}
+
+export enum BusinessRuleTriggerAction {
+    Create = "Create", 
+    Update = "Update", 
+}
+
+/** A business rule configurable by specific actions and conditions */
+export class BusinessRuleConfigurable extends BusinessRule implements IBusinessRuleConfigurable {
+    /** The condition that makes this rule trigger. */
+    condition?: BusinessRuleCondition | undefined;
+    /** The actions that are performed when this rule triggers. */
+    actions?: BusinessRuleAction[] | undefined;
+
+    constructor(data?: IBusinessRuleConfigurable) {
+        super(data);
+        this._discriminator = "BusinessRuleConfigurable";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.condition = data["condition"] ? BusinessRuleCondition.fromJS(data["condition"]) : <any>undefined;
+            if (Array.isArray(data["actions"])) {
+                this.actions = [] as any;
+                for (let item of data["actions"])
+                    this.actions!.push(BusinessRuleAction.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleConfigurable {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleConfigurable();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["condition"] = this.condition ? this.condition.toJSON() : <any>undefined;
+        if (Array.isArray(this.actions)) {
+            data["actions"] = [];
+            for (let item of this.actions)
+                data["actions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** A business rule configurable by specific actions and conditions */
+export interface IBusinessRuleConfigurable extends IBusinessRule {
+    /** The condition that makes this rule trigger. */
+    condition?: BusinessRuleCondition | undefined;
+    /** The actions that are performed when this rule triggers. */
+    actions?: BusinessRuleAction[] | undefined;
+}
+
+/** Conditions on which a business rule is executed */
+export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessRuleCondition) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "BusinessRuleCondition";
+    }
+
+    init(data?: any) {
+    }
+
+    static fromJS(data: any): BusinessRuleCondition {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BooleanCondition") {
+            throw new Error("The abstract class 'BooleanCondition' cannot be instantiated.");
+        }
+        if (data["kind"] === "AndCondition") {
+            let result = new AndCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OrCondition") {
+            let result = new OrCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignedCondition") {
+            let result = new LayerAssignedCondition();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BusinessRuleCondition' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** Conditions on which a business rule is executed */
+export interface IBusinessRuleCondition {
+}
+
+/** Links multiple conditions with a boolean operator */
+export abstract class BooleanCondition extends BusinessRuleCondition implements IBooleanCondition {
+    /** The conditions. */
+    conditions?: BusinessRuleCondition[] | undefined;
+
+    constructor(data?: IBooleanCondition) {
+        super(data);
+        this._discriminator = "BooleanCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["conditions"])) {
+                this.conditions = [] as any;
+                for (let item of data["conditions"])
+                    this.conditions!.push(BusinessRuleCondition.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BooleanCondition {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "AndCondition") {
+            let result = new AndCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OrCondition") {
+            let result = new OrCondition();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BooleanCondition' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.conditions)) {
+            data["conditions"] = [];
+            for (let item of this.conditions)
+                data["conditions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Links multiple conditions with a boolean operator */
+export interface IBooleanCondition extends IBusinessRuleCondition {
+    /** The conditions. */
+    conditions?: BusinessRuleCondition[] | undefined;
+}
+
+/** Links conditions with AND */
+export class AndCondition extends BooleanCondition implements IAndCondition {
+
+    constructor(data?: IAndCondition) {
+        super(data);
+        this._discriminator = "AndCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): AndCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new AndCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Links conditions with AND */
+export interface IAndCondition extends IBooleanCondition {
+}
+
+/** Links conditions with OR */
+export class OrCondition extends BooleanCondition implements IOrCondition {
+
+    constructor(data?: IOrCondition) {
+        super(data);
+        this._discriminator = "OrCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): OrCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new OrCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Links conditions with OR */
+export interface IOrCondition extends IBooleanCondition {
+}
+
+/** Matches when a layer was assigned */
+export class LayerAssignedCondition extends BusinessRuleCondition implements ILayerAssignedCondition {
+    /** Layer id to match on. */
+    layerId?: string | undefined;
+
+    constructor(data?: ILayerAssignedCondition) {
+        super(data);
+        this._discriminator = "LayerAssignedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.layerId = data["layerId"];
+        }
+    }
+
+    static fromJS(data: any): LayerAssignedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new LayerAssignedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["layerId"] = this.layerId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches when a layer was assigned */
+export interface ILayerAssignedCondition extends IBusinessRuleCondition {
+    /** Layer id to match on. */
+    layerId?: string | undefined;
+}
+
+/** Action to be performed by a business rule */
+export abstract class BusinessRuleAction implements IBusinessRuleAction {
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessRuleAction) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "BusinessRuleAction";
+    }
+
+    init(data?: any) {
+    }
+
+    static fromJS(data: any): BusinessRuleAction {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "AssignLayerAction") {
+            let result = new AssignLayerAction();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BusinessRuleAction' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** Action to be performed by a business rule */
+export interface IBusinessRuleAction {
+}
+
+/** Assigns a layer, adding the default values to the data dictionary */
+export class AssignLayerAction extends BusinessRuleAction implements IAssignLayerAction {
+    /** The ID of the layer. */
+    layerId?: string | undefined;
+    /** A dictionary containing default values (used for example to populate required fields). */
+    defaultValues?: DataDictionary | undefined;
+
+    constructor(data?: IAssignLayerAction) {
+        super(data);
+        if (data) {
+            this.defaultValues = data.defaultValues && !(<any>data.defaultValues).toJSON ? new DataDictionary(data.defaultValues) : <DataDictionary>this.defaultValues; 
+        }
+        this._discriminator = "AssignLayerAction";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.layerId = data["layerId"];
+            this.defaultValues = data["defaultValues"] ? DataDictionary.fromJS(data["defaultValues"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): AssignLayerAction {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssignLayerAction();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["layerId"] = this.layerId;
+        data["defaultValues"] = this.defaultValues ? this.defaultValues.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Assigns a layer, adding the default values to the data dictionary */
+export interface IAssignLayerAction extends IBusinessRuleAction {
+    /** The ID of the layer. */
+    layerId?: string | undefined;
+    /** A dictionary containing default values (used for example to populate required fields). */
+    defaultValues?: IDataDictionary | undefined;
+}
+
+export class DataDictionary implements IDataDictionary {
+
+    [key: string]: any; 
+
+    constructor(data?: IDataDictionary) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+
+    static fromJS(data: any): DataDictionary {
+        data = typeof data === 'object' ? data : {};
+        let result = new DataDictionary();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        return data; 
+    }
+}
+
+export interface IDataDictionary {
+
+    [key: string]: any; 
+}
+
+/** A business rule expressed as a script */
+export class BusinessRuleScript extends BusinessRule implements IBusinessRuleScript {
+    /** Script */
+    script?: string | undefined;
+
+    constructor(data?: IBusinessRuleScript) {
+        super(data);
+        this._discriminator = "BusinessRuleScript";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.script = data["script"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleScript {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleScript();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["script"] = this.script;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** A business rule expressed as a script */
+export interface IBusinessRuleScript extends IBusinessRule {
+    /** Script */
+    script?: string | undefined;
+}
+
 export class Channel implements IChannel {
     /** ID of channel. */
     id!: string;
@@ -31632,50 +33112,6 @@ export class DisplayValueDictionary implements IDisplayValueDictionary {
 export interface IDisplayValueDictionary {
 
     [key: string]: string | any; 
-}
-
-export class DataDictionary implements IDataDictionary {
-
-    [key: string]: any; 
-
-    constructor(data?: IDataDictionary) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    this[property] = data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): DataDictionary {
-        data = typeof data === 'object' ? data : {};
-        let result = new DataDictionary();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data; 
-    }
-}
-
-export interface IDataDictionary {
-
-    [key: string]: any; 
 }
 
 /** Output */
@@ -43674,6 +45110,9 @@ export class FieldSingleTagbox extends FieldBase implements IFieldSingleTagbox {
     filter?: FilterBase | undefined;
     /** Json serialized template used for creating new list item (no logic is implemented in backend). */
     listItemCreateTemplate?: string | undefined;
+    /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+The information is only consumed by the client application. No actual logic is implemented in the backend. */
+    viewModeDisplayPatternType!: DisplayPatternType;
 
     constructor(data?: IFieldSingleTagbox) {
         super(data);
@@ -43690,6 +45129,7 @@ export class FieldSingleTagbox extends FieldBase implements IFieldSingleTagbox {
             this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.listItemCreateTemplate = data["listItemCreateTemplate"];
+            this.viewModeDisplayPatternType = data["viewModeDisplayPatternType"];
         }
     }
 
@@ -43706,6 +45146,7 @@ export class FieldSingleTagbox extends FieldBase implements IFieldSingleTagbox {
         data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        data["viewModeDisplayPatternType"] = this.viewModeDisplayPatternType;
         super.toJSON(data);
         return data; 
     }
@@ -43721,6 +45162,9 @@ export interface IFieldSingleTagbox extends IFieldBase {
     filter?: FilterBase | undefined;
     /** Json serialized template used for creating new list item (no logic is implemented in backend). */
     listItemCreateTemplate?: string | undefined;
+    /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+The information is only consumed by the client application. No actual logic is implemented in the backend. */
+    viewModeDisplayPatternType: DisplayPatternType;
 }
 
 /** The field used to store multiple tagboxes */
@@ -43737,6 +45181,9 @@ export class FieldMultiTagbox extends FieldBase implements IFieldMultiTagbox {
     filter?: FilterBase | undefined;
     /** Json serialized template used for creating new list item (no logic is implemented in backend). */
     listItemCreateTemplate?: string | undefined;
+    /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+The information is only consumed by the client application. No actual logic is implemented in the backend. */
+    viewModeDisplayPatternType!: DisplayPatternType;
 
     constructor(data?: IFieldMultiTagbox) {
         super(data);
@@ -43755,6 +45202,7 @@ export class FieldMultiTagbox extends FieldBase implements IFieldMultiTagbox {
             this.minimumItems = data["minimumItems"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.listItemCreateTemplate = data["listItemCreateTemplate"];
+            this.viewModeDisplayPatternType = data["viewModeDisplayPatternType"];
         }
     }
 
@@ -43773,6 +45221,7 @@ export class FieldMultiTagbox extends FieldBase implements IFieldMultiTagbox {
         data["minimumItems"] = this.minimumItems;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["listItemCreateTemplate"] = this.listItemCreateTemplate;
+        data["viewModeDisplayPatternType"] = this.viewModeDisplayPatternType;
         super.toJSON(data);
         return data; 
     }
@@ -43792,6 +45241,9 @@ export interface IFieldMultiTagbox extends IFieldBase {
     filter?: FilterBase | undefined;
     /** Json serialized template used for creating new list item (no logic is implemented in backend). */
     listItemCreateTemplate?: string | undefined;
+    /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+The information is only consumed by the client application. No actual logic is implemented in the backend. */
+    viewModeDisplayPatternType: DisplayPatternType;
 }
 
 /** The field used to store a string value */
@@ -49299,8 +50751,10 @@ export interface ICreateTransferRequest {
 
 /** Represents the base class for transfer items. */
 export abstract class TransferFile implements ITransferFile {
+    /** Replaced in favor of RequestId. Client generated identifier of the item. */
+    identifier?: string | undefined;
     /** Client generated identifier of the item. */
-    identifier!: string;
+    requestId?: string | undefined;
 
     constructor(data?: ITransferFile) {
         if (data) {
@@ -49314,6 +50768,7 @@ export abstract class TransferFile implements ITransferFile {
     init(data?: any) {
         if (data) {
             this.identifier = data["identifier"];
+            this.requestId = data["requestId"];
         }
     }
 
@@ -49325,14 +50780,17 @@ export abstract class TransferFile implements ITransferFile {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["identifier"] = this.identifier;
+        data["requestId"] = this.requestId;
         return data; 
     }
 }
 
 /** Represents the base class for transfer items. */
 export interface ITransferFile {
+    /** Replaced in favor of RequestId. Client generated identifier of the item. */
+    identifier?: string | undefined;
     /** Client generated identifier of the item. */
-    identifier: string;
+    requestId?: string | undefined;
 }
 
 /** Represents a file being uploaded in a transfer. */
@@ -49415,8 +50873,10 @@ export class FileTransfer implements IFileTransfer {
     id!: string;
     /** Name of file transfer. */
     name!: string;
+    /** Replaced in favor of RequestId. Client provided identifier. */
+    identifier?: string | undefined;
     /** Client provided identifier. */
-    identifier!: string;
+    requestId!: string;
     /** ID of transfer. */
     transferId!: string;
     /** State of file transfer. */
@@ -49438,6 +50898,7 @@ export class FileTransfer implements IFileTransfer {
             this.id = data["id"];
             this.name = data["name"];
             this.identifier = data["identifier"];
+            this.requestId = data["requestId"];
             this.transferId = data["transferId"];
             this.state = data["state"];
             this.contentId = data["contentId"];
@@ -49456,6 +50917,7 @@ export class FileTransfer implements IFileTransfer {
         data["id"] = this.id;
         data["name"] = this.name;
         data["identifier"] = this.identifier;
+        data["requestId"] = this.requestId;
         data["transferId"] = this.transferId;
         data["state"] = this.state;
         data["contentId"] = this.contentId;
@@ -49469,8 +50931,10 @@ export interface IFileTransfer {
     id: string;
     /** Name of file transfer. */
     name: string;
+    /** Replaced in favor of RequestId. Client provided identifier. */
+    identifier?: string | undefined;
     /** Client provided identifier. */
-    identifier: string;
+    requestId: string;
     /** ID of transfer. */
     transferId: string;
     /** State of file transfer. */

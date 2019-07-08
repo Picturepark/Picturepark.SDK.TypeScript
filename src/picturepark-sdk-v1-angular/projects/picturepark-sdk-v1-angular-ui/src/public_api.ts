@@ -22,6 +22,7 @@ export { SearchBoxModule } from './lib/features-module/search-box/search-box.mod
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 
 export { SharedModule } from './lib/shared-module/shared-module.module';
+export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';

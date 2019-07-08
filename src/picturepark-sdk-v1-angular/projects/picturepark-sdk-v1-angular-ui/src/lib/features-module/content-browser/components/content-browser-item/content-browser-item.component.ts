@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 
 // LIBRARIES
-import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest } from '@picturepark/sdk-v1-angular';
+import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
@@ -12,7 +12,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { ContentModel } from '../../models/content-model';
+import { ContentModel } from '../../../../shared-module/models/content-model';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -22,7 +22,7 @@ import { ContentModel } from '../../models/content-model';
 export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
 
   // INPUTS
-  @Input() public itemModel: ContentModel;
+  @Input() public itemModel: ContentModel<Content>;
   @Input() thumbnailSize: ThumbnailSize | null;
   @Input() isListView: boolean;
 
