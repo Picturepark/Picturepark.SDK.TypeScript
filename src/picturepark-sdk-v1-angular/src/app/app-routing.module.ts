@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'list-item-picker',
     loadChildren: () => import('./list-item-picker/list-item-picker.module').then(m => m.ListItemPickerModule)
+  },
+  {
+    path: 'share-manager',
+    loadChildren: () => import('./share-manager/share-manager.module').then(m => m.ShareManagerModule)
   }
 ];
 

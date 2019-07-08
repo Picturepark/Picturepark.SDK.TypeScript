@@ -1,15 +1,18 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, Injector, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { BaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/components/base.component';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { TermsAggregator, ShareService, ShareAggregationRequest, SearchBehavior } from '@picturepark/sdk-v1-angular';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'pp-share-content-recipients-input',
   templateUrl: './share-content-recipients-input.component.html',
   styleUrls: ['./share-content-recipients-input.component.scss']
 })
-export class ShareContentRecipientsInputComponent {
-
+export class ShareContentRecipientsInputComponent extends BaseComponent implements OnInit {
   @Input() parentForm: FormGroup;
 
   public elementRef: ElementRef;
@@ -19,18 +22,57 @@ export class ShareContentRecipientsInputComponent {
   removable = true;
   addOnBlur = true;
 
+  recipientsAutocomplete: string[] = [];
+  isLoading = false;
+
   readonly separatorKeysCodes: number[] = [ ENTER, COMMA ];
   recipients: String[] = [];
 
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
   private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  constructor(private myElement: ElementRef) {
+  constructor(private myElement: ElementRef, private shareService: ShareService) {
+    super();
+
     this.elementRef = this.myElement;
+  }
+
+  ngOnInit(): void {
+    ((<FormArray>this.parentForm.controls['recipientsSearch']))
+    .valueChanges
+    .pipe(
+      debounceTime(300),
+      tap(() => this.isLoading = true),
+      switchMap(value => this.shareService.aggregate(new ShareAggregationRequest({
+        searchString: value,
+        searchBehaviors: [SearchBehavior.WildcardOnEveryTerm],
+        aggregators: [
+           new TermsAggregator({
+            name: 'recipientsAutocomplete',
+            field: 'data.mailRecipients.userEmail.emailAddress',
+            size: 20
+           })
+        ]
+       }))
+      .pipe(
+        finalize(() => this.isLoading = false),
+        )
+      )
+    )
+    .subscribe(users => {
+      this.recipientsAutocomplete = users.aggregationResults[0]!.aggregationResultItems!.map(i => i.name);
+    });
+  }
+
+  optionSelected(event: MatAutocompleteSelectedEvent): void {
+    this.recipientsAutocomplete = [];
+    this.add({ input: document.getElementById('recipient')! as HTMLInputElement, value: event.option.value });
   }
 
   // ADD RECIPIENT TO LIST
   add(event: MatChipInputEvent): void {
+    // Exit if suggestions open
+    if (this.recipientsAutocomplete.length) { return; }
 
     const input = event.input;
     const value = event.value;

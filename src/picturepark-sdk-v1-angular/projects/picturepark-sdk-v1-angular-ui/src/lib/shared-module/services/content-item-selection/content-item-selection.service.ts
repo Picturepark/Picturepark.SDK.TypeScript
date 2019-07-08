@@ -5,28 +5,38 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ContentItemSelectionService {
-  private selectedItemsSubject: BehaviorSubject<string[]> = new BehaviorSubject([]);
+export class ContentItemSelectionService<TEntity extends { id: string }> {
+  private selectedItemsSubject: BehaviorSubject<TEntity[]> = new BehaviorSubject([]);
 
-  private items: Set<string> = new Set();
+  private items: Set<TEntity> = new Set();
 
-  public get selectedItems(): Observable<string[]> {
+  public get selectedItems(): Observable<TEntity[]> {
     return this.selectedItemsSubject.asObservable();
   }
 
-  public addItem(itemId: string) {
+  public addItem(itemId: TEntity) {
     this.items.add(itemId);
     this.updateSubject();
   }
 
-  public addItems(items: string[]) {
+  public addItems(items: TEntity[]) {
     items.forEach(item => this.items.add(item));
     this.updateSubject();
   }
 
-  public removeItem(itemId: string) {
-    this.items.delete(itemId);
+  public removeItem(value: TEntity | string) {
+    if (typeof value === 'string') {
+      const item = this.getById(value);
+      this.items.delete(item!);
+    } else {
+      this.items.delete(value);
+    }
+
     this.updateSubject();
+  }
+
+  public getById(value: string): TEntity | undefined {
+    return Array.from(this.items.values()).find(i => i.id === value );
   }
 
   public clear() {

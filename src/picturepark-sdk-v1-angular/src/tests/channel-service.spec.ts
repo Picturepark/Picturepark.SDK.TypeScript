@@ -27,6 +27,6 @@ describe('ChannelService', () => {
     const channel = channels.find(i => i.id === 'rootChannel');
 
     // assert
-    expect(channel!.names!.translate('en-US')).toBe('Root Channel');
+    expect(channel!.names.translate('en-US')).toBe('Root Channel');
   })));
 });

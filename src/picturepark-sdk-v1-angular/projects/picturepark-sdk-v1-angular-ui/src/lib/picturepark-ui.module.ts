@@ -15,7 +15,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 @NgModule({
   declarations: [
-    LazyLoadDirective,
+    LazyLoadDirective
   ],
   providers: [
     { provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }

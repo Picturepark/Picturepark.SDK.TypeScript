@@ -4,7 +4,6 @@ import { async, inject } from '@angular/core/testing';
 import {
   ContentService, ContentSearchRequest,
   ThumbnailSize, ContentAggregationRequest,
-  ContentAggregationOnChannelRequest,
   SearchBehavior,
   TermsAggregator,
   TermFilter
@@ -26,7 +25,7 @@ describe('ContentService', () => {
       const response = await contentService.search(request).toPromise();
 
       // assert
-      expect(response!.totalResults).toBeGreaterThan(0);
+      expect(response.totalResults).toBeGreaterThan(0);
     })));
 
   it('should download content thumbnail', async(inject([ContentService],
@@ -39,10 +38,10 @@ describe('ContentService', () => {
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.downloadThumbnail(response!.results![0].id!, ThumbnailSize.Medium, null, null).toPromise();
+      const result = await contentService.downloadThumbnail(response.results[0].id, ThumbnailSize.Medium, null, null).toPromise();
 
       // assert
-      expect(result!.data.size).toBeGreaterThan(0);
+      expect(result.data.size).toBeGreaterThan(0);
     })));
 
   it('should download resized content', async(inject([ContentService],
@@ -58,10 +57,10 @@ describe('ContentService', () => {
       });
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.download(response!.results![0].id!, 'Original', 100, 100, null).toPromise();
+      const result = await contentService.download(response.results[0].id, 'Original', 100, 100, null).toPromise();
 
       // assert
-      expect(result!.data.size).toBeGreaterThan(0);
+      expect(result.data.size).toBeGreaterThan(0);
     })));
 
   it('should download content', async(inject([ContentService],
@@ -77,7 +76,7 @@ describe('ContentService', () => {
       const result = await contentService.download(response!.results![0].id!, 'Original', null, null, 'bytes=500-999').toPromise();
 
       // assert
-      expect(result!.data.size).toBeGreaterThan(0);
+      expect(result.data.size).toBeGreaterThan(0);
     })));
 
   // it('should throw exception when not found', async(inject([ContentService],
@@ -114,7 +113,7 @@ describe('ContentService', () => {
       const response = await contentService.aggregate(request).toPromise();
 
       // assert
-      expect(response!.aggregationResults!.length).toBeGreaterThan(0);
+      expect(response.aggregationResults.length).toBeGreaterThan(0);
     })));
 
   /*
