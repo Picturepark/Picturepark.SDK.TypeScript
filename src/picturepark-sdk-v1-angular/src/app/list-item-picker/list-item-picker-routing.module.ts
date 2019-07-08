@@ -3,11 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 // COMPONENTS
 import { ListItemPickerComponent } from './list-item-picker.component';
+import { ListItemBrowserComponent } from './components/list-item-browser/list-item-browser.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ListItemPickerComponent
+  },
+  {
+    path: ':id',
+    component: ListItemBrowserComponent
   }
 ];
 

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
-import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } from '@picturepark/sdk-v1-angular';
+import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter, AuthService } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 @Component({
   selector: 'app-list-item-picker',
@@ -12,14 +13,18 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } f
 })
 export class ListItemPickerComponent implements OnInit {
 
-  public activeParentSchema = new Subject<Schema>();
-  public search = new Subject<string>();
-  public filter = new Subject<FilterBase>();
+  public activeParentSchema = new BehaviorSubject(null);
+  public search = new BehaviorSubject('');
+  public filter: BehaviorSubject<FilterBase>;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    @Inject(AuthService) public authService: OidcAuthService
+  ) {
+    const newFilter = this.createFilter();
+    this.filter = new BehaviorSubject(newFilter);
+  }
 
   public get queryParams(): Params {
     return Object.assign({}, this.route.snapshot.queryParams);
@@ -30,23 +35,25 @@ export class ListItemPickerComponent implements OnInit {
   }
 
   private updateRoute(schemaId: string, queryParams: Params): void {
-    this.router.navigate(['/list-items', schemaId], { queryParams });
+    this.router.navigate([schemaId], { queryParams });
   }
 
-  private createFilter() {
-    const filter = new AndFilter({ filters: [] });
-
-    filter.filters!.push(new TermsFilter({ terms: ['List'], field: 'types' }));
-    filter.filters!.push(new NotFilter({ filter: new ExistsFilter({ field: 'parentSchemaId' }) }));
+  private createFilter(): FilterBase {
+    const filter = new AndFilter({
+      filters: [
+        new TermsFilter({ terms: ['List'], field: 'types' }),
+        new NotFilter({ filter: new ExistsFilter({ field: 'parentSchemaId' }) })
+      ]
+    });
 
     return filter;
+
   }
 
   ngOnInit() {
-    const newFilter = this.createFilter();
-    this.activeParentSchema.next();
-    this.filter = new BehaviorSubject<FilterBase>(newFilter);
-    this.search.next('anton');
+    if (!this.authService.isAuthenticated) {
+      this.authService.login('/list-item-picker');
+    }
   }
 
 }

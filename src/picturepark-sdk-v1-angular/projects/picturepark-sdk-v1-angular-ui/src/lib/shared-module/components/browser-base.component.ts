@@ -1,15 +1,25 @@
-import {LazyGetter} from 'lazy-get-decorator';
-import { BaseComponent } from './base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
-import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
-import { ContentModel } from '../models/content-model';
-import { FilterBase } from '@picturepark/sdk-v1-angular';
-import { SortingType } from '../models/sorting-type';
-import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
-import { Observable } from 'rxjs';
-import { ContentItemSelectionService } from '../services/content-item-selection/content-item-selection.service';
 import { MatDialog } from '@angular/material';
+import { Observable } from 'rxjs';
+
+// ANGULAR CDK
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { LazyGetter } from 'lazy-get-decorator';
+
+// LIBRARIES
+import { FilterBase } from '@picturepark/sdk-v1-angular';
+import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
+
+// COMPONENTS
+import { BaseComponent } from './base.component';
+
+// SERVICES
+import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
+import { ContentItemSelectionService } from '../services/content-item-selection/content-item-selection.service';
+
+// INTERFACES
+import { ContentModel } from '../models/content-model';
+import { SortingType } from '../models/sorting-type';
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
     // Services

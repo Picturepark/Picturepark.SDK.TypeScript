@@ -24,7 +24,7 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
 
   @Input() public search: Subject<string>;
   @Input() public filter: Subject<FilterBase>;
-  @Input() public activeParentSchema: Subject<Schema>;
+  @Input() public activeParentSchema: BehaviorSubject<Schema>;
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
 
   public SchemaSortingType = SchemaSortingType;
@@ -49,7 +49,8 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
     console.log(this.search);
     console.log(this.filter);
     console.log(this.activeParentSchema);
-
+    console.log(this.activeSortingType);
+    console.log(this.activeSortDirection)
     // tslint:disable-next-line: deprecation
     const schemaSearchResult = combineLatest(
       this.activeSortingType,

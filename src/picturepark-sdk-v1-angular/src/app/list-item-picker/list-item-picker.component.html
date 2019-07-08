@@ -1,4 +1,5 @@
 <pp-schema-browser 
+    *ngIf="authService.isAuthenticated"    
     class="content-browser" 
     [activeParentSchema]="activeParentSchema" 
     [search]="search" 

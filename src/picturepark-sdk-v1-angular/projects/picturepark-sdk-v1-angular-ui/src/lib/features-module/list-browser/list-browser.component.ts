@@ -49,6 +49,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   @Input() enableSelection: boolean;
   @Input() refreshAll: Observable<boolean>;
   @Input() deselectAll: Observable<boolean>;
+
   @Output() selectedItemsChange = new EventEmitter<string[]>();
 
   public totalResults: number;

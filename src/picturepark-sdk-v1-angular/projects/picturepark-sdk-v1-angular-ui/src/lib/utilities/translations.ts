@@ -332,6 +332,9 @@ export let TRANSLATIONS = {
     },
     ItemsWereNotFound: {
       en: 'Items were not found'
+    },
+    FieldsLowercase: {
+      en: 'fields'
     }
   },
   ShareContentDialog: {
