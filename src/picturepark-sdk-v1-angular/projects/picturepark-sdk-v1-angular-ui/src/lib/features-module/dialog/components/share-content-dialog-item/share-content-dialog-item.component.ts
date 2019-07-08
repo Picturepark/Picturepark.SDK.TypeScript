@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
-import { ContentItemSelectionService } from '../../../../shared-module/services/content-item-selection/content-item-selection.service';
 import { ContentService, ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -20,14 +19,13 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   downloadThumbnailSubscription: Subscription;
 
   @Input()
-  public itemId: string;
+  public item: Content;
 
-  @Output() removeDialogContent = new EventEmitter<string>();
+  @Output() removeDialogContent = new EventEmitter<Content>();
 
   public imageUrl: SafeUrl;
 
   constructor(
-    private contentItemSelectionService: ContentItemSelectionService<Content>,
     private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {
@@ -38,7 +36,7 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
 
     // SUBSCRIBERS
     this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.itemId, ThumbnailSize.Small, null, null
+      this.item.id, ThumbnailSize.Small, null, null
     ).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
@@ -50,8 +48,6 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   }
 
   public remove() {
-    this.removeDialogContent.emit(this.itemId);
-    this.contentItemSelectionService.removeItem(this.itemId);
+    this.removeDialogContent.emit(this.item);
   }
-
 }

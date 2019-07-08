@@ -1,25 +1,19 @@
+import { BaseComponent } from '../base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { LazyGetter } from 'lazy-get-decorator';
 
-// LIBRARIES
+
+import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase } from '@picturepark/sdk-v1-angular';
-import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
-
-// COMPONENTS
-import { BaseComponent } from './base.component';
-
-// SERVICES
-import { LiquidRenderingService } from '../services/liquid-rendering/liquid-rendering.service';
-import { ContentItemSelectionService } from '../services/content-item-selection/content-item-selection.service';
-
-// INTERFACES
-import { ContentModel } from '../models/content-model';
-import { SortingType } from '../models/sorting-type';
+import { SortingType } from '../../models/sorting-type';
+import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
+import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
+import { ContentModel } from '../../models/content-model';
 
 export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
     // Services
@@ -95,6 +89,13 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
             }
         });
         this.subscription.add(scrollSubscription);
+
+        // ITEM SELECTION SUBSCRIBER
+        const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
+            this.selectedItems = items;
+            this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
+        });
+        this.subscription.add(contentItemSelectionSubscription);
     }
 
     get totalResults(): number | null {

@@ -12,7 +12,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import {
   ContentSearchRequest, ContentSearchType, ShareService, OutputAccess, ShareContent,
   ShareBasicCreateRequest, BrokenDependenciesFilter, LifeCycleFilter, IUserEmail,
-  ShareDataBasic, BasicTemplate, ContentService, TermsFilter
+  ShareDataBasic, BasicTemplate, ContentService, TermsFilter, Content
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -39,7 +39,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   contentItemSelectionSubscription: Subscription;
   downloadThumbnailSubscription: Subscription;
 
-  selectedContent: Array<string> = [];
+  selectedContent: Content[] = [];
   sharedContentForm: FormGroup;
 
   loader = false;
@@ -82,16 +82,17 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   }
 
   // REMOVE CONTENT FROM DIALOG
-  public removeContent(event: string): void {
+  public removeContent(event: Content): void {
     this.selectedContent.map((item, index) => {
-      if (event === item) { this.selectedContent.splice(index, 1); }
-
-      // PREFILL SUBJECT
-      this.setPrefillSubject(this.selectedContent);
-
+      if (event.id === item.id) { this.selectedContent.splice(index, 1); }
     });
+
     // CLOSE DIALOG IF NOT SELECTED IMAGES
-    if (this.selectedContent.length === 0) { this.closeDialog(); }
+    if (this.selectedContent.length === 0) {
+      this.closeDialog();
+    } else {
+      this.setPrefillSubject(this.selectedContent);
+    }
   }
 
   // PREVIEW ITEM
@@ -99,7 +100,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     this.previewItemChange.emit(itemId);
   }
 
-  // COPY URL TO CLIPBOARD
+  /** Copy URL to clipboard */
   public copyToClipboard(recipienturl: string): void {
     const copyBox = document.createElement('textarea');
         copyBox.value = recipienturl;
@@ -133,7 +134,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       const containerHeight = this.contentContainer.nativeElement.offsetHeight;
       this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
 
-      // HIDE LOADER
       this.loader = false;
 
       setTimeout(() => {
@@ -146,7 +146,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
     } catch (err) {
 
-      // HIDE LOADER
       this.loader = false;
 
       setTimeout(() => {
@@ -170,7 +169,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       // CONTENT ITEMS
       const contentItems = this.selectedContent.map(item => new ShareContent({
-        contentId: item,
+        contentId: item.id,
         outputFormatIds: ['Original']
       }));
 
@@ -186,7 +185,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   }
 
   // SET PREFILL SUBJECT
-  public setPrefillSubject(selectedContent: string[]): void {
+  public setPrefillSubject(selectedContent: Content[]): void {
 
     // REMOVE SHARE NAME FORM FIELD VALUE
     this.sharedContentForm.get('share_name')!.setValue('');
@@ -202,7 +201,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       debugMode: false,
       filter: new TermsFilter({
         field: 'id',
-        terms: selectedContent
+        terms: selectedContent.map(i => i.id)
       })
     })).subscribe(data => {
 
@@ -219,7 +218,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         // SET SHARE NAME FORM FIELD VALUE
         this.sharedContentForm.get('share_name')!.setValue(shareName);
 
-      }, 500);
+      }, 200);
 
     });
 
@@ -229,7 +228,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
   ngAfterViewInit() {
 
-    // PREFILL SUBJECT
     this.setPrefillSubject(this.selectedContent);
 
   }

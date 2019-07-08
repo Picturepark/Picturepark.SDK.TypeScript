@@ -1,13 +1,13 @@
 import { Directive, Output, EventEmitter, ElementRef, NgZone, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 
 @Directive({
-  // tslint:disable-next-line
+// tslint:disable-next-line: directive-selector
   selector: '[lazyload]'
 })
 export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
   @Output() public lazyload: EventEmitter<any> = new EventEmitter();
   private intersectionObserver: IntersectionObserver;
-  private element: any;
+  private element: Element;
 
   constructor(
     private elementRef: ElementRef
@@ -22,13 +22,11 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
     if ('IntersectionObserver' in window) {
       if (!this.intersectionObserver) {
         // Set up intersection observer
-        this.intersectionObserver = new IntersectionObserver(entries => {
-          this.onIntersection(entries);
-        }, {});
+        this.intersectionObserver = new IntersectionObserver(entries => this.onIntersection(entries), {});
       }
       if (this.intersectionObserver && this.element) {
         // Start observing an element
-        this.intersectionObserver.observe(<Element>(this.element));
+        this.intersectionObserver.observe(this.element);
       }
     } else {
       this.load();
@@ -39,15 +37,15 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
     this.clear();
   }
 
-  private onIntersection(entries: Array<IntersectionObserverEntry>) {
+  private onIntersection(entries: IntersectionObserverEntry[]) {
     // Loop through the entries
-    entries.forEach((entry: IntersectionObserverEntry) => {
+    entries.forEach(entry => {
       // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry/isIntersecting
-      if ((<any>entry).isIntersecting && entry.target === this.element) {
+      if (entry.isIntersecting && entry.target === this.element) {
         this.load();
 
         // Stop observing an element
-        this.intersectionObserver.unobserve(<Element>(this.element));
+        this.intersectionObserver.unobserve(this.element);
         this.clear();
       }
     });
