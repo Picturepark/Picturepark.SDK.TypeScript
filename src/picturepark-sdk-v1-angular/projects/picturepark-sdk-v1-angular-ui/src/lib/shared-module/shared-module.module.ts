@@ -16,12 +16,14 @@ import { TranslationService } from './services/translations/translation.service'
 // PIPES
 import { FileSizePipe } from './pipes/filesize.pipe';
 import { TranslatePipe } from './pipes/translate.pipe';
+import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 @NgModule({
   declarations: [
     // PIPES
     FileSizePipe,
-    TranslatePipe
+    TranslatePipe,
+    LazyLoadDirective
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { TranslatePipe } from './pipes/translate.pipe';
     MaterialsModule,
     // PIPES
     FileSizePipe,
-    TranslatePipe
+    TranslatePipe,
+    LazyLoadDirective
   ],
 })
 export class SharedModule {

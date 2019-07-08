@@ -1,30 +1,22 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 // LIBRARIES
-import { ThumbnailSize, Share, ShareService } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component';
-
-// INTERFACES
-import { ContentModel } from '../../../../shared-module/models/content-model';
+import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 
 @Component({
   selector: 'pp-share-browser-item',
   templateUrl: './share-browser-item.component.html',
-  styleUrls: ['./share-browser-item.component.scss']
+  styleUrls: [
+    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+    './share-browser-item.component.scss'
+  ]
 })
-export class ShareBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
-
-  // INPUTS
-  @Input() public itemModel: ContentModel<Share>;
-  @Input() thumbnailSize: ThumbnailSize | null;
-  @Input() isListView: boolean;
-
-  // OUTPUTS
-  @Output() public previewItemChange = new EventEmitter<string>();
+export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
 
   // VARS
   public thumbnailSizes = ThumbnailSize;
@@ -33,11 +25,8 @@ export class ShareBrowserItemComponent extends BaseComponent implements OnChange
 
   public thumbnailUrl: SafeUrl | null = null;
 
-  private isVisible = false;
-  private loadItem = new Subject<void>();
-
   constructor(
-    private shareService: ShareService,
+    private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {
 
@@ -46,30 +35,27 @@ export class ShareBrowserItemComponent extends BaseComponent implements OnChange
   }
 
   public ngOnInit(): void {
-
-    /*
-    const downloadSubscription = this.shareService.downloadWithContentId(
-      this.itemModel.item.,
-      this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
-      null,
-      null
+    const downloadSubscription = this.loadItem.pipe(
+      switchMap(
+        () => {
+          return this.contentService.downloadThumbnail(
+            this.itemModel.item.contentIds[0],
+            this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize || ThumbnailSize.Medium,
+            null,
+            null);
+        })
     ).subscribe(response => {
-      if (response) {
-        this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-        this.isLoading = false;
-      }
-    }, () => {
+        if (response) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
+          this.isLoading = false;
+        }
+    }, (error) => {
+      console.log('error', error);
       this.thumbnailUrl = null;
       this.isLoading = false;
     });
 
     this.subscription.add(downloadSubscription);
-    */
-  }
-
-  public markAsVisible() {
-    this.isVisible = true;
-    this.loadItem.next();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -85,12 +71,6 @@ export class ShareBrowserItemComponent extends BaseComponent implements OnChange
         this.thumbnailUrl = null;
         this.loadItem.next();
       }
-    }
-  }
-
-  public previewItem() {
-    if (this.itemModel.item.id) {
-      this.previewItemChange.emit(this.itemModel.item.id);
     }
   }
 }

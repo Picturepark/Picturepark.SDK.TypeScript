@@ -6,28 +6,24 @@ import { Subject } from 'rxjs';
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component';
+import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 
 // INTERFACES
 import { ContentModel } from '../../../../shared-module/models/content-model';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-content-browser-item',
   templateUrl: './content-browser-item.component.html',
-  styleUrls: ['./content-browser-item.component.scss']
+  styleUrls: [
+    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+    './content-browser-item.component.scss'
+  ]
 })
-export class ContentBrowserItemComponent extends BaseComponent implements OnChanges, OnInit {
-
-  // INPUTS
-  @Input() public itemModel: ContentModel<Content>;
-  @Input() thumbnailSize: ThumbnailSize | null;
-  @Input() isListView: boolean;
-
-  // OUTPUTS
-  @Output() public previewItemChange = new EventEmitter<string>();
+export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
   // VARS
   public thumbnailSizes = ThumbnailSize;
@@ -41,8 +37,6 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
   public listItemHtml: SafeHtml | null = null;
 
   private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
-  private isVisible = false;
-  private loadItem = new Subject<void>();
 
   constructor(
     private basketService: BasketService,
@@ -56,12 +50,16 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
 
   public ngOnInit(): void {
 
-    const downloadSubscription = this.contentService.downloadThumbnail(
-      this.itemModel.item.id,
-      this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
-      null,
-      null
-    ).subscribe(response => {
+    const downloadSubscription = this.loadItem.pipe(
+      switchMap(
+        () => {
+          return this.contentService.downloadThumbnail(
+            this.itemModel.item.id,
+            this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize,
+            null,
+            null);
+        })
+      ).subscribe(response => {
       if (response) {
         this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
         this.isLoading = false;
@@ -72,11 +70,6 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
     });
 
     this.subscription.add(downloadSubscription);
-  }
-
-  public markAsVisible() {
-    this.isVisible = true;
-    this.loadItem.next();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -104,12 +97,6 @@ export class ContentBrowserItemComponent extends BaseComponent implements OnChan
         this.thumbnailUrl = null;
         this.loadItem.next();
       }
-    }
-  }
-
-  public previewItem() {
-    if (this.itemModel.item.id) {
-      this.previewItemChange.emit(this.itemModel.item.id);
     }
   }
 
