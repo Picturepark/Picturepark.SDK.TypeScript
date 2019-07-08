@@ -3,7 +3,7 @@ import {
   EventEmitter, Input, NgZone, OnDestroy, OnInit, Output
 } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
-import { debounceTime, filter, pairwise, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -14,7 +14,6 @@ import { ScrollDispatcher } from '@angular/cdk/overlay';
 // LIBRARIES
 import {
   BrokenDependenciesFilter,
-  CustomerInfo,
   FilterBase,
   InfoService,
   LifeCycleFilter,

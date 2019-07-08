@@ -16,7 +16,7 @@ import {
   ProfileService,
   SchemaDetail,
   SchemaService,
-  UserRight,
+  UserRight
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
 
@@ -48,7 +48,6 @@ export class ListComponent implements OnInit, OnDestroy {
     private schemaService: SchemaService,
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    private router: Router,
     private cdr: ChangeDetectorRef
   ) {
     this.filter = new BehaviorSubject(null);
