@@ -4,7 +4,10 @@
   </div>
   <ul>
     <li *ngFor="let tool of toolBarOptions">
-      <button><i class="material-icons">{{ tool.icon }}</i></button>
+      <button (mouseover)="displayLabel()">
+        <i class="material-icons">{{ tool.icon }}</i>
+        <span>{{ tool.name }}</span>
+      </button>
     </li>
   </ul>
 </div>

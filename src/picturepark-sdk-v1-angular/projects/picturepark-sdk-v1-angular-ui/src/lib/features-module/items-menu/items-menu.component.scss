@@ -1,7 +1,7 @@
 ul { 
-    list-style: none;
+    list-style: none; float: right; margin: 50px 100px 0px 0px;
     li { 
-        line-height: 18px; margin-bottom: 6px; padding: 0px 0px 0px 10px; border-left: 3px solid transparent;
+        line-height: 25px; margin-bottom: 6px; padding: 0px 0px 0px 15px; border-left: 3px solid transparent;
         &.active {
             border-left: 3px solid #3fb3b1;
             a { color: #3fb3b1; font-weight: 800; }

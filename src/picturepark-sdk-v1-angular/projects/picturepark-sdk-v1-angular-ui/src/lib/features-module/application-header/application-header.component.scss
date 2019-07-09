@@ -1,6 +1,30 @@
 .application-header-container {
     background-color: rgb(255,255,255); color: rgba(0,0,0,0.87); border-bottom: 1px solid #d8d8d8; height: 63px;
     & .title-container {
-        color: #444; font-weight: 400; font-size: 18px; line-height: 25px;
+        color: #444; font-weight: 400; font-size: 18px; line-height: 64px; width: 20%; float: left; border-right: 1px solid #d8d8d8;
+        span { padding: 0px 30px; font-weight: bold; }
     }
+    & .search-container {
+        color: #444; font-weight: 400; font-size: 18px; float: left;
+        & .search-content {
+            padding: 0px 30px; cursor: pointer;
+            & i { line-height: 63px; margin: 0px 30px 0px 0px; color: rgba(0,0,0,0.54); float: left; }
+            & input { 
+                border: 0px; font-size: 18px; font-weight: 200; float: left; height: 61px;
+                &:focus {
+                    outline-offset: 0px; outline: -webkit-focus-ring-color auto 0px;
+                } 
+            }
+        }
+    }
+
+    & .close-container { 
+        float: right; width: 64px; height: 64px; border-left: 1px solid #d8d8d8; cursor: pointer;
+        & .close-content {
+            text-align: center;
+            & i { line-height: 63px; }
+        }
+    }
+
 }
+::placeholder { color: rgba(0,0,0,0.54); font-style: italic; font-size: 18px; }

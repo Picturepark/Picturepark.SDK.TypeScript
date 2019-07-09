@@ -1,5 +1,5 @@
 .tool-bar-container {
-    border-radius: 12px 8px 8px 12px; background: rgba(47, 47, 47, 0.95); height: 68px;
+    border-radius: 12px 8px 8px 12px; background: rgba(47, 47, 47, 0.95); height: 68px; margin: 20px 0px 20px 0px;
     & .to-top {
         width: 68px; height: 68px; float: left; background-color: #f8f8f8; border-radius: 8px 0px 0px 8px; text-align: center; color: #aaa;
         & i {
@@ -7,9 +7,9 @@
         }
     }
     ul { 
-        list-style: none;
+        list-style: none; margin: 0px 0px 0px 40px;
         li { 
-            float: left; line-height: 68px; margin: 0px 0px 0px 24px;
+            float: left; line-height: 68px; width: 50px; text-align: center;
             & .to-top {
                 position: absolute;
                 width: 100%;
@@ -26,8 +26,14 @@
                 position: relative; top: 4px; background-color: unset; border: 0px; cursor: pointer;
                 &:hover {
                     i { color: white; }
+                    span { display: block; }
                 }
                 i { color: #aaa; font-size: 21px; }
+                span { 
+                    display: none; position: absolute; top: 44px; font-size: 12px;
+                    background-color: #565656; color: #eeeeee; white-space: nowrap;
+                    border-radius: 4px; transform: translate(-30%, 0); padding: 5px 6px; opacity: 0.9;
+                }
             }
         }
     }

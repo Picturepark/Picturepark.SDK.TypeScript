@@ -5,21 +5,5 @@
     <pp-application-header [title]="'Shares'"></pp-application-header>
 </div>
 <div class="application-container">
-  <div class="content">
-    <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
-  </div>
-  <div class="filters">
-    <mat-tab-group>
-      <mat-tab label="Filters">
-        <!--
-        <pp-content-aggregation-list
-          [query]="searchText"
-          [channelId]="selectedChannel?.id"
-          [aggregators]="selectedChannel?.aggregations"
-          (filterChange)="selectedFilter = $event">
-        </pp-content-aggregation-list>
-        -->
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+  <router-outlet></router-outlet>
 </div>

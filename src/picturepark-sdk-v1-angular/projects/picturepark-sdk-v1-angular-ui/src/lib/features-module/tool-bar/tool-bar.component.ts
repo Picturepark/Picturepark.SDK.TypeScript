@@ -7,11 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ToolBarComponent implements OnInit {
 
-  @Input() toolBarOptions: any[];
+  @Input() toolBarOptions: any[] = [];
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  displayLabel() {}
+
+  ngOnInit() {}
 
 }

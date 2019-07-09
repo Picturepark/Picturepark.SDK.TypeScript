@@ -11,6 +11,10 @@ export class ApplicationHeaderComponent implements OnInit {
 
   constructor() { }
 
+  focusSearch() {
+    
+  }
+
   ngOnInit() {
   }
 
