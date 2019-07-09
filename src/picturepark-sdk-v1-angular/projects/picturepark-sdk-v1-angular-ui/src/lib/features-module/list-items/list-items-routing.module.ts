@@ -5,9 +5,7 @@ import { SchemasComponent } from './schemas/schemas.component';
 
 const routes: Routes = [
   { path: '', component: SchemasComponent },
-  { path: ':schemaId', component: SchemasComponent },
-  { path: ':schemaId/import', component: SchemasComponent, pathMatch: 'full' },
-  { path: ':schemaId/export', component: SchemasComponent, pathMatch: 'full' }
+  { path: ':schemaId', component: SchemasComponent }
 ];
 
 @NgModule({
