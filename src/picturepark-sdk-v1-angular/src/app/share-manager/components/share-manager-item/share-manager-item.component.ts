@@ -1,6 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+// SERVICES
+import { ShareService, AuthService } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -9,32 +13,61 @@ import { Subscription } from 'rxjs';
 })
 export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
-  susbcriptions: Subscription;
+  susbcription = new Subscription();
 
   // VARS
   toolBarOptions: any[];
 
   constructor(
-    private activatedRoute: ActivatedRoute
-  ) { }
+    @Inject(AuthService) public authService: OidcAuthService,
+    private activatedRoute: ActivatedRoute,
+    private shareService: ShareService
+  ) {}
 
   ngOnInit() {
 
+    if (!this.authService.isAuthenticated) {
+      this.authService.login('/share-manager');
+    }
+
+    this.toolBarOptions = [{
+      name: 'Download all contents',
+      icon: 'file_download'
+    },
+    {
+      name: 'Share all contents',
+      icon: 'share'
+    },
+    {
+      name: 'Embed all contents',
+      icon: 'code'
+    },
+    {
+      name: 'Expire',
+      icon: 'schedule'
+    },
+    {
+      name: 'Delete',
+      icon: 'delete'
+    }];
+
     // ROUTE SUBSCRIBER
     const activatedRoute = this.activatedRoute.params.subscribe(params => {
-      console.log(params);
+      this.shareService.get(params.shareId).subscribe(data => {
+        console.log(data);
+      });
     });
 
     // ADD TO SUBSCRIBERS
-    this.susbcriptions.add(activatedRoute);
+    this.susbcription.add(activatedRoute);
 
   }
 
   ngOnDestroy() {
 
     // UNSUBSCRIBE
-    if (this.susbcriptions) {
-      this.susbcriptions.unsubscribe();
+    if (this.susbcription) {
+      this.susbcription.unsubscribe();
     }
 
   }

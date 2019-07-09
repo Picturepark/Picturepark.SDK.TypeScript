@@ -1,6 +1,15 @@
-<div class="container">
+<div class="menu-container">
+  <pp-application-menu></pp-application-menu>
+</div>
+<div class="application-header">
+    <pp-application-header [title]="'Shares'"></pp-application-header>
+</div>
+<div class="application-container">
+  <div class="content">
+    <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
+  </div>
   <div class="filters">
-    <mat-tab-group style="height: 100%;">
+    <mat-tab-group>
       <mat-tab label="Filters">
         <!--
         <pp-content-aggregation-list
@@ -12,9 +21,5 @@
         -->
       </mat-tab>
     </mat-tab-group>
-  </div>
-
-  <div class="content">
-    <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
   </div>
 </div>

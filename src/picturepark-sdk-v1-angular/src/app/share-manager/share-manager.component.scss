@@ -1,3 +1,22 @@
+.menu-container {
+  width: 64px; height: 100vh; float: left;
+}
+
+.application-header {
+  height: 64px;
+}
+
+.application-container {
+  height: calc(100vh - 64px); width: calc(100% - 64px); float: right;
+  & .content {
+    width: 80%; float: left; height: 100%;
+  }
+  & .filters {
+    width: 20%; float: left; height: 100%;
+  }
+}
+
+
 .navbar {
     position: fixed;
     top: 0;
@@ -11,19 +30,18 @@
   
   .container {
     display: flex;
-    position: absolute;
     background: whitesmoke;
     top: 64px;
     bottom: 64px;
     left: 0;
     right: 0;
+    
   }
   
   .filters {
     width: 375px;
     max-width: 100%;
     background: whitesmoke;
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
   }
   
   .content {

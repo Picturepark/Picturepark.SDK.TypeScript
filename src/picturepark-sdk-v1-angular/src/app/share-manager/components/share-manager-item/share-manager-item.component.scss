@@ -1,4 +1,9 @@
 .share-manager-item-container {
-    background-color: rgb(238,238,238);
-    height: 100vh;
+    background-color: rgb(238,238,238); height: 100vh;
+    .share-manager-item-menu-container {
+        width: 20%; float: left;
+    }
+    .share-manager-item-content-container {
+        width: 80%; float: left;
+    }
 }

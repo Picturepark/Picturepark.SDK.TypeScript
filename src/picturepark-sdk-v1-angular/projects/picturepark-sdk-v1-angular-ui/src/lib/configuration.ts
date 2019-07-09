@@ -22,6 +22,6 @@ export function PictureparkUIConfigurationFactory() {
             downloadContent: true,
             selectContent: false,
             shareContent: true
-        }
+        },
     };
 }

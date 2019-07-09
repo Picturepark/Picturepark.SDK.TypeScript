@@ -1,8 +1,14 @@
 <div class="share-manager-item-container">
-  <pp-tool-bar [toolBarOptions]="toolBarOptions"></pp-tool-bar>
-  <pp-settings-panel [title]="'Settings'"></pp-settings-panel>
-  <pp-items-panel [title]="'Items'"></pp-items-panel>
-  <pp-owner-panel [title]="'Owner'"></pp-owner-panel>
+  <div class="share-manager-item-menu-container">
+    <pp-items-menu></pp-items-menu>
+  </div>
+  <div class="share-manager-item-content-container">
+      <pp-tool-bar [toolBarOptions]="toolBarOptions"></pp-tool-bar>
+      <pp-settings-panel [title]="'Settings'"></pp-settings-panel>
+      <pp-items-panel [title]="'Items'"></pp-items-panel>
+      <pp-owner-panel [title]="'Owner'"></pp-owner-panel>
+  </div>
+  
 </div>
 
   

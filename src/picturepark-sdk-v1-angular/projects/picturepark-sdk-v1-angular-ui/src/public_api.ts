@@ -6,6 +6,8 @@ export { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from 
 // MODULES
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
 
+export { ApplicationMenuModule } from './lib/features-module/application-menu/application-menu.module';
+export { ApplicationHeaderModule } from './lib/features-module/application-header/application-header.module';
 export { BasketModule } from './lib/features-module/basket/basket.module';
 export { ContentAggregationListModule } from './lib/features-module/content-aggregation-list/content-aggregation-list.module';
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
