@@ -1,0 +1,23 @@
+.application-menu-container {
+    background-color: rgb(68,68,68); height: 100vh;
+
+    & .application-menu-logo {
+        text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f;
+        span { color: white; line-height: 63px; }
+    }
+
+    ul {
+        margin: 0px; padding: 0px;
+        li {
+            text-align: center; line-height: 44px; cursor: pointer;
+            & a { 
+                color: #aaa;  
+                & i { line-height: 44px; font-size: 21px; position: relative; top: 2px; }
+            }
+            &:hover {
+                background-color: rgba(47,47,47,.5);
+                & a i { color: white; }
+            }
+        }
+    }
+}

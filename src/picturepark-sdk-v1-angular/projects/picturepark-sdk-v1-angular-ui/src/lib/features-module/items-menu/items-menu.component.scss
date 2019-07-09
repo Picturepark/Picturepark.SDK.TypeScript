@@ -1,0 +1,14 @@
+ul { 
+    list-style: none;
+    li { 
+        line-height: 18px; margin-bottom: 6px; padding: 0px 0px 0px 10px; border-left: 3px solid transparent;
+        &.active {
+            border-left: 3px solid #3fb3b1;
+            a { color: #3fb3b1; font-weight: 800; }
+        }
+        &:hover {
+            a { color: #3fb3b1; font-weight: 800; }
+        }
+        a { color: rgba(0,0,0,0.54); line-height: 18px; font-weight: 400; font-size: 13px;  text-decoration: none; }
+    }
+}

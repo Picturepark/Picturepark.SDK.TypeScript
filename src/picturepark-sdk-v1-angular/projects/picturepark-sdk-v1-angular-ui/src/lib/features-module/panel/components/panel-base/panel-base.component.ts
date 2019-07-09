@@ -1,6 +1,9 @@
-import { OnInit, Input, OnChanges } from '@angular/core';
+import { OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-export class PanelBaseComponent implements OnInit {
+export class PanelBaseComponent implements OnInit, OnDestroy {
+
+  protected subscription = new Subscription();
 
   // VARS
   @Input() title: string;
@@ -9,5 +12,11 @@ export class PanelBaseComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 }

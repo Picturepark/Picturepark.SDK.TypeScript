@@ -1,3 +1,34 @@
 .tool-bar-container {
-    border-radius: 8px; background: rgba(47,47,47,.95); height: 68px;
+    border-radius: 12px 8px 8px 12px; background: rgba(47, 47, 47, 0.95); height: 68px;
+    & .to-top {
+        width: 68px; height: 68px; float: left; background-color: #f8f8f8; border-radius: 8px 0px 0px 8px; text-align: center; color: #aaa;
+        & i {
+            position: relative; top: 50%; transform: translateY(-50%);
+        }
+    }
+    ul { 
+        list-style: none;
+        li { 
+            float: left; line-height: 68px; margin: 0px 0px 0px 24px;
+            & .to-top {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                background: hsla(0,0%,100%,.8);
+                z-index: 22;
+                opacity: 0;
+                transition: opacity .4s cubic-bezier(.25,.8,.25,1);
+                text-decoration: none;
+                text-align: center;
+            }
+            button {
+                position: relative; top: 4px; background-color: unset; border: 0px; cursor: pointer;
+                &:hover {
+                    i { color: white; }
+                }
+                i { color: #aaa; font-size: 21px; }
+            }
+        }
+    }
 }
