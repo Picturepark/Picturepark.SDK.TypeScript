@@ -1,22 +1,19 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { ScrollDispatcher } from '@angular/cdk/overlay';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  Output,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  EventEmitter, Input, NgZone, OnDestroy, OnInit, Output
 } from '@angular/core';
+import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatToolbar } from '@angular/material';
+
+// ANGULAR CDK
+import { SelectionModel } from '@angular/cdk/collections';
+import { ScrollDispatcher } from '@angular/cdk/overlay';
+
+// LIBRARIES
 import {
   BrokenDependenciesFilter,
-  CustomerInfo,
   FilterBase,
   InfoService,
   LifeCycleFilter,
@@ -26,10 +23,9 @@ import {
   SearchBehavior,
   SortDirection,
   SortInfo,
+  ListItemResolveBehavior,
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
-import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
-import { debounceTime, filter, pairwise, startWith, switchMap } from 'rxjs/operators';
 
 // SERVICES
 import { MetaDataPreviewService } from '../../shared-module/services/metadata-preview/metadata-preview.service';
@@ -49,11 +45,11 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   @Input() schema: Observable<SchemaDetail>;
   @Input() search: Observable<string>;
   @Input() selectedItemIds: string[] | any;
-  @Input() filter: Observable<FilterBase | null>;
-  @Input() public enableSelection: boolean;
-  @Input() refreshAll: Observable<boolean>;
+  @Input() filter: Observable<FilterBase>;
+  @Input() enableSelection: boolean;
   @Input() deselectAll: Observable<boolean>;
-  @Output() public selectedItemsChange = new EventEmitter<string[]>();
+
+  @Output() selectedItemsChange = new EventEmitter<string[]>();
 
   public totalResults: number;
   public tableItems: any[] = [];
@@ -81,48 +77,33 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const scrollSubscription = this.scrollDispatcher.scrolled()
-      .pipe(debounceTime(100))
-      .subscribe(scrollable => {
-        if (scrollable) {
 
-          const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
-          const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
+    const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(100)).subscribe(scrollable => {
+      if (scrollable) {
 
-          if (scrollCriteria && this.tableItems.length !== this.totalResults) {
-            this.ngZone.run(() => this.loadMore.next(true));
-          }
+        const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+        const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
+
+        if (scrollCriteria && this.tableItems.length !== this.totalResults) {
+          this.ngZone.run(() => this.loadMore.next(true));
         }
-      });
+      }
+    });
 
     this.subscription.add(scrollSubscription);
 
     const listSubscription = combineLatest([
       this.sortInfo,
       this.loadMore,
-      this.refreshAll,
       this.schema,
       this.filter,
       this.search,
-      this.infoService.getInfo()])
-        .pipe(filter(
-          ([, , schema]) => schema !== null
-          ),
-          startWith([]),
-          pairwise(),
+      this.infoService.getInfo()]).pipe(
           switchMap(
-            (
-              [
-                [, , prevRefresh, , prevFilter, prevQuery],
-                [sortInfo, , nextRefresh, schema, nextFilter, nextQuery, info]
-              ]:
-            [
-              [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string],
-              [SortInfo, boolean, boolean, SchemaDetail, FilterBase, string, CustomerInfo]
-            ]) => {
+            ([sortInfo, loadMore, schema, nextFilter, nextQuery, info]) => {
 
               // tslint:disable-next-line: max-line-length
-              const needDataRefresh = false;
+              const needDataRefresh = true;
 
               // check default sort for the schema
               let sort: SortInfo[] = [];
@@ -157,7 +138,8 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
                 includeAllSchemaChildren: true,
                 brokenDependenciesFilter: BrokenDependenciesFilter.All,
                 debugMode: false,
-                lifeCycleFilter: LifeCycleFilter.ActiveOnly
+                lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+                resolveBehaviors: [ListItemResolveBehavior.Content, ListItemResolveBehavior.InnerDisplayValueName]
               });
 
               return zip(of(needDataRefresh), of(schema), of(activeColumn), of(info), this.listItemService.search(request));
@@ -206,7 +188,7 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
           }
         );
 
-    // this.subscription.add(listSubscription);
+    this.subscription.add(listSubscription);
 
     if (this.deselectAll) {
       const deselectAllSubscription = this.deselectAll.subscribe(() => {

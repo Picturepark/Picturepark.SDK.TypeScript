@@ -20,6 +20,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
 
 @NgModule({
   declarations: [
+    // COMPONENTS
     // PIPES
     FileSizePipe,
     TranslatePipe,
@@ -34,6 +35,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     FormsModule,
     ReactiveFormsModule,
     MaterialsModule,
+    // COMPONENTS
     // PIPES
     FileSizePipe,
     TranslatePipe,
