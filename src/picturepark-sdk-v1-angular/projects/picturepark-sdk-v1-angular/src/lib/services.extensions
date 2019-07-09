@@ -24,6 +24,41 @@ export abstract class DTOBase {
         }
     }
 
+    init(data?: any) {
+        this._fields.forEach(field => {
+            switch(field.type) {
+                case "array":
+                    if (Array.isArray(data[field.propertyName])) {
+                        this[field.propertyName] = [] as any;
+                        for (let item of data[field.propertyName]) {
+                            if(field.supportsConstructorConversion === true) {
+                                this[field.propertyName].push(field.builder!(undefined).fromJS(item));
+                            } else {
+                                this[field.propertyName].push(item);
+                            }
+                        }
+                    }
+                    break;
+                case "object":
+                        if(field.supportsConstructorConversion === true) {
+                            this[field.propertyName] = data[field.propertyName] ? field.builder!(undefined).fromJS(data[field.propertyName]) : <any>undefined;
+                        } else {
+                            this[field.propertyName] = data[field.propertyName];
+                        }
+                    break;
+                case "dictionary":
+                    if (data[field.propertyName]) {
+                        this[field.propertyName] = {} as any;
+                        for (let key in data[field.propertyName]) {
+                            if (data[field.propertyName].hasOwnProperty(key))
+                                this[field.propertyName][key] = data[field.propertyName][key];
+                        }
+                    }
+                    break;
+            }
+        });
+    }
+
     construct(data?: any): void {
         this._fields.forEach(field => {
             if (!field.supportsConstructorConversion) {

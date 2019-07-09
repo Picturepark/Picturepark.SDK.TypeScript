@@ -22,7 +22,7 @@
         super({% if GenerateConstructorInterface %}data{% endif %});
 {%     for property in Properties -%}
 {%                     if property.IsArray -%}
-        this.setProp("array", "{{ property.PropertyName }}", {{property.SupportsConstructorConversion}}{% if property.SupportsConstructorConversion -%}, (item: any) => new {{ property.ArrayItemType }}(item){% endif %});
+        this.setProp("array", "{{ property.PropertyName }}", {{property.SupportsConstructorConversion}}{% if property.SupportsConstructorConversion or property.IsDiscriminator -%}, (item: any) => new {{ property.ArrayItemType }}(item){% endif %});
 {%                     elseif property.IsDictionary -%}
         this.setProp("dictionary", "{{ property.PropertyName }}", {{property.SupportsConstructorConversion}}{% if property.SupportsConstructorConversion -%}, (item: any) => new {{ property.DictionaryItemType }}(item){% endif %});
 {%                     else -%}
@@ -53,9 +53,7 @@
 {% endif -%}
 
     init(data?: any{% if HandleReferences %}, _mappings?: any{% endif %}) {
-{% if HasInheritance -%}
         super.init(data);
-{% endif -%}
 {% if HasIndexerProperty or HasProperties -%}
         if (data) {
 {%     if HasIndexerProperty -%}
@@ -64,12 +62,18 @@
                     this[property] = data[property];
             }
 {%     endif -%}
+        /*
 {%     for property in Properties -%}
             {{ property.ConvertToClassCode | tab }}
 {%     endfor -%}
+        */
         }
 {% endif -%}
     }
+
+     fromJS(data: any{% if HandleReferences %}, _mappings?: any{% endif %}): {{ ClassName }} {
+        return {{ ClassName }}.fromJS(data);
+     }
 
     static fromJS(data: any{% if HandleReferences %}, _mappings?: any{% endif %}): {{ ClassName }} {
         data = typeof data === 'object' ? data : {};
