@@ -22,11 +22,21 @@
               (filterChange)="selectedFilter = $event">
             </pp-content-aggregation-list>
           </mat-tab>
-          <mat-tab>
+          <mat-tab label="Basket">
             <ng-template mat-tab-label>
               <span [matBadge]="basketItemsCount" matBadgeOverlap="false">Basket</span>
             </ng-template>
             <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
+          </mat-tab>
+          <mat-tab label="Shares">
+            <ng-template mat-tab-label>
+              <span matBadgeOverlap="false">Shares</span>
+            </ng-template>
+            <ul>
+              <li>
+                <!--<pp-share-content-list></pp-share-content-list>-->
+              </li>
+            </ul>
           </mat-tab>
         </mat-tab-group>
       </div>
