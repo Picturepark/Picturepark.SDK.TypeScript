@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 
-
-import {MatSortModule} from '@angular/material/sort';
 // MATERIAL MODULES
 import {
   MatChipsModule,
@@ -26,7 +24,9 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatCardModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatSortModule,
+  MatSidenavModule
 } from '@angular/material';
 
 // CDK MODULES
@@ -62,6 +62,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatProgressBarModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatSidenavModule,
     // CDK
     CdkTableModule,
     LayoutModule,
@@ -93,6 +94,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatProgressBarModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatSidenavModule,
     // CDK
     CdkTableModule,
     LayoutModule,

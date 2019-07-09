@@ -11,10 +11,8 @@ import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
 
-
 // COMPONENTS
 import { AppComponent } from './app.component';
-
 import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 import { HomeComponent } from './home/home.component';
 
@@ -52,7 +50,7 @@ export function PictureparkConfigurationFactory() {
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
-    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
+    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
   ],
   bootstrap: [AppComponent],
   entryComponents: [DetailsDialogComponent]

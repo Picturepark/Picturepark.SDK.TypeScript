@@ -222,6 +222,14 @@ export let TRANSLATIONS = {
       de: 'Grösse'
     },
   },
+  ListBrowser: {
+    ListItemsLowercase: {
+      en: 'items list'
+    },
+    ItemsWereNotFound: {
+      en: 'Items were not found'
+    }
+  },
   Login: {
     LabelUsername: {
       en: 'Username',
@@ -306,6 +314,38 @@ export let TRANSLATIONS = {
     },
     Cancel: {
       en: 'Cancel'
+    }
+  },
+  SchemaBrowser: {
+    Ascending: {
+      en: 'Ascending'
+    },
+    Descending: {
+      en: 'Descending'
+    },
+    Relevance: {
+      en: 'Relevance'
+    },
+    Title: {
+      en: 'Title'
+    },
+    DateCreated: {
+      en: 'Date Created'
+    },
+    DateModified: {
+      en: 'Date Created'
+    },
+    SchemasLowercase: {
+      en: 'schema'
+    },
+    ItemsWereNotFound: {
+      en: 'Items were not found'
+    },
+    FieldsLowercase: {
+      en: 'fields'
+    },
+    ShowItemList: {
+      en: 'Show item list'
     }
   },
   ShareContentDialog: {

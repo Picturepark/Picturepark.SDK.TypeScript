@@ -79,8 +79,7 @@ export class MetaDataPreviewService {
 
     const fields: any = {};
 
-    // tslint:disable-next-line: forin
-    for (const fieldId of metadata) {
+    for (const fieldId of Object.keys(metadata)) {
       if (withId && (fieldId === '_refId' || fieldId === 'id')) {
         fields[fieldId] = metadata[fieldId];
         continue;

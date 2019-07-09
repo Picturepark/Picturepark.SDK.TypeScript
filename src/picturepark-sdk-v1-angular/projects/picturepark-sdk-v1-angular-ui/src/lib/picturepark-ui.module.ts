@@ -9,7 +9,6 @@ import { FeaturesModule } from './features-module/features-module.module';
 import { SharedModule } from './shared-module/shared-module.module';
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
-
 @NgModule({
   declarations: [
   ],

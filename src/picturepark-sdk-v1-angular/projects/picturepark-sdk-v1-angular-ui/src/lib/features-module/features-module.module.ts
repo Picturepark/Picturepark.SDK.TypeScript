@@ -11,6 +11,7 @@ import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { DialogModule } from './dialog/dialog.module';
 import { LayerPanelsModule } from './layer-panels/layer-panels.module';
+import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
 import { ListItemAggregationListModule } from './list-item-aggregation-list/list-item-aggregation-list.module';
 import { ItemsMenuModule } from './items-menu/items-menu.module';
@@ -18,6 +19,7 @@ import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { PanelModule } from './panel/panel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
+import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
 import { ToolBarModule } from './tool-bar/tool-bar.module';
 
@@ -34,15 +36,17 @@ import { ToolBarModule } from './tool-bar/tool-bar.module';
     DatePickerModule,
     DialogModule,
     LayerPanelsModule,
+    ListItemsModule,
     ListBrowserModule,
     ListItemAggregationListModule,
     ItemsMenuModule,
     NotificationModule,
     OutputDownloadMenuModule,
+    SchemaBrowserModule,
     SearchBoxModule,
     ShareBrowserModule,
     PanelModule,
-    ToolBarModule
+    ToolBarModule,
   ],
   exports: [
     ApplicationMenuModule,
@@ -54,15 +58,17 @@ import { ToolBarModule } from './tool-bar/tool-bar.module';
     DatePickerModule,
     DialogModule,
     LayerPanelsModule,
+    ListItemsModule,
     ListBrowserModule,
     ListItemAggregationListModule,
     ItemsMenuModule,
     NotificationModule,
     OutputDownloadMenuModule,
+    SchemaBrowserModule,
     SearchBoxModule,
     ShareBrowserModule,
     PanelModule,
-    ToolBarModule
+    ToolBarModule,
   ]
 })
 export class FeaturesModule { }
