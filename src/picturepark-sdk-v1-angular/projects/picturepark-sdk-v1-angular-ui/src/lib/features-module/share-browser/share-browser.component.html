@@ -1,0 +1,34 @@
+<div class="browser" cdkScrollable>
+  <div class="browser__header">
+    <mat-toolbar>
+      <div class="browser__toolbar">
+      </div>
+    </mat-toolbar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div *ngIf="totalResults !== 0" class="browser__items">
+    <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+      <pp-share-browser-item 
+        class="browser__item"
+        [itemModel]="itemModel"
+        [thumbnailSize]=""
+        [isListView]="false"
+        (previewItemChange)="previewItem($event)"
+        (click)="itemClicked($event, i)"
+        (dblclick)="previewItem(itemModel.item)">
+      </pp-share-browser-item>
+    </div>
+  </div>
+
+  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
+    {{ 'ContentBrowser.NoItems' | pptranslate }}
+    <strong> {{ searchString }}</strong>
+    <br />
+    {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
+    <ul>
+      <li>{{ 'ContentBrowser.NoItemsActionChannel' | pptranslate }}</li>
+      <li>{{ 'ContentBrowser.NoItemsActionSearchString' | pptranslate }}</li>
+    </ul>
+  </div>
+</div>

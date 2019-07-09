@@ -1,0 +1,48 @@
+.content {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  
+    a:visited {
+      color: inherit;
+    }
+  }
+  
+  .content-panel {
+    background-color: whitesmoke;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    height: 100%;
+  }
+  
+  .item {
+    position: fixed;
+    overflow: auto;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: whitesmoke;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .nofilters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .browser-buttons {
+    margin-right: 8px;
+  }

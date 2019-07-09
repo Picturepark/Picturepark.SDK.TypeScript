@@ -1,0 +1,49 @@
+@import '~@angular/material/theming';
+.browser-item {
+  $self: &;
+
+  &__basket-icon {
+    visibility: hidden;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    &--selected {
+      visibility: initial;
+    }
+  }
+
+  &__image-slot {
+    flex-grow: 1;
+    position: relative;
+  }
+
+  &__image-virtual-item-container {
+    display: block;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: rgb(170, 170, 170);
+    overflow: hidden;
+  }
+
+  &__image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}

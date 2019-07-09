@@ -461,6 +461,181 @@ export class BusinessProcessClient extends PictureparkClientBase {
     }
 }
 
+export class BusinessRuleClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Get the current business rule configuration
+     * @return BusinessRuleConfiguration
+     */
+    getConfiguration(): Promise<BusinessRuleConfiguration> {
+        let url_ = this.baseUrl + "/v1/businessrules/configuration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetConfiguration(_response);
+        });
+    }
+
+    protected processGetConfiguration(response: Response): Promise<BusinessRuleConfiguration> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessRuleConfiguration>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessRuleConfiguration>(<any>null);
+    }
+
+    /**
+     * Updates the business rule configuration.
+     * @param disableRuleEngine (optional) Disables the rule engine completely.
+     * @param rules (optional) Rules
+     * @return Business process
+     */
+    updateConfiguration(disableRuleEngine?: boolean | undefined, rules?: BusinessRule[] | null | undefined): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessrules/configuration?";
+        if (disableRuleEngine === null)
+            throw new Error("The parameter 'disableRuleEngine' cannot be null.");
+        else if (disableRuleEngine !== undefined)
+            url_ += "DisableRuleEngine=" + encodeURIComponent("" + disableRuleEngine) + "&"; 
+        if (rules !== undefined)
+            rules && rules.forEach((item, index) => { 
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "Rules[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "PUT",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateConfiguration(_response);
+        });
+    }
+
+    protected processUpdateConfiguration(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+}
+
 export class ChannelClient extends PictureparkClientBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -11572,18 +11747,18 @@ export class TransferClient extends PictureparkClientBase {
      * @param totalSize Total size in bytes of the uploading file.
      * @param totalChunks Total chunks of the uploading file.
      * @param transferId ID of transfer.
-     * @param identifier Identifier of file.
+     * @param requestId Identifier of file.
      * @param formFile (optional) Gets or sets the form file.
      * @return OK
      */
-    uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string, formFile?: FileParameter | null | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{identifier}/upload?";
+    uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
         url_ = url_.replace("{transferId}", encodeURIComponent("" + transferId)); 
-        if (identifier === undefined || identifier === null)
-            throw new Error("The parameter 'identifier' must be defined.");
-        url_ = url_.replace("{identifier}", encodeURIComponent("" + identifier)); 
+        if (requestId === undefined || requestId === null)
+            throw new Error("The parameter 'requestId' must be defined.");
+        url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId)); 
         if (relativePath === undefined)
             throw new Error("The parameter 'relativePath' must be defined.");
         else
@@ -13696,6 +13871,9 @@ export interface UserRolesNotFoundException extends PictureparkNotFoundException
 export interface UnauthorizedException extends PictureparkBusinessException {
 }
 
+export interface UserUnlockDisallowedException extends PictureparkValidationException {
+}
+
 export interface RenderingException extends PictureparkBusinessException {
 }
 
@@ -13855,7 +14033,6 @@ export interface InvalidArgumentException extends PictureparkValidationException
 }
 
 export interface UnknownException extends PictureparkBusinessException {
-    exceptionDetail?: string | undefined;
 }
 
 export interface OwnerTokenInUseException extends PictureparkValidationException {
@@ -14674,6 +14851,12 @@ export interface SchemaFieldNotSupportedException extends PictureparkValidationE
     fieldType?: string | undefined;
 }
 
+export interface SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    displayPatternType: DisplayPatternType;
+    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+}
+
 export interface SnapshotTimeoutException extends PictureparkTimeoutException {
 }
 
@@ -14743,6 +14926,54 @@ export interface CustomerNotAvailableException extends PictureparkException {
 }
 
 export interface CustomerAliasHeaderMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleActionInvalidDocumentTypeException extends PictureparkValidationException {
+    allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
+}
+
+export enum BusinessRuleTriggerDocType {
+    Content = <any>"Content", 
+}
+
+export interface BusinessRuleActionInvalidExecutionScopeException extends PictureparkValidationException {
+    allowedScopes?: BusinessRuleExecutionScope[] | undefined;
+}
+
+export enum BusinessRuleExecutionScope {
+    MainDoc = <any>"MainDoc", 
+    SearchDoc = <any>"SearchDoc", 
+}
+
+export interface BusinessRuleActionsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleConditionMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleConditionsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleConfigurationValidationException extends PictureparkValidationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+}
+
+export interface BusinessRuleLayerIdInvalidException extends PictureparkValidationException {
+    layerId?: string | undefined;
+}
+
+export interface BusinessRuleRuleIdDuplicationException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleRuleIdMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleTriggerPointMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleValidationException extends PictureparkValidationException {
+    ruleId?: string | undefined;
+    innerExceptions?: PictureparkValidationException[] | undefined;
 }
 
 /** Search request to search for business processes */
@@ -15073,6 +15304,98 @@ export interface ContentImportResult {
     error?: ErrorResponse | undefined;
 }
 
+/** Represents the business rule configuration. */
+export interface BusinessRuleConfiguration {
+    /** Disables the rule completely. */
+    disableRuleEngine: boolean;
+    /** Rules */
+    rules?: BusinessRule[] | undefined;
+}
+
+/** A business rule */
+export interface BusinessRule {
+    /** User defined ID of the rule. */
+    id?: string | undefined;
+    /** Trigger point. */
+    triggerPoint?: BusinessRuleTriggerPoint | undefined;
+    /** Enable. */
+    isEnabled: boolean;
+    /** Language specific rule names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific rule description. */
+    description?: TranslatedStringDictionary | undefined;
+}
+
+/** Represents a trigger point for a business rule */
+export interface BusinessRuleTriggerPoint {
+    /** Execution scope. */
+    executionScope: BusinessRuleExecutionScope;
+    /** Document type. */
+    documentType: BusinessRuleTriggerDocType;
+    /** Action performed. */
+    action: BusinessRuleTriggerAction;
+}
+
+export enum BusinessRuleTriggerAction {
+    Create = <any>"Create", 
+    Update = <any>"Update", 
+}
+
+/** A business rule configurable by specific actions and conditions */
+export interface BusinessRuleConfigurable extends BusinessRule {
+    /** The condition that makes this rule trigger. */
+    condition?: BusinessRuleCondition | undefined;
+    /** The actions that are performed when this rule triggers. */
+    actions?: BusinessRuleAction[] | undefined;
+}
+
+/** Conditions on which a business rule is executed */
+export interface BusinessRuleCondition {
+}
+
+/** Links multiple conditions with a boolean operator */
+export interface BooleanCondition extends BusinessRuleCondition {
+    /** The conditions. */
+    conditions?: BusinessRuleCondition[] | undefined;
+}
+
+/** Links conditions with AND */
+export interface AndCondition extends BooleanCondition {
+}
+
+/** Links conditions with OR */
+export interface OrCondition extends BooleanCondition {
+}
+
+/** Matches when a layer was assigned */
+export interface LayerAssignedCondition extends BusinessRuleCondition {
+    /** Layer id to match on. */
+    layerId?: string | undefined;
+}
+
+/** Action to be performed by a business rule */
+export interface BusinessRuleAction {
+}
+
+/** Assigns a layer, adding the default values to the data dictionary */
+export interface AssignLayerAction extends BusinessRuleAction {
+    /** The ID of the layer. */
+    layerId?: string | undefined;
+    /** A dictionary containing default values (used for example to populate required fields). */
+    defaultValues?: DataDictionary | undefined;
+}
+
+export interface DataDictionary {
+
+    [key: string]: any; 
+}
+
+/** A business rule expressed as a script */
+export interface BusinessRuleScript extends BusinessRule {
+    /** Script */
+    script?: string | undefined;
+}
+
 export interface Channel {
     /** ID of channel. */
     id: string;
@@ -15312,11 +15635,6 @@ export interface ContentDetail {
 export interface DisplayValueDictionary {
 
     [key: string]: string | any; 
-}
-
-export interface DataDictionary {
-
-    [key: string]: any; 
 }
 
 /** Output */
@@ -17394,6 +17712,9 @@ export interface FieldSingleTagbox extends FieldBase {
     filter?: FilterBase | undefined;
     /** Json serialized template used for creating new list item (no logic is implemented in backend). */
     listItemCreateTemplate?: string | undefined;
+    /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+The information is only consumed by the client application. No actual logic is implemented in the backend. */
+    viewModeDisplayPatternType: DisplayPatternType;
 }
 
 /** The field used to store multiple tagboxes */
@@ -17410,6 +17731,9 @@ export interface FieldMultiTagbox extends FieldBase {
     filter?: FilterBase | undefined;
     /** Json serialized template used for creating new list item (no logic is implemented in backend). */
     listItemCreateTemplate?: string | undefined;
+    /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+The information is only consumed by the client application. No actual logic is implemented in the backend. */
+    viewModeDisplayPatternType: DisplayPatternType;
 }
 
 /** The field used to store a string value */
@@ -18319,8 +18643,10 @@ export interface CreateTransferRequest {
 
 /** Represents the base class for transfer items. */
 export interface TransferFile {
+    /** Replaced in favor of RequestId. Client generated identifier of the item. */
+    identifier?: string | undefined;
     /** Client generated identifier of the item. */
-    identifier: string;
+    requestId?: string | undefined;
 }
 
 /** Represents a file being uploaded in a transfer. */
@@ -18341,8 +18667,10 @@ export interface FileTransfer {
     id: string;
     /** Name of file transfer. */
     name: string;
+    /** Replaced in favor of RequestId. Client provided identifier. */
+    identifier?: string | undefined;
     /** Client provided identifier. */
-    identifier: string;
+    requestId: string;
     /** ID of transfer. */
     transferId: string;
     /** State of file transfer. */

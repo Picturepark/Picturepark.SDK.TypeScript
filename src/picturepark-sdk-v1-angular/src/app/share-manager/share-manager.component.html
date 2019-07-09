@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="filters">
+    <mat-tab-group style="height: 100%;">
+      <mat-tab label="Filters">
+        <!--
+        <pp-content-aggregation-list
+          [query]="searchText"
+          [channelId]="selectedChannel?.id"
+          [aggregators]="selectedChannel?.aggregations"
+          (filterChange)="selectedFilter = $event">
+        </pp-content-aggregation-list>
+        -->
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div class="content">
+    <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
+  </div>
+</div>

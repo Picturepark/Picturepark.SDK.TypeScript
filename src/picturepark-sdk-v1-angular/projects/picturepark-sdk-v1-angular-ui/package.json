@@ -9,6 +9,7 @@
     "@angular/material": "^8.0.0"
   },
   "dependencies": {
+    "moment": "^2.24.0",
     "ts-md5": "^1.2.4"
   }
 }

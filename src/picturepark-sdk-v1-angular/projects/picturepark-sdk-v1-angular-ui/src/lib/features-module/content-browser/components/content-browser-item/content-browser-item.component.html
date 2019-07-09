@@ -1,0 +1,26 @@
+<div class="browser-item" [class.browser-item--selected]="itemModel.isSelected" [class.browser-item--list-view]="isListView">
+  <div class="browser-item__image-slot">
+    <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="virtualItemHtml === null; else virtualContent">
+      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
+    </div>
+
+    <ng-template #virtualContent>
+      <div class="browser-item__image-virtual-item-container" [innerHTML]="virtualItemHtml"></div>
+    </ng-template>
+
+    <div class="browser-item__actions">
+      <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate">
+        <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
+      </button>
+      <pp-output-download-menu [id]="itemModel.item.id" [overlapTrigger]="true"></pp-output-download-menu>
+    </div>
+  </div>
+  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subheading-2">
+    <div>{{ itemModel.item.displayValues!['name'] || 'n/a'}}</div>
+    <div class="mat-subheading-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
+  </div>
+  <button class="browser-item__basket-icon" mat-mini-fab (click)="toggleInBasket(); $event.stopPropagation()" [class.browser-item__basket-icon--selected]="itemModel.isInBasket"
+          [color]="itemModel.isInBasket ? 'accent' : 'basic'" [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
+    <mat-icon aria-label="Add item to basket">add</mat-icon>
+  </button>
+</div>

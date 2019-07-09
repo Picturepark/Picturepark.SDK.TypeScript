@@ -1,0 +1,29 @@
+h3 { 
+    color: #444; margin: 0 -24px 0 -24px; font-weight: 200; padding: 0px 24px 24px 24px; border-bottom: 1px solid #eee;
+    mat-icon { color:rgb(68,68,68); cursor: pointer; float: right; }
+}
+::ng-deep .notification-container {
+    left: -24px !important;
+    width: calc(100% + 48px) !important;
+}
+
+mat-dialog-content { background-color: #f8f8f8; }
+
+.loader-container { 
+    background-color: #f8f8f8; position: absolute; display: none; width: calc(100% + 48px); top: 46px; left:-24px; height: 515px; z-index: 20;
+    &.active { display: table; }
+    & .loader { 
+        display: table-cell; vertical-align: middle; text-align: center;
+        mat-spinner {  margin: 0 auto; }
+    }
+}
+
+mat-dialog-actions { 
+    justify-content: flex-end; border-top: 1px solid #eee; margin: 0px -24px -24px -24px; position: relative; z-index: 25; background-color: white;
+    button { 
+        border-radius: 4px; cursor: pointer; border:0px; color: white; float: right; background: #aaaaaa; padding: 7px 9px; font-size: 12px; font-weight: bold; line-height: 16px; min-height: 34px; min-width: 99px; margin: 0px 24px 0px 0px;
+        &.active { background-color: #3fb3b1; }
+        &.option { background-color: white; color: #727272; border: 1px solid #727272; font-weight: 600;}
+        &.cancel { background-color: #ffffff; color: #727272; }
+    }
+}
