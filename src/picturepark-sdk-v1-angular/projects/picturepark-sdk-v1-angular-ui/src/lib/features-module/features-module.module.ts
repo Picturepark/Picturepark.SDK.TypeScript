@@ -13,8 +13,10 @@ import { ListBrowserModule } from './list-browser/list-browser.module';
 import { ListItemAggregationListModule } from './list-item-aggregation-list/list-item-aggregation-list.module';
 import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
+import { PanelModule } from './panel/panel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
+import { ToolBarModule } from './tool-bar/tool-bar.module';
 
 @NgModule({
   declarations: [],
@@ -32,7 +34,9 @@ import { ShareBrowserModule } from './share-browser/share-browser.module';
     NotificationModule,
     OutputDownloadMenuModule,
     SearchBoxModule,
-    ShareBrowserModule
+    ShareBrowserModule,
+    PanelModule,
+    ToolBarModule
   ],
   exports: [
     BasketModule,
@@ -47,7 +51,9 @@ import { ShareBrowserModule } from './share-browser/share-browser.module';
     NotificationModule,
     OutputDownloadMenuModule,
     SearchBoxModule,
-    ShareBrowserModule
+    ShareBrowserModule,
+    PanelModule,
+    ToolBarModule
   ]
 })
 export class FeaturesModule { }

@@ -1,9 +1,14 @@
 import { Component, Injector } from '@angular/core';
-import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+// LIBRARIES
 import {
   Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult
 } from '@picturepark/sdk-v1-angular';
-import { Observable } from 'rxjs';
+
+// COMPONENTS
+import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 
 @Component({
   selector: 'pp-share-browser',
@@ -14,7 +19,13 @@ import { Observable } from 'rxjs';
   ]
 })
 export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
-  constructor(injector: Injector, private shareService: ShareService) {
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    injector: Injector,
+    private router: Router,
+    private shareService: ShareService
+  ) {
     super('ShareBrowserComponent', injector);
   }
 
@@ -56,4 +67,10 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     const containClasses = ['browser'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
+
+  itemClicked(item): void {
+    console.log(item);
+    this.router.navigate([item.id], { relativeTo: this.activatedRoute });
+  }
+
 }

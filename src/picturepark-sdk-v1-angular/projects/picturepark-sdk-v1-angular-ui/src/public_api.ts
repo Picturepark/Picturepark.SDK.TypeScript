@@ -12,16 +12,19 @@ export { ContentBrowserModule } from './lib/features-module/content-browser/cont
 export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
 export { DialogModule } from './lib/features-module/dialog/dialog.module';
+export { ItemsMenuModule } from './lib/features-module/items-menu/items-menu.module';
 export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-panels.module';
 export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';
 export { ListItemAggregationListModule } from './lib/features-module/list-item-aggregation-list/list-item-aggregation-list.module';
 export { MaterialsModule } from './lib/materials-module/materials-module.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
+export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { FeaturesModule } from './lib/features-module/features-module.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
+export { ToolBarModule } from './lib/features-module/tool-bar/tool-bar.module';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';

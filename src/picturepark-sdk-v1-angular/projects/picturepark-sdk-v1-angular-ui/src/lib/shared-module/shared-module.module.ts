@@ -23,7 +23,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     // PIPES
     FileSizePipe,
     TranslatePipe,
-    LazyLoadDirective
+    LazyLoadDirective,
   ],
   imports: [
     CommonModule,

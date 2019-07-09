@@ -15,7 +15,7 @@
         [thumbnailSize]=""
         [isListView]="false"
         (previewItemChange)="previewItem($event)"
-        (click)="itemClicked($event, i)"
+        (click)="itemClicked(itemModel.item)"
         (dblclick)="previewItem(itemModel.item)">
       </pp-share-browser-item>
     </div>
