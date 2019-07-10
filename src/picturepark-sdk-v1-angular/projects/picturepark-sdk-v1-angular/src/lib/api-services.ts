@@ -15,7 +15,6 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const PICTUREPARK_API_URL = new InjectionToken<string>('PICTUREPARK_API_URL');
 
-
 export abstract class DTOBase {
     // tslint:disable-next-line: variable-name
     private _fields: {
@@ -43,7 +42,7 @@ export abstract class DTOBase {
                         this[field.propertyName] = [] as any;
                         for (let item of data[field.propertyName]) {
                             if(field.supportsConstructorConversion === true) {
-                                this[field.propertyName].push(field.builder!(undefined).fromJS(item));
+                                this[field.propertyName].push(field.builder!(item));
                             } else {
                                 this[field.propertyName].push(item);
                             }
@@ -52,7 +51,7 @@ export abstract class DTOBase {
                     break;
                 case "object":
                         if(field.supportsConstructorConversion === true) {
-                            this[field.propertyName] = data[field.propertyName] ? field.builder!(undefined).fromJS(data[field.propertyName]) : <any>undefined;
+                            this[field.propertyName] = data[field.propertyName] ? field.builder!(data[field.propertyName]) : <any>undefined;
                         } else {
                             this[field.propertyName] = data[field.propertyName];
                         }
@@ -17044,7 +17043,7 @@ export class BaseResultOfBusinessProcess extends DTOBase {
     constructor(data?: IBaseResultOfBusinessProcess) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", false);
+        this.setProp("array", "results", true, (item: any) => BusinessProcess.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -17055,18 +17054,6 @@ export class BaseResultOfBusinessProcess extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(BusinessProcess.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfBusinessProcess {
@@ -17110,7 +17097,7 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -17119,13 +17106,6 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfBusinessProcess {
@@ -17206,14 +17186,6 @@ export class QueryDebugInformation extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.general = data["general"];
-            this.auditTrail = data["auditTrail"];
-            this.request = data["request"];
-            this.response = data["response"];
-        */
-        }
     }
 
      fromJS(data: any): QueryDebugInformation {
@@ -17287,7 +17259,7 @@ export class BusinessProcess extends DTOBase {
         this.setProp("object", "startDate", false);
         this.setProp("object", "endDate", false);
         this.setProp("object", "finished", false);
-        this.setProp("array", "stateHistory", true, (item: any) => new BusinessProcessState(item));
+        this.setProp("array", "stateHistory", true, (item: any) => BusinessProcessState.fromJS(item));
         this.setProp("object", "currentState", false);
         this.setProp("object", "lastReportedProgress", false);
 
@@ -17299,27 +17271,6 @@ export class BusinessProcess extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.processDefinitionId = data["processDefinitionId"];
-            this.referenceId = data["referenceId"];
-            this.referenceDocType = data["referenceDocType"];
-            this.supportsCancellation = data["supportsCancellation"];
-            this.businessProcessScope = data["businessProcessScope"];
-            this.lifeCycle = data["lifeCycle"];
-            this.startDate = data["startDate"] ? new Date(data["startDate"].toString()) : <any>undefined;
-            this.endDate = data["endDate"] ? new Date(data["endDate"].toString()) : <any>undefined;
-            this.finished = data["finished"];
-            if (Array.isArray(data["stateHistory"])) {
-                this.stateHistory = [] as any;
-                for (let item of data["stateHistory"])
-                    this.stateHistory!.push(BusinessProcessState.fromJS(item));
-            }
-            this.currentState = data["currentState"];
-            this.lastReportedProgress = data["lastReportedProgress"] ? new Date(data["lastReportedProgress"].toString()) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcess {
@@ -17422,7 +17373,7 @@ export class BusinessProcessState extends DTOBase {
         super(data);
         this.setProp("object", "state", false);
         this.setProp("object", "timestamp", false);
-        this.setProp("object", "error", true, (item: any) => new ErrorResponse(item));
+        this.setProp("object", "error", true, (item: any) => ErrorResponse.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -17431,13 +17382,6 @@ export class BusinessProcessState extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.state = data["state"];
-            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
-            this.error = data["error"] ? ErrorResponse.fromJS(data["error"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessState {
@@ -17489,13 +17433,6 @@ export class ErrorResponse extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.exception = data["exception"];
-            this.traceId = data["traceId"];
-            this.traceJobId = data["traceJobId"];
-        */
-        }
     }
 
      fromJS(data: any): ErrorResponse {
@@ -17537,7 +17474,7 @@ export class Exception extends DTOBase {
     constructor(data?: IException) {
         super(data);
         this.setProp("object", "message", false);
-        this.setProp("object", "innerException", true, (item: any) => new Exception(item));
+        this.setProp("object", "innerException", true, (item: any) => Exception.fromJS(item));
         this.setProp("object", "stackTrace", false);
         this.setProp("object", "source", false);
 
@@ -17548,14 +17485,6 @@ export class Exception extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.message = data["message"];
-            this.innerException = data["innerException"] ? Exception.fromJS(data["innerException"]) : <any>undefined;
-            this.stackTrace = data["stackTrace"];
-            this.source = data["source"];
-        */
-        }
     }
 
      fromJS(data: any): Exception {
@@ -17608,15 +17537,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.traceLevel = data["traceLevel"];
-            this.traceId = data["traceId"];
-            this.traceJobId = data["traceJobId"];
-            this.httpStatusCode = data["httpStatusCode"];
-            this.exceptionMessage = data["exceptionMessage"];
-        */
-        }
     }
 
      fromJS(data: any): PictureparkException {
@@ -18795,13 +18715,6 @@ export class PictureparkBusinessException extends PictureparkException implement
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-            this.customerAlias = data["customerAlias"];
-            this.userId = data["userId"];
-        */
-        }
     }
 
      fromJS(data: any): PictureparkBusinessException {
@@ -20551,11 +20464,6 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.reference = data["reference"];
-        */
-        }
     }
 
      fromJS(data: any): PictureparkConflictException {
@@ -20704,11 +20612,6 @@ export class UserEmailAlreadyExistsException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.email = data["email"];
-        */
-        }
     }
 
      fromJS(data: any): UserEmailAlreadyExistsException {
@@ -20746,11 +20649,6 @@ export class UserRoleAssignedException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-        */
-        }
     }
 
      fromJS(data: any): UserRoleAssignedException {
@@ -20788,11 +20686,6 @@ export class UserNotFoundException extends PictureparkBusinessException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.missingUserId = data["missingUserId"];
-        */
-        }
     }
 
      fromJS(data: any): UserNotFoundException {
@@ -20962,11 +20855,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.reference = data["reference"];
-        */
-        }
     }
 
      fromJS(data: any): PictureparkNotFoundException {
@@ -21094,15 +20982,6 @@ export class UserRolesNotFoundException extends PictureparkNotFoundException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["userRoleIds"])) {
-                this.userRoleIds = [] as any;
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRolesNotFoundException {
@@ -21245,12 +21124,6 @@ export class ServiceProviderDeleteException extends PictureparkException impleme
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.serviceProviderId = data["serviceProviderId"];
-            this.detailedErrorMessage = data["detailedErrorMessage"];
-        */
-        }
     }
 
      fromJS(data: any): ServiceProviderDeleteException {
@@ -21292,12 +21165,6 @@ export class ServiceProviderCreateException extends PictureparkException impleme
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.externalId = data["externalId"];
-            this.detailErrorMessage = data["detailErrorMessage"];
-        */
-        }
     }
 
      fromJS(data: any): ServiceProviderCreateException {
@@ -21337,11 +21204,6 @@ export class ServiceProviderNotFoundException extends PictureparkException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.missingServiceProviderId = data["missingServiceProviderId"];
-        */
-        }
     }
 
      fromJS(data: any): ServiceProviderNotFoundException {
@@ -21383,13 +21245,6 @@ export class DocumentVersionNotFoundException extends PictureparkNotFoundExcepti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentType = data["documentType"];
-            this.documentId = data["documentId"];
-            this.documentVersion = data["documentVersion"];
-        */
-        }
     }
 
      fromJS(data: any): DocumentVersionNotFoundException {
@@ -21532,12 +21387,6 @@ export class ElasticVersionUpdateException extends PictureparkException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.expectedVersion = data["expectedVersion"];
-            this.actualVersion = data["actualVersion"];
-        */
-        }
     }
 
      fromJS(data: any): ElasticVersionUpdateException {
@@ -21581,13 +21430,6 @@ export class InvalidVersionException extends PictureparkException implements IIn
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.component = data["component"];
-            this.version = data["version"];
-            this.expectedVersion = data["expectedVersion"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidVersionException {
@@ -21695,11 +21537,6 @@ export class EnvironmentDeactivationException extends PictureparkException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.deactivationMessage = data["deactivationMessage"];
-        */
-        }
     }
 
      fromJS(data: any): EnvironmentDeactivationException {
@@ -21737,11 +21574,6 @@ export class ShareNotFoundException extends PictureparkNotFoundException impleme
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.shareId = data["shareId"];
-        */
-        }
     }
 
      fromJS(data: any): ShareNotFoundException {
@@ -21779,11 +21611,6 @@ export class ShareByTokenNotFoundException extends PictureparkNotFoundException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.token = data["token"];
-        */
-        }
     }
 
      fromJS(data: any): ShareByTokenNotFoundException {
@@ -21821,11 +21648,6 @@ export class TokenGenerationException extends PictureparkBusinessException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.retries = data["retries"];
-        */
-        }
     }
 
      fromJS(data: any): TokenGenerationException {
@@ -21863,11 +21685,6 @@ export class ShareExpiredException extends PictureparkBusinessException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.token = data["token"];
-        */
-        }
     }
 
      fromJS(data: any): ShareExpiredException {
@@ -21905,11 +21722,6 @@ export class OutputIdNotFoundException extends PictureparkNotFoundException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.outputId = data["outputId"];
-        */
-        }
     }
 
      fromJS(data: any): OutputIdNotFoundException {
@@ -21949,12 +21761,6 @@ export class OutputNotFoundException extends PictureparkBusinessException implem
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-        */
-        }
     }
 
      fromJS(data: any): OutputNotFoundException {
@@ -22128,12 +21934,6 @@ export class OutputFormatResizingNotSupportedException extends PictureparkValida
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatResizingNotSupportedException {
@@ -22173,11 +21973,6 @@ export class LeaseNotAcquiredException extends PictureparkBusinessException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.resourceId = data["resourceId"];
-        */
-        }
     }
 
      fromJS(data: any): LeaseNotAcquiredException {
@@ -22215,11 +22010,6 @@ export class OperationInProgressException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.leaseResourceType = data["leaseResourceType"];
-        */
-        }
     }
 
      fromJS(data: any): OperationInProgressException {
@@ -22263,12 +22053,6 @@ export class RetryException extends PictureparkBusinessException implements IRet
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.retries = data["retries"];
-            this.innerExceptionDetail = data["innerExceptionDetail"];
-        */
-        }
     }
 
      fromJS(data: any): RetryException {
@@ -22308,15 +22092,6 @@ export class OwnerTokenNotFoundException extends PictureparkNotFoundException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["ownerTokenUserIds"])) {
-                this.ownerTokenUserIds = [] as any;
-                for (let item of data["ownerTokenUserIds"])
-                    this.ownerTokenUserIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): OwnerTokenNotFoundException {
@@ -22360,12 +22135,6 @@ export class InvalidStateException extends PictureparkValidationException implem
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.resourceId = data["resourceId"];
-            this.state = data["state"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidStateException {
@@ -22410,11 +22179,6 @@ export class PictureparkArgumentNullException extends PictureparkValidationExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.argumentName = data["argumentName"];
-        */
-        }
     }
 
      fromJS(data: any): PictureparkArgumentNullException {
@@ -22452,11 +22216,6 @@ export class ObjectTypeMismatchException extends PictureparkBusinessException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.type = data["type"];
-        */
-        }
     }
 
      fromJS(data: any): ObjectTypeMismatchException {
@@ -22494,11 +22253,6 @@ export class InvalidStateTransitionException extends InvalidStateException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transition = data["transition"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidStateTransitionException {
@@ -22536,11 +22290,6 @@ export class FailedToLockException extends PictureparkBusinessException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.resourceId = data["resourceId"];
-        */
-        }
     }
 
      fromJS(data: any): FailedToLockException {
@@ -22644,11 +22393,6 @@ export class MissingCustomerDefaultLanguageException extends PictureparkValidati
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerDefaultLanguage = data["customerDefaultLanguage"];
-        */
-        }
     }
 
      fromJS(data: any): MissingCustomerDefaultLanguageException {
@@ -22754,12 +22498,6 @@ export class InvalidArgumentException extends PictureparkValidationException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.argumentName = data["argumentName"];
-            this.argumentValue = data["argumentValue"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidArgumentException {
@@ -22832,11 +22570,6 @@ export class OwnerTokenInUseException extends PictureparkValidationException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.ownerTokenUserId = data["ownerTokenUserId"];
-        */
-        }
     }
 
      fromJS(data: any): OwnerTokenInUseException {
@@ -22907,11 +22640,6 @@ export class ItemIdDuplicatedException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): ItemIdDuplicatedException {
@@ -22951,12 +22679,6 @@ export class CustomerViolationException extends PictureparkException implements 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.expectedCustomerId = data["expectedCustomerId"];
-            this.currentCustomerId = data["currentCustomerId"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerViolationException {
@@ -22996,11 +22718,6 @@ export class CustomerAliasNotFoundException extends PictureparkException impleme
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerAlias = data["customerAlias"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerAliasNotFoundException {
@@ -23040,12 +22757,6 @@ export class CustomerAliasInUseException extends PictureparkBusinessException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.existingCustomerId = data["existingCustomerId"];
-            this.alias = data["alias"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerAliasInUseException {
@@ -23085,11 +22796,6 @@ export class CustomerNotDeactivatedException extends PictureparkException implem
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerNotDeactivatedException {
@@ -23129,12 +22835,6 @@ export class CustomerDeactivationException extends PictureparkException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-            this.deactivationMessage = data["deactivationMessage"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerDeactivationException {
@@ -23174,11 +22874,6 @@ export class CustomerHostNotFoundException extends PictureparkException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.hostName = data["hostName"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerHostNotFoundException {
@@ -23216,11 +22911,6 @@ export class CustomerNotFoundException extends PictureparkException implements I
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerNotFoundException {
@@ -23258,11 +22948,6 @@ export class CustomerNotActiveException extends PictureparkException implements 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerNotActiveException {
@@ -23333,11 +23018,6 @@ export class ConfigurationIndexNotFoundException extends PictureparkException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.configurationIndex = data["configurationIndex"];
-        */
-        }
     }
 
      fromJS(data: any): ConfigurationIndexNotFoundException {
@@ -23375,11 +23055,6 @@ export class DuplicateSearchIndexDocException extends PictureparkBusinessExcepti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchIndexDocId = data["searchIndexDocId"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateSearchIndexDocException {
@@ -23417,11 +23092,6 @@ export class SearchIndexDocNotFoundException extends PictureparkBusinessExceptio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchIndexDocId = data["searchIndexDocId"];
-        */
-        }
     }
 
      fromJS(data: any): SearchIndexDocNotFoundException {
@@ -23459,11 +23129,6 @@ export class IndexDocumentNotFoundException extends PictureparkBusinessException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.indexId = data["indexId"];
-        */
-        }
     }
 
      fromJS(data: any): IndexDocumentNotFoundException {
@@ -23501,11 +23166,6 @@ export class DuplicateAliasException extends PictureparkException implements IDu
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.indexAlias = data["indexAlias"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateAliasException {
@@ -23543,11 +23203,6 @@ export class SearchIndexNotFoundException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchIndexId = data["searchIndexId"];
-        */
-        }
     }
 
      fromJS(data: any): SearchIndexNotFoundException {
@@ -23618,11 +23273,6 @@ export class SearchIndexInUseException extends PictureparkBusinessException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchIndex = data["searchIndex"];
-        */
-        }
     }
 
      fromJS(data: any): SearchIndexInUseException {
@@ -23662,12 +23312,6 @@ export class IndexException extends PictureparkBusinessException implements IInd
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.indexName = data["indexName"];
-            this.debugInformation = data["debugInformation"];
-        */
-        }
     }
 
      fromJS(data: any): IndexException {
@@ -23709,12 +23353,6 @@ export class IndexMappingException extends PictureparkBusinessException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.indexName = data["indexName"];
-            this.debugInformation = data["debugInformation"];
-        */
-        }
     }
 
      fromJS(data: any): IndexMappingException {
@@ -23754,11 +23392,6 @@ export class DuplicatedSearchBehaviorException extends PictureparkValidationExce
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.duplicatedSearchBehaviors = data["duplicatedSearchBehaviors"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicatedSearchBehaviorException {
@@ -23829,11 +23462,6 @@ export class DuplicateAggregatorException extends PictureparkValidationException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.aggregatorName = data["aggregatorName"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateAggregatorException {
@@ -23873,12 +23501,6 @@ export class InvalidDateTimeFormatException extends PictureparkValidationExcepti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.value = data["value"];
-            this.expectedFormat = data["expectedFormat"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidDateTimeFormatException {
@@ -23918,11 +23540,6 @@ export class InvalidSortFieldException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldName = data["fieldName"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidSortFieldException {
@@ -23964,13 +23581,6 @@ export class DocumentVersionConflictException extends PictureparkConflictExcepti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentId = data["documentId"];
-            this.documentType = data["documentType"];
-            this.documentVersion = data["documentVersion"];
-        */
-        }
     }
 
      fromJS(data: any): DocumentVersionConflictException {
@@ -24020,15 +23630,6 @@ export class RedisDatabaseExceededException extends PictureparkException impleme
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-            this.customerCount = data["customerCount"];
-            this.maxCount = data["maxCount"];
-            this.startIndex = data["startIndex"];
-            this.redisDatabaseCount = data["redisDatabaseCount"];
-        */
-        }
     }
 
      fromJS(data: any): RedisDatabaseExceededException {
@@ -24076,12 +23677,6 @@ export class DuplicateDocumentException extends PictureparkValidationException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentId = data["documentId"];
-            this.documentType = data["documentType"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateDocumentException {
@@ -24123,12 +23718,6 @@ export class ObjectStoreResponseException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.rowErrorMessages = data["rowErrorMessages"];
-            this.message = data["message"];
-        */
-        }
     }
 
      fromJS(data: any): ObjectStoreResponseException {
@@ -24170,12 +23759,6 @@ export class ObjectStoreException extends PictureparkBusinessException implement
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.rowErrorMessages = data["rowErrorMessages"];
-            this.errorMessage = data["errorMessage"];
-        */
-        }
     }
 
      fromJS(data: any): ObjectStoreException {
@@ -24210,7 +23793,7 @@ export class QueryException extends PictureparkBusinessException implements IQue
     constructor(data?: IQueryException) {
         super(data);
         this.setProp("object", "debugInformation", false);
-        this.setProp("object", "serverError", true, (item: any) => new StorageServerError(item));
+        this.setProp("object", "serverError", true, (item: any) => StorageServerError.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -24220,12 +23803,6 @@ export class QueryException extends PictureparkBusinessException implements IQue
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.debugInformation = data["debugInformation"];
-            this.serverError = data["serverError"] ? StorageServerError.fromJS(data["serverError"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): QueryException {
@@ -24259,7 +23836,7 @@ export class StorageServerError extends DTOBase {
 
     constructor(data?: IStorageServerError) {
         super(data);
-        this.setProp("object", "error", true, (item: any) => new StorageError(item));
+        this.setProp("object", "error", true, (item: any) => StorageError.fromJS(item));
         this.setProp("object", "status", false);
 
         if (data) {
@@ -24269,12 +23846,6 @@ export class StorageServerError extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.error = data["error"] ? StorageError.fromJS(data["error"]) : <any>undefined;
-            this.status = data["status"];
-        */
-        }
     }
 
      fromJS(data: any): StorageServerError {
@@ -24317,8 +23888,8 @@ export class StorageError extends DTOBase {
         this.setProp("object", "resourceId", false);
         this.setProp("object", "resourceType", false);
         this.setProp("object", "type", false);
-        this.setProp("array", "rootCause", true, (item: any) => new StorageRootCause(item));
-        this.setProp("object", "causedBy", true, (item: any) => new StorageCausedBy(item));
+        this.setProp("array", "rootCause", true, (item: any) => StorageRootCause.fromJS(item));
+        this.setProp("object", "causedBy", true, (item: any) => StorageCausedBy.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -24327,21 +23898,6 @@ export class StorageError extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.index = data["index"];
-            this.reason = data["reason"];
-            this.resourceId = data["resourceId"];
-            this.resourceType = data["resourceType"];
-            this.type = data["type"];
-            if (Array.isArray(data["rootCause"])) {
-                this.rootCause = [] as any;
-                for (let item of data["rootCause"])
-                    this.rootCause!.push(StorageRootCause.fromJS(item));
-            }
-            this.causedBy = data["causedBy"] ? StorageCausedBy.fromJS(data["causedBy"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): StorageError {
@@ -24401,15 +23957,6 @@ export class StorageRootCause extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.index = data["index"];
-            this.reason = data["reason"];
-            this.resourceId = data["resourceId"];
-            this.resourceType = data["resourceType"];
-            this.type = data["type"];
-        */
-        }
     }
 
      fromJS(data: any): StorageRootCause {
@@ -24451,7 +23998,7 @@ export class StorageCausedBy extends DTOBase {
         super(data);
         this.setProp("object", "reason", false);
         this.setProp("object", "type", false);
-        this.setProp("object", "innerCausedBy", true, (item: any) => new StorageCausedBy(item));
+        this.setProp("object", "innerCausedBy", true, (item: any) => StorageCausedBy.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -24460,13 +24007,6 @@ export class StorageCausedBy extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.reason = data["reason"];
-            this.type = data["type"];
-            this.innerCausedBy = data["innerCausedBy"] ? StorageCausedBy.fromJS(data["innerCausedBy"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): StorageCausedBy {
@@ -24509,12 +24049,6 @@ export class PermissionOwnershipTransferException extends PictureparkValidationE
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferUserId = data["transferUserId"];
-            this.missingUserRight = data["missingUserRight"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionOwnershipTransferException {
@@ -24576,15 +24110,6 @@ export class PermissionSetNotFoundException extends PictureparkNotFoundException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["permissionSetIds"])) {
-                this.permissionSetIds = [] as any;
-                for (let item of data["permissionSetIds"])
-                    this.permissionSetIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetNotFoundException {
@@ -24619,22 +24144,13 @@ export class PermissionSetAggregateException extends PictureparkValidationExcept
 
     constructor(data?: IPermissionSetAggregateException) {
         super(data);
-        this.setProp("array", "exceptions", false);
+        this.setProp("array", "exceptions", true, (item: any) => PictureparkException.fromJS(item));
 
         this._kind = "PermissionSetAggregateException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["exceptions"])) {
-                this.exceptions = [] as any;
-                for (let item of data["exceptions"])
-                    this.exceptions!.push(PictureparkException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetAggregateException {
@@ -24676,11 +24192,6 @@ export class DuplicateRightException extends PictureparkValidationException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.permissionSetId = data["permissionSetId"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateRightException {
@@ -24720,12 +24231,6 @@ export class PermissionValidationException extends PictureparkValidationExceptio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.permission = data["permission"];
-            this.operation = data["operation"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionValidationException {
@@ -24767,12 +24272,6 @@ export class PermissionSetInUseException extends PictureparkValidationException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.reference = data["reference"];
-            this.referenceCount = data["referenceCount"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetInUseException {
@@ -24814,16 +24313,6 @@ export class ContentPermissionException extends PictureparkValidationException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            if (Array.isArray(data["contentRights"])) {
-                this.contentRights = [] as any;
-                for (let item of data["contentRights"])
-                    this.contentRights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentPermissionException {
@@ -24879,12 +24368,6 @@ export class ListItemPermissionException extends PictureparkValidationException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.listItemId = data["listItemId"];
-            this.metadataRight = data["metadataRight"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemPermissionException {
@@ -24933,12 +24416,6 @@ export class SchemaPermissionException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.metadataRight = data["metadataRight"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaPermissionException {
@@ -25089,11 +24566,6 @@ export class UnsupportedListItemChangeCommandException extends PictureparkValida
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.commandType = data["commandType"];
-        */
-        }
     }
 
      fromJS(data: any): UnsupportedListItemChangeCommandException {
@@ -25131,11 +24603,6 @@ export class ListItemLayerException extends PictureparkValidationException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.listItemId = data["listItemId"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemLayerException {
@@ -25173,15 +24640,6 @@ export class ListItemNotFoundException extends PictureparkNotFoundException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["listItemIds"])) {
-                this.listItemIds = [] as any;
-                for (let item of data["listItemIds"])
-                    this.listItemIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ListItemNotFoundException {
@@ -25223,15 +24681,6 @@ export class ListItemCyclicDependencyException extends PictureparkBusinessExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["listItemIds"])) {
-                this.listItemIds = [] as any;
-                for (let item of data["listItemIds"])
-                    this.listItemIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ListItemCyclicDependencyException {
@@ -25273,11 +24722,6 @@ export class DeleteListItemsWithReferencesException extends PictureparkValidatio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.numberOfReferences = data["numberOfReferences"];
-        */
-        }
     }
 
      fromJS(data: any): DeleteListItemsWithReferencesException {
@@ -25317,12 +24761,6 @@ export class ListItemUpdateManyException extends PictureparkBusinessException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.failedItemsCount = data["failedItemsCount"];
-            this.totalItemsCount = data["totalItemsCount"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemUpdateManyException {
@@ -25366,13 +24804,6 @@ export class ListItemSchemaMismatchException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.listItemId = data["listItemId"];
-            this.listItemSchemaId = data["listItemSchemaId"];
-            this.fieldSchemaId = data["fieldSchemaId"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemSchemaMismatchException {
@@ -25414,11 +24845,6 @@ export class TransferInfoNotFoundException extends PictureparkNotFoundException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferInfoId = data["transferInfoId"];
-        */
-        }
     }
 
      fromJS(data: any): TransferInfoNotFoundException {
@@ -25456,11 +24882,6 @@ export class FileTransferNotFoundException extends PictureparkNotFoundException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileTransferId = data["fileTransferId"];
-        */
-        }
     }
 
      fromJS(data: any): FileTransferNotFoundException {
@@ -25498,11 +24919,6 @@ export class InvalidTransferTypeException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferType = data["transferType"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidTransferTypeException {
@@ -25548,11 +24964,6 @@ export class TransferNotFoundException extends PictureparkNotFoundException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferId = data["transferId"];
-        */
-        }
     }
 
      fromJS(data: any): TransferNotFoundException {
@@ -25592,12 +25003,6 @@ export class WrongChunkSizeException extends PictureparkValidationException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.actual = data["actual"];
-            this.expected = data["expected"];
-        */
-        }
     }
 
      fromJS(data: any): WrongChunkSizeException {
@@ -25641,13 +25046,6 @@ export class ChunkSizeOutOfRangeException extends PictureparkValidationException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.actual = data["actual"];
-            this.minimum = data["minimum"];
-            this.maximum = data["maximum"];
-        */
-        }
     }
 
      fromJS(data: any): ChunkSizeOutOfRangeException {
@@ -25693,13 +25091,6 @@ export class MaximumTransferSizeException extends PictureparkException implement
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferSize = data["transferSize"];
-            this.maximumTransferSize = data["maximumTransferSize"];
-            this.transferId = data["transferId"];
-        */
-        }
     }
 
      fromJS(data: any): MaximumTransferSizeException {
@@ -25741,11 +25132,6 @@ export class MissingDependenciesException extends PictureparkValidationException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.itemIds = data["itemIds"];
-        */
-        }
     }
 
      fromJS(data: any): MissingDependenciesException {
@@ -25785,12 +25171,6 @@ export class RelationSelfReferencingException extends PictureparkValidationExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.itemId = data["itemId"];
-            this.itemType = data["itemType"];
-        */
-        }
     }
 
      fromJS(data: any): RelationSelfReferencingException {
@@ -25838,15 +25218,6 @@ export class InvalidChangeCommandFieldTypeInvalidException extends PictureparkVa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.commandType = data["commandType"];
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-            this.fieldActualType = data["fieldActualType"];
-            this.fieldExpectedType = data["fieldExpectedType"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidChangeCommandFieldTypeInvalidException {
@@ -25896,13 +25267,6 @@ export class InvalidChangeCommandFieldNotFoundException extends PictureparkValid
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.commandTypeName = data["commandTypeName"];
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidChangeCommandFieldNotFoundException {
@@ -25946,12 +25310,6 @@ export class InvalidChangeCommandSchemaChangeInvalidException extends Picturepar
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.commandTypeName = data["commandTypeName"];
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): InvalidChangeCommandSchemaChangeInvalidException {
@@ -25985,8 +25343,8 @@ export class InvalidMetadataException extends PictureparkValidationException imp
 
     constructor(data?: IInvalidMetadataException) {
         super(data);
-        this.setProp("array", "metadataErrors", true, (item: any) => new MetadataError(item));
-        this.setProp("array", "validationErrors", false);
+        this.setProp("array", "metadataErrors", true, (item: any) => MetadataError.fromJS(item));
+        this.setProp("array", "validationErrors", true, (item: any) => PictureparkBusinessException.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -25996,20 +25354,6 @@ export class InvalidMetadataException extends PictureparkValidationException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["metadataErrors"])) {
-                this.metadataErrors = [] as any;
-                for (let item of data["metadataErrors"])
-                    this.metadataErrors!.push(MetadataError.fromJS(item));
-            }
-            if (Array.isArray(data["validationErrors"])) {
-                this.validationErrors = [] as any;
-                for (let item of data["validationErrors"])
-                    this.validationErrors!.push(PictureparkBusinessException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): InvalidMetadataException {
@@ -26066,16 +25410,6 @@ export class MetadataError extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.errorType = data["errorType"];
-            this.lineNumber = data["lineNumber"];
-            this.linePosition = data["linePosition"];
-            this.path = data["path"];
-            this.message = data["message"];
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataError {
@@ -26122,11 +25456,6 @@ export class RelationNotFoundException extends PictureparkBusinessException impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.relationId = data["relationId"];
-        */
-        }
     }
 
      fromJS(data: any): RelationNotFoundException {
@@ -26164,11 +25493,6 @@ export class RelationTypeNotFoundException extends PictureparkBusinessException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.relationType = data["relationType"];
-        */
-        }
     }
 
      fromJS(data: any): RelationTypeNotFoundException {
@@ -26210,13 +25534,6 @@ export class RelationTypeTargetDocTypeMismatchException extends PictureparkBusin
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.relationType = data["relationType"];
-            this.targetDocType = data["targetDocType"];
-            this.expectedTargetDocType = data["expectedTargetDocType"];
-        */
-        }
     }
 
      fromJS(data: any): RelationTypeTargetDocTypeMismatchException {
@@ -26260,12 +25577,6 @@ export class AggregationNameInvalidException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.aggregationName = data["aggregationName"];
-            this.aggregationPrefix = data["aggregationPrefix"];
-        */
-        }
     }
 
      fromJS(data: any): AggregationNameInvalidException {
@@ -26310,12 +25621,6 @@ export class AggregationSizeInvalidException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.aggregationName = data["aggregationName"];
-            this.aggregationSize = data["aggregationSize"];
-        */
-        }
     }
 
      fromJS(data: any): AggregationSizeInvalidException {
@@ -26362,17 +25667,6 @@ export class AggregationFilterNotSupportedException extends PictureparkValidatio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.aggregationName = data["aggregationName"];
-            this.notSupportedFilterType = data["notSupportedFilterType"];
-            if (Array.isArray(data["supportedFilterTypes"])) {
-                this.supportedFilterTypes = [] as any;
-                for (let item of data["supportedFilterTypes"])
-                    this.supportedFilterTypes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): AggregationFilterNotSupportedException {
@@ -26444,22 +25738,13 @@ export class ReferencesUpdateException extends PictureparkBusinessException impl
 
     constructor(data?: IReferencesUpdateException) {
         super(data);
-        this.setProp("array", "exceptions", false);
+        this.setProp("array", "exceptions", true, (item: any) => ReferenceUpdateException.fromJS(item));
 
         this._kind = "ReferencesUpdateException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["exceptions"])) {
-                this.exceptions = [] as any;
-                for (let item of data["exceptions"])
-                    this.exceptions!.push(ReferenceUpdateException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ReferencesUpdateException {
@@ -26501,24 +25786,13 @@ export class ReferenceUpdateException extends PictureparkBusinessException imple
         super(data);
         this.setProp("object", "referenceItemId", false);
         this.setProp("object", "referenceType", false);
-        this.setProp("array", "exceptions", false);
+        this.setProp("array", "exceptions", true, (item: any) => PictureparkException.fromJS(item));
 
         this._kind = "ReferenceUpdateException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.referenceItemId = data["referenceItemId"];
-            this.referenceType = data["referenceType"];
-            if (Array.isArray(data["exceptions"])) {
-                this.exceptions = [] as any;
-                for (let item of data["exceptions"])
-                    this.exceptions!.push(PictureparkException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ReferenceUpdateException {
@@ -26569,12 +25843,6 @@ export class DuplicatedItemAssignedException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.itemId = data["itemId"];
-            this.itemPath = data["itemPath"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicatedItemAssignedException {
@@ -26620,14 +25888,6 @@ export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValida
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.fieldOverwriteType = data["fieldOverwriteType"];
-            this.fieldType = data["fieldType"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldOverwriteTypeMismatchException {
@@ -26673,12 +25933,6 @@ export class SchemaFieldOverwriteIdException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldOverwriteIdException {
@@ -26720,12 +25974,6 @@ export class SchemaFieldIdDuplicatedException extends PictureparkValidationExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldIdDuplicatedException {
@@ -26769,13 +26017,6 @@ export class SchemaFieldIdPreviouslyUsedException extends PictureparkValidationE
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.usedInSchemaId = data["usedInSchemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldIdPreviouslyUsedException {
@@ -26821,13 +26062,6 @@ export class SchemaFieldIdAlreadyExistsInSchemaHierarchyException extends Pictur
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.existingInSchemaId = data["existingInSchemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldIdAlreadyExistsInSchemaHierarchyException {
@@ -26875,14 +26109,6 @@ export class SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends Pict
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.relatedFieldId = data["relatedFieldId"];
-            this.relatedOuterFieldId = data["relatedOuterFieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldSchemaIndexInfoSimpleSearchNestingException {
@@ -26932,14 +26158,6 @@ export class SchemaFieldSchemaIndexInfoNestingException extends PictureparkValid
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.relatedFieldId = data["relatedFieldId"];
-            this.relatedOuterFieldId = data["relatedOuterFieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldSchemaIndexInfoNestingException {
@@ -26985,12 +26203,6 @@ export class SchemaFieldIdUppercaseException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldIdUppercaseException {
@@ -27030,11 +26242,6 @@ export class SchemaIdLowercaseException extends PictureparkValidationException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaIdLowercaseException {
@@ -27072,11 +26279,6 @@ export class SchemaInfoNotFoundException extends PictureparkNotFoundException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaInfoNotFoundException {
@@ -27118,17 +26320,6 @@ export class IndexedFieldThresholdExceededException extends PictureparkValidatio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.indexedFieldCount = data["indexedFieldCount"];
-            this.indexedFieldThreshold = data["indexedFieldThreshold"];
-        */
-        }
     }
 
      fromJS(data: any): IndexedFieldThresholdExceededException {
@@ -27178,17 +26369,6 @@ export class SortableFieldThresholdExceededException extends PictureparkValidati
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.sortableFieldCount = data["sortableFieldCount"];
-            this.sortableFieldThreshold = data["sortableFieldThreshold"];
-        */
-        }
     }
 
      fromJS(data: any): SortableFieldThresholdExceededException {
@@ -27234,11 +26414,6 @@ export class DuplicateSchemaInfoException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateSchemaInfoException {
@@ -27282,14 +26457,6 @@ export class SchemaFieldNumberRangeException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.propertyName = data["propertyName"];
-            this.minValue = data["minValue"];
-            this.maxValue = data["maxValue"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldNumberRangeException {
@@ -27335,16 +26502,6 @@ export class SchemaInUseContentSchemaException extends PictureparkValidationExce
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["contentSchemaIds"])) {
-                this.contentSchemaIds = [] as any;
-                for (let item of data["contentSchemaIds"])
-                    this.contentSchemaIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaInUseContentSchemaException {
@@ -27390,12 +26547,6 @@ export class SchemaInUseListItemException extends PictureparkValidationException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.listItemCount = data["listItemCount"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaInUseListItemException {
@@ -27437,12 +26588,6 @@ export class SchemaInUseContentException extends PictureparkValidationException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.contentCount = data["contentCount"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaInUseContentException {
@@ -27484,16 +26629,6 @@ export class SchemaInUseFieldException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["fieldNamespaces"])) {
-                this.fieldNamespaces = [] as any;
-                for (let item of data["fieldNamespaces"])
-                    this.fieldNamespaces!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaInUseFieldException {
@@ -27539,12 +26674,6 @@ export class DuplicateMetadataDisplayPatternException extends PictureparkValidat
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.displayPatternId = data["displayPatternId"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateMetadataDisplayPatternException {
@@ -27584,11 +26713,6 @@ export class DuplicateSchemaException extends PictureparkValidationException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): DuplicateSchemaException {
@@ -27661,12 +26785,6 @@ export class SchemaImportVersionMismatchException extends PictureparkValidationE
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.providedVersion = data["providedVersion"];
-            this.expectedVersion = data["expectedVersion"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaImportVersionMismatchException {
@@ -27706,11 +26824,6 @@ export class SchemaInheritanceFieldIndexDeviationException extends PictureparkVa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaInheritanceFieldIndexDeviationException {
@@ -27748,11 +26861,6 @@ export class SchemaInheritanceTypeDeviationException extends PictureparkValidati
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaInheritanceTypeDeviationException {
@@ -27785,23 +26893,13 @@ export class SchemaValidationException extends PictureparkValidationException im
     constructor(data?: ISchemaValidationException) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("array", "exceptions", false);
+        this.setProp("array", "exceptions", true, (item: any) => PictureparkBusinessException.fromJS(item));
 
         this._kind = "SchemaValidationException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["exceptions"])) {
-                this.exceptions = [] as any;
-                for (let item of data["exceptions"])
-                    this.exceptions!.push(PictureparkBusinessException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaValidationException {
@@ -27847,12 +26945,6 @@ export class SchemaSortFieldException extends PictureparkValidationException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaSortFieldException {
@@ -27894,12 +26986,6 @@ export class SchemaFieldIdException extends PictureparkValidationException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldIdException {
@@ -27945,14 +27031,6 @@ export class SchemaFieldTypeChangeException extends PictureparkValidationExcepti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.oldTypeName = data["oldTypeName"];
-            this.newTypeName = data["newTypeName"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldTypeChangeException {
@@ -27998,12 +27076,6 @@ export class SchemaFieldIndexException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldIndexException {
@@ -28045,12 +27117,6 @@ export class SchemaFieldNotSortableException extends PictureparkValidationExcept
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldNotSortableException {
@@ -28092,12 +27158,6 @@ export class SchemaFieldNotSearchableException extends PictureparkValidationExce
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldNotSearchableException {
@@ -28143,18 +27203,6 @@ export class SchemaFieldInvalidBoostException extends PictureparkValidationExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-            this.boost = data["boost"];
-            if (Array.isArray(data["allowedBoostValues"])) {
-                this.allowedBoostValues = [] as any;
-                for (let item of data["allowedBoostValues"])
-                    this.allowedBoostValues!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldInvalidBoostException {
@@ -28202,11 +27250,6 @@ export class SchemaNoContentException extends PictureparkValidationException imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaNoContentException {
@@ -28248,13 +27291,6 @@ export class SchemaParentChangeException extends PictureparkValidationException 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.oldSchemaParentId = data["oldSchemaParentId"];
-            this.newSchemaParentId = data["newSchemaParentId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaParentChangeException {
@@ -28298,16 +27334,6 @@ export class SchemaMissingTypeException extends PictureparkValidationException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["expectedSchemaTypes"])) {
-                this.expectedSchemaTypes = [] as any;
-                for (let item of data["expectedSchemaTypes"])
-                    this.expectedSchemaTypes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaMissingTypeException {
@@ -28359,11 +27385,6 @@ export class SchemaPermissionConfigurationException extends PictureparkValidatio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaPermissionConfigurationException {
@@ -28401,11 +27422,6 @@ export class SchemaNoLayerException extends PictureparkValidationException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaNoLayerException {
@@ -28443,11 +27459,6 @@ export class SchemaIdException extends PictureparkValidationException implements
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaIdException {
@@ -28480,23 +27491,13 @@ export class SchemaInUseException extends PictureparkValidationException impleme
     constructor(data?: ISchemaInUseException) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("array", "exceptions", false);
+        this.setProp("array", "exceptions", true, (item: any) => PictureparkBusinessException.fromJS(item));
 
         this._kind = "SchemaInUseException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["exceptions"])) {
-                this.exceptions = [] as any;
-                for (let item of data["exceptions"])
-                    this.exceptions!.push(PictureparkBusinessException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaInUseException {
@@ -28540,11 +27541,6 @@ export class SchemaNotFoundException extends PictureparkNotFoundException implem
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaNotFoundException {
@@ -28582,11 +27578,6 @@ export class SystemSchemaInvalidModificationException extends PictureparkValidat
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SystemSchemaInvalidModificationException {
@@ -28628,13 +27619,6 @@ export class SchemaFieldRelationSchemaSystemSchemaException extends PictureparkV
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.relationSchemaId = data["relationSchemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldRelationSchemaSystemSchemaException {
@@ -28680,13 +27664,6 @@ export class SchemaFieldRelationSchemaTypeUnsupportedException extends Picturepa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.relationSchemaId = data["relationSchemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldRelationSchemaTypeUnsupportedException {
@@ -28730,16 +27707,6 @@ export class SchemaMultipleTypesException extends PictureparkValidationException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["schemaTypes"])) {
-                this.schemaTypes = [] as any;
-                for (let item of data["schemaTypes"])
-                    this.schemaTypes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaMultipleTypesException {
@@ -28785,16 +27752,6 @@ export class MissingDisplayPatternForCustomerDefaultLanguageException extends Pi
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["missingTypes"])) {
-                this.missingTypes = [] as any;
-                for (let item of data["missingTypes"])
-                    this.missingTypes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): MissingDisplayPatternForCustomerDefaultLanguageException {
@@ -28846,11 +27803,6 @@ export class SchemaViewForAllException extends PictureparkValidationException im
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaViewForAllException {
@@ -28888,11 +27840,6 @@ export class SystemLayerReferenceInvalidModificationException extends Picturepar
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SystemLayerReferenceInvalidModificationException {
@@ -28936,22 +27883,6 @@ export class SchemaFieldAnalyzerInvalidException extends PictureparkValidationEx
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-            if (Array.isArray(data["analyzers"])) {
-                this.analyzers = [] as any;
-                for (let item of data["analyzers"])
-                    this.analyzers!.push(item);
-            }
-            if (Array.isArray(data["allowedAnalyzers"])) {
-                this.allowedAnalyzers = [] as any;
-                for (let item of data["allowedAnalyzers"])
-                    this.allowedAnalyzers!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldAnalyzerInvalidException {
@@ -29014,12 +27945,6 @@ export class SchemaFieldRelationMultipleTypesException extends PictureparkValida
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldRelationMultipleTypesException {
@@ -29061,12 +27986,6 @@ export class DeleteContentsWithReferencesException extends PictureparkValidation
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.numberOfReferences = data["numberOfReferences"];
-            this.numberOfShares = data["numberOfShares"];
-        */
-        }
     }
 
      fromJS(data: any): DeleteContentsWithReferencesException {
@@ -29108,12 +28027,6 @@ export class ContentMetadataUpdateManyException extends PictureparkBusinessExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.failedItemsCount = data["failedItemsCount"];
-            this.totalItemsCount = data["totalItemsCount"];
-        */
-        }
     }
 
      fromJS(data: any): ContentMetadataUpdateManyException {
@@ -29153,15 +28066,6 @@ export class ContentNotFoundException extends PictureparkNotFoundException imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentNotFoundException {
@@ -29205,12 +28109,6 @@ export class ContentLayerInvalidException extends PictureparkValidationException
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.layerIds = data["layerIds"];
-        */
-        }
     }
 
      fromJS(data: any): ContentLayerInvalidException {
@@ -29254,13 +28152,6 @@ export class ContentFileReplaceTypeMismatchException extends PictureparkValidati
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.originalContentType = data["originalContentType"];
-            this.newContentType = data["newContentType"];
-        */
-        }
     }
 
      fromJS(data: any): ContentFileReplaceTypeMismatchException {
@@ -29331,13 +28222,6 @@ export class ContentBackupFailedException extends PictureparkBusinessException i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-            this.outputId = data["outputId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentBackupFailedException {
@@ -29374,7 +28258,7 @@ export class ContentLayerSameRootException extends PictureparkValidationExceptio
     constructor(data?: IContentLayerSameRootException) {
         super(data);
         this.setProp("object", "contentId", false);
-        this.setProp("array", "layerIdsByRootSchema", true, (item: any) => new LayerIdsByRootSchema(item));
+        this.setProp("array", "layerIdsByRootSchema", true, (item: any) => LayerIdsByRootSchema.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -29384,16 +28268,6 @@ export class ContentLayerSameRootException extends PictureparkValidationExceptio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            if (Array.isArray(data["layerIdsByRootSchema"])) {
-                this.layerIdsByRootSchema = [] as any;
-                for (let item of data["layerIdsByRootSchema"])
-                    this.layerIdsByRootSchema!.push(LayerIdsByRootSchema.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentLayerSameRootException {
@@ -29438,16 +28312,6 @@ export class LayerIdsByRootSchema extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.rootSchemaId = data["rootSchemaId"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): LayerIdsByRootSchema {
@@ -29492,12 +28356,6 @@ export class BusinessProcessEngineRequestException extends PictureparkBusinessEx
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.businessProcessId = data["businessProcessId"];
-            this.engineError = data["engineError"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessEngineRequestException {
@@ -29537,11 +28395,6 @@ export class BusinessProcessNotFoundException extends PictureparkNotFoundExcepti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.businessProcessId = data["businessProcessId"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessNotFoundException {
@@ -29579,11 +28432,6 @@ export class BusinessProcessDefinitionNotFoundException extends PictureparkNotFo
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.processDefinitionId = data["processDefinitionId"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDefinitionNotFoundException {
@@ -29621,15 +28469,6 @@ export class BusinessProcessDefinitionCreateException extends PictureparkBusines
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["processDefinitionIds"])) {
-                this.processDefinitionIds = [] as any;
-                for (let item of data["processDefinitionIds"])
-                    this.processDefinitionIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDefinitionCreateException {
@@ -29675,13 +28514,6 @@ export class SchemaFieldImportMismatchException extends PictureparkValidationExc
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.importingFieldIds = data["importingFieldIds"];
-            this.existingFieldIds = data["existingFieldIds"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldImportMismatchException {
@@ -29729,14 +28561,6 @@ export class SchemaFieldImportRelatedSchemaMismatchException extends Picturepark
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.importingRelatedSchemaId = data["importingRelatedSchemaId"];
-            this.existingRelatedSchemaId = data["existingRelatedSchemaId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldImportRelatedSchemaMismatchException {
@@ -29786,14 +28610,6 @@ export class SchemaFieldImportTypeMismatchException extends PictureparkValidatio
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.fieldId = data["fieldId"];
-            this.importingFieldType = data["importingFieldType"];
-            this.existingFieldType = data["existingFieldType"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldImportTypeMismatchException {
@@ -29841,13 +28657,6 @@ export class SchemaFieldNotSupportedException extends PictureparkValidationExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.schemaId = data["schemaId"];
-            this.fieldType = data["fieldType"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldNotSupportedException {
@@ -29893,17 +28702,6 @@ export class SchemaFieldDisplayPatternTypeNotSupportedException extends Picturep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldId = data["fieldId"];
-            this.displayPatternType = data["displayPatternType"];
-            if (Array.isArray(data["supportedDisplayPatternTypes"])) {
-                this.supportedDisplayPatternTypes = [] as any;
-                for (let item of data["supportedDisplayPatternTypes"])
-                    this.supportedDisplayPatternTypes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaFieldDisplayPatternTypeNotSupportedException {
@@ -30048,11 +28846,6 @@ export class AddMetadataLanguageTimeoutException extends PictureparkTimeoutExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.environmentProcessId = data["environmentProcessId"];
-        */
-        }
     }
 
      fromJS(data: any): AddMetadataLanguageTimeoutException {
@@ -30090,11 +28883,6 @@ export class EnvironmentProcessAlreadyRunningException extends PictureparkValida
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.environmentProcessType = data["environmentProcessType"];
-        */
-        }
     }
 
      fromJS(data: any): EnvironmentProcessAlreadyRunningException {
@@ -30139,11 +28927,6 @@ export class EnvironmentProcessNotFoundException extends PictureparkNotFoundExce
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.environmentProcessId = data["environmentProcessId"];
-        */
-        }
     }
 
      fromJS(data: any): EnvironmentProcessNotFoundException {
@@ -30183,12 +28966,6 @@ export class EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutEx
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.environmentProcessId = data["environmentProcessId"];
-            this.waitedLifecycles = data["waitedLifecycles"];
-        */
-        }
     }
 
      fromJS(data: any): EnvironmentProcessWaitTimeoutException {
@@ -30228,11 +29005,6 @@ export class CustomerBoostValuesUpdateTimeoutException extends PictureparkTimeou
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.environmentProcessId = data["environmentProcessId"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerBoostValuesUpdateTimeoutException {
@@ -30373,17 +29145,6 @@ export class BusinessProcessStateNotHitException extends PictureparkTimeoutExcep
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.businessProcessId = data["businessProcessId"];
-            if (Array.isArray(data["expected"])) {
-                this.expected = [] as any;
-                for (let item of data["expected"])
-                    this.expected!.push(item);
-            }
-            this.actual = data["actual"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessStateNotHitException {
@@ -30433,17 +29194,6 @@ export class BusinessProcessLifeCycleNotHitException extends PictureparkTimeoutE
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.businessProcessId = data["businessProcessId"];
-            if (Array.isArray(data["expected"])) {
-                this.expected = [] as any;
-                for (let item of data["expected"])
-                    this.expected!.push(item);
-            }
-            this.actual = data["actual"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessLifeCycleNotHitException {
@@ -30555,11 +29305,6 @@ export class CustomerNotAvailableException extends PictureparkException implemen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerNotAvailableException {
@@ -30630,15 +29375,6 @@ export class BusinessRuleActionInvalidDocumentTypeException extends PictureparkV
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["allowedDocumentTypes"])) {
-                this.allowedDocumentTypes = [] as any;
-                for (let item of data["allowedDocumentTypes"])
-                    this.allowedDocumentTypes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleActionInvalidDocumentTypeException {
@@ -30684,15 +29420,6 @@ export class BusinessRuleActionInvalidExecutionScopeException extends Picturepar
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["allowedScopes"])) {
-                this.allowedScopes = [] as any;
-                for (let item of data["allowedScopes"])
-                    this.allowedScopes!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleActionInvalidExecutionScopeException {
@@ -30831,22 +29558,13 @@ export class BusinessRuleConfigurationValidationException extends PictureparkVal
 
     constructor(data?: IBusinessRuleConfigurationValidationException) {
         super(data);
-        this.setProp("array", "innerExceptions", false);
+        this.setProp("array", "innerExceptions", true, (item: any) => PictureparkValidationException.fromJS(item));
 
         this._kind = "BusinessRuleConfigurationValidationException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["innerExceptions"])) {
-                this.innerExceptions = [] as any;
-                for (let item of data["innerExceptions"])
-                    this.innerExceptions!.push(PictureparkValidationException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleConfigurationValidationException {
@@ -30888,11 +29606,6 @@ export class BusinessRuleLayerIdInvalidException extends PictureparkValidationEx
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.layerId = data["layerId"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleLayerIdInvalidException {
@@ -31024,23 +29737,13 @@ export class BusinessRuleValidationException extends PictureparkValidationExcept
     constructor(data?: IBusinessRuleValidationException) {
         super(data);
         this.setProp("object", "ruleId", false);
-        this.setProp("array", "innerExceptions", false);
+        this.setProp("array", "innerExceptions", true, (item: any) => PictureparkValidationException.fromJS(item));
 
         this._kind = "BusinessRuleValidationException";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.ruleId = data["ruleId"];
-            if (Array.isArray(data["innerExceptions"])) {
-                this.innerExceptions = [] as any;
-                for (let item of data["innerExceptions"])
-                    this.innerExceptions!.push(PictureparkValidationException.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleValidationException {
@@ -31092,7 +29795,7 @@ Warning! It severely affects performance. */
         super(data);
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
         this.setProp("object", "debugMode", false);
@@ -31101,20 +29804,6 @@ Warning! It severely affects performance. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            this.debugMode = data["debugMode"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessSearchRequest {
@@ -31284,22 +29973,13 @@ export class AndFilter extends FilterBase implements IAndFilter {
 
     constructor(data?: IAndFilter) {
         super(data);
-        this.setProp("array", "filters", false);
+        this.setProp("array", "filters", true, (item: any) => FilterBase.fromJS(item));
 
         this._kind = "AndFilter";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["filters"])) {
-                this.filters = [] as any;
-                for (let item of data["filters"])
-                    this.filters!.push(FilterBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): AndFilter {
@@ -31338,22 +30018,13 @@ export class OrFilter extends FilterBase implements IOrFilter {
 
     constructor(data?: IOrFilter) {
         super(data);
-        this.setProp("array", "filters", false);
+        this.setProp("array", "filters", true, (item: any) => FilterBase.fromJS(item));
 
         this._kind = "OrFilter";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["filters"])) {
-                this.filters = [] as any;
-                for (let item of data["filters"])
-                    this.filters!.push(FilterBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): OrFilter {
@@ -31392,7 +30063,7 @@ export class NotFilter extends FilterBase implements INotFilter {
 
     constructor(data?: INotFilter) {
         super(data);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -31402,11 +30073,6 @@ export class NotFilter extends FilterBase implements INotFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
-        */
-        }
     }
 
      fromJS(data: any): NotFilter {
@@ -31449,7 +30115,7 @@ export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
     constructor(data?: IDateRangeFilter) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("object", "range", true, (item: any) => new DateRange(item));
+        this.setProp("object", "range", true, (item: any) => DateRange.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31462,12 +30128,6 @@ export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.range = data["range"] ? DateRange.fromJS(data["range"]) : new DateRange();
-        */
-        }
     }
 
      fromJS(data: any): DateRangeFilter {
@@ -31510,7 +30170,7 @@ export class DateRange extends DTOBase {
 
     constructor(data?: IDateRange) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "from", false);
         this.setProp("object", "to", false);
 
@@ -31521,13 +30181,6 @@ export class DateRange extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.from = data["from"];
-            this.to = data["to"];
-        */
-        }
     }
 
      fromJS(data: any): DateRange {
@@ -31582,8 +30235,6 @@ export class TranslatedStringDictionary extends DTOBase {
                 if (data.hasOwnProperty(property))
                     this[property] = data[property];
             }
-        /*
-        */
         }
     }
 
@@ -31629,11 +30280,6 @@ export class ExistsFilter extends FilterBase implements IExistsFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-        */
-        }
     }
 
      fromJS(data: any): ExistsFilter {
@@ -31675,8 +30321,8 @@ export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxF
     constructor(data?: IGeoBoundingBoxFilter) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("object", "topLeft", true, (item: any) => new GeoLocation(item));
-        this.setProp("object", "bottomRight", true, (item: any) => new GeoLocation(item));
+        this.setProp("object", "topLeft", true, (item: any) => GeoLocation.fromJS(item));
+        this.setProp("object", "bottomRight", true, (item: any) => GeoLocation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31690,13 +30336,6 @@ export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxF
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.topLeft = data["topLeft"] ? GeoLocation.fromJS(data["topLeft"]) : new GeoLocation();
-            this.bottomRight = data["bottomRight"] ? GeoLocation.fromJS(data["bottomRight"]) : new GeoLocation();
-        */
-        }
     }
 
      fromJS(data: any): GeoBoundingBoxFilter {
@@ -31747,12 +30386,6 @@ export class GeoLocation extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.lat = data["lat"];
-            this.lon = data["lon"];
-        */
-        }
     }
 
      fromJS(data: any): GeoLocation {
@@ -31795,7 +30428,7 @@ export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter 
     constructor(data?: IGeoDistanceFilter) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("object", "location", true, (item: any) => new GeoLocation(item));
+        this.setProp("object", "location", true, (item: any) => GeoLocation.fromJS(item));
         this.setProp("object", "distance", false);
 
         if (data) {
@@ -31809,13 +30442,6 @@ export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.location = data["location"] ? GeoLocation.fromJS(data["location"]) : new GeoLocation();
-            this.distance = data["distance"];
-        */
-        }
     }
 
      fromJS(data: any): GeoDistanceFilter {
@@ -31860,7 +30486,7 @@ export class NestedFilter extends FilterBase implements INestedFilter {
     constructor(data?: INestedFilter) {
         super(data);
         this.setProp("object", "path", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -31870,12 +30496,6 @@ export class NestedFilter extends FilterBase implements INestedFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.path = data["path"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
-        */
-        }
     }
 
      fromJS(data: any): NestedFilter {
@@ -31917,7 +30537,7 @@ export class NumericRangeFilter extends FilterBase implements INumericRangeFilte
     constructor(data?: INumericRangeFilter) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("object", "range", true, (item: any) => new NumericRange(item));
+        this.setProp("object", "range", true, (item: any) => NumericRange.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31930,12 +30550,6 @@ export class NumericRangeFilter extends FilterBase implements INumericRangeFilte
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.range = data["range"] ? NumericRange.fromJS(data["range"]) : new NumericRange();
-        */
-        }
     }
 
      fromJS(data: any): NumericRangeFilter {
@@ -31978,7 +30592,7 @@ export class NumericRange extends DTOBase {
 
     constructor(data?: INumericRange) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "from", false);
         this.setProp("object", "to", false);
 
@@ -31989,13 +30603,6 @@ export class NumericRange extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.from = data["from"];
-            this.to = data["to"];
-        */
-        }
     }
 
      fromJS(data: any): NumericRange {
@@ -32046,12 +30653,6 @@ export class PrefixFilter extends FilterBase implements IPrefixFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.prefix = data["prefix"];
-        */
-        }
     }
 
      fromJS(data: any): PrefixFilter {
@@ -32101,12 +30702,6 @@ export class TermFilter extends FilterBase implements ITermFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.term = data["term"];
-        */
-        }
     }
 
      fromJS(data: any): TermFilter {
@@ -32159,16 +30754,6 @@ export class TermsFilter extends FilterBase implements ITermsFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            if (Array.isArray(data["terms"])) {
-                this.terms = [] as any;
-                for (let item of data["terms"])
-                    this.terms!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): TermsFilter {
@@ -32216,7 +30801,7 @@ export class AggregationFilter extends FilterBase implements IAggregationFilter 
     constructor(data?: IAggregationFilter) {
         super(data);
         this.setProp("object", "aggregationName", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "temporaryAggregatorRequestId", false);
 
         this._kind = "AggregationFilter";
@@ -32224,13 +30809,6 @@ export class AggregationFilter extends FilterBase implements IAggregationFilter 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.aggregationName = data["aggregationName"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.temporaryAggregatorRequestId = data["temporaryAggregatorRequestId"];
-        */
-        }
     }
 
      fromJS(data: any): AggregationFilter {
@@ -32274,7 +30852,7 @@ export class ChildFilter extends FilterBase implements IChildFilter {
     constructor(data?: IChildFilter) {
         super(data);
         this.setProp("object", "childType", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -32284,12 +30862,6 @@ export class ChildFilter extends FilterBase implements IChildFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.childType = data["childType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
-        */
-        }
     }
 
      fromJS(data: any): ChildFilter {
@@ -32330,7 +30902,7 @@ export class ParentFilter extends FilterBase implements IParentFilter {
     constructor(data?: IParentFilter) {
         super(data);
         this.setProp("object", "parentType", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -32340,12 +30912,6 @@ export class ParentFilter extends FilterBase implements IParentFilter {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.parentType = data["parentType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : new FilterBase();
-        */
-        }
     }
 
      fromJS(data: any): ParentFilter {
@@ -32395,7 +30961,7 @@ export class BusinessProcessWaitForLifeCycleResult extends DTOBase {
     constructor(data?: IBusinessProcessWaitForLifeCycleResult) {
         super(data);
         this.setProp("object", "lifeCycleHit", false);
-        this.setProp("object", "businessProcess", false);
+        this.setProp("object", "businessProcess", true, (item: any) => BusinessProcess.fromJS(item));
 
         if (!data) {
             this.businessProcess = new BusinessProcess();
@@ -32404,12 +30970,6 @@ export class BusinessProcessWaitForLifeCycleResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.lifeCycleHit = data["lifeCycleHit"];
-            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : new BusinessProcess();
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessWaitForLifeCycleResult {
@@ -32449,7 +31009,7 @@ export class BusinessProcessWaitForStateResult extends DTOBase {
     constructor(data?: IBusinessProcessWaitForStateResult) {
         super(data);
         this.setProp("object", "stateHit", false);
-        this.setProp("object", "businessProcess", false);
+        this.setProp("object", "businessProcess", true, (item: any) => BusinessProcess.fromJS(item));
 
         if (!data) {
             this.businessProcess = new BusinessProcess();
@@ -32458,12 +31018,6 @@ export class BusinessProcessWaitForStateResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.stateHit = data["stateHit"];
-            this.businessProcess = data["businessProcess"] ? BusinessProcess.fromJS(data["businessProcess"]) : new BusinessProcess();
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessWaitForStateResult {
@@ -32500,18 +31054,13 @@ export class BusinessProcessDetails extends BusinessProcess implements IBusiness
 
     constructor(data?: IBusinessProcessDetails) {
         super(data);
-        this.setProp("object", "details", false);
+        this.setProp("object", "details", true, (item: any) => BusinessProcessDetailsDataBase.fromJS(item));
 
         this._kind = "BusinessProcessDetails";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.details = data["details"] ? BusinessProcessDetailsDataBase.fromJS(data["details"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDetails {
@@ -32604,7 +31153,7 @@ export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDeta
     constructor(data?: IBusinessProcessDetailsDataBatchResponse) {
         super(data);
         this.setProp("object", "docType", false);
-        this.setProp("object", "response", true, (item: any) => new BatchResponse(item));
+        this.setProp("object", "response", true, (item: any) => BatchResponse.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32617,12 +31166,6 @@ export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDeta
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.docType = data["docType"];
-            this.response = data["response"] ? BatchResponse.fromJS(data["response"]) : new BatchResponse();
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDetailsDataBatchResponse {
@@ -32660,7 +31203,7 @@ export class BatchResponse extends DTOBase {
 
     constructor(data?: IBatchResponse) {
         super(data);
-        this.setProp("array", "rows", true, (item: any) => new BatchResponseRow(item));
+        this.setProp("array", "rows", true, (item: any) => BatchResponseRow.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32672,15 +31215,6 @@ export class BatchResponse extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["rows"])) {
-                this.rows = [] as any;
-                for (let item of data["rows"])
-                    this.rows!.push(BatchResponseRow.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BatchResponse {
@@ -32732,7 +31266,7 @@ export class BatchResponseRow extends DTOBase {
         this.setProp("object", "succeeded", false);
         this.setProp("object", "status", false);
         this.setProp("object", "version", false);
-        this.setProp("object", "error", true, (item: any) => new ErrorResponse(item));
+        this.setProp("object", "error", true, (item: any) => ErrorResponse.fromJS(item));
         this.setProp("object", "requestId", false);
 
         if (data) {
@@ -32742,16 +31276,6 @@ export class BatchResponseRow extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.succeeded = data["succeeded"];
-            this.status = data["status"];
-            this.version = data["version"];
-            this.error = data["error"] ? ErrorResponse.fromJS(data["error"]) : <any>undefined;
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): BatchResponseRow {
@@ -32802,8 +31326,8 @@ export class BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetai
 
     constructor(data?: IBusinessProcessDetailsDataSchemaImport) {
         super(data);
-        this.setProp("object", "schemaImportResult", true, (item: any) => new SchemaImportResult(item));
-        this.setProp("object", "listItemImportResult", true, (item: any) => new ListItemImportResult(item));
+        this.setProp("object", "schemaImportResult", true, (item: any) => SchemaImportResult.fromJS(item));
+        this.setProp("object", "listItemImportResult", true, (item: any) => ListItemImportResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32813,12 +31337,6 @@ export class BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetai
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaImportResult = data["schemaImportResult"] ? SchemaImportResult.fromJS(data["schemaImportResult"]) : <any>undefined;
-            this.listItemImportResult = data["listItemImportResult"] ? ListItemImportResult.fromJS(data["listItemImportResult"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDetailsDataSchemaImport {
@@ -32874,23 +31392,6 @@ export class SchemaImportResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.importedSchemaCount = data["importedSchemaCount"];
-            this.skippedSchemaCount = data["skippedSchemaCount"];
-            this.totalSchemaCount = data["totalSchemaCount"];
-            if (Array.isArray(data["skippedSchemaIds"])) {
-                this.skippedSchemaIds = [] as any;
-                for (let item of data["skippedSchemaIds"])
-                    this.skippedSchemaIds!.push(item);
-            }
-            if (Array.isArray(data["importedSchemaIds"])) {
-                this.importedSchemaIds = [] as any;
-                for (let item of data["importedSchemaIds"])
-                    this.importedSchemaIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaImportResult {
@@ -32962,23 +31463,6 @@ export class ListItemImportResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.importedListItemCount = data["importedListItemCount"];
-            this.skippedListItemCount = data["skippedListItemCount"];
-            this.totalListItemCount = data["totalListItemCount"];
-            if (Array.isArray(data["skippedListItemIds"])) {
-                this.skippedListItemIds = [] as any;
-                for (let item of data["skippedListItemIds"])
-                    this.skippedListItemIds!.push(item);
-            }
-            if (Array.isArray(data["importedListItemIds"])) {
-                this.importedListItemIds = [] as any;
-                for (let item of data["importedListItemIds"])
-                    this.importedListItemIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ListItemImportResult {
@@ -33035,7 +31519,7 @@ export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDa
     constructor(data?: IBusinessProcessDetailsDataCdnPurge) {
         super(data);
         this.setProp("object", "serializedCdnConfiguration", false);
-        this.setProp("array", "jobs", false);
+        this.setProp("array", "jobs", true, (item: any) => CdnPurgeJobBase.fromJS(item));
 
         if (!data) {
             this.jobs = [];
@@ -33045,16 +31529,6 @@ export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.serializedCdnConfiguration = data["serializedCdnConfiguration"];
-            if (Array.isArray(data["jobs"])) {
-                this.jobs = [] as any;
-                for (let item of data["jobs"])
-                    this.jobs!.push(CdnPurgeJobBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDetailsDataCdnPurge {
@@ -33108,12 +31582,6 @@ export class CdnPurgeJobBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.success = data["success"];
-            this.retriesLeft = data["retriesLeft"];
-        */
-        }
     }
 
      fromJS(data: any): CdnPurgeJobBase {
@@ -33168,11 +31636,6 @@ export class CdnPurgeJobByTag extends CdnPurgeJobBase implements ICdnPurgeJobByT
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.tag = data["tag"];
-        */
-        }
     }
 
      fromJS(data: any): CdnPurgeJobByTag {
@@ -33212,11 +31675,6 @@ export class CdnPurgeJobByUri extends CdnPurgeJobBase implements ICdnPurgeJobByU
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.uri = data["uri"];
-        */
-        }
     }
 
      fromJS(data: any): CdnPurgeJobByUri {
@@ -33249,7 +31707,7 @@ export class BusinessProcessDetailsDataContentImport extends BusinessProcessDeta
 
     constructor(data?: IBusinessProcessDetailsDataContentImport) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => new ContentImportResult(item));
+        this.setProp("array", "items", true, (item: any) => ContentImportResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -33259,15 +31717,6 @@ export class BusinessProcessDetailsDataContentImport extends BusinessProcessDeta
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentImportResult.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessDetailsDataContentImport {
@@ -33318,7 +31767,7 @@ export class ContentImportResult extends DTOBase {
         this.setProp("object", "contentId", false);
         this.setProp("object", "state", false);
         this.setProp("object", "succeeded", false);
-        this.setProp("object", "error", true, (item: any) => new ErrorResponse(item));
+        this.setProp("object", "error", true, (item: any) => ErrorResponse.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -33327,15 +31776,6 @@ export class ContentImportResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileTransferId = data["fileTransferId"];
-            this.contentId = data["contentId"];
-            this.state = data["state"];
-            this.succeeded = data["succeeded"];
-            this.error = data["error"] ? ErrorResponse.fromJS(data["error"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ContentImportResult {
@@ -33384,22 +31824,12 @@ export class BusinessRuleConfiguration extends DTOBase {
     constructor(data?: IBusinessRuleConfiguration) {
         super(data);
         this.setProp("object", "disableRuleEngine", false);
-        this.setProp("array", "rules", false);
+        this.setProp("array", "rules", true, (item: any) => BusinessRule.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.disableRuleEngine = data["disableRuleEngine"];
-            if (Array.isArray(data["rules"])) {
-                this.rules = [] as any;
-                for (let item of data["rules"])
-                    this.rules!.push(BusinessRule.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleConfiguration {
@@ -33451,10 +31881,10 @@ export abstract class BusinessRule extends DTOBase {
     constructor(data?: IBusinessRule) {
         super(data);
         this.setProp("object", "id", false);
-        this.setProp("object", "triggerPoint", true, (item: any) => new BusinessRuleTriggerPoint(item));
+        this.setProp("object", "triggerPoint", true, (item: any) => BusinessRuleTriggerPoint.fromJS(item));
         this.setProp("object", "isEnabled", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "description", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "description", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -33464,15 +31894,6 @@ export abstract class BusinessRule extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.triggerPoint = data["triggerPoint"] ? BusinessRuleTriggerPoint.fromJS(data["triggerPoint"]) : <any>undefined;
-            this.isEnabled = data["isEnabled"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.description = data["description"] ? TranslatedStringDictionary.fromJS(data["description"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): BusinessRule {
@@ -33539,13 +31960,6 @@ export class BusinessRuleTriggerPoint extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.executionScope = data["executionScope"];
-            this.documentType = data["documentType"];
-            this.action = data["action"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleTriggerPoint {
@@ -33592,24 +32006,14 @@ export class BusinessRuleConfigurable extends BusinessRule implements IBusinessR
 
     constructor(data?: IBusinessRuleConfigurable) {
         super(data);
-        this.setProp("object", "condition", false);
-        this.setProp("array", "actions", false);
+        this.setProp("object", "condition", true, (item: any) => BusinessRuleCondition.fromJS(item));
+        this.setProp("array", "actions", true, (item: any) => BusinessRuleAction.fromJS(item));
 
         this._kind = "BusinessRuleConfigurable";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.condition = data["condition"] ? BusinessRuleCondition.fromJS(data["condition"]) : <any>undefined;
-            if (Array.isArray(data["actions"])) {
-                this.actions = [] as any;
-                for (let item of data["actions"])
-                    this.actions!.push(BusinessRuleAction.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleConfigurable {
@@ -33704,22 +32108,13 @@ export abstract class BooleanCondition extends BusinessRuleCondition implements 
 
     constructor(data?: IBooleanCondition) {
         super(data);
-        this.setProp("array", "conditions", false);
+        this.setProp("array", "conditions", true, (item: any) => BusinessRuleCondition.fromJS(item));
 
         this._kind = "BooleanCondition";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["conditions"])) {
-                this.conditions = [] as any;
-                for (let item of data["conditions"])
-                    this.conditions!.push(BusinessRuleCondition.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BooleanCondition {
@@ -33843,11 +32238,6 @@ export class LayerAssignedCondition extends BusinessRuleCondition implements ILa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.layerId = data["layerId"];
-        */
-        }
     }
 
      fromJS(data: any): LayerAssignedCondition {
@@ -33925,7 +32315,7 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
     constructor(data?: IAssignLayerAction) {
         super(data);
         this.setProp("object", "layerId", false);
-        this.setProp("object", "defaultValues", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "defaultValues", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -33935,12 +32325,6 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.layerId = data["layerId"];
-            this.defaultValues = data["defaultValues"] ? DataDictionary.fromJS(data["defaultValues"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): AssignLayerAction {
@@ -33987,8 +32371,6 @@ export class DataDictionary extends DTOBase {
                 if (data.hasOwnProperty(property))
                     this[property] = data[property];
             }
-        /*
-        */
         }
     }
 
@@ -34032,11 +32414,6 @@ export class BusinessRuleScript extends BusinessRule implements IBusinessRuleScr
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.script = data["script"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessRuleScript {
@@ -34095,14 +32472,14 @@ export class Channel extends DTOBase {
         this.setProp("object", "id", false);
         this.setProp("object", "sortOrder", false);
         this.setProp("object", "searchIndexId", false);
-        this.setProp("object", "filter", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
-        this.setProp("array", "aggregations", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
         this.setProp("array", "extendedSimpleSearchFields", false);
         this.setProp("array", "grantedUserRoleIds", false);
-        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
         this.setProp("object", "viewForAll", false);
 
         if (data) {
@@ -34121,38 +32498,6 @@ export class Channel extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.sortOrder = data["sortOrder"];
-            this.searchIndexId = data["searchIndexId"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            if (Array.isArray(data["aggregations"])) {
-                this.aggregations = [] as any;
-                for (let item of data["aggregations"])
-                    this.aggregations!.push(AggregatorBase.fromJS(item));
-            }
-            if (Array.isArray(data["extendedSimpleSearchFields"])) {
-                this.extendedSimpleSearchFields = [] as any;
-                for (let item of data["extendedSimpleSearchFields"])
-                    this.extendedSimpleSearchFields!.push(item);
-            }
-            if (Array.isArray(data["grantedUserRoleIds"])) {
-                this.grantedUserRoleIds = [] as any;
-                for (let item of data["grantedUserRoleIds"])
-                    this.grantedUserRoleIds!.push(item);
-            }
-            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : new TranslatedStringDictionary();
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
-            this.viewForAll = data["viewForAll"];
-        */
-        }
     }
 
      fromJS(data: any): Channel {
@@ -34243,12 +32588,6 @@ export class SortInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.direction = data["direction"];
-        */
-        }
     }
 
      fromJS(data: any): SortInfo {
@@ -34300,9 +32639,9 @@ export abstract class AggregatorBase extends DTOBase {
     constructor(data?: IAggregatorBase) {
         super(data);
         this.setProp("object", "name", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "aggregators", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34312,18 +32651,6 @@ export abstract class AggregatorBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): AggregatorBase {
@@ -34407,7 +32734,7 @@ export class DateRangeAggregator extends AggregatorBase implements IDateRangeAgg
     constructor(data?: IDateRangeAggregator) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("array", "ranges", true, (item: any) => new DateRangeForAggregator(item));
+        this.setProp("array", "ranges", true, (item: any) => DateRangeForAggregator.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34420,16 +32747,6 @@ export class DateRangeAggregator extends AggregatorBase implements IDateRangeAgg
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            if (Array.isArray(data["ranges"])) {
-                this.ranges = [] as any;
-                for (let item of data["ranges"])
-                    this.ranges!.push(DateRangeForAggregator.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): DateRangeAggregator {
@@ -34475,7 +32792,7 @@ export class DateRangeForAggregator extends DTOBase {
 
     constructor(data?: IDateRangeForAggregator) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "from", false);
         this.setProp("object", "to", false);
 
@@ -34486,13 +32803,6 @@ export class DateRangeForAggregator extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.from = data["from"];
-            this.to = data["to"];
-        */
-        }
     }
 
      fromJS(data: any): DateRangeForAggregator {
@@ -34537,8 +32847,8 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
     constructor(data?: IGeoDistanceAggregator) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("object", "location", true, (item: any) => new GeoLocation(item));
-        this.setProp("array", "ranges", true, (item: any) => new GeoDistance(item));
+        this.setProp("object", "location", true, (item: any) => GeoLocation.fromJS(item));
+        this.setProp("array", "ranges", true, (item: any) => GeoDistance.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34552,17 +32862,6 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.location = data["location"] ? GeoLocation.fromJS(data["location"]) : new GeoLocation();
-            if (Array.isArray(data["ranges"])) {
-                this.ranges = [] as any;
-                for (let item of data["ranges"])
-                    this.ranges!.push(GeoDistance.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): GeoDistanceAggregator {
@@ -34609,7 +32908,7 @@ export class GeoDistance extends DTOBase {
 
     constructor(data?: IGeoDistance) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "distance", false);
 
         if (data) {
@@ -34619,12 +32918,6 @@ export class GeoDistance extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.distance = data["distance"];
-        */
-        }
     }
 
      fromJS(data: any): GeoDistance {
@@ -34668,11 +32961,6 @@ export class NestedAggregator extends AggregatorBase implements INestedAggregato
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.path = data["path"];
-        */
-        }
     }
 
      fromJS(data: any): NestedAggregator {
@@ -34710,7 +32998,7 @@ export class NumericRangeAggregator extends AggregatorBase implements INumericRa
     constructor(data?: INumericRangeAggregator) {
         super(data);
         this.setProp("object", "field", false);
-        this.setProp("array", "ranges", true, (item: any) => new NumericRangeForAggregator(item));
+        this.setProp("array", "ranges", true, (item: any) => NumericRangeForAggregator.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34723,16 +33011,6 @@ export class NumericRangeAggregator extends AggregatorBase implements INumericRa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            if (Array.isArray(data["ranges"])) {
-                this.ranges = [] as any;
-                for (let item of data["ranges"])
-                    this.ranges!.push(NumericRangeForAggregator.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): NumericRangeAggregator {
@@ -34778,7 +33056,7 @@ export class NumericRangeForAggregator extends DTOBase {
 
     constructor(data?: INumericRangeForAggregator) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "from", false);
         this.setProp("object", "to", false);
 
@@ -34789,13 +33067,6 @@ export class NumericRangeForAggregator extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.from = data["from"];
-            this.to = data["to"];
-        */
-        }
     }
 
      fromJS(data: any): NumericRangeForAggregator {
@@ -34857,28 +33128,6 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.field = data["field"];
-            this.size = data["size"];
-            if (Array.isArray(data["includes"])) {
-                this.includes = [] as any;
-                for (let item of data["includes"])
-                    this.includes!.push(item);
-            }
-            if (Array.isArray(data["excludes"])) {
-                this.excludes = [] as any;
-                for (let item of data["excludes"])
-                    this.excludes!.push(item);
-            }
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchFields"])) {
-                this.searchFields = [] as any;
-                for (let item of data["searchFields"])
-                    this.searchFields!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): TermsAggregator {
@@ -34957,11 +33206,6 @@ export class TermsRelationAggregator extends TermsAggregator implements ITermsRe
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentType = data["documentType"];
-        */
-        }
     }
 
      fromJS(data: any): TermsRelationAggregator {
@@ -35012,11 +33256,6 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.enumType = data["enumType"];
-        */
-        }
     }
 
      fromJS(data: any): TermsEnumAggregator {
@@ -35066,14 +33305,6 @@ export class UserAudit extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.creationDate = data["creationDate"] ? new Date(data["creationDate"].toString()) : <any>undefined;
-            this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
-            this.createdByUser = data["createdByUser"];
-            this.modifiedByUser = data["modifiedByUser"];
-        */
-        }
     }
 
      fromJS(data: any): UserAudit {
@@ -35132,15 +33363,15 @@ export class ChannelCreateRequest extends DTOBase {
     constructor(data?: IChannelCreateRequest) {
         super(data);
         this.setProp("object", "id", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "sortOrder", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "searchIndexId", false);
         this.setProp("array", "grantedUserRoleIds", false);
-        this.setProp("array", "aggregations", false);
-        this.setProp("object", "filter", false);
+        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("array", "extendedSimpleSearchFields", false);
-        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "viewForAll", false);
 
         if (data) {
@@ -35150,37 +33381,6 @@ export class ChannelCreateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.sortOrder = data["sortOrder"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.searchIndexId = data["searchIndexId"];
-            if (Array.isArray(data["grantedUserRoleIds"])) {
-                this.grantedUserRoleIds = [] as any;
-                for (let item of data["grantedUserRoleIds"])
-                    this.grantedUserRoleIds!.push(item);
-            }
-            if (Array.isArray(data["aggregations"])) {
-                this.aggregations = [] as any;
-                for (let item of data["aggregations"])
-                    this.aggregations!.push(AggregatorBase.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["extendedSimpleSearchFields"])) {
-                this.extendedSimpleSearchFields = [] as any;
-                for (let item of data["extendedSimpleSearchFields"])
-                    this.extendedSimpleSearchFields!.push(item);
-            }
-            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : <any>undefined;
-            this.viewForAll = data["viewForAll"];
-        */
-        }
     }
 
      fromJS(data: any): ChannelCreateRequest {
@@ -35269,15 +33469,15 @@ export class ChannelUpdateRequest extends DTOBase {
 
     constructor(data?: IChannelUpdateRequest) {
         super(data);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "sortOrder", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "searchIndexId", false);
         this.setProp("array", "grantedUserRoleIds", false);
-        this.setProp("array", "aggregations", false);
-        this.setProp("object", "filter", false);
+        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("array", "extendedSimpleSearchFields", false);
-        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "viewForAll", false);
 
         if (data) {
@@ -35287,36 +33487,6 @@ export class ChannelUpdateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.sortOrder = data["sortOrder"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.searchIndexId = data["searchIndexId"];
-            if (Array.isArray(data["grantedUserRoleIds"])) {
-                this.grantedUserRoleIds = [] as any;
-                for (let item of data["grantedUserRoleIds"])
-                    this.grantedUserRoleIds!.push(item);
-            }
-            if (Array.isArray(data["aggregations"])) {
-                this.aggregations = [] as any;
-                for (let item of data["aggregations"])
-                    this.aggregations!.push(AggregatorBase.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["extendedSimpleSearchFields"])) {
-                this.extendedSimpleSearchFields = [] as any;
-                for (let item of data["extendedSimpleSearchFields"])
-                    this.extendedSimpleSearchFields!.push(item);
-            }
-            this.missingResultsDisplayPatterns = data["missingResultsDisplayPatterns"] ? TranslatedStringDictionary.fromJS(data["missingResultsDisplayPatterns"]) : <any>undefined;
-            this.viewForAll = data["viewForAll"];
-        */
-        }
     }
 
      fromJS(data: any): ChannelUpdateRequest {
@@ -35416,18 +33586,18 @@ export class ContentDetail extends DTOBase {
 
     constructor(data?: IContentDetail) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
         this.setProp("object", "content", false);
         this.setProp("array", "contentPermissionSetIds", false);
         this.setProp("object", "contentSchemaId", false);
         this.setProp("object", "contentType", false);
-        this.setProp("object", "displayValues", true, (item: any) => new DisplayValueDictionary(item));
+        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
         this.setProp("object", "id", false);
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "metadata", true, (item: any) => new DataDictionary(item));
-        this.setProp("array", "outputs", false);
+        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("array", "outputs", true, (item: any) => Output.fromJS(item));
         this.setProp("object", "ownerTokenId", false);
-        this.setProp("object", "owner", true, (item: any) => new User(item));
+        this.setProp("object", "owner", true, (item: any) => User.fromJS(item));
         this.setProp("object", "lifeCycle", false);
         this.setProp("array", "contentRights", false);
 
@@ -35441,40 +33611,6 @@ export class ContentDetail extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.content = data["content"];
-            if (Array.isArray(data["contentPermissionSetIds"])) {
-                this.contentPermissionSetIds = [] as any;
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds!.push(item);
-            }
-            this.contentSchemaId = data["contentSchemaId"];
-            this.contentType = data["contentType"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
-            this.id = data["id"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
-            if (Array.isArray(data["outputs"])) {
-                this.outputs = [] as any;
-                for (let item of data["outputs"])
-                    this.outputs!.push(Output.fromJS(item));
-            }
-            this.ownerTokenId = data["ownerTokenId"];
-            this.owner = data["owner"] ? User.fromJS(data["owner"]) : <any>undefined;
-            this.lifeCycle = data["lifeCycle"];
-            if (Array.isArray(data["contentRights"])) {
-                this.contentRights = [] as any;
-                for (let item of data["contentRights"])
-                    this.contentRights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentDetail {
@@ -35573,8 +33709,6 @@ export class DisplayValueDictionary extends DTOBase {
                 if (data.hasOwnProperty(property))
                     this[property] = data[property];
             }
-        /*
-        */
         }
     }
 
@@ -35631,7 +33765,7 @@ export class Output extends DTOBase {
         this.setProp("object", "outputFormatId", false);
         this.setProp("object", "contentId", false);
         this.setProp("object", "renderingState", false);
-        this.setProp("object", "detail", false);
+        this.setProp("object", "detail", true, (item: any) => OutputDataBase.fromJS(item));
         this.setProp("object", "backupTimestamp", false);
         this.setProp("object", "attemptsLeft", false);
         this.setProp("object", "fileVersion", false);
@@ -35641,18 +33775,6 @@ export class Output extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.outputFormatId = data["outputFormatId"];
-            this.contentId = data["contentId"];
-            this.renderingState = data["renderingState"];
-            this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
-            this.backupTimestamp = data["backupTimestamp"] ? new Date(data["backupTimestamp"].toString()) : <any>undefined;
-            this.attemptsLeft = data["attemptsLeft"];
-            this.fileVersion = data["fileVersion"];
-        */
-        }
     }
 
      fromJS(data: any): Output {
@@ -35743,15 +33865,6 @@ export abstract class OutputDataBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileExtension = data["fileExtension"];
-            this.fileName = data["fileName"];
-            this.filePath = data["filePath"];
-            this.fileSizeInBytes = data["fileSizeInBytes"];
-            this.sha1Hash = data["sha1Hash"];
-        */
-        }
     }
 
      fromJS(data: any): OutputDataBase {
@@ -35831,12 +33944,6 @@ export class OutputDataImage extends OutputDataBase implements IOutputDataImage 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-        */
-        }
     }
 
      fromJS(data: any): OutputDataImage {
@@ -35881,11 +33988,6 @@ export class OutputDataAudio extends OutputDataBase implements IOutputDataAudio 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.durationInSeconds = data["durationInSeconds"];
-        */
-        }
     }
 
      fromJS(data: any): OutputDataAudio {
@@ -35929,7 +34031,7 @@ export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo 
         this.setProp("object", "durationInSeconds", false);
         this.setProp("object", "width", false);
         this.setProp("object", "height", false);
-        this.setProp("array", "sprites", true, (item: any) => new Sprite(item));
+        this.setProp("array", "sprites", true, (item: any) => Sprite.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -35939,18 +34041,6 @@ export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.durationInSeconds = data["durationInSeconds"];
-            this.width = data["width"];
-            this.height = data["height"];
-            if (Array.isArray(data["sprites"])) {
-                this.sprites = [] as any;
-                for (let item of data["sprites"])
-                    this.sprites!.push(Sprite.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): OutputDataVideo {
@@ -36019,16 +34109,6 @@ export class Sprite extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-            this.y = data["y"];
-            this.x = data["x"];
-            this.start = data["start"];
-            this.end = data["end"];
-        */
-        }
     }
 
      fromJS(data: any): Sprite {
@@ -36084,11 +34164,6 @@ export class OutputDataDocument extends OutputDataBase implements IOutputDataDoc
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.pageCount = data["pageCount"];
-        */
-        }
     }
 
      fromJS(data: any): OutputDataDocument {
@@ -36207,14 +34282,6 @@ export class User extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.emailAddress = data["emailAddress"];
-        */
-        }
     }
 
      fromJS(data: any): User {
@@ -36283,7 +34350,7 @@ export class BaseResultOfContent extends DTOBase {
     constructor(data?: IBaseResultOfContent) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new Content(item));
+        this.setProp("array", "results", true, (item: any) => Content.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -36297,18 +34364,6 @@ export class BaseResultOfContent extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(Content.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfContent {
@@ -36352,7 +34407,7 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -36361,13 +34416,6 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfContent {
@@ -36404,7 +34452,7 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
     constructor(data?: IContentSearchResult) {
         super(data);
-        this.setProp("array", "rightsAggregationsCounts", true, (item: any) => new ContentRightAggregationCount(item));
+        this.setProp("array", "rightsAggregationsCounts", true, (item: any) => ContentRightAggregationCount.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -36413,15 +34461,6 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["rightsAggregationsCounts"])) {
-                this.rightsAggregationsCounts = [] as any;
-                for (let item of data["rightsAggregationsCounts"])
-                    this.rightsAggregationsCounts!.push(ContentRightAggregationCount.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentSearchResult {
@@ -36469,12 +34508,6 @@ export class ContentRightAggregationCount extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentRight = data["contentRight"];
-            this.count = data["count"];
-        */
-        }
     }
 
      fromJS(data: any): ContentRightAggregationCount {
@@ -36525,7 +34558,7 @@ export class Content extends DTOBase {
 
     constructor(data?: IContent) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
         this.setProp("object", "contentSchemaId", false);
         this.setProp("object", "contentType", false);
         this.setProp("array", "layerSchemaIds", false);
@@ -36545,41 +34578,6 @@ export class Content extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.contentSchemaId = data["contentSchemaId"];
-            this.contentType = data["contentType"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            if (data["displayValues"]) {
-                this.displayValues = {} as any;
-                for (let key in data["displayValues"]) {
-                    if (data["displayValues"].hasOwnProperty(key))
-                        this.displayValues![key] = data["displayValues"][key];
-                }
-            }
-            this.id = data["id"];
-            if (Array.isArray(data["brokenReferenceIds"])) {
-                this.brokenReferenceIds = [] as any;
-                for (let item of data["brokenReferenceIds"])
-                    this.brokenReferenceIds!.push(item);
-            }
-            if (Array.isArray(data["brokenIndirectReferenceIds"])) {
-                this.brokenIndirectReferenceIds = [] as any;
-                for (let item of data["brokenIndirectReferenceIds"])
-                    this.brokenIndirectReferenceIds!.push(item);
-            }
-            if (Array.isArray(data["brokenRelationTargetIds"])) {
-                this.brokenRelationTargetIds = [] as any;
-                for (let item of data["brokenRelationTargetIds"])
-                    this.brokenRelationTargetIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): Content {
@@ -36696,10 +34694,10 @@ Warning! It severely affects performance. */
         this.setProp("object", "collectionId", false);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "lifeCycleFilter", false);
         this.setProp("object", "brokenDependenciesFilter", false);
         this.setProp("array", "rightsFilter", false);
@@ -36714,50 +34712,6 @@ Warning! It severely affects performance. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.channelId = data["channelId"];
-            if (Array.isArray(data["displayPatternIds"])) {
-                this.displayPatternIds = [] as any;
-                for (let item of data["displayPatternIds"])
-                    this.displayPatternIds!.push(item);
-            }
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.collectionId = data["collectionId"];
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (Array.isArray(data["rightsFilter"])) {
-                this.rightsFilter = [] as any;
-                for (let item of data["rightsFilter"])
-                    this.rightsFilter!.push(item);
-            }
-            if (Array.isArray(data["rightsAggregations"])) {
-                this.rightsAggregations = [] as any;
-                for (let item of data["rightsAggregations"])
-                    this.rightsAggregations!.push(item);
-            }
-            this.searchType = data["searchType"];
-            this.debugMode = data["debugMode"];
-        */
-        }
     }
 
      fromJS(data: any): ContentSearchRequest {
@@ -36892,10 +34846,10 @@ export class ObjectAggregationResult extends DTOBase {
     constructor(data?: IObjectAggregationResult) {
         super(data);
         this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("array", "aggregationResults", true, (item: any) => new AggregationResult(item));
+        this.setProp("array", "aggregationResults", true, (item: any) => AggregationResult.fromJS(item));
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -36907,19 +34861,6 @@ export class ObjectAggregationResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            if (Array.isArray(data["aggregationResults"])) {
-                this.aggregationResults = [] as any;
-                for (let item of data["aggregationResults"])
-                    this.aggregationResults!.push(AggregationResult.fromJS(item));
-            }
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ObjectAggregationResult {
@@ -36976,7 +34917,7 @@ Optionally inner aggregations for further drill down can be available. */
         super(data);
         this.setProp("object", "name", false);
         this.setProp("object", "sumOtherDocCount", false);
-        this.setProp("array", "aggregationResultItems", true, (item: any) => new AggregationResultItem(item));
+        this.setProp("array", "aggregationResultItems", true, (item: any) => AggregationResultItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -36985,17 +34926,6 @@ Optionally inner aggregations for further drill down can be available. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.sumOtherDocCount = data["sumOtherDocCount"];
-            if (Array.isArray(data["aggregationResultItems"])) {
-                this.aggregationResultItems = [] as any;
-                for (let item of data["aggregationResultItems"])
-                    this.aggregationResultItems!.push(AggregationResultItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): AggregationResult {
@@ -37064,9 +34994,9 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
         super(data);
         this.setProp("object", "name", false);
         this.setProp("object", "count", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => AggregationFilter.fromJS(item));
         this.setProp("object", "active", false);
-        this.setProp("array", "aggregationResults", true, (item: any) => new AggregationResult(item));
+        this.setProp("array", "aggregationResults", true, (item: any) => AggregationResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37075,19 +35005,6 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.count = data["count"];
-            this.filter = data["filter"] ? AggregationFilter.fromJS(data["filter"]) : <any>undefined;
-            this.active = data["active"];
-            if (Array.isArray(data["aggregationResults"])) {
-                this.aggregationResults = [] as any;
-                for (let item of data["aggregationResults"])
-                    this.aggregationResults!.push(AggregationResult.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): AggregationResultItem {
@@ -37162,8 +35079,8 @@ If not specified, all metadata languages defined in the system are used. */
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "filter", false);
-        this.setProp("array", "aggregationFilters", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
         this.setProp("object", "channelId", false);
         this.setProp("array", "searchLanguages", false);
         this.setProp("object", "collectionId", false);
@@ -37175,32 +35092,6 @@ If not specified, all metadata languages defined in the system are used. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
-            this.channelId = data["channelId"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.collectionId = data["collectionId"];
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            this.searchType = data["searchType"];
-        */
-        }
     }
 
      fromJS(data: any): ContentAggregationOnChannelRequest {
@@ -37277,7 +35168,7 @@ export class ContentAggregationRequest extends ContentAggregationOnChannelReques
 
     constructor(data?: IContentAggregationRequest) {
         super(data);
-        this.setProp("array", "aggregators", false);
+        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
 
         if (!data) {
             this.aggregators = [];
@@ -37286,15 +35177,6 @@ export class ContentAggregationRequest extends ContentAggregationOnChannelReques
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentAggregationRequest {
@@ -37335,8 +35217,8 @@ export class ContentReferencesResult extends DTOBase {
 
     constructor(data?: IContentReferencesResult) {
         super(data);
-        this.setProp("object", "metadataReferences", true, (item: any) => new MetadataReferenceResult(item));
-        this.setProp("object", "shareReferences", true, (item: any) => new ContentShareReferenceResult(item));
+        this.setProp("object", "metadataReferences", true, (item: any) => MetadataReferenceResult.fromJS(item));
+        this.setProp("object", "shareReferences", true, (item: any) => ContentShareReferenceResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37345,12 +35227,6 @@ export class ContentReferencesResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.metadataReferences = data["metadataReferences"] ? MetadataReferenceResult.fromJS(data["metadataReferences"]) : <any>undefined;
-            this.shareReferences = data["shareReferences"] ? ContentShareReferenceResult.fromJS(data["shareReferences"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ContentReferencesResult {
@@ -37389,7 +35265,7 @@ export class BaseResultOfMetadataReference extends DTOBase {
     constructor(data?: IBaseResultOfMetadataReference) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new MetadataReference(item));
+        this.setProp("array", "results", true, (item: any) => MetadataReference.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -37403,18 +35279,6 @@ export class BaseResultOfMetadataReference extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(MetadataReference.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfMetadataReference {
@@ -37462,11 +35326,6 @@ export class MetadataReferenceResult extends BaseResultOfMetadataReference imple
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.isReferencedByRestrictedItem = data["isReferencedByRestrictedItem"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataReferenceResult {
@@ -37519,14 +35378,6 @@ does not have the view permission on that item. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.targetMetadataItemId = data["targetMetadataItemId"];
-            this.isRestricted = data["isRestricted"];
-            this.sourceMetadataItemId = data["sourceMetadataItemId"];
-            this.sourceDocType = data["sourceDocType"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataReference {
@@ -37574,7 +35425,7 @@ export class BaseResultOfContentShareReference extends DTOBase {
     constructor(data?: IBaseResultOfContentShareReference) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new ContentShareReference(item));
+        this.setProp("array", "results", true, (item: any) => ContentShareReference.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -37588,18 +35439,6 @@ export class BaseResultOfContentShareReference extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(ContentShareReference.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfContentShareReference {
@@ -37685,7 +35524,7 @@ export class ContentShareReference extends DTOBase {
         super(data);
         this.setProp("object", "id", false);
         this.setProp("object", "name", false);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
         this.setProp("object", "shareType", false);
         this.setProp("object", "emailAddress", false);
 
@@ -37696,15 +35535,6 @@ export class ContentShareReference extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.name = data["name"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.shareType = data["shareType"];
-            this.emailAddress = data["emailAddress"];
-        */
-        }
     }
 
      fromJS(data: any): ContentShareReference {
@@ -37757,8 +35587,8 @@ export class ContentReferencesRequest extends DTOBase {
 
     constructor(data?: IContentReferencesRequest) {
         super(data);
-        this.setProp("object", "references", true, (item: any) => new MetadataReferencesPagingRequest(item));
-        this.setProp("object", "shares", true, (item: any) => new PagingRequest(item));
+        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
+        this.setProp("object", "shares", true, (item: any) => PagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37767,12 +35597,6 @@ export class ContentReferencesRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
-            this.shares = data["shares"] ? PagingRequest.fromJS(data["shares"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ContentReferencesRequest {
@@ -37818,12 +35642,6 @@ export class PagingRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): PagingRequest {
@@ -37866,11 +35684,6 @@ export class MetadataReferencesPagingRequest extends PagingRequest implements IM
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fetchReferencedByRestrictedItem = data["fetchReferencedByRestrictedItem"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataReferencesPagingRequest {
@@ -37910,8 +35723,8 @@ export class ContentManyReferencesRequest extends DTOBase {
     constructor(data?: IContentManyReferencesRequest) {
         super(data);
         this.setProp("array", "contentIds", false);
-        this.setProp("object", "references", true, (item: any) => new MetadataReferencesPagingRequest(item));
-        this.setProp("object", "shares", true, (item: any) => new PagingRequest(item));
+        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
+        this.setProp("object", "shares", true, (item: any) => PagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37923,17 +35736,6 @@ export class ContentManyReferencesRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
-            this.shares = data["shares"] ? PagingRequest.fromJS(data["shares"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ContentManyReferencesRequest {
@@ -37986,12 +35788,6 @@ export class DownloadLink extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.downloadToken = data["downloadToken"];
-            this.downloadUrl = data["downloadUrl"];
-        */
-        }
     }
 
      fromJS(data: any): DownloadLink {
@@ -38028,7 +35824,7 @@ export class ContentDownloadLinkCreateRequest extends DTOBase {
 
     constructor(data?: IContentDownloadLinkCreateRequest) {
         super(data);
-        this.setProp("array", "contents", true, (item: any) => new ContentDownloadRequestItem(item));
+        this.setProp("array", "contents", true, (item: any) => ContentDownloadRequestItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -38040,15 +35836,6 @@ export class ContentDownloadLinkCreateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contents"])) {
-                this.contents = [] as any;
-                for (let item of data["contents"])
-                    this.contents!.push(ContentDownloadRequestItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentDownloadLinkCreateRequest {
@@ -38095,12 +35882,6 @@ export class ContentDownloadRequestItem extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentDownloadRequestItem {
@@ -38159,7 +35940,7 @@ It is not persisted anywhere and it is ignored in single operations. */
         this.setProp("object", "contentSchemaId", false);
         this.setProp("array", "layerSchemaIds", false);
         this.setProp("object", "content", false);
-        this.setProp("object", "metadata", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
         this.setProp("array", "contentPermissionSetIds", false);
         this.setProp("object", "requestId", false);
 
@@ -38170,24 +35951,6 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentSchemaId = data["contentSchemaId"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.content = data["content"];
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
-            if (Array.isArray(data["contentPermissionSetIds"])) {
-                this.contentPermissionSetIds = [] as any;
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds!.push(item);
-            }
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentCreateRequest {
@@ -38249,7 +36012,7 @@ export class ContentCreateManyRequest extends DTOBase {
     constructor(data?: IContentCreateManyRequest) {
         super(data);
         this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", true, (item: any) => new ContentCreateRequest(item));
+        this.setProp("array", "items", true, (item: any) => ContentCreateRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -38258,16 +36021,6 @@ export class ContentCreateManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentCreateRequest.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentCreateManyRequest {
@@ -38323,17 +36076,6 @@ export class ContentDeleteManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            this.forceReferenceRemoval = data["forceReferenceRemoval"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): ContentDeleteManyRequest {
@@ -38381,7 +36123,7 @@ export class ContentDeleteManyFilterRequest extends DTOBase {
 
     constructor(data?: IContentDeleteManyFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => new ContentFilterRequest(item));
+        this.setProp("object", "filterRequest", true, (item: any) => ContentFilterRequest.fromJS(item));
         this.setProp("object", "forceReferenceRemoval", false);
         this.setProp("object", "notifyProgress", false);
 
@@ -38395,13 +36137,6 @@ export class ContentDeleteManyFilterRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filterRequest = data["filterRequest"] ? ContentFilterRequest.fromJS(data["filterRequest"]) : new ContentFilterRequest();
-            this.forceReferenceRemoval = data["forceReferenceRemoval"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): ContentDeleteManyFilterRequest {
@@ -38461,7 +36196,7 @@ export class ContentFilterRequest extends DTOBase {
         this.setProp("object", "searchString", false);
         this.setProp("object", "searchType", false);
         this.setProp("object", "collectionId", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "lifeCycleFilter", false);
         this.setProp("object", "brokenDependenciesFilter", false);
         this.setProp("array", "rightsFilter", false);
@@ -38470,27 +36205,6 @@ export class ContentFilterRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.channelId = data["channelId"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.searchString = data["searchString"];
-            this.searchType = data["searchType"];
-            this.collectionId = data["collectionId"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (Array.isArray(data["rightsFilter"])) {
-                this.rightsFilter = [] as any;
-                for (let item of data["rightsFilter"])
-                    this.rightsFilter!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentFilterRequest {
@@ -38567,16 +36281,6 @@ export class ContentRestoreManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-        */
-        }
     }
 
      fromJS(data: any): ContentRestoreManyRequest {
@@ -38623,11 +36327,6 @@ export class ContentFileUpdateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileTransferId = data["fileTransferId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentFileUpdateRequest {
@@ -38687,8 +36386,8 @@ Defaults to Merge. */
     constructor(data?: IContentMetadataUpdateRequest) {
         super(data);
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "content", true, (item: any) => new DataDictionary(item));
-        this.setProp("object", "metadata", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "content", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
         this.setProp("object", "layerSchemasUpdateOptions", false);
         this.setProp("object", "schemaFieldsUpdateOptions", false);
 
@@ -38699,19 +36398,6 @@ Defaults to Merge. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : <any>undefined;
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
-            this.layerSchemasUpdateOptions = data["layerSchemasUpdateOptions"];
-            this.schemaFieldsUpdateOptions = data["schemaFieldsUpdateOptions"];
-        */
-        }
     }
 
      fromJS(data: any): ContentMetadataUpdateRequest {
@@ -38791,15 +36477,6 @@ These permissions control content accessibility for the users that do not own th
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentPermissionSetIds"])) {
-                this.contentPermissionSetIds = [] as any;
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentPermissionsUpdateRequest {
@@ -38841,7 +36518,7 @@ export class ContentMetadataUpdateManyRequest extends DTOBase {
     constructor(data?: IContentMetadataUpdateManyRequest) {
         super(data);
         this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => ContentMetadataUpdateItem.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -38850,16 +36527,6 @@ export class ContentMetadataUpdateManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentMetadataUpdateItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentMetadataUpdateManyRequest {
@@ -38906,11 +36573,6 @@ export class ContentMetadataUpdateItem extends ContentMetadataUpdateRequest impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): ContentMetadataUpdateItem {
@@ -38945,7 +36607,7 @@ export class ContentPermissionsUpdateManyRequest extends DTOBase {
 
     constructor(data?: IContentPermissionsUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => ContentPermissionsUpdateItem.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -38954,15 +36616,6 @@ export class ContentPermissionsUpdateManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentPermissionsUpdateItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentPermissionsUpdateManyRequest {
@@ -39006,11 +36659,6 @@ export class ContentPermissionsUpdateItem extends ContentPermissionsUpdateReques
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentPermissionsUpdateItem {
@@ -39051,11 +36699,6 @@ export class ContentOwnershipTransferRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferUserId = data["transferUserId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentOwnershipTransferRequest {
@@ -39089,7 +36732,7 @@ export class ContentOwnershipTransferManyRequest extends DTOBase {
 
     constructor(data?: IContentOwnershipTransferManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => ContentOwnershipTransferItem.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -39098,15 +36741,6 @@ export class ContentOwnershipTransferManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentOwnershipTransferItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentOwnershipTransferManyRequest {
@@ -39150,11 +36784,6 @@ export class ContentOwnershipTransferItem extends ContentOwnershipTransferReques
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-        */
-        }
     }
 
      fromJS(data: any): ContentOwnershipTransferItem {
@@ -39195,7 +36824,7 @@ export abstract class MetadataValuesChangeRequestBase extends DTOBase {
 
     constructor(data?: IMetadataValuesChangeRequestBase) {
         super(data);
-        this.setProp("array", "changeCommands", false);
+        this.setProp("array", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
         this.setProp("object", "allowMissingDependencies", false);
         this.setProp("object", "notifyProgress", false);
 
@@ -39207,17 +36836,6 @@ export abstract class MetadataValuesChangeRequestBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["changeCommands"])) {
-                this.changeCommands = [] as any;
-                for (let item of data["changeCommands"])
-                    this.changeCommands!.push(MetadataValuesChangeCommandBase.fromJS(item));
-            }
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesChangeRequestBase {
@@ -39280,15 +36898,6 @@ export class ContentFieldsBatchUpdateRequest extends MetadataValuesChangeRequest
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentFieldsBatchUpdateRequest {
@@ -39336,11 +36945,6 @@ export abstract class MetadataValuesChangeCommandBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesChangeCommandBase {
@@ -39408,7 +37012,7 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
     constructor(data?: IMetadataValuesSchemaUpdateCommand) {
         super(data);
-        this.setProp("object", "value", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "value", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39421,11 +37025,6 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesSchemaUpdateCommand {
@@ -39460,7 +37059,7 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
     constructor(data?: IMetadataValuesSchemaUpsertCommand) {
         super(data);
-        this.setProp("object", "value", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "value", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39473,11 +37072,6 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesSchemaUpsertCommand {
@@ -39547,7 +37141,7 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
     constructor(data?: IMetadataValuesSchemaReplaceCommand) {
         super(data);
-        this.setProp("object", "value", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "value", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39560,11 +37154,6 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesSchemaReplaceCommand {
@@ -39606,11 +37195,6 @@ export class MetadataValuesFieldRemoveCommand extends MetadataValuesChangeComman
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldPath = data["fieldPath"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesFieldRemoveCommand {
@@ -39659,13 +37243,6 @@ export class MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeComm
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldPath = data["fieldPath"];
-            this.fieldNamespace = data["fieldNamespace"];
-            this.referenceId = data["referenceId"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesSchemaItemAddCommand {
@@ -39721,13 +37298,6 @@ export class MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeC
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fieldPath = data["fieldPath"];
-            this.fieldNamespace = data["fieldNamespace"];
-            this.referenceId = data["referenceId"];
-        */
-        }
     }
 
      fromJS(data: any): MetadataValuesSchemaItemRemoveCommand {
@@ -39769,7 +37339,7 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
 
     constructor(data?: IContentFieldsBatchUpdateFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => new ContentFilterRequest(item));
+        this.setProp("object", "filterRequest", true, (item: any) => ContentFilterRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39782,11 +37352,6 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filterRequest = data["filterRequest"] ? ContentFilterRequest.fromJS(data["filterRequest"]) : new ContentFilterRequest();
-        */
-        }
     }
 
      fromJS(data: any): ContentFieldsBatchUpdateFilterRequest {
@@ -39825,9 +37390,9 @@ export abstract class PermissionSetDetailOfContentRight extends DTOBase {
     constructor(data?: IPermissionSetDetailOfContentRight) {
         super(data);
         this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => new PermissionUserRoleRightsOfContentRight(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => new PermissionUserRoleRightsOfPermissionSetRight(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "userRolesRights", true, (item: any) => PermissionUserRoleRightsOfContentRight.fromJS(item));
+        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
         this.setProp("object", "exclusive", false);
         this.setProp("object", "ownerTokenId", false);
 
@@ -39838,24 +37403,6 @@ export abstract class PermissionSetDetailOfContentRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["userRolesRights"])) {
-                this.userRolesRights = [] as any;
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(PermissionUserRoleRightsOfContentRight.fromJS(item));
-            }
-            if (Array.isArray(data["userRolesPermissionSetRights"])) {
-                this.userRolesPermissionSetRights = [] as any;
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-            this.exclusive = data["exclusive"];
-            this.ownerTokenId = data["ownerTokenId"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetDetailOfContentRight {
@@ -39938,7 +37485,7 @@ export class PermissionUserRoleRightsOfContentRight extends DTOBase {
     constructor(data?: IPermissionUserRoleRightsOfContentRight) {
         super(data);
         this.setProp("object", "userRoleId", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("array", "rights", false);
 
         if (data) {
@@ -39948,17 +37495,6 @@ export class PermissionUserRoleRightsOfContentRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["rights"])) {
-                this.rights = [] as any;
-                for (let item of data["rights"])
-                    this.rights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionUserRoleRightsOfContentRight {
@@ -39999,7 +37535,7 @@ export class PermissionUserRoleRightsOfPermissionSetRight extends DTOBase {
     constructor(data?: IPermissionUserRoleRightsOfPermissionSetRight) {
         super(data);
         this.setProp("object", "userRoleId", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("array", "rights", false);
 
         if (data) {
@@ -40009,17 +37545,6 @@ export class PermissionUserRoleRightsOfPermissionSetRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["rights"])) {
-                this.rights = [] as any;
-                for (let item of data["rights"])
-                    this.rights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionUserRoleRightsOfPermissionSetRight {
@@ -40067,9 +37592,9 @@ export abstract class PermissionSetCreateRequestOfContentRight extends DTOBase {
 
     constructor(data?: IPermissionSetCreateRequestOfContentRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => new UserRoleRightsOfContentRight(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => new UserRoleRightsOfPermissionSetRight(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfContentRight.fromJS(item));
+        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
         this.setProp("object", "exclusive", false);
         this.setProp("object", "requestId", false);
 
@@ -40080,23 +37605,6 @@ export abstract class PermissionSetCreateRequestOfContentRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["userRolesRights"])) {
-                this.userRolesRights = [] as any;
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(UserRoleRightsOfContentRight.fromJS(item));
-            }
-            if (Array.isArray(data["userRolesPermissionSetRights"])) {
-                this.userRolesPermissionSetRights = [] as any;
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-            this.exclusive = data["exclusive"];
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetCreateRequestOfContentRight {
@@ -40180,16 +37688,6 @@ export class UserRoleRightsOfContentRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-            if (Array.isArray(data["rights"])) {
-                this.rights = [] as any;
-                for (let item of data["rights"])
-                    this.rights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleRightsOfContentRight {
@@ -40233,16 +37731,6 @@ export class UserRoleRightsOfPermissionSetRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-            if (Array.isArray(data["rights"])) {
-                this.rights = [] as any;
-                for (let item of data["rights"])
-                    this.rights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleRightsOfPermissionSetRight {
@@ -40280,9 +37768,9 @@ export abstract class PermissionSetUpdateRequestOfContentRight extends DTOBase {
 
     constructor(data?: IPermissionSetUpdateRequestOfContentRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => new UserRoleRightsOfContentRight(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => new UserRoleRightsOfPermissionSetRight(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfContentRight.fromJS(item));
+        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -40291,21 +37779,6 @@ export abstract class PermissionSetUpdateRequestOfContentRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["userRolesRights"])) {
-                this.userRolesRights = [] as any;
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(UserRoleRightsOfContentRight.fromJS(item));
-            }
-            if (Array.isArray(data["userRolesPermissionSetRights"])) {
-                this.userRolesPermissionSetRights = [] as any;
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetUpdateRequestOfContentRight {
@@ -40386,11 +37859,6 @@ export class PermissionSetOwnershipTransferRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferUserId = data["transferUserId"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetOwnershipTransferRequest {
@@ -40423,7 +37891,7 @@ export class BulkResponse extends DTOBase {
 
     constructor(data?: IBulkResponse) {
         super(data);
-        this.setProp("array", "rows", true, (item: any) => new BulkResponseRow(item));
+        this.setProp("array", "rows", true, (item: any) => BulkResponseRow.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -40432,15 +37900,6 @@ export class BulkResponse extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["rows"])) {
-                this.rows = [] as any;
-                for (let item of data["rows"])
-                    this.rows!.push(BulkResponseRow.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): BulkResponse {
@@ -40499,16 +37958,6 @@ export class BulkResponseRow extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.version = data["version"];
-            this.error = data["error"];
-            this.succeeded = data["succeeded"];
-            this.status = data["status"];
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): BulkResponseRow {
@@ -40555,21 +38004,12 @@ export class ContentPermissionSetCreateManyRequest extends DTOBase {
 
     constructor(data?: IContentPermissionSetCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => ContentPermissionSetCreateRequest.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentPermissionSetCreateRequest.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentPermissionSetCreateManyRequest {
@@ -40605,21 +38045,12 @@ export class ContentPermissionSetUpdateManyRequest extends DTOBase {
 
     constructor(data?: IContentPermissionSetUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => ContentPermissionSetUpdateRequestItem.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ContentPermissionSetUpdateRequestItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentPermissionSetUpdateManyRequest {
@@ -40661,11 +38092,6 @@ export abstract class PermissionSetUpdateRequestItemOfContentRight extends Permi
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetUpdateRequestItemOfContentRight {
@@ -40734,15 +38160,6 @@ export class PermissionSetDeleteManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["permissionSetIds"])) {
-                this.permissionSetIds = [] as any;
-                for (let item of data["permissionSetIds"])
-                    this.permissionSetIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetDeleteManyRequest {
@@ -40776,21 +38193,12 @@ export class PermissionSetOwnershipTransferManyRequest extends DTOBase {
 
     constructor(data?: IPermissionSetOwnershipTransferManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => PermissionSetOwnershipTransferItem.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(PermissionSetOwnershipTransferItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetOwnershipTransferManyRequest {
@@ -40831,11 +38239,6 @@ export class PermissionSetOwnershipTransferItem extends PermissionSetOwnershipTr
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.permissionSetId = data["permissionSetId"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetOwnershipTransferItem {
@@ -40875,16 +38278,6 @@ export class PermissionSetUserPermissionRights extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.permissionSetId = data["permissionSetId"];
-            if (Array.isArray(data["permissionSetRights"])) {
-                this.permissionSetRights = [] as any;
-                for (let item of data["permissionSetRights"])
-                    this.permissionSetRights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetUserPermissionRights {
@@ -40924,7 +38317,7 @@ export class BaseResultOfPermissionSet extends DTOBase {
     constructor(data?: IBaseResultOfPermissionSet) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new PermissionSet(item));
+        this.setProp("array", "results", true, (item: any) => PermissionSet.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -40938,18 +38331,6 @@ export class BaseResultOfPermissionSet extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(PermissionSet.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfPermissionSet {
@@ -40993,7 +38374,7 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -41002,13 +38383,6 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfPermissionSet {
@@ -41086,7 +38460,7 @@ Cannot be changed after creation. */
         super(data);
         this.setProp("object", "id", false);
         this.setProp("object", "exclusive", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -41095,13 +38469,6 @@ Cannot be changed after creation. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.exclusive = data["exclusive"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): PermissionSet {
@@ -41160,10 +38527,10 @@ If not specified, all metadata languages defined in the system are used. */
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "rightFilter", false);
         this.setProp("object", "debugMode", false);
         this.setProp("array", "searchLanguages", false);
@@ -41175,31 +38542,6 @@ If not specified, all metadata languages defined in the system are used. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.rightFilter = data["rightFilter"];
-            this.debugMode = data["debugMode"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetSearchRequest {
@@ -41271,7 +38613,7 @@ export class BaseResultOfDocumentHistory extends DTOBase {
     constructor(data?: IBaseResultOfDocumentHistory) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new DocumentHistory(item));
+        this.setProp("array", "results", true, (item: any) => DocumentHistory.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -41285,18 +38627,6 @@ export class BaseResultOfDocumentHistory extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(DocumentHistory.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfDocumentHistory {
@@ -41382,7 +38712,7 @@ export class DocumentHistory extends DTOBase {
         this.setProp("object", "documentDate", false);
         this.setProp("object", "document", false);
         this.setProp("object", "timestamp", false);
-        this.setProp("object", "audit", true, (item: any) => new UserAuditHistory(item));
+        this.setProp("object", "audit", true, (item: any) => UserAuditHistory.fromJS(item));
         this.setProp("object", "deleted", false);
         this.setProp("object", "action", false);
 
@@ -41393,19 +38723,6 @@ export class DocumentHistory extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentId = data["documentId"];
-            this.documentVersion = data["documentVersion"];
-            this.documentType = data["documentType"];
-            this.documentDate = data["documentDate"] ? new Date(data["documentDate"].toString()) : <any>undefined;
-            this.document = data["document"];
-            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
-            this.audit = data["audit"] ? UserAuditHistory.fromJS(data["audit"]) : <any>undefined;
-            this.deleted = data["deleted"];
-            this.action = data["action"];
-        */
-        }
     }
 
      fromJS(data: any): DocumentHistory {
@@ -41459,12 +38776,6 @@ export class UserAuditHistory extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
-            this.modifiedByUser = data["modifiedByUser"];
-        */
-        }
     }
 
      fromJS(data: any): UserAuditHistory {
@@ -41526,7 +38837,7 @@ export class DocumentHistorySearchRequest extends DTOBase {
         this.setProp("object", "documentId", false);
         this.setProp("object", "documentVersion", false);
         this.setProp("object", "documentType", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -41535,22 +38846,6 @@ export class DocumentHistorySearchRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
-            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.documentId = data["documentId"];
-            this.documentVersion = data["documentVersion"];
-            this.documentType = data["documentType"];
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): DocumentHistorySearchRequest {
@@ -41621,14 +38916,6 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentId = data["documentId"];
-            this.oldDocumentVersion = data["oldDocumentVersion"];
-            this.newDocumentVersion = data["newDocumentVersion"];
-            this.patch = data["patch"];
-        */
-        }
     }
 
      fromJS(data: any): DocumentHistoryDifference {
@@ -41693,11 +38980,11 @@ export class CustomerInfo extends DTOBase {
         this.setProp("object", "customerAlias", false);
         this.setProp("object", "identityServerUrl", false);
         this.setProp("object", "enableQueryDetails", false);
-        this.setProp("object", "languageConfiguration", true, (item: any) => new LanguageConfiguration(item));
-        this.setProp("array", "languages", true, (item: any) => new Language(item));
-        this.setProp("array", "outputFormats", true, (item: any) => new OutputFormatInfo(item));
+        this.setProp("object", "languageConfiguration", true, (item: any) => LanguageConfiguration.fromJS(item));
+        this.setProp("array", "languages", true, (item: any) => Language.fromJS(item));
+        this.setProp("array", "outputFormats", true, (item: any) => OutputFormatInfo.fromJS(item));
         this.setProp("array", "boostValues", false);
-        this.setProp("array", "apps", true, (item: any) => new CustomerApp(item));
+        this.setProp("array", "apps", true, (item: any) => CustomerApp.fromJS(item));
         this.setProp("object", "modificationDate", false);
 
         if (data) {
@@ -41713,37 +39000,6 @@ export class CustomerInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-            this.name = data["name"];
-            this.customerAlias = data["customerAlias"];
-            this.identityServerUrl = data["identityServerUrl"];
-            this.enableQueryDetails = data["enableQueryDetails"];
-            this.languageConfiguration = data["languageConfiguration"] ? LanguageConfiguration.fromJS(data["languageConfiguration"]) : new LanguageConfiguration();
-            if (Array.isArray(data["languages"])) {
-                this.languages = [] as any;
-                for (let item of data["languages"])
-                    this.languages!.push(Language.fromJS(item));
-            }
-            if (Array.isArray(data["outputFormats"])) {
-                this.outputFormats = [] as any;
-                for (let item of data["outputFormats"])
-                    this.outputFormats!.push(OutputFormatInfo.fromJS(item));
-            }
-            if (Array.isArray(data["boostValues"])) {
-                this.boostValues = [] as any;
-                for (let item of data["boostValues"])
-                    this.boostValues!.push(item);
-            }
-            if (Array.isArray(data["apps"])) {
-                this.apps = [] as any;
-                for (let item of data["apps"])
-                    this.apps!.push(CustomerApp.fromJS(item));
-            }
-            this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): CustomerInfo {
@@ -41833,21 +39089,6 @@ export class LanguageConfiguration extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["systemLanguages"])) {
-                this.systemLanguages = [] as any;
-                for (let item of data["systemLanguages"])
-                    this.systemLanguages!.push(item);
-            }
-            if (Array.isArray(data["metadataLanguages"])) {
-                this.metadataLanguages = [] as any;
-                for (let item of data["metadataLanguages"])
-                    this.metadataLanguages!.push(item);
-            }
-            this.defaultLanguage = data["defaultLanguage"];
-        */
-        }
     }
 
      fromJS(data: any): LanguageConfiguration {
@@ -41901,7 +39142,7 @@ export class Language extends DTOBase {
 
     constructor(data?: ILanguage) {
         super(data);
-        this.setProp("object", "name", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "name", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "ietf", false);
         this.setProp("object", "twoLetterISOLanguageName", false);
         this.setProp("object", "threeLetterISOLanguageName", false);
@@ -41917,15 +39158,6 @@ export class Language extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : new TranslatedStringDictionary();
-            this.ietf = data["ietf"];
-            this.twoLetterISOLanguageName = data["twoLetterISOLanguageName"];
-            this.threeLetterISOLanguageName = data["threeLetterISOLanguageName"];
-            this.regionCode = data["regionCode"];
-        */
-        }
     }
 
      fromJS(data: any): Language {
@@ -41972,7 +39204,7 @@ export class OutputFormatInfo extends DTOBase {
     constructor(data?: IOutputFormatInfo) {
         super(data);
         this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -41984,12 +39216,6 @@ export class OutputFormatInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatInfo {
@@ -42027,8 +39253,8 @@ export class CustomerApp extends DTOBase {
     constructor(data?: ICustomerApp) {
         super(data);
         this.setProp("object", "appId", false);
-        this.setProp("object", "name", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "description", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "name", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "description", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "icon", false);
 
         if (data) {
@@ -42038,14 +39264,6 @@ export class CustomerApp extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.appId = data["appId"];
-            this.name = data["name"] ? TranslatedStringDictionary.fromJS(data["name"]) : <any>undefined;
-            this.description = data["description"] ? TranslatedStringDictionary.fromJS(data["description"]) : <any>undefined;
-            this.icon = data["icon"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerApp {
@@ -42098,14 +39316,6 @@ export class VersionInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileVersion = data["fileVersion"];
-            this.fileProductVersion = data["fileProductVersion"];
-            this.contractVersion = data["contractVersion"];
-            this.release = data["release"];
-        */
-        }
     }
 
      fromJS(data: any): VersionInfo {
@@ -42158,9 +39368,9 @@ export class ListItemDetail extends DTOBase {
         super(data);
         this.setProp("object", "content", false);
         this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "displayValues", true, (item: any) => new DisplayValueDictionary(item));
+        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
         this.setProp("object", "id", false);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -42169,15 +39379,6 @@ export class ListItemDetail extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.content = data["content"];
-            this.contentSchemaId = data["contentSchemaId"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
-            this.id = data["id"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ListItemDetail {
@@ -42238,7 +39439,7 @@ export class BaseResultOfListItem extends DTOBase {
     constructor(data?: IBaseResultOfListItem) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new ListItem(item));
+        this.setProp("array", "results", true, (item: any) => ListItem.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -42252,18 +39453,6 @@ export class BaseResultOfListItem extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(ListItem.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfListItem {
@@ -42349,9 +39538,9 @@ export class ListItem extends DTOBase {
         super(data);
         this.setProp("object", "content", false);
         this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "displayValues", true, (item: any) => new DisplayValueDictionary(item));
+        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
         this.setProp("object", "id", false);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -42360,15 +39549,6 @@ export class ListItem extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.content = data["content"];
-            this.contentSchemaId = data["contentSchemaId"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
-            this.id = data["id"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ListItem {
@@ -42442,10 +39622,10 @@ Warning! It severely affects performance. */
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "includeAllSchemaChildren", false);
         this.setProp("array", "schemaIds", false);
         this.setProp("object", "brokenDependenciesFilter", false);
@@ -42461,43 +39641,6 @@ Warning! It severely affects performance. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.debugMode = data["debugMode"];
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            if (Array.isArray(data["resolveBehaviors"])) {
-                this.resolveBehaviors = [] as any;
-                for (let item of data["resolveBehaviors"])
-                    this.resolveBehaviors!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ListItemSearchRequest {
@@ -42612,9 +39755,9 @@ If not specified, all metadata languages defined in the system are used. */
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "filter", false);
-        this.setProp("array", "aggregationFilters", false);
-        this.setProp("array", "aggregators", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
         this.setProp("object", "includeAllSchemaChildren", false);
         this.setProp("object", "brokenDependenciesFilter", false);
         this.setProp("array", "schemaIds", false);
@@ -42628,40 +39771,6 @@ If not specified, all metadata languages defined in the system are used. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
-            if (Array.isArray(data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
-            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemAggregationRequest {
@@ -42759,13 +39868,6 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.content = data["content"];
-            this.contentSchemaId = data["contentSchemaId"];
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemCreateRequest {
@@ -42810,7 +39912,7 @@ export class ListItemCreateManyRequest extends DTOBase {
     constructor(data?: IListItemCreateManyRequest) {
         super(data);
         this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", true, (item: any) => new ListItemCreateRequest(item));
+        this.setProp("array", "items", true, (item: any) => ListItemCreateRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -42819,16 +39921,6 @@ export class ListItemCreateManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ListItemCreateRequest.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ListItemCreateManyRequest {
@@ -42875,11 +39967,6 @@ export class ListItemUpdateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.content = data["content"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemUpdateRequest {
@@ -42916,22 +40003,12 @@ export class ListItemUpdateManyRequest extends DTOBase {
     constructor(data?: IListItemUpdateManyRequest) {
         super(data);
         this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => ListItemUpdateItem.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(ListItemUpdateItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ListItemUpdateManyRequest {
@@ -42977,11 +40054,6 @@ export class ListItemUpdateItem extends ListItemUpdateRequest implements IListIt
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemUpdateItem {
@@ -43030,17 +40102,6 @@ export class ListItemDeleteManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["listItemIds"])) {
-                this.listItemIds = [] as any;
-                for (let item of data["listItemIds"])
-                    this.listItemIds!.push(item);
-            }
-            this.forceReferenceRemoval = data["forceReferenceRemoval"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemDeleteManyRequest {
@@ -43088,7 +40149,7 @@ export class ListItemDeleteManyFilterRequest extends DTOBase {
 
     constructor(data?: IListItemDeleteManyFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => new ListItemFilterRequest(item));
+        this.setProp("object", "filterRequest", true, (item: any) => ListItemFilterRequest.fromJS(item));
         this.setProp("object", "forceReferenceRemoval", false);
         this.setProp("object", "notifyProgress", false);
 
@@ -43102,13 +40163,6 @@ export class ListItemDeleteManyFilterRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filterRequest = data["filterRequest"] ? ListItemFilterRequest.fromJS(data["filterRequest"]) : new ListItemFilterRequest();
-            this.forceReferenceRemoval = data["forceReferenceRemoval"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemDeleteManyFilterRequest {
@@ -43160,7 +40214,7 @@ If not specified, all metadata languages defined in the system are used. */
     constructor(data?: IListItemFilterRequest) {
         super(data);
         this.setProp("object", "searchString", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "includeAllSchemaChildren", false);
         this.setProp("array", "schemaIds", false);
         this.setProp("array", "searchLanguages", false);
@@ -43170,24 +40224,6 @@ If not specified, all metadata languages defined in the system are used. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemFilterRequest {
@@ -43257,16 +40293,6 @@ export class ListItemRestoreManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["listItemIds"])) {
-                this.listItemIds = [] as any;
-                for (let item of data["listItemIds"])
-                    this.listItemIds!.push(item);
-            }
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemRestoreManyRequest {
@@ -43314,7 +40340,7 @@ export class ListItemFieldsBatchUpdateRequest extends DTOBase {
     constructor(data?: IListItemFieldsBatchUpdateRequest) {
         super(data);
         this.setProp("array", "listItemIds", false);
-        this.setProp("array", "changeCommands", false);
+        this.setProp("array", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
         this.setProp("object", "allowMissingDependencies", false);
         this.setProp("object", "notifyProgress", false);
 
@@ -43326,22 +40352,6 @@ export class ListItemFieldsBatchUpdateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["listItemIds"])) {
-                this.listItemIds = [] as any;
-                for (let item of data["listItemIds"])
-                    this.listItemIds!.push(item);
-            }
-            if (Array.isArray(data["changeCommands"])) {
-                this.changeCommands = [] as any;
-                for (let item of data["changeCommands"])
-                    this.changeCommands!.push(MetadataValuesChangeCommandBase.fromJS(item));
-            }
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemFieldsBatchUpdateRequest {
@@ -43398,8 +40408,8 @@ export class ListItemFieldsBatchUpdateFilterRequest extends DTOBase {
 
     constructor(data?: IListItemFieldsBatchUpdateFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => new ListItemFilterRequest(item));
-        this.setProp("array", "changeCommands", false);
+        this.setProp("object", "filterRequest", true, (item: any) => ListItemFilterRequest.fromJS(item));
+        this.setProp("array", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
         this.setProp("object", "allowMissingDependencies", false);
         this.setProp("object", "notifyProgress", false);
 
@@ -43414,18 +40424,6 @@ export class ListItemFieldsBatchUpdateFilterRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filterRequest = data["filterRequest"] ? ListItemFilterRequest.fromJS(data["filterRequest"]) : new ListItemFilterRequest();
-            if (Array.isArray(data["changeCommands"])) {
-                this.changeCommands = [] as any;
-                for (let item of data["changeCommands"])
-                    this.changeCommands!.push(MetadataValuesChangeCommandBase.fromJS(item));
-            }
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            this.notifyProgress = data["notifyProgress"];
-        */
-        }
     }
 
      fromJS(data: any): ListItemFieldsBatchUpdateFilterRequest {
@@ -43472,7 +40470,7 @@ export class ListItemReferencesResult extends DTOBase {
 
     constructor(data?: IListItemReferencesResult) {
         super(data);
-        this.setProp("object", "metadataReferences", true, (item: any) => new MetadataReferenceResult(item));
+        this.setProp("object", "metadataReferences", true, (item: any) => MetadataReferenceResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -43481,11 +40479,6 @@ export class ListItemReferencesResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.metadataReferences = data["metadataReferences"] ? MetadataReferenceResult.fromJS(data["metadataReferences"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ListItemReferencesResult {
@@ -43519,7 +40512,7 @@ export class ListItemReferencesRequest extends DTOBase {
 
     constructor(data?: IListItemReferencesRequest) {
         super(data);
-        this.setProp("object", "references", true, (item: any) => new MetadataReferencesPagingRequest(item));
+        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -43528,11 +40521,6 @@ export class ListItemReferencesRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ListItemReferencesRequest {
@@ -43569,7 +40557,7 @@ export class ListItemManyReferencesRequest extends DTOBase {
     constructor(data?: IListItemManyReferencesRequest) {
         super(data);
         this.setProp("array", "listItemIds", false);
-        this.setProp("object", "references", true, (item: any) => new MetadataReferencesPagingRequest(item));
+        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -43581,16 +40569,6 @@ export class ListItemManyReferencesRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["listItemIds"])) {
-                this.listItemIds = [] as any;
-                for (let item of data["listItemIds"])
-                    this.listItemIds!.push(item);
-            }
-            this.references = data["references"] ? MetadataReferencesPagingRequest.fromJS(data["references"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ListItemManyReferencesRequest {
@@ -43646,15 +40624,6 @@ export abstract class Message extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.maximumRetryCount = data["maximumRetryCount"];
-            this.retries = data["retries"];
-            this.priority = data["priority"];
-            this.deduplicate = data["deduplicate"];
-        */
-        }
     }
 
      fromJS(data: any): Message {
@@ -43715,8 +40684,8 @@ export class LiveStreamMessage extends Message implements ILiveStreamMessage {
         this.setProp("object", "customerAlias", false);
         this.setProp("object", "timestamp", false);
         this.setProp("object", "scope", false);
-        this.setProp("object", "documentChange", true, (item: any) => new DocumentChange(item));
-        this.setProp("object", "applicationEvent", false);
+        this.setProp("object", "documentChange", true, (item: any) => DocumentChange.fromJS(item));
+        this.setProp("object", "applicationEvent", true, (item: any) => ApplicationEvent.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -43726,16 +40695,6 @@ export class LiveStreamMessage extends Message implements ILiveStreamMessage {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.customerId = data["customerId"];
-            this.customerAlias = data["customerAlias"];
-            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
-            this.scope = data["scope"];
-            this.documentChange = data["documentChange"] ? DocumentChange.fromJS(data["documentChange"]) : <any>undefined;
-            this.applicationEvent = data["applicationEvent"] ? ApplicationEvent.fromJS(data["applicationEvent"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): LiveStreamMessage {
@@ -43790,15 +40749,6 @@ export class DocumentChange extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentName = data["documentName"];
-            this.documentId = data["documentId"];
-            this.version = data["version"];
-            this.action = data["action"];
-            this.timeStamp = data["timeStamp"] ? new Date(data["timeStamp"].toString()) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): DocumentChange {
@@ -43845,11 +40795,6 @@ export class ApplicationEvent extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ApplicationEvent {
@@ -43949,12 +40894,6 @@ export class TransferEvent extends ApplicationEvent implements ITransferEvent {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferId = data["transferId"];
-            this.state = data["state"];
-        */
-        }
     }
 
      fromJS(data: any): TransferEvent {
@@ -44016,12 +40955,6 @@ export class ReindexEvent extends ApplicationEvent implements IReindexEvent {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.indexId = data["indexId"];
-            this.state = data["state"];
-        */
-        }
     }
 
      fromJS(data: any): ReindexEvent {
@@ -44071,15 +41004,6 @@ export class ContentDetailViewEvent extends ApplicationEvent implements IContent
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ContentDetailViewEvent {
@@ -44117,7 +41041,7 @@ export class ContentDownloadEvent extends ApplicationEvent implements IContentDo
 
     constructor(data?: IContentDownloadEvent) {
         super(data);
-        this.setProp("array", "downloadInfos", true, (item: any) => new DownloadTrackingInfo(item));
+        this.setProp("array", "downloadInfos", true, (item: any) => DownloadTrackingInfo.fromJS(item));
         this.setProp("object", "fileSize", false);
         this.setProp("object", "shareToken", false);
         this.setProp("object", "range", false);
@@ -44130,18 +41054,6 @@ export class ContentDownloadEvent extends ApplicationEvent implements IContentDo
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["downloadInfos"])) {
-                this.downloadInfos = [] as any;
-                for (let item of data["downloadInfos"])
-                    this.downloadInfos!.push(DownloadTrackingInfo.fromJS(item));
-            }
-            this.fileSize = data["fileSize"];
-            this.shareToken = data["shareToken"];
-            this.range = data["range"];
-        */
-        }
     }
 
      fromJS(data: any): ContentDownloadEvent {
@@ -44196,15 +41108,6 @@ export class DownloadTrackingInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-            this.width = data["width"];
-            this.height = data["height"];
-            this.contentDisposition = data["contentDisposition"];
-        */
-        }
     }
 
      fromJS(data: any): DownloadTrackingInfo {
@@ -44254,11 +41157,6 @@ export class SessionRenewalEvent extends ApplicationEvent implements ISessionRen
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.authorizationState = data["authorizationState"];
-        */
-        }
     }
 
      fromJS(data: any): SessionRenewalEvent {
@@ -44304,11 +41202,6 @@ export class SharePageViewEvent extends ApplicationEvent implements ISharePageVi
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.shareToken = data["shareToken"];
-        */
-        }
     }
 
      fromJS(data: any): SharePageViewEvent {
@@ -44346,17 +41239,6 @@ export class ApiStatisticsEvent extends ApplicationEvent implements IApiStatisti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (data["requestsPerClient"]) {
-                this.requestsPerClient = {} as any;
-                for (let key in data["requestsPerClient"]) {
-                    if (data["requestsPerClient"].hasOwnProperty(key))
-                        this.requestsPerClient![key] = data["requestsPerClient"][key];
-                }
-            }
-        */
-        }
     }
 
      fromJS(data: any): ApiStatisticsEvent {
@@ -44404,13 +41286,6 @@ export class BusinessProcessEvent extends ApplicationEvent implements IBusinessP
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.businessProcessId = data["businessProcessId"];
-            this.lifeCycle = data["lifeCycle"];
-            this.state = data["state"];
-        */
-        }
     }
 
      fromJS(data: any): BusinessProcessEvent {
@@ -44458,14 +41333,6 @@ export class OutputRenderedEvent extends ApplicationEvent implements IOutputRend
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.outputId = data["outputId"];
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-            this.renderingState = data["renderingState"];
-        */
-        }
     }
 
      fromJS(data: any): OutputRenderedEvent {
@@ -44509,11 +41376,6 @@ export class ConfigurationChangeEvent extends ApplicationEvent implements IConfi
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.documentType = data["documentType"];
-        */
-        }
     }
 
      fromJS(data: any): ConfigurationChangeEvent {
@@ -44556,11 +41418,6 @@ export class CustomerChangeEvent extends ConfigurationChangeEvent implements ICu
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.lifeCycle = data["lifeCycle"];
-        */
-        }
     }
 
      fromJS(data: any): CustomerChangeEvent {
@@ -44602,13 +41459,6 @@ export class SearchReindexCompletedEvent extends ApplicationEvent implements ISe
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchIndex = data["searchIndex"];
-            this.items = data["items"];
-            this.duration = data["duration"];
-        */
-        }
     }
 
      fromJS(data: any): SearchReindexCompletedEvent {
@@ -44651,7 +41501,7 @@ export class ConsoleMessage extends Message implements IConsoleMessage {
     constructor(data?: IConsoleMessage) {
         super(data);
         this.setProp("object", "command", false);
-        this.setProp("array", "arguments", true, (item: any) => new TupleOfStringAndString(item));
+        this.setProp("array", "arguments", true, (item: any) => TupleOfStringAndString.fromJS(item));
         this.setProp("object", "targetQueue", false);
 
         if (data) {
@@ -44662,17 +41512,6 @@ export class ConsoleMessage extends Message implements IConsoleMessage {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.command = data["command"];
-            if (Array.isArray(data["arguments"])) {
-                this.arguments = [] as any;
-                for (let item of data["arguments"])
-                    this.arguments!.push(TupleOfStringAndString.fromJS(item));
-            }
-            this.targetQueue = data["targetQueue"];
-        */
-        }
     }
 
      fromJS(data: any): ConsoleMessage {
@@ -44719,12 +41558,6 @@ export class TupleOfStringAndString extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.item1 = data["item1"];
-            this.item2 = data["item2"];
-        */
-        }
     }
 
      fromJS(data: any): TupleOfStringAndString {
@@ -44777,18 +41610,6 @@ export class NodeInfoMessage extends Message implements INodeInfoMessage {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.nodeId = data["nodeId"];
-            this.hostName = data["hostName"];
-            this.lastResponseTime = data["lastResponseTime"] ? new Date(data["lastResponseTime"].toString()) : <any>undefined;
-            this.serviceName = data["serviceName"];
-            this.fileVersion = data["fileVersion"];
-            this.productVersion = data["productVersion"];
-            this.release = data["release"];
-            this.logLevel = data["logLevel"];
-        */
-        }
     }
 
      fromJS(data: any): NodeInfoMessage {
@@ -44837,7 +41658,7 @@ export class BaseResultOfLiveStream extends DTOBase {
     constructor(data?: IBaseResultOfLiveStream) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new LiveStream(item));
+        this.setProp("array", "results", true, (item: any) => LiveStream.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -44851,18 +41672,6 @@ export class BaseResultOfLiveStream extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(LiveStream.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfLiveStream {
@@ -44945,8 +41754,8 @@ export class LiveStream extends DTOBase {
         this.setProp("object", "document", false);
         this.setProp("object", "scopeType", false);
         this.setProp("object", "timestamp", false);
-        this.setProp("object", "traceJob", true, (item: any) => new LiveStreamTraceJob(item));
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "traceJob", true, (item: any) => LiveStreamTraceJob.fromJS(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -44955,16 +41764,6 @@ export class LiveStream extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.document = data["document"];
-            this.scopeType = data["scopeType"];
-            this.timestamp = data["timestamp"] ? new Date(data["timestamp"].toString()) : <any>undefined;
-            this.traceJob = data["traceJob"] ? LiveStreamTraceJob.fromJS(data["traceJob"]) : <any>undefined;
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): LiveStream {
@@ -45016,14 +41815,6 @@ export class LiveStreamTraceJob extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.traceJobId = data["traceJobId"];
-            this.ipAddress = data["ipAddress"];
-            this.userId = data["userId"];
-            this.apiClientId = data["apiClientId"];
-        */
-        }
     }
 
      fromJS(data: any): LiveStreamTraceJob {
@@ -45073,7 +41864,7 @@ export class LiveStreamSearchRequest extends DTOBase {
         this.setProp("object", "from", false);
         this.setProp("object", "to", false);
         this.setProp("object", "scopeType", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
 
@@ -45081,16 +41872,6 @@ export class LiveStreamSearchRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.from = data["from"] ? new Date(data["from"].toString()) : <any>undefined;
-            this.to = data["to"] ? new Date(data["to"].toString()) : <any>undefined;
-            this.scopeType = data["scopeType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): LiveStreamSearchRequest {
@@ -45140,7 +41921,7 @@ export class BaseResultOfOutput extends DTOBase {
     constructor(data?: IBaseResultOfOutput) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", false);
+        this.setProp("array", "results", true, (item: any) => Output.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -45151,18 +41932,6 @@ export class BaseResultOfOutput extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(Output.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfOutput {
@@ -45256,32 +42025,6 @@ export class OutputSearchRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            if (Array.isArray(data["renderingStates"])) {
-                this.renderingStates = [] as any;
-                for (let item of data["renderingStates"])
-                    this.renderingStates!.push(item);
-            }
-            if (Array.isArray(data["fileExtensions"])) {
-                this.fileExtensions = [] as any;
-                for (let item of data["fileExtensions"])
-                    this.fileExtensions!.push(item);
-            }
-            if (Array.isArray(data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): OutputSearchRequest {
@@ -45362,31 +42105,6 @@ export class OutputResetRetryAttemptsRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["outputIds"])) {
-                this.outputIds = [] as any;
-                for (let item of data["outputIds"])
-                    this.outputIds!.push(item);
-            }
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            if (Array.isArray(data["fileExtensions"])) {
-                this.fileExtensions = [] as any;
-                for (let item of data["fileExtensions"])
-                    this.fileExtensions!.push(item);
-            }
-            if (Array.isArray(data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-            this.includeCompleted = data["includeCompleted"];
-        */
-        }
     }
 
      fromJS(data: any): OutputResetRetryAttemptsRequest {
@@ -45453,9 +42171,9 @@ export class OutputFormatEditable extends DTOBase {
 
     constructor(data?: IOutputFormatEditable) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "sourceOutputFormats", true, (item: any) => new SourceOutputFormats(item));
-        this.setProp("object", "format", false);
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "sourceOutputFormats", true, (item: any) => SourceOutputFormats.fromJS(item));
+        this.setProp("object", "format", true, (item: any) => FormatBase.fromJS(item));
         this.setProp("object", "retentionTime", false);
 
         if (data) {
@@ -45465,14 +42183,6 @@ export class OutputFormatEditable extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.sourceOutputFormats = data["sourceOutputFormats"] ? SourceOutputFormats.fromJS(data["sourceOutputFormats"]) : <any>undefined;
-            this.format = data["format"] ? FormatBase.fromJS(data["format"]) : <any>undefined;
-            this.retentionTime = data["retentionTime"];
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatEditable {
@@ -45533,15 +42243,6 @@ export class OutputFormat extends OutputFormatEditable implements IOutputFormat 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.system = data["system"];
-            this.dynamic = data["dynamic"];
-            this.dataExtraction = data["dataExtraction"];
-            this.temporary = data["temporary"];
-        */
-        }
     }
 
      fromJS(data: any): OutputFormat {
@@ -45598,14 +42299,6 @@ export class SourceOutputFormats extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.image = data["image"];
-            this.video = data["video"];
-            this.document = data["document"];
-            this.audio = data["audio"];
-        */
-        }
     }
 
      fromJS(data: any): SourceOutputFormats {
@@ -45767,8 +42460,8 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
         this.setProp("object", "cloneIptc", false);
         this.setProp("object", "cloneAdobeResources", false);
         this.setProp("object", "cloneXmp", false);
-        this.setProp("object", "resizeAction", true, (item: any) => new ResizeAction(item));
-        this.setProp("array", "actions", false);
+        this.setProp("object", "resizeAction", true, (item: any) => ResizeAction.fromJS(item));
+        this.setProp("array", "actions", true, (item: any) => ImageActionBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -45778,26 +42471,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.colorProfile = data["colorProfile"];
-            this.colorTransformationIntent = data["colorTransformationIntent"];
-            this.horizontalResolution = data["horizontalResolution"];
-            this.verticalResolution = data["verticalResolution"];
-            this.renderFirstFrameOnly = data["renderFirstFrameOnly"];
-            this.keepClippingPath = data["keepClippingPath"];
-            this.cloneExif = data["cloneExif"];
-            this.cloneIptc = data["cloneIptc"];
-            this.cloneAdobeResources = data["cloneAdobeResources"];
-            this.cloneXmp = data["cloneXmp"];
-            this.resizeAction = data["resizeAction"] ? ResizeAction.fromJS(data["resizeAction"]) : <any>undefined;
-            if (Array.isArray(data["actions"])) {
-                this.actions = [] as any;
-                for (let item of data["actions"])
-                    this.actions!.push(ImageActionBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ImageFormatBase {
@@ -45919,13 +42592,6 @@ export class ResizeAction extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-            this.resizeMode = data["resizeMode"];
-        */
-        }
     }
 
      fromJS(data: any): ResizeAction {
@@ -46028,12 +42694,6 @@ export class AlphaHandlingAction extends ImageActionBase implements IAlphaHandli
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.alphaHandling = data["alphaHandling"];
-            this.replacementRgbColorHexCode = data["replacementRgbColorHexCode"];
-        */
-        }
     }
 
      fromJS(data: any): AlphaHandlingAction {
@@ -46085,14 +42745,6 @@ export class CropAction extends ImageActionBase implements ICropAction {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.x = data["x"];
-            this.y = data["y"];
-            this.width = data["width"];
-            this.height = data["height"];
-        */
-        }
     }
 
      fromJS(data: any): CropAction {
@@ -46140,13 +42792,6 @@ export class UnsharpenMaskAction extends ImageActionBase implements IUnsharpenMa
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.amount = data["amount"];
-            this.radius = data["radius"];
-            this.threshold = data["threshold"];
-        */
-        }
     }
 
      fromJS(data: any): UnsharpenMaskAction {
@@ -46204,19 +42849,6 @@ export class WatermarkAction extends ImageActionBase implements IWatermarkAction
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.watermarkFilePath = data["watermarkFilePath"];
-            this.watermarkText = data["watermarkText"];
-            this.marginLeft = data["marginLeft"];
-            this.marginTop = data["marginTop"];
-            this.marginRight = data["marginRight"];
-            this.marginBottom = data["marginBottom"];
-            this.opacity = data["opacity"];
-            this.widthRatio = data["widthRatio"];
-            this.heightRatio = data["heightRatio"];
-        */
-        }
     }
 
      fromJS(data: any): WatermarkAction {
@@ -46270,11 +42902,6 @@ export class OriginalFormat extends FormatBase implements IOriginalFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): OriginalFormat {
@@ -46318,14 +42945,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.quality = data["quality"];
-            this.isProgressive = data["isProgressive"];
-            this.chromaSubsamplingEnabled = data["chromaSubsamplingEnabled"];
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): JpegFormat {
@@ -46371,12 +42990,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.interlaced = data["interlaced"];
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): PngFormat {
@@ -46422,14 +43035,6 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.alphaPremultiplied = data["alphaPremultiplied"];
-            this.compressionType = data["compressionType"];
-            this.includeUnspecifiedTiffExtraChannels = data["includeUnspecifiedTiffExtraChannels"];
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): TiffFormat {
@@ -46524,8 +43129,8 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
 
     constructor(data?: IMp4VideoFormat) {
         super(data);
-        this.setProp("object", "resizeAction", true, (item: any) => new ResizeAction2(item));
-        this.setProp("object", "audioCodec", false);
+        this.setProp("object", "resizeAction", true, (item: any) => ResizeAction2.fromJS(item));
+        this.setProp("object", "audioCodec", true, (item: any) => AudioFormatBase.fromJS(item));
         this.setProp("object", "preset", false);
         this.setProp("object", "extension", false);
 
@@ -46537,14 +43142,6 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.resizeAction = data["resizeAction"] ? ResizeAction2.fromJS(data["resizeAction"]) : <any>undefined;
-            this.audioCodec = data["audioCodec"] ? AudioFormatBase.fromJS(data["audioCodec"]) : <any>undefined;
-            this.preset = data["preset"];
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): Mp4VideoFormat {
@@ -46593,13 +43190,6 @@ export class ResizeAction2 extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-            this.resizeMode = data["resizeMode"];
-        */
-        }
     }
 
      fromJS(data: any): ResizeAction2 {
@@ -46693,7 +43283,7 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
 
     constructor(data?: IVideoSpriteFormat) {
         super(data);
-        this.setProp("object", "spriteResizeAction", true, (item: any) => new ResizeAction2(item));
+        this.setProp("object", "spriteResizeAction", true, (item: any) => ResizeAction2.fromJS(item));
         this.setProp("object", "maxNumberOfSprites", false);
         this.setProp("object", "quality", false);
         this.setProp("object", "extension", false);
@@ -46706,14 +43296,6 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.spriteResizeAction = data["spriteResizeAction"] ? ResizeAction2.fromJS(data["spriteResizeAction"]) : <any>undefined;
-            this.maxNumberOfSprites = data["maxNumberOfSprites"];
-            this.quality = data["quality"];
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): VideoSpriteFormat {
@@ -46759,12 +43341,6 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.extension = data["extension"];
-            this.positionInSeconds = data["positionInSeconds"];
-        */
-        }
     }
 
      fromJS(data: any): VideoStillFormat {
@@ -46816,15 +43392,6 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.extension = data["extension"];
-            this.profile = data["profile"];
-            this.coder = data["coder"];
-            this.bitrate = data["bitrate"];
-            this.variableBitRate = data["variableBitRate"];
-        */
-        }
     }
 
      fromJS(data: any): AacAudioFormat {
@@ -46887,11 +43454,6 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): AudioStillFormat {
@@ -46936,13 +43498,6 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.extension = data["extension"];
-            this.bitrate = data["bitrate"];
-            this.quality = data["quality"];
-        */
-        }
     }
 
      fromJS(data: any): Mp3AudioFormat {
@@ -47028,11 +43583,6 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.extension = data["extension"];
-        */
-        }
     }
 
      fromJS(data: any): DocumentStillFormat {
@@ -47079,15 +43629,6 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.jpegQuality = data["jpegQuality"];
-            this.fastWebView = data["fastWebView"];
-            this.reduceFileSize = data["reduceFileSize"];
-            this.extension = data["extension"];
-            this.extractFullText = data["extractFullText"];
-        */
-        }
     }
 
      fromJS(data: any): PdfFormat {
@@ -47129,21 +43670,12 @@ export class OutputFormatCreateManyRequest extends DTOBase {
 
     constructor(data?: IOutputFormatCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => OutputFormat.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(OutputFormat.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatCreateManyRequest {
@@ -47181,21 +43713,12 @@ export class OutputFormatUpdateManyRequest extends DTOBase {
 
     constructor(data?: IOutputFormatUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => OutputFormatUpdateManyRequestItem.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(OutputFormatUpdateManyRequestItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatUpdateManyRequest {
@@ -47239,11 +43762,6 @@ export class OutputFormatUpdateManyRequestItem extends OutputFormatEditable impl
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatUpdateManyRequestItem {
@@ -47284,15 +43802,6 @@ export class OutputFormatDeleteManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["ids"])) {
-                this.ids = [] as any;
-                for (let item of data["ids"])
-                    this.ids!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): OutputFormatDeleteManyRequest {
@@ -47359,7 +43868,7 @@ export class UserProfile extends DTOBase {
         this.setProp("object", "firstName", false);
         this.setProp("object", "lastName", false);
         this.setProp("object", "languageCode", false);
-        this.setProp("object", "address", true, (item: any) => new UserAddress(item));
+        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
         this.setProp("object", "authorizationState", false);
         this.setProp("object", "isLocked", false);
         this.setProp("array", "userRights", false);
@@ -47375,35 +43884,6 @@ export class UserProfile extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.emailAddress = data["emailAddress"];
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.languageCode = data["languageCode"];
-            this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
-            this.authorizationState = data["authorizationState"];
-            this.isLocked = data["isLocked"];
-            if (Array.isArray(data["userRights"])) {
-                this.userRights = [] as any;
-                for (let item of data["userRights"])
-                    this.userRights!.push(item);
-            }
-            if (Array.isArray(data["userRoleIds"])) {
-                this.userRoleIds = [] as any;
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds!.push(item);
-            }
-            this.termsConsentExpired = data["termsConsentExpired"];
-            if (Array.isArray(data["systemUserRoles"])) {
-                this.systemUserRoles = [] as any;
-                for (let item of data["systemUserRoles"])
-                    this.systemUserRoles!.push(item);
-            }
-            this.isDeveloper = data["isDeveloper"];
-        */
-        }
     }
 
      fromJS(data: any): UserProfile {
@@ -47512,18 +43992,6 @@ export class UserAddress extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.company = data["company"];
-            this.department = data["department"];
-            this.address = data["address"];
-            this.alternativeAddress = data["alternativeAddress"];
-            this.zip = data["zip"];
-            this.city = data["city"];
-            this.phone = data["phone"];
-            this.countryCode = data["countryCode"];
-        */
-        }
     }
 
      fromJS(data: any): UserAddress {
@@ -47598,7 +44066,7 @@ export class UserProfileUpdateRequest extends DTOBase {
         this.setProp("object", "firstName", false);
         this.setProp("object", "lastName", false);
         this.setProp("object", "languageCode", false);
-        this.setProp("object", "address", true, (item: any) => new UserAddress(item));
+        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47607,16 +44075,6 @@ export class UserProfileUpdateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.emailAddress = data["emailAddress"];
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.languageCode = data["languageCode"];
-            this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): UserProfileUpdateRequest {
@@ -47711,22 +44169,22 @@ that reference the layer. */
         this.setProp("object", "schemaNamespace", false);
         this.setProp("object", "parentSchemaId", false);
         this.setProp("array", "types", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "descriptions", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("array", "displayPatterns", true, (item: any) => new DisplayPattern(item));
-        this.setProp("array", "fields", false);
-        this.setProp("array", "fieldsOverwrite", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
-        this.setProp("array", "aggregations", false);
+        this.setProp("array", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
+        this.setProp("array", "fields", true, (item: any) => FieldBase.fromJS(item));
+        this.setProp("array", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
         this.setProp("object", "system", false);
         this.setProp("object", "ownerTokenId", false);
         this.setProp("object", "viewForAll", false);
         this.setProp("array", "schemaPermissionSetIds", false);
         this.setProp("array", "referencedInContentSchemaIds", false);
         this.setProp("array", "descendantSchemaIds", false);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
-        this.setProp("object", "searchFieldCount", true, (item: any) => new SearchFieldCount(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "searchFieldCount", true, (item: any) => SearchFieldCount.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47739,70 +44197,6 @@ that reference the layer. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.schemaNamespace = data["schemaNamespace"];
-            this.parentSchemaId = data["parentSchemaId"];
-            if (Array.isArray(data["types"])) {
-                this.types = [] as any;
-                for (let item of data["types"])
-                    this.types!.push(item);
-            }
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            if (Array.isArray(data["displayPatterns"])) {
-                this.displayPatterns = [] as any;
-                for (let item of data["displayPatterns"])
-                    this.displayPatterns!.push(DisplayPattern.fromJS(item));
-            }
-            if (Array.isArray(data["fields"])) {
-                this.fields = [] as any;
-                for (let item of data["fields"])
-                    this.fields!.push(FieldBase.fromJS(item));
-            }
-            if (Array.isArray(data["fieldsOverwrite"])) {
-                this.fieldsOverwrite = [] as any;
-                for (let item of data["fieldsOverwrite"])
-                    this.fieldsOverwrite!.push(FieldOverwriteBase.fromJS(item));
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            if (Array.isArray(data["aggregations"])) {
-                this.aggregations = [] as any;
-                for (let item of data["aggregations"])
-                    this.aggregations!.push(AggregatorBase.fromJS(item));
-            }
-            this.system = data["system"];
-            this.ownerTokenId = data["ownerTokenId"];
-            this.viewForAll = data["viewForAll"];
-            if (Array.isArray(data["schemaPermissionSetIds"])) {
-                this.schemaPermissionSetIds = [] as any;
-                for (let item of data["schemaPermissionSetIds"])
-                    this.schemaPermissionSetIds!.push(item);
-            }
-            if (Array.isArray(data["referencedInContentSchemaIds"])) {
-                this.referencedInContentSchemaIds = [] as any;
-                for (let item of data["referencedInContentSchemaIds"])
-                    this.referencedInContentSchemaIds!.push(item);
-            }
-            if (Array.isArray(data["descendantSchemaIds"])) {
-                this.descendantSchemaIds = [] as any;
-                for (let item of data["descendantSchemaIds"])
-                    this.descendantSchemaIds!.push(item);
-            }
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.searchFieldCount = data["searchFieldCount"] ? SearchFieldCount.fromJS(data["searchFieldCount"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SchemaDetail {
@@ -47943,7 +44337,7 @@ export class DisplayPattern extends DTOBase {
         super(data);
         this.setProp("object", "templateEngine", false);
         this.setProp("object", "displayPatternType", false);
-        this.setProp("object", "templates", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "templates", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47952,13 +44346,6 @@ export class DisplayPattern extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.templateEngine = data["templateEngine"];
-            this.displayPatternType = data["displayPatternType"];
-            this.templates = data["templates"] ? TranslatedStringDictionary.fromJS(data["templates"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): DisplayPattern {
@@ -48026,8 +44413,8 @@ export abstract class FieldBase extends DTOBase {
         this.setProp("object", "id", false);
         this.setProp("object", "indexId", false);
         this.setProp("object", "fieldNamespace", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "descriptions", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "required", false);
         this.setProp("object", "fixed", false);
         this.setProp("object", "index", false);
@@ -48042,20 +44429,6 @@ export abstract class FieldBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.indexId = data["indexId"];
-            this.fieldNamespace = data["fieldNamespace"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            this.required = data["required"];
-            this.fixed = data["fixed"];
-            this.index = data["index"];
-            this.simpleSearch = data["simpleSearch"];
-            this.sortable = data["sortable"];
-        */
-        }
     }
 
      fromJS(data: any): FieldBase {
@@ -48217,11 +44590,6 @@ export class FieldBoolean extends FieldBase implements IFieldBoolean {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldBoolean {
@@ -48266,12 +44634,6 @@ export class FieldDate extends FieldBase implements IFieldDate {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.format = data["format"];
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldDate {
@@ -48319,12 +44681,6 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.format = data["format"];
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldDateTime {
@@ -48377,12 +44733,6 @@ export class FieldDateTimeArray extends FieldDateTime implements IFieldDateTimeA
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldDateTimeArray {
@@ -48436,14 +44786,6 @@ export class FieldDecimal extends FieldBase implements IFieldDecimal {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.pattern = data["pattern"];
-            this.minimum = data["minimum"];
-            this.maximum = data["maximum"];
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldDecimal {
@@ -48494,11 +44836,6 @@ export class FieldDictionary extends FieldBase implements IFieldDictionary {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldDictionary {
@@ -48548,12 +44885,6 @@ export class FieldDictionaryArray extends FieldDictionary implements IFieldDicti
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldDictionaryArray {
@@ -48598,11 +44929,6 @@ export class FieldGeoPoint extends FieldBase implements IFieldGeoPoint {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldGeoPoint {
@@ -48653,14 +44979,6 @@ export class FieldLong extends FieldBase implements IFieldLong {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.pattern = data["pattern"];
-            this.minimum = data["minimum"];
-            this.maximum = data["maximum"];
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldLong {
@@ -48719,12 +45037,6 @@ export class FieldLongArray extends FieldLong implements IFieldLongArray {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldLongArray {
@@ -48765,7 +45077,7 @@ export class FieldSingleFieldset extends FieldBase implements IFieldSingleFields
     constructor(data?: IFieldSingleFieldset) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => new SchemaIndexingInfo(item));
+        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -48775,12 +45087,6 @@ export class FieldSingleFieldset extends FieldBase implements IFieldSingleFields
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): FieldSingleFieldset {
@@ -48818,7 +45124,7 @@ export class SchemaIndexingInfo extends DTOBase {
 
     constructor(data?: ISchemaIndexingInfo) {
         super(data);
-        this.setProp("array", "fields", true, (item: any) => new FieldIndexingInfo(item));
+        this.setProp("array", "fields", true, (item: any) => FieldIndexingInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -48827,15 +45133,6 @@ export class SchemaIndexingInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["fields"])) {
-                this.fields = [] as any;
-                for (let item of data["fields"])
-                    this.fields!.push(FieldIndexingInfo.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaIndexingInfo {
@@ -48888,7 +45185,7 @@ export class FieldIndexingInfo extends DTOBase {
         this.setProp("object", "simpleSearch", false);
         this.setProp("object", "sortable", false);
         this.setProp("object", "boost", false);
-        this.setProp("object", "relatedSchemaIndexing", true, (item: any) => new SchemaIndexingInfo(item));
+        this.setProp("object", "relatedSchemaIndexing", true, (item: any) => SchemaIndexingInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -48897,16 +45194,6 @@ export class FieldIndexingInfo extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.index = data["index"];
-            this.simpleSearch = data["simpleSearch"];
-            this.sortable = data["sortable"];
-            this.boost = data["boost"];
-            this.relatedSchemaIndexing = data["relatedSchemaIndexing"] ? SchemaIndexingInfo.fromJS(data["relatedSchemaIndexing"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): FieldIndexingInfo {
@@ -48962,7 +45249,7 @@ export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset
     constructor(data?: IFieldMultiFieldset) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => new SchemaIndexingInfo(item));
+        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
         this.setProp("object", "maximumItems", false);
         this.setProp("object", "minimumItems", false);
 
@@ -48974,14 +45261,6 @@ export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldMultiFieldset {
@@ -49035,8 +45314,8 @@ The information is only consumed by the client application. No actual logic is i
     constructor(data?: IFieldSingleTagbox) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => new SchemaIndexingInfo(item));
-        this.setProp("object", "filter", false);
+        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "listItemCreateTemplate", false);
         this.setProp("object", "viewModeDisplayPatternType", false);
 
@@ -49048,15 +45327,6 @@ The information is only consumed by the client application. No actual logic is i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-            this.viewModeDisplayPatternType = data["viewModeDisplayPatternType"];
-        */
-        }
     }
 
      fromJS(data: any): FieldSingleTagbox {
@@ -49118,10 +45388,10 @@ The information is only consumed by the client application. No actual logic is i
     constructor(data?: IFieldMultiTagbox) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => new SchemaIndexingInfo(item));
+        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
         this.setProp("object", "maximumItems", false);
         this.setProp("object", "minimumItems", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "listItemCreateTemplate", false);
         this.setProp("object", "viewModeDisplayPatternType", false);
 
@@ -49133,17 +45403,6 @@ The information is only consumed by the client application. No actual logic is i
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-            this.viewModeDisplayPatternType = data["viewModeDisplayPatternType"];
-        */
-        }
     }
 
      fromJS(data: any): FieldMultiTagbox {
@@ -49219,8 +45478,8 @@ The analyzers are applied only if the SimpleSearch property is set to true. */
         this.setProp("object", "pattern", false);
         this.setProp("object", "minimumLength", false);
         this.setProp("object", "maximumLength", false);
-        this.setProp("array", "indexAnalyzers", false);
-        this.setProp("array", "simpleSearchAnalyzers", false);
+        this.setProp("array", "indexAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
+        this.setProp("array", "simpleSearchAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
         this.setProp("object", "multiLine", false);
         this.setProp("array", "grantedValues", false);
         this.setProp("object", "boost", false);
@@ -49230,31 +45489,6 @@ The analyzers are applied only if the SimpleSearch property is set to true. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.template = data["template"];
-            this.pattern = data["pattern"];
-            this.minimumLength = data["minimumLength"];
-            this.maximumLength = data["maximumLength"];
-            if (Array.isArray(data["indexAnalyzers"])) {
-                this.indexAnalyzers = [] as any;
-                for (let item of data["indexAnalyzers"])
-                    this.indexAnalyzers!.push(AnalyzerBase.fromJS(item));
-            }
-            if (Array.isArray(data["simpleSearchAnalyzers"])) {
-                this.simpleSearchAnalyzers = [] as any;
-                for (let item of data["simpleSearchAnalyzers"])
-                    this.simpleSearchAnalyzers!.push(AnalyzerBase.fromJS(item));
-            }
-            this.multiLine = data["multiLine"];
-            if (Array.isArray(data["grantedValues"])) {
-                this.grantedValues = [] as any;
-                for (let item of data["grantedValues"])
-                    this.grantedValues!.push(item);
-            }
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldString {
@@ -49402,12 +45636,6 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        */
-        }
     }
 
      fromJS(data: any): EdgeNGramAnalyzer {
@@ -49455,12 +45683,6 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        */
-        }
     }
 
      fromJS(data: any): LanguageAnalyzer {
@@ -49508,12 +45730,6 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        */
-        }
     }
 
      fromJS(data: any): NGramAnalyzer {
@@ -49561,12 +45777,6 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        */
-        }
     }
 
      fromJS(data: any): PathHierarchyAnalyzer {
@@ -49614,12 +45824,6 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.type = data["type"];
-            this.fieldSuffix = data["fieldSuffix"];
-        */
-        }
     }
 
      fromJS(data: any): SimpleAnalyzer {
@@ -49667,12 +45871,6 @@ export class FieldStringArray extends FieldString implements IFieldStringArray {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldStringArray {
@@ -49734,8 +45932,8 @@ If Required is false, the field can be left empty, but as soon as a value is ent
         this.setProp("object", "pattern", false);
         this.setProp("object", "minimumLength", false);
         this.setProp("object", "maximumLength", false);
-        this.setProp("array", "indexAnalyzers", false);
-        this.setProp("array", "simpleSearchAnalyzers", false);
+        this.setProp("array", "indexAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
+        this.setProp("array", "simpleSearchAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
         this.setProp("object", "multiLine", false);
         this.setProp("array", "requiredMetadataLanguages", false);
         this.setProp("object", "template", false);
@@ -49746,31 +45944,6 @@ If Required is false, the field can be left empty, but as soon as a value is ent
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.pattern = data["pattern"];
-            this.minimumLength = data["minimumLength"];
-            this.maximumLength = data["maximumLength"];
-            if (Array.isArray(data["indexAnalyzers"])) {
-                this.indexAnalyzers = [] as any;
-                for (let item of data["indexAnalyzers"])
-                    this.indexAnalyzers!.push(AnalyzerBase.fromJS(item));
-            }
-            if (Array.isArray(data["simpleSearchAnalyzers"])) {
-                this.simpleSearchAnalyzers = [] as any;
-                for (let item of data["simpleSearchAnalyzers"])
-                    this.simpleSearchAnalyzers!.push(AnalyzerBase.fromJS(item));
-            }
-            this.multiLine = data["multiLine"];
-            if (Array.isArray(data["requiredMetadataLanguages"])) {
-                this.requiredMetadataLanguages = [] as any;
-                for (let item of data["requiredMetadataLanguages"])
-                    this.requiredMetadataLanguages!.push(item);
-            }
-            this.template = data["template"];
-            this.boost = data["boost"];
-        */
-        }
     }
 
      fromJS(data: any): FieldTranslatedString {
@@ -49851,8 +46024,8 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
     constructor(data?: IFieldSingleRelation) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => new SchemaIndexingInfo(item));
-        this.setProp("array", "relationTypes", true, (item: any) => new RelationType(item));
+        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("array", "relationTypes", true, (item: any) => RelationType.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -49865,17 +46038,6 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            if (Array.isArray(data["relationTypes"])) {
-                this.relationTypes = [] as any;
-                for (let item of data["relationTypes"])
-                    this.relationTypes!.push(RelationType.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): FieldSingleRelation {
@@ -49927,9 +46089,9 @@ export class RelationType extends DTOBase {
     constructor(data?: IRelationType) {
         super(data);
         this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "targetDocType", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -49938,14 +46100,6 @@ export class RelationType extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.targetDocType = data["targetDocType"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): RelationType {
@@ -49997,8 +46151,8 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
     constructor(data?: IFieldMultiRelation) {
         super(data);
         this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => new SchemaIndexingInfo(item));
-        this.setProp("array", "relationTypes", true, (item: any) => new RelationType(item));
+        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("array", "relationTypes", true, (item: any) => RelationType.fromJS(item));
         this.setProp("object", "maximumItems", false);
         this.setProp("object", "minimumItems", false);
 
@@ -50013,19 +46167,6 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schemaId = data["schemaId"];
-            this.schemaIndexingInfo = data["schemaIndexingInfo"] ? SchemaIndexingInfo.fromJS(data["schemaIndexingInfo"]) : <any>undefined;
-            if (Array.isArray(data["relationTypes"])) {
-                this.relationTypes = [] as any;
-                for (let item of data["relationTypes"])
-                    this.relationTypes!.push(RelationType.fromJS(item));
-            }
-            this.maximumItems = data["maximumItems"];
-            this.minimumItems = data["minimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldMultiRelation {
@@ -50092,13 +46233,6 @@ OverwriteRequired is set to true. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.required = data["required"];
-            this.overwriteRequired = data["overwriteRequired"];
-        */
-        }
     }
 
      fromJS(data: any): FieldOverwriteBase {
@@ -50156,7 +46290,7 @@ OverwriteListItemCreateTemplate is set to true. */
 
     constructor(data?: IFieldOverwriteSingleTagbox) {
         super(data);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "overwriteFilter", false);
         this.setProp("object", "listItemCreateTemplate", false);
         this.setProp("object", "overwriteListItemCreateTemplate", false);
@@ -50166,14 +46300,6 @@ OverwriteListItemCreateTemplate is set to true. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.overwriteFilter = data["overwriteFilter"];
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-            this.overwriteListItemCreateTemplate = data["overwriteListItemCreateTemplate"];
-        */
-        }
     }
 
      fromJS(data: any): FieldOverwriteSingleTagbox {
@@ -50237,7 +46363,7 @@ OverwriteMinimumItems is set to true. */
 
     constructor(data?: IFieldOverwriteMultiTagbox) {
         super(data);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "overwriteFilter", false);
         this.setProp("object", "listItemCreateTemplate", false);
         this.setProp("object", "overwriteListItemCreateTemplate", false);
@@ -50251,18 +46377,6 @@ OverwriteMinimumItems is set to true. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.overwriteFilter = data["overwriteFilter"];
-            this.listItemCreateTemplate = data["listItemCreateTemplate"];
-            this.overwriteListItemCreateTemplate = data["overwriteListItemCreateTemplate"];
-            this.maximumItems = data["maximumItems"];
-            this.overwriteMaximumItems = data["overwriteMaximumItems"];
-            this.minimumItems = data["minimumItems"];
-            this.overwriteMinimumItems = data["overwriteMinimumItems"];
-        */
-        }
     }
 
      fromJS(data: any): FieldOverwriteMultiTagbox {
@@ -50334,13 +46448,6 @@ export class SearchFieldCount extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.indexedField = data["indexedField"];
-            this.simpleSearchField = data["simpleSearchField"];
-            this.sortableField = data["sortableField"];
-        */
-        }
     }
 
      fromJS(data: any): SearchFieldCount {
@@ -50382,7 +46489,7 @@ export class BaseResultOfSchema extends DTOBase {
     constructor(data?: IBaseResultOfSchema) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new Schema(item));
+        this.setProp("array", "results", true, (item: any) => Schema.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -50396,18 +46503,6 @@ export class BaseResultOfSchema extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(Schema.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfSchema {
@@ -50451,7 +46546,7 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -50460,13 +46555,6 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfSchema {
@@ -50558,8 +46646,8 @@ export class Schema extends DTOBase {
         this.setProp("object", "id", false);
         this.setProp("object", "parentSchemaId", false);
         this.setProp("array", "types", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "descriptions", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("array", "layerSchemaIds", false);
         this.setProp("object", "fieldCount", false);
         this.setProp("object", "childCount", false);
@@ -50573,28 +46661,6 @@ export class Schema extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.parentSchemaId = data["parentSchemaId"];
-            if (Array.isArray(data["types"])) {
-                this.types = [] as any;
-                for (let item of data["types"])
-                    this.types!.push(item);
-            }
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.fieldCount = data["fieldCount"];
-            this.childCount = data["childCount"];
-            this.level = data["level"];
-            this.system = data["system"];
-        */
-        }
     }
 
      fromJS(data: any): Schema {
@@ -50683,10 +46749,10 @@ If not specified, all metadata languages in the system are used. */
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "debugMode", false);
         this.setProp("array", "searchLanguages", false);
         this.setProp("array", "rightsFilter", false);
@@ -50698,35 +46764,6 @@ If not specified, all metadata languages in the system are used. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            if (Array.isArray(data["rightsFilter"])) {
-                this.rightsFilter = [] as any;
-                for (let item of data["rightsFilter"])
-                    this.rightsFilter!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaSearchRequest {
@@ -50832,31 +46869,6 @@ The amount of simple search fields can be equal or less to the amount of IndexFi
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.fieldId = data["fieldId"];
-            this.type = data["type"];
-            if (data["indexFields"]) {
-                this.indexFields = {} as any;
-                for (let key in data["indexFields"]) {
-                    if (data["indexFields"].hasOwnProperty(key))
-                        this.indexFields![key] = data["indexFields"][key];
-                }
-            }
-            if (data["simpleSearchFields"]) {
-                this.simpleSearchFields = {} as any;
-                for (let key in data["simpleSearchFields"]) {
-                    if (data["simpleSearchFields"].hasOwnProperty(key))
-                        this.simpleSearchFields![key] = data["simpleSearchFields"][key];
-                }
-            }
-            this.boost = data["boost"];
-            this.ignoreForSearch = data["ignoreForSearch"];
-            this.nestedPath = data["nestedPath"];
-            this.sortField = data["sortField"];
-        */
-        }
     }
 
      fromJS(data: any): IndexField {
@@ -50937,16 +46949,6 @@ SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parent
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.searchMode = data["searchMode"];
-        */
-        }
     }
 
      fromJS(data: any): IndexFieldsSearchBySchemaIdsRequest {
@@ -51001,11 +47003,6 @@ export class SchemaExistsResponse extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.exists = data["exists"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaExistsResponse {
@@ -51054,13 +47051,6 @@ has to be unique across the schema hierarchy. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.exists = data["exists"];
-            this.previouslyUsed = data["previouslyUsed"];
-            this.schemaId = data["schemaId"];
-        */
-        }
     }
 
      fromJS(data: any): FieldExistsResponse {
@@ -51108,11 +47098,6 @@ export class SchemaOwnershipTransferRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferUserId = data["transferUserId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaOwnershipTransferRequest {
@@ -51145,7 +47130,7 @@ export class SchemaCreateResult extends DTOBase {
 
     constructor(data?: ISchemaCreateResult) {
         super(data);
-        this.setProp("object", "schema", true, (item: any) => new SchemaDetail(item));
+        this.setProp("object", "schema", true, (item: any) => SchemaDetail.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51154,11 +47139,6 @@ export class SchemaCreateResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schema = data["schema"] ? SchemaDetail.fromJS(data["schema"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SchemaCreateResult {
@@ -51225,13 +47205,13 @@ that reference the layer. */
         this.setProp("object", "id", false);
         this.setProp("object", "parentSchemaId", false);
         this.setProp("array", "types", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "descriptions", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "displayPatterns", true, (item: any) => new DisplayPattern(item));
-        this.setProp("array", "fields", false);
-        this.setProp("array", "fieldsOverwrite", false);
-        this.setProp("array", "aggregations", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
+        this.setProp("array", "fields", true, (item: any) => FieldBase.fromJS(item));
+        this.setProp("array", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
+        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "viewForAll", false);
         this.setProp("array", "schemaPermissionSetIds", false);
         this.setProp("array", "layerSchemaIds", false);
@@ -51247,60 +47227,6 @@ that reference the layer. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.parentSchemaId = data["parentSchemaId"];
-            if (Array.isArray(data["types"])) {
-                this.types = [] as any;
-                for (let item of data["types"])
-                    this.types!.push(item);
-            }
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (Array.isArray(data["displayPatterns"])) {
-                this.displayPatterns = [] as any;
-                for (let item of data["displayPatterns"])
-                    this.displayPatterns!.push(DisplayPattern.fromJS(item));
-            }
-            if (Array.isArray(data["fields"])) {
-                this.fields = [] as any;
-                for (let item of data["fields"])
-                    this.fields!.push(FieldBase.fromJS(item));
-            }
-            if (Array.isArray(data["fieldsOverwrite"])) {
-                this.fieldsOverwrite = [] as any;
-                for (let item of data["fieldsOverwrite"])
-                    this.fieldsOverwrite!.push(FieldOverwriteBase.fromJS(item));
-            }
-            if (Array.isArray(data["aggregations"])) {
-                this.aggregations = [] as any;
-                for (let item of data["aggregations"])
-                    this.aggregations!.push(AggregatorBase.fromJS(item));
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.viewForAll = data["viewForAll"];
-            if (Array.isArray(data["schemaPermissionSetIds"])) {
-                this.schemaPermissionSetIds = [] as any;
-                for (let item of data["schemaPermissionSetIds"])
-                    this.schemaPermissionSetIds!.push(item);
-            }
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            if (Array.isArray(data["referencedInContentSchemaIds"])) {
-                this.referencedInContentSchemaIds = [] as any;
-                for (let item of data["referencedInContentSchemaIds"])
-                    this.referencedInContentSchemaIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaCreateRequest {
@@ -51414,7 +47340,7 @@ are all in the same request. */
 
     constructor(data?: ISchemaCreateManyRequest) {
         super(data);
-        this.setProp("array", "schemas", true, (item: any) => new SchemaCreateRequest(item));
+        this.setProp("array", "schemas", true, (item: any) => SchemaCreateRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51426,15 +47352,6 @@ are all in the same request. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["schemas"])) {
-                this.schemas = [] as any;
-                for (let item of data["schemas"])
-                    this.schemas!.push(SchemaCreateRequest.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaCreateManyRequest {
@@ -51473,7 +47390,7 @@ export class SchemaUpdateResult extends DTOBase {
 
     constructor(data?: ISchemaUpdateResult) {
         super(data);
-        this.setProp("object", "schema", true, (item: any) => new SchemaDetail(item));
+        this.setProp("object", "schema", true, (item: any) => SchemaDetail.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51482,11 +47399,6 @@ export class SchemaUpdateResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.schema = data["schema"] ? SchemaDetail.fromJS(data["schema"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SchemaUpdateResult {
@@ -51544,13 +47456,13 @@ that reference the layer. */
 
     constructor(data?: ISchemaUpdateRequest) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "descriptions", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "displayPatterns", true, (item: any) => new DisplayPattern(item));
-        this.setProp("array", "fields", false);
-        this.setProp("array", "fieldsOverwrite", false);
-        this.setProp("array", "aggregations", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
+        this.setProp("array", "fields", true, (item: any) => FieldBase.fromJS(item));
+        this.setProp("array", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
+        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "viewForAll", false);
         this.setProp("array", "schemaPermissionSetIds", false);
         this.setProp("array", "layerSchemaIds", false);
@@ -51563,53 +47475,6 @@ that reference the layer. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            if (Array.isArray(data["displayPatterns"])) {
-                this.displayPatterns = [] as any;
-                for (let item of data["displayPatterns"])
-                    this.displayPatterns!.push(DisplayPattern.fromJS(item));
-            }
-            if (Array.isArray(data["fields"])) {
-                this.fields = [] as any;
-                for (let item of data["fields"])
-                    this.fields!.push(FieldBase.fromJS(item));
-            }
-            if (Array.isArray(data["fieldsOverwrite"])) {
-                this.fieldsOverwrite = [] as any;
-                for (let item of data["fieldsOverwrite"])
-                    this.fieldsOverwrite!.push(FieldOverwriteBase.fromJS(item));
-            }
-            if (Array.isArray(data["aggregations"])) {
-                this.aggregations = [] as any;
-                for (let item of data["aggregations"])
-                    this.aggregations!.push(AggregatorBase.fromJS(item));
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.viewForAll = data["viewForAll"];
-            if (Array.isArray(data["schemaPermissionSetIds"])) {
-                this.schemaPermissionSetIds = [] as any;
-                for (let item of data["schemaPermissionSetIds"])
-                    this.schemaPermissionSetIds!.push(item);
-            }
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            if (Array.isArray(data["referencedInContentSchemaIds"])) {
-                this.referencedInContentSchemaIds = [] as any;
-                for (let item of data["referencedInContentSchemaIds"])
-                    this.referencedInContentSchemaIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaUpdateRequest {
@@ -51750,16 +47615,6 @@ export class SchemaOwnershipTransferManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.transferUserId = data["transferUserId"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaOwnershipTransferManyRequest {
@@ -51803,9 +47658,9 @@ export abstract class PermissionSetDetailOfMetadataRight extends DTOBase {
     constructor(data?: IPermissionSetDetailOfMetadataRight) {
         super(data);
         this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => new PermissionUserRoleRightsOfMetadataRight(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => new PermissionUserRoleRightsOfPermissionSetRight(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "userRolesRights", true, (item: any) => PermissionUserRoleRightsOfMetadataRight.fromJS(item));
+        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
         this.setProp("object", "exclusive", false);
         this.setProp("object", "ownerTokenId", false);
 
@@ -51816,24 +47671,6 @@ export abstract class PermissionSetDetailOfMetadataRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["userRolesRights"])) {
-                this.userRolesRights = [] as any;
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(PermissionUserRoleRightsOfMetadataRight.fromJS(item));
-            }
-            if (Array.isArray(data["userRolesPermissionSetRights"])) {
-                this.userRolesPermissionSetRights = [] as any;
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-            this.exclusive = data["exclusive"];
-            this.ownerTokenId = data["ownerTokenId"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetDetailOfMetadataRight {
@@ -51916,7 +47753,7 @@ export class PermissionUserRoleRightsOfMetadataRight extends DTOBase {
     constructor(data?: IPermissionUserRoleRightsOfMetadataRight) {
         super(data);
         this.setProp("object", "userRoleId", false);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("array", "rights", false);
 
         if (data) {
@@ -51926,17 +47763,6 @@ export class PermissionUserRoleRightsOfMetadataRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["rights"])) {
-                this.rights = [] as any;
-                for (let item of data["rights"])
-                    this.rights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionUserRoleRightsOfMetadataRight {
@@ -51978,9 +47804,9 @@ export abstract class PermissionSetCreateRequestOfMetadataRight extends DTOBase 
 
     constructor(data?: IPermissionSetCreateRequestOfMetadataRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => new UserRoleRightsOfMetadataRight(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => new UserRoleRightsOfPermissionSetRight(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfMetadataRight.fromJS(item));
+        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
         this.setProp("object", "exclusive", false);
         this.setProp("object", "requestId", false);
 
@@ -51991,23 +47817,6 @@ export abstract class PermissionSetCreateRequestOfMetadataRight extends DTOBase 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["userRolesRights"])) {
-                this.userRolesRights = [] as any;
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(UserRoleRightsOfMetadataRight.fromJS(item));
-            }
-            if (Array.isArray(data["userRolesPermissionSetRights"])) {
-                this.userRolesPermissionSetRights = [] as any;
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-            this.exclusive = data["exclusive"];
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetCreateRequestOfMetadataRight {
@@ -52091,16 +47900,6 @@ export class UserRoleRightsOfMetadataRight extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userRoleId = data["userRoleId"];
-            if (Array.isArray(data["rights"])) {
-                this.rights = [] as any;
-                for (let item of data["rights"])
-                    this.rights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleRightsOfMetadataRight {
@@ -52138,9 +47937,9 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight extends DTOBase 
 
     constructor(data?: IPermissionSetUpdateRequestOfMetadataRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => new UserRoleRightsOfMetadataRight(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => new UserRoleRightsOfPermissionSetRight(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfMetadataRight.fromJS(item));
+        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -52149,21 +47948,6 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight extends DTOBase 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            if (Array.isArray(data["userRolesRights"])) {
-                this.userRolesRights = [] as any;
-                for (let item of data["userRolesRights"])
-                    this.userRolesRights!.push(UserRoleRightsOfMetadataRight.fromJS(item));
-            }
-            if (Array.isArray(data["userRolesPermissionSetRights"])) {
-                this.userRolesPermissionSetRights = [] as any;
-                for (let item of data["userRolesPermissionSetRights"])
-                    this.userRolesPermissionSetRights!.push(UserRoleRightsOfPermissionSetRight.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetUpdateRequestOfMetadataRight {
@@ -52237,21 +48021,12 @@ export class SchemaPermissionSetCreateManyRequest extends DTOBase {
 
     constructor(data?: ISchemaPermissionSetCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => SchemaPermissionSetCreateRequest.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(SchemaPermissionSetCreateRequest.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaPermissionSetCreateManyRequest {
@@ -52287,21 +48062,12 @@ export class SchemaPermissionSetUpdateManyRequest extends DTOBase {
 
     constructor(data?: ISchemaPermissionSetUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => SchemaPermissionSetUpdateRequestItem.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(SchemaPermissionSetUpdateRequestItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): SchemaPermissionSetUpdateManyRequest {
@@ -52343,11 +48109,6 @@ export abstract class PermissionSetUpdateRequestItemOfMetadataRight extends Perm
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): PermissionSetUpdateRequestItemOfMetadataRight {
@@ -52436,17 +48197,6 @@ export class Transfer extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.name = data["name"];
-            this.state = data["state"];
-            this.transferType = data["transferType"];
-            this.businessProcessId = data["businessProcessId"];
-            this.fileTransferCount = data["fileTransferCount"];
-            this.collectionId = data["collectionId"];
-        */
-        }
     }
 
      fromJS(data: any): Transfer {
@@ -52510,13 +48260,6 @@ export class SchemaImportRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileTransferId = data["fileTransferId"];
-            this.allowMissingDependencies = data["allowMissingDependencies"];
-            this.importListItems = data["importListItems"];
-        */
-        }
     }
 
      fromJS(data: any): SchemaImportRequest {
@@ -52583,14 +48326,14 @@ export class ShareDetail extends DTOBase {
         this.setProp("object", "id", false);
         this.setProp("object", "name", false);
         this.setProp("object", "description", false);
-        this.setProp("object", "creator", true, (item: any) => new ShareUser(item));
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
-        this.setProp("array", "contentSelections", true, (item: any) => new ShareContentDetail(item));
+        this.setProp("object", "creator", true, (item: any) => ShareUser.fromJS(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("array", "contentSelections", true, (item: any) => ShareContentDetail.fromJS(item));
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "data", false);
+        this.setProp("object", "data", true, (item: any) => ShareDataBase.fromJS(item));
         this.setProp("object", "expirationDate", false);
         this.setProp("object", "expired", false);
-        this.setProp("object", "template", false);
+        this.setProp("object", "template", true, (item: any) => TemplateBase.fromJS(item));
         this.setProp("object", "outputAccess", false);
         this.setProp("object", "shareType", false);
 
@@ -52606,31 +48349,6 @@ export class ShareDetail extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.name = data["name"];
-            this.description = data["description"];
-            this.creator = data["creator"] ? ShareUser.fromJS(data["creator"]) : new ShareUser();
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
-            if (Array.isArray(data["contentSelections"])) {
-                this.contentSelections = [] as any;
-                for (let item of data["contentSelections"])
-                    this.contentSelections!.push(ShareContentDetail.fromJS(item));
-            }
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.data = data["data"] ? ShareDataBase.fromJS(data["data"]) : <any>undefined;
-            this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
-            this.expired = data["expired"];
-            this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
-            this.outputAccess = data["outputAccess"];
-            this.shareType = data["shareType"];
-        */
-        }
     }
 
      fromJS(data: any): ShareDetail {
@@ -52717,12 +48435,6 @@ export class ShareUser extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.displayName = data["displayName"];
-            this.emailHash = data["emailHash"];
-        */
-        }
     }
 
      fromJS(data: any): ShareUser {
@@ -52777,12 +48489,12 @@ export class ShareContentDetail extends DTOBase {
         super(data);
         this.setProp("object", "contentSchemaId", false);
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "content", true, (item: any) => new DataDictionary(item));
-        this.setProp("object", "metadata", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "content", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
         this.setProp("object", "id", false);
-        this.setProp("array", "outputs", false);
+        this.setProp("array", "outputs", true, (item: any) => ShareOutputBase.fromJS(item));
         this.setProp("object", "contentType", false);
-        this.setProp("object", "displayValues", true, (item: any) => new DisplayValueDictionary(item));
+        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
         this.setProp("object", "iconUrl", false);
 
         if (data) {
@@ -52797,27 +48509,6 @@ export class ShareContentDetail extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentSchemaId = data["contentSchemaId"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : new DataDictionary();
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
-            this.id = data["id"];
-            if (Array.isArray(data["outputs"])) {
-                this.outputs = [] as any;
-                for (let item of data["outputs"])
-                    this.outputs!.push(ShareOutputBase.fromJS(item));
-            }
-            this.contentType = data["contentType"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : new DisplayValueDictionary();
-            this.iconUrl = data["iconUrl"];
-        */
-        }
     }
 
      fromJS(data: any): ShareContentDetail {
@@ -52897,22 +48588,13 @@ export abstract class ShareOutputBase extends DTOBase {
         this.setProp("object", "outputFormatId", false);
         this.setProp("object", "viewUrl", false);
         this.setProp("object", "downloadUrl", false);
-        this.setProp("object", "detail", false);
+        this.setProp("object", "detail", true, (item: any) => OutputDataBase.fromJS(item));
 
         this._kind = "ShareOutputBase";
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            this.outputFormatId = data["outputFormatId"];
-            this.viewUrl = data["viewUrl"];
-            this.downloadUrl = data["downloadUrl"];
-            this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): ShareOutputBase {
@@ -53009,11 +48691,6 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.token = data["token"];
-        */
-        }
     }
 
      fromJS(data: any): ShareOutputEmbed {
@@ -53057,11 +48734,6 @@ export abstract class ShareDataBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.url = data["url"];
-        */
-        }
     }
 
      fromJS(data: any): ShareDataBase {
@@ -53111,11 +48783,6 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.token = data["token"];
-        */
-        }
     }
 
      fromJS(data: any): ShareDataEmbed {
@@ -53154,8 +48821,8 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
 
     constructor(data?: IShareDataBasic) {
         super(data);
-        this.setProp("array", "mailRecipients", true, (item: any) => new MailRecipient(item));
-        this.setProp("array", "internalRecipients", true, (item: any) => new InternalRecipient(item));
+        this.setProp("array", "mailRecipients", true, (item: any) => MailRecipient.fromJS(item));
+        this.setProp("array", "internalRecipients", true, (item: any) => InternalRecipient.fromJS(item));
         this.setProp("object", "languageCode", false);
 
         if (data) {
@@ -53170,21 +48837,6 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["mailRecipients"])) {
-                this.mailRecipients = [] as any;
-                for (let item of data["mailRecipients"])
-                    this.mailRecipients!.push(MailRecipient.fromJS(item));
-            }
-            if (Array.isArray(data["internalRecipients"])) {
-                this.internalRecipients = [] as any;
-                for (let item of data["internalRecipients"])
-                    this.internalRecipients!.push(InternalRecipient.fromJS(item));
-            }
-            this.languageCode = data["languageCode"];
-        */
-        }
     }
 
      fromJS(data: any): ShareDataBasic {
@@ -53237,7 +48889,7 @@ export class MailRecipient extends DTOBase {
 
     constructor(data?: IMailRecipient) {
         super(data);
-        this.setProp("object", "userEmail", true, (item: any) => new UserEmail(item));
+        this.setProp("object", "userEmail", true, (item: any) => UserEmail.fromJS(item));
         this.setProp("object", "token", false);
         this.setProp("object", "url", false);
 
@@ -53251,13 +48903,6 @@ export class MailRecipient extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.userEmail = data["userEmail"] ? UserEmail.fromJS(data["userEmail"]) : new UserEmail();
-            this.token = data["token"];
-            this.url = data["url"];
-        */
-        }
     }
 
      fromJS(data: any): MailRecipient {
@@ -53308,13 +48953,6 @@ export class UserEmail extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.emailAddress = data["emailAddress"];
-        */
-        }
     }
 
      fromJS(data: any): UserEmail {
@@ -53357,7 +48995,7 @@ export class InternalRecipient extends DTOBase {
 
     constructor(data?: IInternalRecipient) {
         super(data);
-        this.setProp("object", "recipient", true, (item: any) => new User(item));
+        this.setProp("object", "recipient", true, (item: any) => User.fromJS(item));
         this.setProp("object", "token", false);
         this.setProp("object", "url", false);
 
@@ -53371,13 +49009,6 @@ export class InternalRecipient extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.recipient = data["recipient"] ? User.fromJS(data["recipient"]) : new User();
-            this.token = data["token"];
-            this.url = data["url"];
-        */
-        }
     }
 
      fromJS(data: any): InternalRecipient {
@@ -53426,12 +49057,6 @@ export abstract class TemplateBase extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-        */
-        }
     }
 
      fromJS(data: any): TemplateBase {
@@ -53490,14 +49115,6 @@ export class CardTemplate extends TemplateBase implements ICardTemplate {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.showNavigation = data["showNavigation"];
-            this.showOverlay = data["showOverlay"];
-            this.showLogo = data["showLogo"];
-            this.showFooter = data["showFooter"];
-        */
-        }
     }
 
      fromJS(data: any): CardTemplate {
@@ -53610,7 +49227,7 @@ export class BaseResultOfShare extends DTOBase {
     constructor(data?: IBaseResultOfShare) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new Share(item));
+        this.setProp("array", "results", true, (item: any) => Share.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -53624,18 +49241,6 @@ export class BaseResultOfShare extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(Share.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfShare {
@@ -53679,7 +49284,7 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -53688,13 +49293,6 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfShare {
@@ -53780,7 +49378,7 @@ export class Share extends DTOBase {
         this.setProp("object", "id", false);
         this.setProp("object", "name", false);
         this.setProp("array", "contentIds", false);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
         this.setProp("object", "expirationDate", false);
         this.setProp("object", "shareType", false);
         this.setProp("object", "isReadOnly", false);
@@ -53796,21 +49394,6 @@ export class Share extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.name = data["name"];
-            if (Array.isArray(data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
-            this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
-            this.shareType = data["shareType"];
-            this.isReadOnly = data["isReadOnly"];
-        */
-        }
     }
 
      fromJS(data: any): Share {
@@ -53880,10 +49463,10 @@ export class ShareSearchRequest extends DTOBase {
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "debugMode", false);
 
         if (data) {
@@ -53893,25 +49476,6 @@ export class ShareSearchRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-        */
-        }
     }
 
      fromJS(data: any): ShareSearchRequest {
@@ -53985,10 +49549,10 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
-        this.setProp("object", "filter", false);
-        this.setProp("array", "aggregationFilters", false);
-        this.setProp("array", "aggregators", false);
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -53997,32 +49561,6 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
-            if (Array.isArray(data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ShareAggregationRequest {
@@ -54095,11 +49633,6 @@ export class CreateShareResult extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.shareId = data["shareId"];
-        */
-        }
     }
 
      fromJS(data: any): CreateShareResult {
@@ -54150,9 +49683,9 @@ export abstract class ShareBaseCreateRequest extends DTOBase {
         this.setProp("object", "name", false);
         this.setProp("object", "description", false);
         this.setProp("object", "expirationDate", false);
-        this.setProp("array", "contents", true, (item: any) => new ShareContent(item));
+        this.setProp("array", "contents", true, (item: any) => ShareContent.fromJS(item));
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "template", false);
+        this.setProp("object", "template", true, (item: any) => TemplateBase.fromJS(item));
         this.setProp("object", "outputAccess", false);
 
         if (data) {
@@ -54166,25 +49699,6 @@ export abstract class ShareBaseCreateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.description = data["description"];
-            this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
-            if (Array.isArray(data["contents"])) {
-                this.contents = [] as any;
-                for (let item of data["contents"])
-                    this.contents!.push(ShareContent.fromJS(item));
-            }
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
-            this.outputAccess = data["outputAccess"];
-        */
-        }
     }
 
      fromJS(data: any): ShareBaseCreateRequest {
@@ -54261,16 +49775,6 @@ export class ShareContent extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.contentId = data["contentId"];
-            if (Array.isArray(data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ShareContent {
@@ -54315,9 +49819,9 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
 
     constructor(data?: IShareBasicCreateRequest) {
         super(data);
-        this.setProp("array", "recipientsEmail", true, (item: any) => new UserEmail(item));
-        this.setProp("array", "recipientsUser", true, (item: any) => new User(item));
-        this.setProp("array", "recipientsGroup", false);
+        this.setProp("array", "recipientsEmail", true, (item: any) => UserEmail.fromJS(item));
+        this.setProp("array", "recipientsUser", true, (item: any) => User.fromJS(item));
+        this.setProp("array", "recipientsGroup", true, (item: any) => UserRole.fromJS(item));
         this.setProp("object", "languageCode", false);
 
         if (data) {
@@ -54328,26 +49832,6 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["recipientsEmail"])) {
-                this.recipientsEmail = [] as any;
-                for (let item of data["recipientsEmail"])
-                    this.recipientsEmail!.push(UserEmail.fromJS(item));
-            }
-            if (Array.isArray(data["recipientsUser"])) {
-                this.recipientsUser = [] as any;
-                for (let item of data["recipientsUser"])
-                    this.recipientsUser!.push(User.fromJS(item));
-            }
-            if (Array.isArray(data["recipientsGroup"])) {
-                this.recipientsGroup = [] as any;
-                for (let item of data["recipientsGroup"])
-                    this.recipientsGroup!.push(UserRole.fromJS(item));
-            }
-            this.languageCode = data["languageCode"];
-        */
-        }
     }
 
      fromJS(data: any): ShareBasicCreateRequest {
@@ -54404,7 +49888,7 @@ export class UserRoleEditable extends DTOBase {
 
     constructor(data?: IUserRoleEditable) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("array", "userRights", false);
 
         if (data) {
@@ -54418,16 +49902,6 @@ export class UserRoleEditable extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
-            if (Array.isArray(data["userRights"])) {
-                this.userRights = [] as any;
-                for (let item of data["userRights"])
-                    this.userRights!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleEditable {
@@ -54474,11 +49948,6 @@ export class UserRole extends UserRoleEditable implements IUserRole {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-        */
-        }
     }
 
      fromJS(data: any): UserRole {
@@ -54565,9 +50034,9 @@ export abstract class ShareBaseUpdateRequest extends DTOBase {
         this.setProp("object", "name", false);
         this.setProp("object", "expirationDate", false);
         this.setProp("object", "description", false);
-        this.setProp("array", "contents", true, (item: any) => new ShareContent(item));
+        this.setProp("array", "contents", true, (item: any) => ShareContent.fromJS(item));
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "template", false);
+        this.setProp("object", "template", true, (item: any) => TemplateBase.fromJS(item));
         this.setProp("object", "outputAccess", false);
 
         if (data) {
@@ -54581,25 +50050,6 @@ export abstract class ShareBaseUpdateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
-            this.description = data["description"];
-            if (Array.isArray(data["contents"])) {
-                this.contents = [] as any;
-                for (let item of data["contents"])
-                    this.contents!.push(ShareContent.fromJS(item));
-            }
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
-            this.outputAccess = data["outputAccess"];
-        */
-        }
     }
 
      fromJS(data: any): ShareBaseUpdateRequest {
@@ -54746,15 +50196,6 @@ export class ShareDeleteManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["ids"])) {
-                this.ids = [] as any;
-                for (let item of data["ids"])
-                    this.ids!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ShareDeleteManyRequest {
@@ -54807,7 +50248,7 @@ export class TransferDetail extends Transfer implements ITransferDetail {
 
     constructor(data?: ITransferDetail) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
         this.setProp("object", "itemProgress", false);
         this.setProp("object", "itemCount", false);
         this.setProp("object", "fileUploadInProgressCount", false);
@@ -54827,19 +50268,6 @@ export class TransferDetail extends Transfer implements ITransferDetail {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
-            this.itemProgress = data["itemProgress"];
-            this.itemCount = data["itemCount"];
-            this.fileUploadInProgressCount = data["fileUploadInProgressCount"];
-            this.dataExtractionInProgressCount = data["dataExtractionInProgressCount"];
-            this.itemsFailed = data["itemsFailed"];
-            this.itemsCancelled = data["itemsCancelled"];
-            this.lastDataExtractionProgressTimeStamp = data["lastDataExtractionProgressTimeStamp"] ? new Date(data["lastDataExtractionProgressTimeStamp"].toString()) : <any>undefined;
-            this.lastFileUploadProgressTimeStamp = data["lastFileUploadProgressTimeStamp"] ? new Date(data["lastFileUploadProgressTimeStamp"].toString()) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): TransferDetail {
@@ -54900,7 +50328,7 @@ export class BaseResultOfTransfer extends DTOBase {
     constructor(data?: IBaseResultOfTransfer) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new Transfer(item));
+        this.setProp("array", "results", true, (item: any) => Transfer.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -54914,18 +50342,6 @@ export class BaseResultOfTransfer extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(Transfer.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfTransfer {
@@ -54969,7 +50385,7 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -54978,13 +50394,6 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfTransfer {
@@ -55070,27 +50479,13 @@ Warning! It severely affects performance. */
         this.setProp("array", "searchBehaviors", false);
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "debugMode", false);
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-        */
-        }
     }
 
      fromJS(data: any): TransferSearchRequest {
@@ -55156,8 +50551,8 @@ export class CreateTransferRequest extends DTOBase {
         super(data);
         this.setProp("object", "name", false);
         this.setProp("object", "transferType", false);
-        this.setProp("array", "files", false);
-        this.setProp("array", "webLinks", false);
+        this.setProp("array", "files", true, (item: any) => TransferUploadFile.fromJS(item));
+        this.setProp("array", "webLinks", true, (item: any) => TransferWebLink.fromJS(item));
         this.setProp("object", "collectionName", false);
         this.setProp("object", "createCollection", false);
 
@@ -55165,24 +50560,6 @@ export class CreateTransferRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.transferType = data["transferType"];
-            if (Array.isArray(data["files"])) {
-                this.files = [] as any;
-                for (let item of data["files"])
-                    this.files!.push(TransferUploadFile.fromJS(item));
-            }
-            if (Array.isArray(data["webLinks"])) {
-                this.webLinks = [] as any;
-                for (let item of data["webLinks"])
-                    this.webLinks!.push(TransferWebLink.fromJS(item));
-            }
-            this.collectionName = data["collectionName"];
-            this.createCollection = data["createCollection"];
-        */
-        }
     }
 
      fromJS(data: any): CreateTransferRequest {
@@ -55248,12 +50625,6 @@ export abstract class TransferFile extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.identifier = data["identifier"];
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): TransferFile {
@@ -55294,11 +50665,6 @@ export class TransferUploadFile extends TransferFile implements ITransferUploadF
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileName = data["fileName"];
-        */
-        }
     }
 
      fromJS(data: any): TransferUploadFile {
@@ -55339,11 +50705,6 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.url = data["url"];
-        */
-        }
     }
 
      fromJS(data: any): TransferWebLink {
@@ -55402,17 +50763,6 @@ export class FileTransfer extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.name = data["name"];
-            this.identifier = data["identifier"];
-            this.requestId = data["requestId"];
-            this.transferId = data["transferId"];
-            this.state = data["state"];
-            this.contentId = data["contentId"];
-        */
-        }
     }
 
      fromJS(data: any): FileTransfer {
@@ -55468,9 +50818,9 @@ export class FileTransferDetail extends FileTransfer implements IFileTransferDet
 
     constructor(data?: IFileTransferDetail) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => new UserAudit(item));
-        this.setProp("object", "fileMetadata", false);
-        this.setProp("array", "outputItems", true, (item: any) => new FileTransferOutput(item));
+        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "fileMetadata", true, (item: any) => FileMetadata.fromJS(item));
+        this.setProp("array", "outputItems", true, (item: any) => FileTransferOutput.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -55482,17 +50832,6 @@ export class FileTransferDetail extends FileTransfer implements IFileTransferDet
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : new UserAudit();
-            this.fileMetadata = data["fileMetadata"] ? FileMetadata.fromJS(data["fileMetadata"]) : <any>undefined;
-            if (Array.isArray(data["outputItems"])) {
-                this.outputItems = [] as any;
-                for (let item of data["outputItems"])
-                    this.outputItems!.push(FileTransferOutput.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): FileTransferDetail {
@@ -55546,8 +50885,8 @@ export class FileMetadata extends DTOBase {
 
     constructor(data?: IFileMetadata) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => new TranslatedStringDictionary(item));
-        this.setProp("object", "descriptions", true, (item: any) => new TranslatedStringDictionary(item));
+        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
         this.setProp("object", "fileExtension", false);
         this.setProp("object", "fileName", false);
         this.setProp("object", "filePath", false);
@@ -55565,20 +50904,6 @@ export class FileMetadata extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.descriptions = data["descriptions"] ? TranslatedStringDictionary.fromJS(data["descriptions"]) : <any>undefined;
-            this.fileExtension = data["fileExtension"];
-            this.fileName = data["fileName"];
-            this.filePath = data["filePath"];
-            this.fileSizeInBytes = data["fileSizeInBytes"];
-            this.sha1Hash = data["sha1Hash"];
-            this.xmpMetadata = data["xmpMetadata"];
-            this.exifMetadata = data["exifMetadata"];
-            this.language = data["language"];
-        */
-        }
     }
 
      fromJS(data: any): FileMetadata {
@@ -55647,7 +50972,7 @@ export class AudioMetadata extends FileMetadata implements IAudioMetadata {
 
     constructor(data?: IAudioMetadata) {
         super(data);
-        this.setProp("array", "audioStreams", true, (item: any) => new AudioStream(item));
+        this.setProp("array", "audioStreams", true, (item: any) => AudioStream.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -55657,15 +50982,6 @@ export class AudioMetadata extends FileMetadata implements IAudioMetadata {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["audioStreams"])) {
-                this.audioStreams = [] as any;
-                for (let item of data["audioStreams"])
-                    this.audioStreams!.push(AudioStream.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): AudioMetadata {
@@ -55726,21 +51042,6 @@ export class AudioStream extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.bitRate = data["bitRate"];
-            this.bitRateMode = data["bitRateMode"];
-            this.channels = data["channels"];
-            this.channelPositions = data["channelPositions"];
-            this.codec = data["codec"];
-            this.durationInSeconds = data["durationInSeconds"];
-            this.format = data["format"];
-            this.language = data["language"];
-            this.resolution = data["resolution"];
-            this.samplingRate = data["samplingRate"];
-            this.streamSize = data["streamSize"];
-        */
-        }
     }
 
      fromJS(data: any): AudioStream {
@@ -55822,7 +51123,7 @@ export class DocumentMetadata extends FileMetadata implements IDocumentMetadata 
         this.setProp("object", "revisionNumber", false);
         this.setProp("array", "titles", false);
         this.setProp("array", "imageTitles", false);
-        this.setProp("object", "epsInfo", true, (item: any) => new EpsMetadata(item));
+        this.setProp("object", "epsInfo", true, (item: any) => EpsMetadata.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -55832,35 +51133,6 @@ export class DocumentMetadata extends FileMetadata implements IDocumentMetadata 
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.applicationName = data["applicationName"];
-            this.applicationVersion = data["applicationVersion"];
-            this.author = data["author"];
-            this.creator = data["creator"];
-            this.publisher = data["publisher"];
-            this.company = data["company"];
-            this.documentTitle = data["documentTitle"];
-            this.characterCount = data["characterCount"];
-            this.characterCountWithSpaces = data["characterCountWithSpaces"];
-            this.lineCount = data["lineCount"];
-            this.pageCount = data["pageCount"];
-            this.slideCount = data["slideCount"];
-            this.paragraphCount = data["paragraphCount"];
-            this.revisionNumber = data["revisionNumber"];
-            if (Array.isArray(data["titles"])) {
-                this.titles = [] as any;
-                for (let item of data["titles"])
-                    this.titles!.push(item);
-            }
-            if (Array.isArray(data["imageTitles"])) {
-                this.imageTitles = [] as any;
-                for (let item of data["imageTitles"])
-                    this.imageTitles!.push(item);
-            }
-            this.epsInfo = data["epsInfo"] ? EpsMetadata.fromJS(data["epsInfo"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): DocumentMetadata {
@@ -55941,13 +51213,6 @@ export class EpsMetadata extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.isRasterized = data["isRasterized"];
-            this.widthInPoints = data["widthInPoints"];
-            this.heightInPoints = data["heightInPoints"];
-        */
-        }
     }
 
      fromJS(data: any): EpsMetadata {
@@ -56034,34 +51299,6 @@ export class ImageMetadata extends FileMetadata implements IImageMetadata {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-            this.widthInInch = data["widthInInch"];
-            this.heightInInch = data["heightInInch"];
-            this.widthInCm = data["widthInCm"];
-            this.heightInCm = data["heightInCm"];
-            this.colorSpace = data["colorSpace"];
-            this.colorProfile = data["colorProfile"];
-            this.bitsPerPixel = data["bitsPerPixel"];
-            this.bitsPerChannel = data["bitsPerChannel"];
-            this.channels = data["channels"];
-            this.pixelFormat = data["pixelFormat"];
-            this.hasAlpha = data["hasAlpha"];
-            this.isIndexed = data["isIndexed"];
-            this.isExtended = data["isExtended"];
-            this.horizontalResolution = data["horizontalResolution"];
-            this.verticalResolution = data["verticalResolution"];
-            this.totalFrames = data["totalFrames"];
-            this.totalUnspecifiedTiffExtraChannels = data["totalUnspecifiedTiffExtraChannels"];
-            this.hasExifData = data["hasExifData"];
-            this.hasIptcData = data["hasIptcData"];
-            this.hasAdobeResourceData = data["hasAdobeResourceData"];
-            this.hasXmpData = data["hasXmpData"];
-            this.uncompressedSizeInBytes = data["uncompressedSizeInBytes"];
-        */
-        }
     }
 
      fromJS(data: any): ImageMetadata {
@@ -56151,8 +51388,8 @@ export class VideoMetadata extends FileMetadata implements IVideoMetadata {
         this.setProp("object", "format", false);
         this.setProp("object", "codec", false);
         this.setProp("object", "overallBitrate", false);
-        this.setProp("array", "videoStreams", true, (item: any) => new VideoStream(item));
-        this.setProp("array", "audioStreams", true, (item: any) => new AudioStream(item));
+        this.setProp("array", "videoStreams", true, (item: any) => VideoStream.fromJS(item));
+        this.setProp("array", "audioStreams", true, (item: any) => AudioStream.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -56162,26 +51399,6 @@ export class VideoMetadata extends FileMetadata implements IVideoMetadata {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.width = data["width"];
-            this.height = data["height"];
-            this.durationInSeconds = data["durationInSeconds"];
-            this.format = data["format"];
-            this.codec = data["codec"];
-            this.overallBitrate = data["overallBitrate"];
-            if (Array.isArray(data["videoStreams"])) {
-                this.videoStreams = [] as any;
-                for (let item of data["videoStreams"])
-                    this.videoStreams!.push(VideoStream.fromJS(item));
-            }
-            if (Array.isArray(data["audioStreams"])) {
-                this.audioStreams = [] as any;
-                for (let item of data["audioStreams"])
-                    this.audioStreams!.push(AudioStream.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): VideoMetadata {
@@ -56266,24 +51483,6 @@ export class VideoStream extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.bitRate = data["bitRate"];
-            this.codec = data["codec"];
-            this.displayAspectRatio = data["displayAspectRatio"];
-            this.durationInSeconds = data["durationInSeconds"];
-            this.format = data["format"];
-            this.frameCount = data["frameCount"];
-            this.frameRate = data["frameRate"];
-            this.height = data["height"];
-            this.language = data["language"];
-            this.pixelAspectRatio = data["pixelAspectRatio"];
-            this.resolution = data["resolution"];
-            this.streamSize = data["streamSize"];
-            this.width = data["width"];
-            this.rotation = data["rotation"];
-        */
-        }
     }
 
      fromJS(data: any): VideoStream {
@@ -56349,13 +51548,6 @@ export class FileTransferOutput extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.filePath = data["filePath"];
-            this.outputSource = data["outputSource"];
-        */
-        }
     }
 
      fromJS(data: any): FileTransferOutput {
@@ -56416,7 +51608,7 @@ export class BaseResultOfFileTransfer extends DTOBase {
     constructor(data?: IBaseResultOfFileTransfer) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new FileTransfer(item));
+        this.setProp("array", "results", true, (item: any) => FileTransfer.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -56430,18 +51622,6 @@ export class BaseResultOfFileTransfer extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(FileTransfer.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfFileTransfer {
@@ -56485,7 +51665,7 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -56494,13 +51674,6 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfFileTransfer {
@@ -56583,25 +51756,12 @@ export class FileTransferSearchRequest extends DTOBase {
         this.setProp("array", "searchBehaviors", false);
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
 
     }
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): FileTransferSearchRequest {
@@ -56651,7 +51811,7 @@ export class Blacklist extends DTOBase {
 
     constructor(data?: IBlacklist) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => new BlacklistItem(item));
+        this.setProp("array", "items", true, (item: any) => BlacklistItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -56663,15 +51823,6 @@ export class Blacklist extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(BlacklistItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): Blacklist {
@@ -56718,12 +51869,6 @@ export class BlacklistItem extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.name = data["name"];
-            this.match = data["match"];
-        */
-        }
     }
 
      fromJS(data: any): BlacklistItem {
@@ -56772,16 +51917,6 @@ export class FileTransferDeleteRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.transferId = data["transferId"];
-            if (Array.isArray(data["fileTransferIds"])) {
-                this.fileTransferIds = [] as any;
-                for (let item of data["fileTransferIds"])
-                    this.fileTransferIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): FileTransferDeleteRequest {
@@ -56825,7 +51960,7 @@ export class ImportTransferRequest extends DTOBase {
     constructor(data?: IImportTransferRequest) {
         super(data);
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "metadata", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
         this.setProp("array", "contentPermissionSetIds", false);
 
         if (data) {
@@ -56835,21 +51970,6 @@ export class ImportTransferRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
-            if (Array.isArray(data["contentPermissionSetIds"])) {
-                this.contentPermissionSetIds = [] as any;
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): ImportTransferRequest {
@@ -56893,7 +52013,7 @@ export class ImportTransferPartialRequest extends DTOBase {
 
     constructor(data?: IImportTransferPartialRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => new FileTransferCreateItem(item));
+        this.setProp("array", "items", true, (item: any) => FileTransferCreateItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -56902,15 +52022,6 @@ export class ImportTransferPartialRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(FileTransferCreateItem.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): ImportTransferPartialRequest {
@@ -56951,7 +52062,7 @@ export class FileTransferCreateItem extends DTOBase {
         super(data);
         this.setProp("object", "fileId", false);
         this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "metadata", true, (item: any) => new DataDictionary(item));
+        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
         this.setProp("array", "contentPermissionSetIds", false);
 
         if (data) {
@@ -56961,22 +52072,6 @@ export class FileTransferCreateItem extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.fileId = data["fileId"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
-            if (Array.isArray(data["contentPermissionSetIds"])) {
-                this.contentPermissionSetIds = [] as any;
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): FileTransferCreateItem {
@@ -57030,10 +52125,10 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
 
     constructor(data?: IUserUpdateRequest) {
         super(data);
-        this.setProp("array", "userRoles", false);
+        this.setProp("array", "userRoles", true, (item: any) => UserRole.fromJS(item));
         this.setProp("object", "comment", false);
         this.setProp("object", "languageCode", false);
-        this.setProp("object", "address", true, (item: any) => new UserAddress(item));
+        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -57042,18 +52137,6 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["userRoles"])) {
-                this.userRoles = [] as any;
-                for (let item of data["userRoles"])
-                    this.userRoles!.push(UserRole.fromJS(item));
-            }
-            this.comment = data["comment"];
-            this.languageCode = data["languageCode"];
-            this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): UserUpdateRequest {
@@ -57111,7 +52194,7 @@ export class UserDetail extends UserUpdateRequest implements IUserDetail {
 
     constructor(data?: IUserDetail) {
         super(data);
-        this.setProp("array", "ownerTokens", true, (item: any) => new OwnerToken(item));
+        this.setProp("array", "ownerTokens", true, (item: any) => OwnerToken.fromJS(item));
         this.setProp("object", "authorizationState", false);
         this.setProp("object", "isLocked", false);
         this.setProp("object", "lifeCycle", false);
@@ -57125,20 +52208,6 @@ export class UserDetail extends UserUpdateRequest implements IUserDetail {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["ownerTokens"])) {
-                this.ownerTokens = [] as any;
-                for (let item of data["ownerTokens"])
-                    this.ownerTokens!.push(OwnerToken.fromJS(item));
-            }
-            this.authorizationState = data["authorizationState"];
-            this.isLocked = data["isLocked"];
-            this.lifeCycle = data["lifeCycle"];
-            this.isSupportUser = data["isSupportUser"];
-            this.isReadOnly = data["isReadOnly"];
-        */
-        }
     }
 
      fromJS(data: any): UserDetail {
@@ -57200,12 +52269,6 @@ export class OwnerToken extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.id = data["id"];
-            this.userId = data["userId"];
-        */
-        }
     }
 
      fromJS(data: any): OwnerToken {
@@ -57256,7 +52319,7 @@ export class UserCreateRequest extends DTOBase {
         this.setProp("object", "emailAddress", false);
         this.setProp("object", "languageCode", false);
         this.setProp("array", "userRoleIds", false);
-        this.setProp("object", "address", true, (item: any) => new UserAddress(item));
+        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -57265,20 +52328,6 @@ export class UserCreateRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.emailAddress = data["emailAddress"];
-            this.languageCode = data["languageCode"];
-            if (Array.isArray(data["userRoleIds"])) {
-                this.userRoleIds = [] as any;
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds!.push(item);
-            }
-            this.address = data["address"] ? UserAddress.fromJS(data["address"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): UserCreateRequest {
@@ -57333,7 +52382,7 @@ export class BaseResultOfUserWithRoles extends DTOBase {
     constructor(data?: IBaseResultOfUserWithRoles) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => new UserWithRoles(item));
+        this.setProp("array", "results", true, (item: any) => UserWithRoles.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -57347,18 +52396,6 @@ export class BaseResultOfUserWithRoles extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(UserWithRoles.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfUserWithRoles {
@@ -57402,7 +52439,7 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -57411,13 +52448,6 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfUserWithRoles {
@@ -57518,23 +52548,6 @@ export class UserWithRoles extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["userRoleIds"])) {
-                this.userRoleIds = [] as any;
-                for (let item of data["userRoleIds"])
-                    this.userRoleIds!.push(item);
-            }
-            this.id = data["id"];
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.emailAddress = data["emailAddress"];
-            this.authorizationState = data["authorizationState"];
-            this.lifeCycle = data["lifeCycle"];
-            this.isSupportUser = data["isSupportUser"];
-            this.isReadOnly = data["isReadOnly"];
-        */
-        }
     }
 
      fromJS(data: any): UserWithRoles {
@@ -57615,10 +52628,10 @@ export class UserSearchRequest extends DTOBase {
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "lifeCycleFilter", false);
         this.setProp("array", "userRightsFilter", false);
         this.setProp("object", "debugMode", false);
@@ -57631,32 +52644,6 @@ export class UserSearchRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            if (Array.isArray(data["userRightsFilter"])) {
-                this.userRightsFilter = [] as any;
-                for (let item of data["userRightsFilter"])
-                    this.userRightsFilter!.push(item);
-            }
-            this.debugMode = data["debugMode"];
-            this.includeServiceUser = data["includeServiceUser"];
-        */
-        }
     }
 
      fromJS(data: any): UserSearchRequest {
@@ -57742,10 +52729,10 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
-        this.setProp("object", "filter", false);
-        this.setProp("array", "aggregationFilters", false);
-        this.setProp("array", "aggregators", false);
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -57754,32 +52741,6 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
-            if (Array.isArray(data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserAggregationRequest {
@@ -57852,11 +52813,6 @@ If _true_ was specified, the user will be _locked_. _False_ will unlock the prev
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.lock = data["lock"];
-        */
-        }
     }
 
      fromJS(data: any): UserLockRequest {
@@ -57897,11 +52853,6 @@ If _true_ is specified, user will be transitioned into _reviewed_ state. _False_
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.reviewed = data["reviewed"];
-        */
-        }
     }
 
      fromJS(data: any): UserReviewRequest {
@@ -57942,11 +52893,6 @@ export class UserDeleteRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.ownerTokenTransferUserId = data["ownerTokenTransferUserId"];
-        */
-        }
     }
 
      fromJS(data: any): UserDeleteRequest {
@@ -57982,7 +52928,7 @@ export class BaseResultOfUserRole extends DTOBase {
     constructor(data?: IBaseResultOfUserRole) {
         super(data);
         this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", false);
+        this.setProp("array", "results", true, (item: any) => UserRole.fromJS(item));
         this.setProp("object", "elapsedMilliseconds", false);
         this.setProp("object", "pageToken", false);
 
@@ -57993,18 +52939,6 @@ export class BaseResultOfUserRole extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.totalResults = data["totalResults"];
-            if (Array.isArray(data["results"])) {
-                this.results = [] as any;
-                for (let item of data["results"])
-                    this.results!.push(UserRole.fromJS(item));
-            }
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            this.pageToken = data["pageToken"];
-        */
-        }
     }
 
      fromJS(data: any): BaseResultOfUserRole {
@@ -58048,7 +52982,7 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => new QueryDebugInformation(item));
+        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -58057,13 +52991,6 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        */
-        }
     }
 
      fromJS(data: any): SearchBehaviorBaseResultOfUserRole {
@@ -58151,10 +53078,10 @@ export class UserRoleSearchRequest extends DTOBase {
         super(data);
         this.setProp("object", "searchString", false);
         this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => new SortInfo(item));
+        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
         this.setProp("object", "limit", false);
         this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", false);
+        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
         this.setProp("object", "debugMode", false);
         this.setProp("array", "searchLanguages", false);
         this.setProp("object", "includeAdministratorSystemUserRole", false);
@@ -58166,31 +53093,6 @@ export class UserRoleSearchRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.debugMode = data["debugMode"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.includeAdministratorSystemUserRole = data["includeAdministratorSystemUserRole"];
-        */
-        }
     }
 
      fromJS(data: any): UserRoleSearchRequest {
@@ -58267,11 +53169,6 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            this.requestId = data["requestId"];
-        */
-        }
     }
 
      fromJS(data: any): UserRoleCreateRequest {
@@ -58308,7 +53205,7 @@ export class UserRoleCreateManyRequest extends DTOBase {
 
     constructor(data?: IUserRoleCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => UserRoleCreateRequest.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -58317,15 +53214,6 @@ export class UserRoleCreateManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(UserRoleCreateRequest.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleCreateManyRequest {
@@ -58363,7 +53251,7 @@ export class UserRoleUpdateManyRequest extends DTOBase {
 
     constructor(data?: IUserRoleUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", false);
+        this.setProp("array", "items", true, (item: any) => UserRole.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -58372,15 +53260,6 @@ export class UserRoleUpdateManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(UserRole.fromJS(item));
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleUpdateManyRequest {
@@ -58427,15 +53306,6 @@ export class UserRoleDeleteManyRequest extends DTOBase {
 
     init(data?: any) {
         super.init(data);
-        if (data) {
-        /*
-            if (Array.isArray(data["ids"])) {
-                this.ids = [] as any;
-                for (let item of data["ids"])
-                    this.ids!.push(item);
-            }
-        */
-        }
     }
 
      fromJS(data: any): UserRoleDeleteManyRequest {

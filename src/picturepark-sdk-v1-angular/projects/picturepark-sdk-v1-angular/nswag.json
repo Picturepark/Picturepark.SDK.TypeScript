@@ -1,5 +1,5 @@
 ﻿{
-  "runtime": "Default",
+  "runtime": "NetCore22",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {

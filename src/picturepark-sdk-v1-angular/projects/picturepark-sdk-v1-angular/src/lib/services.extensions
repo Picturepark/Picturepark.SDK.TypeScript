@@ -32,7 +32,7 @@ export abstract class DTOBase {
                         this[field.propertyName] = [] as any;
                         for (let item of data[field.propertyName]) {
                             if(field.supportsConstructorConversion === true) {
-                                this[field.propertyName].push(field.builder!(undefined).fromJS(item));
+                                this[field.propertyName].push(field.builder!(item));
                             } else {
                                 this[field.propertyName].push(item);
                             }
@@ -41,7 +41,7 @@ export abstract class DTOBase {
                     break;
                 case "object":
                         if(field.supportsConstructorConversion === true) {
-                            this[field.propertyName] = data[field.propertyName] ? field.builder!(undefined).fromJS(data[field.propertyName]) : <any>undefined;
+                            this[field.propertyName] = data[field.propertyName] ? field.builder!(data[field.propertyName]) : <any>undefined;
                         } else {
                             this[field.propertyName] = data[field.propertyName];
                         }
