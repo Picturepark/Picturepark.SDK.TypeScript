@@ -1,5 +1,5 @@
 .application-header-container {
-    background-color: rgb(255,255,255); color: rgba(0,0,0,0.87); border-bottom: 1px solid #d8d8d8; height: 63px;
+   display: flex; background-color: rgb(255,255,255); color: rgba(0,0,0,0.87); border-bottom: 1px solid #d8d8d8; height: 63px;
     & .title-container {
         color: #444; font-weight: 400; font-size: 18px; line-height: 64px; width: 20%; float: left; border-right: 1px solid #d8d8d8;
         span { padding: 0px 30px; font-weight: bold; }
@@ -19,7 +19,7 @@
     }
 
     & .close-container { 
-        float: right; width: 64px; height: 64px; border-left: 1px solid #d8d8d8; cursor: pointer;
+        float: right; width: 64px; height: 64px; border-left: 1px solid #d8d8d8; cursor: pointer; position: absolute; right: 0px;
         & .close-content {
             text-align: center;
             & i { line-height: 63px; }

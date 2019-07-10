@@ -1,5 +1,5 @@
-<div class="application-menu-container">
-  <div class="application-menu-logo">
+<div class="application-menu-container" [ngClass]="{ active: menuState }">
+  <div class="application-menu-logo" (click)="expandMenu()">
     <span>PP</span>
   </div>
   <ul>

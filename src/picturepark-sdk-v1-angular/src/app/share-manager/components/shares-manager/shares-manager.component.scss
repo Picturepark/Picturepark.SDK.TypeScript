@@ -1,2 +1,5 @@
-.content { width: 80%; float: left; height: 100%; }
-.filters { width: 20%; float: left; height: 100%; }
+.shares-manager-container {
+    display: flex;
+    .content { width: 80%; float: left; height: 100%; }
+    .filters { width: 20%; float: left; height: 100%; }
+}

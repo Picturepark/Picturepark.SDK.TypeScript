@@ -23,7 +23,19 @@ export class ApplicationMenuComponent implements OnInit {
     link: ''
   }];
 
+  // VARS
+  menuState: boolean = false;
+
   constructor() { }
+
+  // EXPAND MENU
+  expandMenu(): void {
+    if (this.menuState) {
+      this.menuState = false;
+    } else {
+      this.menuState = true;
+    }
+  }
 
   ngOnInit() {
   }
