@@ -21,13 +21,13 @@
     constructor({% if GenerateConstructorInterface %}data?: I{{ ClassName }}{% endif %}) {
         super({% if GenerateConstructorInterface %}data{% endif %});
 {%     for property in Properties -%}
-{%                     if property.IsArray -%}
-        this.setProp("array", "{{ property.PropertyName }}", {{property.IsArrayItemNewableObject}}{% if property.IsArrayItemNewableObject -%}, (item: any) => {{ property.ArrayItemType }}.fromJS(item){% endif %});
-{%                     elseif property.IsDictionary -%}
-        this.setProp("dictionary", "{{ property.PropertyName }}", {{property.SupportsConstructorConversion}}{% if property.SupportsConstructorConversion -%}, (item: any) => new {{ property.DictionaryItemType }}(item){% endif %});
-{%                     else -%}
-        this.setProp("object", "{{ property.PropertyName }}", {{property.IsNewableObject}}{% if property.IsNewableObject -%}, (item: any) => {{ property.Type }}.fromJS(item){% endif %});
-{%                     endif property.IsArray -%}
+{%        if property.IsArray -%}
+        this.setProp("array", "{{ property.Type }}", "{{ property.PropertyName }}", {{property.IsArrayItemNewableObject}}{% if property.IsArrayItemNewableObject -%}, (item: any) => {{ property.ArrayItemType }}.fromJS(item){% endif %});
+{%        elseif property.IsDictionary -%}
+        this.setProp("dictionary", "{{ property.Type }}", "{{ property.PropertyName }}", {{property.SupportsConstructorConversion}}{% if property.SupportsConstructorConversion -%}, (item: any) => new {{ property.DictionaryItemType }}(item){% endif %});
+{%        else -%}
+        this.setProp("object", "{{ property.Type }}", "{{ property.PropertyName }}", {{property.IsNewableObject}}{% if property.IsNewableObject -%}, (item: any) => {{ property.Type }}.fromJS(item){% endif %});
+{%        endif property.IsArray -%}
 {%     endfor -%}
 
 {%     if GenerateConstructorInterface and (HasInheritance == false or ConvertConstructorInterfaceData) -%}
@@ -110,25 +110,6 @@
 {% endif -%}
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-{% if HasIndexerProperty -%}
-        for (var property in this) {
-            if (this.hasOwnProperty(property) && property !== '_fields')
-                data[property] = this[property];
-        }
-{% endif -%}
-{% if HasDiscriminator -%}
-        data["{{ BaseDiscriminator }}"] = this._kind; 
-{% endif -%}
-{% for property in Properties -%}
-        {{ property.ConvertToJavaScriptCode | tab }}
-{% endfor -%}
-{% if HasInheritance -%}
-        super.toJSON(data);
-{% endif -%}
-        return data; 
-    }
 {% if GenerateCloneMethod -%}
 
     clone(): {{ ClassName }} {

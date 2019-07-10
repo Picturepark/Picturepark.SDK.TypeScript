@@ -19,6 +19,7 @@ export abstract class DTOBase {
     // tslint:disable-next-line: variable-name
     private _fields: {
         type: 'object' | 'array' | 'dictionary';
+        dataType: string;
         propertyName: string;
         supportsConstructorConversion: boolean;
         builder?: (item: any) => any;
@@ -91,11 +92,12 @@ export abstract class DTOBase {
 
     setProp(
         type: 'object' | 'array' | 'dictionary',
+        dataType: string,
         propertyName: string,
         supportsConstructorConversion: boolean,
         builder?: (item: any) => any
     ): void {
-        this._fields.push({type, supportsConstructorConversion, propertyName, builder});
+        this._fields.push({type, dataType, supportsConstructorConversion, propertyName, builder});
     }
 
     constructArray<T>(data: any, propertyName: string, builder?: (item: any) => T): void {
@@ -123,6 +125,39 @@ export abstract class DTOBase {
     constructObject<T>(data: any, propertyName: string, builder?: (item: any) => T): void {
         this[propertyName] = data[propertyName] && !(data[propertyName] as any).toJSON && builder
             ? builder(data[propertyName]) : this[propertyName] as T;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this["_kind"];
+        this._fields.forEach(field => {
+            switch (field.type) {
+                case 'array':
+                    if (this[field.propertyName]) {
+                        data[field.propertyName] = [];
+                        for (let i = 0; i < this[field.propertyName].length; i++) {
+                            const item = this[field.propertyName][i];
+                            data[field.propertyName][i] = item && (item as any).toJSON  ? (item as any).toJSON() : item as any;
+                        }
+                    }
+                    break;
+                case 'dictionary':
+                    if (this[field.propertyName]) {
+                        data[field.propertyName] = {};
+                        for (const key in this[field.propertyName]) {
+                            if (this[field.propertyName].hasOwnProperty(key)) {
+                                const item = this[field.propertyName][key];
+                                data[field.propertyName][key] = item && (item as any).toJSON ? (item as any).toJSON() : item as any;
+                            }
+                        }
+                    }
+                    break;
+                case 'object':
+                    data[field.propertyName] = this[field.propertyName] && (this[field.propertyName] as any).toJSON ?(this[field.propertyName] as any).toJSON : this[field.propertyName] as any;
+                    break;
+            }
+        });
+        return data;
     }
 }
 
@@ -17042,10 +17077,10 @@ export class BaseResultOfBusinessProcess extends DTOBase {
 
     constructor(data?: IBaseResultOfBusinessProcess) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => BusinessProcess.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "BusinessProcess[]", "results", true, (item: any) => BusinessProcess.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (!data) {
             this.results = [];
@@ -17067,18 +17102,6 @@ export class BaseResultOfBusinessProcess extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfBusinessProcess {
@@ -17095,9 +17118,9 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
 
     constructor(data?: ISearchBehaviorBaseResultOfBusinessProcess) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -17119,14 +17142,6 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultOfBusinessProcess {
@@ -17158,11 +17173,6 @@ export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusin
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Search result from a search for business processes */
@@ -17177,10 +17187,10 @@ export class QueryDebugInformation extends DTOBase {
 
     constructor(data?: IQueryDebugInformation) {
         super(data);
-        this.setProp("object", "general", false);
-        this.setProp("object", "auditTrail", false);
-        this.setProp("object", "request", false);
-        this.setProp("object", "response", false);
+        this.setProp("object", "string", "general", false);
+        this.setProp("object", "string", "auditTrail", false);
+        this.setProp("object", "any", "request", false);
+        this.setProp("object", "any", "response", false);
 
     }
 
@@ -17199,14 +17209,6 @@ export class QueryDebugInformation extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["general"] = this.general;
-        data["auditTrail"] = this.auditTrail;
-        data["request"] = this.request;
-        data["response"] = this.response;
-        return data; 
-    }
 }
 
 export interface IQueryDebugInformation {
@@ -17249,19 +17251,19 @@ export class BusinessProcess extends DTOBase {
 
     constructor(data?: IBusinessProcess) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "processDefinitionId", false);
-        this.setProp("object", "referenceId", false);
-        this.setProp("object", "referenceDocType", false);
-        this.setProp("object", "supportsCancellation", false);
-        this.setProp("object", "businessProcessScope", false);
-        this.setProp("object", "lifeCycle", false);
-        this.setProp("object", "startDate", false);
-        this.setProp("object", "endDate", false);
-        this.setProp("object", "finished", false);
-        this.setProp("array", "stateHistory", true, (item: any) => BusinessProcessState.fromJS(item));
-        this.setProp("object", "currentState", false);
-        this.setProp("object", "lastReportedProgress", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "processDefinitionId", false);
+        this.setProp("object", "string", "referenceId", false);
+        this.setProp("object", "string", "referenceDocType", false);
+        this.setProp("object", "boolean", "supportsCancellation", false);
+        this.setProp("object", "BusinessProcessScope", "businessProcessScope", false);
+        this.setProp("object", "BusinessProcessLifeCycle", "lifeCycle", false);
+        this.setProp("object", "Date", "startDate", false);
+        this.setProp("object", "Date", "endDate", false);
+        this.setProp("object", "boolean", "finished", false);
+        this.setProp("array", "BusinessProcessState[]", "stateHistory", true, (item: any) => BusinessProcessState.fromJS(item));
+        this.setProp("object", "string", "currentState", false);
+        this.setProp("object", "Date", "lastReportedProgress", false);
 
         if (data) {
             this.construct(data);
@@ -17289,28 +17291,6 @@ export class BusinessProcess extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["id"] = this.id;
-        data["processDefinitionId"] = this.processDefinitionId;
-        data["referenceId"] = this.referenceId;
-        data["referenceDocType"] = this.referenceDocType;
-        data["supportsCancellation"] = this.supportsCancellation;
-        data["businessProcessScope"] = this.businessProcessScope;
-        data["lifeCycle"] = this.lifeCycle;
-        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
-        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
-        data["finished"] = this.finished;
-        if (Array.isArray(this.stateHistory)) {
-            data["stateHistory"] = [];
-            for (let item of this.stateHistory)
-                data["stateHistory"].push(item.toJSON());
-        }
-        data["currentState"] = this.currentState;
-        data["lastReportedProgress"] = this.lastReportedProgress ? this.lastReportedProgress.toISOString() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Business process */
@@ -17371,9 +17351,9 @@ export class BusinessProcessState extends DTOBase {
 
     constructor(data?: IBusinessProcessState) {
         super(data);
-        this.setProp("object", "state", false);
-        this.setProp("object", "timestamp", false);
-        this.setProp("object", "error", true, (item: any) => ErrorResponse.fromJS(item));
+        this.setProp("object", "string", "state", false);
+        this.setProp("object", "Date", "timestamp", false);
+        this.setProp("object", "ErrorResponse", "error", true, (item: any) => ErrorResponse.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -17395,13 +17375,6 @@ export class BusinessProcessState extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["state"] = this.state;
-        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** State transition information of a business process */
@@ -17425,9 +17398,9 @@ export class ErrorResponse extends DTOBase {
 
     constructor(data?: IErrorResponse) {
         super(data);
-        this.setProp("object", "exception", false);
-        this.setProp("object", "traceId", false);
-        this.setProp("object", "traceJobId", false);
+        this.setProp("object", "string", "exception", false);
+        this.setProp("object", "string", "traceId", false);
+        this.setProp("object", "string", "traceJobId", false);
 
     }
 
@@ -17446,13 +17419,6 @@ export class ErrorResponse extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["exception"] = this.exception;
-        data["traceId"] = this.traceId;
-        data["traceJobId"] = this.traceJobId;
-        return data; 
-    }
 }
 
 /** Error information with serialized exception */
@@ -17473,10 +17439,10 @@ export class Exception extends DTOBase {
 
     constructor(data?: IException) {
         super(data);
-        this.setProp("object", "message", false);
-        this.setProp("object", "innerException", true, (item: any) => Exception.fromJS(item));
-        this.setProp("object", "stackTrace", false);
-        this.setProp("object", "source", false);
+        this.setProp("object", "string", "message", false);
+        this.setProp("object", "Exception", "innerException", true, (item: any) => Exception.fromJS(item));
+        this.setProp("object", "string", "stackTrace", false);
+        this.setProp("object", "string", "source", false);
 
         if (data) {
             this.construct(data);
@@ -17498,14 +17464,6 @@ export class Exception extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["message"] = this.message;
-        data["innerException"] = this.innerException ? this.innerException.toJSON() : <any>undefined;
-        data["stackTrace"] = this.stackTrace;
-        data["source"] = this.source;
-        return data; 
-    }
 }
 
 export interface IException {
@@ -17526,11 +17484,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
 
     constructor(data?: IPictureparkException) {
         super(data);
-        this.setProp("object", "traceLevel", false);
-        this.setProp("object", "traceId", false);
-        this.setProp("object", "traceJobId", false);
-        this.setProp("object", "httpStatusCode", false);
-        this.setProp("object", "exceptionMessage", false);
+        this.setProp("object", "TraceLevel", "traceLevel", false);
+        this.setProp("object", "string", "traceId", false);
+        this.setProp("object", "string", "traceJobId", false);
+        this.setProp("object", "number", "httpStatusCode", false);
+        this.setProp("object", "string", "exceptionMessage", false);
 
         this._kind = "PictureparkException";
     }
@@ -18670,17 +18628,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["traceLevel"] = this.traceLevel;
-        data["traceId"] = this.traceId;
-        data["traceJobId"] = this.traceJobId;
-        data["httpStatusCode"] = this.httpStatusCode;
-        data["exceptionMessage"] = this.exceptionMessage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkException extends IException {
@@ -18706,9 +18653,9 @@ export class PictureparkBusinessException extends PictureparkException implement
 
     constructor(data?: IPictureparkBusinessException) {
         super(data);
-        this.setProp("object", "customerId", false);
-        this.setProp("object", "customerAlias", false);
-        this.setProp("object", "userId", false);
+        this.setProp("object", "string", "customerId", false);
+        this.setProp("object", "string", "customerAlias", false);
+        this.setProp("object", "string", "userId", false);
 
         this._kind = "PictureparkBusinessException";
     }
@@ -19738,14 +19685,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["customerAlias"] = this.customerAlias;
-        data["userId"] = this.userId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkBusinessException extends IPictureparkException {
@@ -20442,11 +20381,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkValidationException extends IPictureparkBusinessException {
@@ -20457,7 +20391,7 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
     constructor(data?: IPictureparkConflictException) {
         super(data);
-        this.setProp("object", "reference", false);
+        this.setProp("object", "string", "reference", false);
 
         this._kind = "PictureparkConflictException";
     }
@@ -20482,12 +20416,6 @@ export class PictureparkConflictException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reference"] = this.reference;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkConflictException extends IPictureparkBusinessException {
@@ -20547,11 +20475,6 @@ export class PictureparkTimeoutException extends PictureparkValidationException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkTimeoutException extends IPictureparkValidationException {
@@ -20590,11 +20513,6 @@ export class PictureparkForbiddenException extends PictureparkBusinessException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkForbiddenException extends IPictureparkBusinessException {
@@ -20605,7 +20523,7 @@ export class UserEmailAlreadyExistsException extends PictureparkValidationExcept
 
     constructor(data?: IUserEmailAlreadyExistsException) {
         super(data);
-        this.setProp("object", "email", false);
+        this.setProp("object", "string", "email", false);
 
         this._kind = "UserEmailAlreadyExistsException";
     }
@@ -20625,12 +20543,6 @@ export class UserEmailAlreadyExistsException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["email"] = this.email;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUserEmailAlreadyExistsException extends IPictureparkValidationException {
@@ -20642,7 +20554,7 @@ export class UserRoleAssignedException extends PictureparkValidationException im
 
     constructor(data?: IUserRoleAssignedException) {
         super(data);
-        this.setProp("object", "userRoleId", false);
+        this.setProp("object", "string", "userRoleId", false);
 
         this._kind = "UserRoleAssignedException";
     }
@@ -20662,12 +20574,6 @@ export class UserRoleAssignedException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUserRoleAssignedException extends IPictureparkValidationException {
@@ -20679,7 +20585,7 @@ export class UserNotFoundException extends PictureparkBusinessException implemen
 
     constructor(data?: IUserNotFoundException) {
         super(data);
-        this.setProp("object", "missingUserId", false);
+        this.setProp("object", "string", "missingUserId", false);
 
         this._kind = "UserNotFoundException";
     }
@@ -20699,12 +20605,6 @@ export class UserNotFoundException extends PictureparkBusinessException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["missingUserId"] = this.missingUserId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUserNotFoundException extends IPictureparkBusinessException {
@@ -20734,11 +20634,6 @@ export class UserInactiveOrDeletedException extends PictureparkForbiddenExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUserInactiveOrDeletedException extends IPictureparkForbiddenException {
@@ -20767,11 +20662,6 @@ export class TermsOfServiceNotNewestException extends PictureparkBusinessExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITermsOfServiceNotNewestException extends IPictureparkBusinessException {
@@ -20800,11 +20690,6 @@ export class IllegalAuthorizationStateTransitionException extends PictureparkVal
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IIllegalAuthorizationStateTransitionException extends IPictureparkValidationException {
@@ -20833,11 +20718,6 @@ export class TermsOfServiceConsentRequiredException extends PictureparkForbidden
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITermsOfServiceConsentRequiredException extends IPictureparkForbiddenException {
@@ -20848,7 +20728,7 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
 
     constructor(data?: IPictureparkNotFoundException) {
         super(data);
-        this.setProp("object", "reference", false);
+        this.setProp("object", "string", "reference", false);
 
         this._kind = "PictureparkNotFoundException";
     }
@@ -20958,12 +20838,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reference"] = this.reference;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkNotFoundException extends IPictureparkBusinessException {
@@ -20975,7 +20849,7 @@ export class UserRolesNotFoundException extends PictureparkNotFoundException imp
 
     constructor(data?: IUserRolesNotFoundException) {
         super(data);
-        this.setProp("array", "userRoleIds", false);
+        this.setProp("array", "string[]", "userRoleIds", false);
 
         this._kind = "UserRolesNotFoundException";
     }
@@ -20995,16 +20869,6 @@ export class UserRolesNotFoundException extends PictureparkNotFoundException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.userRoleIds)) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUserRolesNotFoundException extends IPictureparkNotFoundException {
@@ -21034,11 +20898,6 @@ export class UnauthorizedException extends PictureparkBusinessException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUnauthorizedException extends IPictureparkBusinessException {
@@ -21067,11 +20926,6 @@ export class UserUnlockDisallowedException extends PictureparkValidationExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUserUnlockDisallowedException extends IPictureparkValidationException {
@@ -21100,11 +20954,6 @@ export class RenderingException extends PictureparkBusinessException implements 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRenderingException extends IPictureparkBusinessException {
@@ -21116,8 +20965,8 @@ export class ServiceProviderDeleteException extends PictureparkException impleme
 
     constructor(data?: IServiceProviderDeleteException) {
         super(data);
-        this.setProp("object", "serviceProviderId", false);
-        this.setProp("object", "detailedErrorMessage", false);
+        this.setProp("object", "string", "serviceProviderId", false);
+        this.setProp("object", "string", "detailedErrorMessage", false);
 
         this._kind = "ServiceProviderDeleteException";
     }
@@ -21137,13 +20986,6 @@ export class ServiceProviderDeleteException extends PictureparkException impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["serviceProviderId"] = this.serviceProviderId;
-        data["detailedErrorMessage"] = this.detailedErrorMessage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IServiceProviderDeleteException extends IPictureparkException {
@@ -21157,8 +20999,8 @@ export class ServiceProviderCreateException extends PictureparkException impleme
 
     constructor(data?: IServiceProviderCreateException) {
         super(data);
-        this.setProp("object", "externalId", false);
-        this.setProp("object", "detailErrorMessage", false);
+        this.setProp("object", "string", "externalId", false);
+        this.setProp("object", "string", "detailErrorMessage", false);
 
         this._kind = "ServiceProviderCreateException";
     }
@@ -21178,13 +21020,6 @@ export class ServiceProviderCreateException extends PictureparkException impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["externalId"] = this.externalId;
-        data["detailErrorMessage"] = this.detailErrorMessage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IServiceProviderCreateException extends IPictureparkException {
@@ -21197,7 +21032,7 @@ export class ServiceProviderNotFoundException extends PictureparkException imple
 
     constructor(data?: IServiceProviderNotFoundException) {
         super(data);
-        this.setProp("object", "missingServiceProviderId", false);
+        this.setProp("object", "string", "missingServiceProviderId", false);
 
         this._kind = "ServiceProviderNotFoundException";
     }
@@ -21217,12 +21052,6 @@ export class ServiceProviderNotFoundException extends PictureparkException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["missingServiceProviderId"] = this.missingServiceProviderId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IServiceProviderNotFoundException extends IPictureparkException {
@@ -21236,9 +21065,9 @@ export class DocumentVersionNotFoundException extends PictureparkNotFoundExcepti
 
     constructor(data?: IDocumentVersionNotFoundException) {
         super(data);
-        this.setProp("object", "documentType", false);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "documentVersion", false);
+        this.setProp("object", "string", "documentType", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "string", "documentVersion", false);
 
         this._kind = "DocumentVersionNotFoundException";
     }
@@ -21258,14 +21087,6 @@ export class DocumentVersionNotFoundException extends PictureparkNotFoundExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentType"] = this.documentType;
-        data["documentId"] = this.documentId;
-        data["documentVersion"] = this.documentVersion;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDocumentVersionNotFoundException extends IPictureparkNotFoundException {
@@ -21297,11 +21118,6 @@ export class DefaultChannelDeleteException extends PictureparkValidationExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDefaultChannelDeleteException extends IPictureparkValidationException {
@@ -21330,11 +21146,6 @@ export class ChannelsNotFoundException extends PictureparkNotFoundException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IChannelsNotFoundException extends IPictureparkNotFoundException {
@@ -21363,11 +21174,6 @@ export class SuperAdminRolesNotAssignableToChannelException extends PictureparkV
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISuperAdminRolesNotAssignableToChannelException extends IPictureparkValidationException {
@@ -21379,8 +21185,8 @@ export class ElasticVersionUpdateException extends PictureparkException implemen
 
     constructor(data?: IElasticVersionUpdateException) {
         super(data);
-        this.setProp("object", "expectedVersion", false);
-        this.setProp("object", "actualVersion", false);
+        this.setProp("object", "string", "expectedVersion", false);
+        this.setProp("object", "string", "actualVersion", false);
 
         this._kind = "ElasticVersionUpdateException";
     }
@@ -21400,13 +21206,6 @@ export class ElasticVersionUpdateException extends PictureparkException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["expectedVersion"] = this.expectedVersion;
-        data["actualVersion"] = this.actualVersion;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IElasticVersionUpdateException extends IPictureparkException {
@@ -21421,9 +21220,9 @@ export class InvalidVersionException extends PictureparkException implements IIn
 
     constructor(data?: IInvalidVersionException) {
         super(data);
-        this.setProp("object", "component", false);
-        this.setProp("object", "version", false);
-        this.setProp("object", "expectedVersion", false);
+        this.setProp("object", "string", "component", false);
+        this.setProp("object", "string", "version", false);
+        this.setProp("object", "string", "expectedVersion", false);
 
         this._kind = "InvalidVersionException";
     }
@@ -21443,14 +21242,6 @@ export class InvalidVersionException extends PictureparkException implements IIn
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["component"] = this.component;
-        data["version"] = this.version;
-        data["expectedVersion"] = this.expectedVersion;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidVersionException extends IPictureparkException {
@@ -21482,11 +21273,6 @@ export class EnvironmentNotDeactivatedException extends PictureparkException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentNotDeactivatedException extends IPictureparkException {
@@ -21515,11 +21301,6 @@ export class EnvironmentNotFoundException extends PictureparkException implement
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentNotFoundException extends IPictureparkException {
@@ -21530,7 +21311,7 @@ export class EnvironmentDeactivationException extends PictureparkException imple
 
     constructor(data?: IEnvironmentDeactivationException) {
         super(data);
-        this.setProp("object", "deactivationMessage", false);
+        this.setProp("object", "string", "deactivationMessage", false);
 
         this._kind = "EnvironmentDeactivationException";
     }
@@ -21550,12 +21331,6 @@ export class EnvironmentDeactivationException extends PictureparkException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["deactivationMessage"] = this.deactivationMessage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentDeactivationException extends IPictureparkException {
@@ -21567,7 +21342,7 @@ export class ShareNotFoundException extends PictureparkNotFoundException impleme
 
     constructor(data?: IShareNotFoundException) {
         super(data);
-        this.setProp("object", "shareId", false);
+        this.setProp("object", "string", "shareId", false);
 
         this._kind = "ShareNotFoundException";
     }
@@ -21587,12 +21362,6 @@ export class ShareNotFoundException extends PictureparkNotFoundException impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["shareId"] = this.shareId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IShareNotFoundException extends IPictureparkNotFoundException {
@@ -21604,7 +21373,7 @@ export class ShareByTokenNotFoundException extends PictureparkNotFoundException 
 
     constructor(data?: IShareByTokenNotFoundException) {
         super(data);
-        this.setProp("object", "token", false);
+        this.setProp("object", "string", "token", false);
 
         this._kind = "ShareByTokenNotFoundException";
     }
@@ -21624,12 +21393,6 @@ export class ShareByTokenNotFoundException extends PictureparkNotFoundException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["token"] = this.token;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IShareByTokenNotFoundException extends IPictureparkNotFoundException {
@@ -21641,7 +21404,7 @@ export class TokenGenerationException extends PictureparkBusinessException imple
 
     constructor(data?: ITokenGenerationException) {
         super(data);
-        this.setProp("object", "retries", false);
+        this.setProp("object", "number", "retries", false);
 
         this._kind = "TokenGenerationException";
     }
@@ -21661,12 +21424,6 @@ export class TokenGenerationException extends PictureparkBusinessException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["retries"] = this.retries;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITokenGenerationException extends IPictureparkBusinessException {
@@ -21678,7 +21435,7 @@ export class ShareExpiredException extends PictureparkBusinessException implemen
 
     constructor(data?: IShareExpiredException) {
         super(data);
-        this.setProp("object", "token", false);
+        this.setProp("object", "string", "token", false);
 
         this._kind = "ShareExpiredException";
     }
@@ -21698,12 +21455,6 @@ export class ShareExpiredException extends PictureparkBusinessException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["token"] = this.token;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IShareExpiredException extends IPictureparkBusinessException {
@@ -21715,7 +21466,7 @@ export class OutputIdNotFoundException extends PictureparkNotFoundException impl
 
     constructor(data?: IOutputIdNotFoundException) {
         super(data);
-        this.setProp("object", "outputId", false);
+        this.setProp("object", "string", "outputId", false);
 
         this._kind = "OutputIdNotFoundException";
     }
@@ -21735,12 +21486,6 @@ export class OutputIdNotFoundException extends PictureparkNotFoundException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["outputId"] = this.outputId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOutputIdNotFoundException extends IPictureparkNotFoundException {
@@ -21753,8 +21498,8 @@ export class OutputNotFoundException extends PictureparkBusinessException implem
 
     constructor(data?: IOutputNotFoundException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
 
         this._kind = "OutputNotFoundException";
     }
@@ -21774,13 +21519,6 @@ export class OutputNotFoundException extends PictureparkBusinessException implem
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOutputNotFoundException extends IPictureparkBusinessException {
@@ -21811,11 +21549,6 @@ export class UnableToCreateOrModifyStaticOutputFormatException extends Picturepa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUnableToCreateOrModifyStaticOutputFormatException extends IPictureparkValidationException {
@@ -21844,11 +21577,6 @@ export class NotSupportedFileMappingException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface INotSupportedFileMappingException extends IPictureparkValidationException {
@@ -21877,11 +21605,6 @@ export class NotSupportedFileExtensionException extends PictureparkValidationExc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface INotSupportedFileExtensionException extends IPictureparkValidationException {
@@ -21910,11 +21633,6 @@ export class DuplicateOutputFormatIdException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateOutputFormatIdException extends IPictureparkValidationException {
@@ -21926,8 +21644,8 @@ export class OutputFormatResizingNotSupportedException extends PictureparkValida
 
     constructor(data?: IOutputFormatResizingNotSupportedException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
 
         this._kind = "OutputFormatResizingNotSupportedException";
     }
@@ -21947,13 +21665,6 @@ export class OutputFormatResizingNotSupportedException extends PictureparkValida
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOutputFormatResizingNotSupportedException extends IPictureparkValidationException {
@@ -21966,7 +21677,7 @@ export class LeaseNotAcquiredException extends PictureparkBusinessException impl
 
     constructor(data?: ILeaseNotAcquiredException) {
         super(data);
-        this.setProp("object", "resourceId", false);
+        this.setProp("object", "string", "resourceId", false);
 
         this._kind = "LeaseNotAcquiredException";
     }
@@ -21986,12 +21697,6 @@ export class LeaseNotAcquiredException extends PictureparkBusinessException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["resourceId"] = this.resourceId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ILeaseNotAcquiredException extends IPictureparkBusinessException {
@@ -22003,7 +21708,7 @@ export class OperationInProgressException extends PictureparkBusinessException i
 
     constructor(data?: IOperationInProgressException) {
         super(data);
-        this.setProp("object", "leaseResourceType", false);
+        this.setProp("object", "LeaseResourceType", "leaseResourceType", false);
 
         this._kind = "OperationInProgressException";
     }
@@ -22023,12 +21728,6 @@ export class OperationInProgressException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["leaseResourceType"] = this.leaseResourceType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOperationInProgressException extends IPictureparkBusinessException {
@@ -22045,8 +21744,8 @@ export class RetryException extends PictureparkBusinessException implements IRet
 
     constructor(data?: IRetryException) {
         super(data);
-        this.setProp("object", "retries", false);
-        this.setProp("object", "innerExceptionDetail", false);
+        this.setProp("object", "number", "retries", false);
+        this.setProp("object", "string", "innerExceptionDetail", false);
 
         this._kind = "RetryException";
     }
@@ -22066,13 +21765,6 @@ export class RetryException extends PictureparkBusinessException implements IRet
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["retries"] = this.retries;
-        data["innerExceptionDetail"] = this.innerExceptionDetail;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRetryException extends IPictureparkBusinessException {
@@ -22085,7 +21777,7 @@ export class OwnerTokenNotFoundException extends PictureparkNotFoundException im
 
     constructor(data?: IOwnerTokenNotFoundException) {
         super(data);
-        this.setProp("array", "ownerTokenUserIds", false);
+        this.setProp("array", "string[]", "ownerTokenUserIds", false);
 
         this._kind = "OwnerTokenNotFoundException";
     }
@@ -22105,16 +21797,6 @@ export class OwnerTokenNotFoundException extends PictureparkNotFoundException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.ownerTokenUserIds)) {
-            data["ownerTokenUserIds"] = [];
-            for (let item of this.ownerTokenUserIds)
-                data["ownerTokenUserIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOwnerTokenNotFoundException extends IPictureparkNotFoundException {
@@ -22127,8 +21809,8 @@ export class InvalidStateException extends PictureparkValidationException implem
 
     constructor(data?: IInvalidStateException) {
         super(data);
-        this.setProp("object", "resourceId", false);
-        this.setProp("object", "state", false);
+        this.setProp("object", "string", "resourceId", false);
+        this.setProp("object", "string", "state", false);
 
         this._kind = "InvalidStateException";
     }
@@ -22153,13 +21835,6 @@ export class InvalidStateException extends PictureparkValidationException implem
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["resourceId"] = this.resourceId;
-        data["state"] = this.state;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidStateException extends IPictureparkValidationException {
@@ -22172,7 +21847,7 @@ export class PictureparkArgumentNullException extends PictureparkValidationExcep
 
     constructor(data?: IPictureparkArgumentNullException) {
         super(data);
-        this.setProp("object", "argumentName", false);
+        this.setProp("object", "string", "argumentName", false);
 
         this._kind = "PictureparkArgumentNullException";
     }
@@ -22192,12 +21867,6 @@ export class PictureparkArgumentNullException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["argumentName"] = this.argumentName;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkArgumentNullException extends IPictureparkValidationException {
@@ -22209,7 +21878,7 @@ export class ObjectTypeMismatchException extends PictureparkBusinessException im
 
     constructor(data?: IObjectTypeMismatchException) {
         super(data);
-        this.setProp("object", "type", false);
+        this.setProp("object", "string", "type", false);
 
         this._kind = "ObjectTypeMismatchException";
     }
@@ -22229,12 +21898,6 @@ export class ObjectTypeMismatchException extends PictureparkBusinessException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IObjectTypeMismatchException extends IPictureparkBusinessException {
@@ -22246,7 +21909,7 @@ export class InvalidStateTransitionException extends InvalidStateException imple
 
     constructor(data?: IInvalidStateTransitionException) {
         super(data);
-        this.setProp("object", "transition", false);
+        this.setProp("object", "string", "transition", false);
 
         this._kind = "InvalidStateTransitionException";
     }
@@ -22266,12 +21929,6 @@ export class InvalidStateTransitionException extends InvalidStateException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transition"] = this.transition;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidStateTransitionException extends IInvalidStateException {
@@ -22283,7 +21940,7 @@ export class FailedToLockException extends PictureparkBusinessException implemen
 
     constructor(data?: IFailedToLockException) {
         super(data);
-        this.setProp("object", "resourceId", false);
+        this.setProp("object", "string", "resourceId", false);
 
         this._kind = "FailedToLockException";
     }
@@ -22303,12 +21960,6 @@ export class FailedToLockException extends PictureparkBusinessException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["resourceId"] = this.resourceId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IFailedToLockException extends IPictureparkBusinessException {
@@ -22338,11 +21989,6 @@ export class PictureparkOperationCanceledException extends PictureparkBusinessEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkOperationCanceledException extends IPictureparkBusinessException {
@@ -22371,11 +22017,6 @@ export class PictureparkApplicationException extends PictureparkBusinessExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPictureparkApplicationException extends IPictureparkBusinessException {
@@ -22386,7 +22027,7 @@ export class MissingCustomerDefaultLanguageException extends PictureparkValidati
 
     constructor(data?: IMissingCustomerDefaultLanguageException) {
         super(data);
-        this.setProp("object", "customerDefaultLanguage", false);
+        this.setProp("object", "string", "customerDefaultLanguage", false);
 
         this._kind = "MissingCustomerDefaultLanguageException";
     }
@@ -22406,12 +22047,6 @@ export class MissingCustomerDefaultLanguageException extends PictureparkValidati
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerDefaultLanguage"] = this.customerDefaultLanguage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IMissingCustomerDefaultLanguageException extends IPictureparkValidationException {
@@ -22441,11 +22076,6 @@ export class PartialOperationNotSupportedException extends PictureparkValidation
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPartialOperationNotSupportedException extends IPictureparkValidationException {
@@ -22474,11 +22104,6 @@ export class ContractMismatchException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContractMismatchException extends IPictureparkValidationException {
@@ -22490,8 +22115,8 @@ export class InvalidArgumentException extends PictureparkValidationException imp
 
     constructor(data?: IInvalidArgumentException) {
         super(data);
-        this.setProp("object", "argumentName", false);
-        this.setProp("object", "argumentValue", false);
+        this.setProp("object", "string", "argumentName", false);
+        this.setProp("object", "string", "argumentValue", false);
 
         this._kind = "InvalidArgumentException";
     }
@@ -22511,13 +22136,6 @@ export class InvalidArgumentException extends PictureparkValidationException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["argumentName"] = this.argumentName;
-        data["argumentValue"] = this.argumentValue;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidArgumentException extends IPictureparkValidationException {
@@ -22548,11 +22166,6 @@ export class UnknownException extends PictureparkBusinessException implements IU
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUnknownException extends IPictureparkBusinessException {
@@ -22563,7 +22176,7 @@ export class OwnerTokenInUseException extends PictureparkValidationException imp
 
     constructor(data?: IOwnerTokenInUseException) {
         super(data);
-        this.setProp("object", "ownerTokenUserId", false);
+        this.setProp("object", "string", "ownerTokenUserId", false);
 
         this._kind = "OwnerTokenInUseException";
     }
@@ -22583,12 +22196,6 @@ export class OwnerTokenInUseException extends PictureparkValidationException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["ownerTokenUserId"] = this.ownerTokenUserId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOwnerTokenInUseException extends IPictureparkValidationException {
@@ -22618,11 +22225,6 @@ export class InvalidValueFormatException extends PictureparkValidationException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidValueFormatException extends IPictureparkValidationException {
@@ -22633,7 +22235,7 @@ export class ItemIdDuplicatedException extends PictureparkValidationException im
 
     constructor(data?: IItemIdDuplicatedException) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
         this._kind = "ItemIdDuplicatedException";
     }
@@ -22653,12 +22255,6 @@ export class ItemIdDuplicatedException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IItemIdDuplicatedException extends IPictureparkValidationException {
@@ -22671,8 +22267,8 @@ export class CustomerViolationException extends PictureparkException implements 
 
     constructor(data?: ICustomerViolationException) {
         super(data);
-        this.setProp("object", "expectedCustomerId", false);
-        this.setProp("object", "currentCustomerId", false);
+        this.setProp("object", "string", "expectedCustomerId", false);
+        this.setProp("object", "string", "currentCustomerId", false);
 
         this._kind = "CustomerViolationException";
     }
@@ -22692,13 +22288,6 @@ export class CustomerViolationException extends PictureparkException implements 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["expectedCustomerId"] = this.expectedCustomerId;
-        data["currentCustomerId"] = this.currentCustomerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerViolationException extends IPictureparkException {
@@ -22711,7 +22300,7 @@ export class CustomerAliasNotFoundException extends PictureparkException impleme
 
     constructor(data?: ICustomerAliasNotFoundException) {
         super(data);
-        this.setProp("object", "customerAlias", false);
+        this.setProp("object", "string", "customerAlias", false);
 
         this._kind = "CustomerAliasNotFoundException";
     }
@@ -22731,12 +22320,6 @@ export class CustomerAliasNotFoundException extends PictureparkException impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerAlias"] = this.customerAlias;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerAliasNotFoundException extends IPictureparkException {
@@ -22749,8 +22332,8 @@ export class CustomerAliasInUseException extends PictureparkBusinessException im
 
     constructor(data?: ICustomerAliasInUseException) {
         super(data);
-        this.setProp("object", "existingCustomerId", false);
-        this.setProp("object", "alias", false);
+        this.setProp("object", "string", "existingCustomerId", false);
+        this.setProp("object", "string", "alias", false);
 
         this._kind = "CustomerAliasInUseException";
     }
@@ -22770,13 +22353,6 @@ export class CustomerAliasInUseException extends PictureparkBusinessException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["existingCustomerId"] = this.existingCustomerId;
-        data["alias"] = this.alias;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerAliasInUseException extends IPictureparkBusinessException {
@@ -22789,7 +22365,7 @@ export class CustomerNotDeactivatedException extends PictureparkException implem
 
     constructor(data?: ICustomerNotDeactivatedException) {
         super(data);
-        this.setProp("object", "customerId", false);
+        this.setProp("object", "string", "customerId", false);
 
         this._kind = "CustomerNotDeactivatedException";
     }
@@ -22809,12 +22385,6 @@ export class CustomerNotDeactivatedException extends PictureparkException implem
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerNotDeactivatedException extends IPictureparkException {
@@ -22827,8 +22397,8 @@ export class CustomerDeactivationException extends PictureparkException implemen
 
     constructor(data?: ICustomerDeactivationException) {
         super(data);
-        this.setProp("object", "customerId", false);
-        this.setProp("object", "deactivationMessage", false);
+        this.setProp("object", "string", "customerId", false);
+        this.setProp("object", "string", "deactivationMessage", false);
 
         this._kind = "CustomerDeactivationException";
     }
@@ -22848,13 +22418,6 @@ export class CustomerDeactivationException extends PictureparkException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["deactivationMessage"] = this.deactivationMessage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerDeactivationException extends IPictureparkException {
@@ -22867,7 +22430,7 @@ export class CustomerHostNotFoundException extends PictureparkException implemen
 
     constructor(data?: ICustomerHostNotFoundException) {
         super(data);
-        this.setProp("object", "hostName", false);
+        this.setProp("object", "string", "hostName", false);
 
         this._kind = "CustomerHostNotFoundException";
     }
@@ -22887,12 +22450,6 @@ export class CustomerHostNotFoundException extends PictureparkException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["hostName"] = this.hostName;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerHostNotFoundException extends IPictureparkException {
@@ -22904,7 +22461,7 @@ export class CustomerNotFoundException extends PictureparkException implements I
 
     constructor(data?: ICustomerNotFoundException) {
         super(data);
-        this.setProp("object", "customerId", false);
+        this.setProp("object", "string", "customerId", false);
 
         this._kind = "CustomerNotFoundException";
     }
@@ -22924,12 +22481,6 @@ export class CustomerNotFoundException extends PictureparkException implements I
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerNotFoundException extends IPictureparkException {
@@ -22941,7 +22492,7 @@ export class CustomerNotActiveException extends PictureparkException implements 
 
     constructor(data?: ICustomerNotActiveException) {
         super(data);
-        this.setProp("object", "customerId", false);
+        this.setProp("object", "string", "customerId", false);
 
         this._kind = "CustomerNotActiveException";
     }
@@ -22961,12 +22512,6 @@ export class CustomerNotActiveException extends PictureparkException implements 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerNotActiveException extends IPictureparkException {
@@ -22996,11 +22541,6 @@ export class CustomerBoostValuesInvalidException extends PictureparkValidationEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerBoostValuesInvalidException extends IPictureparkValidationException {
@@ -23011,7 +22551,7 @@ export class ConfigurationIndexNotFoundException extends PictureparkException im
 
     constructor(data?: IConfigurationIndexNotFoundException) {
         super(data);
-        this.setProp("object", "configurationIndex", false);
+        this.setProp("object", "string", "configurationIndex", false);
 
         this._kind = "ConfigurationIndexNotFoundException";
     }
@@ -23031,12 +22571,6 @@ export class ConfigurationIndexNotFoundException extends PictureparkException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["configurationIndex"] = this.configurationIndex;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IConfigurationIndexNotFoundException extends IPictureparkException {
@@ -23048,7 +22582,7 @@ export class DuplicateSearchIndexDocException extends PictureparkBusinessExcepti
 
     constructor(data?: IDuplicateSearchIndexDocException) {
         super(data);
-        this.setProp("object", "searchIndexDocId", false);
+        this.setProp("object", "string", "searchIndexDocId", false);
 
         this._kind = "DuplicateSearchIndexDocException";
     }
@@ -23068,12 +22602,6 @@ export class DuplicateSearchIndexDocException extends PictureparkBusinessExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchIndexDocId"] = this.searchIndexDocId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateSearchIndexDocException extends IPictureparkBusinessException {
@@ -23085,7 +22613,7 @@ export class SearchIndexDocNotFoundException extends PictureparkBusinessExceptio
 
     constructor(data?: ISearchIndexDocNotFoundException) {
         super(data);
-        this.setProp("object", "searchIndexDocId", false);
+        this.setProp("object", "string", "searchIndexDocId", false);
 
         this._kind = "SearchIndexDocNotFoundException";
     }
@@ -23105,12 +22633,6 @@ export class SearchIndexDocNotFoundException extends PictureparkBusinessExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchIndexDocId"] = this.searchIndexDocId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchIndexDocNotFoundException extends IPictureparkBusinessException {
@@ -23122,7 +22644,7 @@ export class IndexDocumentNotFoundException extends PictureparkBusinessException
 
     constructor(data?: IIndexDocumentNotFoundException) {
         super(data);
-        this.setProp("object", "indexId", false);
+        this.setProp("object", "string", "indexId", false);
 
         this._kind = "IndexDocumentNotFoundException";
     }
@@ -23142,12 +22664,6 @@ export class IndexDocumentNotFoundException extends PictureparkBusinessException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexId"] = this.indexId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IIndexDocumentNotFoundException extends IPictureparkBusinessException {
@@ -23159,7 +22675,7 @@ export class DuplicateAliasException extends PictureparkException implements IDu
 
     constructor(data?: IDuplicateAliasException) {
         super(data);
-        this.setProp("object", "indexAlias", false);
+        this.setProp("object", "string", "indexAlias", false);
 
         this._kind = "DuplicateAliasException";
     }
@@ -23179,12 +22695,6 @@ export class DuplicateAliasException extends PictureparkException implements IDu
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexAlias"] = this.indexAlias;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateAliasException extends IPictureparkException {
@@ -23196,7 +22706,7 @@ export class SearchIndexNotFoundException extends PictureparkBusinessException i
 
     constructor(data?: ISearchIndexNotFoundException) {
         super(data);
-        this.setProp("object", "searchIndexId", false);
+        this.setProp("object", "string", "searchIndexId", false);
 
         this._kind = "SearchIndexNotFoundException";
     }
@@ -23216,12 +22726,6 @@ export class SearchIndexNotFoundException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchIndexId"] = this.searchIndexId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchIndexNotFoundException extends IPictureparkBusinessException {
@@ -23251,11 +22755,6 @@ export class DefaultSearchIndexDeleteException extends PictureparkBusinessExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDefaultSearchIndexDeleteException extends IPictureparkBusinessException {
@@ -23266,7 +22765,7 @@ export class SearchIndexInUseException extends PictureparkBusinessException impl
 
     constructor(data?: ISearchIndexInUseException) {
         super(data);
-        this.setProp("object", "searchIndex", false);
+        this.setProp("object", "string", "searchIndex", false);
 
         this._kind = "SearchIndexInUseException";
     }
@@ -23286,12 +22785,6 @@ export class SearchIndexInUseException extends PictureparkBusinessException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchIndex"] = this.searchIndex;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchIndexInUseException extends IPictureparkBusinessException {
@@ -23304,8 +22797,8 @@ export class IndexException extends PictureparkBusinessException implements IInd
 
     constructor(data?: IIndexException) {
         super(data);
-        this.setProp("object", "indexName", false);
-        this.setProp("object", "debugInformation", false);
+        this.setProp("object", "string", "indexName", false);
+        this.setProp("object", "string", "debugInformation", false);
 
         this._kind = "IndexException";
     }
@@ -23325,13 +22818,6 @@ export class IndexException extends PictureparkBusinessException implements IInd
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexName"] = this.indexName;
-        data["debugInformation"] = this.debugInformation;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IIndexException extends IPictureparkBusinessException {
@@ -23345,8 +22831,8 @@ export class IndexMappingException extends PictureparkBusinessException implemen
 
     constructor(data?: IIndexMappingException) {
         super(data);
-        this.setProp("object", "indexName", false);
-        this.setProp("object", "debugInformation", false);
+        this.setProp("object", "string", "indexName", false);
+        this.setProp("object", "string", "debugInformation", false);
 
         this._kind = "IndexMappingException";
     }
@@ -23366,13 +22852,6 @@ export class IndexMappingException extends PictureparkBusinessException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexName"] = this.indexName;
-        data["debugInformation"] = this.debugInformation;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IIndexMappingException extends IPictureparkBusinessException {
@@ -23385,7 +22864,7 @@ export class DuplicatedSearchBehaviorException extends PictureparkValidationExce
 
     constructor(data?: IDuplicatedSearchBehaviorException) {
         super(data);
-        this.setProp("object", "duplicatedSearchBehaviors", false);
+        this.setProp("object", "string", "duplicatedSearchBehaviors", false);
 
         this._kind = "DuplicatedSearchBehaviorException";
     }
@@ -23405,12 +22884,6 @@ export class DuplicatedSearchBehaviorException extends PictureparkValidationExce
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["duplicatedSearchBehaviors"] = this.duplicatedSearchBehaviors;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicatedSearchBehaviorException extends IPictureparkValidationException {
@@ -23440,11 +22913,6 @@ export class SearchStringLeadingWildcardException extends PictureparkValidationE
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchStringLeadingWildcardException extends IPictureparkValidationException {
@@ -23455,7 +22923,7 @@ export class DuplicateAggregatorException extends PictureparkValidationException
 
     constructor(data?: IDuplicateAggregatorException) {
         super(data);
-        this.setProp("object", "aggregatorName", false);
+        this.setProp("object", "string", "aggregatorName", false);
 
         this._kind = "DuplicateAggregatorException";
     }
@@ -23475,12 +22943,6 @@ export class DuplicateAggregatorException extends PictureparkValidationException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregatorName"] = this.aggregatorName;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateAggregatorException extends IPictureparkValidationException {
@@ -23493,8 +22955,8 @@ export class InvalidDateTimeFormatException extends PictureparkValidationExcepti
 
     constructor(data?: IInvalidDateTimeFormatException) {
         super(data);
-        this.setProp("object", "value", false);
-        this.setProp("object", "expectedFormat", false);
+        this.setProp("object", "string", "value", false);
+        this.setProp("object", "string", "expectedFormat", false);
 
         this._kind = "InvalidDateTimeFormatException";
     }
@@ -23514,13 +22976,6 @@ export class InvalidDateTimeFormatException extends PictureparkValidationExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["value"] = this.value;
-        data["expectedFormat"] = this.expectedFormat;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidDateTimeFormatException extends IPictureparkValidationException {
@@ -23533,7 +22988,7 @@ export class InvalidSortFieldException extends PictureparkValidationException im
 
     constructor(data?: IInvalidSortFieldException) {
         super(data);
-        this.setProp("object", "fieldName", false);
+        this.setProp("object", "string", "fieldName", false);
 
         this._kind = "InvalidSortFieldException";
     }
@@ -23553,12 +23008,6 @@ export class InvalidSortFieldException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldName"] = this.fieldName;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidSortFieldException extends IPictureparkValidationException {
@@ -23572,9 +23021,9 @@ export class DocumentVersionConflictException extends PictureparkConflictExcepti
 
     constructor(data?: IDocumentVersionConflictException) {
         super(data);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "documentType", false);
-        this.setProp("object", "documentVersion", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "string", "documentType", false);
+        this.setProp("object", "number", "documentVersion", false);
 
         this._kind = "DocumentVersionConflictException";
     }
@@ -23594,14 +23043,6 @@ export class DocumentVersionConflictException extends PictureparkConflictExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentId"] = this.documentId;
-        data["documentType"] = this.documentType;
-        data["documentVersion"] = this.documentVersion;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDocumentVersionConflictException extends IPictureparkConflictException {
@@ -23619,11 +23060,11 @@ export class RedisDatabaseExceededException extends PictureparkException impleme
 
     constructor(data?: IRedisDatabaseExceededException) {
         super(data);
-        this.setProp("object", "customerId", false);
-        this.setProp("object", "customerCount", false);
-        this.setProp("object", "maxCount", false);
-        this.setProp("object", "startIndex", false);
-        this.setProp("object", "redisDatabaseCount", false);
+        this.setProp("object", "string", "customerId", false);
+        this.setProp("object", "number", "customerCount", false);
+        this.setProp("object", "number", "maxCount", false);
+        this.setProp("object", "number", "startIndex", false);
+        this.setProp("object", "number", "redisDatabaseCount", false);
 
         this._kind = "RedisDatabaseExceededException";
     }
@@ -23643,16 +23084,6 @@ export class RedisDatabaseExceededException extends PictureparkException impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["customerCount"] = this.customerCount;
-        data["maxCount"] = this.maxCount;
-        data["startIndex"] = this.startIndex;
-        data["redisDatabaseCount"] = this.redisDatabaseCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRedisDatabaseExceededException extends IPictureparkException {
@@ -23669,8 +23100,8 @@ export class DuplicateDocumentException extends PictureparkValidationException i
 
     constructor(data?: IDuplicateDocumentException) {
         super(data);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "documentType", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "string", "documentType", false);
 
         this._kind = "DuplicateDocumentException";
     }
@@ -23690,13 +23121,6 @@ export class DuplicateDocumentException extends PictureparkValidationException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentId"] = this.documentId;
-        data["documentType"] = this.documentType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateDocumentException extends IPictureparkValidationException {
@@ -23710,8 +23134,8 @@ export class ObjectStoreResponseException extends PictureparkBusinessException i
 
     constructor(data?: IObjectStoreResponseException) {
         super(data);
-        this.setProp("object", "rowErrorMessages", false);
-        this.setProp("object", "message", false);
+        this.setProp("object", "string", "rowErrorMessages", false);
+        this.setProp("object", "string", "message", false);
 
         this._kind = "ObjectStoreResponseException";
     }
@@ -23731,13 +23155,6 @@ export class ObjectStoreResponseException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["rowErrorMessages"] = this.rowErrorMessages;
-        data["message"] = this.message;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IObjectStoreResponseException extends IPictureparkBusinessException {
@@ -23751,8 +23168,8 @@ export class ObjectStoreException extends PictureparkBusinessException implement
 
     constructor(data?: IObjectStoreException) {
         super(data);
-        this.setProp("object", "rowErrorMessages", false);
-        this.setProp("object", "errorMessage", false);
+        this.setProp("object", "string", "rowErrorMessages", false);
+        this.setProp("object", "string", "errorMessage", false);
 
         this._kind = "ObjectStoreException";
     }
@@ -23772,13 +23189,6 @@ export class ObjectStoreException extends PictureparkBusinessException implement
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["rowErrorMessages"] = this.rowErrorMessages;
-        data["errorMessage"] = this.errorMessage;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IObjectStoreException extends IPictureparkBusinessException {
@@ -23792,8 +23202,8 @@ export class QueryException extends PictureparkBusinessException implements IQue
 
     constructor(data?: IQueryException) {
         super(data);
-        this.setProp("object", "debugInformation", false);
-        this.setProp("object", "serverError", true, (item: any) => StorageServerError.fromJS(item));
+        this.setProp("object", "string", "debugInformation", false);
+        this.setProp("object", "StorageServerError", "serverError", true, (item: any) => StorageServerError.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -23816,13 +23226,6 @@ export class QueryException extends PictureparkBusinessException implements IQue
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["debugInformation"] = this.debugInformation;
-        data["serverError"] = this.serverError ? this.serverError.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IQueryException extends IPictureparkBusinessException {
@@ -23836,8 +23239,8 @@ export class StorageServerError extends DTOBase {
 
     constructor(data?: IStorageServerError) {
         super(data);
-        this.setProp("object", "error", true, (item: any) => StorageError.fromJS(item));
-        this.setProp("object", "status", false);
+        this.setProp("object", "StorageError", "error", true, (item: any) => StorageError.fromJS(item));
+        this.setProp("object", "number", "status", false);
 
         if (data) {
             this.construct(data);
@@ -23859,12 +23262,6 @@ export class StorageServerError extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        data["status"] = this.status;
-        return data; 
-    }
 }
 
 export interface IStorageServerError {
@@ -23883,13 +23280,13 @@ export class StorageError extends DTOBase {
 
     constructor(data?: IStorageError) {
         super(data);
-        this.setProp("object", "index", false);
-        this.setProp("object", "reason", false);
-        this.setProp("object", "resourceId", false);
-        this.setProp("object", "resourceType", false);
-        this.setProp("object", "type", false);
-        this.setProp("array", "rootCause", true, (item: any) => StorageRootCause.fromJS(item));
-        this.setProp("object", "causedBy", true, (item: any) => StorageCausedBy.fromJS(item));
+        this.setProp("object", "string", "index", false);
+        this.setProp("object", "string", "reason", false);
+        this.setProp("object", "string", "resourceId", false);
+        this.setProp("object", "string", "resourceType", false);
+        this.setProp("object", "string", "type", false);
+        this.setProp("array", "StorageRootCause[]", "rootCause", true, (item: any) => StorageRootCause.fromJS(item));
+        this.setProp("object", "StorageCausedBy", "causedBy", true, (item: any) => StorageCausedBy.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -23911,21 +23308,6 @@ export class StorageError extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["index"] = this.index;
-        data["reason"] = this.reason;
-        data["resourceId"] = this.resourceId;
-        data["resourceType"] = this.resourceType;
-        data["type"] = this.type;
-        if (Array.isArray(this.rootCause)) {
-            data["rootCause"] = [];
-            for (let item of this.rootCause)
-                data["rootCause"].push(item.toJSON());
-        }
-        data["causedBy"] = this.causedBy ? this.causedBy.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 export interface IStorageError {
@@ -23947,11 +23329,11 @@ export class StorageRootCause extends DTOBase {
 
     constructor(data?: IStorageRootCause) {
         super(data);
-        this.setProp("object", "index", false);
-        this.setProp("object", "reason", false);
-        this.setProp("object", "resourceId", false);
-        this.setProp("object", "resourceType", false);
-        this.setProp("object", "type", false);
+        this.setProp("object", "string", "index", false);
+        this.setProp("object", "string", "reason", false);
+        this.setProp("object", "string", "resourceId", false);
+        this.setProp("object", "string", "resourceType", false);
+        this.setProp("object", "string", "type", false);
 
     }
 
@@ -23970,15 +23352,6 @@ export class StorageRootCause extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["index"] = this.index;
-        data["reason"] = this.reason;
-        data["resourceId"] = this.resourceId;
-        data["resourceType"] = this.resourceType;
-        data["type"] = this.type;
-        return data; 
-    }
 }
 
 export interface IStorageRootCause {
@@ -23996,9 +23369,9 @@ export class StorageCausedBy extends DTOBase {
 
     constructor(data?: IStorageCausedBy) {
         super(data);
-        this.setProp("object", "reason", false);
-        this.setProp("object", "type", false);
-        this.setProp("object", "innerCausedBy", true, (item: any) => StorageCausedBy.fromJS(item));
+        this.setProp("object", "string", "reason", false);
+        this.setProp("object", "string", "type", false);
+        this.setProp("object", "StorageCausedBy", "innerCausedBy", true, (item: any) => StorageCausedBy.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -24020,13 +23393,6 @@ export class StorageCausedBy extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reason"] = this.reason;
-        data["type"] = this.type;
-        data["innerCausedBy"] = this.innerCausedBy ? this.innerCausedBy.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 export interface IStorageCausedBy {
@@ -24041,8 +23407,8 @@ export class PermissionOwnershipTransferException extends PictureparkValidationE
 
     constructor(data?: IPermissionOwnershipTransferException) {
         super(data);
-        this.setProp("object", "transferUserId", false);
-        this.setProp("object", "missingUserRight", false);
+        this.setProp("object", "string", "transferUserId", false);
+        this.setProp("object", "UserRight", "missingUserRight", false);
 
         this._kind = "PermissionOwnershipTransferException";
     }
@@ -24062,13 +23428,6 @@ export class PermissionOwnershipTransferException extends PictureparkValidationE
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferUserId"] = this.transferUserId;
-        data["missingUserRight"] = this.missingUserRight;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionOwnershipTransferException extends IPictureparkValidationException {
@@ -24103,7 +23462,7 @@ export class PermissionSetNotFoundException extends PictureparkNotFoundException
 
     constructor(data?: IPermissionSetNotFoundException) {
         super(data);
-        this.setProp("array", "permissionSetIds", false);
+        this.setProp("array", "string[]", "permissionSetIds", false);
 
         this._kind = "PermissionSetNotFoundException";
     }
@@ -24123,16 +23482,6 @@ export class PermissionSetNotFoundException extends PictureparkNotFoundException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.permissionSetIds)) {
-            data["permissionSetIds"] = [];
-            for (let item of this.permissionSetIds)
-                data["permissionSetIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetNotFoundException extends IPictureparkNotFoundException {
@@ -24144,7 +23493,7 @@ export class PermissionSetAggregateException extends PictureparkValidationExcept
 
     constructor(data?: IPermissionSetAggregateException) {
         super(data);
-        this.setProp("array", "exceptions", true, (item: any) => PictureparkException.fromJS(item));
+        this.setProp("array", "PictureparkException[]", "exceptions", true, (item: any) => PictureparkException.fromJS(item));
 
         this._kind = "PermissionSetAggregateException";
     }
@@ -24164,16 +23513,6 @@ export class PermissionSetAggregateException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.exceptions)) {
-            data["exceptions"] = [];
-            for (let item of this.exceptions)
-                data["exceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetAggregateException extends IPictureparkValidationException {
@@ -24185,7 +23524,7 @@ export class DuplicateRightException extends PictureparkValidationException impl
 
     constructor(data?: IDuplicateRightException) {
         super(data);
-        this.setProp("object", "permissionSetId", false);
+        this.setProp("object", "string", "permissionSetId", false);
 
         this._kind = "DuplicateRightException";
     }
@@ -24205,12 +23544,6 @@ export class DuplicateRightException extends PictureparkValidationException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["permissionSetId"] = this.permissionSetId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateRightException extends IPictureparkValidationException {
@@ -24223,8 +23556,8 @@ export class PermissionValidationException extends PictureparkValidationExceptio
 
     constructor(data?: IPermissionValidationException) {
         super(data);
-        this.setProp("object", "permission", false);
-        this.setProp("object", "operation", false);
+        this.setProp("object", "string", "permission", false);
+        this.setProp("object", "string", "operation", false);
 
         this._kind = "PermissionValidationException";
     }
@@ -24244,13 +23577,6 @@ export class PermissionValidationException extends PictureparkValidationExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["permission"] = this.permission;
-        data["operation"] = this.operation;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionValidationException extends IPictureparkValidationException {
@@ -24264,8 +23590,8 @@ export class PermissionSetInUseException extends PictureparkValidationException 
 
     constructor(data?: IPermissionSetInUseException) {
         super(data);
-        this.setProp("object", "reference", false);
-        this.setProp("object", "referenceCount", false);
+        this.setProp("object", "string", "reference", false);
+        this.setProp("object", "number", "referenceCount", false);
 
         this._kind = "PermissionSetInUseException";
     }
@@ -24285,13 +23611,6 @@ export class PermissionSetInUseException extends PictureparkValidationException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reference"] = this.reference;
-        data["referenceCount"] = this.referenceCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetInUseException extends IPictureparkValidationException {
@@ -24305,8 +23624,8 @@ export class ContentPermissionException extends PictureparkValidationException i
 
     constructor(data?: IContentPermissionException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("array", "contentRights", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("array", "ContentRight[]", "contentRights", false);
 
         this._kind = "ContentPermissionException";
     }
@@ -24326,17 +23645,6 @@ export class ContentPermissionException extends PictureparkValidationException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        if (Array.isArray(this.contentRights)) {
-            data["contentRights"] = [];
-            for (let item of this.contentRights)
-                data["contentRights"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentPermissionException extends IPictureparkValidationException {
@@ -24360,8 +23668,8 @@ export class ListItemPermissionException extends PictureparkValidationException 
 
     constructor(data?: IListItemPermissionException) {
         super(data);
-        this.setProp("object", "listItemId", false);
-        this.setProp("object", "metadataRight", false);
+        this.setProp("object", "string", "listItemId", false);
+        this.setProp("object", "MetadataRight", "metadataRight", false);
 
         this._kind = "ListItemPermissionException";
     }
@@ -24381,13 +23689,6 @@ export class ListItemPermissionException extends PictureparkValidationException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["listItemId"] = this.listItemId;
-        data["metadataRight"] = this.metadataRight;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemPermissionException extends IPictureparkValidationException {
@@ -24408,8 +23709,8 @@ export class SchemaPermissionException extends PictureparkValidationException im
 
     constructor(data?: ISchemaPermissionException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "metadataRight", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "MetadataRight", "metadataRight", false);
 
         this._kind = "SchemaPermissionException";
     }
@@ -24429,13 +23730,6 @@ export class SchemaPermissionException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["metadataRight"] = this.metadataRight;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaPermissionException extends IPictureparkValidationException {
@@ -24477,11 +23771,6 @@ export class PermissionSetValidationException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** This exception is an abstract base for permission set validation. */
@@ -24511,11 +23800,6 @@ export class PermissionSetInvalidRightCombinationException extends PermissionSet
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetInvalidRightCombinationException extends IPermissionSetValidationException {
@@ -24544,11 +23828,6 @@ export class AmbiguousUserRoleRightsException extends PermissionSetValidationExc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAmbiguousUserRoleRightsException extends IPermissionSetValidationException {
@@ -24559,7 +23838,7 @@ export class UnsupportedListItemChangeCommandException extends PictureparkValida
 
     constructor(data?: IUnsupportedListItemChangeCommandException) {
         super(data);
-        this.setProp("object", "commandType", false);
+        this.setProp("object", "string", "commandType", false);
 
         this._kind = "UnsupportedListItemChangeCommandException";
     }
@@ -24579,12 +23858,6 @@ export class UnsupportedListItemChangeCommandException extends PictureparkValida
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["commandType"] = this.commandType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUnsupportedListItemChangeCommandException extends IPictureparkValidationException {
@@ -24596,7 +23869,7 @@ export class ListItemLayerException extends PictureparkValidationException imple
 
     constructor(data?: IListItemLayerException) {
         super(data);
-        this.setProp("object", "listItemId", false);
+        this.setProp("object", "string", "listItemId", false);
 
         this._kind = "ListItemLayerException";
     }
@@ -24616,12 +23889,6 @@ export class ListItemLayerException extends PictureparkValidationException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["listItemId"] = this.listItemId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemLayerException extends IPictureparkValidationException {
@@ -24633,7 +23900,7 @@ export class ListItemNotFoundException extends PictureparkNotFoundException impl
 
     constructor(data?: IListItemNotFoundException) {
         super(data);
-        this.setProp("array", "listItemIds", false);
+        this.setProp("array", "string[]", "listItemIds", false);
 
         this._kind = "ListItemNotFoundException";
     }
@@ -24653,16 +23920,6 @@ export class ListItemNotFoundException extends PictureparkNotFoundException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.listItemIds)) {
-            data["listItemIds"] = [];
-            for (let item of this.listItemIds)
-                data["listItemIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemNotFoundException extends IPictureparkNotFoundException {
@@ -24674,7 +23931,7 @@ export class ListItemCyclicDependencyException extends PictureparkBusinessExcept
 
     constructor(data?: IListItemCyclicDependencyException) {
         super(data);
-        this.setProp("array", "listItemIds", false);
+        this.setProp("array", "string[]", "listItemIds", false);
 
         this._kind = "ListItemCyclicDependencyException";
     }
@@ -24694,16 +23951,6 @@ export class ListItemCyclicDependencyException extends PictureparkBusinessExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.listItemIds)) {
-            data["listItemIds"] = [];
-            for (let item of this.listItemIds)
-                data["listItemIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemCyclicDependencyException extends IPictureparkBusinessException {
@@ -24715,7 +23962,7 @@ export class DeleteListItemsWithReferencesException extends PictureparkValidatio
 
     constructor(data?: IDeleteListItemsWithReferencesException) {
         super(data);
-        this.setProp("object", "numberOfReferences", false);
+        this.setProp("object", "number", "numberOfReferences", false);
 
         this._kind = "DeleteListItemsWithReferencesException";
     }
@@ -24735,12 +23982,6 @@ export class DeleteListItemsWithReferencesException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["numberOfReferences"] = this.numberOfReferences;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDeleteListItemsWithReferencesException extends IPictureparkValidationException {
@@ -24753,8 +23994,8 @@ export class ListItemUpdateManyException extends PictureparkBusinessException im
 
     constructor(data?: IListItemUpdateManyException) {
         super(data);
-        this.setProp("object", "failedItemsCount", false);
-        this.setProp("object", "totalItemsCount", false);
+        this.setProp("object", "number", "failedItemsCount", false);
+        this.setProp("object", "number", "totalItemsCount", false);
 
         this._kind = "ListItemUpdateManyException";
     }
@@ -24774,13 +24015,6 @@ export class ListItemUpdateManyException extends PictureparkBusinessException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["failedItemsCount"] = this.failedItemsCount;
-        data["totalItemsCount"] = this.totalItemsCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemUpdateManyException extends IPictureparkBusinessException {
@@ -24795,9 +24029,9 @@ export class ListItemSchemaMismatchException extends PictureparkValidationExcept
 
     constructor(data?: IListItemSchemaMismatchException) {
         super(data);
-        this.setProp("object", "listItemId", false);
-        this.setProp("object", "listItemSchemaId", false);
-        this.setProp("object", "fieldSchemaId", false);
+        this.setProp("object", "string", "listItemId", false);
+        this.setProp("object", "string", "listItemSchemaId", false);
+        this.setProp("object", "string", "fieldSchemaId", false);
 
         this._kind = "ListItemSchemaMismatchException";
     }
@@ -24817,14 +24051,6 @@ export class ListItemSchemaMismatchException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["listItemId"] = this.listItemId;
-        data["listItemSchemaId"] = this.listItemSchemaId;
-        data["fieldSchemaId"] = this.fieldSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemSchemaMismatchException extends IPictureparkValidationException {
@@ -24838,7 +24064,7 @@ export class TransferInfoNotFoundException extends PictureparkNotFoundException 
 
     constructor(data?: ITransferInfoNotFoundException) {
         super(data);
-        this.setProp("object", "transferInfoId", false);
+        this.setProp("object", "string", "transferInfoId", false);
 
         this._kind = "TransferInfoNotFoundException";
     }
@@ -24858,12 +24084,6 @@ export class TransferInfoNotFoundException extends PictureparkNotFoundException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferInfoId"] = this.transferInfoId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITransferInfoNotFoundException extends IPictureparkNotFoundException {
@@ -24875,7 +24095,7 @@ export class FileTransferNotFoundException extends PictureparkNotFoundException 
 
     constructor(data?: IFileTransferNotFoundException) {
         super(data);
-        this.setProp("object", "fileTransferId", false);
+        this.setProp("object", "string", "fileTransferId", false);
 
         this._kind = "FileTransferNotFoundException";
     }
@@ -24895,12 +24115,6 @@ export class FileTransferNotFoundException extends PictureparkNotFoundException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileTransferId"] = this.fileTransferId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IFileTransferNotFoundException extends IPictureparkNotFoundException {
@@ -24912,7 +24126,7 @@ export class InvalidTransferTypeException extends PictureparkBusinessException i
 
     constructor(data?: IInvalidTransferTypeException) {
         super(data);
-        this.setProp("object", "transferType", false);
+        this.setProp("object", "TransferType", "transferType", false);
 
         this._kind = "InvalidTransferTypeException";
     }
@@ -24932,12 +24146,6 @@ export class InvalidTransferTypeException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferType"] = this.transferType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidTransferTypeException extends IPictureparkBusinessException {
@@ -24957,7 +24165,7 @@ export class TransferNotFoundException extends PictureparkNotFoundException impl
 
     constructor(data?: ITransferNotFoundException) {
         super(data);
-        this.setProp("object", "transferId", false);
+        this.setProp("object", "string", "transferId", false);
 
         this._kind = "TransferNotFoundException";
     }
@@ -24977,12 +24185,6 @@ export class TransferNotFoundException extends PictureparkNotFoundException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferId"] = this.transferId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITransferNotFoundException extends IPictureparkNotFoundException {
@@ -24995,8 +24197,8 @@ export class WrongChunkSizeException extends PictureparkValidationException impl
 
     constructor(data?: IWrongChunkSizeException) {
         super(data);
-        this.setProp("object", "actual", false);
-        this.setProp("object", "expected", false);
+        this.setProp("object", "number", "actual", false);
+        this.setProp("object", "number", "expected", false);
 
         this._kind = "WrongChunkSizeException";
     }
@@ -25016,13 +24218,6 @@ export class WrongChunkSizeException extends PictureparkValidationException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["actual"] = this.actual;
-        data["expected"] = this.expected;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IWrongChunkSizeException extends IPictureparkValidationException {
@@ -25037,9 +24232,9 @@ export class ChunkSizeOutOfRangeException extends PictureparkValidationException
 
     constructor(data?: IChunkSizeOutOfRangeException) {
         super(data);
-        this.setProp("object", "actual", false);
-        this.setProp("object", "minimum", false);
-        this.setProp("object", "maximum", false);
+        this.setProp("object", "number", "actual", false);
+        this.setProp("object", "number", "minimum", false);
+        this.setProp("object", "number", "maximum", false);
 
         this._kind = "ChunkSizeOutOfRangeException";
     }
@@ -25059,14 +24254,6 @@ export class ChunkSizeOutOfRangeException extends PictureparkValidationException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["actual"] = this.actual;
-        data["minimum"] = this.minimum;
-        data["maximum"] = this.maximum;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IChunkSizeOutOfRangeException extends IPictureparkValidationException {
@@ -25082,9 +24269,9 @@ export class MaximumTransferSizeException extends PictureparkException implement
 
     constructor(data?: IMaximumTransferSizeException) {
         super(data);
-        this.setProp("object", "transferSize", false);
-        this.setProp("object", "maximumTransferSize", false);
-        this.setProp("object", "transferId", false);
+        this.setProp("object", "number", "transferSize", false);
+        this.setProp("object", "number", "maximumTransferSize", false);
+        this.setProp("object", "string", "transferId", false);
 
         this._kind = "MaximumTransferSizeException";
     }
@@ -25104,14 +24291,6 @@ export class MaximumTransferSizeException extends PictureparkException implement
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferSize"] = this.transferSize;
-        data["maximumTransferSize"] = this.maximumTransferSize;
-        data["transferId"] = this.transferId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IMaximumTransferSizeException extends IPictureparkException {
@@ -25125,7 +24304,7 @@ export class MissingDependenciesException extends PictureparkValidationException
 
     constructor(data?: IMissingDependenciesException) {
         super(data);
-        this.setProp("object", "itemIds", false);
+        this.setProp("object", "string", "itemIds", false);
 
         this._kind = "MissingDependenciesException";
     }
@@ -25145,12 +24324,6 @@ export class MissingDependenciesException extends PictureparkValidationException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["itemIds"] = this.itemIds;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IMissingDependenciesException extends IPictureparkValidationException {
@@ -25163,8 +24336,8 @@ export class RelationSelfReferencingException extends PictureparkValidationExcep
 
     constructor(data?: IRelationSelfReferencingException) {
         super(data);
-        this.setProp("object", "itemId", false);
-        this.setProp("object", "itemType", false);
+        this.setProp("object", "string", "itemId", false);
+        this.setProp("object", "string", "itemType", false);
 
         this._kind = "RelationSelfReferencingException";
     }
@@ -25184,13 +24357,6 @@ export class RelationSelfReferencingException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["itemId"] = this.itemId;
-        data["itemType"] = this.itemType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRelationSelfReferencingException extends IPictureparkValidationException {
@@ -25207,11 +24373,11 @@ export class InvalidChangeCommandFieldTypeInvalidException extends PictureparkVa
 
     constructor(data?: IInvalidChangeCommandFieldTypeInvalidException) {
         super(data);
-        this.setProp("object", "commandType", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldActualType", false);
-        this.setProp("object", "fieldExpectedType", false);
+        this.setProp("object", "string", "commandType", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldActualType", false);
+        this.setProp("object", "string", "fieldExpectedType", false);
 
         this._kind = "InvalidChangeCommandFieldTypeInvalidException";
     }
@@ -25231,16 +24397,6 @@ export class InvalidChangeCommandFieldTypeInvalidException extends PictureparkVa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["commandType"] = this.commandType;
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        data["fieldActualType"] = this.fieldActualType;
-        data["fieldExpectedType"] = this.fieldExpectedType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidChangeCommandFieldTypeInvalidException extends IPictureparkValidationException {
@@ -25258,9 +24414,9 @@ export class InvalidChangeCommandFieldNotFoundException extends PictureparkValid
 
     constructor(data?: IInvalidChangeCommandFieldNotFoundException) {
         super(data);
-        this.setProp("object", "commandTypeName", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "commandTypeName", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "InvalidChangeCommandFieldNotFoundException";
     }
@@ -25280,14 +24436,6 @@ export class InvalidChangeCommandFieldNotFoundException extends PictureparkValid
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["commandTypeName"] = this.commandTypeName;
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidChangeCommandFieldNotFoundException extends IPictureparkValidationException {
@@ -25302,8 +24450,8 @@ export class InvalidChangeCommandSchemaChangeInvalidException extends Picturepar
 
     constructor(data?: IInvalidChangeCommandSchemaChangeInvalidException) {
         super(data);
-        this.setProp("object", "commandTypeName", false);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "commandTypeName", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "InvalidChangeCommandSchemaChangeInvalidException";
     }
@@ -25323,13 +24471,6 @@ export class InvalidChangeCommandSchemaChangeInvalidException extends Picturepar
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["commandTypeName"] = this.commandTypeName;
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidChangeCommandSchemaChangeInvalidException extends IPictureparkValidationException {
@@ -25343,8 +24484,8 @@ export class InvalidMetadataException extends PictureparkValidationException imp
 
     constructor(data?: IInvalidMetadataException) {
         super(data);
-        this.setProp("array", "metadataErrors", true, (item: any) => MetadataError.fromJS(item));
-        this.setProp("array", "validationErrors", true, (item: any) => PictureparkBusinessException.fromJS(item));
+        this.setProp("array", "MetadataError[]", "metadataErrors", true, (item: any) => MetadataError.fromJS(item));
+        this.setProp("array", "PictureparkBusinessException[]", "validationErrors", true, (item: any) => PictureparkBusinessException.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -25367,21 +24508,6 @@ export class InvalidMetadataException extends PictureparkValidationException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.metadataErrors)) {
-            data["metadataErrors"] = [];
-            for (let item of this.metadataErrors)
-                data["metadataErrors"].push(item.toJSON());
-        }
-        if (Array.isArray(this.validationErrors)) {
-            data["validationErrors"] = [];
-            for (let item of this.validationErrors)
-                data["validationErrors"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IInvalidMetadataException extends IPictureparkValidationException {
@@ -25399,12 +24525,12 @@ export class MetadataError extends DTOBase {
 
     constructor(data?: IMetadataError) {
         super(data);
-        this.setProp("object", "errorType", false);
-        this.setProp("object", "lineNumber", false);
-        this.setProp("object", "linePosition", false);
-        this.setProp("object", "path", false);
-        this.setProp("object", "message", false);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "errorType", false);
+        this.setProp("object", "number", "lineNumber", false);
+        this.setProp("object", "number", "linePosition", false);
+        this.setProp("object", "string", "path", false);
+        this.setProp("object", "string", "message", false);
+        this.setProp("object", "string", "schemaId", false);
 
     }
 
@@ -25423,16 +24549,6 @@ export class MetadataError extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["errorType"] = this.errorType;
-        data["lineNumber"] = this.lineNumber;
-        data["linePosition"] = this.linePosition;
-        data["path"] = this.path;
-        data["message"] = this.message;
-        data["schemaId"] = this.schemaId;
-        return data; 
-    }
 }
 
 export interface IMetadataError {
@@ -25449,7 +24565,7 @@ export class RelationNotFoundException extends PictureparkBusinessException impl
 
     constructor(data?: IRelationNotFoundException) {
         super(data);
-        this.setProp("object", "relationId", false);
+        this.setProp("object", "string", "relationId", false);
 
         this._kind = "RelationNotFoundException";
     }
@@ -25469,12 +24585,6 @@ export class RelationNotFoundException extends PictureparkBusinessException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["relationId"] = this.relationId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRelationNotFoundException extends IPictureparkBusinessException {
@@ -25486,7 +24596,7 @@ export class RelationTypeNotFoundException extends PictureparkBusinessException 
 
     constructor(data?: IRelationTypeNotFoundException) {
         super(data);
-        this.setProp("object", "relationType", false);
+        this.setProp("object", "string", "relationType", false);
 
         this._kind = "RelationTypeNotFoundException";
     }
@@ -25506,12 +24616,6 @@ export class RelationTypeNotFoundException extends PictureparkBusinessException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["relationType"] = this.relationType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRelationTypeNotFoundException extends IPictureparkBusinessException {
@@ -25525,9 +24629,9 @@ export class RelationTypeTargetDocTypeMismatchException extends PictureparkBusin
 
     constructor(data?: IRelationTypeTargetDocTypeMismatchException) {
         super(data);
-        this.setProp("object", "relationType", false);
-        this.setProp("object", "targetDocType", false);
-        this.setProp("object", "expectedTargetDocType", false);
+        this.setProp("object", "string", "relationType", false);
+        this.setProp("object", "string", "targetDocType", false);
+        this.setProp("object", "string", "expectedTargetDocType", false);
 
         this._kind = "RelationTypeTargetDocTypeMismatchException";
     }
@@ -25547,14 +24651,6 @@ export class RelationTypeTargetDocTypeMismatchException extends PictureparkBusin
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["relationType"] = this.relationType;
-        data["targetDocType"] = this.targetDocType;
-        data["expectedTargetDocType"] = this.expectedTargetDocType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRelationTypeTargetDocTypeMismatchException extends IPictureparkBusinessException {
@@ -25569,8 +24665,8 @@ export class AggregationNameInvalidException extends PictureparkValidationExcept
 
     constructor(data?: IAggregationNameInvalidException) {
         super(data);
-        this.setProp("object", "aggregationName", false);
-        this.setProp("object", "aggregationPrefix", false);
+        this.setProp("object", "string", "aggregationName", false);
+        this.setProp("object", "string", "aggregationPrefix", false);
 
         this._kind = "AggregationNameInvalidException";
     }
@@ -25590,13 +24686,6 @@ export class AggregationNameInvalidException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["aggregationPrefix"] = this.aggregationPrefix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAggregationNameInvalidException extends IPictureparkValidationException {
@@ -25613,8 +24702,8 @@ export class AggregationSizeInvalidException extends PictureparkValidationExcept
 
     constructor(data?: IAggregationSizeInvalidException) {
         super(data);
-        this.setProp("object", "aggregationName", false);
-        this.setProp("object", "aggregationSize", false);
+        this.setProp("object", "string", "aggregationName", false);
+        this.setProp("object", "number", "aggregationSize", false);
 
         this._kind = "AggregationSizeInvalidException";
     }
@@ -25634,13 +24723,6 @@ export class AggregationSizeInvalidException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["aggregationSize"] = this.aggregationSize;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Size of the aggregation is invalid. */
@@ -25658,9 +24740,9 @@ export class AggregationFilterNotSupportedException extends PictureparkValidatio
 
     constructor(data?: IAggregationFilterNotSupportedException) {
         super(data);
-        this.setProp("object", "aggregationName", false);
-        this.setProp("object", "notSupportedFilterType", false);
-        this.setProp("array", "supportedFilterTypes", false);
+        this.setProp("object", "string", "aggregationName", false);
+        this.setProp("object", "string", "notSupportedFilterType", false);
+        this.setProp("array", "string[]", "supportedFilterTypes", false);
 
         this._kind = "AggregationFilterNotSupportedException";
     }
@@ -25680,18 +24762,6 @@ export class AggregationFilterNotSupportedException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["notSupportedFilterType"] = this.notSupportedFilterType;
-        if (Array.isArray(this.supportedFilterTypes)) {
-            data["supportedFilterTypes"] = [];
-            for (let item of this.supportedFilterTypes)
-                data["supportedFilterTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAggregationFilterNotSupportedException extends IPictureparkValidationException {
@@ -25723,11 +24793,6 @@ export class RelationTypeMissingException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IRelationTypeMissingException extends IPictureparkBusinessException {
@@ -25738,7 +24803,7 @@ export class ReferencesUpdateException extends PictureparkBusinessException impl
 
     constructor(data?: IReferencesUpdateException) {
         super(data);
-        this.setProp("array", "exceptions", true, (item: any) => ReferenceUpdateException.fromJS(item));
+        this.setProp("array", "ReferenceUpdateException[]", "exceptions", true, (item: any) => ReferenceUpdateException.fromJS(item));
 
         this._kind = "ReferencesUpdateException";
     }
@@ -25758,16 +24823,6 @@ export class ReferencesUpdateException extends PictureparkBusinessException impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.exceptions)) {
-            data["exceptions"] = [];
-            for (let item of this.exceptions)
-                data["exceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IReferencesUpdateException extends IPictureparkBusinessException {
@@ -25784,9 +24839,9 @@ export class ReferenceUpdateException extends PictureparkBusinessException imple
 
     constructor(data?: IReferenceUpdateException) {
         super(data);
-        this.setProp("object", "referenceItemId", false);
-        this.setProp("object", "referenceType", false);
-        this.setProp("array", "exceptions", true, (item: any) => PictureparkException.fromJS(item));
+        this.setProp("object", "string", "referenceItemId", false);
+        this.setProp("object", "string", "referenceType", false);
+        this.setProp("array", "PictureparkException[]", "exceptions", true, (item: any) => PictureparkException.fromJS(item));
 
         this._kind = "ReferenceUpdateException";
     }
@@ -25806,18 +24861,6 @@ export class ReferenceUpdateException extends PictureparkBusinessException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["referenceItemId"] = this.referenceItemId;
-        data["referenceType"] = this.referenceType;
-        if (Array.isArray(this.exceptions)) {
-            data["exceptions"] = [];
-            for (let item of this.exceptions)
-                data["exceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IReferenceUpdateException extends IPictureparkBusinessException {
@@ -25835,8 +24878,8 @@ export class DuplicatedItemAssignedException extends PictureparkValidationExcept
 
     constructor(data?: IDuplicatedItemAssignedException) {
         super(data);
-        this.setProp("object", "itemId", false);
-        this.setProp("object", "itemPath", false);
+        this.setProp("object", "string", "itemId", false);
+        this.setProp("object", "string", "itemPath", false);
 
         this._kind = "DuplicatedItemAssignedException";
     }
@@ -25856,13 +24899,6 @@ export class DuplicatedItemAssignedException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["itemId"] = this.itemId;
-        data["itemPath"] = this.itemPath;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicatedItemAssignedException extends IPictureparkValidationException {
@@ -25878,10 +24914,10 @@ export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValida
 
     constructor(data?: ISchemaFieldOverwriteTypeMismatchException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "fieldOverwriteType", false);
-        this.setProp("object", "fieldType", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "fieldOverwriteType", false);
+        this.setProp("object", "string", "fieldType", false);
 
         this._kind = "SchemaFieldOverwriteTypeMismatchException";
     }
@@ -25901,15 +24937,6 @@ export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValida
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["fieldOverwriteType"] = this.fieldOverwriteType;
-        data["fieldType"] = this.fieldType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldOverwriteTypeMismatchException extends IPictureparkValidationException {
@@ -25925,8 +24952,8 @@ export class SchemaFieldOverwriteIdException extends PictureparkValidationExcept
 
     constructor(data?: ISchemaFieldOverwriteIdException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaFieldOverwriteIdException";
     }
@@ -25946,13 +24973,6 @@ export class SchemaFieldOverwriteIdException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldOverwriteIdException extends IPictureparkValidationException {
@@ -25966,8 +24986,8 @@ export class SchemaFieldIdDuplicatedException extends PictureparkValidationExcep
 
     constructor(data?: ISchemaFieldIdDuplicatedException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaFieldIdDuplicatedException";
     }
@@ -25987,13 +25007,6 @@ export class SchemaFieldIdDuplicatedException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldIdDuplicatedException extends IPictureparkValidationException {
@@ -26008,9 +25021,9 @@ export class SchemaFieldIdPreviouslyUsedException extends PictureparkValidationE
 
     constructor(data?: ISchemaFieldIdPreviouslyUsedException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "usedInSchemaId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "usedInSchemaId", false);
 
         this._kind = "SchemaFieldIdPreviouslyUsedException";
     }
@@ -26030,14 +25043,6 @@ export class SchemaFieldIdPreviouslyUsedException extends PictureparkValidationE
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["usedInSchemaId"] = this.usedInSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldIdPreviouslyUsedException extends IPictureparkValidationException {
@@ -26053,9 +25058,9 @@ export class SchemaFieldIdAlreadyExistsInSchemaHierarchyException extends Pictur
 
     constructor(data?: ISchemaFieldIdAlreadyExistsInSchemaHierarchyException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "existingInSchemaId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "existingInSchemaId", false);
 
         this._kind = "SchemaFieldIdAlreadyExistsInSchemaHierarchyException";
     }
@@ -26075,14 +25080,6 @@ export class SchemaFieldIdAlreadyExistsInSchemaHierarchyException extends Pictur
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["existingInSchemaId"] = this.existingInSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldIdAlreadyExistsInSchemaHierarchyException extends IPictureparkValidationException {
@@ -26099,10 +25096,10 @@ export class SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends Pict
 
     constructor(data?: ISchemaFieldSchemaIndexInfoSimpleSearchNestingException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "relatedFieldId", false);
-        this.setProp("object", "relatedOuterFieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "relatedFieldId", false);
+        this.setProp("object", "string", "relatedOuterFieldId", false);
 
         this._kind = "SchemaFieldSchemaIndexInfoSimpleSearchNestingException";
     }
@@ -26122,15 +25119,6 @@ export class SchemaFieldSchemaIndexInfoSimpleSearchNestingException extends Pict
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["relatedFieldId"] = this.relatedFieldId;
-        data["relatedOuterFieldId"] = this.relatedOuterFieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldSchemaIndexInfoSimpleSearchNestingException extends IPictureparkValidationException {
@@ -26148,10 +25136,10 @@ export class SchemaFieldSchemaIndexInfoNestingException extends PictureparkValid
 
     constructor(data?: ISchemaFieldSchemaIndexInfoNestingException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "relatedFieldId", false);
-        this.setProp("object", "relatedOuterFieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "relatedFieldId", false);
+        this.setProp("object", "string", "relatedOuterFieldId", false);
 
         this._kind = "SchemaFieldSchemaIndexInfoNestingException";
     }
@@ -26171,15 +25159,6 @@ export class SchemaFieldSchemaIndexInfoNestingException extends PictureparkValid
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["relatedFieldId"] = this.relatedFieldId;
-        data["relatedOuterFieldId"] = this.relatedOuterFieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldSchemaIndexInfoNestingException extends IPictureparkValidationException {
@@ -26195,8 +25174,8 @@ export class SchemaFieldIdUppercaseException extends PictureparkValidationExcept
 
     constructor(data?: ISchemaFieldIdUppercaseException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaFieldIdUppercaseException";
     }
@@ -26216,13 +25195,6 @@ export class SchemaFieldIdUppercaseException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldIdUppercaseException extends IPictureparkValidationException {
@@ -26235,7 +25207,7 @@ export class SchemaIdLowercaseException extends PictureparkValidationException i
 
     constructor(data?: ISchemaIdLowercaseException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaIdLowercaseException";
     }
@@ -26255,12 +25227,6 @@ export class SchemaIdLowercaseException extends PictureparkValidationException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaIdLowercaseException extends IPictureparkValidationException {
@@ -26272,7 +25238,7 @@ export class SchemaInfoNotFoundException extends PictureparkNotFoundException im
 
     constructor(data?: ISchemaInfoNotFoundException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaInfoNotFoundException";
     }
@@ -26292,12 +25258,6 @@ export class SchemaInfoNotFoundException extends PictureparkNotFoundException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInfoNotFoundException extends IPictureparkNotFoundException {
@@ -26311,9 +25271,9 @@ export class IndexedFieldThresholdExceededException extends PictureparkValidatio
 
     constructor(data?: IIndexedFieldThresholdExceededException) {
         super(data);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("object", "indexedFieldCount", false);
-        this.setProp("object", "indexedFieldThreshold", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("object", "number", "indexedFieldCount", false);
+        this.setProp("object", "number", "indexedFieldThreshold", false);
 
         this._kind = "IndexedFieldThresholdExceededException";
     }
@@ -26333,18 +25293,6 @@ export class IndexedFieldThresholdExceededException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["indexedFieldCount"] = this.indexedFieldCount;
-        data["indexedFieldThreshold"] = this.indexedFieldThreshold;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IIndexedFieldThresholdExceededException extends IPictureparkValidationException {
@@ -26360,9 +25308,9 @@ export class SortableFieldThresholdExceededException extends PictureparkValidati
 
     constructor(data?: ISortableFieldThresholdExceededException) {
         super(data);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("object", "sortableFieldCount", false);
-        this.setProp("object", "sortableFieldThreshold", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("object", "number", "sortableFieldCount", false);
+        this.setProp("object", "number", "sortableFieldThreshold", false);
 
         this._kind = "SortableFieldThresholdExceededException";
     }
@@ -26382,18 +25330,6 @@ export class SortableFieldThresholdExceededException extends PictureparkValidati
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["sortableFieldCount"] = this.sortableFieldCount;
-        data["sortableFieldThreshold"] = this.sortableFieldThreshold;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISortableFieldThresholdExceededException extends IPictureparkValidationException {
@@ -26407,7 +25343,7 @@ export class DuplicateSchemaInfoException extends PictureparkBusinessException i
 
     constructor(data?: IDuplicateSchemaInfoException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "DuplicateSchemaInfoException";
     }
@@ -26427,12 +25363,6 @@ export class DuplicateSchemaInfoException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateSchemaInfoException extends IPictureparkBusinessException {
@@ -26447,10 +25377,10 @@ export class SchemaFieldNumberRangeException extends PictureparkValidationExcept
 
     constructor(data?: ISchemaFieldNumberRangeException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "propertyName", false);
-        this.setProp("object", "minValue", false);
-        this.setProp("object", "maxValue", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "propertyName", false);
+        this.setProp("object", "number", "minValue", false);
+        this.setProp("object", "number", "maxValue", false);
 
         this._kind = "SchemaFieldNumberRangeException";
     }
@@ -26470,15 +25400,6 @@ export class SchemaFieldNumberRangeException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["propertyName"] = this.propertyName;
-        data["minValue"] = this.minValue;
-        data["maxValue"] = this.maxValue;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldNumberRangeException extends IPictureparkValidationException {
@@ -26494,8 +25415,8 @@ export class SchemaInUseContentSchemaException extends PictureparkValidationExce
 
     constructor(data?: ISchemaInUseContentSchemaException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "contentSchemaIds", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "string[]", "contentSchemaIds", false);
 
         this._kind = "SchemaInUseContentSchemaException";
     }
@@ -26515,17 +25436,6 @@ export class SchemaInUseContentSchemaException extends PictureparkValidationExce
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.contentSchemaIds)) {
-            data["contentSchemaIds"] = [];
-            for (let item of this.contentSchemaIds)
-                data["contentSchemaIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInUseContentSchemaException extends IPictureparkValidationException {
@@ -26539,8 +25449,8 @@ export class SchemaInUseListItemException extends PictureparkValidationException
 
     constructor(data?: ISchemaInUseListItemException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "listItemCount", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "number", "listItemCount", false);
 
         this._kind = "SchemaInUseListItemException";
     }
@@ -26560,13 +25470,6 @@ export class SchemaInUseListItemException extends PictureparkValidationException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["listItemCount"] = this.listItemCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInUseListItemException extends IPictureparkValidationException {
@@ -26580,8 +25483,8 @@ export class SchemaInUseContentException extends PictureparkValidationException 
 
     constructor(data?: ISchemaInUseContentException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "contentCount", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "number", "contentCount", false);
 
         this._kind = "SchemaInUseContentException";
     }
@@ -26601,13 +25504,6 @@ export class SchemaInUseContentException extends PictureparkValidationException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["contentCount"] = this.contentCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInUseContentException extends IPictureparkValidationException {
@@ -26621,8 +25517,8 @@ export class SchemaInUseFieldException extends PictureparkValidationException im
 
     constructor(data?: ISchemaInUseFieldException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "fieldNamespaces", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "string[]", "fieldNamespaces", false);
 
         this._kind = "SchemaInUseFieldException";
     }
@@ -26642,17 +25538,6 @@ export class SchemaInUseFieldException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.fieldNamespaces)) {
-            data["fieldNamespaces"] = [];
-            for (let item of this.fieldNamespaces)
-                data["fieldNamespaces"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInUseFieldException extends IPictureparkValidationException {
@@ -26666,8 +25551,8 @@ export class DuplicateMetadataDisplayPatternException extends PictureparkValidat
 
     constructor(data?: IDuplicateMetadataDisplayPatternException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "displayPatternId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "displayPatternId", false);
 
         this._kind = "DuplicateMetadataDisplayPatternException";
     }
@@ -26687,13 +25572,6 @@ export class DuplicateMetadataDisplayPatternException extends PictureparkValidat
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["displayPatternId"] = this.displayPatternId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateMetadataDisplayPatternException extends IPictureparkValidationException {
@@ -26706,7 +25584,7 @@ export class DuplicateSchemaException extends PictureparkValidationException imp
 
     constructor(data?: IDuplicateSchemaException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "DuplicateSchemaException";
     }
@@ -26726,12 +25604,6 @@ export class DuplicateSchemaException extends PictureparkValidationException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDuplicateSchemaException extends IPictureparkValidationException {
@@ -26761,11 +25633,6 @@ export class SchemaImportEmptyException extends PictureparkValidationException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaImportEmptyException extends IPictureparkValidationException {
@@ -26777,8 +25644,8 @@ export class SchemaImportVersionMismatchException extends PictureparkValidationE
 
     constructor(data?: ISchemaImportVersionMismatchException) {
         super(data);
-        this.setProp("object", "providedVersion", false);
-        this.setProp("object", "expectedVersion", false);
+        this.setProp("object", "string", "providedVersion", false);
+        this.setProp("object", "string", "expectedVersion", false);
 
         this._kind = "SchemaImportVersionMismatchException";
     }
@@ -26798,13 +25665,6 @@ export class SchemaImportVersionMismatchException extends PictureparkValidationE
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["providedVersion"] = this.providedVersion;
-        data["expectedVersion"] = this.expectedVersion;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaImportVersionMismatchException extends IPictureparkValidationException {
@@ -26817,7 +25677,7 @@ export class SchemaInheritanceFieldIndexDeviationException extends PictureparkVa
 
     constructor(data?: ISchemaInheritanceFieldIndexDeviationException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaInheritanceFieldIndexDeviationException";
     }
@@ -26837,12 +25697,6 @@ export class SchemaInheritanceFieldIndexDeviationException extends PictureparkVa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInheritanceFieldIndexDeviationException extends IPictureparkValidationException {
@@ -26854,7 +25708,7 @@ export class SchemaInheritanceTypeDeviationException extends PictureparkValidati
 
     constructor(data?: ISchemaInheritanceTypeDeviationException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaInheritanceTypeDeviationException";
     }
@@ -26874,12 +25728,6 @@ export class SchemaInheritanceTypeDeviationException extends PictureparkValidati
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInheritanceTypeDeviationException extends IPictureparkValidationException {
@@ -26892,8 +25740,8 @@ export class SchemaValidationException extends PictureparkValidationException im
 
     constructor(data?: ISchemaValidationException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "exceptions", true, (item: any) => PictureparkBusinessException.fromJS(item));
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "PictureparkBusinessException[]", "exceptions", true, (item: any) => PictureparkBusinessException.fromJS(item));
 
         this._kind = "SchemaValidationException";
     }
@@ -26913,17 +25761,6 @@ export class SchemaValidationException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.exceptions)) {
-            data["exceptions"] = [];
-            for (let item of this.exceptions)
-                data["exceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaValidationException extends IPictureparkValidationException {
@@ -26937,8 +25774,8 @@ export class SchemaSortFieldException extends PictureparkValidationException imp
 
     constructor(data?: ISchemaSortFieldException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaSortFieldException";
     }
@@ -26958,13 +25795,6 @@ export class SchemaSortFieldException extends PictureparkValidationException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaSortFieldException extends IPictureparkValidationException {
@@ -26978,8 +25808,8 @@ export class SchemaFieldIdException extends PictureparkValidationException imple
 
     constructor(data?: ISchemaFieldIdException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaFieldIdException";
     }
@@ -26999,13 +25829,6 @@ export class SchemaFieldIdException extends PictureparkValidationException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldIdException extends IPictureparkValidationException {
@@ -27021,10 +25844,10 @@ export class SchemaFieldTypeChangeException extends PictureparkValidationExcepti
 
     constructor(data?: ISchemaFieldTypeChangeException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "oldTypeName", false);
-        this.setProp("object", "newTypeName", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "oldTypeName", false);
+        this.setProp("object", "string", "newTypeName", false);
 
         this._kind = "SchemaFieldTypeChangeException";
     }
@@ -27044,15 +25867,6 @@ export class SchemaFieldTypeChangeException extends PictureparkValidationExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["oldTypeName"] = this.oldTypeName;
-        data["newTypeName"] = this.newTypeName;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldTypeChangeException extends IPictureparkValidationException {
@@ -27068,8 +25882,8 @@ export class SchemaFieldIndexException extends PictureparkValidationException im
 
     constructor(data?: ISchemaFieldIndexException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaFieldIndexException";
     }
@@ -27089,13 +25903,6 @@ export class SchemaFieldIndexException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldIndexException extends IPictureparkValidationException {
@@ -27109,8 +25916,8 @@ export class SchemaFieldNotSortableException extends PictureparkValidationExcept
 
     constructor(data?: ISchemaFieldNotSortableException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaFieldNotSortableException";
     }
@@ -27130,13 +25937,6 @@ export class SchemaFieldNotSortableException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldNotSortableException extends IPictureparkValidationException {
@@ -27150,8 +25950,8 @@ export class SchemaFieldNotSearchableException extends PictureparkValidationExce
 
     constructor(data?: ISchemaFieldNotSearchableException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaFieldNotSearchableException";
     }
@@ -27171,13 +25971,6 @@ export class SchemaFieldNotSearchableException extends PictureparkValidationExce
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldNotSearchableException extends IPictureparkValidationException {
@@ -27193,10 +25986,10 @@ export class SchemaFieldInvalidBoostException extends PictureparkValidationExcep
 
     constructor(data?: ISchemaFieldInvalidBoostException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "boost", false);
-        this.setProp("array", "allowedBoostValues", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "number", "boost", false);
+        this.setProp("array", "number[]", "allowedBoostValues", false);
 
         this._kind = "SchemaFieldInvalidBoostException";
     }
@@ -27216,19 +26009,6 @@ export class SchemaFieldInvalidBoostException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        data["boost"] = this.boost;
-        if (Array.isArray(this.allowedBoostValues)) {
-            data["allowedBoostValues"] = [];
-            for (let item of this.allowedBoostValues)
-                data["allowedBoostValues"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldInvalidBoostException extends IPictureparkValidationException {
@@ -27243,7 +26023,7 @@ export class SchemaNoContentException extends PictureparkValidationException imp
 
     constructor(data?: ISchemaNoContentException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaNoContentException";
     }
@@ -27263,12 +26043,6 @@ export class SchemaNoContentException extends PictureparkValidationException imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaNoContentException extends IPictureparkValidationException {
@@ -27282,9 +26056,9 @@ export class SchemaParentChangeException extends PictureparkValidationException 
 
     constructor(data?: ISchemaParentChangeException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "oldSchemaParentId", false);
-        this.setProp("object", "newSchemaParentId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "oldSchemaParentId", false);
+        this.setProp("object", "string", "newSchemaParentId", false);
 
         this._kind = "SchemaParentChangeException";
     }
@@ -27304,14 +26078,6 @@ export class SchemaParentChangeException extends PictureparkValidationException 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["oldSchemaParentId"] = this.oldSchemaParentId;
-        data["newSchemaParentId"] = this.newSchemaParentId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaParentChangeException extends IPictureparkValidationException {
@@ -27326,8 +26092,8 @@ export class SchemaMissingTypeException extends PictureparkValidationException i
 
     constructor(data?: ISchemaMissingTypeException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "expectedSchemaTypes", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "SchemaType[]", "expectedSchemaTypes", false);
 
         this._kind = "SchemaMissingTypeException";
     }
@@ -27347,17 +26113,6 @@ export class SchemaMissingTypeException extends PictureparkValidationException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.expectedSchemaTypes)) {
-            data["expectedSchemaTypes"] = [];
-            for (let item of this.expectedSchemaTypes)
-                data["expectedSchemaTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaMissingTypeException extends IPictureparkValidationException {
@@ -27378,7 +26133,7 @@ export class SchemaPermissionConfigurationException extends PictureparkValidatio
 
     constructor(data?: ISchemaPermissionConfigurationException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaPermissionConfigurationException";
     }
@@ -27398,12 +26153,6 @@ export class SchemaPermissionConfigurationException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaPermissionConfigurationException extends IPictureparkValidationException {
@@ -27415,7 +26164,7 @@ export class SchemaNoLayerException extends PictureparkValidationException imple
 
     constructor(data?: ISchemaNoLayerException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaNoLayerException";
     }
@@ -27435,12 +26184,6 @@ export class SchemaNoLayerException extends PictureparkValidationException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaNoLayerException extends IPictureparkValidationException {
@@ -27452,7 +26195,7 @@ export class SchemaIdException extends PictureparkValidationException implements
 
     constructor(data?: ISchemaIdException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaIdException";
     }
@@ -27472,12 +26215,6 @@ export class SchemaIdException extends PictureparkValidationException implements
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaIdException extends IPictureparkValidationException {
@@ -27490,8 +26227,8 @@ export class SchemaInUseException extends PictureparkValidationException impleme
 
     constructor(data?: ISchemaInUseException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "exceptions", true, (item: any) => PictureparkBusinessException.fromJS(item));
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "PictureparkBusinessException[]", "exceptions", true, (item: any) => PictureparkBusinessException.fromJS(item));
 
         this._kind = "SchemaInUseException";
     }
@@ -27511,17 +26248,6 @@ export class SchemaInUseException extends PictureparkValidationException impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.exceptions)) {
-            data["exceptions"] = [];
-            for (let item of this.exceptions)
-                data["exceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaInUseException extends IPictureparkValidationException {
@@ -27534,7 +26260,7 @@ export class SchemaNotFoundException extends PictureparkNotFoundException implem
 
     constructor(data?: ISchemaNotFoundException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaNotFoundException";
     }
@@ -27554,12 +26280,6 @@ export class SchemaNotFoundException extends PictureparkNotFoundException implem
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaNotFoundException extends IPictureparkNotFoundException {
@@ -27571,7 +26291,7 @@ export class SystemSchemaInvalidModificationException extends PictureparkValidat
 
     constructor(data?: ISystemSchemaInvalidModificationException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SystemSchemaInvalidModificationException";
     }
@@ -27591,12 +26311,6 @@ export class SystemSchemaInvalidModificationException extends PictureparkValidat
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISystemSchemaInvalidModificationException extends IPictureparkValidationException {
@@ -27610,9 +26324,9 @@ export class SchemaFieldRelationSchemaSystemSchemaException extends PictureparkV
 
     constructor(data?: ISchemaFieldRelationSchemaSystemSchemaException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "relationSchemaId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "relationSchemaId", false);
 
         this._kind = "SchemaFieldRelationSchemaSystemSchemaException";
     }
@@ -27632,14 +26346,6 @@ export class SchemaFieldRelationSchemaSystemSchemaException extends PictureparkV
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["relationSchemaId"] = this.relationSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldRelationSchemaSystemSchemaException extends IPictureparkValidationException {
@@ -27655,9 +26361,9 @@ export class SchemaFieldRelationSchemaTypeUnsupportedException extends Picturepa
 
     constructor(data?: ISchemaFieldRelationSchemaTypeUnsupportedException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "relationSchemaId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "relationSchemaId", false);
 
         this._kind = "SchemaFieldRelationSchemaTypeUnsupportedException";
     }
@@ -27677,14 +26383,6 @@ export class SchemaFieldRelationSchemaTypeUnsupportedException extends Picturepa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["relationSchemaId"] = this.relationSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldRelationSchemaTypeUnsupportedException extends IPictureparkValidationException {
@@ -27699,8 +26397,8 @@ export class SchemaMultipleTypesException extends PictureparkValidationException
 
     constructor(data?: ISchemaMultipleTypesException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "schemaTypes", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "string[]", "schemaTypes", false);
 
         this._kind = "SchemaMultipleTypesException";
     }
@@ -27720,17 +26418,6 @@ export class SchemaMultipleTypesException extends PictureparkValidationException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.schemaTypes)) {
-            data["schemaTypes"] = [];
-            for (let item of this.schemaTypes)
-                data["schemaTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaMultipleTypesException extends IPictureparkValidationException {
@@ -27744,8 +26431,8 @@ export class MissingDisplayPatternForCustomerDefaultLanguageException extends Pi
 
     constructor(data?: IMissingDisplayPatternForCustomerDefaultLanguageException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "missingTypes", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "DisplayPatternType[]", "missingTypes", false);
 
         this._kind = "MissingDisplayPatternForCustomerDefaultLanguageException";
     }
@@ -27765,17 +26452,6 @@ export class MissingDisplayPatternForCustomerDefaultLanguageException extends Pi
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.missingTypes)) {
-            data["missingTypes"] = [];
-            for (let item of this.missingTypes)
-                data["missingTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IMissingDisplayPatternForCustomerDefaultLanguageException extends IPictureparkValidationException {
@@ -27796,7 +26472,7 @@ export class SchemaViewForAllException extends PictureparkValidationException im
 
     constructor(data?: ISchemaViewForAllException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SchemaViewForAllException";
     }
@@ -27816,12 +26492,6 @@ export class SchemaViewForAllException extends PictureparkValidationException im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaViewForAllException extends IPictureparkValidationException {
@@ -27833,7 +26503,7 @@ export class SystemLayerReferenceInvalidModificationException extends Picturepar
 
     constructor(data?: ISystemLayerReferenceInvalidModificationException) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "SystemLayerReferenceInvalidModificationException";
     }
@@ -27853,12 +26523,6 @@ export class SystemLayerReferenceInvalidModificationException extends Picturepar
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISystemLayerReferenceInvalidModificationException extends IPictureparkValidationException {
@@ -27873,10 +26537,10 @@ export class SchemaFieldAnalyzerInvalidException extends PictureparkValidationEx
 
     constructor(data?: ISchemaFieldAnalyzerInvalidException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
-        this.setProp("array", "analyzers", false);
-        this.setProp("array", "allowedAnalyzers", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("array", "Analyzer[]", "analyzers", false);
+        this.setProp("array", "Analyzer[]", "allowedAnalyzers", false);
 
         this._kind = "SchemaFieldAnalyzerInvalidException";
     }
@@ -27896,23 +26560,6 @@ export class SchemaFieldAnalyzerInvalidException extends PictureparkValidationEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        if (Array.isArray(this.analyzers)) {
-            data["analyzers"] = [];
-            for (let item of this.analyzers)
-                data["analyzers"].push(item);
-        }
-        if (Array.isArray(this.allowedAnalyzers)) {
-            data["allowedAnalyzers"] = [];
-            for (let item of this.allowedAnalyzers)
-                data["allowedAnalyzers"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldAnalyzerInvalidException extends IPictureparkValidationException {
@@ -27937,8 +26584,8 @@ export class SchemaFieldRelationMultipleTypesException extends PictureparkValida
 
     constructor(data?: ISchemaFieldRelationMultipleTypesException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
 
         this._kind = "SchemaFieldRelationMultipleTypesException";
     }
@@ -27958,13 +26605,6 @@ export class SchemaFieldRelationMultipleTypesException extends PictureparkValida
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldRelationMultipleTypesException extends IPictureparkValidationException {
@@ -27978,8 +26618,8 @@ export class DeleteContentsWithReferencesException extends PictureparkValidation
 
     constructor(data?: IDeleteContentsWithReferencesException) {
         super(data);
-        this.setProp("object", "numberOfReferences", false);
-        this.setProp("object", "numberOfShares", false);
+        this.setProp("object", "number", "numberOfReferences", false);
+        this.setProp("object", "number", "numberOfShares", false);
 
         this._kind = "DeleteContentsWithReferencesException";
     }
@@ -27999,13 +26639,6 @@ export class DeleteContentsWithReferencesException extends PictureparkValidation
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["numberOfReferences"] = this.numberOfReferences;
-        data["numberOfShares"] = this.numberOfShares;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDeleteContentsWithReferencesException extends IPictureparkValidationException {
@@ -28019,8 +26652,8 @@ export class ContentMetadataUpdateManyException extends PictureparkBusinessExcep
 
     constructor(data?: IContentMetadataUpdateManyException) {
         super(data);
-        this.setProp("object", "failedItemsCount", false);
-        this.setProp("object", "totalItemsCount", false);
+        this.setProp("object", "number", "failedItemsCount", false);
+        this.setProp("object", "number", "totalItemsCount", false);
 
         this._kind = "ContentMetadataUpdateManyException";
     }
@@ -28040,13 +26673,6 @@ export class ContentMetadataUpdateManyException extends PictureparkBusinessExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["failedItemsCount"] = this.failedItemsCount;
-        data["totalItemsCount"] = this.totalItemsCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentMetadataUpdateManyException extends IPictureparkBusinessException {
@@ -28059,7 +26685,7 @@ export class ContentNotFoundException extends PictureparkNotFoundException imple
 
     constructor(data?: IContentNotFoundException) {
         super(data);
-        this.setProp("array", "contentIds", false);
+        this.setProp("array", "string[]", "contentIds", false);
 
         this._kind = "ContentNotFoundException";
     }
@@ -28079,16 +26705,6 @@ export class ContentNotFoundException extends PictureparkNotFoundException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentNotFoundException extends IPictureparkNotFoundException {
@@ -28101,8 +26717,8 @@ export class ContentLayerInvalidException extends PictureparkValidationException
 
     constructor(data?: IContentLayerInvalidException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "layerIds", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "layerIds", false);
 
         this._kind = "ContentLayerInvalidException";
     }
@@ -28122,13 +26738,6 @@ export class ContentLayerInvalidException extends PictureparkValidationException
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["layerIds"] = this.layerIds;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentLayerInvalidException extends IPictureparkValidationException {
@@ -28143,9 +26752,9 @@ export class ContentFileReplaceTypeMismatchException extends PictureparkValidati
 
     constructor(data?: IContentFileReplaceTypeMismatchException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "originalContentType", false);
-        this.setProp("object", "newContentType", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "ContentType", "originalContentType", false);
+        this.setProp("object", "ContentType", "newContentType", false);
 
         this._kind = "ContentFileReplaceTypeMismatchException";
     }
@@ -28165,14 +26774,6 @@ export class ContentFileReplaceTypeMismatchException extends PictureparkValidati
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["originalContentType"] = this.originalContentType;
-        data["newContentType"] = this.newContentType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentFileReplaceTypeMismatchException extends IPictureparkValidationException {
@@ -28213,9 +26814,9 @@ export class ContentBackupFailedException extends PictureparkBusinessException i
 
     constructor(data?: IContentBackupFailedException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
-        this.setProp("object", "outputId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
+        this.setProp("object", "string", "outputId", false);
 
         this._kind = "ContentBackupFailedException";
     }
@@ -28235,14 +26836,6 @@ export class ContentBackupFailedException extends PictureparkBusinessException i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        data["outputId"] = this.outputId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentBackupFailedException extends IPictureparkBusinessException {
@@ -28257,8 +26850,8 @@ export class ContentLayerSameRootException extends PictureparkValidationExceptio
 
     constructor(data?: IContentLayerSameRootException) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("array", "layerIdsByRootSchema", true, (item: any) => LayerIdsByRootSchema.fromJS(item));
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("array", "LayerIdsByRootSchema[]", "layerIdsByRootSchema", true, (item: any) => LayerIdsByRootSchema.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -28281,17 +26874,6 @@ export class ContentLayerSameRootException extends PictureparkValidationExceptio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        if (Array.isArray(this.layerIdsByRootSchema)) {
-            data["layerIdsByRootSchema"] = [];
-            for (let item of this.layerIdsByRootSchema)
-                data["layerIdsByRootSchema"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentLayerSameRootException extends IPictureparkValidationException {
@@ -28305,8 +26887,8 @@ export class LayerIdsByRootSchema extends DTOBase {
 
     constructor(data?: ILayerIdsByRootSchema) {
         super(data);
-        this.setProp("object", "rootSchemaId", false);
-        this.setProp("array", "layerSchemaIds", false);
+        this.setProp("object", "string", "rootSchemaId", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
 
     }
 
@@ -28325,16 +26907,6 @@ export class LayerIdsByRootSchema extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["rootSchemaId"] = this.rootSchemaId;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface ILayerIdsByRootSchema {
@@ -28348,8 +26920,8 @@ export class BusinessProcessEngineRequestException extends PictureparkBusinessEx
 
     constructor(data?: IBusinessProcessEngineRequestException) {
         super(data);
-        this.setProp("object", "businessProcessId", false);
-        this.setProp("object", "engineError", false);
+        this.setProp("object", "string", "businessProcessId", false);
+        this.setProp("object", "string", "engineError", false);
 
         this._kind = "BusinessProcessEngineRequestException";
     }
@@ -28369,13 +26941,6 @@ export class BusinessProcessEngineRequestException extends PictureparkBusinessEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
-        data["engineError"] = this.engineError;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessEngineRequestException extends IPictureparkBusinessException {
@@ -28388,7 +26953,7 @@ export class BusinessProcessNotFoundException extends PictureparkNotFoundExcepti
 
     constructor(data?: IBusinessProcessNotFoundException) {
         super(data);
-        this.setProp("object", "businessProcessId", false);
+        this.setProp("object", "string", "businessProcessId", false);
 
         this._kind = "BusinessProcessNotFoundException";
     }
@@ -28408,12 +26973,6 @@ export class BusinessProcessNotFoundException extends PictureparkNotFoundExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessNotFoundException extends IPictureparkNotFoundException {
@@ -28425,7 +26984,7 @@ export class BusinessProcessDefinitionNotFoundException extends PictureparkNotFo
 
     constructor(data?: IBusinessProcessDefinitionNotFoundException) {
         super(data);
-        this.setProp("object", "processDefinitionId", false);
+        this.setProp("object", "string", "processDefinitionId", false);
 
         this._kind = "BusinessProcessDefinitionNotFoundException";
     }
@@ -28445,12 +27004,6 @@ export class BusinessProcessDefinitionNotFoundException extends PictureparkNotFo
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["processDefinitionId"] = this.processDefinitionId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessDefinitionNotFoundException extends IPictureparkNotFoundException {
@@ -28462,7 +27015,7 @@ export class BusinessProcessDefinitionCreateException extends PictureparkBusines
 
     constructor(data?: IBusinessProcessDefinitionCreateException) {
         super(data);
-        this.setProp("array", "processDefinitionIds", false);
+        this.setProp("array", "string[]", "processDefinitionIds", false);
 
         this._kind = "BusinessProcessDefinitionCreateException";
     }
@@ -28482,16 +27035,6 @@ export class BusinessProcessDefinitionCreateException extends PictureparkBusines
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.processDefinitionIds)) {
-            data["processDefinitionIds"] = [];
-            for (let item of this.processDefinitionIds)
-                data["processDefinitionIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessDefinitionCreateException extends IPictureparkBusinessException {
@@ -28505,9 +27048,9 @@ export class SchemaFieldImportMismatchException extends PictureparkValidationExc
 
     constructor(data?: ISchemaFieldImportMismatchException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "importingFieldIds", false);
-        this.setProp("object", "existingFieldIds", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "importingFieldIds", false);
+        this.setProp("object", "string", "existingFieldIds", false);
 
         this._kind = "SchemaFieldImportMismatchException";
     }
@@ -28527,14 +27070,6 @@ export class SchemaFieldImportMismatchException extends PictureparkValidationExc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["importingFieldIds"] = this.importingFieldIds;
-        data["existingFieldIds"] = this.existingFieldIds;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldImportMismatchException extends IPictureparkValidationException {
@@ -28551,10 +27086,10 @@ export class SchemaFieldImportRelatedSchemaMismatchException extends Picturepark
 
     constructor(data?: ISchemaFieldImportRelatedSchemaMismatchException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "importingRelatedSchemaId", false);
-        this.setProp("object", "existingRelatedSchemaId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "importingRelatedSchemaId", false);
+        this.setProp("object", "string", "existingRelatedSchemaId", false);
 
         this._kind = "SchemaFieldImportRelatedSchemaMismatchException";
     }
@@ -28574,15 +27109,6 @@ export class SchemaFieldImportRelatedSchemaMismatchException extends Picturepark
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["importingRelatedSchemaId"] = this.importingRelatedSchemaId;
-        data["existingRelatedSchemaId"] = this.existingRelatedSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldImportRelatedSchemaMismatchException extends IPictureparkValidationException {
@@ -28600,10 +27126,10 @@ export class SchemaFieldImportTypeMismatchException extends PictureparkValidatio
 
     constructor(data?: ISchemaFieldImportTypeMismatchException) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "importingFieldType", false);
-        this.setProp("object", "existingFieldType", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "importingFieldType", false);
+        this.setProp("object", "string", "existingFieldType", false);
 
         this._kind = "SchemaFieldImportTypeMismatchException";
     }
@@ -28623,15 +27149,6 @@ export class SchemaFieldImportTypeMismatchException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["importingFieldType"] = this.importingFieldType;
-        data["existingFieldType"] = this.existingFieldType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldImportTypeMismatchException extends IPictureparkValidationException {
@@ -28648,9 +27165,9 @@ export class SchemaFieldNotSupportedException extends PictureparkValidationExcep
 
     constructor(data?: ISchemaFieldNotSupportedException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "fieldType", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "string", "fieldType", false);
 
         this._kind = "SchemaFieldNotSupportedException";
     }
@@ -28670,14 +27187,6 @@ export class SchemaFieldNotSupportedException extends PictureparkValidationExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        data["fieldType"] = this.fieldType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldNotSupportedException extends IPictureparkValidationException {
@@ -28693,9 +27202,9 @@ export class SchemaFieldDisplayPatternTypeNotSupportedException extends Picturep
 
     constructor(data?: ISchemaFieldDisplayPatternTypeNotSupportedException) {
         super(data);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "displayPatternType", false);
-        this.setProp("array", "supportedDisplayPatternTypes", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "DisplayPatternType", "displayPatternType", false);
+        this.setProp("array", "DisplayPatternType[]", "supportedDisplayPatternTypes", false);
 
         this._kind = "SchemaFieldDisplayPatternTypeNotSupportedException";
     }
@@ -28715,18 +27224,6 @@ export class SchemaFieldDisplayPatternTypeNotSupportedException extends Picturep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["displayPatternType"] = this.displayPatternType;
-        if (Array.isArray(this.supportedDisplayPatternTypes)) {
-            data["supportedDisplayPatternTypes"] = [];
-            for (let item of this.supportedDisplayPatternTypes)
-                data["supportedDisplayPatternTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaFieldDisplayPatternTypeNotSupportedException extends IPictureparkValidationException {
@@ -28758,11 +27255,6 @@ export class SnapshotTimeoutException extends PictureparkTimeoutException implem
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISnapshotTimeoutException extends IPictureparkTimeoutException {
@@ -28791,11 +27283,6 @@ export class SnapshotFailedException extends PictureparkBusinessException implem
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISnapshotFailedException extends IPictureparkBusinessException {
@@ -28824,11 +27311,6 @@ export class SnapshotSkippedException extends PictureparkBusinessException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISnapshotSkippedException extends IPictureparkBusinessException {
@@ -28839,7 +27321,7 @@ export class AddMetadataLanguageTimeoutException extends PictureparkTimeoutExcep
 
     constructor(data?: IAddMetadataLanguageTimeoutException) {
         super(data);
-        this.setProp("object", "environmentProcessId", false);
+        this.setProp("object", "string", "environmentProcessId", false);
 
         this._kind = "AddMetadataLanguageTimeoutException";
     }
@@ -28859,12 +27341,6 @@ export class AddMetadataLanguageTimeoutException extends PictureparkTimeoutExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAddMetadataLanguageTimeoutException extends IPictureparkTimeoutException {
@@ -28876,7 +27352,7 @@ export class EnvironmentProcessAlreadyRunningException extends PictureparkValida
 
     constructor(data?: IEnvironmentProcessAlreadyRunningException) {
         super(data);
-        this.setProp("object", "environmentProcessType", false);
+        this.setProp("object", "EnvironmentProcessType", "environmentProcessType", false);
 
         this._kind = "EnvironmentProcessAlreadyRunningException";
     }
@@ -28896,12 +27372,6 @@ export class EnvironmentProcessAlreadyRunningException extends PictureparkValida
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessType"] = this.environmentProcessType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentProcessAlreadyRunningException extends IPictureparkValidationException {
@@ -28920,7 +27390,7 @@ export class EnvironmentProcessNotFoundException extends PictureparkNotFoundExce
 
     constructor(data?: IEnvironmentProcessNotFoundException) {
         super(data);
-        this.setProp("object", "environmentProcessId", false);
+        this.setProp("object", "string", "environmentProcessId", false);
 
         this._kind = "EnvironmentProcessNotFoundException";
     }
@@ -28940,12 +27410,6 @@ export class EnvironmentProcessNotFoundException extends PictureparkNotFoundExce
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentProcessNotFoundException extends IPictureparkNotFoundException {
@@ -28958,8 +27422,8 @@ export class EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutEx
 
     constructor(data?: IEnvironmentProcessWaitTimeoutException) {
         super(data);
-        this.setProp("object", "environmentProcessId", false);
-        this.setProp("object", "waitedLifecycles", false);
+        this.setProp("object", "string", "environmentProcessId", false);
+        this.setProp("object", "string", "waitedLifecycles", false);
 
         this._kind = "EnvironmentProcessWaitTimeoutException";
     }
@@ -28979,13 +27443,6 @@ export class EnvironmentProcessWaitTimeoutException extends PictureparkTimeoutEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        data["waitedLifecycles"] = this.waitedLifecycles;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentProcessWaitTimeoutException extends IPictureparkTimeoutException {
@@ -28998,7 +27455,7 @@ export class CustomerBoostValuesUpdateTimeoutException extends PictureparkTimeou
 
     constructor(data?: ICustomerBoostValuesUpdateTimeoutException) {
         super(data);
-        this.setProp("object", "environmentProcessId", false);
+        this.setProp("object", "string", "environmentProcessId", false);
 
         this._kind = "CustomerBoostValuesUpdateTimeoutException";
     }
@@ -29018,12 +27475,6 @@ export class CustomerBoostValuesUpdateTimeoutException extends PictureparkTimeou
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["environmentProcessId"] = this.environmentProcessId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerBoostValuesUpdateTimeoutException extends IPictureparkTimeoutException {
@@ -29053,11 +27504,6 @@ export class NoTermsOfServiceDefinedException extends PictureparkBusinessExcepti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface INoTermsOfServiceDefinedException extends IPictureparkBusinessException {
@@ -29086,11 +27532,6 @@ export class AtLeastOneActiveTermsOfServiceMustExistException extends Picturepar
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAtLeastOneActiveTermsOfServiceMustExistException extends IPictureparkValidationException {
@@ -29119,11 +27560,6 @@ export class ForbiddenHtmlElementsUsedException extends PictureparkValidationExc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IForbiddenHtmlElementsUsedException extends IPictureparkValidationException {
@@ -29136,9 +27572,9 @@ export class BusinessProcessStateNotHitException extends PictureparkTimeoutExcep
 
     constructor(data?: IBusinessProcessStateNotHitException) {
         super(data);
-        this.setProp("object", "businessProcessId", false);
-        this.setProp("array", "expected", false);
-        this.setProp("object", "actual", false);
+        this.setProp("object", "string", "businessProcessId", false);
+        this.setProp("array", "string[]", "expected", false);
+        this.setProp("object", "string", "actual", false);
 
         this._kind = "BusinessProcessStateNotHitException";
     }
@@ -29158,18 +27594,6 @@ export class BusinessProcessStateNotHitException extends PictureparkTimeoutExcep
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
-        if (Array.isArray(this.expected)) {
-            data["expected"] = [];
-            for (let item of this.expected)
-                data["expected"].push(item);
-        }
-        data["actual"] = this.actual;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessStateNotHitException extends IPictureparkTimeoutException {
@@ -29185,9 +27609,9 @@ export class BusinessProcessLifeCycleNotHitException extends PictureparkTimeoutE
 
     constructor(data?: IBusinessProcessLifeCycleNotHitException) {
         super(data);
-        this.setProp("object", "businessProcessId", false);
-        this.setProp("array", "expected", false);
-        this.setProp("object", "actual", false);
+        this.setProp("object", "string", "businessProcessId", false);
+        this.setProp("array", "BusinessProcessLifeCycle[]", "expected", false);
+        this.setProp("object", "BusinessProcessLifeCycle", "actual", false);
 
         this._kind = "BusinessProcessLifeCycleNotHitException";
     }
@@ -29207,18 +27631,6 @@ export class BusinessProcessLifeCycleNotHitException extends PictureparkTimeoutE
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
-        if (Array.isArray(this.expected)) {
-            data["expected"] = [];
-            for (let item of this.expected)
-                data["expected"].push(item);
-        }
-        data["actual"] = this.actual;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessLifeCycleNotHitException extends IPictureparkTimeoutException {
@@ -29250,11 +27662,6 @@ export class OnlyAccessibleToRecipientException extends PictureparkValidationExc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOnlyAccessibleToRecipientException extends IPictureparkValidationException {
@@ -29283,11 +27690,6 @@ export class EnvironmentNotAvailableException extends PictureparkException imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IEnvironmentNotAvailableException extends IPictureparkException {
@@ -29298,7 +27700,7 @@ export class CustomerNotAvailableException extends PictureparkException implemen
 
     constructor(data?: ICustomerNotAvailableException) {
         super(data);
-        this.setProp("object", "customerId", false);
+        this.setProp("object", "string", "customerId", false);
 
         this._kind = "CustomerNotAvailableException";
     }
@@ -29318,12 +27720,6 @@ export class CustomerNotAvailableException extends PictureparkException implemen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerNotAvailableException extends IPictureparkException {
@@ -29353,11 +27749,6 @@ export class CustomerAliasHeaderMissingException extends PictureparkValidationEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerAliasHeaderMissingException extends IPictureparkValidationException {
@@ -29368,7 +27759,7 @@ export class BusinessRuleActionInvalidDocumentTypeException extends PictureparkV
 
     constructor(data?: IBusinessRuleActionInvalidDocumentTypeException) {
         super(data);
-        this.setProp("array", "allowedDocumentTypes", false);
+        this.setProp("array", "BusinessRuleTriggerDocType[]", "allowedDocumentTypes", false);
 
         this._kind = "BusinessRuleActionInvalidDocumentTypeException";
     }
@@ -29388,16 +27779,6 @@ export class BusinessRuleActionInvalidDocumentTypeException extends PictureparkV
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.allowedDocumentTypes)) {
-            data["allowedDocumentTypes"] = [];
-            for (let item of this.allowedDocumentTypes)
-                data["allowedDocumentTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleActionInvalidDocumentTypeException extends IPictureparkValidationException {
@@ -29413,7 +27794,7 @@ export class BusinessRuleActionInvalidExecutionScopeException extends Picturepar
 
     constructor(data?: IBusinessRuleActionInvalidExecutionScopeException) {
         super(data);
-        this.setProp("array", "allowedScopes", false);
+        this.setProp("array", "BusinessRuleExecutionScope[]", "allowedScopes", false);
 
         this._kind = "BusinessRuleActionInvalidExecutionScopeException";
     }
@@ -29433,16 +27814,6 @@ export class BusinessRuleActionInvalidExecutionScopeException extends Picturepar
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.allowedScopes)) {
-            data["allowedScopes"] = [];
-            for (let item of this.allowedScopes)
-                data["allowedScopes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleActionInvalidExecutionScopeException extends IPictureparkValidationException {
@@ -29477,11 +27848,6 @@ export class BusinessRuleActionsMissingException extends PictureparkValidationEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleActionsMissingException extends IPictureparkValidationException {
@@ -29510,11 +27876,6 @@ export class BusinessRuleConditionMissingException extends PictureparkValidation
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleConditionMissingException extends IPictureparkValidationException {
@@ -29543,11 +27904,6 @@ export class BusinessRuleConditionsMissingException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleConditionsMissingException extends IPictureparkValidationException {
@@ -29558,7 +27914,7 @@ export class BusinessRuleConfigurationValidationException extends PictureparkVal
 
     constructor(data?: IBusinessRuleConfigurationValidationException) {
         super(data);
-        this.setProp("array", "innerExceptions", true, (item: any) => PictureparkValidationException.fromJS(item));
+        this.setProp("array", "PictureparkValidationException[]", "innerExceptions", true, (item: any) => PictureparkValidationException.fromJS(item));
 
         this._kind = "BusinessRuleConfigurationValidationException";
     }
@@ -29578,16 +27934,6 @@ export class BusinessRuleConfigurationValidationException extends PictureparkVal
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.innerExceptions)) {
-            data["innerExceptions"] = [];
-            for (let item of this.innerExceptions)
-                data["innerExceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleConfigurationValidationException extends IPictureparkValidationException {
@@ -29599,7 +27945,7 @@ export class BusinessRuleLayerIdInvalidException extends PictureparkValidationEx
 
     constructor(data?: IBusinessRuleLayerIdInvalidException) {
         super(data);
-        this.setProp("object", "layerId", false);
+        this.setProp("object", "string", "layerId", false);
 
         this._kind = "BusinessRuleLayerIdInvalidException";
     }
@@ -29619,12 +27965,6 @@ export class BusinessRuleLayerIdInvalidException extends PictureparkValidationEx
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["layerId"] = this.layerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleLayerIdInvalidException extends IPictureparkValidationException {
@@ -29654,11 +27994,6 @@ export class BusinessRuleRuleIdDuplicationException extends PictureparkValidatio
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleRuleIdDuplicationException extends IPictureparkValidationException {
@@ -29687,11 +28022,6 @@ export class BusinessRuleRuleIdMissingException extends PictureparkValidationExc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleRuleIdMissingException extends IPictureparkValidationException {
@@ -29720,11 +28050,6 @@ export class BusinessRuleTriggerPointMissingException extends PictureparkValidat
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleTriggerPointMissingException extends IPictureparkValidationException {
@@ -29736,8 +28061,8 @@ export class BusinessRuleValidationException extends PictureparkValidationExcept
 
     constructor(data?: IBusinessRuleValidationException) {
         super(data);
-        this.setProp("object", "ruleId", false);
-        this.setProp("array", "innerExceptions", true, (item: any) => PictureparkValidationException.fromJS(item));
+        this.setProp("object", "string", "ruleId", false);
+        this.setProp("array", "PictureparkValidationException[]", "innerExceptions", true, (item: any) => PictureparkValidationException.fromJS(item));
 
         this._kind = "BusinessRuleValidationException";
     }
@@ -29757,17 +28082,6 @@ export class BusinessRuleValidationException extends PictureparkValidationExcept
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["ruleId"] = this.ruleId;
-        if (Array.isArray(this.innerExceptions)) {
-            data["innerExceptions"] = [];
-            for (let item of this.innerExceptions)
-                data["innerExceptions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessRuleValidationException extends IPictureparkValidationException {
@@ -29793,12 +28107,12 @@ Warning! It severely affects performance. */
 
     constructor(data?: IBusinessProcessSearchRequest) {
         super(data);
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "debugMode", false);
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("object", "boolean", "debugMode", false);
 
     }
 
@@ -29817,20 +28131,6 @@ Warning! It severely affects performance. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
 }
 
 /** Search request to search for business processes */
@@ -29955,11 +28255,6 @@ export class FilterBase extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 /** The filters' base class */
@@ -29973,7 +28268,7 @@ export class AndFilter extends FilterBase implements IAndFilter {
 
     constructor(data?: IAndFilter) {
         super(data);
-        this.setProp("array", "filters", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "FilterBase[]", "filters", true, (item: any) => FilterBase.fromJS(item));
 
         this._kind = "AndFilter";
     }
@@ -29993,16 +28288,6 @@ export class AndFilter extends FilterBase implements IAndFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.filters)) {
-            data["filters"] = [];
-            for (let item of this.filters)
-                data["filters"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Used to put filters in "and" */
@@ -30018,7 +28303,7 @@ export class OrFilter extends FilterBase implements IOrFilter {
 
     constructor(data?: IOrFilter) {
         super(data);
-        this.setProp("array", "filters", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "FilterBase[]", "filters", true, (item: any) => FilterBase.fromJS(item));
 
         this._kind = "OrFilter";
     }
@@ -30038,16 +28323,6 @@ export class OrFilter extends FilterBase implements IOrFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.filters)) {
-            data["filters"] = [];
-            for (let item of this.filters)
-                data["filters"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Put filters in "or" */
@@ -30063,7 +28338,7 @@ export class NotFilter extends FilterBase implements INotFilter {
 
     constructor(data?: INotFilter) {
         super(data);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -30086,12 +28361,6 @@ export class NotFilter extends FilterBase implements INotFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Negates the specified filter */
@@ -30114,8 +28383,8 @@ export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
 
     constructor(data?: IDateRangeFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "range", true, (item: any) => DateRange.fromJS(item));
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "DateRange", "range", true, (item: any) => DateRange.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -30141,13 +28410,6 @@ export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["range"] = this.range ? this.range.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters over a range of date time values */
@@ -30170,9 +28432,9 @@ export class DateRange extends DTOBase {
 
     constructor(data?: IDateRange) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "from", false);
-        this.setProp("object", "to", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "from", false);
+        this.setProp("object", "string", "to", false);
 
         if (data) {
             this.construct(data);
@@ -30194,13 +28456,6 @@ export class DateRange extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data; 
-    }
 }
 
 /** The date time range class used in filters */
@@ -30249,14 +28504,6 @@ export class TranslatedStringDictionary extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property) && property !== '_fields')
-                data[property] = this[property];
-        }
-        return data; 
-    }
 }
 
 /** A custom dictionary type to distinguish language specific class properties. */
@@ -30273,7 +28520,7 @@ export class ExistsFilter extends FilterBase implements IExistsFilter {
 
     constructor(data?: IExistsFilter) {
         super(data);
-        this.setProp("object", "field", false);
+        this.setProp("object", "string", "field", false);
 
         this._kind = "ExistsFilter";
     }
@@ -30293,12 +28540,6 @@ export class ExistsFilter extends FilterBase implements IExistsFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters over the existence of a field's value */
@@ -30320,9 +28561,9 @@ export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxF
 
     constructor(data?: IGeoBoundingBoxFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "topLeft", true, (item: any) => GeoLocation.fromJS(item));
-        this.setProp("object", "bottomRight", true, (item: any) => GeoLocation.fromJS(item));
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "GeoLocation", "topLeft", true, (item: any) => GeoLocation.fromJS(item));
+        this.setProp("object", "GeoLocation", "bottomRight", true, (item: any) => GeoLocation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -30349,14 +28590,6 @@ export class GeoBoundingBoxFilter extends FilterBase implements IGeoBoundingBoxF
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["topLeft"] = this.topLeft ? this.topLeft.toJSON() : <any>undefined;
-        data["bottomRight"] = this.bottomRight ? this.bottomRight.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters geo point values based on a bounding box */
@@ -30379,8 +28612,8 @@ export class GeoLocation extends DTOBase {
 
     constructor(data?: IGeoLocation) {
         super(data);
-        this.setProp("object", "lat", false);
-        this.setProp("object", "lon", false);
+        this.setProp("object", "number", "lat", false);
+        this.setProp("object", "number", "lon", false);
 
     }
 
@@ -30399,12 +28632,6 @@ export class GeoLocation extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lat"] = this.lat;
-        data["lon"] = this.lon;
-        return data; 
-    }
 }
 
 /** It stores geo location information (latitude and longitude) */
@@ -30427,9 +28654,9 @@ export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter 
 
     constructor(data?: IGeoDistanceFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "location", true, (item: any) => GeoLocation.fromJS(item));
-        this.setProp("object", "distance", false);
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "GeoLocation", "location", true, (item: any) => GeoLocation.fromJS(item));
+        this.setProp("object", "number", "distance", false);
 
         if (data) {
             this.construct(data);
@@ -30455,14 +28682,6 @@ export class GeoDistanceFilter extends FilterBase implements IGeoDistanceFilter 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
-        data["distance"] = this.distance;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters within the radius of the distance from a location */
@@ -30485,8 +28704,8 @@ export class NestedFilter extends FilterBase implements INestedFilter {
 
     constructor(data?: INestedFilter) {
         super(data);
-        this.setProp("object", "path", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "path", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -30509,13 +28728,6 @@ export class NestedFilter extends FilterBase implements INestedFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["path"] = this.path;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters on nested documents */
@@ -30536,8 +28748,8 @@ export class NumericRangeFilter extends FilterBase implements INumericRangeFilte
 
     constructor(data?: INumericRangeFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "range", true, (item: any) => NumericRange.fromJS(item));
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "NumericRange", "range", true, (item: any) => NumericRange.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -30563,13 +28775,6 @@ export class NumericRangeFilter extends FilterBase implements INumericRangeFilte
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["range"] = this.range ? this.range.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters over a range of numeric values */
@@ -30592,9 +28797,9 @@ export class NumericRange extends DTOBase {
 
     constructor(data?: INumericRange) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "from", false);
-        this.setProp("object", "to", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "number", "from", false);
+        this.setProp("object", "number", "to", false);
 
         if (data) {
             this.construct(data);
@@ -30616,13 +28821,6 @@ export class NumericRange extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data; 
-    }
 }
 
 /** The numeric range class */
@@ -30645,8 +28843,8 @@ export class PrefixFilter extends FilterBase implements IPrefixFilter {
 
     constructor(data?: IPrefixFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "prefix", false);
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "string", "prefix", false);
 
         this._kind = "PrefixFilter";
     }
@@ -30666,13 +28864,6 @@ export class PrefixFilter extends FilterBase implements IPrefixFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["prefix"] = this.prefix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters field's values based on a prefix */
@@ -30694,8 +28885,8 @@ export class TermFilter extends FilterBase implements ITermFilter {
 
     constructor(data?: ITermFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "term", false);
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "string", "term", false);
 
         this._kind = "TermFilter";
     }
@@ -30715,13 +28906,6 @@ export class TermFilter extends FilterBase implements ITermFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["term"] = this.term;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters values exactly containing a term */
@@ -30743,8 +28927,8 @@ export class TermsFilter extends FilterBase implements ITermsFilter {
 
     constructor(data?: ITermsFilter) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("array", "terms", false);
+        this.setProp("object", "string", "field", false);
+        this.setProp("array", "string[]", "terms", false);
 
         if (!data) {
             this.terms = [];
@@ -30767,17 +28951,6 @@ export class TermsFilter extends FilterBase implements ITermsFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        if (Array.isArray(this.terms)) {
-            data["terms"] = [];
-            for (let item of this.terms)
-                data["terms"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters values containing at least one of the terms */
@@ -30800,9 +28973,9 @@ export class AggregationFilter extends FilterBase implements IAggregationFilter 
 
     constructor(data?: IAggregationFilter) {
         super(data);
-        this.setProp("object", "aggregationName", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "temporaryAggregatorRequestId", false);
+        this.setProp("object", "string", "aggregationName", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "temporaryAggregatorRequestId", false);
 
         this._kind = "AggregationFilter";
     }
@@ -30822,14 +28995,6 @@ export class AggregationFilter extends FilterBase implements IAggregationFilter 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["temporaryAggregatorRequestId"] = this.temporaryAggregatorRequestId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters aggregations */
@@ -30851,8 +29016,8 @@ export class ChildFilter extends FilterBase implements IChildFilter {
 
     constructor(data?: IChildFilter) {
         super(data);
-        this.setProp("object", "childType", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "childType", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -30875,13 +29040,6 @@ export class ChildFilter extends FilterBase implements IChildFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["childType"] = this.childType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters on child documents */
@@ -30901,8 +29059,8 @@ export class ParentFilter extends FilterBase implements IParentFilter {
 
     constructor(data?: IParentFilter) {
         super(data);
-        this.setProp("object", "parentType", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "parentType", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (!data) {
             this.filter = new FilterBase();
@@ -30925,13 +29083,6 @@ export class ParentFilter extends FilterBase implements IParentFilter {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["parentType"] = this.parentType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Filters on parent documents */
@@ -30960,8 +29111,8 @@ export class BusinessProcessWaitForLifeCycleResult extends DTOBase {
 
     constructor(data?: IBusinessProcessWaitForLifeCycleResult) {
         super(data);
-        this.setProp("object", "lifeCycleHit", false);
-        this.setProp("object", "businessProcess", true, (item: any) => BusinessProcess.fromJS(item));
+        this.setProp("object", "BusinessProcessLifeCycle", "lifeCycleHit", false);
+        this.setProp("object", "BusinessProcess", "businessProcess", true, (item: any) => BusinessProcess.fromJS(item));
 
         if (!data) {
             this.businessProcess = new BusinessProcess();
@@ -30983,12 +29134,6 @@ export class BusinessProcessWaitForLifeCycleResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifeCycleHit"] = this.lifeCycleHit;
-        data["businessProcess"] = this.businessProcess ? this.businessProcess.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result from waiting for life cycle(s) on a business process */
@@ -31008,8 +29153,8 @@ export class BusinessProcessWaitForStateResult extends DTOBase {
 
     constructor(data?: IBusinessProcessWaitForStateResult) {
         super(data);
-        this.setProp("object", "stateHit", false);
-        this.setProp("object", "businessProcess", true, (item: any) => BusinessProcess.fromJS(item));
+        this.setProp("object", "string", "stateHit", false);
+        this.setProp("object", "BusinessProcess", "businessProcess", true, (item: any) => BusinessProcess.fromJS(item));
 
         if (!data) {
             this.businessProcess = new BusinessProcess();
@@ -31031,12 +29176,6 @@ export class BusinessProcessWaitForStateResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["stateHit"] = this.stateHit;
-        data["businessProcess"] = this.businessProcess ? this.businessProcess.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result from waiting for state(s) on a business process */
@@ -31054,7 +29193,7 @@ export class BusinessProcessDetails extends BusinessProcess implements IBusiness
 
     constructor(data?: IBusinessProcessDetails) {
         super(data);
-        this.setProp("object", "details", true, (item: any) => BusinessProcessDetailsDataBase.fromJS(item));
+        this.setProp("object", "BusinessProcessDetailsDataBase", "details", true, (item: any) => BusinessProcessDetailsDataBase.fromJS(item));
 
         this._kind = "BusinessProcessDetails";
     }
@@ -31074,12 +29213,6 @@ export class BusinessProcessDetails extends BusinessProcess implements IBusiness
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["details"] = this.details ? this.details.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Detailed representation of a business process */
@@ -31132,11 +29265,6 @@ export abstract class BusinessProcessDetailsDataBase extends DTOBase {
         throw new Error("The abstract class 'BusinessProcessDetailsDataBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 /** Base class for the details of a business process */
@@ -31152,8 +29280,8 @@ export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDeta
 
     constructor(data?: IBusinessProcessDetailsDataBatchResponse) {
         super(data);
-        this.setProp("object", "docType", false);
-        this.setProp("object", "response", true, (item: any) => BatchResponse.fromJS(item));
+        this.setProp("object", "string", "docType", false);
+        this.setProp("object", "BatchResponse", "response", true, (item: any) => BatchResponse.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31179,13 +29307,6 @@ export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDeta
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["docType"] = this.docType;
-        data["response"] = this.response ? this.response.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Business process detailed information regarding a batch operation */
@@ -31203,7 +29324,7 @@ export class BatchResponse extends DTOBase {
 
     constructor(data?: IBatchResponse) {
         super(data);
-        this.setProp("array", "rows", true, (item: any) => BatchResponseRow.fromJS(item));
+        this.setProp("array", "BatchResponseRow[]", "rows", true, (item: any) => BatchResponseRow.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31228,15 +29349,6 @@ export class BatchResponse extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.rows)) {
-            data["rows"] = [];
-            for (let item of this.rows)
-                data["rows"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Response from a batch operation */
@@ -31262,12 +29374,12 @@ export class BatchResponseRow extends DTOBase {
 
     constructor(data?: IBatchResponseRow) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "succeeded", false);
-        this.setProp("object", "status", false);
-        this.setProp("object", "version", false);
-        this.setProp("object", "error", true, (item: any) => ErrorResponse.fromJS(item));
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "boolean", "succeeded", false);
+        this.setProp("object", "number", "status", false);
+        this.setProp("object", "number", "version", false);
+        this.setProp("object", "ErrorResponse", "error", true, (item: any) => ErrorResponse.fromJS(item));
+        this.setProp("object", "string", "requestId", false);
 
         if (data) {
             this.construct(data);
@@ -31289,16 +29401,6 @@ export class BatchResponseRow extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["succeeded"] = this.succeeded;
-        data["status"] = this.status;
-        data["version"] = this.version;
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 /** Row in a batch operation response */
@@ -31326,8 +29428,8 @@ export class BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetai
 
     constructor(data?: IBusinessProcessDetailsDataSchemaImport) {
         super(data);
-        this.setProp("object", "schemaImportResult", true, (item: any) => SchemaImportResult.fromJS(item));
-        this.setProp("object", "listItemImportResult", true, (item: any) => ListItemImportResult.fromJS(item));
+        this.setProp("object", "SchemaImportResult", "schemaImportResult", true, (item: any) => SchemaImportResult.fromJS(item));
+        this.setProp("object", "ListItemImportResult", "listItemImportResult", true, (item: any) => ListItemImportResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31350,13 +29452,6 @@ export class BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetai
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaImportResult"] = this.schemaImportResult ? this.schemaImportResult.toJSON() : <any>undefined;
-        data["listItemImportResult"] = this.listItemImportResult ? this.listItemImportResult.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Business process detailed information regarding Schema / ListItems import operation */
@@ -31382,11 +29477,11 @@ export class SchemaImportResult extends DTOBase {
 
     constructor(data?: ISchemaImportResult) {
         super(data);
-        this.setProp("object", "importedSchemaCount", false);
-        this.setProp("object", "skippedSchemaCount", false);
-        this.setProp("object", "totalSchemaCount", false);
-        this.setProp("array", "skippedSchemaIds", false);
-        this.setProp("array", "importedSchemaIds", false);
+        this.setProp("object", "number", "importedSchemaCount", false);
+        this.setProp("object", "number", "skippedSchemaCount", false);
+        this.setProp("object", "number", "totalSchemaCount", false);
+        this.setProp("array", "string[]", "skippedSchemaIds", false);
+        this.setProp("array", "string[]", "importedSchemaIds", false);
 
     }
 
@@ -31405,23 +29500,6 @@ export class SchemaImportResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["importedSchemaCount"] = this.importedSchemaCount;
-        data["skippedSchemaCount"] = this.skippedSchemaCount;
-        data["totalSchemaCount"] = this.totalSchemaCount;
-        if (Array.isArray(this.skippedSchemaIds)) {
-            data["skippedSchemaIds"] = [];
-            for (let item of this.skippedSchemaIds)
-                data["skippedSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.importedSchemaIds)) {
-            data["importedSchemaIds"] = [];
-            for (let item of this.importedSchemaIds)
-                data["importedSchemaIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Result information of a schema import operation */
@@ -31453,11 +29531,11 @@ export class ListItemImportResult extends DTOBase {
 
     constructor(data?: IListItemImportResult) {
         super(data);
-        this.setProp("object", "importedListItemCount", false);
-        this.setProp("object", "skippedListItemCount", false);
-        this.setProp("object", "totalListItemCount", false);
-        this.setProp("array", "skippedListItemIds", false);
-        this.setProp("array", "importedListItemIds", false);
+        this.setProp("object", "number", "importedListItemCount", false);
+        this.setProp("object", "number", "skippedListItemCount", false);
+        this.setProp("object", "number", "totalListItemCount", false);
+        this.setProp("array", "string[]", "skippedListItemIds", false);
+        this.setProp("array", "string[]", "importedListItemIds", false);
 
     }
 
@@ -31476,23 +29554,6 @@ export class ListItemImportResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["importedListItemCount"] = this.importedListItemCount;
-        data["skippedListItemCount"] = this.skippedListItemCount;
-        data["totalListItemCount"] = this.totalListItemCount;
-        if (Array.isArray(this.skippedListItemIds)) {
-            data["skippedListItemIds"] = [];
-            for (let item of this.skippedListItemIds)
-                data["skippedListItemIds"].push(item);
-        }
-        if (Array.isArray(this.importedListItemIds)) {
-            data["importedListItemIds"] = [];
-            for (let item of this.importedListItemIds)
-                data["importedListItemIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Result information of a list item import operation */
@@ -31518,8 +29579,8 @@ export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDa
 
     constructor(data?: IBusinessProcessDetailsDataCdnPurge) {
         super(data);
-        this.setProp("object", "serializedCdnConfiguration", false);
-        this.setProp("array", "jobs", true, (item: any) => CdnPurgeJobBase.fromJS(item));
+        this.setProp("object", "string", "serializedCdnConfiguration", false);
+        this.setProp("array", "CdnPurgeJobBase[]", "jobs", true, (item: any) => CdnPurgeJobBase.fromJS(item));
 
         if (!data) {
             this.jobs = [];
@@ -31542,17 +29603,6 @@ export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["serializedCdnConfiguration"] = this.serializedCdnConfiguration;
-        if (Array.isArray(this.jobs)) {
-            data["jobs"] = [];
-            for (let item of this.jobs)
-                data["jobs"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Business process detailed information regarding a CDN purge operation */
@@ -31574,8 +29624,8 @@ export class CdnPurgeJobBase extends DTOBase {
 
     constructor(data?: ICdnPurgeJobBase) {
         super(data);
-        this.setProp("object", "success", false);
-        this.setProp("object", "retriesLeft", false);
+        this.setProp("object", "boolean", "success", false);
+        this.setProp("object", "number", "retriesLeft", false);
 
         this._kind = "CdnPurgeJobBase";
     }
@@ -31605,13 +29655,6 @@ export class CdnPurgeJobBase extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["success"] = this.success;
-        data["retriesLeft"] = this.retriesLeft;
-        return data; 
-    }
 }
 
 /** Base class for a CDN purge job */
@@ -31629,7 +29672,7 @@ export class CdnPurgeJobByTag extends CdnPurgeJobBase implements ICdnPurgeJobByT
 
     constructor(data?: ICdnPurgeJobByTag) {
         super(data);
-        this.setProp("object", "tag", false);
+        this.setProp("object", "string", "tag", false);
 
         this._kind = "CdnPurgeJobByTag";
     }
@@ -31649,12 +29692,6 @@ export class CdnPurgeJobByTag extends CdnPurgeJobBase implements ICdnPurgeJobByT
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tag"] = this.tag;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents a CDN purge by tag (e.g. share ID) */
@@ -31668,7 +29705,7 @@ export class CdnPurgeJobByUri extends CdnPurgeJobBase implements ICdnPurgeJobByU
 
     constructor(data?: ICdnPurgeJobByUri) {
         super(data);
-        this.setProp("object", "uri", false);
+        this.setProp("object", "string", "uri", false);
 
         this._kind = "CdnPurgeJobByUri";
     }
@@ -31688,12 +29725,6 @@ export class CdnPurgeJobByUri extends CdnPurgeJobBase implements ICdnPurgeJobByU
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["uri"] = this.uri;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICdnPurgeJobByUri extends ICdnPurgeJobBase {
@@ -31707,7 +29738,7 @@ export class BusinessProcessDetailsDataContentImport extends BusinessProcessDeta
 
     constructor(data?: IBusinessProcessDetailsDataContentImport) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => ContentImportResult.fromJS(item));
+        this.setProp("array", "ContentImportResult[]", "items", true, (item: any) => ContentImportResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31730,16 +29761,6 @@ export class BusinessProcessDetailsDataContentImport extends BusinessProcessDeta
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Business process detailed information regarding Content import */
@@ -31763,11 +29784,11 @@ export class ContentImportResult extends DTOBase {
 
     constructor(data?: IContentImportResult) {
         super(data);
-        this.setProp("object", "fileTransferId", false);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "state", false);
-        this.setProp("object", "succeeded", false);
-        this.setProp("object", "error", true, (item: any) => ErrorResponse.fromJS(item));
+        this.setProp("object", "string", "fileTransferId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "state", false);
+        this.setProp("object", "boolean", "succeeded", false);
+        this.setProp("object", "ErrorResponse", "error", true, (item: any) => ErrorResponse.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31789,15 +29810,6 @@ export class ContentImportResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileTransferId"] = this.fileTransferId;
-        data["contentId"] = this.contentId;
-        data["state"] = this.state;
-        data["succeeded"] = this.succeeded;
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Represents an item imported during a content import */
@@ -31823,8 +29835,8 @@ export class BusinessRuleConfiguration extends DTOBase {
 
     constructor(data?: IBusinessRuleConfiguration) {
         super(data);
-        this.setProp("object", "disableRuleEngine", false);
-        this.setProp("array", "rules", true, (item: any) => BusinessRule.fromJS(item));
+        this.setProp("object", "boolean", "disableRuleEngine", false);
+        this.setProp("array", "BusinessRule[]", "rules", true, (item: any) => BusinessRule.fromJS(item));
 
     }
 
@@ -31843,16 +29855,6 @@ export class BusinessRuleConfiguration extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["disableRuleEngine"] = this.disableRuleEngine;
-        if (Array.isArray(this.rules)) {
-            data["rules"] = [];
-            for (let item of this.rules)
-                data["rules"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Represents the business rule configuration. */
@@ -31880,11 +29882,11 @@ export abstract class BusinessRule extends DTOBase {
 
     constructor(data?: IBusinessRule) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "triggerPoint", true, (item: any) => BusinessRuleTriggerPoint.fromJS(item));
-        this.setProp("object", "isEnabled", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "description", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "BusinessRuleTriggerPoint", "triggerPoint", true, (item: any) => BusinessRuleTriggerPoint.fromJS(item));
+        this.setProp("object", "boolean", "isEnabled", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "description", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -31915,16 +29917,6 @@ export abstract class BusinessRule extends DTOBase {
         throw new Error("The abstract class 'BusinessRule' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["id"] = this.id;
-        data["triggerPoint"] = this.triggerPoint ? this.triggerPoint.toJSON() : <any>undefined;
-        data["isEnabled"] = this.isEnabled;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** A business rule */
@@ -31952,9 +29944,9 @@ export class BusinessRuleTriggerPoint extends DTOBase {
 
     constructor(data?: IBusinessRuleTriggerPoint) {
         super(data);
-        this.setProp("object", "executionScope", false);
-        this.setProp("object", "documentType", false);
-        this.setProp("object", "action", false);
+        this.setProp("object", "BusinessRuleExecutionScope", "executionScope", false);
+        this.setProp("object", "BusinessRuleTriggerDocType", "documentType", false);
+        this.setProp("object", "BusinessRuleTriggerAction", "action", false);
 
     }
 
@@ -31973,13 +29965,6 @@ export class BusinessRuleTriggerPoint extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["executionScope"] = this.executionScope;
-        data["documentType"] = this.documentType;
-        data["action"] = this.action;
-        return data; 
-    }
 }
 
 /** Represents a trigger point for a business rule */
@@ -32006,8 +29991,8 @@ export class BusinessRuleConfigurable extends BusinessRule implements IBusinessR
 
     constructor(data?: IBusinessRuleConfigurable) {
         super(data);
-        this.setProp("object", "condition", true, (item: any) => BusinessRuleCondition.fromJS(item));
-        this.setProp("array", "actions", true, (item: any) => BusinessRuleAction.fromJS(item));
+        this.setProp("object", "BusinessRuleCondition", "condition", true, (item: any) => BusinessRuleCondition.fromJS(item));
+        this.setProp("array", "BusinessRuleAction[]", "actions", true, (item: any) => BusinessRuleAction.fromJS(item));
 
         this._kind = "BusinessRuleConfigurable";
     }
@@ -32027,17 +30012,6 @@ export class BusinessRuleConfigurable extends BusinessRule implements IBusinessR
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["condition"] = this.condition ? this.condition.toJSON() : <any>undefined;
-        if (Array.isArray(this.actions)) {
-            data["actions"] = [];
-            for (let item of this.actions)
-                data["actions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A business rule configurable by specific actions and conditions */
@@ -32090,11 +30064,6 @@ export abstract class BusinessRuleCondition extends DTOBase {
         throw new Error("The abstract class 'BusinessRuleCondition' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 /** Conditions on which a business rule is executed */
@@ -32108,7 +30077,7 @@ export abstract class BooleanCondition extends BusinessRuleCondition implements 
 
     constructor(data?: IBooleanCondition) {
         super(data);
-        this.setProp("array", "conditions", true, (item: any) => BusinessRuleCondition.fromJS(item));
+        this.setProp("array", "BusinessRuleCondition[]", "conditions", true, (item: any) => BusinessRuleCondition.fromJS(item));
 
         this._kind = "BooleanCondition";
     }
@@ -32136,16 +30105,6 @@ export abstract class BooleanCondition extends BusinessRuleCondition implements 
         throw new Error("The abstract class 'BooleanCondition' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.conditions)) {
-            data["conditions"] = [];
-            for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Links multiple conditions with a boolean operator */
@@ -32178,11 +30137,6 @@ export class AndCondition extends BooleanCondition implements IAndCondition {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Links conditions with AND */
@@ -32213,11 +30167,6 @@ export class OrCondition extends BooleanCondition implements IOrCondition {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Links conditions with OR */
@@ -32231,7 +30180,7 @@ export class LayerAssignedCondition extends BusinessRuleCondition implements ILa
 
     constructor(data?: ILayerAssignedCondition) {
         super(data);
-        this.setProp("object", "layerId", false);
+        this.setProp("object", "string", "layerId", false);
 
         this._kind = "LayerAssignedCondition";
     }
@@ -32251,12 +30200,6 @@ export class LayerAssignedCondition extends BusinessRuleCondition implements ILa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["layerId"] = this.layerId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Matches when a layer was assigned */
@@ -32294,11 +30237,6 @@ export abstract class BusinessRuleAction extends DTOBase {
         throw new Error("The abstract class 'BusinessRuleAction' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 /** Action to be performed by a business rule */
@@ -32314,8 +30252,8 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
 
     constructor(data?: IAssignLayerAction) {
         super(data);
-        this.setProp("object", "layerId", false);
-        this.setProp("object", "defaultValues", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "string", "layerId", false);
+        this.setProp("object", "DataDictionary", "defaultValues", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32338,13 +30276,6 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["layerId"] = this.layerId;
-        data["defaultValues"] = this.defaultValues ? this.defaultValues.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Assigns a layer, adding the default values to the data dictionary */
@@ -32385,14 +30316,6 @@ export class DataDictionary extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property) && property !== '_fields')
-                data[property] = this[property];
-        }
-        return data; 
-    }
 }
 
 export interface IDataDictionary {
@@ -32407,7 +30330,7 @@ export class BusinessRuleScript extends BusinessRule implements IBusinessRuleScr
 
     constructor(data?: IBusinessRuleScript) {
         super(data);
-        this.setProp("object", "script", false);
+        this.setProp("object", "string", "script", false);
 
         this._kind = "BusinessRuleScript";
     }
@@ -32427,12 +30350,6 @@ export class BusinessRuleScript extends BusinessRule implements IBusinessRuleScr
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["script"] = this.script;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A business rule expressed as a script */
@@ -32469,18 +30386,18 @@ export class Channel extends DTOBase {
 
     constructor(data?: IChannel) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "sortOrder", false);
-        this.setProp("object", "searchIndexId", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("array", "extendedSimpleSearchFields", false);
-        this.setProp("array", "grantedUserRoleIds", false);
-        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "viewForAll", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "number", "sortOrder", false);
+        this.setProp("object", "string", "searchIndexId", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("array", "string[]", "extendedSimpleSearchFields", false);
+        this.setProp("array", "string[]", "grantedUserRoleIds", false);
+        this.setProp("object", "TranslatedStringDictionary", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "boolean", "viewForAll", false);
 
         if (data) {
             this.construct(data);
@@ -32511,38 +30428,6 @@ export class Channel extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["sortOrder"] = this.sortOrder;
-        data["searchIndexId"] = this.searchIndexId;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregations)) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        if (Array.isArray(this.extendedSimpleSearchFields)) {
-            data["extendedSimpleSearchFields"] = [];
-            for (let item of this.extendedSimpleSearchFields)
-                data["extendedSimpleSearchFields"].push(item);
-        }
-        if (Array.isArray(this.grantedUserRoleIds)) {
-            data["grantedUserRoleIds"] = [];
-            for (let item of this.grantedUserRoleIds)
-                data["grantedUserRoleIds"].push(item);
-        }
-        data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["viewForAll"] = this.viewForAll;
-        return data; 
-    }
 }
 
 export interface IChannel {
@@ -32581,8 +30466,8 @@ export class SortInfo extends DTOBase {
 
     constructor(data?: ISortInfo) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "direction", false);
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "SortDirection", "direction", false);
 
     }
 
@@ -32601,12 +30486,6 @@ export class SortInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["direction"] = this.direction;
-        return data; 
-    }
 }
 
 /** Sorting information */
@@ -32638,10 +30517,10 @@ export abstract class AggregatorBase extends DTOBase {
 
     constructor(data?: IAggregatorBase) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32697,19 +30576,6 @@ export abstract class AggregatorBase extends DTOBase {
         throw new Error("The abstract class 'AggregatorBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["name"] = this.name;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** It is the base class for all aggregators. */
@@ -32733,8 +30599,8 @@ export class DateRangeAggregator extends AggregatorBase implements IDateRangeAgg
 
     constructor(data?: IDateRangeAggregator) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("array", "ranges", true, (item: any) => DateRangeForAggregator.fromJS(item));
+        this.setProp("object", "string", "field", false);
+        this.setProp("array", "DateRangeForAggregator[]", "ranges", true, (item: any) => DateRangeForAggregator.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32760,17 +30626,6 @@ export class DateRangeAggregator extends AggregatorBase implements IDateRangeAgg
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        if (Array.isArray(this.ranges)) {
-            data["ranges"] = [];
-            for (let item of this.ranges)
-                data["ranges"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A multi-bucket range aggregator dedicated for date values. */
@@ -32792,9 +30647,9 @@ export class DateRangeForAggregator extends DTOBase {
 
     constructor(data?: IDateRangeForAggregator) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "from", false);
-        this.setProp("object", "to", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "from", false);
+        this.setProp("object", "string", "to", false);
 
         if (data) {
             this.construct(data);
@@ -32816,13 +30671,6 @@ export class DateRangeForAggregator extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data; 
-    }
 }
 
 /** The date range class used in aggregators. */
@@ -32846,9 +30694,9 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
 
     constructor(data?: IGeoDistanceAggregator) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "location", true, (item: any) => GeoLocation.fromJS(item));
-        this.setProp("array", "ranges", true, (item: any) => GeoDistance.fromJS(item));
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "GeoLocation", "location", true, (item: any) => GeoLocation.fromJS(item));
+        this.setProp("array", "GeoDistance[]", "ranges", true, (item: any) => GeoDistance.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -32875,18 +30723,6 @@ export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
-        if (Array.isArray(this.ranges)) {
-            data["ranges"] = [];
-            for (let item of this.ranges)
-                data["ranges"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A multi-bucket range aggregator that works on geo_point fields */
@@ -32908,8 +30744,8 @@ export class GeoDistance extends DTOBase {
 
     constructor(data?: IGeoDistance) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "distance", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "number", "distance", false);
 
         if (data) {
             this.construct(data);
@@ -32931,12 +30767,6 @@ export class GeoDistance extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["distance"] = this.distance;
-        return data; 
-    }
 }
 
 /** Stores geo distance information for gei distance aggregation */
@@ -32954,7 +30784,7 @@ export class NestedAggregator extends AggregatorBase implements INestedAggregato
 
     constructor(data?: INestedAggregator) {
         super(data);
-        this.setProp("object", "path", false);
+        this.setProp("object", "string", "path", false);
 
         this._kind = "NestedAggregator";
     }
@@ -32974,12 +30804,6 @@ export class NestedAggregator extends AggregatorBase implements INestedAggregato
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["path"] = this.path;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A special single bucket aggregation that enables aggregating on nested documents */
@@ -32997,8 +30821,8 @@ export class NumericRangeAggregator extends AggregatorBase implements INumericRa
 
     constructor(data?: INumericRangeAggregator) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("array", "ranges", true, (item: any) => NumericRangeForAggregator.fromJS(item));
+        this.setProp("object", "string", "field", false);
+        this.setProp("array", "NumericRangeForAggregator[]", "ranges", true, (item: any) => NumericRangeForAggregator.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -33024,17 +30848,6 @@ export class NumericRangeAggregator extends AggregatorBase implements INumericRa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        if (Array.isArray(this.ranges)) {
-            data["ranges"] = [];
-            for (let item of this.ranges)
-                data["ranges"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A multi-bucket range aggregator. */
@@ -33056,9 +30869,9 @@ export class NumericRangeForAggregator extends DTOBase {
 
     constructor(data?: INumericRangeForAggregator) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "from", false);
-        this.setProp("object", "to", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "number", "from", false);
+        this.setProp("object", "number", "to", false);
 
         if (data) {
             this.construct(data);
@@ -33080,13 +30893,6 @@ export class NumericRangeForAggregator extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data; 
-    }
 }
 
 /** The numeric range for aggregator class */
@@ -33116,12 +30922,12 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
 
     constructor(data?: ITermsAggregator) {
         super(data);
-        this.setProp("object", "field", false);
-        this.setProp("object", "size", false);
-        this.setProp("array", "includes", false);
-        this.setProp("array", "excludes", false);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchFields", false);
+        this.setProp("object", "string", "field", false);
+        this.setProp("object", "number", "size", false);
+        this.setProp("array", "string[]", "includes", false);
+        this.setProp("array", "string[]", "excludes", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "string[]", "searchFields", false);
 
         this._kind = "TermsAggregator";
     }
@@ -33151,29 +30957,6 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["size"] = this.size;
-        if (Array.isArray(this.includes)) {
-            data["includes"] = [];
-            for (let item of this.includes)
-                data["includes"].push(item);
-        }
-        if (Array.isArray(this.excludes)) {
-            data["excludes"] = [];
-            for (let item of this.excludes)
-                data["excludes"].push(item);
-        }
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchFields)) {
-            data["searchFields"] = [];
-            for (let item of this.searchFields)
-                data["searchFields"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A multi-bucket value aggregator */
@@ -33199,7 +30982,7 @@ export class TermsRelationAggregator extends TermsAggregator implements ITermsRe
 
     constructor(data?: ITermsRelationAggregator) {
         super(data);
-        this.setProp("object", "documentType", false);
+        this.setProp("object", "TermsRelationAggregatorDocumentType", "documentType", false);
 
         this._kind = "TermsRelationAggregator";
     }
@@ -33219,12 +31002,6 @@ export class TermsRelationAggregator extends TermsAggregator implements ITermsRe
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentType"] = this.documentType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A multi-bucket value aggregator used for aggregations on relation item ids. */
@@ -33249,7 +31026,7 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
 
     constructor(data?: ITermsEnumAggregator) {
         super(data);
-        this.setProp("object", "enumType", false);
+        this.setProp("object", "string", "enumType", false);
 
         this._kind = "TermsEnumAggregator";
     }
@@ -33269,12 +31046,6 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["enumType"] = this.enumType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** A multi-bucket value aggregator used for aggregations on indexed enum values. */
@@ -33296,10 +31067,10 @@ export class UserAudit extends DTOBase {
 
     constructor(data?: IUserAudit) {
         super(data);
-        this.setProp("object", "creationDate", false);
-        this.setProp("object", "modificationDate", false);
-        this.setProp("object", "createdByUser", false);
-        this.setProp("object", "modifiedByUser", false);
+        this.setProp("object", "Date", "creationDate", false);
+        this.setProp("object", "Date", "modificationDate", false);
+        this.setProp("object", "string", "createdByUser", false);
+        this.setProp("object", "string", "modifiedByUser", false);
 
     }
 
@@ -33318,14 +31089,6 @@ export class UserAudit extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["creationDate"] = this.creationDate ? this.creationDate.toISOString() : <any>undefined;
-        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
-        data["createdByUser"] = this.createdByUser;
-        data["modifiedByUser"] = this.modifiedByUser;
-        return data; 
-    }
 }
 
 /** Audit information */
@@ -33362,17 +31125,17 @@ export class ChannelCreateRequest extends DTOBase {
 
     constructor(data?: IChannelCreateRequest) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "sortOrder", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "searchIndexId", false);
-        this.setProp("array", "grantedUserRoleIds", false);
-        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("array", "extendedSimpleSearchFields", false);
-        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "viewForAll", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "sortOrder", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "searchIndexId", false);
+        this.setProp("array", "string[]", "grantedUserRoleIds", false);
+        this.setProp("array", "AggregatorBase[]", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "string[]", "extendedSimpleSearchFields", false);
+        this.setProp("object", "TranslatedStringDictionary", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "boolean", "viewForAll", false);
 
         if (data) {
             this.construct(data);
@@ -33394,37 +31157,6 @@ export class ChannelCreateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["sortOrder"] = this.sortOrder;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["searchIndexId"] = this.searchIndexId;
-        if (Array.isArray(this.grantedUserRoleIds)) {
-            data["grantedUserRoleIds"] = [];
-            for (let item of this.grantedUserRoleIds)
-                data["grantedUserRoleIds"].push(item);
-        }
-        if (Array.isArray(this.aggregations)) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.extendedSimpleSearchFields)) {
-            data["extendedSimpleSearchFields"] = [];
-            for (let item of this.extendedSimpleSearchFields)
-                data["extendedSimpleSearchFields"].push(item);
-        }
-        data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
-        data["viewForAll"] = this.viewForAll;
-        return data; 
-    }
 }
 
 export interface IChannelCreateRequest {
@@ -33469,16 +31201,16 @@ export class ChannelUpdateRequest extends DTOBase {
 
     constructor(data?: IChannelUpdateRequest) {
         super(data);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "sortOrder", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "searchIndexId", false);
-        this.setProp("array", "grantedUserRoleIds", false);
-        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("array", "extendedSimpleSearchFields", false);
-        this.setProp("object", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "viewForAll", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "sortOrder", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "searchIndexId", false);
+        this.setProp("array", "string[]", "grantedUserRoleIds", false);
+        this.setProp("array", "AggregatorBase[]", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "string[]", "extendedSimpleSearchFields", false);
+        this.setProp("object", "TranslatedStringDictionary", "missingResultsDisplayPatterns", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "boolean", "viewForAll", false);
 
         if (data) {
             this.construct(data);
@@ -33500,36 +31232,6 @@ export class ChannelUpdateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["sortOrder"] = this.sortOrder;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["searchIndexId"] = this.searchIndexId;
-        if (Array.isArray(this.grantedUserRoleIds)) {
-            data["grantedUserRoleIds"] = [];
-            for (let item of this.grantedUserRoleIds)
-                data["grantedUserRoleIds"].push(item);
-        }
-        if (Array.isArray(this.aggregations)) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.extendedSimpleSearchFields)) {
-            data["extendedSimpleSearchFields"] = [];
-            for (let item of this.extendedSimpleSearchFields)
-                data["extendedSimpleSearchFields"].push(item);
-        }
-        data["missingResultsDisplayPatterns"] = this.missingResultsDisplayPatterns ? this.missingResultsDisplayPatterns.toJSON() : <any>undefined;
-        data["viewForAll"] = this.viewForAll;
-        return data; 
-    }
 }
 
 export interface IChannelUpdateRequest {
@@ -33586,20 +31288,20 @@ export class ContentDetail extends DTOBase {
 
     constructor(data?: IContentDetail) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "content", false);
-        this.setProp("array", "contentPermissionSetIds", false);
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "contentType", false);
-        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
-        this.setProp("object", "id", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("array", "outputs", true, (item: any) => Output.fromJS(item));
-        this.setProp("object", "ownerTokenId", false);
-        this.setProp("object", "owner", true, (item: any) => User.fromJS(item));
-        this.setProp("object", "lifeCycle", false);
-        this.setProp("array", "contentRights", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "any", "content", false);
+        this.setProp("array", "string[]", "contentPermissionSetIds", false);
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("object", "ContentType", "contentType", false);
+        this.setProp("object", "DisplayValueDictionary", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "DataDictionary", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("array", "Output[]", "outputs", true, (item: any) => Output.fromJS(item));
+        this.setProp("object", "string", "ownerTokenId", false);
+        this.setProp("object", "User", "owner", true, (item: any) => User.fromJS(item));
+        this.setProp("object", "LifeCycle", "lifeCycle", false);
+        this.setProp("array", "ContentRight[]", "contentRights", false);
 
         if (data) {
             this.construct(data);
@@ -33624,40 +31326,6 @@ export class ContentDetail extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["content"] = this.content;
-        if (Array.isArray(this.contentPermissionSetIds)) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["contentType"] = this.contentType;
-        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        data["id"] = this.id;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        if (Array.isArray(this.outputs)) {
-            data["outputs"] = [];
-            for (let item of this.outputs)
-                data["outputs"].push(item.toJSON());
-        }
-        data["ownerTokenId"] = this.ownerTokenId;
-        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
-        data["lifeCycle"] = this.lifeCycle;
-        if (Array.isArray(this.contentRights)) {
-            data["contentRights"] = [];
-            for (let item of this.contentRights)
-                data["contentRights"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** A content detail. */
@@ -33723,14 +31391,6 @@ export class DisplayValueDictionary extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property) && property !== '_fields')
-                data[property] = this[property];
-        }
-        return data; 
-    }
 }
 
 export interface IDisplayValueDictionary {
@@ -33761,14 +31421,14 @@ export class Output extends DTOBase {
 
     constructor(data?: IOutput) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "outputFormatId", false);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "renderingState", false);
-        this.setProp("object", "detail", true, (item: any) => OutputDataBase.fromJS(item));
-        this.setProp("object", "backupTimestamp", false);
-        this.setProp("object", "attemptsLeft", false);
-        this.setProp("object", "fileVersion", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "outputFormatId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "OutputRenderingState", "renderingState", false);
+        this.setProp("object", "OutputDataBase", "detail", true, (item: any) => OutputDataBase.fromJS(item));
+        this.setProp("object", "Date", "backupTimestamp", false);
+        this.setProp("object", "number", "attemptsLeft", false);
+        this.setProp("object", "number", "fileVersion", false);
 
         this._kind = "Output";
     }
@@ -33793,19 +31453,6 @@ export class Output extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["id"] = this.id;
-        data["outputFormatId"] = this.outputFormatId;
-        data["contentId"] = this.contentId;
-        data["renderingState"] = this.renderingState;
-        data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
-        data["backupTimestamp"] = this.backupTimestamp ? this.backupTimestamp.toISOString() : <any>undefined;
-        data["attemptsLeft"] = this.attemptsLeft;
-        data["fileVersion"] = this.fileVersion;
-        return data; 
-    }
 }
 
 /** Output */
@@ -33854,11 +31501,11 @@ export abstract class OutputDataBase extends DTOBase {
 
     constructor(data?: IOutputDataBase) {
         super(data);
-        this.setProp("object", "fileExtension", false);
-        this.setProp("object", "fileName", false);
-        this.setProp("object", "filePath", false);
-        this.setProp("object", "fileSizeInBytes", false);
-        this.setProp("object", "sha1Hash", false);
+        this.setProp("object", "string", "fileExtension", false);
+        this.setProp("object", "string", "fileName", false);
+        this.setProp("object", "string", "filePath", false);
+        this.setProp("object", "number", "fileSizeInBytes", false);
+        this.setProp("object", "string", "sha1Hash", false);
 
         this._kind = "OutputDataBase";
     }
@@ -33901,16 +31548,6 @@ export abstract class OutputDataBase extends DTOBase {
         throw new Error("The abstract class 'OutputDataBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["fileExtension"] = this.fileExtension;
-        data["fileName"] = this.fileName;
-        data["filePath"] = this.filePath;
-        data["fileSizeInBytes"] = this.fileSizeInBytes;
-        data["sha1Hash"] = this.sha1Hash;
-        return data; 
-    }
 }
 
 /** Base class for the output detail dependent on the file format. */
@@ -33936,8 +31573,8 @@ export class OutputDataImage extends OutputDataBase implements IOutputDataImage 
 
     constructor(data?: IOutputDataImage) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
 
         this._kind = "OutputDataImage";
     }
@@ -33957,13 +31594,6 @@ export class OutputDataImage extends OutputDataBase implements IOutputDataImage 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Output information for an image file. */
@@ -33981,7 +31611,7 @@ export class OutputDataAudio extends OutputDataBase implements IOutputDataAudio 
 
     constructor(data?: IOutputDataAudio) {
         super(data);
-        this.setProp("object", "durationInSeconds", false);
+        this.setProp("object", "number", "durationInSeconds", false);
 
         this._kind = "OutputDataAudio";
     }
@@ -34001,12 +31631,6 @@ export class OutputDataAudio extends OutputDataBase implements IOutputDataAudio 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["durationInSeconds"] = this.durationInSeconds;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Output information for an audio file. */
@@ -34028,10 +31652,10 @@ export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo 
 
     constructor(data?: IOutputDataVideo) {
         super(data);
-        this.setProp("object", "durationInSeconds", false);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("array", "sprites", true, (item: any) => Sprite.fromJS(item));
+        this.setProp("object", "number", "durationInSeconds", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("array", "Sprite[]", "sprites", true, (item: any) => Sprite.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34054,19 +31678,6 @@ export class OutputDataVideo extends OutputDataBase implements IOutputDataVideo 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["width"] = this.width;
-        data["height"] = this.height;
-        if (Array.isArray(this.sprites)) {
-            data["sprites"] = [];
-            for (let item of this.sprites)
-                data["sprites"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Output information for a video file. */
@@ -34098,12 +31709,12 @@ export class Sprite extends DTOBase {
 
     constructor(data?: ISprite) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "y", false);
-        this.setProp("object", "x", false);
-        this.setProp("object", "start", false);
-        this.setProp("object", "end", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "number", "y", false);
+        this.setProp("object", "number", "x", false);
+        this.setProp("object", "string", "start", false);
+        this.setProp("object", "string", "end", false);
 
     }
 
@@ -34122,16 +31733,6 @@ export class Sprite extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["y"] = this.y;
-        data["x"] = this.x;
-        data["start"] = this.start;
-        data["end"] = this.end;
-        return data; 
-    }
 }
 
 /** The sprite of a video sprite */
@@ -34157,7 +31758,7 @@ export class OutputDataDocument extends OutputDataBase implements IOutputDataDoc
 
     constructor(data?: IOutputDataDocument) {
         super(data);
-        this.setProp("object", "pageCount", false);
+        this.setProp("object", "number", "pageCount", false);
 
         this._kind = "OutputDataDocument";
     }
@@ -34177,12 +31778,6 @@ export class OutputDataDocument extends OutputDataBase implements IOutputDataDoc
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pageCount"] = this.pageCount;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Output information for a document file. */
@@ -34215,11 +31810,6 @@ export class OutputDataDefault extends OutputDataBase implements IOutputDataDefa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Default output information */
@@ -34250,11 +31840,6 @@ export class OutputDetail extends Output implements IOutputDetail {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Output detail */
@@ -34273,10 +31858,10 @@ export class User extends DTOBase {
 
     constructor(data?: IUser) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "firstName", false);
-        this.setProp("object", "lastName", false);
-        this.setProp("object", "emailAddress", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "firstName", false);
+        this.setProp("object", "string", "lastName", false);
+        this.setProp("object", "string", "emailAddress", false);
 
     }
 
@@ -34295,14 +31880,6 @@ export class User extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["emailAddress"] = this.emailAddress;
-        return data; 
-    }
 }
 
 export interface IUser {
@@ -34349,10 +31926,10 @@ export class BaseResultOfContent extends DTOBase {
 
     constructor(data?: IBaseResultOfContent) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => Content.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "Content[]", "results", true, (item: any) => Content.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -34377,18 +31954,6 @@ export class BaseResultOfContent extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfContent {
@@ -34405,9 +31970,9 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
 
     constructor(data?: ISearchBehaviorBaseResultOfContent) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34429,14 +31994,6 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent {
@@ -34452,7 +32009,7 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 
     constructor(data?: IContentSearchResult) {
         super(data);
-        this.setProp("array", "rightsAggregationsCounts", true, (item: any) => ContentRightAggregationCount.fromJS(item));
+        this.setProp("array", "ContentRightAggregationCount[]", "rightsAggregationsCounts", true, (item: any) => ContentRightAggregationCount.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34474,16 +32031,6 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.rightsAggregationsCounts)) {
-            data["rightsAggregationsCounts"] = [];
-            for (let item of this.rightsAggregationsCounts)
-                data["rightsAggregationsCounts"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result for content search operation */
@@ -34501,8 +32048,8 @@ export class ContentRightAggregationCount extends DTOBase {
 
     constructor(data?: IContentRightAggregationCount) {
         super(data);
-        this.setProp("object", "contentRight", false);
-        this.setProp("object", "count", false);
+        this.setProp("object", "ContentRight", "contentRight", false);
+        this.setProp("object", "number", "count", false);
 
     }
 
@@ -34521,12 +32068,6 @@ export class ContentRightAggregationCount extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentRight"] = this.contentRight;
-        data["count"] = this.count;
-        return data; 
-    }
 }
 
 /** Combination of ContentRight and found document count */
@@ -34558,15 +32099,15 @@ export class Content extends DTOBase {
 
     constructor(data?: IContent) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "contentType", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("dictionary", "displayValues", false);
-        this.setProp("object", "id", false);
-        this.setProp("array", "brokenReferenceIds", false);
-        this.setProp("array", "brokenIndirectReferenceIds", false);
-        this.setProp("array", "brokenRelationTargetIds", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("object", "ContentType", "contentType", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("dictionary", "{ [key: string] : string; }", "displayValues", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("array", "string[]", "brokenReferenceIds", false);
+        this.setProp("array", "string[]", "brokenIndirectReferenceIds", false);
+        this.setProp("array", "string[]", "brokenRelationTargetIds", false);
 
         if (data) {
             this.construct(data);
@@ -34591,41 +32132,6 @@ export class Content extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["contentType"] = this.contentType;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (this.displayValues) {
-            data["displayValues"] = {};
-            for (let key in this.displayValues) {
-                if (this.displayValues.hasOwnProperty(key))
-                    data["displayValues"][key] = this.displayValues[key];
-            }
-        }
-        data["id"] = this.id;
-        if (Array.isArray(this.brokenReferenceIds)) {
-            data["brokenReferenceIds"] = [];
-            for (let item of this.brokenReferenceIds)
-                data["brokenReferenceIds"].push(item);
-        }
-        if (Array.isArray(this.brokenIndirectReferenceIds)) {
-            data["brokenIndirectReferenceIds"] = [];
-            for (let item of this.brokenIndirectReferenceIds)
-                data["brokenIndirectReferenceIds"].push(item);
-        }
-        if (Array.isArray(this.brokenRelationTargetIds)) {
-            data["brokenRelationTargetIds"] = [];
-            for (let item of this.brokenRelationTargetIds)
-                data["brokenRelationTargetIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IContent {
@@ -34688,22 +32194,22 @@ Warning! It severely affects performance. */
 
     constructor(data?: IContentSearchRequest) {
         super(data);
-        this.setProp("object", "channelId", false);
-        this.setProp("array", "displayPatternIds", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "collectionId", false);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "lifeCycleFilter", false);
-        this.setProp("object", "brokenDependenciesFilter", false);
-        this.setProp("array", "rightsFilter", false);
-        this.setProp("array", "rightsAggregations", false);
-        this.setProp("object", "searchType", false);
-        this.setProp("object", "debugMode", false);
+        this.setProp("object", "string", "channelId", false);
+        this.setProp("array", "string[]", "displayPatternIds", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "string", "collectionId", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "LifeCycleFilter", "lifeCycleFilter", false);
+        this.setProp("object", "BrokenDependenciesFilter", "brokenDependenciesFilter", false);
+        this.setProp("array", "ContentRight[]", "rightsFilter", false);
+        this.setProp("array", "ContentRight[]", "rightsAggregations", false);
+        this.setProp("object", "ContentSearchType", "searchType", false);
+        this.setProp("object", "boolean", "debugMode", false);
 
         if (data) {
             this.construct(data);
@@ -34725,50 +32231,6 @@ Warning! It severely affects performance. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["channelId"] = this.channelId;
-        if (Array.isArray(this.displayPatternIds)) {
-            data["displayPatternIds"] = [];
-            for (let item of this.displayPatternIds)
-                data["displayPatternIds"].push(item);
-        }
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["collectionId"] = this.collectionId;
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (Array.isArray(this.rightsFilter)) {
-            data["rightsFilter"] = [];
-            for (let item of this.rightsFilter)
-                data["rightsFilter"].push(item);
-        }
-        if (Array.isArray(this.rightsAggregations)) {
-            data["rightsAggregations"] = [];
-            for (let item of this.rightsAggregations)
-                data["rightsAggregations"].push(item);
-        }
-        data["searchType"] = this.searchType;
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
 }
 
 /** Request to search contents */
@@ -34845,11 +32307,11 @@ export class ObjectAggregationResult extends DTOBase {
 
     constructor(data?: IObjectAggregationResult) {
         super(data);
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("array", "aggregationResults", true, (item: any) => AggregationResult.fromJS(item));
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("array", "AggregationResult[]", "aggregationResults", true, (item: any) => AggregationResult.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34874,19 +32336,6 @@ export class ObjectAggregationResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        if (Array.isArray(this.aggregationResults)) {
-            data["aggregationResults"] = [];
-            for (let item of this.aggregationResults)
-                data["aggregationResults"].push(item.toJSON());
-        }
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result for an aggregation operation */
@@ -34915,9 +32364,9 @@ Optionally inner aggregations for further drill down can be available. */
 
     constructor(data?: IAggregationResult) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "sumOtherDocCount", false);
-        this.setProp("array", "aggregationResultItems", true, (item: any) => AggregationResultItem.fromJS(item));
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "number", "sumOtherDocCount", false);
+        this.setProp("array", "AggregationResultItem[]", "aggregationResultItems", true, (item: any) => AggregationResultItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -34939,17 +32388,6 @@ Optionally inner aggregations for further drill down can be available. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["sumOtherDocCount"] = this.sumOtherDocCount;
-        if (Array.isArray(this.aggregationResultItems)) {
-            data["aggregationResultItems"] = [];
-            for (let item of this.aggregationResultItems)
-                data["aggregationResultItems"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Result of an aggregation */
@@ -34992,11 +32430,11 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
     constructor(data?: IAggregationResultItem) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "count", false);
-        this.setProp("object", "filter", true, (item: any) => AggregationFilter.fromJS(item));
-        this.setProp("object", "active", false);
-        this.setProp("array", "aggregationResults", true, (item: any) => AggregationResult.fromJS(item));
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "number", "count", false);
+        this.setProp("object", "AggregationFilter", "filter", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("object", "boolean", "active", false);
+        this.setProp("array", "AggregationResult[]", "aggregationResults", true, (item: any) => AggregationResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -35018,19 +32456,6 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["count"] = this.count;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["active"] = this.active;
-        if (Array.isArray(this.aggregationResults)) {
-            data["aggregationResults"] = [];
-            for (let item of this.aggregationResults)
-                data["aggregationResults"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Aggregation result item */
@@ -35077,16 +32502,16 @@ If not specified, all metadata languages defined in the system are used. */
 
     constructor(data?: IContentAggregationOnChannelRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
-        this.setProp("object", "channelId", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "collectionId", false);
-        this.setProp("object", "lifeCycleFilter", false);
-        this.setProp("object", "brokenDependenciesFilter", false);
-        this.setProp("object", "searchType", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "AggregationFilter[]", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("object", "string", "channelId", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "string", "collectionId", false);
+        this.setProp("object", "LifeCycleFilter", "lifeCycleFilter", false);
+        this.setProp("object", "BrokenDependenciesFilter", "brokenDependenciesFilter", false);
+        this.setProp("object", "ContentSearchType", "searchType", false);
 
     }
 
@@ -35105,32 +32530,6 @@ If not specified, all metadata languages defined in the system are used. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
-        data["channelId"] = this.channelId;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["collectionId"] = this.collectionId;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        data["searchType"] = this.searchType;
-        return data; 
-    }
 }
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
@@ -35168,7 +32567,7 @@ export class ContentAggregationRequest extends ContentAggregationOnChannelReques
 
     constructor(data?: IContentAggregationRequest) {
         super(data);
-        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
 
         if (!data) {
             this.aggregators = [];
@@ -35190,16 +32589,6 @@ export class ContentAggregationRequest extends ContentAggregationOnChannelReques
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to aggregate contents based on the specified aggregators */
@@ -35217,8 +32606,8 @@ export class ContentReferencesResult extends DTOBase {
 
     constructor(data?: IContentReferencesResult) {
         super(data);
-        this.setProp("object", "metadataReferences", true, (item: any) => MetadataReferenceResult.fromJS(item));
-        this.setProp("object", "shareReferences", true, (item: any) => ContentShareReferenceResult.fromJS(item));
+        this.setProp("object", "MetadataReferenceResult", "metadataReferences", true, (item: any) => MetadataReferenceResult.fromJS(item));
+        this.setProp("object", "ContentShareReferenceResult", "shareReferences", true, (item: any) => ContentShareReferenceResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -35240,12 +32629,6 @@ export class ContentReferencesResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["metadataReferences"] = this.metadataReferences ? this.metadataReferences.toJSON() : <any>undefined;
-        data["shareReferences"] = this.shareReferences ? this.shareReferences.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result to a get content references operation */
@@ -35264,10 +32647,10 @@ export class BaseResultOfMetadataReference extends DTOBase {
 
     constructor(data?: IBaseResultOfMetadataReference) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => MetadataReference.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "MetadataReference[]", "results", true, (item: any) => MetadataReference.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -35292,18 +32675,6 @@ export class BaseResultOfMetadataReference extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfMetadataReference {
@@ -35320,7 +32691,7 @@ export class MetadataReferenceResult extends BaseResultOfMetadataReference imple
 
     constructor(data?: IMetadataReferenceResult) {
         super(data);
-        this.setProp("object", "isReferencedByRestrictedItem", false);
+        this.setProp("object", "boolean", "isReferencedByRestrictedItem", false);
 
     }
 
@@ -35339,12 +32710,6 @@ export class MetadataReferenceResult extends BaseResultOfMetadataReference imple
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["isReferencedByRestrictedItem"] = this.isReferencedByRestrictedItem;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result for getting references. */
@@ -35369,10 +32734,10 @@ does not have the view permission on that item. */
 
     constructor(data?: IMetadataReference) {
         super(data);
-        this.setProp("object", "targetMetadataItemId", false);
-        this.setProp("object", "isRestricted", false);
-        this.setProp("object", "sourceMetadataItemId", false);
-        this.setProp("object", "sourceDocType", false);
+        this.setProp("object", "string", "targetMetadataItemId", false);
+        this.setProp("object", "boolean", "isRestricted", false);
+        this.setProp("object", "string", "sourceMetadataItemId", false);
+        this.setProp("object", "string", "sourceDocType", false);
 
     }
 
@@ -35391,14 +32756,6 @@ does not have the view permission on that item. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["targetMetadataItemId"] = this.targetMetadataItemId;
-        data["isRestricted"] = this.isRestricted;
-        data["sourceMetadataItemId"] = this.sourceMetadataItemId;
-        data["sourceDocType"] = this.sourceDocType;
-        return data; 
-    }
 }
 
 /** Reference to a metadata item */
@@ -35424,10 +32781,10 @@ export class BaseResultOfContentShareReference extends DTOBase {
 
     constructor(data?: IBaseResultOfContentShareReference) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => ContentShareReference.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "ContentShareReference[]", "results", true, (item: any) => ContentShareReference.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -35452,18 +32809,6 @@ export class BaseResultOfContentShareReference extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfContentShareReference {
@@ -35496,11 +32841,6 @@ export class ContentShareReferenceResult extends BaseResultOfContentShareReferen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result class for share reference search */
@@ -35522,11 +32862,11 @@ export class ContentShareReference extends DTOBase {
 
     constructor(data?: IContentShareReference) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "name", false);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "shareType", false);
-        this.setProp("object", "emailAddress", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "ShareType", "shareType", false);
+        this.setProp("object", "string", "emailAddress", false);
 
         if (data) {
             this.construct(data);
@@ -35548,15 +32888,6 @@ export class ContentShareReference extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["shareType"] = this.shareType;
-        data["emailAddress"] = this.emailAddress;
-        return data; 
-    }
 }
 
 /** Share information for a share referencing a content */
@@ -35587,8 +32918,8 @@ export class ContentReferencesRequest extends DTOBase {
 
     constructor(data?: IContentReferencesRequest) {
         super(data);
-        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
-        this.setProp("object", "shares", true, (item: any) => PagingRequest.fromJS(item));
+        this.setProp("object", "MetadataReferencesPagingRequest", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
+        this.setProp("object", "PagingRequest", "shares", true, (item: any) => PagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -35610,12 +32941,6 @@ export class ContentReferencesRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
-        data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Request to get the references to a content */
@@ -35635,8 +32960,8 @@ export class PagingRequest extends DTOBase {
 
     constructor(data?: IPagingRequest) {
         super(data);
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
 
     }
 
@@ -35655,12 +32980,6 @@ export class PagingRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 /** Request to page data */
@@ -35678,7 +32997,7 @@ export class MetadataReferencesPagingRequest extends PagingRequest implements IM
 
     constructor(data?: IMetadataReferencesPagingRequest) {
         super(data);
-        this.setProp("object", "fetchReferencedByRestrictedItem", false);
+        this.setProp("object", "boolean", "fetchReferencedByRestrictedItem", false);
 
     }
 
@@ -35697,12 +33016,6 @@ export class MetadataReferencesPagingRequest extends PagingRequest implements IM
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fetchReferencedByRestrictedItem"] = this.fetchReferencedByRestrictedItem;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to get paginated metadata references */
@@ -35722,9 +33035,9 @@ export class ContentManyReferencesRequest extends DTOBase {
 
     constructor(data?: IContentManyReferencesRequest) {
         super(data);
-        this.setProp("array", "contentIds", false);
-        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
-        this.setProp("object", "shares", true, (item: any) => PagingRequest.fromJS(item));
+        this.setProp("array", "string[]", "contentIds", false);
+        this.setProp("object", "MetadataReferencesPagingRequest", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
+        this.setProp("object", "PagingRequest", "shares", true, (item: any) => PagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -35749,17 +33062,6 @@ export class ContentManyReferencesRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
-        data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Request to get multiple contents' references */
@@ -35781,8 +33083,8 @@ export class DownloadLink extends DTOBase {
 
     constructor(data?: IDownloadLink) {
         super(data);
-        this.setProp("object", "downloadToken", false);
-        this.setProp("object", "downloadUrl", false);
+        this.setProp("object", "string", "downloadToken", false);
+        this.setProp("object", "string", "downloadUrl", false);
 
     }
 
@@ -35801,12 +33103,6 @@ export class DownloadLink extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["downloadToken"] = this.downloadToken;
-        data["downloadUrl"] = this.downloadUrl;
-        return data; 
-    }
 }
 
 /** Download link information */
@@ -35824,7 +33120,7 @@ export class ContentDownloadLinkCreateRequest extends DTOBase {
 
     constructor(data?: IContentDownloadLinkCreateRequest) {
         super(data);
-        this.setProp("array", "contents", true, (item: any) => ContentDownloadRequestItem.fromJS(item));
+        this.setProp("array", "ContentDownloadRequestItem[]", "contents", true, (item: any) => ContentDownloadRequestItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -35849,15 +33145,6 @@ export class ContentDownloadLinkCreateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contents)) {
-            data["contents"] = [];
-            for (let item of this.contents)
-                data["contents"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to create a content download link */
@@ -35875,8 +33162,8 @@ export class ContentDownloadRequestItem extends DTOBase {
 
     constructor(data?: IContentDownloadRequestItem) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
 
     }
 
@@ -35895,12 +33182,6 @@ export class ContentDownloadRequestItem extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        return data; 
-    }
 }
 
 /** Information needed to generate a content download link */
@@ -35937,12 +33218,12 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     constructor(data?: IContentCreateRequest) {
         super(data);
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "content", false);
-        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("array", "contentPermissionSetIds", false);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "any", "content", false);
+        this.setProp("object", "DataDictionary", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("array", "string[]", "contentPermissionSetIds", false);
+        this.setProp("object", "string", "requestId", false);
 
         if (data) {
             this.construct(data);
@@ -35964,24 +33245,6 @@ It is not persisted anywhere and it is ignored in single operations. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentSchemaId"] = this.contentSchemaId;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["content"] = this.content;
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        if (Array.isArray(this.contentPermissionSetIds)) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 /** A request structure for creating a content document. */
@@ -36011,8 +33274,8 @@ export class ContentCreateManyRequest extends DTOBase {
 
     constructor(data?: IContentCreateManyRequest) {
         super(data);
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", true, (item: any) => ContentCreateRequest.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("array", "ContentCreateRequest[]", "items", true, (item: any) => ContentCreateRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -36034,16 +33297,6 @@ export class ContentCreateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** A request structure for creating multiple content documents. */
@@ -36065,9 +33318,9 @@ export class ContentDeleteManyRequest extends DTOBase {
 
     constructor(data?: IContentDeleteManyRequest) {
         super(data);
-        this.setProp("array", "contentIds", false);
-        this.setProp("object", "forceReferenceRemoval", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("array", "string[]", "contentIds", false);
+        this.setProp("object", "boolean", "forceReferenceRemoval", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (!data) {
             this.contentIds = [];
@@ -36089,17 +33342,6 @@ export class ContentDeleteManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        data["forceReferenceRemoval"] = this.forceReferenceRemoval;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Request to delete multiple contents. */
@@ -36123,9 +33365,9 @@ export class ContentDeleteManyFilterRequest extends DTOBase {
 
     constructor(data?: IContentDeleteManyFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => ContentFilterRequest.fromJS(item));
-        this.setProp("object", "forceReferenceRemoval", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("object", "ContentFilterRequest", "filterRequest", true, (item: any) => ContentFilterRequest.fromJS(item));
+        this.setProp("object", "boolean", "forceReferenceRemoval", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (data) {
             this.construct(data);
@@ -36150,13 +33392,6 @@ export class ContentDeleteManyFilterRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
-        data["forceReferenceRemoval"] = this.forceReferenceRemoval;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Request to delete multiple contents based on a provided filter */
@@ -36191,15 +33426,15 @@ export class ContentFilterRequest extends DTOBase {
 
     constructor(data?: IContentFilterRequest) {
         super(data);
-        this.setProp("object", "channelId", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "searchType", false);
-        this.setProp("object", "collectionId", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "lifeCycleFilter", false);
-        this.setProp("object", "brokenDependenciesFilter", false);
-        this.setProp("array", "rightsFilter", false);
+        this.setProp("object", "string", "channelId", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "ContentSearchType", "searchType", false);
+        this.setProp("object", "string", "collectionId", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "LifeCycleFilter", "lifeCycleFilter", false);
+        this.setProp("object", "BrokenDependenciesFilter", "brokenDependenciesFilter", false);
+        this.setProp("array", "ContentRight[]", "rightsFilter", false);
 
     }
 
@@ -36218,27 +33453,6 @@ export class ContentFilterRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["channelId"] = this.channelId;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["searchString"] = this.searchString;
-        data["searchType"] = this.searchType;
-        data["collectionId"] = this.collectionId;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (Array.isArray(this.rightsFilter)) {
-            data["rightsFilter"] = [];
-            for (let item of this.rightsFilter)
-                data["rightsFilter"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IContentFilterRequest {
@@ -36271,8 +33485,8 @@ export class ContentRestoreManyRequest extends DTOBase {
 
     constructor(data?: IContentRestoreManyRequest) {
         super(data);
-        this.setProp("array", "contentIds", false);
-        this.setProp("object", "allowMissingDependencies", false);
+        this.setProp("array", "string[]", "contentIds", false);
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
 
         if (!data) {
             this.contentIds = [];
@@ -36294,16 +33508,6 @@ export class ContentRestoreManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        return data; 
-    }
 }
 
 /** Request to restore multiple contents */
@@ -36321,7 +33525,7 @@ export class ContentFileUpdateRequest extends DTOBase {
 
     constructor(data?: IContentFileUpdateRequest) {
         super(data);
-        this.setProp("object", "fileTransferId", false);
+        this.setProp("object", "string", "fileTransferId", false);
 
     }
 
@@ -36340,11 +33544,6 @@ export class ContentFileUpdateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileTransferId"] = this.fileTransferId;
-        return data; 
-    }
 }
 
 /** Request to update a content file */
@@ -36385,11 +33584,11 @@ Defaults to Merge. */
 
     constructor(data?: IContentMetadataUpdateRequest) {
         super(data);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "content", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("object", "layerSchemasUpdateOptions", false);
-        this.setProp("object", "schemaFieldsUpdateOptions", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "DataDictionary", "content", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "DataDictionary", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "UpdateOption", "layerSchemasUpdateOptions", false);
+        this.setProp("object", "UpdateOption", "schemaFieldsUpdateOptions", false);
 
         if (data) {
             this.construct(data);
@@ -36411,19 +33610,6 @@ Defaults to Merge. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        data["layerSchemasUpdateOptions"] = this.layerSchemasUpdateOptions;
-        data["schemaFieldsUpdateOptions"] = this.schemaFieldsUpdateOptions;
-        return data; 
-    }
 }
 
 /** Request to update content metadata */
@@ -36471,7 +33657,7 @@ These permissions control content accessibility for the users that do not own th
 
     constructor(data?: IContentPermissionsUpdateRequest) {
         super(data);
-        this.setProp("array", "contentPermissionSetIds", false);
+        this.setProp("array", "string[]", "contentPermissionSetIds", false);
 
     }
 
@@ -36490,15 +33676,6 @@ These permissions control content accessibility for the users that do not own th
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentPermissionSetIds)) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Request to update the permissions of a content */
@@ -36517,8 +33694,8 @@ export class ContentMetadataUpdateManyRequest extends DTOBase {
 
     constructor(data?: IContentMetadataUpdateManyRequest) {
         super(data);
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", true, (item: any) => ContentMetadataUpdateItem.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("array", "ContentMetadataUpdateItem[]", "items", true, (item: any) => ContentMetadataUpdateItem.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -36540,16 +33717,6 @@ export class ContentMetadataUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to update many contents metadata */
@@ -36567,7 +33734,7 @@ export class ContentMetadataUpdateItem extends ContentMetadataUpdateRequest impl
 
     constructor(data?: IContentMetadataUpdateItem) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
     }
 
@@ -36586,12 +33753,6 @@ export class ContentMetadataUpdateItem extends ContentMetadataUpdateRequest impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Item to update content metadata */
@@ -36607,7 +33768,7 @@ export class ContentPermissionsUpdateManyRequest extends DTOBase {
 
     constructor(data?: IContentPermissionsUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => ContentPermissionsUpdateItem.fromJS(item));
+        this.setProp("array", "ContentPermissionsUpdateItem[]", "items", true, (item: any) => ContentPermissionsUpdateItem.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -36629,15 +33790,6 @@ export class ContentPermissionsUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to update multiple contents permissions */
@@ -36653,7 +33805,7 @@ export class ContentPermissionsUpdateItem extends ContentPermissionsUpdateReques
 
     constructor(data?: IContentPermissionsUpdateItem) {
         super(data);
-        this.setProp("object", "contentId", false);
+        this.setProp("object", "string", "contentId", false);
 
     }
 
@@ -36672,12 +33824,6 @@ export class ContentPermissionsUpdateItem extends ContentPermissionsUpdateReques
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Content permissions update item */
@@ -36693,7 +33839,7 @@ export class ContentOwnershipTransferRequest extends DTOBase {
 
     constructor(data?: IContentOwnershipTransferRequest) {
         super(data);
-        this.setProp("object", "transferUserId", false);
+        this.setProp("object", "string", "transferUserId", false);
 
     }
 
@@ -36712,11 +33858,6 @@ export class ContentOwnershipTransferRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferUserId"] = this.transferUserId;
-        return data; 
-    }
 }
 
 /** Request to transfer the content ownership */
@@ -36732,7 +33873,7 @@ export class ContentOwnershipTransferManyRequest extends DTOBase {
 
     constructor(data?: IContentOwnershipTransferManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => ContentOwnershipTransferItem.fromJS(item));
+        this.setProp("array", "ContentOwnershipTransferItem[]", "items", true, (item: any) => ContentOwnershipTransferItem.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -36754,15 +33895,6 @@ export class ContentOwnershipTransferManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to transfer multiple contents ownerships */
@@ -36778,7 +33910,7 @@ export class ContentOwnershipTransferItem extends ContentOwnershipTransferReques
 
     constructor(data?: IContentOwnershipTransferItem) {
         super(data);
-        this.setProp("object", "contentId", false);
+        this.setProp("object", "string", "contentId", false);
 
     }
 
@@ -36797,12 +33929,6 @@ export class ContentOwnershipTransferItem extends ContentOwnershipTransferReques
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Content ownership transfer item */
@@ -36824,9 +33950,9 @@ export abstract class MetadataValuesChangeRequestBase extends DTOBase {
 
     constructor(data?: IMetadataValuesChangeRequestBase) {
         super(data);
-        this.setProp("array", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("array", "MetadataValuesChangeCommandBase[]", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (!data) {
             this.changeCommands = [];
@@ -36857,18 +33983,6 @@ export abstract class MetadataValuesChangeRequestBase extends DTOBase {
         throw new Error("The abstract class 'MetadataValuesChangeRequestBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        if (Array.isArray(this.changeCommands)) {
-            data["changeCommands"] = [];
-            for (let item of this.changeCommands)
-                data["changeCommands"].push(item.toJSON());
-        }
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Base class for the content metadata batch requests. */
@@ -36888,7 +34002,7 @@ export class ContentFieldsBatchUpdateRequest extends MetadataValuesChangeRequest
 
     constructor(data?: IContentFieldsBatchUpdateRequest) {
         super(data);
-        this.setProp("array", "contentIds", false);
+        this.setProp("array", "string[]", "contentIds", false);
 
         if (!data) {
             this.contentIds = [];
@@ -36911,16 +34025,6 @@ export class ContentFieldsBatchUpdateRequest extends MetadataValuesChangeRequest
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to batch update contents' fields based on content IDs */
@@ -36938,7 +34042,7 @@ export abstract class MetadataValuesChangeCommandBase extends DTOBase {
 
     constructor(data?: IMetadataValuesChangeCommandBase) {
         super(data);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "string", "schemaId", false);
 
         this._kind = "MetadataValuesChangeCommandBase";
     }
@@ -36991,12 +34095,6 @@ export abstract class MetadataValuesChangeCommandBase extends DTOBase {
         throw new Error("The abstract class 'MetadataValuesChangeCommandBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["schemaId"] = this.schemaId;
-        return data; 
-    }
 }
 
 /** The base class for metadata value change commands. */
@@ -37012,7 +34110,7 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
     constructor(data?: IMetadataValuesSchemaUpdateCommand) {
         super(data);
-        this.setProp("object", "value", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "DataDictionary", "value", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37038,12 +34136,6 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Updates schema values */
@@ -37059,7 +34151,7 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
     constructor(data?: IMetadataValuesSchemaUpsertCommand) {
         super(data);
-        this.setProp("object", "value", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "DataDictionary", "value", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37085,12 +34177,6 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Adds or updates schema values */
@@ -37123,11 +34209,6 @@ export class MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeComma
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Removes schema and all its values */
@@ -37141,7 +34222,7 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
     constructor(data?: IMetadataValuesSchemaReplaceCommand) {
         super(data);
-        this.setProp("object", "value", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "DataDictionary", "value", true, (item: any) => DataDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37167,12 +34248,6 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Replaces schema values */
@@ -37188,7 +34263,7 @@ export class MetadataValuesFieldRemoveCommand extends MetadataValuesChangeComman
 
     constructor(data?: IMetadataValuesFieldRemoveCommand) {
         super(data);
-        this.setProp("object", "fieldPath", false);
+        this.setProp("object", "string", "fieldPath", false);
 
         this._kind = "MetadataValuesFieldRemoveCommand";
     }
@@ -37208,12 +34283,6 @@ export class MetadataValuesFieldRemoveCommand extends MetadataValuesChangeComman
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldPath"] = this.fieldPath;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Removes a field and its value from the values of the specified schema */
@@ -37234,9 +34303,9 @@ export class MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeComm
 
     constructor(data?: IMetadataValuesSchemaItemAddCommand) {
         super(data);
-        this.setProp("object", "fieldPath", false);
-        this.setProp("object", "fieldNamespace", false);
-        this.setProp("object", "referenceId", false);
+        this.setProp("object", "string", "fieldPath", false);
+        this.setProp("object", "string", "fieldNamespace", false);
+        this.setProp("object", "string", "referenceId", false);
 
         this._kind = "MetadataValuesSchemaItemAddCommand";
     }
@@ -37256,14 +34325,6 @@ export class MetadataValuesSchemaItemAddCommand extends MetadataValuesChangeComm
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldPath"] = this.fieldPath;
-        data["fieldNamespace"] = this.fieldNamespace;
-        data["referenceId"] = this.referenceId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Adds a list item to a FieldMultiTagbox field */
@@ -37289,9 +34350,9 @@ export class MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeC
 
     constructor(data?: IMetadataValuesSchemaItemRemoveCommand) {
         super(data);
-        this.setProp("object", "fieldPath", false);
-        this.setProp("object", "fieldNamespace", false);
-        this.setProp("object", "referenceId", false);
+        this.setProp("object", "string", "fieldPath", false);
+        this.setProp("object", "string", "fieldNamespace", false);
+        this.setProp("object", "string", "referenceId", false);
 
         this._kind = "MetadataValuesSchemaItemRemoveCommand";
     }
@@ -37311,14 +34372,6 @@ export class MetadataValuesSchemaItemRemoveCommand extends MetadataValuesChangeC
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldPath"] = this.fieldPath;
-        data["fieldNamespace"] = this.fieldNamespace;
-        data["referenceId"] = this.referenceId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Removes a list item from a FieldMultiTagbox field */
@@ -37339,7 +34392,7 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
 
     constructor(data?: IContentFieldsBatchUpdateFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => ContentFilterRequest.fromJS(item));
+        this.setProp("object", "ContentFilterRequest", "filterRequest", true, (item: any) => ContentFilterRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37365,12 +34418,6 @@ export class ContentFieldsBatchUpdateFilterRequest extends MetadataValuesChangeR
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to batch update contents' fields based on a filter */
@@ -37389,12 +34436,12 @@ export abstract class PermissionSetDetailOfContentRight extends DTOBase {
 
     constructor(data?: IPermissionSetDetailOfContentRight) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => PermissionUserRoleRightsOfContentRight.fromJS(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
-        this.setProp("object", "exclusive", false);
-        this.setProp("object", "ownerTokenId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "PermissionUserRoleRightsOfContentRight[]", "userRolesRights", true, (item: any) => PermissionUserRoleRightsOfContentRight.fromJS(item));
+        this.setProp("array", "PermissionUserRoleRightsOfPermissionSetRight[]", "userRolesPermissionSetRights", true, (item: any) => PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+        this.setProp("object", "boolean", "exclusive", false);
+        this.setProp("object", "string", "ownerTokenId", false);
 
         if (data) {
             this.construct(data);
@@ -37414,24 +34461,6 @@ export abstract class PermissionSetDetailOfContentRight extends DTOBase {
         throw new Error("The abstract class 'PermissionSetDetailOfContentRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRolesRights)) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (Array.isArray(this.userRolesPermissionSetRights)) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        data["exclusive"] = this.exclusive;
-        data["ownerTokenId"] = this.ownerTokenId;
-        return data; 
-    }
 }
 
 export interface IPermissionSetDetailOfContentRight {
@@ -37466,11 +34495,6 @@ export class ContentPermissionSetDetail extends PermissionSetDetailOfContentRigh
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Detail of a content permission set */
@@ -37484,9 +34508,9 @@ export class PermissionUserRoleRightsOfContentRight extends DTOBase {
 
     constructor(data?: IPermissionUserRoleRightsOfContentRight) {
         super(data);
-        this.setProp("object", "userRoleId", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "rights", false);
+        this.setProp("object", "string", "userRoleId", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "ContentRight[]", "rights", false);
 
         if (data) {
             this.construct(data);
@@ -37508,17 +34532,6 @@ export class PermissionUserRoleRightsOfContentRight extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.rights)) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionUserRoleRightsOfContentRight {
@@ -37534,9 +34547,9 @@ export class PermissionUserRoleRightsOfPermissionSetRight extends DTOBase {
 
     constructor(data?: IPermissionUserRoleRightsOfPermissionSetRight) {
         super(data);
-        this.setProp("object", "userRoleId", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "rights", false);
+        this.setProp("object", "string", "userRoleId", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "PermissionSetRight[]", "rights", false);
 
         if (data) {
             this.construct(data);
@@ -37558,17 +34571,6 @@ export class PermissionUserRoleRightsOfPermissionSetRight extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.rights)) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionUserRoleRightsOfPermissionSetRight {
@@ -37592,11 +34594,11 @@ export abstract class PermissionSetCreateRequestOfContentRight extends DTOBase {
 
     constructor(data?: IPermissionSetCreateRequestOfContentRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfContentRight.fromJS(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
-        this.setProp("object", "exclusive", false);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfContentRight[]", "userRolesRights", true, (item: any) => UserRoleRightsOfContentRight.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfPermissionSetRight[]", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
+        this.setProp("object", "boolean", "exclusive", false);
+        this.setProp("object", "string", "requestId", false);
 
         if (data) {
             this.construct(data);
@@ -37616,23 +34618,6 @@ export abstract class PermissionSetCreateRequestOfContentRight extends DTOBase {
         throw new Error("The abstract class 'PermissionSetCreateRequestOfContentRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRolesRights)) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (Array.isArray(this.userRolesPermissionSetRights)) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        data["exclusive"] = this.exclusive;
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 export interface IPermissionSetCreateRequestOfContentRight {
@@ -37665,11 +34650,6 @@ export class ContentPermissionSetCreateRequest extends PermissionSetCreateReques
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentPermissionSetCreateRequest extends IPermissionSetCreateRequestOfContentRight {
@@ -37681,8 +34661,8 @@ export class UserRoleRightsOfContentRight extends DTOBase {
 
     constructor(data?: IUserRoleRightsOfContentRight) {
         super(data);
-        this.setProp("object", "userRoleId", false);
-        this.setProp("array", "rights", false);
+        this.setProp("object", "string", "userRoleId", false);
+        this.setProp("array", "ContentRight[]", "rights", false);
 
     }
 
@@ -37701,16 +34681,6 @@ export class UserRoleRightsOfContentRight extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        if (Array.isArray(this.rights)) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IUserRoleRightsOfContentRight {
@@ -37724,8 +34694,8 @@ export class UserRoleRightsOfPermissionSetRight extends DTOBase {
 
     constructor(data?: IUserRoleRightsOfPermissionSetRight) {
         super(data);
-        this.setProp("object", "userRoleId", false);
-        this.setProp("array", "rights", false);
+        this.setProp("object", "string", "userRoleId", false);
+        this.setProp("array", "PermissionSetRight[]", "rights", false);
 
     }
 
@@ -37744,16 +34714,6 @@ export class UserRoleRightsOfPermissionSetRight extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        if (Array.isArray(this.rights)) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IUserRoleRightsOfPermissionSetRight {
@@ -37768,9 +34728,9 @@ export abstract class PermissionSetUpdateRequestOfContentRight extends DTOBase {
 
     constructor(data?: IPermissionSetUpdateRequestOfContentRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfContentRight.fromJS(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfContentRight[]", "userRolesRights", true, (item: any) => UserRoleRightsOfContentRight.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfPermissionSetRight[]", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37790,21 +34750,6 @@ export abstract class PermissionSetUpdateRequestOfContentRight extends DTOBase {
         throw new Error("The abstract class 'PermissionSetUpdateRequestOfContentRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRolesRights)) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (Array.isArray(this.userRolesPermissionSetRights)) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionSetUpdateRequestOfContentRight {
@@ -37836,11 +34781,6 @@ export class ContentPermissionSetUpdateRequest extends PermissionSetUpdateReques
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to update a content permission set */
@@ -37853,7 +34793,7 @@ export class PermissionSetOwnershipTransferRequest extends DTOBase {
 
     constructor(data?: IPermissionSetOwnershipTransferRequest) {
         super(data);
-        this.setProp("object", "transferUserId", false);
+        this.setProp("object", "string", "transferUserId", false);
 
     }
 
@@ -37872,11 +34812,6 @@ export class PermissionSetOwnershipTransferRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferUserId"] = this.transferUserId;
-        return data; 
-    }
 }
 
 export interface IPermissionSetOwnershipTransferRequest {
@@ -37891,7 +34826,7 @@ export class BulkResponse extends DTOBase {
 
     constructor(data?: IBulkResponse) {
         super(data);
-        this.setProp("array", "rows", true, (item: any) => BulkResponseRow.fromJS(item));
+        this.setProp("array", "BulkResponseRow[]", "rows", true, (item: any) => BulkResponseRow.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -37913,15 +34848,6 @@ export class BulkResponse extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.rows)) {
-            data["rows"] = [];
-            for (let item of this.rows)
-                data["rows"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Response to a bulk operation */
@@ -37947,12 +34873,12 @@ export class BulkResponseRow extends DTOBase {
 
     constructor(data?: IBulkResponseRow) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "version", false);
-        this.setProp("object", "error", false);
-        this.setProp("object", "succeeded", false);
-        this.setProp("object", "status", false);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "number", "version", false);
+        this.setProp("object", "string", "error", false);
+        this.setProp("object", "boolean", "succeeded", false);
+        this.setProp("object", "number", "status", false);
+        this.setProp("object", "string", "requestId", false);
 
     }
 
@@ -37971,16 +34897,6 @@ export class BulkResponseRow extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["version"] = this.version;
-        data["error"] = this.error;
-        data["succeeded"] = this.succeeded;
-        data["status"] = this.status;
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 /** Row information of a bulk response */
@@ -38004,7 +34920,7 @@ export class ContentPermissionSetCreateManyRequest extends DTOBase {
 
     constructor(data?: IContentPermissionSetCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => ContentPermissionSetCreateRequest.fromJS(item));
+        this.setProp("array", "ContentPermissionSetCreateRequest[]", "items", true, (item: any) => ContentPermissionSetCreateRequest.fromJS(item));
 
     }
 
@@ -38023,15 +34939,6 @@ export class ContentPermissionSetCreateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface IContentPermissionSetCreateManyRequest {
@@ -38045,7 +34952,7 @@ export class ContentPermissionSetUpdateManyRequest extends DTOBase {
 
     constructor(data?: IContentPermissionSetUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => ContentPermissionSetUpdateRequestItem.fromJS(item));
+        this.setProp("array", "ContentPermissionSetUpdateRequestItem[]", "items", true, (item: any) => ContentPermissionSetUpdateRequestItem.fromJS(item));
 
     }
 
@@ -38064,15 +34971,6 @@ export class ContentPermissionSetUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to update multiple content permission sets */
@@ -38086,7 +34984,7 @@ export abstract class PermissionSetUpdateRequestItemOfContentRight extends Permi
 
     constructor(data?: IPermissionSetUpdateRequestItemOfContentRight) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
     }
 
@@ -38103,12 +35001,6 @@ export abstract class PermissionSetUpdateRequestItemOfContentRight extends Permi
         throw new Error("The abstract class 'PermissionSetUpdateRequestItemOfContentRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetUpdateRequestItemOfContentRight extends IPermissionSetUpdateRequestOfContentRight {
@@ -38138,11 +35030,6 @@ export class ContentPermissionSetUpdateRequestItem extends PermissionSetUpdateRe
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to update a content permission set */
@@ -38154,7 +35041,7 @@ export class PermissionSetDeleteManyRequest extends DTOBase {
 
     constructor(data?: IPermissionSetDeleteManyRequest) {
         super(data);
-        this.setProp("array", "permissionSetIds", false);
+        this.setProp("array", "string[]", "permissionSetIds", false);
 
     }
 
@@ -38173,15 +35060,6 @@ export class PermissionSetDeleteManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.permissionSetIds)) {
-            data["permissionSetIds"] = [];
-            for (let item of this.permissionSetIds)
-                data["permissionSetIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionSetDeleteManyRequest {
@@ -38193,7 +35071,7 @@ export class PermissionSetOwnershipTransferManyRequest extends DTOBase {
 
     constructor(data?: IPermissionSetOwnershipTransferManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => PermissionSetOwnershipTransferItem.fromJS(item));
+        this.setProp("array", "PermissionSetOwnershipTransferItem[]", "items", true, (item: any) => PermissionSetOwnershipTransferItem.fromJS(item));
 
     }
 
@@ -38212,15 +35090,6 @@ export class PermissionSetOwnershipTransferManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionSetOwnershipTransferManyRequest {
@@ -38233,7 +35102,7 @@ export class PermissionSetOwnershipTransferItem extends PermissionSetOwnershipTr
 
     constructor(data?: IPermissionSetOwnershipTransferItem) {
         super(data);
-        this.setProp("object", "permissionSetId", false);
+        this.setProp("object", "string", "permissionSetId", false);
 
     }
 
@@ -38252,12 +35121,6 @@ export class PermissionSetOwnershipTransferItem extends PermissionSetOwnershipTr
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["permissionSetId"] = this.permissionSetId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetOwnershipTransferItem extends IPermissionSetOwnershipTransferRequest {
@@ -38271,8 +35134,8 @@ export class PermissionSetUserPermissionRights extends DTOBase {
 
     constructor(data?: IPermissionSetUserPermissionRights) {
         super(data);
-        this.setProp("object", "permissionSetId", false);
-        this.setProp("array", "permissionSetRights", false);
+        this.setProp("object", "string", "permissionSetId", false);
+        this.setProp("array", "PermissionSetRight[]", "permissionSetRights", false);
 
     }
 
@@ -38291,16 +35154,6 @@ export class PermissionSetUserPermissionRights extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["permissionSetId"] = this.permissionSetId;
-        if (Array.isArray(this.permissionSetRights)) {
-            data["permissionSetRights"] = [];
-            for (let item of this.permissionSetRights)
-                data["permissionSetRights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionSetUserPermissionRights {
@@ -38316,10 +35169,10 @@ export class BaseResultOfPermissionSet extends DTOBase {
 
     constructor(data?: IBaseResultOfPermissionSet) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => PermissionSet.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "PermissionSet[]", "results", true, (item: any) => PermissionSet.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -38344,18 +35197,6 @@ export class BaseResultOfPermissionSet extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfPermissionSet {
@@ -38372,9 +35213,9 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
 
     constructor(data?: ISearchBehaviorBaseResultOfPermissionSet) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -38396,14 +35237,6 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
@@ -38435,11 +35268,6 @@ export class PermissionSetSearchResult extends SearchBehaviorBaseResultOfPermiss
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result of a permission set search operation */
@@ -38458,9 +35286,9 @@ Cannot be changed after creation. */
 
     constructor(data?: IPermissionSet) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "exclusive", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "boolean", "exclusive", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -38482,13 +35310,6 @@ Cannot be changed after creation. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["exclusive"] = this.exclusive;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Permission set */
@@ -38525,15 +35346,15 @@ If not specified, all metadata languages defined in the system are used. */
 
     constructor(data?: IPermissionSetSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "rightFilter", false);
-        this.setProp("object", "debugMode", false);
-        this.setProp("array", "searchLanguages", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "PermissionSetRight", "rightFilter", false);
+        this.setProp("object", "boolean", "debugMode", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
 
         if (data) {
             this.construct(data);
@@ -38555,31 +35376,6 @@ If not specified, all metadata languages defined in the system are used. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["rightFilter"] = this.rightFilter;
-        data["debugMode"] = this.debugMode;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Request to search permission sets */
@@ -38612,10 +35408,10 @@ export class BaseResultOfDocumentHistory extends DTOBase {
 
     constructor(data?: IBaseResultOfDocumentHistory) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => DocumentHistory.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "DocumentHistory[]", "results", true, (item: any) => DocumentHistory.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -38640,18 +35436,6 @@ export class BaseResultOfDocumentHistory extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfDocumentHistory {
@@ -38683,11 +35467,6 @@ export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDocumentHistorySearchResult extends IBaseResultOfDocumentHistory {
@@ -38706,15 +35485,15 @@ export class DocumentHistory extends DTOBase {
 
     constructor(data?: IDocumentHistory) {
         super(data);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "documentVersion", false);
-        this.setProp("object", "documentType", false);
-        this.setProp("object", "documentDate", false);
-        this.setProp("object", "document", false);
-        this.setProp("object", "timestamp", false);
-        this.setProp("object", "audit", true, (item: any) => UserAuditHistory.fromJS(item));
-        this.setProp("object", "deleted", false);
-        this.setProp("object", "action", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "number", "documentVersion", false);
+        this.setProp("object", "string", "documentType", false);
+        this.setProp("object", "Date", "documentDate", false);
+        this.setProp("object", "string", "document", false);
+        this.setProp("object", "Date", "timestamp", false);
+        this.setProp("object", "UserAuditHistory", "audit", true, (item: any) => UserAuditHistory.fromJS(item));
+        this.setProp("object", "boolean", "deleted", false);
+        this.setProp("object", "DocumentChangeAction", "action", false);
 
         if (data) {
             this.construct(data);
@@ -38736,19 +35515,6 @@ export class DocumentHistory extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentId"] = this.documentId;
-        data["documentVersion"] = this.documentVersion;
-        data["documentType"] = this.documentType;
-        data["documentDate"] = this.documentDate ? this.documentDate.toISOString() : <any>undefined;
-        data["document"] = this.document;
-        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["deleted"] = this.deleted;
-        data["action"] = this.action;
-        return data; 
-    }
 }
 
 export interface IDocumentHistory {
@@ -38769,8 +35535,8 @@ export class UserAuditHistory extends DTOBase {
 
     constructor(data?: IUserAuditHistory) {
         super(data);
-        this.setProp("object", "modificationDate", false);
-        this.setProp("object", "modifiedByUser", false);
+        this.setProp("object", "Date", "modificationDate", false);
+        this.setProp("object", "string", "modifiedByUser", false);
 
     }
 
@@ -38789,12 +35555,6 @@ export class UserAuditHistory extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
-        data["modifiedByUser"] = this.modifiedByUser;
-        return data; 
-    }
 }
 
 export interface IUserAuditHistory {
@@ -38830,14 +35590,14 @@ export class DocumentHistorySearchRequest extends DTOBase {
 
     constructor(data?: IDocumentHistorySearchRequest) {
         super(data);
-        this.setProp("object", "from", false);
-        this.setProp("object", "to", false);
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "documentVersion", false);
-        this.setProp("object", "documentType", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "Date", "from", false);
+        this.setProp("object", "Date", "to", false);
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "number", "documentVersion", false);
+        this.setProp("object", "string", "documentType", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -38859,22 +35619,6 @@ export class DocumentHistorySearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
-        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["documentId"] = this.documentId;
-        data["documentVersion"] = this.documentVersion;
-        data["documentType"] = this.documentType;
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface IDocumentHistorySearchRequest {
@@ -38907,10 +35651,10 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
 
     constructor(data?: IDocumentHistoryDifference) {
         super(data);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "oldDocumentVersion", false);
-        this.setProp("object", "newDocumentVersion", false);
-        this.setProp("object", "patch", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "number", "oldDocumentVersion", false);
+        this.setProp("object", "number", "newDocumentVersion", false);
+        this.setProp("object", "any", "patch", false);
 
     }
 
@@ -38929,14 +35673,6 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentId"] = this.documentId;
-        data["oldDocumentVersion"] = this.oldDocumentVersion;
-        data["newDocumentVersion"] = this.newDocumentVersion;
-        data["patch"] = this.patch;
-        return data; 
-    }
 }
 
 export interface IDocumentHistoryDifference {
@@ -38975,17 +35711,17 @@ export class CustomerInfo extends DTOBase {
 
     constructor(data?: ICustomerInfo) {
         super(data);
-        this.setProp("object", "customerId", false);
-        this.setProp("object", "name", false);
-        this.setProp("object", "customerAlias", false);
-        this.setProp("object", "identityServerUrl", false);
-        this.setProp("object", "enableQueryDetails", false);
-        this.setProp("object", "languageConfiguration", true, (item: any) => LanguageConfiguration.fromJS(item));
-        this.setProp("array", "languages", true, (item: any) => Language.fromJS(item));
-        this.setProp("array", "outputFormats", true, (item: any) => OutputFormatInfo.fromJS(item));
-        this.setProp("array", "boostValues", false);
-        this.setProp("array", "apps", true, (item: any) => CustomerApp.fromJS(item));
-        this.setProp("object", "modificationDate", false);
+        this.setProp("object", "string", "customerId", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "string", "customerAlias", false);
+        this.setProp("object", "string", "identityServerUrl", false);
+        this.setProp("object", "boolean", "enableQueryDetails", false);
+        this.setProp("object", "LanguageConfiguration", "languageConfiguration", true, (item: any) => LanguageConfiguration.fromJS(item));
+        this.setProp("array", "Language[]", "languages", true, (item: any) => Language.fromJS(item));
+        this.setProp("array", "OutputFormatInfo[]", "outputFormats", true, (item: any) => OutputFormatInfo.fromJS(item));
+        this.setProp("array", "number[]", "boostValues", false);
+        this.setProp("array", "CustomerApp[]", "apps", true, (item: any) => CustomerApp.fromJS(item));
+        this.setProp("object", "Date", "modificationDate", false);
 
         if (data) {
             this.construct(data);
@@ -39013,37 +35749,6 @@ export class CustomerInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["name"] = this.name;
-        data["customerAlias"] = this.customerAlias;
-        data["identityServerUrl"] = this.identityServerUrl;
-        data["enableQueryDetails"] = this.enableQueryDetails;
-        data["languageConfiguration"] = this.languageConfiguration ? this.languageConfiguration.toJSON() : <any>undefined;
-        if (Array.isArray(this.languages)) {
-            data["languages"] = [];
-            for (let item of this.languages)
-                data["languages"].push(item.toJSON());
-        }
-        if (Array.isArray(this.outputFormats)) {
-            data["outputFormats"] = [];
-            for (let item of this.outputFormats)
-                data["outputFormats"].push(item.toJSON());
-        }
-        if (Array.isArray(this.boostValues)) {
-            data["boostValues"] = [];
-            for (let item of this.boostValues)
-                data["boostValues"].push(item);
-        }
-        if (Array.isArray(this.apps)) {
-            data["apps"] = [];
-            for (let item of this.apps)
-                data["apps"].push(item.toJSON());
-        }
-        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Customer configuration information */
@@ -39081,9 +35786,9 @@ export class LanguageConfiguration extends DTOBase {
 
     constructor(data?: ILanguageConfiguration) {
         super(data);
-        this.setProp("array", "systemLanguages", false);
-        this.setProp("array", "metadataLanguages", false);
-        this.setProp("object", "defaultLanguage", false);
+        this.setProp("array", "string[]", "systemLanguages", false);
+        this.setProp("array", "string[]", "metadataLanguages", false);
+        this.setProp("object", "string", "defaultLanguage", false);
 
     }
 
@@ -39102,21 +35807,6 @@ export class LanguageConfiguration extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.systemLanguages)) {
-            data["systemLanguages"] = [];
-            for (let item of this.systemLanguages)
-                data["systemLanguages"].push(item);
-        }
-        if (Array.isArray(this.metadataLanguages)) {
-            data["metadataLanguages"] = [];
-            for (let item of this.metadataLanguages)
-                data["metadataLanguages"].push(item);
-        }
-        data["defaultLanguage"] = this.defaultLanguage;
-        return data; 
-    }
 }
 
 export interface ILanguageConfiguration {
@@ -39142,11 +35832,11 @@ export class Language extends DTOBase {
 
     constructor(data?: ILanguage) {
         super(data);
-        this.setProp("object", "name", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "ietf", false);
-        this.setProp("object", "twoLetterISOLanguageName", false);
-        this.setProp("object", "threeLetterISOLanguageName", false);
-        this.setProp("object", "regionCode", false);
+        this.setProp("object", "TranslatedStringDictionary", "name", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "ietf", false);
+        this.setProp("object", "string", "twoLetterISOLanguageName", false);
+        this.setProp("object", "string", "threeLetterISOLanguageName", false);
+        this.setProp("object", "string", "regionCode", false);
 
         if (data) {
             this.construct(data);
@@ -39171,15 +35861,6 @@ export class Language extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
-        data["ietf"] = this.ietf;
-        data["twoLetterISOLanguageName"] = this.twoLetterISOLanguageName;
-        data["threeLetterISOLanguageName"] = this.threeLetterISOLanguageName;
-        data["regionCode"] = this.regionCode;
-        return data; 
-    }
 }
 
 export interface ILanguage {
@@ -39203,8 +35884,8 @@ export class OutputFormatInfo extends DTOBase {
 
     constructor(data?: IOutputFormatInfo) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39229,12 +35910,6 @@ export class OutputFormatInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 export interface IOutputFormatInfo {
@@ -39252,10 +35927,10 @@ export class CustomerApp extends DTOBase {
 
     constructor(data?: ICustomerApp) {
         super(data);
-        this.setProp("object", "appId", false);
-        this.setProp("object", "name", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "description", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "icon", false);
+        this.setProp("object", "string", "appId", false);
+        this.setProp("object", "TranslatedStringDictionary", "name", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "description", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "icon", false);
 
         if (data) {
             this.construct(data);
@@ -39277,14 +35952,6 @@ export class CustomerApp extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["appId"] = this.appId;
-        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
-        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
-        data["icon"] = this.icon;
-        return data; 
-    }
 }
 
 export interface ICustomerApp {
@@ -39307,10 +35974,10 @@ export class VersionInfo extends DTOBase {
 
     constructor(data?: IVersionInfo) {
         super(data);
-        this.setProp("object", "fileVersion", false);
-        this.setProp("object", "fileProductVersion", false);
-        this.setProp("object", "contractVersion", false);
-        this.setProp("object", "release", false);
+        this.setProp("object", "string", "fileVersion", false);
+        this.setProp("object", "string", "fileProductVersion", false);
+        this.setProp("object", "string", "contractVersion", false);
+        this.setProp("object", "string", "release", false);
 
     }
 
@@ -39329,14 +35996,6 @@ export class VersionInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileVersion"] = this.fileVersion;
-        data["fileProductVersion"] = this.fileProductVersion;
-        data["contractVersion"] = this.contractVersion;
-        data["release"] = this.release;
-        return data; 
-    }
 }
 
 /** The version view item for the environment. */
@@ -39366,11 +36025,11 @@ export class ListItemDetail extends DTOBase {
 
     constructor(data?: IListItemDetail) {
         super(data);
-        this.setProp("object", "content", false);
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
-        this.setProp("object", "id", false);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "any", "content", false);
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("object", "DisplayValueDictionary", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39392,15 +36051,6 @@ export class ListItemDetail extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        data["id"] = this.id;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** The detail view item for the list item. */
@@ -39438,10 +36088,10 @@ export class BaseResultOfListItem extends DTOBase {
 
     constructor(data?: IBaseResultOfListItem) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => ListItem.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "ListItem[]", "results", true, (item: any) => ListItem.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -39466,18 +36116,6 @@ export class BaseResultOfListItem extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfListItem {
@@ -39510,11 +36148,6 @@ export class ListItemSearchResult extends BaseResultOfListItem implements IListI
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Encapsulates the result of a list item search. */
@@ -39536,11 +36169,11 @@ export class ListItem extends DTOBase {
 
     constructor(data?: IListItem) {
         super(data);
-        this.setProp("object", "content", false);
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
-        this.setProp("object", "id", false);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "any", "content", false);
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("object", "DisplayValueDictionary", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39562,15 +36195,6 @@ export class ListItem extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        data["id"] = this.id;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
@@ -39620,19 +36244,19 @@ Warning! It severely affects performance. */
 
     constructor(data?: IListItemSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "includeAllSchemaChildren", false);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("object", "brokenDependenciesFilter", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "debugMode", false);
-        this.setProp("object", "lifeCycleFilter", false);
-        this.setProp("array", "resolveBehaviors", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "includeAllSchemaChildren", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("object", "BrokenDependenciesFilter", "brokenDependenciesFilter", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "boolean", "debugMode", false);
+        this.setProp("object", "LifeCycleFilter", "lifeCycleFilter", false);
+        this.setProp("array", "ListItemResolveBehavior[]", "resolveBehaviors", false);
 
         if (data) {
             this.construct(data);
@@ -39654,43 +36278,6 @@ Warning! It severely affects performance. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["debugMode"] = this.debugMode;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        if (Array.isArray(this.resolveBehaviors)) {
-            data["resolveBehaviors"] = [];
-            for (let item of this.resolveBehaviors)
-                data["resolveBehaviors"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Request to search list items */
@@ -39753,16 +36340,16 @@ If not specified, all metadata languages defined in the system are used. */
 
     constructor(data?: IListItemAggregationRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
-        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("object", "includeAllSchemaChildren", false);
-        this.setProp("object", "brokenDependenciesFilter", false);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "lifeCycleFilter", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "AggregationFilter[]", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "boolean", "includeAllSchemaChildren", false);
+        this.setProp("object", "BrokenDependenciesFilter", "brokenDependenciesFilter", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "LifeCycleFilter", "lifeCycleFilter", false);
 
         if (!data) {
             this.aggregators = [];
@@ -39784,40 +36371,6 @@ If not specified, all metadata languages defined in the system are used. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        return data; 
-    }
 }
 
 /** Request to aggregate list items */
@@ -39860,9 +36413,9 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     constructor(data?: IListItemCreateRequest) {
         super(data);
-        this.setProp("object", "content", false);
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "any", "content", false);
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("object", "string", "requestId", false);
 
     }
 
@@ -39881,13 +36434,6 @@ It is not persisted anywhere and it is ignored in single operations. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 /** A request structure for creating a list item document. */
@@ -39911,8 +36457,8 @@ export class ListItemCreateManyRequest extends DTOBase {
 
     constructor(data?: IListItemCreateManyRequest) {
         super(data);
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", true, (item: any) => ListItemCreateRequest.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("array", "ListItemCreateRequest[]", "items", true, (item: any) => ListItemCreateRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -39934,16 +36480,6 @@ export class ListItemCreateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** A request structure for creating multiple list items. */
@@ -39961,7 +36497,7 @@ export class ListItemUpdateRequest extends DTOBase {
 
     constructor(data?: IListItemUpdateRequest) {
         super(data);
-        this.setProp("object", "content", false);
+        this.setProp("object", "any", "content", false);
 
     }
 
@@ -39980,11 +36516,6 @@ export class ListItemUpdateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
-        return data; 
-    }
 }
 
 /** A request structure for updating a list item. */
@@ -40002,8 +36533,8 @@ export class ListItemUpdateManyRequest extends DTOBase {
 
     constructor(data?: IListItemUpdateManyRequest) {
         super(data);
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("array", "items", true, (item: any) => ListItemUpdateItem.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("array", "ListItemUpdateItem[]", "items", true, (item: any) => ListItemUpdateItem.fromJS(item));
 
     }
 
@@ -40022,16 +36553,6 @@ export class ListItemUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** A request structure for updating multiple list items. */
@@ -40048,7 +36569,7 @@ export class ListItemUpdateItem extends ListItemUpdateRequest implements IListIt
 
     constructor(data?: IListItemUpdateItem) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
     }
 
@@ -40067,12 +36588,6 @@ export class ListItemUpdateItem extends ListItemUpdateRequest implements IListIt
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListItemUpdateItem extends IListItemUpdateRequest {
@@ -40091,9 +36606,9 @@ export class ListItemDeleteManyRequest extends DTOBase {
 
     constructor(data?: IListItemDeleteManyRequest) {
         super(data);
-        this.setProp("array", "listItemIds", false);
-        this.setProp("object", "forceReferenceRemoval", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("array", "string[]", "listItemIds", false);
+        this.setProp("object", "boolean", "forceReferenceRemoval", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (!data) {
             this.listItemIds = [];
@@ -40115,17 +36630,6 @@ export class ListItemDeleteManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.listItemIds)) {
-            data["listItemIds"] = [];
-            for (let item of this.listItemIds)
-                data["listItemIds"].push(item);
-        }
-        data["forceReferenceRemoval"] = this.forceReferenceRemoval;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Request to delete multiple list items */
@@ -40149,9 +36653,9 @@ export class ListItemDeleteManyFilterRequest extends DTOBase {
 
     constructor(data?: IListItemDeleteManyFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => ListItemFilterRequest.fromJS(item));
-        this.setProp("object", "forceReferenceRemoval", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("object", "ListItemFilterRequest", "filterRequest", true, (item: any) => ListItemFilterRequest.fromJS(item));
+        this.setProp("object", "boolean", "forceReferenceRemoval", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (data) {
             this.construct(data);
@@ -40176,13 +36680,6 @@ export class ListItemDeleteManyFilterRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
-        data["forceReferenceRemoval"] = this.forceReferenceRemoval;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Request to delete multiple list items based on a provided filter */
@@ -40213,12 +36710,12 @@ If not specified, all metadata languages defined in the system are used. */
 
     constructor(data?: IListItemFilterRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "includeAllSchemaChildren", false);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "brokenDependenciesFilter", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "includeAllSchemaChildren", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "BrokenDependenciesFilter", "brokenDependenciesFilter", false);
 
     }
 
@@ -40237,24 +36734,6 @@ If not specified, all metadata languages defined in the system are used. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        return data; 
-    }
 }
 
 /** Request to filter list items */
@@ -40283,8 +36762,8 @@ export class ListItemRestoreManyRequest extends DTOBase {
 
     constructor(data?: IListItemRestoreManyRequest) {
         super(data);
-        this.setProp("array", "listItemIds", false);
-        this.setProp("object", "allowMissingDependencies", false);
+        this.setProp("array", "string[]", "listItemIds", false);
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
 
         if (!data) {
             this.listItemIds = [];
@@ -40306,16 +36785,6 @@ export class ListItemRestoreManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.listItemIds)) {
-            data["listItemIds"] = [];
-            for (let item of this.listItemIds)
-                data["listItemIds"].push(item);
-        }
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        return data; 
-    }
 }
 
 /** Request to restore multiple deleted list items */
@@ -40339,10 +36808,10 @@ export class ListItemFieldsBatchUpdateRequest extends DTOBase {
 
     constructor(data?: IListItemFieldsBatchUpdateRequest) {
         super(data);
-        this.setProp("array", "listItemIds", false);
-        this.setProp("array", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("array", "string[]", "listItemIds", false);
+        this.setProp("array", "MetadataValuesChangeCommandBase[]", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (!data) {
             this.listItemIds = [];
@@ -40365,22 +36834,6 @@ export class ListItemFieldsBatchUpdateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.listItemIds)) {
-            data["listItemIds"] = [];
-            for (let item of this.listItemIds)
-                data["listItemIds"].push(item);
-        }
-        if (Array.isArray(this.changeCommands)) {
-            data["changeCommands"] = [];
-            for (let item of this.changeCommands)
-                data["changeCommands"].push(item.toJSON());
-        }
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Request to batch update list items' fields based on list item IDs */
@@ -40408,10 +36861,10 @@ export class ListItemFieldsBatchUpdateFilterRequest extends DTOBase {
 
     constructor(data?: IListItemFieldsBatchUpdateFilterRequest) {
         super(data);
-        this.setProp("object", "filterRequest", true, (item: any) => ListItemFilterRequest.fromJS(item));
-        this.setProp("array", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("object", "notifyProgress", false);
+        this.setProp("object", "ListItemFilterRequest", "filterRequest", true, (item: any) => ListItemFilterRequest.fromJS(item));
+        this.setProp("array", "MetadataValuesChangeCommandBase[]", "changeCommands", true, (item: any) => MetadataValuesChangeCommandBase.fromJS(item));
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("object", "boolean", "notifyProgress", false);
 
         if (data) {
             this.construct(data);
@@ -40437,18 +36890,6 @@ export class ListItemFieldsBatchUpdateFilterRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filterRequest"] = this.filterRequest ? this.filterRequest.toJSON() : <any>undefined;
-        if (Array.isArray(this.changeCommands)) {
-            data["changeCommands"] = [];
-            for (let item of this.changeCommands)
-                data["changeCommands"].push(item.toJSON());
-        }
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        data["notifyProgress"] = this.notifyProgress;
-        return data; 
-    }
 }
 
 /** Request to batch update list items' fields based on a filter */
@@ -40470,7 +36911,7 @@ export class ListItemReferencesResult extends DTOBase {
 
     constructor(data?: IListItemReferencesResult) {
         super(data);
-        this.setProp("object", "metadataReferences", true, (item: any) => MetadataReferenceResult.fromJS(item));
+        this.setProp("object", "MetadataReferenceResult", "metadataReferences", true, (item: any) => MetadataReferenceResult.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -40492,11 +36933,6 @@ export class ListItemReferencesResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["metadataReferences"] = this.metadataReferences ? this.metadataReferences.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result from getting references to list items. */
@@ -40512,7 +36948,7 @@ export class ListItemReferencesRequest extends DTOBase {
 
     constructor(data?: IListItemReferencesRequest) {
         super(data);
-        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
+        this.setProp("object", "MetadataReferencesPagingRequest", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -40534,11 +36970,6 @@ export class ListItemReferencesRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Request to get the references to a list item */
@@ -40556,8 +36987,8 @@ export class ListItemManyReferencesRequest extends DTOBase {
 
     constructor(data?: IListItemManyReferencesRequest) {
         super(data);
-        this.setProp("array", "listItemIds", false);
-        this.setProp("object", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
+        this.setProp("array", "string[]", "listItemIds", false);
+        this.setProp("object", "MetadataReferencesPagingRequest", "references", true, (item: any) => MetadataReferencesPagingRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -40582,16 +37013,6 @@ export class ListItemManyReferencesRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.listItemIds)) {
-            data["listItemIds"] = [];
-            for (let item of this.listItemIds)
-                data["listItemIds"].push(item);
-        }
-        data["references"] = this.references ? this.references.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Request to get the references to multiple list items */
@@ -40613,11 +37034,11 @@ export abstract class Message extends DTOBase {
 
     constructor(data?: IMessage) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "maximumRetryCount", false);
-        this.setProp("object", "retries", false);
-        this.setProp("object", "priority", false);
-        this.setProp("object", "deduplicate", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "number", "maximumRetryCount", false);
+        this.setProp("object", "number", "retries", false);
+        this.setProp("object", "number", "priority", false);
+        this.setProp("object", "boolean", "deduplicate", false);
 
         this._kind = "Message";
     }
@@ -40650,16 +37071,6 @@ export abstract class Message extends DTOBase {
         throw new Error("The abstract class 'Message' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["id"] = this.id;
-        data["maximumRetryCount"] = this.maximumRetryCount;
-        data["retries"] = this.retries;
-        data["priority"] = this.priority;
-        data["deduplicate"] = this.deduplicate;
-        return data; 
-    }
 }
 
 export interface IMessage {
@@ -40680,12 +37091,12 @@ export class LiveStreamMessage extends Message implements ILiveStreamMessage {
 
     constructor(data?: ILiveStreamMessage) {
         super(data);
-        this.setProp("object", "customerId", false);
-        this.setProp("object", "customerAlias", false);
-        this.setProp("object", "timestamp", false);
-        this.setProp("object", "scope", false);
-        this.setProp("object", "documentChange", true, (item: any) => DocumentChange.fromJS(item));
-        this.setProp("object", "applicationEvent", true, (item: any) => ApplicationEvent.fromJS(item));
+        this.setProp("object", "string", "customerId", false);
+        this.setProp("object", "string", "customerAlias", false);
+        this.setProp("object", "Date", "timestamp", false);
+        this.setProp("object", "string", "scope", false);
+        this.setProp("object", "DocumentChange", "documentChange", true, (item: any) => DocumentChange.fromJS(item));
+        this.setProp("object", "ApplicationEvent", "applicationEvent", true, (item: any) => ApplicationEvent.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -40708,17 +37119,6 @@ export class LiveStreamMessage extends Message implements ILiveStreamMessage {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["customerId"] = this.customerId;
-        data["customerAlias"] = this.customerAlias;
-        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
-        data["scope"] = this.scope;
-        data["documentChange"] = this.documentChange ? this.documentChange.toJSON() : <any>undefined;
-        data["applicationEvent"] = this.applicationEvent ? this.applicationEvent.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ILiveStreamMessage extends IMessage {
@@ -40739,11 +37139,11 @@ export class DocumentChange extends DTOBase {
 
     constructor(data?: IDocumentChange) {
         super(data);
-        this.setProp("object", "documentName", false);
-        this.setProp("object", "documentId", false);
-        this.setProp("object", "version", false);
-        this.setProp("object", "action", false);
-        this.setProp("object", "timeStamp", false);
+        this.setProp("object", "string", "documentName", false);
+        this.setProp("object", "string", "documentId", false);
+        this.setProp("object", "number", "version", false);
+        this.setProp("object", "string", "action", false);
+        this.setProp("object", "Date", "timeStamp", false);
 
     }
 
@@ -40762,15 +37162,6 @@ export class DocumentChange extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentName"] = this.documentName;
-        data["documentId"] = this.documentId;
-        data["version"] = this.version;
-        data["action"] = this.action;
-        data["timeStamp"] = this.timeStamp ? this.timeStamp.toISOString() : <any>undefined;
-        return data; 
-    }
 }
 
 export interface IDocumentChange {
@@ -40788,7 +37179,7 @@ export class ApplicationEvent extends DTOBase {
 
     constructor(data?: IApplicationEvent) {
         super(data);
-        this.setProp("object", "timestamp", false);
+        this.setProp("object", "Date", "timestamp", false);
 
         this._kind = "ApplicationEvent";
     }
@@ -40868,12 +37259,6 @@ export class ApplicationEvent extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
-        return data; 
-    }
 }
 
 export interface IApplicationEvent {
@@ -40886,8 +37271,8 @@ export class TransferEvent extends ApplicationEvent implements ITransferEvent {
 
     constructor(data?: ITransferEvent) {
         super(data);
-        this.setProp("object", "transferId", false);
-        this.setProp("object", "state", false);
+        this.setProp("object", "string", "transferId", false);
+        this.setProp("object", "TransferState", "state", false);
 
         this._kind = "TransferEvent";
     }
@@ -40907,13 +37292,6 @@ export class TransferEvent extends ApplicationEvent implements ITransferEvent {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferId"] = this.transferId;
-        data["state"] = this.state;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITransferEvent extends IApplicationEvent {
@@ -40947,8 +37325,8 @@ export class ReindexEvent extends ApplicationEvent implements IReindexEvent {
 
     constructor(data?: IReindexEvent) {
         super(data);
-        this.setProp("object", "indexId", false);
-        this.setProp("object", "state", false);
+        this.setProp("object", "string", "indexId", false);
+        this.setProp("object", "IndexState", "state", false);
 
         this._kind = "ReindexEvent";
     }
@@ -40968,13 +37346,6 @@ export class ReindexEvent extends ApplicationEvent implements IReindexEvent {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexId"] = this.indexId;
-        data["state"] = this.state;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IReindexEvent extends IApplicationEvent {
@@ -40997,7 +37368,7 @@ export class ContentDetailViewEvent extends ApplicationEvent implements IContent
 
     constructor(data?: IContentDetailViewEvent) {
         super(data);
-        this.setProp("array", "contentIds", false);
+        this.setProp("array", "string[]", "contentIds", false);
 
         this._kind = "ContentDetailViewEvent";
     }
@@ -41017,16 +37388,6 @@ export class ContentDetailViewEvent extends ApplicationEvent implements IContent
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentDetailViewEvent extends IApplicationEvent {
@@ -41041,10 +37402,10 @@ export class ContentDownloadEvent extends ApplicationEvent implements IContentDo
 
     constructor(data?: IContentDownloadEvent) {
         super(data);
-        this.setProp("array", "downloadInfos", true, (item: any) => DownloadTrackingInfo.fromJS(item));
-        this.setProp("object", "fileSize", false);
-        this.setProp("object", "shareToken", false);
-        this.setProp("object", "range", false);
+        this.setProp("array", "DownloadTrackingInfo[]", "downloadInfos", true, (item: any) => DownloadTrackingInfo.fromJS(item));
+        this.setProp("object", "number", "fileSize", false);
+        this.setProp("object", "string", "shareToken", false);
+        this.setProp("object", "string", "range", false);
 
         if (data) {
             this.construct(data);
@@ -41067,19 +37428,6 @@ export class ContentDownloadEvent extends ApplicationEvent implements IContentDo
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.downloadInfos)) {
-            data["downloadInfos"] = [];
-            for (let item of this.downloadInfos)
-                data["downloadInfos"].push(item.toJSON());
-        }
-        data["fileSize"] = this.fileSize;
-        data["shareToken"] = this.shareToken;
-        data["range"] = this.range;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IContentDownloadEvent extends IApplicationEvent {
@@ -41098,11 +37446,11 @@ export class DownloadTrackingInfo extends DTOBase {
 
     constructor(data?: IDownloadTrackingInfo) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "contentDisposition", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "ContentDisposition", "contentDisposition", false);
 
     }
 
@@ -41121,15 +37469,6 @@ export class DownloadTrackingInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["contentDisposition"] = this.contentDisposition;
-        return data; 
-    }
 }
 
 export interface IDownloadTrackingInfo {
@@ -41150,7 +37489,7 @@ export class SessionRenewalEvent extends ApplicationEvent implements ISessionRen
 
     constructor(data?: ISessionRenewalEvent) {
         super(data);
-        this.setProp("object", "authorizationState", false);
+        this.setProp("object", "AuthorizationState", "authorizationState", false);
 
         this._kind = "SessionRenewalEvent";
     }
@@ -41170,12 +37509,6 @@ export class SessionRenewalEvent extends ApplicationEvent implements ISessionRen
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["authorizationState"] = this.authorizationState;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISessionRenewalEvent extends IApplicationEvent {
@@ -41195,7 +37528,7 @@ export class SharePageViewEvent extends ApplicationEvent implements ISharePageVi
 
     constructor(data?: ISharePageViewEvent) {
         super(data);
-        this.setProp("object", "shareToken", false);
+        this.setProp("object", "string", "shareToken", false);
 
         this._kind = "SharePageViewEvent";
     }
@@ -41215,12 +37548,6 @@ export class SharePageViewEvent extends ApplicationEvent implements ISharePageVi
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["shareToken"] = this.shareToken;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISharePageViewEvent extends IApplicationEvent {
@@ -41232,7 +37559,7 @@ export class ApiStatisticsEvent extends ApplicationEvent implements IApiStatisti
 
     constructor(data?: IApiStatisticsEvent) {
         super(data);
-        this.setProp("dictionary", "requestsPerClient", false);
+        this.setProp("dictionary", "{ [key: string] : number; }", "requestsPerClient", false);
 
         this._kind = "ApiStatisticsEvent";
     }
@@ -41252,18 +37579,6 @@ export class ApiStatisticsEvent extends ApplicationEvent implements IApiStatisti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.requestsPerClient) {
-            data["requestsPerClient"] = {};
-            for (let key in this.requestsPerClient) {
-                if (this.requestsPerClient.hasOwnProperty(key))
-                    data["requestsPerClient"][key] = this.requestsPerClient[key];
-            }
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IApiStatisticsEvent extends IApplicationEvent {
@@ -41277,9 +37592,9 @@ export class BusinessProcessEvent extends ApplicationEvent implements IBusinessP
 
     constructor(data?: IBusinessProcessEvent) {
         super(data);
-        this.setProp("object", "businessProcessId", false);
-        this.setProp("object", "lifeCycle", false);
-        this.setProp("object", "state", false);
+        this.setProp("object", "string", "businessProcessId", false);
+        this.setProp("object", "BusinessProcessLifeCycle", "lifeCycle", false);
+        this.setProp("object", "string", "state", false);
 
         this._kind = "BusinessProcessEvent";
     }
@@ -41299,14 +37614,6 @@ export class BusinessProcessEvent extends ApplicationEvent implements IBusinessP
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
-        data["lifeCycle"] = this.lifeCycle;
-        data["state"] = this.state;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBusinessProcessEvent extends IApplicationEvent {
@@ -41323,10 +37630,10 @@ export class OutputRenderedEvent extends ApplicationEvent implements IOutputRend
 
     constructor(data?: IOutputRenderedEvent) {
         super(data);
-        this.setProp("object", "outputId", false);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
-        this.setProp("object", "renderingState", false);
+        this.setProp("object", "string", "outputId", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
+        this.setProp("object", "OutputRenderingState", "renderingState", false);
 
         this._kind = "OutputRenderedEvent";
     }
@@ -41346,15 +37653,6 @@ export class OutputRenderedEvent extends ApplicationEvent implements IOutputRend
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["outputId"] = this.outputId;
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        data["renderingState"] = this.renderingState;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOutputRenderedEvent extends IApplicationEvent {
@@ -41369,7 +37667,7 @@ export class ConfigurationChangeEvent extends ApplicationEvent implements IConfi
 
     constructor(data?: IConfigurationChangeEvent) {
         super(data);
-        this.setProp("object", "documentType", false);
+        this.setProp("object", "string", "documentType", false);
 
         this._kind = "ConfigurationChangeEvent";
     }
@@ -41394,12 +37692,6 @@ export class ConfigurationChangeEvent extends ApplicationEvent implements IConfi
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentType"] = this.documentType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IConfigurationChangeEvent extends IApplicationEvent {
@@ -41411,7 +37703,7 @@ export class CustomerChangeEvent extends ConfigurationChangeEvent implements ICu
 
     constructor(data?: ICustomerChangeEvent) {
         super(data);
-        this.setProp("object", "lifeCycle", false);
+        this.setProp("object", "LifeCycle", "lifeCycle", false);
 
         this._kind = "CustomerChangeEvent";
     }
@@ -41431,12 +37723,6 @@ export class CustomerChangeEvent extends ConfigurationChangeEvent implements ICu
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lifeCycle"] = this.lifeCycle;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICustomerChangeEvent extends IConfigurationChangeEvent {
@@ -41450,9 +37736,9 @@ export class SearchReindexCompletedEvent extends ApplicationEvent implements ISe
 
     constructor(data?: ISearchReindexCompletedEvent) {
         super(data);
-        this.setProp("object", "searchIndex", false);
-        this.setProp("object", "items", false);
-        this.setProp("object", "duration", false);
+        this.setProp("object", "SearchIndexType", "searchIndex", false);
+        this.setProp("object", "number", "items", false);
+        this.setProp("object", "string", "duration", false);
 
         this._kind = "SearchReindexCompletedEvent";
     }
@@ -41472,14 +37758,6 @@ export class SearchReindexCompletedEvent extends ApplicationEvent implements ISe
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchIndex"] = this.searchIndex;
-        data["items"] = this.items;
-        data["duration"] = this.duration;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchReindexCompletedEvent extends IApplicationEvent {
@@ -41500,9 +37778,9 @@ export class ConsoleMessage extends Message implements IConsoleMessage {
 
     constructor(data?: IConsoleMessage) {
         super(data);
-        this.setProp("object", "command", false);
-        this.setProp("array", "arguments", true, (item: any) => TupleOfStringAndString.fromJS(item));
-        this.setProp("object", "targetQueue", false);
+        this.setProp("object", "string", "command", false);
+        this.setProp("array", "TupleOfStringAndString[]", "arguments", true, (item: any) => TupleOfStringAndString.fromJS(item));
+        this.setProp("object", "string", "targetQueue", false);
 
         if (data) {
             this.construct(data);
@@ -41525,18 +37803,6 @@ export class ConsoleMessage extends Message implements IConsoleMessage {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["command"] = this.command;
-        if (Array.isArray(this.arguments)) {
-            data["arguments"] = [];
-            for (let item of this.arguments)
-                data["arguments"].push(item.toJSON());
-        }
-        data["targetQueue"] = this.targetQueue;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IConsoleMessage extends IMessage {
@@ -41551,8 +37817,8 @@ export class TupleOfStringAndString extends DTOBase {
 
     constructor(data?: ITupleOfStringAndString) {
         super(data);
-        this.setProp("object", "item1", false);
-        this.setProp("object", "item2", false);
+        this.setProp("object", "string", "item1", false);
+        this.setProp("object", "string", "item2", false);
 
     }
 
@@ -41571,12 +37837,6 @@ export class TupleOfStringAndString extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["item1"] = this.item1;
-        data["item2"] = this.item2;
-        return data; 
-    }
 }
 
 export interface ITupleOfStringAndString {
@@ -41596,14 +37856,14 @@ export class NodeInfoMessage extends Message implements INodeInfoMessage {
 
     constructor(data?: INodeInfoMessage) {
         super(data);
-        this.setProp("object", "nodeId", false);
-        this.setProp("object", "hostName", false);
-        this.setProp("object", "lastResponseTime", false);
-        this.setProp("object", "serviceName", false);
-        this.setProp("object", "fileVersion", false);
-        this.setProp("object", "productVersion", false);
-        this.setProp("object", "release", false);
-        this.setProp("object", "logLevel", false);
+        this.setProp("object", "string", "nodeId", false);
+        this.setProp("object", "string", "hostName", false);
+        this.setProp("object", "Date", "lastResponseTime", false);
+        this.setProp("object", "string", "serviceName", false);
+        this.setProp("object", "string", "fileVersion", false);
+        this.setProp("object", "string", "productVersion", false);
+        this.setProp("object", "string", "release", false);
+        this.setProp("object", "string", "logLevel", false);
 
         this._kind = "NodeInfoMessage";
     }
@@ -41623,19 +37883,6 @@ export class NodeInfoMessage extends Message implements INodeInfoMessage {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["nodeId"] = this.nodeId;
-        data["hostName"] = this.hostName;
-        data["lastResponseTime"] = this.lastResponseTime ? this.lastResponseTime.toISOString() : <any>undefined;
-        data["serviceName"] = this.serviceName;
-        data["fileVersion"] = this.fileVersion;
-        data["productVersion"] = this.productVersion;
-        data["release"] = this.release;
-        data["logLevel"] = this.logLevel;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface INodeInfoMessage extends IMessage {
@@ -41657,10 +37904,10 @@ export class BaseResultOfLiveStream extends DTOBase {
 
     constructor(data?: IBaseResultOfLiveStream) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => LiveStream.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "LiveStream[]", "results", true, (item: any) => LiveStream.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -41685,18 +37932,6 @@ export class BaseResultOfLiveStream extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfLiveStream {
@@ -41729,11 +37964,6 @@ export class LiveStreamSearchResult extends BaseResultOfLiveStream implements IL
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Results of live stream search. */
@@ -41750,12 +37980,12 @@ export class LiveStream extends DTOBase {
 
     constructor(data?: ILiveStream) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "document", false);
-        this.setProp("object", "scopeType", false);
-        this.setProp("object", "timestamp", false);
-        this.setProp("object", "traceJob", true, (item: any) => LiveStreamTraceJob.fromJS(item));
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "document", false);
+        this.setProp("object", "string", "scopeType", false);
+        this.setProp("object", "Date", "timestamp", false);
+        this.setProp("object", "LiveStreamTraceJob", "traceJob", true, (item: any) => LiveStreamTraceJob.fromJS(item));
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -41777,16 +38007,6 @@ export class LiveStream extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["document"] = this.document;
-        data["scopeType"] = this.scopeType;
-        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
-        data["traceJob"] = this.traceJob ? this.traceJob.toJSON() : <any>undefined;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 export interface ILiveStream {
@@ -41806,10 +38026,10 @@ export class LiveStreamTraceJob extends DTOBase {
 
     constructor(data?: ILiveStreamTraceJob) {
         super(data);
-        this.setProp("object", "traceJobId", false);
-        this.setProp("object", "ipAddress", false);
-        this.setProp("object", "userId", false);
-        this.setProp("object", "apiClientId", false);
+        this.setProp("object", "string", "traceJobId", false);
+        this.setProp("object", "string", "ipAddress", false);
+        this.setProp("object", "string", "userId", false);
+        this.setProp("object", "string", "apiClientId", false);
 
     }
 
@@ -41828,14 +38048,6 @@ export class LiveStreamTraceJob extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["traceJobId"] = this.traceJobId;
-        data["ipAddress"] = this.ipAddress;
-        data["userId"] = this.userId;
-        data["apiClientId"] = this.apiClientId;
-        return data; 
-    }
 }
 
 export interface ILiveStreamTraceJob {
@@ -41861,12 +38073,12 @@ export class LiveStreamSearchRequest extends DTOBase {
 
     constructor(data?: ILiveStreamSearchRequest) {
         super(data);
-        this.setProp("object", "from", false);
-        this.setProp("object", "to", false);
-        this.setProp("object", "scopeType", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "Date", "from", false);
+        this.setProp("object", "Date", "to", false);
+        this.setProp("object", "string", "scopeType", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
 
     }
 
@@ -41885,16 +38097,6 @@ export class LiveStreamSearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["from"] = this.from ? this.from.toISOString() : <any>undefined;
-        data["to"] = this.to ? this.to.toISOString() : <any>undefined;
-        data["scopeType"] = this.scopeType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface ILiveStreamSearchRequest {
@@ -41920,10 +38122,10 @@ export class BaseResultOfOutput extends DTOBase {
 
     constructor(data?: IBaseResultOfOutput) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => Output.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "Output[]", "results", true, (item: any) => Output.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (!data) {
             this.results = [];
@@ -41945,18 +38147,6 @@ export class BaseResultOfOutput extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfOutput {
@@ -41988,11 +38178,6 @@ export class OutputSearchResult extends BaseResultOfOutput implements IOutputSea
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOutputSearchResult extends IBaseResultOfOutput {
@@ -42014,12 +38199,12 @@ export class OutputSearchRequest extends DTOBase {
 
     constructor(data?: IOutputSearchRequest) {
         super(data);
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("array", "contentIds", false);
-        this.setProp("array", "renderingStates", false);
-        this.setProp("array", "fileExtensions", false);
-        this.setProp("array", "outputFormatIds", false);
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("array", "string[]", "contentIds", false);
+        this.setProp("array", "OutputRenderingState[]", "renderingStates", false);
+        this.setProp("array", "string[]", "fileExtensions", false);
+        this.setProp("array", "string[]", "outputFormatIds", false);
 
     }
 
@@ -42038,32 +38223,6 @@ export class OutputSearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        if (Array.isArray(this.renderingStates)) {
-            data["renderingStates"] = [];
-            for (let item of this.renderingStates)
-                data["renderingStates"].push(item);
-        }
-        if (Array.isArray(this.fileExtensions)) {
-            data["fileExtensions"] = [];
-            for (let item of this.fileExtensions)
-                data["fileExtensions"].push(item);
-        }
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IOutputSearchRequest {
@@ -42095,11 +38254,11 @@ export class OutputResetRetryAttemptsRequest extends DTOBase {
 
     constructor(data?: IOutputResetRetryAttemptsRequest) {
         super(data);
-        this.setProp("array", "outputIds", false);
-        this.setProp("array", "contentIds", false);
-        this.setProp("array", "fileExtensions", false);
-        this.setProp("array", "outputFormatIds", false);
-        this.setProp("object", "includeCompleted", false);
+        this.setProp("array", "string[]", "outputIds", false);
+        this.setProp("array", "string[]", "contentIds", false);
+        this.setProp("array", "string[]", "fileExtensions", false);
+        this.setProp("array", "string[]", "outputFormatIds", false);
+        this.setProp("object", "boolean", "includeCompleted", false);
 
     }
 
@@ -42118,31 +38277,6 @@ export class OutputResetRetryAttemptsRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.outputIds)) {
-            data["outputIds"] = [];
-            for (let item of this.outputIds)
-                data["outputIds"].push(item);
-        }
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        if (Array.isArray(this.fileExtensions)) {
-            data["fileExtensions"] = [];
-            for (let item of this.fileExtensions)
-                data["fileExtensions"].push(item);
-        }
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        data["includeCompleted"] = this.includeCompleted;
-        return data; 
-    }
 }
 
 export interface IOutputResetRetryAttemptsRequest {
@@ -42171,10 +38305,10 @@ export class OutputFormatEditable extends DTOBase {
 
     constructor(data?: IOutputFormatEditable) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "sourceOutputFormats", true, (item: any) => SourceOutputFormats.fromJS(item));
-        this.setProp("object", "format", true, (item: any) => FormatBase.fromJS(item));
-        this.setProp("object", "retentionTime", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "SourceOutputFormats", "sourceOutputFormats", true, (item: any) => SourceOutputFormats.fromJS(item));
+        this.setProp("object", "FormatBase", "format", true, (item: any) => FormatBase.fromJS(item));
+        this.setProp("object", "string", "retentionTime", false);
 
         if (data) {
             this.construct(data);
@@ -42196,14 +38330,6 @@ export class OutputFormatEditable extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["sourceOutputFormats"] = this.sourceOutputFormats ? this.sourceOutputFormats.toJSON() : <any>undefined;
-        data["format"] = this.format ? this.format.toJSON() : <any>undefined;
-        data["retentionTime"] = this.retentionTime;
-        return data; 
-    }
 }
 
 /** Represents the editable part of the output format. */
@@ -42233,11 +38359,11 @@ export class OutputFormat extends OutputFormatEditable implements IOutputFormat 
 
     constructor(data?: IOutputFormat) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "system", false);
-        this.setProp("object", "dynamic", false);
-        this.setProp("object", "dataExtraction", false);
-        this.setProp("object", "temporary", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "boolean", "system", false);
+        this.setProp("object", "boolean", "dynamic", false);
+        this.setProp("object", "boolean", "dataExtraction", false);
+        this.setProp("object", "boolean", "temporary", false);
 
     }
 
@@ -42256,16 +38382,6 @@ export class OutputFormat extends OutputFormatEditable implements IOutputFormat 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["system"] = this.system;
-        data["dynamic"] = this.dynamic;
-        data["dataExtraction"] = this.dataExtraction;
-        data["temporary"] = this.temporary;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents an output format. */
@@ -42290,10 +38406,10 @@ export class SourceOutputFormats extends DTOBase {
 
     constructor(data?: ISourceOutputFormats) {
         super(data);
-        this.setProp("object", "image", false);
-        this.setProp("object", "video", false);
-        this.setProp("object", "document", false);
-        this.setProp("object", "audio", false);
+        this.setProp("object", "string", "image", false);
+        this.setProp("object", "string", "video", false);
+        this.setProp("object", "string", "document", false);
+        this.setProp("object", "string", "audio", false);
 
     }
 
@@ -42312,14 +38428,6 @@ export class SourceOutputFormats extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["image"] = this.image;
-        data["video"] = this.video;
-        data["document"] = this.document;
-        data["audio"] = this.audio;
-        return data; 
-    }
 }
 
 export interface ISourceOutputFormats {
@@ -42424,11 +38532,6 @@ export abstract class FormatBase extends DTOBase {
         throw new Error("The abstract class 'FormatBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 export interface IFormatBase {
@@ -42450,18 +38553,18 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
 
     constructor(data?: IImageFormatBase) {
         super(data);
-        this.setProp("object", "colorProfile", false);
-        this.setProp("object", "colorTransformationIntent", false);
-        this.setProp("object", "horizontalResolution", false);
-        this.setProp("object", "verticalResolution", false);
-        this.setProp("object", "renderFirstFrameOnly", false);
-        this.setProp("object", "keepClippingPath", false);
-        this.setProp("object", "cloneExif", false);
-        this.setProp("object", "cloneIptc", false);
-        this.setProp("object", "cloneAdobeResources", false);
-        this.setProp("object", "cloneXmp", false);
-        this.setProp("object", "resizeAction", true, (item: any) => ResizeAction.fromJS(item));
-        this.setProp("array", "actions", true, (item: any) => ImageActionBase.fromJS(item));
+        this.setProp("object", "ColorProfile", "colorProfile", false);
+        this.setProp("object", "ColorTransformationIntent", "colorTransformationIntent", false);
+        this.setProp("object", "number", "horizontalResolution", false);
+        this.setProp("object", "number", "verticalResolution", false);
+        this.setProp("object", "boolean", "renderFirstFrameOnly", false);
+        this.setProp("object", "boolean", "keepClippingPath", false);
+        this.setProp("object", "boolean", "cloneExif", false);
+        this.setProp("object", "boolean", "cloneIptc", false);
+        this.setProp("object", "boolean", "cloneAdobeResources", false);
+        this.setProp("object", "boolean", "cloneXmp", false);
+        this.setProp("object", "ResizeAction", "resizeAction", true, (item: any) => ResizeAction.fromJS(item));
+        this.setProp("array", "ImageActionBase[]", "actions", true, (item: any) => ImageActionBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -42497,27 +38600,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
         throw new Error("The abstract class 'ImageFormatBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["colorProfile"] = this.colorProfile;
-        data["colorTransformationIntent"] = this.colorTransformationIntent;
-        data["horizontalResolution"] = this.horizontalResolution;
-        data["verticalResolution"] = this.verticalResolution;
-        data["renderFirstFrameOnly"] = this.renderFirstFrameOnly;
-        data["keepClippingPath"] = this.keepClippingPath;
-        data["cloneExif"] = this.cloneExif;
-        data["cloneIptc"] = this.cloneIptc;
-        data["cloneAdobeResources"] = this.cloneAdobeResources;
-        data["cloneXmp"] = this.cloneXmp;
-        data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
-        if (Array.isArray(this.actions)) {
-            data["actions"] = [];
-            for (let item of this.actions)
-                data["actions"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IImageFormatBase extends IFormatBase {
@@ -42584,9 +38666,9 @@ export class ResizeAction extends DTOBase {
 
     constructor(data?: IResizeAction) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "resizeMode", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "ResizeMode", "resizeMode", false);
 
     }
 
@@ -42605,13 +38687,6 @@ export class ResizeAction extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["resizeMode"] = this.resizeMode;
-        return data; 
-    }
 }
 
 /** Does not implement the IImageAction interface. The ResizeAction is directly exposed within ImageFormat. */
@@ -42670,11 +38745,6 @@ export abstract class ImageActionBase extends DTOBase {
         throw new Error("The abstract class 'ImageActionBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 export interface IImageActionBase {
@@ -42686,8 +38756,8 @@ export class AlphaHandlingAction extends ImageActionBase implements IAlphaHandli
 
     constructor(data?: IAlphaHandlingAction) {
         super(data);
-        this.setProp("object", "alphaHandling", false);
-        this.setProp("object", "replacementRgbColorHexCode", false);
+        this.setProp("object", "AlphaHandling", "alphaHandling", false);
+        this.setProp("object", "string", "replacementRgbColorHexCode", false);
 
         this._kind = "AlphaHandlingAction";
     }
@@ -42707,13 +38777,6 @@ export class AlphaHandlingAction extends ImageActionBase implements IAlphaHandli
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["alphaHandling"] = this.alphaHandling;
-        data["replacementRgbColorHexCode"] = this.replacementRgbColorHexCode;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAlphaHandlingAction extends IImageActionBase {
@@ -42735,10 +38798,10 @@ export class CropAction extends ImageActionBase implements ICropAction {
 
     constructor(data?: ICropAction) {
         super(data);
-        this.setProp("object", "x", false);
-        this.setProp("object", "y", false);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
+        this.setProp("object", "number", "x", false);
+        this.setProp("object", "number", "y", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
 
         this._kind = "CropAction";
     }
@@ -42758,15 +38821,6 @@ export class CropAction extends ImageActionBase implements ICropAction {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["x"] = this.x;
-        data["y"] = this.y;
-        data["width"] = this.width;
-        data["height"] = this.height;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICropAction extends IImageActionBase {
@@ -42783,9 +38837,9 @@ export class UnsharpenMaskAction extends ImageActionBase implements IUnsharpenMa
 
     constructor(data?: IUnsharpenMaskAction) {
         super(data);
-        this.setProp("object", "amount", false);
-        this.setProp("object", "radius", false);
-        this.setProp("object", "threshold", false);
+        this.setProp("object", "number", "amount", false);
+        this.setProp("object", "number", "radius", false);
+        this.setProp("object", "number", "threshold", false);
 
         this._kind = "UnsharpenMaskAction";
     }
@@ -42805,14 +38859,6 @@ export class UnsharpenMaskAction extends ImageActionBase implements IUnsharpenMa
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["amount"] = this.amount;
-        data["radius"] = this.radius;
-        data["threshold"] = this.threshold;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IUnsharpenMaskAction extends IImageActionBase {
@@ -42834,15 +38880,15 @@ export class WatermarkAction extends ImageActionBase implements IWatermarkAction
 
     constructor(data?: IWatermarkAction) {
         super(data);
-        this.setProp("object", "watermarkFilePath", false);
-        this.setProp("object", "watermarkText", false);
-        this.setProp("object", "marginLeft", false);
-        this.setProp("object", "marginTop", false);
-        this.setProp("object", "marginRight", false);
-        this.setProp("object", "marginBottom", false);
-        this.setProp("object", "opacity", false);
-        this.setProp("object", "widthRatio", false);
-        this.setProp("object", "heightRatio", false);
+        this.setProp("object", "string", "watermarkFilePath", false);
+        this.setProp("object", "string", "watermarkText", false);
+        this.setProp("object", "number", "marginLeft", false);
+        this.setProp("object", "number", "marginTop", false);
+        this.setProp("object", "number", "marginRight", false);
+        this.setProp("object", "number", "marginBottom", false);
+        this.setProp("object", "number", "opacity", false);
+        this.setProp("object", "number", "widthRatio", false);
+        this.setProp("object", "number", "heightRatio", false);
 
         this._kind = "WatermarkAction";
     }
@@ -42862,20 +38908,6 @@ export class WatermarkAction extends ImageActionBase implements IWatermarkAction
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["watermarkFilePath"] = this.watermarkFilePath;
-        data["watermarkText"] = this.watermarkText;
-        data["marginLeft"] = this.marginLeft;
-        data["marginTop"] = this.marginTop;
-        data["marginRight"] = this.marginRight;
-        data["marginBottom"] = this.marginBottom;
-        data["opacity"] = this.opacity;
-        data["widthRatio"] = this.widthRatio;
-        data["heightRatio"] = this.heightRatio;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IWatermarkAction extends IImageActionBase {
@@ -42895,7 +38927,7 @@ export class OriginalFormat extends FormatBase implements IOriginalFormat {
 
     constructor(data?: IOriginalFormat) {
         super(data);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "string", "extension", false);
 
         this._kind = "OriginalFormat";
     }
@@ -42915,12 +38947,6 @@ export class OriginalFormat extends FormatBase implements IOriginalFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IOriginalFormat extends IFormatBase {
@@ -42935,10 +38961,10 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
 
     constructor(data?: IJpegFormat) {
         super(data);
-        this.setProp("object", "quality", false);
-        this.setProp("object", "isProgressive", false);
-        this.setProp("object", "chromaSubsamplingEnabled", false);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "number", "quality", false);
+        this.setProp("object", "boolean", "isProgressive", false);
+        this.setProp("object", "boolean", "chromaSubsamplingEnabled", false);
+        this.setProp("object", "string", "extension", false);
 
         this._kind = "JpegFormat";
     }
@@ -42958,15 +38984,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["quality"] = this.quality;
-        data["isProgressive"] = this.isProgressive;
-        data["chromaSubsamplingEnabled"] = this.chromaSubsamplingEnabled;
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IJpegFormat extends IImageFormatBase {
@@ -42982,8 +38999,8 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
     constructor(data?: IPngFormat) {
         super(data);
-        this.setProp("object", "interlaced", false);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "boolean", "interlaced", false);
+        this.setProp("object", "string", "extension", false);
 
         this._kind = "PngFormat";
     }
@@ -43003,13 +39020,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["interlaced"] = this.interlaced;
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPngFormat extends IImageFormatBase {
@@ -43025,10 +39035,10 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
 
     constructor(data?: ITiffFormat) {
         super(data);
-        this.setProp("object", "alphaPremultiplied", false);
-        this.setProp("object", "compressionType", false);
-        this.setProp("object", "includeUnspecifiedTiffExtraChannels", false);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "boolean", "alphaPremultiplied", false);
+        this.setProp("object", "CompressionType", "compressionType", false);
+        this.setProp("object", "boolean", "includeUnspecifiedTiffExtraChannels", false);
+        this.setProp("object", "string", "extension", false);
 
         this._kind = "TiffFormat";
     }
@@ -43048,15 +39058,6 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["alphaPremultiplied"] = this.alphaPremultiplied;
-        data["compressionType"] = this.compressionType;
-        data["includeUnspecifiedTiffExtraChannels"] = this.includeUnspecifiedTiffExtraChannels;
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ITiffFormat extends IImageFormatBase {
@@ -43109,11 +39110,6 @@ export abstract class VideoFormatBase extends FormatBase implements IVideoFormat
         throw new Error("The abstract class 'VideoFormatBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IVideoFormatBase extends IFormatBase {
@@ -43129,10 +39125,10 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
 
     constructor(data?: IMp4VideoFormat) {
         super(data);
-        this.setProp("object", "resizeAction", true, (item: any) => ResizeAction2.fromJS(item));
-        this.setProp("object", "audioCodec", true, (item: any) => AudioFormatBase.fromJS(item));
-        this.setProp("object", "preset", false);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "ResizeAction2", "resizeAction", true, (item: any) => ResizeAction2.fromJS(item));
+        this.setProp("object", "AudioFormatBase", "audioCodec", true, (item: any) => AudioFormatBase.fromJS(item));
+        this.setProp("object", "Preset", "preset", false);
+        this.setProp("object", "string", "extension", false);
 
         if (data) {
             this.construct(data);
@@ -43155,15 +39151,6 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
-        data["audioCodec"] = this.audioCodec ? this.audioCodec.toJSON() : <any>undefined;
-        data["preset"] = this.preset;
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IMp4VideoFormat extends IVideoFormatBase {
@@ -43182,9 +39169,9 @@ export class ResizeAction2 extends DTOBase {
 
     constructor(data?: IResizeAction2) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "resizeMode", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "ResizeMode", "resizeMode", false);
 
     }
 
@@ -43203,13 +39190,6 @@ export class ResizeAction2 extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["resizeMode"] = this.resizeMode;
-        return data; 
-    }
 }
 
 export interface IResizeAction2 {
@@ -43254,11 +39234,6 @@ export abstract class AudioFormatBase extends FormatBase implements IAudioFormat
         throw new Error("The abstract class 'AudioFormatBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAudioFormatBase extends IFormatBase {
@@ -43283,10 +39258,10 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
 
     constructor(data?: IVideoSpriteFormat) {
         super(data);
-        this.setProp("object", "spriteResizeAction", true, (item: any) => ResizeAction2.fromJS(item));
-        this.setProp("object", "maxNumberOfSprites", false);
-        this.setProp("object", "quality", false);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "ResizeAction2", "spriteResizeAction", true, (item: any) => ResizeAction2.fromJS(item));
+        this.setProp("object", "number", "maxNumberOfSprites", false);
+        this.setProp("object", "number", "quality", false);
+        this.setProp("object", "string", "extension", false);
 
         if (data) {
             this.construct(data);
@@ -43309,15 +39284,6 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["spriteResizeAction"] = this.spriteResizeAction ? this.spriteResizeAction.toJSON() : <any>undefined;
-        data["maxNumberOfSprites"] = this.maxNumberOfSprites;
-        data["quality"] = this.quality;
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IVideoSpriteFormat extends IVideoFormatBase {
@@ -43333,8 +39299,8 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
 
     constructor(data?: IVideoStillFormat) {
         super(data);
-        this.setProp("object", "extension", false);
-        this.setProp("object", "positionInSeconds", false);
+        this.setProp("object", "string", "extension", false);
+        this.setProp("object", "number", "positionInSeconds", false);
 
         this._kind = "VideoStillFormat";
     }
@@ -43354,13 +39320,6 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["positionInSeconds"] = this.positionInSeconds;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IVideoStillFormat extends IVideoFormatBase {
@@ -43381,11 +39340,11 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
 
     constructor(data?: IAacAudioFormat) {
         super(data);
-        this.setProp("object", "extension", false);
-        this.setProp("object", "profile", false);
-        this.setProp("object", "coder", false);
-        this.setProp("object", "bitrate", false);
-        this.setProp("object", "variableBitRate", false);
+        this.setProp("object", "string", "extension", false);
+        this.setProp("object", "Profile", "profile", false);
+        this.setProp("object", "Coder", "coder", false);
+        this.setProp("object", "number", "bitrate", false);
+        this.setProp("object", "number", "variableBitRate", false);
 
         this._kind = "AacAudioFormat";
     }
@@ -43405,16 +39364,6 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["profile"] = this.profile;
-        data["coder"] = this.coder;
-        data["bitrate"] = this.bitrate;
-        data["variableBitRate"] = this.variableBitRate;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAacAudioFormat extends IAudioFormatBase {
@@ -43447,7 +39396,7 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
 
     constructor(data?: IAudioStillFormat) {
         super(data);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "string", "extension", false);
 
         this._kind = "AudioStillFormat";
     }
@@ -43467,12 +39416,6 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAudioStillFormat extends IAudioFormatBase {
@@ -43489,9 +39432,9 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 
     constructor(data?: IMp3AudioFormat) {
         super(data);
-        this.setProp("object", "extension", false);
-        this.setProp("object", "bitrate", false);
-        this.setProp("object", "quality", false);
+        this.setProp("object", "string", "extension", false);
+        this.setProp("object", "number", "bitrate", false);
+        this.setProp("object", "number", "quality", false);
 
         this._kind = "Mp3AudioFormat";
     }
@@ -43511,14 +39454,6 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["bitrate"] = this.bitrate;
-        data["quality"] = this.quality;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IMp3AudioFormat extends IAudioFormatBase {
@@ -43561,11 +39496,6 @@ export abstract class DocumentFormatBase extends FormatBase implements IDocument
         throw new Error("The abstract class 'DocumentFormatBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDocumentFormatBase extends IFormatBase {
@@ -43576,7 +39506,7 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
 
     constructor(data?: IDocumentStillFormat) {
         super(data);
-        this.setProp("object", "extension", false);
+        this.setProp("object", "string", "extension", false);
 
         this._kind = "DocumentStillFormat";
     }
@@ -43596,12 +39526,6 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDocumentStillFormat extends IDocumentFormatBase {
@@ -43618,11 +39542,11 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
 
     constructor(data?: IPdfFormat) {
         super(data);
-        this.setProp("object", "jpegQuality", false);
-        this.setProp("object", "fastWebView", false);
-        this.setProp("object", "reduceFileSize", false);
-        this.setProp("object", "extension", false);
-        this.setProp("object", "extractFullText", false);
+        this.setProp("object", "number", "jpegQuality", false);
+        this.setProp("object", "boolean", "fastWebView", false);
+        this.setProp("object", "boolean", "reduceFileSize", false);
+        this.setProp("object", "string", "extension", false);
+        this.setProp("object", "boolean", "extractFullText", false);
 
         this._kind = "PdfFormat";
     }
@@ -43642,16 +39566,6 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["jpegQuality"] = this.jpegQuality;
-        data["fastWebView"] = this.fastWebView;
-        data["reduceFileSize"] = this.reduceFileSize;
-        data["extension"] = this.extension;
-        data["extractFullText"] = this.extractFullText;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPdfFormat extends IDocumentFormatBase {
@@ -43670,7 +39584,7 @@ export class OutputFormatCreateManyRequest extends DTOBase {
 
     constructor(data?: IOutputFormatCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => OutputFormat.fromJS(item));
+        this.setProp("array", "OutputFormat[]", "items", true, (item: any) => OutputFormat.fromJS(item));
 
     }
 
@@ -43689,15 +39603,6 @@ export class OutputFormatCreateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Used to create multiple new output formats at once. */
@@ -43713,7 +39618,7 @@ export class OutputFormatUpdateManyRequest extends DTOBase {
 
     constructor(data?: IOutputFormatUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => OutputFormatUpdateManyRequestItem.fromJS(item));
+        this.setProp("array", "OutputFormatUpdateManyRequestItem[]", "items", true, (item: any) => OutputFormatUpdateManyRequestItem.fromJS(item));
 
     }
 
@@ -43732,15 +39637,6 @@ export class OutputFormatUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Used to modify multiple output formats at once. */
@@ -43756,7 +39652,7 @@ export class OutputFormatUpdateManyRequestItem extends OutputFormatEditable impl
 
     constructor(data?: IOutputFormatUpdateManyRequestItem) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
     }
 
@@ -43775,12 +39671,6 @@ export class OutputFormatUpdateManyRequestItem extends OutputFormatEditable impl
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents one item to be modified in a bulk update operation on output formats. */
@@ -43796,7 +39686,7 @@ export class OutputFormatDeleteManyRequest extends DTOBase {
 
     constructor(data?: IOutputFormatDeleteManyRequest) {
         super(data);
-        this.setProp("array", "ids", false);
+        this.setProp("array", "string[]", "ids", false);
 
     }
 
@@ -43815,15 +39705,6 @@ export class OutputFormatDeleteManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.ids)) {
-            data["ids"] = [];
-            for (let item of this.ids)
-                data["ids"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Used to remove multiple output formats at once. */
@@ -43863,19 +39744,19 @@ export class UserProfile extends DTOBase {
 
     constructor(data?: IUserProfile) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "emailAddress", false);
-        this.setProp("object", "firstName", false);
-        this.setProp("object", "lastName", false);
-        this.setProp("object", "languageCode", false);
-        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
-        this.setProp("object", "authorizationState", false);
-        this.setProp("object", "isLocked", false);
-        this.setProp("array", "userRights", false);
-        this.setProp("array", "userRoleIds", false);
-        this.setProp("object", "termsConsentExpired", false);
-        this.setProp("array", "systemUserRoles", false);
-        this.setProp("object", "isDeveloper", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "emailAddress", false);
+        this.setProp("object", "string", "firstName", false);
+        this.setProp("object", "string", "lastName", false);
+        this.setProp("object", "string", "languageCode", false);
+        this.setProp("object", "UserAddress", "address", true, (item: any) => UserAddress.fromJS(item));
+        this.setProp("object", "AuthorizationState", "authorizationState", false);
+        this.setProp("object", "boolean", "isLocked", false);
+        this.setProp("array", "UserRight[]", "userRights", false);
+        this.setProp("array", "string[]", "userRoleIds", false);
+        this.setProp("object", "boolean", "termsConsentExpired", false);
+        this.setProp("array", "SystemUserRole[]", "systemUserRoles", false);
+        this.setProp("object", "boolean", "isDeveloper", false);
 
         if (data) {
             this.construct(data);
@@ -43897,35 +39778,6 @@ export class UserProfile extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["emailAddress"] = this.emailAddress;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["languageCode"] = this.languageCode;
-        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
-        data["authorizationState"] = this.authorizationState;
-        data["isLocked"] = this.isLocked;
-        if (Array.isArray(this.userRights)) {
-            data["userRights"] = [];
-            for (let item of this.userRights)
-                data["userRights"].push(item);
-        }
-        if (Array.isArray(this.userRoleIds)) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        data["termsConsentExpired"] = this.termsConsentExpired;
-        if (Array.isArray(this.systemUserRoles)) {
-            data["systemUserRoles"] = [];
-            for (let item of this.systemUserRoles)
-                data["systemUserRoles"].push(item);
-        }
-        data["isDeveloper"] = this.isDeveloper;
-        return data; 
-    }
 }
 
 /** User profile. */
@@ -43979,14 +39831,14 @@ export class UserAddress extends DTOBase {
 
     constructor(data?: IUserAddress) {
         super(data);
-        this.setProp("object", "company", false);
-        this.setProp("object", "department", false);
-        this.setProp("object", "address", false);
-        this.setProp("object", "alternativeAddress", false);
-        this.setProp("object", "zip", false);
-        this.setProp("object", "city", false);
-        this.setProp("object", "phone", false);
-        this.setProp("object", "countryCode", false);
+        this.setProp("object", "string", "company", false);
+        this.setProp("object", "string", "department", false);
+        this.setProp("object", "string", "address", false);
+        this.setProp("object", "string", "alternativeAddress", false);
+        this.setProp("object", "string", "zip", false);
+        this.setProp("object", "string", "city", false);
+        this.setProp("object", "string", "phone", false);
+        this.setProp("object", "string", "countryCode", false);
 
     }
 
@@ -44005,18 +39857,6 @@ export class UserAddress extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["company"] = this.company;
-        data["department"] = this.department;
-        data["address"] = this.address;
-        data["alternativeAddress"] = this.alternativeAddress;
-        data["zip"] = this.zip;
-        data["city"] = this.city;
-        data["phone"] = this.phone;
-        data["countryCode"] = this.countryCode;
-        return data; 
-    }
 }
 
 /** User's address */
@@ -44061,12 +39901,12 @@ export class UserProfileUpdateRequest extends DTOBase {
 
     constructor(data?: IUserProfileUpdateRequest) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "emailAddress", false);
-        this.setProp("object", "firstName", false);
-        this.setProp("object", "lastName", false);
-        this.setProp("object", "languageCode", false);
-        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "emailAddress", false);
+        this.setProp("object", "string", "firstName", false);
+        this.setProp("object", "string", "lastName", false);
+        this.setProp("object", "string", "languageCode", false);
+        this.setProp("object", "UserAddress", "address", true, (item: any) => UserAddress.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -44088,16 +39928,6 @@ export class UserProfileUpdateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["emailAddress"] = this.emailAddress;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["languageCode"] = this.languageCode;
-        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Request to update a user profile. */
@@ -44165,26 +39995,26 @@ that reference the layer. */
 
     constructor(data?: ISchemaDetail) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "schemaNamespace", false);
-        this.setProp("object", "parentSchemaId", false);
-        this.setProp("array", "types", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("array", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
-        this.setProp("array", "fields", true, (item: any) => FieldBase.fromJS(item));
-        this.setProp("array", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("object", "system", false);
-        this.setProp("object", "ownerTokenId", false);
-        this.setProp("object", "viewForAll", false);
-        this.setProp("array", "schemaPermissionSetIds", false);
-        this.setProp("array", "referencedInContentSchemaIds", false);
-        this.setProp("array", "descendantSchemaIds", false);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "searchFieldCount", true, (item: any) => SearchFieldCount.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "schemaNamespace", false);
+        this.setProp("object", "string", "parentSchemaId", false);
+        this.setProp("array", "SchemaType[]", "types", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("array", "DisplayPattern[]", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
+        this.setProp("array", "FieldBase[]", "fields", true, (item: any) => FieldBase.fromJS(item));
+        this.setProp("array", "FieldOverwriteBase[]", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "boolean", "system", false);
+        this.setProp("object", "string", "ownerTokenId", false);
+        this.setProp("object", "boolean", "viewForAll", false);
+        this.setProp("array", "string[]", "schemaPermissionSetIds", false);
+        this.setProp("array", "string[]", "referencedInContentSchemaIds", false);
+        this.setProp("array", "string[]", "descendantSchemaIds", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "SearchFieldCount", "searchFieldCount", true, (item: any) => SearchFieldCount.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -44210,70 +40040,6 @@ that reference the layer. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["schemaNamespace"] = this.schemaNamespace;
-        data["parentSchemaId"] = this.parentSchemaId;
-        if (Array.isArray(this.types)) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.displayPatterns)) {
-            data["displayPatterns"] = [];
-            for (let item of this.displayPatterns)
-                data["displayPatterns"].push(item.toJSON());
-        }
-        if (Array.isArray(this.fields)) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        if (Array.isArray(this.fieldsOverwrite)) {
-            data["fieldsOverwrite"] = [];
-            for (let item of this.fieldsOverwrite)
-                data["fieldsOverwrite"].push(item.toJSON());
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregations)) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        data["system"] = this.system;
-        data["ownerTokenId"] = this.ownerTokenId;
-        data["viewForAll"] = this.viewForAll;
-        if (Array.isArray(this.schemaPermissionSetIds)) {
-            data["schemaPermissionSetIds"] = [];
-            for (let item of this.schemaPermissionSetIds)
-                data["schemaPermissionSetIds"].push(item);
-        }
-        if (Array.isArray(this.referencedInContentSchemaIds)) {
-            data["referencedInContentSchemaIds"] = [];
-            for (let item of this.referencedInContentSchemaIds)
-                data["referencedInContentSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.descendantSchemaIds)) {
-            data["descendantSchemaIds"] = [];
-            for (let item of this.descendantSchemaIds)
-                data["descendantSchemaIds"].push(item);
-        }
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["searchFieldCount"] = this.searchFieldCount ? this.searchFieldCount.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** The details of a schema */
@@ -44335,9 +40101,9 @@ export class DisplayPattern extends DTOBase {
 
     constructor(data?: IDisplayPattern) {
         super(data);
-        this.setProp("object", "templateEngine", false);
-        this.setProp("object", "displayPatternType", false);
-        this.setProp("object", "templates", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TemplateEngine", "templateEngine", false);
+        this.setProp("object", "DisplayPatternType", "displayPatternType", false);
+        this.setProp("object", "TranslatedStringDictionary", "templates", true, (item: any) => TranslatedStringDictionary.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -44359,13 +40125,6 @@ export class DisplayPattern extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["templateEngine"] = this.templateEngine;
-        data["displayPatternType"] = this.displayPatternType;
-        data["templates"] = this.templates ? this.templates.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Represent the template whose value will be resolved based on the actual content. */
@@ -44410,16 +40169,16 @@ export abstract class FieldBase extends DTOBase {
 
     constructor(data?: IFieldBase) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "indexId", false);
-        this.setProp("object", "fieldNamespace", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "required", false);
-        this.setProp("object", "fixed", false);
-        this.setProp("object", "index", false);
-        this.setProp("object", "simpleSearch", false);
-        this.setProp("object", "sortable", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "indexId", false);
+        this.setProp("object", "string", "fieldNamespace", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "boolean", "required", false);
+        this.setProp("object", "boolean", "fixed", false);
+        this.setProp("object", "boolean", "index", false);
+        this.setProp("object", "boolean", "simpleSearch", false);
+        this.setProp("object", "boolean", "sortable", false);
 
         if (data) {
             this.construct(data);
@@ -44535,21 +40294,6 @@ export abstract class FieldBase extends DTOBase {
         throw new Error("The abstract class 'FieldBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["id"] = this.id;
-        data["indexId"] = this.indexId;
-        data["fieldNamespace"] = this.fieldNamespace;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        data["required"] = this.required;
-        data["fixed"] = this.fixed;
-        data["index"] = this.index;
-        data["simpleSearch"] = this.simpleSearch;
-        data["sortable"] = this.sortable;
-        return data; 
-    }
 }
 
 /** The field base class */
@@ -44583,7 +40327,7 @@ export class FieldBoolean extends FieldBase implements IFieldBoolean {
 
     constructor(data?: IFieldBoolean) {
         super(data);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldBoolean";
     }
@@ -44603,12 +40347,6 @@ export class FieldBoolean extends FieldBase implements IFieldBoolean {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a boolean */
@@ -44626,8 +40364,8 @@ export class FieldDate extends FieldBase implements IFieldDate {
 
     constructor(data?: IFieldDate) {
         super(data);
-        this.setProp("object", "format", false);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "string", "format", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldDate";
     }
@@ -44647,13 +40385,6 @@ export class FieldDate extends FieldBase implements IFieldDate {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["format"] = this.format;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a date */
@@ -44673,8 +40404,8 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
 
     constructor(data?: IFieldDateTime) {
         super(data);
-        this.setProp("object", "format", false);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "string", "format", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldDateTime";
     }
@@ -44699,13 +40430,6 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["format"] = this.format;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a date time */
@@ -44725,8 +40449,8 @@ export class FieldDateTimeArray extends FieldDateTime implements IFieldDateTimeA
 
     constructor(data?: IFieldDateTimeArray) {
         super(data);
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
 
         this._kind = "FieldDateTimeArray";
     }
@@ -44746,13 +40470,6 @@ export class FieldDateTimeArray extends FieldDateTime implements IFieldDateTimeA
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple date time values */
@@ -44776,10 +40493,10 @@ export class FieldDecimal extends FieldBase implements IFieldDecimal {
 
     constructor(data?: IFieldDecimal) {
         super(data);
-        this.setProp("object", "pattern", false);
-        this.setProp("object", "minimum", false);
-        this.setProp("object", "maximum", false);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "string", "pattern", false);
+        this.setProp("object", "number", "minimum", false);
+        this.setProp("object", "number", "maximum", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldDecimal";
     }
@@ -44799,15 +40516,6 @@ export class FieldDecimal extends FieldBase implements IFieldDecimal {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pattern"] = this.pattern;
-        data["minimum"] = this.minimum;
-        data["maximum"] = this.maximum;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a decimal value */
@@ -44829,7 +40537,7 @@ export class FieldDictionary extends FieldBase implements IFieldDictionary {
 
     constructor(data?: IFieldDictionary) {
         super(data);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldDictionary";
     }
@@ -44854,12 +40562,6 @@ export class FieldDictionary extends FieldBase implements IFieldDictionary {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a dictionary of values */
@@ -44877,8 +40579,8 @@ export class FieldDictionaryArray extends FieldDictionary implements IFieldDicti
 
     constructor(data?: IFieldDictionaryArray) {
         super(data);
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
 
         this._kind = "FieldDictionaryArray";
     }
@@ -44898,13 +40600,6 @@ export class FieldDictionaryArray extends FieldDictionary implements IFieldDicti
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple dictionaries' values */
@@ -44922,7 +40617,7 @@ export class FieldGeoPoint extends FieldBase implements IFieldGeoPoint {
 
     constructor(data?: IFieldGeoPoint) {
         super(data);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldGeoPoint";
     }
@@ -44942,12 +40637,6 @@ export class FieldGeoPoint extends FieldBase implements IFieldGeoPoint {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a geo point */
@@ -44969,10 +40658,10 @@ export class FieldLong extends FieldBase implements IFieldLong {
 
     constructor(data?: IFieldLong) {
         super(data);
-        this.setProp("object", "pattern", false);
-        this.setProp("object", "minimum", false);
-        this.setProp("object", "maximum", false);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "string", "pattern", false);
+        this.setProp("object", "number", "minimum", false);
+        this.setProp("object", "number", "maximum", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldLong";
     }
@@ -44997,15 +40686,6 @@ export class FieldLong extends FieldBase implements IFieldLong {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pattern"] = this.pattern;
-        data["minimum"] = this.minimum;
-        data["maximum"] = this.maximum;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a long value */
@@ -45029,8 +40709,8 @@ export class FieldLongArray extends FieldLong implements IFieldLongArray {
 
     constructor(data?: IFieldLongArray) {
         super(data);
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
 
         this._kind = "FieldLongArray";
     }
@@ -45050,13 +40730,6 @@ export class FieldLongArray extends FieldLong implements IFieldLongArray {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple long values */
@@ -45076,8 +40749,8 @@ export class FieldSingleFieldset extends FieldBase implements IFieldSingleFields
 
     constructor(data?: IFieldSingleFieldset) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "SchemaIndexingInfo", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -45100,13 +40773,6 @@ export class FieldSingleFieldset extends FieldBase implements IFieldSingleFields
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a single fieldset */
@@ -45124,7 +40790,7 @@ export class SchemaIndexingInfo extends DTOBase {
 
     constructor(data?: ISchemaIndexingInfo) {
         super(data);
-        this.setProp("array", "fields", true, (item: any) => FieldIndexingInfo.fromJS(item));
+        this.setProp("array", "FieldIndexingInfo[]", "fields", true, (item: any) => FieldIndexingInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -45146,15 +40812,6 @@ export class SchemaIndexingInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.fields)) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Indexing information for a schema */
@@ -45180,12 +40837,12 @@ export class FieldIndexingInfo extends DTOBase {
 
     constructor(data?: IFieldIndexingInfo) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "index", false);
-        this.setProp("object", "simpleSearch", false);
-        this.setProp("object", "sortable", false);
-        this.setProp("object", "boost", false);
-        this.setProp("object", "relatedSchemaIndexing", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "boolean", "index", false);
+        this.setProp("object", "boolean", "simpleSearch", false);
+        this.setProp("object", "boolean", "sortable", false);
+        this.setProp("object", "number", "boost", false);
+        this.setProp("object", "SchemaIndexingInfo", "relatedSchemaIndexing", true, (item: any) => SchemaIndexingInfo.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -45207,16 +40864,6 @@ export class FieldIndexingInfo extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["index"] = this.index;
-        data["simpleSearch"] = this.simpleSearch;
-        data["sortable"] = this.sortable;
-        data["boost"] = this.boost;
-        data["relatedSchemaIndexing"] = this.relatedSchemaIndexing ? this.relatedSchemaIndexing.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Indexing information for a field of a schema */
@@ -45248,10 +40895,10 @@ export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset
 
     constructor(data?: IFieldMultiFieldset) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "SchemaIndexingInfo", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
 
         if (data) {
             this.construct(data);
@@ -45274,15 +40921,6 @@ export class FieldMultiFieldset extends FieldBase implements IFieldMultiFieldset
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple fieldsets */
@@ -45313,11 +40951,11 @@ The information is only consumed by the client application. No actual logic is i
 
     constructor(data?: IFieldSingleTagbox) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "listItemCreateTemplate", false);
-        this.setProp("object", "viewModeDisplayPatternType", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "SchemaIndexingInfo", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "listItemCreateTemplate", false);
+        this.setProp("object", "DisplayPatternType", "viewModeDisplayPatternType", false);
 
         if (data) {
             this.construct(data);
@@ -45340,16 +40978,6 @@ The information is only consumed by the client application. No actual logic is i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        data["viewModeDisplayPatternType"] = this.viewModeDisplayPatternType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a single tagbox */
@@ -45387,13 +41015,13 @@ The information is only consumed by the client application. No actual logic is i
 
     constructor(data?: IFieldMultiTagbox) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "listItemCreateTemplate", false);
-        this.setProp("object", "viewModeDisplayPatternType", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "SchemaIndexingInfo", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "listItemCreateTemplate", false);
+        this.setProp("object", "DisplayPatternType", "viewModeDisplayPatternType", false);
 
         if (data) {
             this.construct(data);
@@ -45416,18 +41044,6 @@ The information is only consumed by the client application. No actual logic is i
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        data["viewModeDisplayPatternType"] = this.viewModeDisplayPatternType;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple tagboxes */
@@ -45474,15 +41090,15 @@ The analyzers are applied only if the SimpleSearch property is set to true. */
 
     constructor(data?: IFieldString) {
         super(data);
-        this.setProp("object", "template", false);
-        this.setProp("object", "pattern", false);
-        this.setProp("object", "minimumLength", false);
-        this.setProp("object", "maximumLength", false);
-        this.setProp("array", "indexAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
-        this.setProp("array", "simpleSearchAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
-        this.setProp("object", "multiLine", false);
-        this.setProp("array", "grantedValues", false);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "string", "template", false);
+        this.setProp("object", "string", "pattern", false);
+        this.setProp("object", "number", "minimumLength", false);
+        this.setProp("object", "number", "maximumLength", false);
+        this.setProp("array", "AnalyzerBase[]", "indexAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
+        this.setProp("array", "AnalyzerBase[]", "simpleSearchAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
+        this.setProp("object", "boolean", "multiLine", false);
+        this.setProp("array", "string[]", "grantedValues", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldString";
     }
@@ -45507,32 +41123,6 @@ The analyzers are applied only if the SimpleSearch property is set to true. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["template"] = this.template;
-        data["pattern"] = this.pattern;
-        data["minimumLength"] = this.minimumLength;
-        data["maximumLength"] = this.maximumLength;
-        if (Array.isArray(this.indexAnalyzers)) {
-            data["indexAnalyzers"] = [];
-            for (let item of this.indexAnalyzers)
-                data["indexAnalyzers"].push(item.toJSON());
-        }
-        if (Array.isArray(this.simpleSearchAnalyzers)) {
-            data["simpleSearchAnalyzers"] = [];
-            for (let item of this.simpleSearchAnalyzers)
-                data["simpleSearchAnalyzers"].push(item.toJSON());
-        }
-        data["multiLine"] = this.multiLine;
-        if (Array.isArray(this.grantedValues)) {
-            data["grantedValues"] = [];
-            for (let item of this.grantedValues)
-                data["grantedValues"].push(item);
-        }
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a string value */
@@ -45608,11 +41198,6 @@ export abstract class AnalyzerBase extends DTOBase {
         throw new Error("The abstract class 'AnalyzerBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        return data; 
-    }
 }
 
 /** The analyzer base class */
@@ -45628,8 +41213,8 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
 
     constructor(data?: IEdgeNGramAnalyzer) {
         super(data);
-        this.setProp("object", "type", false);
-        this.setProp("object", "fieldSuffix", false);
+        this.setProp("object", "Analyzer", "type", false);
+        this.setProp("object", "string", "fieldSuffix", false);
 
         this._kind = "EdgeNGramAnalyzer";
     }
@@ -45649,13 +41234,6 @@ export class EdgeNGramAnalyzer extends AnalyzerBase implements IEdgeNGramAnalyze
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** An analyzer using the ElasticSearch's EdgeNGram tokenizer */
@@ -45675,8 +41253,8 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
 
     constructor(data?: ILanguageAnalyzer) {
         super(data);
-        this.setProp("object", "type", false);
-        this.setProp("object", "fieldSuffix", false);
+        this.setProp("object", "Analyzer", "type", false);
+        this.setProp("object", "string", "fieldSuffix", false);
 
         this._kind = "LanguageAnalyzer";
     }
@@ -45696,13 +41274,6 @@ export class LanguageAnalyzer extends AnalyzerBase implements ILanguageAnalyzer 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** An analyzer using an ElasticSearch's language tokenizer */
@@ -45722,8 +41293,8 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
 
     constructor(data?: INGramAnalyzer) {
         super(data);
-        this.setProp("object", "type", false);
-        this.setProp("object", "fieldSuffix", false);
+        this.setProp("object", "Analyzer", "type", false);
+        this.setProp("object", "string", "fieldSuffix", false);
 
         this._kind = "NGramAnalyzer";
     }
@@ -45743,13 +41314,6 @@ export class NGramAnalyzer extends AnalyzerBase implements INGramAnalyzer {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** An analyzer using the ElasticSearch's NGram tokenizer */
@@ -45769,8 +41333,8 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
 
     constructor(data?: IPathHierarchyAnalyzer) {
         super(data);
-        this.setProp("object", "type", false);
-        this.setProp("object", "fieldSuffix", false);
+        this.setProp("object", "Analyzer", "type", false);
+        this.setProp("object", "string", "fieldSuffix", false);
 
         this._kind = "PathHierarchyAnalyzer";
     }
@@ -45790,13 +41354,6 @@ export class PathHierarchyAnalyzer extends AnalyzerBase implements IPathHierarch
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** An analyzer using the ElasticSearch's path hierarchy tokenizer */
@@ -45816,8 +41373,8 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
 
     constructor(data?: ISimpleAnalyzer) {
         super(data);
-        this.setProp("object", "type", false);
-        this.setProp("object", "fieldSuffix", false);
+        this.setProp("object", "Analyzer", "type", false);
+        this.setProp("object", "string", "fieldSuffix", false);
 
         this._kind = "SimpleAnalyzer";
     }
@@ -45837,13 +41394,6 @@ export class SimpleAnalyzer extends AnalyzerBase implements ISimpleAnalyzer {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["fieldSuffix"] = this.fieldSuffix;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** An analyzer using a custom pattern tokenizer */
@@ -45863,8 +41413,8 @@ export class FieldStringArray extends FieldString implements IFieldStringArray {
 
     constructor(data?: IFieldStringArray) {
         super(data);
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
 
         this._kind = "FieldStringArray";
     }
@@ -45884,13 +41434,6 @@ export class FieldStringArray extends FieldString implements IFieldStringArray {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple string values */
@@ -45929,15 +41472,15 @@ If Required is false, the field can be left empty, but as soon as a value is ent
 
     constructor(data?: IFieldTranslatedString) {
         super(data);
-        this.setProp("object", "pattern", false);
-        this.setProp("object", "minimumLength", false);
-        this.setProp("object", "maximumLength", false);
-        this.setProp("array", "indexAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
-        this.setProp("array", "simpleSearchAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
-        this.setProp("object", "multiLine", false);
-        this.setProp("array", "requiredMetadataLanguages", false);
-        this.setProp("object", "template", false);
-        this.setProp("object", "boost", false);
+        this.setProp("object", "string", "pattern", false);
+        this.setProp("object", "number", "minimumLength", false);
+        this.setProp("object", "number", "maximumLength", false);
+        this.setProp("array", "AnalyzerBase[]", "indexAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
+        this.setProp("array", "AnalyzerBase[]", "simpleSearchAnalyzers", true, (item: any) => AnalyzerBase.fromJS(item));
+        this.setProp("object", "boolean", "multiLine", false);
+        this.setProp("array", "string[]", "requiredMetadataLanguages", false);
+        this.setProp("object", "string", "template", false);
+        this.setProp("object", "number", "boost", false);
 
         this._kind = "FieldTranslatedString";
     }
@@ -45957,32 +41500,6 @@ If Required is false, the field can be left empty, but as soon as a value is ent
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pattern"] = this.pattern;
-        data["minimumLength"] = this.minimumLength;
-        data["maximumLength"] = this.maximumLength;
-        if (Array.isArray(this.indexAnalyzers)) {
-            data["indexAnalyzers"] = [];
-            for (let item of this.indexAnalyzers)
-                data["indexAnalyzers"].push(item.toJSON());
-        }
-        if (Array.isArray(this.simpleSearchAnalyzers)) {
-            data["simpleSearchAnalyzers"] = [];
-            for (let item of this.simpleSearchAnalyzers)
-                data["simpleSearchAnalyzers"].push(item.toJSON());
-        }
-        data["multiLine"] = this.multiLine;
-        if (Array.isArray(this.requiredMetadataLanguages)) {
-            data["requiredMetadataLanguages"] = [];
-            for (let item of this.requiredMetadataLanguages)
-                data["requiredMetadataLanguages"].push(item);
-        }
-        data["template"] = this.template;
-        data["boost"] = this.boost;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a translated string values */
@@ -46023,9 +41540,9 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
 
     constructor(data?: IFieldSingleRelation) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
-        this.setProp("array", "relationTypes", true, (item: any) => RelationType.fromJS(item));
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "SchemaIndexingInfo", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("array", "RelationType[]", "relationTypes", true, (item: any) => RelationType.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -46051,18 +41568,6 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        if (Array.isArray(this.relationTypes)) {
-            data["relationTypes"] = [];
-            for (let item of this.relationTypes)
-                data["relationTypes"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store a single relation */
@@ -46088,10 +41593,10 @@ export class RelationType extends DTOBase {
 
     constructor(data?: IRelationType) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "targetDocType", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "targetDocType", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -46113,14 +41618,6 @@ export class RelationType extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["targetDocType"] = this.targetDocType;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Defines a relation */
@@ -46150,11 +41647,11 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
 
     constructor(data?: IFieldMultiRelation) {
         super(data);
-        this.setProp("object", "schemaId", false);
-        this.setProp("object", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
-        this.setProp("array", "relationTypes", true, (item: any) => RelationType.fromJS(item));
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "minimumItems", false);
+        this.setProp("object", "string", "schemaId", false);
+        this.setProp("object", "SchemaIndexingInfo", "schemaIndexingInfo", true, (item: any) => SchemaIndexingInfo.fromJS(item));
+        this.setProp("array", "RelationType[]", "relationTypes", true, (item: any) => RelationType.fromJS(item));
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
 
         if (data) {
             this.construct(data);
@@ -46180,20 +41677,6 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["schemaIndexingInfo"] = this.schemaIndexingInfo ? this.schemaIndexingInfo.toJSON() : <any>undefined;
-        if (Array.isArray(this.relationTypes)) {
-            data["relationTypes"] = [];
-            for (let item of this.relationTypes)
-                data["relationTypes"].push(item.toJSON());
-        }
-        data["maximumItems"] = this.maximumItems;
-        data["minimumItems"] = this.minimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** The field used to store multiple relations */
@@ -46224,9 +41707,9 @@ OverwriteRequired is set to true. */
 
     constructor(data?: IFieldOverwriteBase) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "required", false);
-        this.setProp("object", "overwriteRequired", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "boolean", "required", false);
+        this.setProp("object", "boolean", "overwriteRequired", false);
 
         this._kind = "FieldOverwriteBase";
     }
@@ -46254,14 +41737,6 @@ OverwriteRequired is set to true. */
         throw new Error("The abstract class 'FieldOverwriteBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["id"] = this.id;
-        data["required"] = this.required;
-        data["overwriteRequired"] = this.overwriteRequired;
-        return data; 
-    }
 }
 
 /** Base class to overwrite field's information */
@@ -46290,10 +41765,10 @@ OverwriteListItemCreateTemplate is set to true. */
 
     constructor(data?: IFieldOverwriteSingleTagbox) {
         super(data);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "overwriteFilter", false);
-        this.setProp("object", "listItemCreateTemplate", false);
-        this.setProp("object", "overwriteListItemCreateTemplate", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "overwriteFilter", false);
+        this.setProp("object", "string", "listItemCreateTemplate", false);
+        this.setProp("object", "boolean", "overwriteListItemCreateTemplate", false);
 
         this._kind = "FieldOverwriteSingleTagbox";
     }
@@ -46313,15 +41788,6 @@ OverwriteListItemCreateTemplate is set to true. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["overwriteFilter"] = this.overwriteFilter;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        data["overwriteListItemCreateTemplate"] = this.overwriteListItemCreateTemplate;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Overwritten information for FieldSingleTagbox */
@@ -46363,14 +41829,14 @@ OverwriteMinimumItems is set to true. */
 
     constructor(data?: IFieldOverwriteMultiTagbox) {
         super(data);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "overwriteFilter", false);
-        this.setProp("object", "listItemCreateTemplate", false);
-        this.setProp("object", "overwriteListItemCreateTemplate", false);
-        this.setProp("object", "maximumItems", false);
-        this.setProp("object", "overwriteMaximumItems", false);
-        this.setProp("object", "minimumItems", false);
-        this.setProp("object", "overwriteMinimumItems", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "overwriteFilter", false);
+        this.setProp("object", "string", "listItemCreateTemplate", false);
+        this.setProp("object", "boolean", "overwriteListItemCreateTemplate", false);
+        this.setProp("object", "number", "maximumItems", false);
+        this.setProp("object", "boolean", "overwriteMaximumItems", false);
+        this.setProp("object", "number", "minimumItems", false);
+        this.setProp("object", "boolean", "overwriteMinimumItems", false);
 
         this._kind = "FieldOverwriteMultiTagbox";
     }
@@ -46390,19 +41856,6 @@ OverwriteMinimumItems is set to true. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["overwriteFilter"] = this.overwriteFilter;
-        data["listItemCreateTemplate"] = this.listItemCreateTemplate;
-        data["overwriteListItemCreateTemplate"] = this.overwriteListItemCreateTemplate;
-        data["maximumItems"] = this.maximumItems;
-        data["overwriteMaximumItems"] = this.overwriteMaximumItems;
-        data["minimumItems"] = this.minimumItems;
-        data["overwriteMinimumItems"] = this.overwriteMinimumItems;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Overwritten information for FieldMultiTagbox */
@@ -46440,9 +41893,9 @@ export class SearchFieldCount extends DTOBase {
 
     constructor(data?: ISearchFieldCount) {
         super(data);
-        this.setProp("object", "indexedField", false);
-        this.setProp("object", "simpleSearchField", false);
-        this.setProp("object", "sortableField", false);
+        this.setProp("object", "number", "indexedField", false);
+        this.setProp("object", "number", "simpleSearchField", false);
+        this.setProp("object", "number", "sortableField", false);
 
     }
 
@@ -46461,13 +41914,6 @@ export class SearchFieldCount extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexedField"] = this.indexedField;
-        data["simpleSearchField"] = this.simpleSearchField;
-        data["sortableField"] = this.sortableField;
-        return data; 
-    }
 }
 
 /** Count information of fields in the search index for filtering, searching and sorting */
@@ -46488,10 +41934,10 @@ export class BaseResultOfSchema extends DTOBase {
 
     constructor(data?: IBaseResultOfSchema) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => Schema.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "Schema[]", "results", true, (item: any) => Schema.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -46516,18 +41962,6 @@ export class BaseResultOfSchema extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfSchema {
@@ -46544,9 +41978,9 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
 
     constructor(data?: ISearchBehaviorBaseResultOfSchema) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -46568,14 +42002,6 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfSchema extends IBaseResultOfSchema {
@@ -46607,11 +42033,6 @@ export class SchemaSearchResult extends SearchBehaviorBaseResultOfSchema impleme
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result for schema search operation */
@@ -46643,16 +42064,16 @@ export class Schema extends DTOBase {
 
     constructor(data?: ISchema) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "parentSchemaId", false);
-        this.setProp("array", "types", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "fieldCount", false);
-        this.setProp("object", "childCount", false);
-        this.setProp("object", "level", false);
-        this.setProp("object", "system", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "parentSchemaId", false);
+        this.setProp("array", "SchemaType[]", "types", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "number", "fieldCount", false);
+        this.setProp("object", "number", "childCount", false);
+        this.setProp("object", "number", "level", false);
+        this.setProp("object", "boolean", "system", false);
 
         if (data) {
             this.construct(data);
@@ -46674,28 +42095,6 @@ export class Schema extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["parentSchemaId"] = this.parentSchemaId;
-        if (Array.isArray(this.types)) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["fieldCount"] = this.fieldCount;
-        data["childCount"] = this.childCount;
-        data["level"] = this.level;
-        data["system"] = this.system;
-        return data; 
-    }
 }
 
 /** A schema */
@@ -46747,15 +42146,15 @@ If not specified, all metadata languages in the system are used. */
 
     constructor(data?: ISchemaSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "debugMode", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("array", "rightsFilter", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "debugMode", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("array", "MetadataRight[]", "rightsFilter", false);
 
         if (data) {
             this.construct(data);
@@ -46777,35 +42176,6 @@ If not specified, all metadata languages in the system are used. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        if (Array.isArray(this.rightsFilter)) {
-            data["rightsFilter"] = [];
-            for (let item of this.rightsFilter)
-                data["rightsFilter"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Request to search schemas */
@@ -46855,15 +42225,15 @@ The amount of simple search fields can be equal or less to the amount of IndexFi
 
     constructor(data?: IIndexField) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "fieldId", false);
-        this.setProp("object", "type", false);
-        this.setProp("dictionary", "indexFields", false);
-        this.setProp("dictionary", "simpleSearchFields", false);
-        this.setProp("object", "boost", false);
-        this.setProp("object", "ignoreForSearch", false);
-        this.setProp("object", "nestedPath", false);
-        this.setProp("object", "sortField", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "fieldId", false);
+        this.setProp("object", "string", "type", false);
+        this.setProp("dictionary", "{ [key in keyof typeof Analyzer] : string; }", "indexFields", false);
+        this.setProp("dictionary", "{ [key in keyof typeof Analyzer] : string; }", "simpleSearchFields", false);
+        this.setProp("object", "number", "boost", false);
+        this.setProp("object", "boolean", "ignoreForSearch", false);
+        this.setProp("object", "string", "nestedPath", false);
+        this.setProp("object", "string", "sortField", false);
 
     }
 
@@ -46882,31 +42252,6 @@ The amount of simple search fields can be equal or less to the amount of IndexFi
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["fieldId"] = this.fieldId;
-        data["type"] = this.type;
-        if (this.indexFields) {
-            data["indexFields"] = {};
-            for (let key in this.indexFields) {
-                if (this.indexFields.hasOwnProperty(key))
-                    data["indexFields"][key] = this.indexFields[key];
-            }
-        }
-        if (this.simpleSearchFields) {
-            data["simpleSearchFields"] = {};
-            for (let key in this.simpleSearchFields) {
-                if (this.simpleSearchFields.hasOwnProperty(key))
-                    data["simpleSearchFields"][key] = this.simpleSearchFields[key];
-            }
-        }
-        data["boost"] = this.boost;
-        data["ignoreForSearch"] = this.ignoreForSearch;
-        data["nestedPath"] = this.nestedPath;
-        data["sortField"] = this.sortField;
-        return data; 
-    }
 }
 
 /** Contains compiled field information. */
@@ -46942,8 +42287,8 @@ SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parent
 
     constructor(data?: IIndexFieldsSearchBySchemaIdsRequest) {
         super(data);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("object", "searchMode", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("object", "IndexFieldsSearchMode", "searchMode", false);
 
     }
 
@@ -46962,16 +42307,6 @@ SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parent
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["searchMode"] = this.searchMode;
-        return data; 
-    }
 }
 
 /** Request to search indexed fields of specific schemas */
@@ -46997,7 +42332,7 @@ export class SchemaExistsResponse extends DTOBase {
 
     constructor(data?: ISchemaExistsResponse) {
         super(data);
-        this.setProp("object", "exists", false);
+        this.setProp("object", "boolean", "exists", false);
 
     }
 
@@ -47016,11 +42351,6 @@ export class SchemaExistsResponse extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["exists"] = this.exists;
-        return data; 
-    }
 }
 
 /** Exists response */
@@ -47043,9 +42373,9 @@ has to be unique across the schema hierarchy. */
 
     constructor(data?: IFieldExistsResponse) {
         super(data);
-        this.setProp("object", "exists", false);
-        this.setProp("object", "previouslyUsed", false);
-        this.setProp("object", "schemaId", false);
+        this.setProp("object", "boolean", "exists", false);
+        this.setProp("object", "boolean", "previouslyUsed", false);
+        this.setProp("object", "string", "schemaId", false);
 
     }
 
@@ -47064,13 +42394,6 @@ has to be unique across the schema hierarchy. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["exists"] = this.exists;
-        data["previouslyUsed"] = this.previouslyUsed;
-        data["schemaId"] = this.schemaId;
-        return data; 
-    }
 }
 
 /** Response for a query if a field exists */
@@ -47092,7 +42415,7 @@ export class SchemaOwnershipTransferRequest extends DTOBase {
 
     constructor(data?: ISchemaOwnershipTransferRequest) {
         super(data);
-        this.setProp("object", "transferUserId", false);
+        this.setProp("object", "string", "transferUserId", false);
 
     }
 
@@ -47111,11 +42434,6 @@ export class SchemaOwnershipTransferRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferUserId"] = this.transferUserId;
-        return data; 
-    }
 }
 
 export interface ISchemaOwnershipTransferRequest {
@@ -47130,7 +42448,7 @@ export class SchemaCreateResult extends DTOBase {
 
     constructor(data?: ISchemaCreateResult) {
         super(data);
-        this.setProp("object", "schema", true, (item: any) => SchemaDetail.fromJS(item));
+        this.setProp("object", "SchemaDetail", "schema", true, (item: any) => SchemaDetail.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47152,11 +42470,6 @@ export class SchemaCreateResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result of a schema create operation */
@@ -47202,20 +42515,20 @@ that reference the layer. */
 
     constructor(data?: ISchemaCreateRequest) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "parentSchemaId", false);
-        this.setProp("array", "types", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
-        this.setProp("array", "fields", true, (item: any) => FieldBase.fromJS(item));
-        this.setProp("array", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
-        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "viewForAll", false);
-        this.setProp("array", "schemaPermissionSetIds", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("array", "referencedInContentSchemaIds", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "parentSchemaId", false);
+        this.setProp("array", "SchemaType[]", "types", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "DisplayPattern[]", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
+        this.setProp("array", "FieldBase[]", "fields", true, (item: any) => FieldBase.fromJS(item));
+        this.setProp("array", "FieldOverwriteBase[]", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "boolean", "viewForAll", false);
+        this.setProp("array", "string[]", "schemaPermissionSetIds", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("array", "string[]", "referencedInContentSchemaIds", false);
 
         if (data) {
             this.construct(data);
@@ -47240,60 +42553,6 @@ that reference the layer. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["parentSchemaId"] = this.parentSchemaId;
-        if (Array.isArray(this.types)) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item);
-        }
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (Array.isArray(this.displayPatterns)) {
-            data["displayPatterns"] = [];
-            for (let item of this.displayPatterns)
-                data["displayPatterns"].push(item.toJSON());
-        }
-        if (Array.isArray(this.fields)) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        if (Array.isArray(this.fieldsOverwrite)) {
-            data["fieldsOverwrite"] = [];
-            for (let item of this.fieldsOverwrite)
-                data["fieldsOverwrite"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregations)) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["viewForAll"] = this.viewForAll;
-        if (Array.isArray(this.schemaPermissionSetIds)) {
-            data["schemaPermissionSetIds"] = [];
-            for (let item of this.schemaPermissionSetIds)
-                data["schemaPermissionSetIds"].push(item);
-        }
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.referencedInContentSchemaIds)) {
-            data["referencedInContentSchemaIds"] = [];
-            for (let item of this.referencedInContentSchemaIds)
-                data["referencedInContentSchemaIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Request to create a schema */
@@ -47340,7 +42599,7 @@ are all in the same request. */
 
     constructor(data?: ISchemaCreateManyRequest) {
         super(data);
-        this.setProp("array", "schemas", true, (item: any) => SchemaCreateRequest.fromJS(item));
+        this.setProp("array", "SchemaCreateRequest[]", "schemas", true, (item: any) => SchemaCreateRequest.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47365,15 +42624,6 @@ are all in the same request. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schemas)) {
-            data["schemas"] = [];
-            for (let item of this.schemas)
-                data["schemas"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to create multiple schemas */
@@ -47390,7 +42640,7 @@ export class SchemaUpdateResult extends DTOBase {
 
     constructor(data?: ISchemaUpdateResult) {
         super(data);
-        this.setProp("object", "schema", true, (item: any) => SchemaDetail.fromJS(item));
+        this.setProp("object", "SchemaDetail", "schema", true, (item: any) => SchemaDetail.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47412,11 +42662,6 @@ export class SchemaUpdateResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Result of a schema update operation */
@@ -47456,17 +42701,17 @@ that reference the layer. */
 
     constructor(data?: ISchemaUpdateRequest) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
-        this.setProp("array", "fields", true, (item: any) => FieldBase.fromJS(item));
-        this.setProp("array", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
-        this.setProp("array", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "viewForAll", false);
-        this.setProp("array", "schemaPermissionSetIds", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("array", "referencedInContentSchemaIds", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "DisplayPattern[]", "displayPatterns", true, (item: any) => DisplayPattern.fromJS(item));
+        this.setProp("array", "FieldBase[]", "fields", true, (item: any) => FieldBase.fromJS(item));
+        this.setProp("array", "FieldOverwriteBase[]", "fieldsOverwrite", true, (item: any) => FieldOverwriteBase.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregations", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "boolean", "viewForAll", false);
+        this.setProp("array", "string[]", "schemaPermissionSetIds", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("array", "string[]", "referencedInContentSchemaIds", false);
 
         if (data) {
             this.construct(data);
@@ -47488,53 +42733,6 @@ that reference the layer. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        if (Array.isArray(this.displayPatterns)) {
-            data["displayPatterns"] = [];
-            for (let item of this.displayPatterns)
-                data["displayPatterns"].push(item.toJSON());
-        }
-        if (Array.isArray(this.fields)) {
-            data["fields"] = [];
-            for (let item of this.fields)
-                data["fields"].push(item.toJSON());
-        }
-        if (Array.isArray(this.fieldsOverwrite)) {
-            data["fieldsOverwrite"] = [];
-            for (let item of this.fieldsOverwrite)
-                data["fieldsOverwrite"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregations)) {
-            data["aggregations"] = [];
-            for (let item of this.aggregations)
-                data["aggregations"].push(item.toJSON());
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["viewForAll"] = this.viewForAll;
-        if (Array.isArray(this.schemaPermissionSetIds)) {
-            data["schemaPermissionSetIds"] = [];
-            for (let item of this.schemaPermissionSetIds)
-                data["schemaPermissionSetIds"].push(item);
-        }
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.referencedInContentSchemaIds)) {
-            data["referencedInContentSchemaIds"] = [];
-            for (let item of this.referencedInContentSchemaIds)
-                data["referencedInContentSchemaIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Request to update an existing schema */
@@ -47590,10 +42788,6 @@ export class SchemaDeleteResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
 }
 
 /** Result of a schema delete operation */
@@ -47608,8 +42802,8 @@ export class SchemaOwnershipTransferManyRequest extends DTOBase {
 
     constructor(data?: ISchemaOwnershipTransferManyRequest) {
         super(data);
-        this.setProp("array", "schemaIds", false);
-        this.setProp("object", "transferUserId", false);
+        this.setProp("array", "string[]", "schemaIds", false);
+        this.setProp("object", "string", "transferUserId", false);
 
     }
 
@@ -47628,16 +42822,6 @@ export class SchemaOwnershipTransferManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["transferUserId"] = this.transferUserId;
-        return data; 
-    }
 }
 
 export interface ISchemaOwnershipTransferManyRequest {
@@ -47657,12 +42841,12 @@ export abstract class PermissionSetDetailOfMetadataRight extends DTOBase {
 
     constructor(data?: IPermissionSetDetailOfMetadataRight) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => PermissionUserRoleRightsOfMetadataRight.fromJS(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
-        this.setProp("object", "exclusive", false);
-        this.setProp("object", "ownerTokenId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "PermissionUserRoleRightsOfMetadataRight[]", "userRolesRights", true, (item: any) => PermissionUserRoleRightsOfMetadataRight.fromJS(item));
+        this.setProp("array", "PermissionUserRoleRightsOfPermissionSetRight[]", "userRolesPermissionSetRights", true, (item: any) => PermissionUserRoleRightsOfPermissionSetRight.fromJS(item));
+        this.setProp("object", "boolean", "exclusive", false);
+        this.setProp("object", "string", "ownerTokenId", false);
 
         if (data) {
             this.construct(data);
@@ -47682,24 +42866,6 @@ export abstract class PermissionSetDetailOfMetadataRight extends DTOBase {
         throw new Error("The abstract class 'PermissionSetDetailOfMetadataRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRolesRights)) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (Array.isArray(this.userRolesPermissionSetRights)) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        data["exclusive"] = this.exclusive;
-        data["ownerTokenId"] = this.ownerTokenId;
-        return data; 
-    }
 }
 
 export interface IPermissionSetDetailOfMetadataRight {
@@ -47734,11 +42900,6 @@ export class SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRigh
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Detail of a schema permission set */
@@ -47752,9 +42913,9 @@ export class PermissionUserRoleRightsOfMetadataRight extends DTOBase {
 
     constructor(data?: IPermissionUserRoleRightsOfMetadataRight) {
         super(data);
-        this.setProp("object", "userRoleId", false);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "rights", false);
+        this.setProp("object", "string", "userRoleId", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "MetadataRight[]", "rights", false);
 
         if (data) {
             this.construct(data);
@@ -47776,17 +42937,6 @@ export class PermissionUserRoleRightsOfMetadataRight extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.rights)) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionUserRoleRightsOfMetadataRight {
@@ -47804,11 +42954,11 @@ export abstract class PermissionSetCreateRequestOfMetadataRight extends DTOBase 
 
     constructor(data?: IPermissionSetCreateRequestOfMetadataRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfMetadataRight.fromJS(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
-        this.setProp("object", "exclusive", false);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfMetadataRight[]", "userRolesRights", true, (item: any) => UserRoleRightsOfMetadataRight.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfPermissionSetRight[]", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
+        this.setProp("object", "boolean", "exclusive", false);
+        this.setProp("object", "string", "requestId", false);
 
         if (data) {
             this.construct(data);
@@ -47828,23 +42978,6 @@ export abstract class PermissionSetCreateRequestOfMetadataRight extends DTOBase 
         throw new Error("The abstract class 'PermissionSetCreateRequestOfMetadataRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRolesRights)) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (Array.isArray(this.userRolesPermissionSetRights)) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        data["exclusive"] = this.exclusive;
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 export interface IPermissionSetCreateRequestOfMetadataRight {
@@ -47877,11 +43010,6 @@ export class SchemaPermissionSetCreateRequest extends PermissionSetCreateRequest
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISchemaPermissionSetCreateRequest extends IPermissionSetCreateRequestOfMetadataRight {
@@ -47893,8 +43021,8 @@ export class UserRoleRightsOfMetadataRight extends DTOBase {
 
     constructor(data?: IUserRoleRightsOfMetadataRight) {
         super(data);
-        this.setProp("object", "userRoleId", false);
-        this.setProp("array", "rights", false);
+        this.setProp("object", "string", "userRoleId", false);
+        this.setProp("array", "MetadataRight[]", "rights", false);
 
     }
 
@@ -47913,16 +43041,6 @@ export class UserRoleRightsOfMetadataRight extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userRoleId"] = this.userRoleId;
-        if (Array.isArray(this.rights)) {
-            data["rights"] = [];
-            for (let item of this.rights)
-                data["rights"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IUserRoleRightsOfMetadataRight {
@@ -47937,9 +43055,9 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight extends DTOBase 
 
     constructor(data?: IPermissionSetUpdateRequestOfMetadataRight) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRolesRights", true, (item: any) => UserRoleRightsOfMetadataRight.fromJS(item));
-        this.setProp("array", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfMetadataRight[]", "userRolesRights", true, (item: any) => UserRoleRightsOfMetadataRight.fromJS(item));
+        this.setProp("array", "UserRoleRightsOfPermissionSetRight[]", "userRolesPermissionSetRights", true, (item: any) => UserRoleRightsOfPermissionSetRight.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -47959,21 +43077,6 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight extends DTOBase 
         throw new Error("The abstract class 'PermissionSetUpdateRequestOfMetadataRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRolesRights)) {
-            data["userRolesRights"] = [];
-            for (let item of this.userRolesRights)
-                data["userRolesRights"].push(item.toJSON());
-        }
-        if (Array.isArray(this.userRolesPermissionSetRights)) {
-            data["userRolesPermissionSetRights"] = [];
-            for (let item of this.userRolesPermissionSetRights)
-                data["userRolesPermissionSetRights"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface IPermissionSetUpdateRequestOfMetadataRight {
@@ -48005,11 +43108,6 @@ export class SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequest
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to update a schema permission set */
@@ -48021,7 +43119,7 @@ export class SchemaPermissionSetCreateManyRequest extends DTOBase {
 
     constructor(data?: ISchemaPermissionSetCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => SchemaPermissionSetCreateRequest.fromJS(item));
+        this.setProp("array", "SchemaPermissionSetCreateRequest[]", "items", true, (item: any) => SchemaPermissionSetCreateRequest.fromJS(item));
 
     }
 
@@ -48040,15 +43138,6 @@ export class SchemaPermissionSetCreateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface ISchemaPermissionSetCreateManyRequest {
@@ -48062,7 +43151,7 @@ export class SchemaPermissionSetUpdateManyRequest extends DTOBase {
 
     constructor(data?: ISchemaPermissionSetUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => SchemaPermissionSetUpdateRequestItem.fromJS(item));
+        this.setProp("array", "SchemaPermissionSetUpdateRequestItem[]", "items", true, (item: any) => SchemaPermissionSetUpdateRequestItem.fromJS(item));
 
     }
 
@@ -48081,15 +43170,6 @@ export class SchemaPermissionSetUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to update multiple schema permissions sets */
@@ -48103,7 +43183,7 @@ export abstract class PermissionSetUpdateRequestItemOfMetadataRight extends Perm
 
     constructor(data?: IPermissionSetUpdateRequestItemOfMetadataRight) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
     }
 
@@ -48120,12 +43200,6 @@ export abstract class PermissionSetUpdateRequestItemOfMetadataRight extends Perm
         throw new Error("The abstract class 'PermissionSetUpdateRequestItemOfMetadataRight' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IPermissionSetUpdateRequestItemOfMetadataRight extends IPermissionSetUpdateRequestOfMetadataRight {
@@ -48155,11 +43229,6 @@ export class SchemaPermissionSetUpdateRequestItem extends PermissionSetUpdateReq
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Request to update a schema permission set */
@@ -48185,13 +43254,13 @@ export class Transfer extends DTOBase {
 
     constructor(data?: ITransfer) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "name", false);
-        this.setProp("object", "state", false);
-        this.setProp("object", "transferType", false);
-        this.setProp("object", "businessProcessId", false);
-        this.setProp("object", "fileTransferCount", false);
-        this.setProp("object", "collectionId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "TransferState", "state", false);
+        this.setProp("object", "TransferType", "transferType", false);
+        this.setProp("object", "string", "businessProcessId", false);
+        this.setProp("object", "number", "fileTransferCount", false);
+        this.setProp("object", "string", "collectionId", false);
 
     }
 
@@ -48210,17 +43279,6 @@ export class Transfer extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["state"] = this.state;
-        data["transferType"] = this.transferType;
-        data["businessProcessId"] = this.businessProcessId;
-        data["fileTransferCount"] = this.fileTransferCount;
-        data["collectionId"] = this.collectionId;
-        return data; 
-    }
 }
 
 /** Represents a transfer. */
@@ -48252,9 +43310,9 @@ export class SchemaImportRequest extends DTOBase {
 
     constructor(data?: ISchemaImportRequest) {
         super(data);
-        this.setProp("object", "fileTransferId", false);
-        this.setProp("object", "allowMissingDependencies", false);
-        this.setProp("object", "importListItems", false);
+        this.setProp("object", "string", "fileTransferId", false);
+        this.setProp("object", "boolean", "allowMissingDependencies", false);
+        this.setProp("object", "boolean", "importListItems", false);
 
     }
 
@@ -48273,13 +43331,6 @@ export class SchemaImportRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileTransferId"] = this.fileTransferId;
-        data["allowMissingDependencies"] = this.allowMissingDependencies;
-        data["importListItems"] = this.importListItems;
-        return data; 
-    }
 }
 
 /** Request to import schemas and list items */
@@ -48323,19 +43374,19 @@ export class ShareDetail extends DTOBase {
 
     constructor(data?: IShareDetail) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "name", false);
-        this.setProp("object", "description", false);
-        this.setProp("object", "creator", true, (item: any) => ShareUser.fromJS(item));
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("array", "contentSelections", true, (item: any) => ShareContentDetail.fromJS(item));
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "data", true, (item: any) => ShareDataBase.fromJS(item));
-        this.setProp("object", "expirationDate", false);
-        this.setProp("object", "expired", false);
-        this.setProp("object", "template", true, (item: any) => TemplateBase.fromJS(item));
-        this.setProp("object", "outputAccess", false);
-        this.setProp("object", "shareType", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "string", "description", false);
+        this.setProp("object", "ShareUser", "creator", true, (item: any) => ShareUser.fromJS(item));
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("array", "ShareContentDetail[]", "contentSelections", true, (item: any) => ShareContentDetail.fromJS(item));
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "ShareDataBase", "data", true, (item: any) => ShareDataBase.fromJS(item));
+        this.setProp("object", "Date", "expirationDate", false);
+        this.setProp("object", "boolean", "expired", false);
+        this.setProp("object", "TemplateBase", "template", true, (item: any) => TemplateBase.fromJS(item));
+        this.setProp("object", "OutputAccess", "outputAccess", false);
+        this.setProp("object", "ShareType", "shareType", false);
 
         if (data) {
             this.construct(data);
@@ -48362,31 +43413,6 @@ export class ShareDetail extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        if (Array.isArray(this.contentSelections)) {
-            data["contentSelections"] = [];
-            for (let item of this.contentSelections)
-                data["contentSelections"].push(item.toJSON());
-        }
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
-        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        data["expired"] = this.expired;
-        data["template"] = this.template ? this.template.toJSON() : <any>undefined;
-        data["outputAccess"] = this.outputAccess;
-        data["shareType"] = this.shareType;
-        return data; 
-    }
 }
 
 /** Share detail */
@@ -48428,8 +43454,8 @@ export class ShareUser extends DTOBase {
 
     constructor(data?: IShareUser) {
         super(data);
-        this.setProp("object", "displayName", false);
-        this.setProp("object", "emailHash", false);
+        this.setProp("object", "string", "displayName", false);
+        this.setProp("object", "string", "emailHash", false);
 
     }
 
@@ -48448,12 +43474,6 @@ export class ShareUser extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["displayName"] = this.displayName;
-        data["emailHash"] = this.emailHash;
-        return data; 
-    }
 }
 
 /** Reduced set of user information used for shares */
@@ -48487,15 +43507,15 @@ export class ShareContentDetail extends DTOBase {
 
     constructor(data?: IShareContentDetail) {
         super(data);
-        this.setProp("object", "contentSchemaId", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "content", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("object", "id", false);
-        this.setProp("array", "outputs", true, (item: any) => ShareOutputBase.fromJS(item));
-        this.setProp("object", "contentType", false);
-        this.setProp("object", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
-        this.setProp("object", "iconUrl", false);
+        this.setProp("object", "string", "contentSchemaId", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "DataDictionary", "content", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "DataDictionary", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("object", "string", "id", false);
+        this.setProp("array", "ShareOutputBase[]", "outputs", true, (item: any) => ShareOutputBase.fromJS(item));
+        this.setProp("object", "ContentType", "contentType", false);
+        this.setProp("object", "DisplayValueDictionary", "displayValues", true, (item: any) => DisplayValueDictionary.fromJS(item));
+        this.setProp("object", "string", "iconUrl", false);
 
         if (data) {
             this.construct(data);
@@ -48522,27 +43542,6 @@ export class ShareContentDetail extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentSchemaId"] = this.contentSchemaId;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        data["id"] = this.id;
-        if (Array.isArray(this.outputs)) {
-            data["outputs"] = [];
-            for (let item of this.outputs)
-                data["outputs"].push(item.toJSON());
-        }
-        data["contentType"] = this.contentType;
-        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        data["iconUrl"] = this.iconUrl;
-        return data; 
-    }
 }
 
 /** Detail of shared content */
@@ -48584,11 +43583,11 @@ export abstract class ShareOutputBase extends DTOBase {
 
     constructor(data?: IShareOutputBase) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("object", "outputFormatId", false);
-        this.setProp("object", "viewUrl", false);
-        this.setProp("object", "downloadUrl", false);
-        this.setProp("object", "detail", true, (item: any) => OutputDataBase.fromJS(item));
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("object", "string", "outputFormatId", false);
+        this.setProp("object", "string", "viewUrl", false);
+        this.setProp("object", "string", "downloadUrl", false);
+        this.setProp("object", "OutputDataBase", "detail", true, (item: any) => OutputDataBase.fromJS(item));
 
         this._kind = "ShareOutputBase";
     }
@@ -48616,16 +43615,6 @@ export abstract class ShareOutputBase extends DTOBase {
         throw new Error("The abstract class 'ShareOutputBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["contentId"] = this.contentId;
-        data["outputFormatId"] = this.outputFormatId;
-        data["viewUrl"] = this.viewUrl;
-        data["downloadUrl"] = this.downloadUrl;
-        data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Base of shared output */
@@ -48666,11 +43655,6 @@ export class ShareOutputBasic extends ShareOutputBase implements IShareOutputBas
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Shared output for basic share */
@@ -48684,7 +43668,7 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 
     constructor(data?: IShareOutputEmbed) {
         super(data);
-        this.setProp("object", "token", false);
+        this.setProp("object", "string", "token", false);
 
         this._kind = "ShareOutputEmbed";
     }
@@ -48704,12 +43688,6 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["token"] = this.token;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Shared output for embed share */
@@ -48727,7 +43705,7 @@ export abstract class ShareDataBase extends DTOBase {
 
     constructor(data?: IShareDataBase) {
         super(data);
-        this.setProp("object", "url", false);
+        this.setProp("object", "string", "url", false);
 
         this._kind = "ShareDataBase";
     }
@@ -48755,12 +43733,6 @@ export abstract class ShareDataBase extends DTOBase {
         throw new Error("The abstract class 'ShareDataBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["url"] = this.url;
-        return data; 
-    }
 }
 
 /** Base of share data */
@@ -48776,7 +43748,7 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
 
     constructor(data?: IShareDataEmbed) {
         super(data);
-        this.setProp("object", "token", false);
+        this.setProp("object", "string", "token", false);
 
         this._kind = "ShareDataEmbed";
     }
@@ -48796,12 +43768,6 @@ export class ShareDataEmbed extends ShareDataBase implements IShareDataEmbed {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["token"] = this.token;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Embed share data */
@@ -48821,9 +43787,9 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
 
     constructor(data?: IShareDataBasic) {
         super(data);
-        this.setProp("array", "mailRecipients", true, (item: any) => MailRecipient.fromJS(item));
-        this.setProp("array", "internalRecipients", true, (item: any) => InternalRecipient.fromJS(item));
-        this.setProp("object", "languageCode", false);
+        this.setProp("array", "MailRecipient[]", "mailRecipients", true, (item: any) => MailRecipient.fromJS(item));
+        this.setProp("array", "InternalRecipient[]", "internalRecipients", true, (item: any) => InternalRecipient.fromJS(item));
+        this.setProp("object", "string", "languageCode", false);
 
         if (data) {
             this.construct(data);
@@ -48850,22 +43816,6 @@ export class ShareDataBasic extends ShareDataBase implements IShareDataBasic {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.mailRecipients)) {
-            data["mailRecipients"] = [];
-            for (let item of this.mailRecipients)
-                data["mailRecipients"].push(item.toJSON());
-        }
-        if (Array.isArray(this.internalRecipients)) {
-            data["internalRecipients"] = [];
-            for (let item of this.internalRecipients)
-                data["internalRecipients"].push(item.toJSON());
-        }
-        data["languageCode"] = this.languageCode;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Basic share data */
@@ -48889,9 +43839,9 @@ export class MailRecipient extends DTOBase {
 
     constructor(data?: IMailRecipient) {
         super(data);
-        this.setProp("object", "userEmail", true, (item: any) => UserEmail.fromJS(item));
-        this.setProp("object", "token", false);
-        this.setProp("object", "url", false);
+        this.setProp("object", "UserEmail", "userEmail", true, (item: any) => UserEmail.fromJS(item));
+        this.setProp("object", "string", "token", false);
+        this.setProp("object", "string", "url", false);
 
         if (data) {
             this.construct(data);
@@ -48916,13 +43866,6 @@ export class MailRecipient extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userEmail"] = this.userEmail ? this.userEmail.toJSON() : <any>undefined;
-        data["token"] = this.token;
-        data["url"] = this.url;
-        return data; 
-    }
 }
 
 /** Share mail recipient */
@@ -48945,9 +43888,9 @@ export class UserEmail extends DTOBase {
 
     constructor(data?: IUserEmail) {
         super(data);
-        this.setProp("object", "firstName", false);
-        this.setProp("object", "lastName", false);
-        this.setProp("object", "emailAddress", false);
+        this.setProp("object", "string", "firstName", false);
+        this.setProp("object", "string", "lastName", false);
+        this.setProp("object", "string", "emailAddress", false);
 
     }
 
@@ -48966,13 +43909,6 @@ export class UserEmail extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["emailAddress"] = this.emailAddress;
-        return data; 
-    }
 }
 
 export interface IUserEmail {
@@ -48995,9 +43931,9 @@ export class InternalRecipient extends DTOBase {
 
     constructor(data?: IInternalRecipient) {
         super(data);
-        this.setProp("object", "recipient", true, (item: any) => User.fromJS(item));
-        this.setProp("object", "token", false);
-        this.setProp("object", "url", false);
+        this.setProp("object", "User", "recipient", true, (item: any) => User.fromJS(item));
+        this.setProp("object", "string", "token", false);
+        this.setProp("object", "string", "url", false);
 
         if (data) {
             this.construct(data);
@@ -49022,13 +43958,6 @@ export class InternalRecipient extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["recipient"] = this.recipient ? this.recipient.toJSON() : <any>undefined;
-        data["token"] = this.token;
-        data["url"] = this.url;
-        return data; 
-    }
 }
 
 /** Internal share recipient */
@@ -49049,8 +43978,8 @@ export abstract class TemplateBase extends DTOBase {
 
     constructor(data?: ITemplateBase) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
 
         this._kind = "TemplateBase";
     }
@@ -49083,13 +44012,6 @@ export abstract class TemplateBase extends DTOBase {
         throw new Error("The abstract class 'TemplateBase' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["width"] = this.width;
-        data["height"] = this.height;
-        return data; 
-    }
 }
 
 export interface ITemplateBase {
@@ -49105,10 +44027,10 @@ export class CardTemplate extends TemplateBase implements ICardTemplate {
 
     constructor(data?: ICardTemplate) {
         super(data);
-        this.setProp("object", "showNavigation", false);
-        this.setProp("object", "showOverlay", false);
-        this.setProp("object", "showLogo", false);
-        this.setProp("object", "showFooter", false);
+        this.setProp("object", "boolean", "showNavigation", false);
+        this.setProp("object", "boolean", "showOverlay", false);
+        this.setProp("object", "boolean", "showLogo", false);
+        this.setProp("object", "boolean", "showFooter", false);
 
         this._kind = "CardTemplate";
     }
@@ -49128,15 +44050,6 @@ export class CardTemplate extends TemplateBase implements ICardTemplate {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["showNavigation"] = this.showNavigation;
-        data["showOverlay"] = this.showOverlay;
-        data["showLogo"] = this.showLogo;
-        data["showFooter"] = this.showFooter;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ICardTemplate extends ITemplateBase {
@@ -49169,11 +44082,6 @@ export class ListTemplate extends TemplateBase implements IListTemplate {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IListTemplate extends ITemplateBase {
@@ -49202,11 +44110,6 @@ export class BasicTemplate extends TemplateBase implements IBasicTemplate {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IBasicTemplate extends ITemplateBase {
@@ -49226,10 +44129,10 @@ export class BaseResultOfShare extends DTOBase {
 
     constructor(data?: IBaseResultOfShare) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => Share.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "Share[]", "results", true, (item: any) => Share.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -49254,18 +44157,6 @@ export class BaseResultOfShare extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfShare {
@@ -49282,9 +44173,9 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
 
     constructor(data?: ISearchBehaviorBaseResultOfShare) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -49306,14 +44197,6 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
@@ -49345,11 +44228,6 @@ export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implement
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result for share search operation */
@@ -49375,13 +44253,13 @@ export class Share extends DTOBase {
 
     constructor(data?: IShare) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "name", false);
-        this.setProp("array", "contentIds", false);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "expirationDate", false);
-        this.setProp("object", "shareType", false);
-        this.setProp("object", "isReadOnly", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("array", "string[]", "contentIds", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "Date", "expirationDate", false);
+        this.setProp("object", "ShareType", "shareType", false);
+        this.setProp("object", "boolean", "isReadOnly", false);
 
         if (data) {
             this.construct(data);
@@ -49407,21 +44285,6 @@ export class Share extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        data["shareType"] = this.shareType;
-        data["isReadOnly"] = this.isReadOnly;
-        return data; 
-    }
 }
 
 /** Share */
@@ -49461,13 +44324,13 @@ export class ShareSearchRequest extends DTOBase {
 
     constructor(data?: IShareSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "debugMode", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "debugMode", false);
 
         if (data) {
             this.construct(data);
@@ -49489,25 +44352,6 @@ export class ShareSearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
 }
 
 /** Request to search shares */
@@ -49547,12 +44391,12 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 
     constructor(data?: IShareAggregationRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
-        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "AggregationFilter[]", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -49574,32 +44418,6 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Request to aggregate shares based on the specified aggregators */
@@ -49627,7 +44445,7 @@ export class CreateShareResult extends DTOBase {
 
     constructor(data?: ICreateShareResult) {
         super(data);
-        this.setProp("object", "shareId", false);
+        this.setProp("object", "string", "shareId", false);
 
     }
 
@@ -49646,11 +44464,6 @@ export class CreateShareResult extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["shareId"] = this.shareId;
-        return data; 
-    }
 }
 
 /** Result of share creation */
@@ -49680,13 +44493,13 @@ export abstract class ShareBaseCreateRequest extends DTOBase {
 
     constructor(data?: IShareBaseCreateRequest) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "description", false);
-        this.setProp("object", "expirationDate", false);
-        this.setProp("array", "contents", true, (item: any) => ShareContent.fromJS(item));
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "template", true, (item: any) => TemplateBase.fromJS(item));
-        this.setProp("object", "outputAccess", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "string", "description", false);
+        this.setProp("object", "Date", "expirationDate", false);
+        this.setProp("array", "ShareContent[]", "contents", true, (item: any) => ShareContent.fromJS(item));
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "TemplateBase", "template", true, (item: any) => TemplateBase.fromJS(item));
+        this.setProp("object", "OutputAccess", "outputAccess", false);
 
         if (data) {
             this.construct(data);
@@ -49720,26 +44533,6 @@ export abstract class ShareBaseCreateRequest extends DTOBase {
         throw new Error("The abstract class 'ShareBaseCreateRequest' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["name"] = this.name;
-        data["description"] = this.description;
-        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        if (Array.isArray(this.contents)) {
-            data["contents"] = [];
-            for (let item of this.contents)
-                data["contents"].push(item.toJSON());
-        }
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["template"] = this.template ? this.template.toJSON() : <any>undefined;
-        data["outputAccess"] = this.outputAccess;
-        return data; 
-    }
 }
 
 /** Base create request for share */
@@ -49768,8 +44561,8 @@ export class ShareContent extends DTOBase {
 
     constructor(data?: IShareContent) {
         super(data);
-        this.setProp("object", "contentId", false);
-        this.setProp("array", "outputFormatIds", false);
+        this.setProp("object", "string", "contentId", false);
+        this.setProp("array", "string[]", "outputFormatIds", false);
 
     }
 
@@ -49788,16 +44581,6 @@ export class ShareContent extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IShareContent {
@@ -49819,10 +44602,10 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
 
     constructor(data?: IShareBasicCreateRequest) {
         super(data);
-        this.setProp("array", "recipientsEmail", true, (item: any) => UserEmail.fromJS(item));
-        this.setProp("array", "recipientsUser", true, (item: any) => User.fromJS(item));
-        this.setProp("array", "recipientsGroup", true, (item: any) => UserRole.fromJS(item));
-        this.setProp("object", "languageCode", false);
+        this.setProp("array", "UserEmail[]", "recipientsEmail", true, (item: any) => UserEmail.fromJS(item));
+        this.setProp("array", "User[]", "recipientsUser", true, (item: any) => User.fromJS(item));
+        this.setProp("array", "UserRole[]", "recipientsGroup", true, (item: any) => UserRole.fromJS(item));
+        this.setProp("object", "string", "languageCode", false);
 
         if (data) {
             this.construct(data);
@@ -49845,27 +44628,6 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.recipientsEmail)) {
-            data["recipientsEmail"] = [];
-            for (let item of this.recipientsEmail)
-                data["recipientsEmail"].push(item.toJSON());
-        }
-        if (Array.isArray(this.recipientsUser)) {
-            data["recipientsUser"] = [];
-            for (let item of this.recipientsUser)
-                data["recipientsUser"].push(item.toJSON());
-        }
-        if (Array.isArray(this.recipientsGroup)) {
-            data["recipientsGroup"] = [];
-            for (let item of this.recipientsGroup)
-                data["recipientsGroup"].push(item.toJSON());
-        }
-        data["languageCode"] = this.languageCode;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
@@ -49888,8 +44650,8 @@ export class UserRoleEditable extends DTOBase {
 
     constructor(data?: IUserRoleEditable) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("array", "userRights", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("array", "UserRight[]", "userRights", false);
 
         if (data) {
             this.construct(data);
@@ -49915,16 +44677,6 @@ export class UserRoleEditable extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRights)) {
-            data["userRights"] = [];
-            for (let item of this.userRights)
-                data["userRights"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Represents a user role, which associates users with user rights. */
@@ -49942,7 +44694,7 @@ export class UserRole extends UserRoleEditable implements IUserRole {
 
     constructor(data?: IUserRole) {
         super(data);
-        this.setProp("object", "id", false);
+        this.setProp("object", "string", "id", false);
 
     }
 
@@ -49961,12 +44713,6 @@ export class UserRole extends UserRoleEditable implements IUserRole {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents a user role, which associates users with user rights. */
@@ -49999,11 +44745,6 @@ export class ShareEmbedCreateRequest extends ShareBaseCreateRequest implements I
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Create request for embed share */
@@ -50031,13 +44772,13 @@ export abstract class ShareBaseUpdateRequest extends DTOBase {
 
     constructor(data?: IShareBaseUpdateRequest) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "expirationDate", false);
-        this.setProp("object", "description", false);
-        this.setProp("array", "contents", true, (item: any) => ShareContent.fromJS(item));
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "template", true, (item: any) => TemplateBase.fromJS(item));
-        this.setProp("object", "outputAccess", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "Date", "expirationDate", false);
+        this.setProp("object", "string", "description", false);
+        this.setProp("array", "ShareContent[]", "contents", true, (item: any) => ShareContent.fromJS(item));
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "TemplateBase", "template", true, (item: any) => TemplateBase.fromJS(item));
+        this.setProp("object", "OutputAccess", "outputAccess", false);
 
         if (data) {
             this.construct(data);
@@ -50071,26 +44812,6 @@ export abstract class ShareBaseUpdateRequest extends DTOBase {
         throw new Error("The abstract class 'ShareBaseUpdateRequest' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["name"] = this.name;
-        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
-        data["description"] = this.description;
-        if (Array.isArray(this.contents)) {
-            data["contents"] = [];
-            for (let item of this.contents)
-                data["contents"].push(item.toJSON());
-        }
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["template"] = this.template ? this.template.toJSON() : <any>undefined;
-        data["outputAccess"] = this.outputAccess;
-        return data; 
-    }
 }
 
 /** Base of update request for share */
@@ -50135,11 +44856,6 @@ export class ShareBasicUpdateRequest extends ShareBaseUpdateRequest implements I
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Update request for basic share */
@@ -50170,11 +44886,6 @@ export class ShareEmbedUpdateRequest extends ShareBaseUpdateRequest implements I
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Update request for embed share */
@@ -50187,7 +44898,7 @@ export class ShareDeleteManyRequest extends DTOBase {
 
     constructor(data?: IShareDeleteManyRequest) {
         super(data);
-        this.setProp("array", "ids", false);
+        this.setProp("array", "string[]", "ids", false);
 
         if (!data) {
             this.ids = [];
@@ -50209,15 +44920,6 @@ export class ShareDeleteManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.ids)) {
-            data["ids"] = [];
-            for (let item of this.ids)
-                data["ids"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IShareDeleteManyRequest {
@@ -50248,15 +44950,15 @@ export class TransferDetail extends Transfer implements ITransferDetail {
 
     constructor(data?: ITransferDetail) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "itemProgress", false);
-        this.setProp("object", "itemCount", false);
-        this.setProp("object", "fileUploadInProgressCount", false);
-        this.setProp("object", "dataExtractionInProgressCount", false);
-        this.setProp("object", "itemsFailed", false);
-        this.setProp("object", "itemsCancelled", false);
-        this.setProp("object", "lastDataExtractionProgressTimeStamp", false);
-        this.setProp("object", "lastFileUploadProgressTimeStamp", false);
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "number", "itemProgress", false);
+        this.setProp("object", "number", "itemCount", false);
+        this.setProp("object", "number", "fileUploadInProgressCount", false);
+        this.setProp("object", "number", "dataExtractionInProgressCount", false);
+        this.setProp("object", "number", "itemsFailed", false);
+        this.setProp("object", "number", "itemsCancelled", false);
+        this.setProp("object", "Date", "lastDataExtractionProgressTimeStamp", false);
+        this.setProp("object", "Date", "lastFileUploadProgressTimeStamp", false);
 
         if (data) {
             this.construct(data);
@@ -50281,20 +44983,6 @@ export class TransferDetail extends Transfer implements ITransferDetail {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["itemProgress"] = this.itemProgress;
-        data["itemCount"] = this.itemCount;
-        data["fileUploadInProgressCount"] = this.fileUploadInProgressCount;
-        data["dataExtractionInProgressCount"] = this.dataExtractionInProgressCount;
-        data["itemsFailed"] = this.itemsFailed;
-        data["itemsCancelled"] = this.itemsCancelled;
-        data["lastDataExtractionProgressTimeStamp"] = this.lastDataExtractionProgressTimeStamp ? this.lastDataExtractionProgressTimeStamp.toISOString() : <any>undefined;
-        data["lastFileUploadProgressTimeStamp"] = this.lastFileUploadProgressTimeStamp ? this.lastFileUploadProgressTimeStamp.toISOString() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents a transfer and includes detailed information. */
@@ -50327,10 +45015,10 @@ export class BaseResultOfTransfer extends DTOBase {
 
     constructor(data?: IBaseResultOfTransfer) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => Transfer.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "Transfer[]", "results", true, (item: any) => Transfer.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -50355,18 +45043,6 @@ export class BaseResultOfTransfer extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfTransfer {
@@ -50383,9 +45059,9 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
 
     constructor(data?: ISearchBehaviorBaseResultOfTransfer) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -50407,14 +45083,6 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfTransfer extends IBaseResultOfTransfer {
@@ -50446,11 +45114,6 @@ export class TransferSearchResult extends SearchBehaviorBaseResultOfTransfer imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result from a search for transfers. */
@@ -50475,12 +45138,12 @@ Warning! It severely affects performance. */
 
     constructor(data?: ITransferSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "debugMode", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "debugMode", false);
 
     }
 
@@ -50499,20 +45162,6 @@ Warning! It severely affects performance. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
 }
 
 /** Request to search for transfers. */
@@ -50549,12 +45198,12 @@ export class CreateTransferRequest extends DTOBase {
 
     constructor(data?: ICreateTransferRequest) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "transferType", false);
-        this.setProp("array", "files", true, (item: any) => TransferUploadFile.fromJS(item));
-        this.setProp("array", "webLinks", true, (item: any) => TransferWebLink.fromJS(item));
-        this.setProp("object", "collectionName", false);
-        this.setProp("object", "createCollection", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "TransferType", "transferType", false);
+        this.setProp("array", "TransferUploadFile[]", "files", true, (item: any) => TransferUploadFile.fromJS(item));
+        this.setProp("array", "TransferWebLink[]", "webLinks", true, (item: any) => TransferWebLink.fromJS(item));
+        this.setProp("object", "string", "collectionName", false);
+        this.setProp("object", "boolean", "createCollection", false);
 
     }
 
@@ -50573,24 +45222,6 @@ export class CreateTransferRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["transferType"] = this.transferType;
-        if (Array.isArray(this.files)) {
-            data["files"] = [];
-            for (let item of this.files)
-                data["files"].push(item.toJSON());
-        }
-        if (Array.isArray(this.webLinks)) {
-            data["webLinks"] = [];
-            for (let item of this.webLinks)
-                data["webLinks"].push(item.toJSON());
-        }
-        data["collectionName"] = this.collectionName;
-        data["createCollection"] = this.createCollection;
-        return data; 
-    }
 }
 
 /** Creates a transfer. */
@@ -50618,8 +45249,8 @@ export abstract class TransferFile extends DTOBase {
 
     constructor(data?: ITransferFile) {
         super(data);
-        this.setProp("object", "identifier", false);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "string", "identifier", false);
+        this.setProp("object", "string", "requestId", false);
 
     }
 
@@ -50636,12 +45267,6 @@ export abstract class TransferFile extends DTOBase {
         throw new Error("The abstract class 'TransferFile' cannot be instantiated.");
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["identifier"] = this.identifier;
-        data["requestId"] = this.requestId;
-        return data; 
-    }
 }
 
 /** Represents the base class for transfer items. */
@@ -50659,7 +45284,7 @@ export class TransferUploadFile extends TransferFile implements ITransferUploadF
 
     constructor(data?: ITransferUploadFile) {
         super(data);
-        this.setProp("object", "fileName", false);
+        this.setProp("object", "string", "fileName", false);
 
     }
 
@@ -50678,12 +45303,6 @@ export class TransferUploadFile extends TransferFile implements ITransferUploadF
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileName"] = this.fileName;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents a file being uploaded in a transfer. */
@@ -50699,7 +45318,7 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
 
     constructor(data?: ITransferWebLink) {
         super(data);
-        this.setProp("object", "url", false);
+        this.setProp("object", "string", "url", false);
 
     }
 
@@ -50718,12 +45337,6 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["url"] = this.url;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents an item being downloaded by URL in a transfer. */
@@ -50751,13 +45364,13 @@ export class FileTransfer extends DTOBase {
 
     constructor(data?: IFileTransfer) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "name", false);
-        this.setProp("object", "identifier", false);
-        this.setProp("object", "requestId", false);
-        this.setProp("object", "transferId", false);
-        this.setProp("object", "state", false);
-        this.setProp("object", "contentId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "string", "identifier", false);
+        this.setProp("object", "string", "requestId", false);
+        this.setProp("object", "string", "transferId", false);
+        this.setProp("object", "FileTransferState", "state", false);
+        this.setProp("object", "string", "contentId", false);
 
     }
 
@@ -50776,17 +45389,6 @@ export class FileTransfer extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["identifier"] = this.identifier;
-        data["requestId"] = this.requestId;
-        data["transferId"] = this.transferId;
-        data["state"] = this.state;
-        data["contentId"] = this.contentId;
-        return data; 
-    }
 }
 
 /** Representation of a file transfer. */
@@ -50818,9 +45420,9 @@ export class FileTransferDetail extends FileTransfer implements IFileTransferDet
 
     constructor(data?: IFileTransferDetail) {
         super(data);
-        this.setProp("object", "audit", true, (item: any) => UserAudit.fromJS(item));
-        this.setProp("object", "fileMetadata", true, (item: any) => FileMetadata.fromJS(item));
-        this.setProp("array", "outputItems", true, (item: any) => FileTransferOutput.fromJS(item));
+        this.setProp("object", "UserAudit", "audit", true, (item: any) => UserAudit.fromJS(item));
+        this.setProp("object", "FileMetadata", "fileMetadata", true, (item: any) => FileMetadata.fromJS(item));
+        this.setProp("array", "FileTransferOutput[]", "outputItems", true, (item: any) => FileTransferOutput.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -50845,18 +45447,6 @@ export class FileTransferDetail extends FileTransfer implements IFileTransferDet
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["fileMetadata"] = this.fileMetadata ? this.fileMetadata.toJSON() : <any>undefined;
-        if (Array.isArray(this.outputItems)) {
-            data["outputItems"] = [];
-            for (let item of this.outputItems)
-                data["outputItems"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Detailed representation of file transfer. */
@@ -50885,16 +45475,16 @@ export class FileMetadata extends DTOBase {
 
     constructor(data?: IFileMetadata) {
         super(data);
-        this.setProp("object", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
-        this.setProp("object", "fileExtension", false);
-        this.setProp("object", "fileName", false);
-        this.setProp("object", "filePath", false);
-        this.setProp("object", "fileSizeInBytes", false);
-        this.setProp("object", "sha1Hash", false);
-        this.setProp("object", "xmpMetadata", false);
-        this.setProp("object", "exifMetadata", false);
-        this.setProp("object", "language", false);
+        this.setProp("object", "TranslatedStringDictionary", "names", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "TranslatedStringDictionary", "descriptions", true, (item: any) => TranslatedStringDictionary.fromJS(item));
+        this.setProp("object", "string", "fileExtension", false);
+        this.setProp("object", "string", "fileName", false);
+        this.setProp("object", "string", "filePath", false);
+        this.setProp("object", "number", "fileSizeInBytes", false);
+        this.setProp("object", "string", "sha1Hash", false);
+        this.setProp("object", "any", "xmpMetadata", false);
+        this.setProp("object", "any", "exifMetadata", false);
+        this.setProp("object", "string", "language", false);
 
         if (data) {
             this.construct(data);
@@ -50937,21 +45527,6 @@ export class FileMetadata extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._kind; 
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
-        data["fileExtension"] = this.fileExtension;
-        data["fileName"] = this.fileName;
-        data["filePath"] = this.filePath;
-        data["fileSizeInBytes"] = this.fileSizeInBytes;
-        data["sha1Hash"] = this.sha1Hash;
-        data["xmpMetadata"] = this.xmpMetadata;
-        data["exifMetadata"] = this.exifMetadata;
-        data["language"] = this.language;
-        return data; 
-    }
 }
 
 export interface IFileMetadata {
@@ -50972,7 +45547,7 @@ export class AudioMetadata extends FileMetadata implements IAudioMetadata {
 
     constructor(data?: IAudioMetadata) {
         super(data);
-        this.setProp("array", "audioStreams", true, (item: any) => AudioStream.fromJS(item));
+        this.setProp("array", "AudioStream[]", "audioStreams", true, (item: any) => AudioStream.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -50995,16 +45570,6 @@ export class AudioMetadata extends FileMetadata implements IAudioMetadata {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.audioStreams)) {
-            data["audioStreams"] = [];
-            for (let item of this.audioStreams)
-                data["audioStreams"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IAudioMetadata extends IFileMetadata {
@@ -51026,17 +45591,17 @@ export class AudioStream extends DTOBase {
 
     constructor(data?: IAudioStream) {
         super(data);
-        this.setProp("object", "bitRate", false);
-        this.setProp("object", "bitRateMode", false);
-        this.setProp("object", "channels", false);
-        this.setProp("object", "channelPositions", false);
-        this.setProp("object", "codec", false);
-        this.setProp("object", "durationInSeconds", false);
-        this.setProp("object", "format", false);
-        this.setProp("object", "language", false);
-        this.setProp("object", "resolution", false);
-        this.setProp("object", "samplingRate", false);
-        this.setProp("object", "streamSize", false);
+        this.setProp("object", "string", "bitRate", false);
+        this.setProp("object", "string", "bitRateMode", false);
+        this.setProp("object", "string", "channels", false);
+        this.setProp("object", "string", "channelPositions", false);
+        this.setProp("object", "string", "codec", false);
+        this.setProp("object", "number", "durationInSeconds", false);
+        this.setProp("object", "string", "format", false);
+        this.setProp("object", "string", "language", false);
+        this.setProp("object", "number", "resolution", false);
+        this.setProp("object", "number", "samplingRate", false);
+        this.setProp("object", "number", "streamSize", false);
 
     }
 
@@ -51055,21 +45620,6 @@ export class AudioStream extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["bitRate"] = this.bitRate;
-        data["bitRateMode"] = this.bitRateMode;
-        data["channels"] = this.channels;
-        data["channelPositions"] = this.channelPositions;
-        data["codec"] = this.codec;
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["format"] = this.format;
-        data["language"] = this.language;
-        data["resolution"] = this.resolution;
-        data["samplingRate"] = this.samplingRate;
-        data["streamSize"] = this.streamSize;
-        return data; 
-    }
 }
 
 export interface IAudioStream {
@@ -51107,23 +45657,23 @@ export class DocumentMetadata extends FileMetadata implements IDocumentMetadata 
 
     constructor(data?: IDocumentMetadata) {
         super(data);
-        this.setProp("object", "applicationName", false);
-        this.setProp("object", "applicationVersion", false);
-        this.setProp("object", "author", false);
-        this.setProp("object", "creator", false);
-        this.setProp("object", "publisher", false);
-        this.setProp("object", "company", false);
-        this.setProp("object", "documentTitle", false);
-        this.setProp("object", "characterCount", false);
-        this.setProp("object", "characterCountWithSpaces", false);
-        this.setProp("object", "lineCount", false);
-        this.setProp("object", "pageCount", false);
-        this.setProp("object", "slideCount", false);
-        this.setProp("object", "paragraphCount", false);
-        this.setProp("object", "revisionNumber", false);
-        this.setProp("array", "titles", false);
-        this.setProp("array", "imageTitles", false);
-        this.setProp("object", "epsInfo", true, (item: any) => EpsMetadata.fromJS(item));
+        this.setProp("object", "string", "applicationName", false);
+        this.setProp("object", "string", "applicationVersion", false);
+        this.setProp("object", "string", "author", false);
+        this.setProp("object", "string", "creator", false);
+        this.setProp("object", "string", "publisher", false);
+        this.setProp("object", "string", "company", false);
+        this.setProp("object", "string", "documentTitle", false);
+        this.setProp("object", "number", "characterCount", false);
+        this.setProp("object", "number", "characterCountWithSpaces", false);
+        this.setProp("object", "number", "lineCount", false);
+        this.setProp("object", "number", "pageCount", false);
+        this.setProp("object", "number", "slideCount", false);
+        this.setProp("object", "number", "paragraphCount", false);
+        this.setProp("object", "number", "revisionNumber", false);
+        this.setProp("array", "string[]", "titles", false);
+        this.setProp("array", "string[]", "imageTitles", false);
+        this.setProp("object", "EpsMetadata", "epsInfo", true, (item: any) => EpsMetadata.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51146,36 +45696,6 @@ export class DocumentMetadata extends FileMetadata implements IDocumentMetadata 
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["applicationName"] = this.applicationName;
-        data["applicationVersion"] = this.applicationVersion;
-        data["author"] = this.author;
-        data["creator"] = this.creator;
-        data["publisher"] = this.publisher;
-        data["company"] = this.company;
-        data["documentTitle"] = this.documentTitle;
-        data["characterCount"] = this.characterCount;
-        data["characterCountWithSpaces"] = this.characterCountWithSpaces;
-        data["lineCount"] = this.lineCount;
-        data["pageCount"] = this.pageCount;
-        data["slideCount"] = this.slideCount;
-        data["paragraphCount"] = this.paragraphCount;
-        data["revisionNumber"] = this.revisionNumber;
-        if (Array.isArray(this.titles)) {
-            data["titles"] = [];
-            for (let item of this.titles)
-                data["titles"].push(item);
-        }
-        if (Array.isArray(this.imageTitles)) {
-            data["imageTitles"] = [];
-            for (let item of this.imageTitles)
-                data["imageTitles"].push(item);
-        }
-        data["epsInfo"] = this.epsInfo ? this.epsInfo.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IDocumentMetadata extends IFileMetadata {
@@ -51205,9 +45725,9 @@ export class EpsMetadata extends DTOBase {
 
     constructor(data?: IEpsMetadata) {
         super(data);
-        this.setProp("object", "isRasterized", false);
-        this.setProp("object", "widthInPoints", false);
-        this.setProp("object", "heightInPoints", false);
+        this.setProp("object", "boolean", "isRasterized", false);
+        this.setProp("object", "number", "widthInPoints", false);
+        this.setProp("object", "number", "heightInPoints", false);
 
     }
 
@@ -51226,13 +45746,6 @@ export class EpsMetadata extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["isRasterized"] = this.isRasterized;
-        data["widthInPoints"] = this.widthInPoints;
-        data["heightInPoints"] = this.heightInPoints;
-        return data; 
-    }
 }
 
 export interface IEpsMetadata {
@@ -51269,30 +45782,30 @@ export class ImageMetadata extends FileMetadata implements IImageMetadata {
 
     constructor(data?: IImageMetadata) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "widthInInch", false);
-        this.setProp("object", "heightInInch", false);
-        this.setProp("object", "widthInCm", false);
-        this.setProp("object", "heightInCm", false);
-        this.setProp("object", "colorSpace", false);
-        this.setProp("object", "colorProfile", false);
-        this.setProp("object", "bitsPerPixel", false);
-        this.setProp("object", "bitsPerChannel", false);
-        this.setProp("object", "channels", false);
-        this.setProp("object", "pixelFormat", false);
-        this.setProp("object", "hasAlpha", false);
-        this.setProp("object", "isIndexed", false);
-        this.setProp("object", "isExtended", false);
-        this.setProp("object", "horizontalResolution", false);
-        this.setProp("object", "verticalResolution", false);
-        this.setProp("object", "totalFrames", false);
-        this.setProp("object", "totalUnspecifiedTiffExtraChannels", false);
-        this.setProp("object", "hasExifData", false);
-        this.setProp("object", "hasIptcData", false);
-        this.setProp("object", "hasAdobeResourceData", false);
-        this.setProp("object", "hasXmpData", false);
-        this.setProp("object", "uncompressedSizeInBytes", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "number", "widthInInch", false);
+        this.setProp("object", "number", "heightInInch", false);
+        this.setProp("object", "number", "widthInCm", false);
+        this.setProp("object", "number", "heightInCm", false);
+        this.setProp("object", "string", "colorSpace", false);
+        this.setProp("object", "string", "colorProfile", false);
+        this.setProp("object", "number", "bitsPerPixel", false);
+        this.setProp("object", "number", "bitsPerChannel", false);
+        this.setProp("object", "string", "channels", false);
+        this.setProp("object", "string", "pixelFormat", false);
+        this.setProp("object", "boolean", "hasAlpha", false);
+        this.setProp("object", "boolean", "isIndexed", false);
+        this.setProp("object", "boolean", "isExtended", false);
+        this.setProp("object", "number", "horizontalResolution", false);
+        this.setProp("object", "number", "verticalResolution", false);
+        this.setProp("object", "number", "totalFrames", false);
+        this.setProp("object", "number", "totalUnspecifiedTiffExtraChannels", false);
+        this.setProp("object", "boolean", "hasExifData", false);
+        this.setProp("object", "boolean", "hasIptcData", false);
+        this.setProp("object", "boolean", "hasAdobeResourceData", false);
+        this.setProp("object", "boolean", "hasXmpData", false);
+        this.setProp("object", "number", "uncompressedSizeInBytes", false);
 
         this._kind = "ImageMetadata";
     }
@@ -51312,35 +45825,6 @@ export class ImageMetadata extends FileMetadata implements IImageMetadata {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["widthInInch"] = this.widthInInch;
-        data["heightInInch"] = this.heightInInch;
-        data["widthInCm"] = this.widthInCm;
-        data["heightInCm"] = this.heightInCm;
-        data["colorSpace"] = this.colorSpace;
-        data["colorProfile"] = this.colorProfile;
-        data["bitsPerPixel"] = this.bitsPerPixel;
-        data["bitsPerChannel"] = this.bitsPerChannel;
-        data["channels"] = this.channels;
-        data["pixelFormat"] = this.pixelFormat;
-        data["hasAlpha"] = this.hasAlpha;
-        data["isIndexed"] = this.isIndexed;
-        data["isExtended"] = this.isExtended;
-        data["horizontalResolution"] = this.horizontalResolution;
-        data["verticalResolution"] = this.verticalResolution;
-        data["totalFrames"] = this.totalFrames;
-        data["totalUnspecifiedTiffExtraChannels"] = this.totalUnspecifiedTiffExtraChannels;
-        data["hasExifData"] = this.hasExifData;
-        data["hasIptcData"] = this.hasIptcData;
-        data["hasAdobeResourceData"] = this.hasAdobeResourceData;
-        data["hasXmpData"] = this.hasXmpData;
-        data["uncompressedSizeInBytes"] = this.uncompressedSizeInBytes;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IImageMetadata extends IFileMetadata {
@@ -51382,14 +45866,14 @@ export class VideoMetadata extends FileMetadata implements IVideoMetadata {
 
     constructor(data?: IVideoMetadata) {
         super(data);
-        this.setProp("object", "width", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "durationInSeconds", false);
-        this.setProp("object", "format", false);
-        this.setProp("object", "codec", false);
-        this.setProp("object", "overallBitrate", false);
-        this.setProp("array", "videoStreams", true, (item: any) => VideoStream.fromJS(item));
-        this.setProp("array", "audioStreams", true, (item: any) => AudioStream.fromJS(item));
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "number", "durationInSeconds", false);
+        this.setProp("object", "string", "format", false);
+        this.setProp("object", "string", "codec", false);
+        this.setProp("object", "number", "overallBitrate", false);
+        this.setProp("array", "VideoStream[]", "videoStreams", true, (item: any) => VideoStream.fromJS(item));
+        this.setProp("array", "AudioStream[]", "audioStreams", true, (item: any) => AudioStream.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51412,27 +45896,6 @@ export class VideoMetadata extends FileMetadata implements IVideoMetadata {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["format"] = this.format;
-        data["codec"] = this.codec;
-        data["overallBitrate"] = this.overallBitrate;
-        if (Array.isArray(this.videoStreams)) {
-            data["videoStreams"] = [];
-            for (let item of this.videoStreams)
-                data["videoStreams"].push(item.toJSON());
-        }
-        if (Array.isArray(this.audioStreams)) {
-            data["audioStreams"] = [];
-            for (let item of this.audioStreams)
-                data["audioStreams"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface IVideoMetadata extends IFileMetadata {
@@ -51464,20 +45927,20 @@ export class VideoStream extends DTOBase {
 
     constructor(data?: IVideoStream) {
         super(data);
-        this.setProp("object", "bitRate", false);
-        this.setProp("object", "codec", false);
-        this.setProp("object", "displayAspectRatio", false);
-        this.setProp("object", "durationInSeconds", false);
-        this.setProp("object", "format", false);
-        this.setProp("object", "frameCount", false);
-        this.setProp("object", "frameRate", false);
-        this.setProp("object", "height", false);
-        this.setProp("object", "language", false);
-        this.setProp("object", "pixelAspectRatio", false);
-        this.setProp("object", "resolution", false);
-        this.setProp("object", "streamSize", false);
-        this.setProp("object", "width", false);
-        this.setProp("object", "rotation", false);
+        this.setProp("object", "string", "bitRate", false);
+        this.setProp("object", "string", "codec", false);
+        this.setProp("object", "string", "displayAspectRatio", false);
+        this.setProp("object", "number", "durationInSeconds", false);
+        this.setProp("object", "string", "format", false);
+        this.setProp("object", "number", "frameCount", false);
+        this.setProp("object", "number", "frameRate", false);
+        this.setProp("object", "number", "height", false);
+        this.setProp("object", "string", "language", false);
+        this.setProp("object", "number", "pixelAspectRatio", false);
+        this.setProp("object", "number", "resolution", false);
+        this.setProp("object", "number", "streamSize", false);
+        this.setProp("object", "number", "width", false);
+        this.setProp("object", "number", "rotation", false);
 
     }
 
@@ -51496,24 +45959,6 @@ export class VideoStream extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["bitRate"] = this.bitRate;
-        data["codec"] = this.codec;
-        data["displayAspectRatio"] = this.displayAspectRatio;
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["format"] = this.format;
-        data["frameCount"] = this.frameCount;
-        data["frameRate"] = this.frameRate;
-        data["height"] = this.height;
-        data["language"] = this.language;
-        data["pixelAspectRatio"] = this.pixelAspectRatio;
-        data["resolution"] = this.resolution;
-        data["streamSize"] = this.streamSize;
-        data["width"] = this.width;
-        data["rotation"] = this.rotation;
-        return data; 
-    }
 }
 
 export interface IVideoStream {
@@ -51540,9 +45985,9 @@ export class FileTransferOutput extends DTOBase {
 
     constructor(data?: IFileTransferOutput) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "filePath", false);
-        this.setProp("object", "outputSource", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "filePath", false);
+        this.setProp("object", "OutputSource", "outputSource", false);
 
     }
 
@@ -51561,13 +46006,6 @@ export class FileTransferOutput extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["filePath"] = this.filePath;
-        data["outputSource"] = this.outputSource;
-        return data; 
-    }
 }
 
 export interface IFileTransferOutput {
@@ -51607,10 +46045,10 @@ export class BaseResultOfFileTransfer extends DTOBase {
 
     constructor(data?: IBaseResultOfFileTransfer) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => FileTransfer.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "FileTransfer[]", "results", true, (item: any) => FileTransfer.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -51635,18 +46073,6 @@ export class BaseResultOfFileTransfer extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfFileTransfer {
@@ -51663,9 +46089,9 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
 
     constructor(data?: ISearchBehaviorBaseResultOfFileTransfer) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51687,14 +46113,6 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfFileTransfer extends IBaseResultOfFileTransfer {
@@ -51726,11 +46144,6 @@ export class FileTransferSearchResult extends SearchBehaviorBaseResultOfFileTran
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Result from a search for file transfers. */
@@ -51752,11 +46165,11 @@ export class FileTransferSearchRequest extends DTOBase {
 
     constructor(data?: IFileTransferSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
 
     }
 
@@ -51775,19 +46188,6 @@ export class FileTransferSearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Request to search for file transfers. */
@@ -51811,7 +46211,7 @@ export class Blacklist extends DTOBase {
 
     constructor(data?: IBlacklist) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => BlacklistItem.fromJS(item));
+        this.setProp("array", "BlacklistItem[]", "items", true, (item: any) => BlacklistItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -51836,15 +46236,6 @@ export class Blacklist extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Blacklist containing file name patterns skipped when uploading. */
@@ -51862,8 +46253,8 @@ export class BlacklistItem extends DTOBase {
 
     constructor(data?: IBlacklistItem) {
         super(data);
-        this.setProp("object", "name", false);
-        this.setProp("object", "match", false);
+        this.setProp("object", "string", "name", false);
+        this.setProp("object", "string", "match", false);
 
     }
 
@@ -51882,12 +46273,6 @@ export class BlacklistItem extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["match"] = this.match;
-        return data; 
-    }
 }
 
 /** Entry in the Blacklist. */
@@ -51907,8 +46292,8 @@ export class FileTransferDeleteRequest extends DTOBase {
 
     constructor(data?: IFileTransferDeleteRequest) {
         super(data);
-        this.setProp("object", "transferId", false);
-        this.setProp("array", "fileTransferIds", false);
+        this.setProp("object", "string", "transferId", false);
+        this.setProp("array", "string[]", "fileTransferIds", false);
 
         if (!data) {
             this.fileTransferIds = [];
@@ -51930,16 +46315,6 @@ export class FileTransferDeleteRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["transferId"] = this.transferId;
-        if (Array.isArray(this.fileTransferIds)) {
-            data["fileTransferIds"] = [];
-            for (let item of this.fileTransferIds)
-                data["fileTransferIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Deletes files from transfer. */
@@ -51959,9 +46334,9 @@ export class ImportTransferRequest extends DTOBase {
 
     constructor(data?: IImportTransferRequest) {
         super(data);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("array", "contentPermissionSetIds", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "DataDictionary", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("array", "string[]", "contentPermissionSetIds", false);
 
         if (data) {
             this.construct(data);
@@ -51983,21 +46358,6 @@ export class ImportTransferRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        if (Array.isArray(this.contentPermissionSetIds)) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IImportTransferRequest {
@@ -52013,7 +46373,7 @@ export class ImportTransferPartialRequest extends DTOBase {
 
     constructor(data?: IImportTransferPartialRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => FileTransferCreateItem.fromJS(item));
+        this.setProp("array", "FileTransferCreateItem[]", "items", true, (item: any) => FileTransferCreateItem.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -52035,15 +46395,6 @@ export class ImportTransferPartialRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 export interface IImportTransferPartialRequest {
@@ -52060,10 +46411,10 @@ export class FileTransferCreateItem extends DTOBase {
 
     constructor(data?: IFileTransferCreateItem) {
         super(data);
-        this.setProp("object", "fileId", false);
-        this.setProp("array", "layerSchemaIds", false);
-        this.setProp("object", "metadata", true, (item: any) => DataDictionary.fromJS(item));
-        this.setProp("array", "contentPermissionSetIds", false);
+        this.setProp("object", "string", "fileId", false);
+        this.setProp("array", "string[]", "layerSchemaIds", false);
+        this.setProp("object", "DataDictionary", "metadata", true, (item: any) => DataDictionary.fromJS(item));
+        this.setProp("array", "string[]", "contentPermissionSetIds", false);
 
         if (data) {
             this.construct(data);
@@ -52085,22 +46436,6 @@ export class FileTransferCreateItem extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileId"] = this.fileId;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
-        if (Array.isArray(this.contentPermissionSetIds)) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
-        return data; 
-    }
 }
 
 export interface IFileTransferCreateItem {
@@ -52125,10 +46460,10 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
 
     constructor(data?: IUserUpdateRequest) {
         super(data);
-        this.setProp("array", "userRoles", true, (item: any) => UserRole.fromJS(item));
-        this.setProp("object", "comment", false);
-        this.setProp("object", "languageCode", false);
-        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
+        this.setProp("array", "UserRole[]", "userRoles", true, (item: any) => UserRole.fromJS(item));
+        this.setProp("object", "string", "comment", false);
+        this.setProp("object", "string", "languageCode", false);
+        this.setProp("object", "UserAddress", "address", true, (item: any) => UserAddress.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -52150,19 +46485,6 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.userRoles)) {
-            data["userRoles"] = [];
-            for (let item of this.userRoles)
-                data["userRoles"].push(item.toJSON());
-        }
-        data["comment"] = this.comment;
-        data["languageCode"] = this.languageCode;
-        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Represents the updateable fields of the user. */
@@ -52194,12 +46516,12 @@ export class UserDetail extends UserUpdateRequest implements IUserDetail {
 
     constructor(data?: IUserDetail) {
         super(data);
-        this.setProp("array", "ownerTokens", true, (item: any) => OwnerToken.fromJS(item));
-        this.setProp("object", "authorizationState", false);
-        this.setProp("object", "isLocked", false);
-        this.setProp("object", "lifeCycle", false);
-        this.setProp("object", "isSupportUser", false);
-        this.setProp("object", "isReadOnly", false);
+        this.setProp("array", "OwnerToken[]", "ownerTokens", true, (item: any) => OwnerToken.fromJS(item));
+        this.setProp("object", "AuthorizationState", "authorizationState", false);
+        this.setProp("object", "boolean", "isLocked", false);
+        this.setProp("object", "LifeCycle", "lifeCycle", false);
+        this.setProp("object", "boolean", "isSupportUser", false);
+        this.setProp("object", "boolean", "isReadOnly", false);
 
         if (data) {
             this.construct(data);
@@ -52221,21 +46543,6 @@ export class UserDetail extends UserUpdateRequest implements IUserDetail {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.ownerTokens)) {
-            data["ownerTokens"] = [];
-            for (let item of this.ownerTokens)
-                data["ownerTokens"].push(item.toJSON());
-        }
-        data["authorizationState"] = this.authorizationState;
-        data["isLocked"] = this.isLocked;
-        data["lifeCycle"] = this.lifeCycle;
-        data["isSupportUser"] = this.isSupportUser;
-        data["isReadOnly"] = this.isReadOnly;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Detail information about a user. */
@@ -52262,8 +46569,8 @@ export class OwnerToken extends DTOBase {
 
     constructor(data?: IOwnerToken) {
         super(data);
-        this.setProp("object", "id", false);
-        this.setProp("object", "userId", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "userId", false);
 
     }
 
@@ -52282,12 +46589,6 @@ export class OwnerToken extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userId"] = this.userId;
-        return data; 
-    }
 }
 
 export interface IOwnerToken {
@@ -52314,12 +46615,12 @@ export class UserCreateRequest extends DTOBase {
 
     constructor(data?: IUserCreateRequest) {
         super(data);
-        this.setProp("object", "firstName", false);
-        this.setProp("object", "lastName", false);
-        this.setProp("object", "emailAddress", false);
-        this.setProp("object", "languageCode", false);
-        this.setProp("array", "userRoleIds", false);
-        this.setProp("object", "address", true, (item: any) => UserAddress.fromJS(item));
+        this.setProp("object", "string", "firstName", false);
+        this.setProp("object", "string", "lastName", false);
+        this.setProp("object", "string", "emailAddress", false);
+        this.setProp("object", "string", "languageCode", false);
+        this.setProp("array", "string[]", "userRoleIds", false);
+        this.setProp("object", "UserAddress", "address", true, (item: any) => UserAddress.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -52341,20 +46642,6 @@ export class UserCreateRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["emailAddress"] = this.emailAddress;
-        data["languageCode"] = this.languageCode;
-        if (Array.isArray(this.userRoleIds)) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
-        return data; 
-    }
 }
 
 /** Holds information needed for user creation. */
@@ -52381,10 +46668,10 @@ export class BaseResultOfUserWithRoles extends DTOBase {
 
     constructor(data?: IBaseResultOfUserWithRoles) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => UserWithRoles.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "UserWithRoles[]", "results", true, (item: any) => UserWithRoles.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (data) {
             this.construct(data);
@@ -52409,18 +46696,6 @@ export class BaseResultOfUserWithRoles extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfUserWithRoles {
@@ -52437,9 +46712,9 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
 
     constructor(data?: ISearchBehaviorBaseResultOfUserWithRoles) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -52461,14 +46736,6 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfUserWithRoles extends IBaseResultOfUserWithRoles {
@@ -52500,11 +46767,6 @@ export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles im
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Holds results of the user search. */
@@ -52534,15 +46796,15 @@ export class UserWithRoles extends DTOBase {
 
     constructor(data?: IUserWithRoles) {
         super(data);
-        this.setProp("array", "userRoleIds", false);
-        this.setProp("object", "id", false);
-        this.setProp("object", "firstName", false);
-        this.setProp("object", "lastName", false);
-        this.setProp("object", "emailAddress", false);
-        this.setProp("object", "authorizationState", false);
-        this.setProp("object", "lifeCycle", false);
-        this.setProp("object", "isSupportUser", false);
-        this.setProp("object", "isReadOnly", false);
+        this.setProp("array", "string[]", "userRoleIds", false);
+        this.setProp("object", "string", "id", false);
+        this.setProp("object", "string", "firstName", false);
+        this.setProp("object", "string", "lastName", false);
+        this.setProp("object", "string", "emailAddress", false);
+        this.setProp("object", "AuthorizationState", "authorizationState", false);
+        this.setProp("object", "LifeCycle", "lifeCycle", false);
+        this.setProp("object", "boolean", "isSupportUser", false);
+        this.setProp("object", "boolean", "isReadOnly", false);
 
     }
 
@@ -52561,23 +46823,6 @@ export class UserWithRoles extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.userRoleIds)) {
-            data["userRoleIds"] = [];
-            for (let item of this.userRoleIds)
-                data["userRoleIds"].push(item);
-        }
-        data["id"] = this.id;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["emailAddress"] = this.emailAddress;
-        data["authorizationState"] = this.authorizationState;
-        data["lifeCycle"] = this.lifeCycle;
-        data["isSupportUser"] = this.isSupportUser;
-        data["isReadOnly"] = this.isReadOnly;
-        return data; 
-    }
 }
 
 /** User information retrieved via search */
@@ -52626,16 +46871,16 @@ export class UserSearchRequest extends DTOBase {
 
     constructor(data?: IUserSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "lifeCycleFilter", false);
-        this.setProp("array", "userRightsFilter", false);
-        this.setProp("object", "debugMode", false);
-        this.setProp("object", "includeServiceUser", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "LifeCycleFilter", "lifeCycleFilter", false);
+        this.setProp("array", "UserRight[]", "userRightsFilter", false);
+        this.setProp("object", "boolean", "debugMode", false);
+        this.setProp("object", "boolean", "includeServiceUser", false);
 
         if (data) {
             this.construct(data);
@@ -52657,32 +46902,6 @@ export class UserSearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        if (Array.isArray(this.userRightsFilter)) {
-            data["userRightsFilter"] = [];
-            for (let item of this.userRightsFilter)
-                data["userRightsFilter"].push(item);
-        }
-        data["debugMode"] = this.debugMode;
-        data["includeServiceUser"] = this.includeServiceUser;
-        return data; 
-    }
 }
 
 /** Represents user search request. */
@@ -52727,12 +46946,12 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 
     constructor(data?: IUserAggregationRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("array", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
-        this.setProp("array", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("array", "AggregationFilter[]", "aggregationFilters", true, (item: any) => AggregationFilter.fromJS(item));
+        this.setProp("array", "AggregatorBase[]", "aggregators", true, (item: any) => AggregatorBase.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -52754,32 +46973,6 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Represents an aggregation request over users. */
@@ -52807,7 +47000,7 @@ If _true_ was specified, the user will be _locked_. _False_ will unlock the prev
 
     constructor(data?: IUserLockRequest) {
         super(data);
-        this.setProp("object", "lock", false);
+        this.setProp("object", "boolean", "lock", false);
 
     }
 
@@ -52826,11 +47019,6 @@ If _true_ was specified, the user will be _locked_. _False_ will unlock the prev
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["lock"] = this.lock;
-        return data; 
-    }
 }
 
 export interface IUserLockRequest {
@@ -52847,7 +47035,7 @@ If _true_ is specified, user will be transitioned into _reviewed_ state. _False_
 
     constructor(data?: IUserReviewRequest) {
         super(data);
-        this.setProp("object", "reviewed", false);
+        this.setProp("object", "boolean", "reviewed", false);
 
     }
 
@@ -52866,11 +47054,6 @@ If _true_ is specified, user will be transitioned into _reviewed_ state. _False_
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reviewed"] = this.reviewed;
-        return data; 
-    }
 }
 
 /** Holds additional information for user review. */
@@ -52887,7 +47070,7 @@ export class UserDeleteRequest extends DTOBase {
 
     constructor(data?: IUserDeleteRequest) {
         super(data);
-        this.setProp("object", "ownerTokenTransferUserId", false);
+        this.setProp("object", "string", "ownerTokenTransferUserId", false);
 
     }
 
@@ -52906,11 +47089,6 @@ export class UserDeleteRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["ownerTokenTransferUserId"] = this.ownerTokenTransferUserId;
-        return data; 
-    }
 }
 
 /** Details of the user deletion. */
@@ -52927,10 +47105,10 @@ export class BaseResultOfUserRole extends DTOBase {
 
     constructor(data?: IBaseResultOfUserRole) {
         super(data);
-        this.setProp("object", "totalResults", false);
-        this.setProp("array", "results", true, (item: any) => UserRole.fromJS(item));
-        this.setProp("object", "elapsedMilliseconds", false);
-        this.setProp("object", "pageToken", false);
+        this.setProp("object", "number", "totalResults", false);
+        this.setProp("array", "UserRole[]", "results", true, (item: any) => UserRole.fromJS(item));
+        this.setProp("object", "number", "elapsedMilliseconds", false);
+        this.setProp("object", "string", "pageToken", false);
 
         if (!data) {
             this.results = [];
@@ -52952,18 +47130,6 @@ export class BaseResultOfUserRole extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
 }
 
 export interface IBaseResultOfUserRole {
@@ -52980,9 +47146,9 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
 
     constructor(data?: ISearchBehaviorBaseResultOfUserRole) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("object", "isSearchStringRewritten", false);
-        this.setProp("object", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("object", "boolean", "isSearchStringRewritten", false);
+        this.setProp("object", "QueryDebugInformation", "queryDebugInformation", true, (item: any) => QueryDebugInformation.fromJS(item));
 
         if (data) {
             this.construct(data);
@@ -53004,14 +47170,6 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 export interface ISearchBehaviorBaseResultOfUserRole extends IBaseResultOfUserRole {
@@ -53043,11 +47201,6 @@ export class UserRoleSearchResult extends SearchBehaviorBaseResultOfUserRole imp
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Holds results of the user role search. */
@@ -53076,15 +47229,15 @@ export class UserRoleSearchRequest extends DTOBase {
 
     constructor(data?: IUserRoleSearchRequest) {
         super(data);
-        this.setProp("object", "searchString", false);
-        this.setProp("array", "searchBehaviors", false);
-        this.setProp("array", "sort", true, (item: any) => SortInfo.fromJS(item));
-        this.setProp("object", "limit", false);
-        this.setProp("object", "pageToken", false);
-        this.setProp("object", "filter", true, (item: any) => FilterBase.fromJS(item));
-        this.setProp("object", "debugMode", false);
-        this.setProp("array", "searchLanguages", false);
-        this.setProp("object", "includeAdministratorSystemUserRole", false);
+        this.setProp("object", "string", "searchString", false);
+        this.setProp("array", "SearchBehavior[]", "searchBehaviors", false);
+        this.setProp("array", "SortInfo[]", "sort", true, (item: any) => SortInfo.fromJS(item));
+        this.setProp("object", "number", "limit", false);
+        this.setProp("object", "string", "pageToken", false);
+        this.setProp("object", "FilterBase", "filter", true, (item: any) => FilterBase.fromJS(item));
+        this.setProp("object", "boolean", "debugMode", false);
+        this.setProp("array", "string[]", "searchLanguages", false);
+        this.setProp("object", "boolean", "includeAdministratorSystemUserRole", false);
 
         if (data) {
             this.construct(data);
@@ -53106,31 +47259,6 @@ export class UserRoleSearchRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["debugMode"] = this.debugMode;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["includeAdministratorSystemUserRole"] = this.includeAdministratorSystemUserRole;
-        return data; 
-    }
 }
 
 export interface IUserRoleSearchRequest {
@@ -53163,7 +47291,7 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     constructor(data?: IUserRoleCreateRequest) {
         super(data);
-        this.setProp("object", "requestId", false);
+        this.setProp("object", "string", "requestId", false);
 
     }
 
@@ -53182,12 +47310,6 @@ It is not persisted anywhere and it is ignored in single operations. */
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["requestId"] = this.requestId;
-        super.toJSON(data);
-        return data; 
-    }
 }
 
 /** Holds information needed for user role creation. */
@@ -53205,7 +47327,7 @@ export class UserRoleCreateManyRequest extends DTOBase {
 
     constructor(data?: IUserRoleCreateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => UserRoleCreateRequest.fromJS(item));
+        this.setProp("array", "UserRoleCreateRequest[]", "items", true, (item: any) => UserRoleCreateRequest.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -53227,15 +47349,6 @@ export class UserRoleCreateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Holds information needed to create multiple user roles. */
@@ -53251,7 +47364,7 @@ export class UserRoleUpdateManyRequest extends DTOBase {
 
     constructor(data?: IUserRoleUpdateManyRequest) {
         super(data);
-        this.setProp("array", "items", true, (item: any) => UserRole.fromJS(item));
+        this.setProp("array", "UserRole[]", "items", true, (item: any) => UserRole.fromJS(item));
 
         if (!data) {
             this.items = [];
@@ -53273,15 +47386,6 @@ export class UserRoleUpdateManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
 }
 
 /** Holds information about which user roles and how are requested to be updated. */
@@ -53297,7 +47401,7 @@ export class UserRoleDeleteManyRequest extends DTOBase {
 
     constructor(data?: IUserRoleDeleteManyRequest) {
         super(data);
-        this.setProp("array", "ids", false);
+        this.setProp("array", "string[]", "ids", false);
 
         if (!data) {
             this.ids = [];
@@ -53319,15 +47423,6 @@ export class UserRoleDeleteManyRequest extends DTOBase {
         return result;
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.ids)) {
-            data["ids"] = [];
-            for (let item of this.ids)
-                data["ids"].push(item);
-        }
-        return data; 
-    }
 }
 
 /** Holds information about which user roles are requested to be deleted. */
