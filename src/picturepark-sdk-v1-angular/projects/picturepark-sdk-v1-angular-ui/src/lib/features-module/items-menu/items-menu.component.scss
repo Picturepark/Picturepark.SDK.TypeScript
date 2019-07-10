@@ -1,5 +1,5 @@
 ul { 
-    list-style: none; float: right; margin: 50px 100px 0px 0px;
+    list-style: none; float: right; margin: 50px 100px 0px 0px; position: fixed; left: 190px;
     li { 
         line-height: 25px; margin-bottom: 6px; padding: 0px 0px 0px 15px; border-left: 3px solid transparent;
         &.active {

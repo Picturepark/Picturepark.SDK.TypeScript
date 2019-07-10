@@ -17,7 +17,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   // VARS
   toolBarOptions: any[];
-  items: ShareContentDetail[];
+  items: ShareContentDetail[] = [];
 
   constructor(
     @Inject(AuthService) public authService: OidcAuthService,

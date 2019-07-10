@@ -19,6 +19,16 @@ export class ItemsPanelComponent extends PanelBaseComponent implements OnInit {
     super();
   }
 
+  // OPEN IN NEW WINDOW
+  openInNewWindow(item: ShareContentDetail): void {
+
+  }
+
+  // DELETE ITEM
+  deleteItem(item: ShareContentDetail): void {
+
+  }
+
   ngOnInit() {
     console.log(this.items)
   }
