@@ -1,3 +1,18 @@
-<p>
-  browser-toolbar works!
-</p>
+<div class="browser-toolbar-container">
+  <div class="browser-toolbar-content">
+    <div class="select">
+      <button [matMenuTriggerFor]="select">{{ 'ContentBrowser.SelectMenu' | pptranslate }}<i class="material-icons">more_vert</i></button>
+      <mat-menu #select="matMenu" xPosition="after">
+        <button mat-menu-item>{{ 'ContentBrowser.SelectFirstItems' | pptranslate: 9 }}</button>
+        <button mat-menu-item>{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
+      </mat-menu>
+    </div>
+    <div class="order-by">
+      <button [matMenuTriggerFor]="select"><i class="material-icons">sort</i></button>
+      <mat-menu #select="matMenu" xPosition="before">
+        <button mat-menu-item>{{ 'ContentBrowser.Acending' | pptranslate }}</button>
+        <button mat-menu-item>{{ 'ContentBrowser.Descending' | pptranslate }}</button>
+      </mat-menu>
+    </div>
+  </div>
+</div>

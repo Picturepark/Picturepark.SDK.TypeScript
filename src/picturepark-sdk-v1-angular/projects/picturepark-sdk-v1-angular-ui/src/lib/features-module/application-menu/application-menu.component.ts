@@ -14,12 +14,27 @@ export class ApplicationMenuComponent implements OnInit {
   },
   {
     name: 'Collections',
-    icon: 'star',
+    icon: 'star_border',
     link: ''
   },
   {
     name: 'Shares',
     icon: 'share',
+    link: 'share-manager'
+  },
+  {
+    name: 'Transfers',
+    icon: 'swap_horiz',
+    link: ''
+  },
+  {
+    name: 'Lists',
+    icon: 'reorder',
+    link: ''
+  },
+  {
+    name: 'File Types',
+    icon: 'insert_drive_file',
     link: ''
   },
   {

@@ -84,7 +84,6 @@ export let TRANSLATIONS = {
     SelectMenu: {
       en: 'Select',
       de: 'Selektieren'
-
     },
     ShareImages: {
       en: 'Share'

@@ -27,7 +27,7 @@ body {
 .mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
 .mat-expansion-panel-header.mat-expanded:hover { background: whitesmoke !important; }
-
+.mat-tab-header { height: 56px; background: #eeeeee; }
 .content-browser__header { border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important; }
 
 // OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS

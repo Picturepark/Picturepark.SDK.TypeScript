@@ -1,0 +1,42 @@
+.browser-toolbar-container {
+    height: 56px; background-color: #eee; border-bottom: 1px solid #d8d8d8;
+    & .browser-toolbar-content {
+        line-height: 56px; padding: 0px 30px; overflow: hidden;
+        button:focus {
+            outline: -webkit-focus-ring-color auto 0px;
+        }
+        & .select {
+            button {
+                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #39acaa; padding: 0px;
+                &:hover {
+                    background-color: unset; text-decoration: underline;
+                    i { 
+                        background-color: #39acaa; border-radius: 50%; color: white;
+                    }
+                }
+                i {
+                    font-size: 21px; color: #39acaa; padding: 2px; position: relative; top: 6px; left: 6px;
+                }
+            }
+        }
+
+        & .order-by {
+            button {
+                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #39acaa; padding: 0px;
+                &:hover {
+                    background-color: unset; text-decoration: underline;
+                    i {
+                        color: #2f2f2f;
+                    }
+                }
+                i {
+                    font-size: 21px; color: #727272; padding: 2px; position: relative; top: 6px; left: 6px;
+                }
+            }
+        }
+
+        & .select { float: left; }
+        & .order-by { float: right; }
+
+    }
+}

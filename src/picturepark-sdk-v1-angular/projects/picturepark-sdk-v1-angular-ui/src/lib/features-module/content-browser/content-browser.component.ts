@@ -110,7 +110,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     }
   }
 
-  public setSortingType(newValue: SortingType): void {
+  setSortingType(newValue: SortingType): void {
     if (newValue === SortingType.relevance) {
       this.isAscending = null;
     } else if (this.isAscending === null) {

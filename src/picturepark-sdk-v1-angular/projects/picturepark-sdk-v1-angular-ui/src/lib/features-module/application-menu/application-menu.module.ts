@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 // COMPONENTS
 import { ApplicationMenuComponent } from './application-menu.component';
@@ -9,7 +10,8 @@ import { ApplicationMenuComponent } from './application-menu.component';
     ApplicationMenuComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     ApplicationMenuComponent

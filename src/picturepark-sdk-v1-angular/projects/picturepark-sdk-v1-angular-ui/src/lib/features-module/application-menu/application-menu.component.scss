@@ -3,7 +3,7 @@
 
     & .application-menu-logo {
         text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f;
-        span { color: white; line-height: 63px; }
+        svg { position: relative; top: 13px; }
     }
 
     ul {
