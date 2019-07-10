@@ -1,0 +1,7 @@
+.panel-container {
+    & .panel-content {
+        & .item {
+            & ul { list-style: none; padding: 0px; margin: 20px 0px; }
+        }
+    }
+}

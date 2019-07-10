@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 // SERVICES
-import { ShareService, AuthService } from '@picturepark/sdk-v1-angular';
+import { ShareService, AuthService, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 @Component({
@@ -17,6 +17,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   // VARS
   toolBarOptions: any[];
+  items: ShareContentDetail[];
 
   constructor(
     @Inject(AuthService) public authService: OidcAuthService,
@@ -28,6 +29,8 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   getShareInfo(shareId: string): void {
     this.shareService.get(shareId).subscribe(data => {
       console.log(data);
+      this.items = data.contentSelections;
+      console.log(this.items);
     });
   }
 

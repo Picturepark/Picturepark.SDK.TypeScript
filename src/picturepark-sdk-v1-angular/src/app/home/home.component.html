@@ -1,15 +1,18 @@
-<mat-toolbar color="primary" style="width: unset;">
-  <div>Picturepark Content Platform</div>
-  <div style="flex-grow: 1"></div>
-  <div>
-    Server URL : {{authService.apiServer}}
-  </div>
-  <button style="margin: 0 10px;" mat-flat-button color="accent" *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
-</mat-toolbar>
-<mat-toolbar style="width: unset;">
-  Embeddable Widgets
-</mat-toolbar>
-
+<div class="home-container" style="display: flex;">
+  <mat-toolbar color="primary">
+    <div>Picturepark Content Platform</div>
+    <div style="flex-grow: 1"></div>
+    <div>
+      Server URL : {{authService.apiServer}}
+    </div>
+    <button style="margin: 0 10px;" mat-flat-button color="accent" *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
+  </mat-toolbar>
+</div>
+<div style="display: flex;">
+  <mat-toolbar>
+    <div>Embeddable Widgets</div>
+  </mat-toolbar>
+</div>
 <div style="display: flex;">
   <mat-card style="max-width: 400px; margin: 20px;">
     <mat-card-title>content-picker</mat-card-title>
@@ -35,3 +38,5 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+
