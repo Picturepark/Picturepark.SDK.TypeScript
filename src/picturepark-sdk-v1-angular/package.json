@@ -7,11 +7,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build-libraries": "ng build picturepark-sdk-v1-angular && ng build picturepark-sdk-v1-angular-oidc && ng build picturepark-sdk-v1-angular-ui",
-    "build": "npm run init && npm run lint && npm run build-libraries && ng build --prod",
+    "build": "npm run init && npm run lint && npm run build-libraries && ng build --prod --stats-json",
     "test": "ng test",
     "test-nowatch": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "bundle-report": "webpack-bundle-analyzer dist/picturepark-sdk-v1-angular-app/stats-es2015.json"
   },
   "private": true,
   "dependencies": {
@@ -59,6 +60,7 @@
     "tsickle": "0.35.0",
     "tslib": "^1.10.0",
     "tslint": "~5.12.1",
-    "typescript": "~3.4.5"
+    "typescript": "~3.4.5",
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }
