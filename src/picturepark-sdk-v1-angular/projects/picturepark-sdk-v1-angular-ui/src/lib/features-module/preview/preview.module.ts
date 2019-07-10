@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // COMPONENTS
-import { ToolBarComponent } from './tool-bar.component';
+import { PreviewComponent } from './preview.component';
 
 @NgModule({
   declarations: [
-    ToolBarComponent
+    PreviewComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    ToolBarComponent
+    PreviewComponent
   ]
 })
-export class ToolBarModule { }
+export class PreviewModule { }

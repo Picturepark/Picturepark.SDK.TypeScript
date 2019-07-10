@@ -6,6 +6,7 @@ import {
   ContentSearchType, LifeCycleFilter, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
 
+// COMPONENTS
 import { AggregationListComponent } from '../../shared-module/components/aggregation-list/aggregation-list.component';
 
 @Component({

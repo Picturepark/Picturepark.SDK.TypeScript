@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PictureparkUIConfiguration } from '../../configuration';
 
 @Component({
   selector: 'pp-application-header',
@@ -9,7 +10,7 @@ export class ApplicationHeaderComponent implements OnInit {
 
   @Input() title: string;
 
-  constructor() { }
+  constructor() {}
 
   focusSearch() {}
 

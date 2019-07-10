@@ -24,6 +24,13 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     private shareService: ShareService
   ) {}
 
+  // GET SHARE INFO
+  getShareInfo(shareId: string): void {
+    this.shareService.get(shareId).subscribe(data => {
+      console.log(data);
+    });
+  }
+
   ngOnInit() {
 
     if (!this.authService.isAuthenticated) {
@@ -53,9 +60,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
     // ROUTE SUBSCRIBER
     const activatedRoute = this.activatedRoute.params.subscribe(params => {
-      this.shareService.get(params.shareId).subscribe(data => {
-        console.log(data);
-      });
+      this.getShareInfo(params.shareId);
     });
 
     // ADD TO SUBSCRIBERS

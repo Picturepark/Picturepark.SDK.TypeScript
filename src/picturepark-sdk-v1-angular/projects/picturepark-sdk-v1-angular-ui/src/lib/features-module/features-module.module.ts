@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ApplicationMenuModule } from './application-menu/application-menu.module';
 import { ApplicationHeaderModule } from './application-header/application-header.module';
 import { BasketModule } from './basket/basket.module';
+import { BrowserToolbarModule } from './browser-toolbar/browser-toolbar.module';
 import { ContentAggregationListModule } from './content-aggregation-list/content-aggregation-list.module';
 import { ContentBrowserModule } from './content-browser/content-browser.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
@@ -18,10 +19,11 @@ import { ItemsMenuModule } from './items-menu/items-menu.module';
 import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { PanelModule } from './panel/panel.module';
+import { PreviewModule } from './preview/preview.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
-import { ToolBarModule } from './tool-bar/tool-bar.module';
+import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
 
 @NgModule({
   declarations: [],
@@ -29,6 +31,7 @@ import { ToolBarModule } from './tool-bar/tool-bar.module';
     ApplicationMenuModule,
     ApplicationHeaderModule,
     BasketModule,
+    BrowserToolbarModule,
     ContentAggregationListModule,
     ContentBrowserModule,
     ChannelPickerModule,
@@ -46,12 +49,14 @@ import { ToolBarModule } from './tool-bar/tool-bar.module';
     SearchBoxModule,
     ShareBrowserModule,
     PanelModule,
-    ToolBarModule,
+    PreviewModule,
+    ItemToolBarModule,
   ],
   exports: [
     ApplicationMenuModule,
     ApplicationHeaderModule,
     BasketModule,
+    BrowserToolbarModule,
     ContentAggregationListModule,
     ContentBrowserModule,
     ChannelPickerModule,
@@ -68,7 +73,8 @@ import { ToolBarModule } from './tool-bar/tool-bar.module';
     SearchBoxModule,
     ShareBrowserModule,
     PanelModule,
-    ToolBarModule,
+    PreviewModule,
+    ItemToolBarModule,
   ]
 })
 export class FeaturesModule { }

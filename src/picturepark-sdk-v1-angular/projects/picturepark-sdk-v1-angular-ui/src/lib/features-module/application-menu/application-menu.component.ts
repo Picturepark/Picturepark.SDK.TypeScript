@@ -21,6 +21,11 @@ export class ApplicationMenuComponent implements OnInit {
     name: 'Shares',
     icon: 'share',
     link: ''
+  },
+  {
+    name: 'Help',
+    icon: 'contact_support',
+    link: ''
   }];
 
   // VARS
