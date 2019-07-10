@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'pp-application-menu',
@@ -7,15 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApplicationMenuComponent implements OnInit {
 
+  @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
+
+  labelName: string | undefined;
+
   menuOptions: any[] = [{
     name: 'Search',
     icon: 'search',
-    link: ''
+    link: 'search'
   },
   {
     name: 'Collections',
     icon: 'star_border',
-    link: ''
+    link: 'collections'
   },
   {
     name: 'Shares',
@@ -25,28 +29,30 @@ export class ApplicationMenuComponent implements OnInit {
   {
     name: 'Transfers',
     icon: 'swap_horiz',
-    link: ''
+    link: 'transfers'
   },
   {
     name: 'Lists',
     icon: 'reorder',
-    link: ''
+    link: 'lists'
   },
   {
     name: 'File Types',
     icon: 'insert_drive_file',
-    link: ''
+    link: 'file-types'
   },
   {
     name: 'Help',
     icon: 'contact_support',
-    link: ''
+    link: 'help'
   }];
 
   // VARS
-  menuState: boolean = false;
+  menuState = false;
 
-  constructor() { }
+  constructor(
+    private renderer: Renderer2,
+  ) { }
 
   // EXPAND MENU
   expandMenu(): void {
@@ -57,7 +63,20 @@ export class ApplicationMenuComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  // DISPLAY LABEL ON HOVER
+  showLabel(event: any, labelName: string): void {
+    if (!this.menuState) {
+      this.labelName = labelName;
+      this.renderer.setStyle(this.labelNameElement.nativeElement, 'top', `${ event.target.offsetTop + 80 }px`);
+      this.renderer.setStyle(this.labelNameElement.nativeElement, 'left', '70px');
+    }
   }
+
+  // HIDE LABEL
+  hideLabel(): void {
+    this.labelName = undefined;
+  }
+
+  ngOnInit() {}
 
 }

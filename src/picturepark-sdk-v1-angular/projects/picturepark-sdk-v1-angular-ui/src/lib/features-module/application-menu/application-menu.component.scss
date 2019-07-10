@@ -1,5 +1,5 @@
 .application-menu-container {
-    background-color: rgb(68,68,68); height: 100vh; width: 64px; float: left; transition: 300ms;
+    position: relative; background-color: rgb(68,68,68); height: 100vh; width: 64px; float: left; transition: 300ms; overflow: hidden;
 
     & .application-menu-logo {
         text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f;
@@ -7,23 +7,31 @@
     }
 
     ul {
-        margin: 0px; padding: 0px;
+        position: absolute; margin: 0px; padding: 0px; width: 240px;
         li {
-            text-align: center; line-height: 44px; cursor: pointer;
-            & a { 
-                color: #aaa;  
-                & i { line-height: 44px; font-size: 21px; position: relative; top: 2px; }
-            }
+            position: relative; text-align: left; line-height: 44px; cursor: pointer; color: #aaa;
             &:hover {
                 background-color: rgba(47,47,47,.5);
-                & a i { color: white; }
+                & a { color: white; }
+            }
+            &:focus {
+                outline: -webkit-focus-ring-color auto 0px;
+            }
+            &.active { background-color: #2f2f2f; color: white; }
+
+            & i { line-height: 44px; font-size: 21px; position: relative; width: 64px; text-align: center; top: 6px; margin: 0px 20px 0px 0px; }
+            & span {
+                width: 200px; transition: 300ms; opacity: 0; font-size: 13px;
             }
         }
     }
     &.active {
         width: 240px;
-        ul li {
-            text-align: left;
-        }
+        & ul li span { opacity: 1; }
     }
+}
+span.label { 
+    position: fixed; font-size: 12px; background-color: #565656; color: #eeeeee; white-space: nowrap;
+    border-radius: 4px; padding: 5px 6px; opacity: 0.9; z-index: 100; display: none;
+    &.active{ display: inherit; }
 }

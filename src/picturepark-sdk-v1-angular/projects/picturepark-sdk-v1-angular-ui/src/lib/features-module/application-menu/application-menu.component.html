@@ -5,10 +5,9 @@
     </svg>
   </div>
   <ul>
-    <li *ngFor="let item of menuOptions">
-      <a [routerLink]="[item.link]">
-        <i class="material-icons">{{ item.icon }}</i>
-      </a>
+    <li class="menu-item" *ngFor="let item of menuOptions" [routerLink]="[item.link]" routerLinkActive="active" (mouseenter)="showLabel($event, item.name)" (mouseleave)="hideLabel()">
+      <i class="material-icons">{{ item.icon }}</i> <span>{{ item.name }}</span>
     </li>
   </ul>
 </div>
+<span class="label" [ngClass]="{ active: labelName !== undefined }" #labelNameElement>{{ labelName }}</span>
