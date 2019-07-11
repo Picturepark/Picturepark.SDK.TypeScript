@@ -16,8 +16,11 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   susbcription = new Subscription();
 
   // VARS
-  toolBarOptions: any[];
+  creationDate: Date;
+  modificationDate: Date;
   items: ShareContentDetail[] = [];
+  toolBarOptions: any[];
+  isLoading = true;
 
   constructor(
     @Inject(AuthService) public authService: OidcAuthService,
@@ -28,9 +31,11 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   // GET SHARE INFO
   getShareInfo(shareId: string): void {
     this.shareService.get(shareId).subscribe(data => {
-      console.log(data);
+
       this.items = data.contentSelections;
-      console.log(this.items);
+      this.creationDate = data.audit.creationDate;
+      this.modificationDate = data.audit.modificationDate;
+
     });
   }
 

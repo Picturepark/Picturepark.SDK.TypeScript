@@ -1,4 +1,7 @@
 <div class="share-manager-item-container">
+  <div class="share-manager-item-loader">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  </div>
   <div class="share-manager-item-menu-container">
     <pp-items-menu></pp-items-menu>
   </div>
@@ -6,7 +9,12 @@
       <pp-preview></pp-preview>
       <pp-item-tool-bar [toolBarOptions]="toolBarOptions"></pp-item-tool-bar>
       <pp-settings-panel [title]="'Settings'"></pp-settings-panel>
-      <pp-items-panel [title]="'Items'" [items]="items" *ngIf="items.length > 0"></pp-items-panel>
+      <pp-items-panel 
+        [title]="'Items'"
+        [items]="items"
+        [creationDate]="creationDate"
+        [modificationDate]="modificationDate">
+      </pp-items-panel>
       <pp-owner-panel [title]="'Owner'" id="owner"></pp-owner-panel>
   </div>
 </div>

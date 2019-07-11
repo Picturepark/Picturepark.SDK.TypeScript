@@ -5,13 +5,13 @@
   <div class="panel-content">
     <div class="item" *ngFor="let item of items">
       <div class="thumbnail">
-        <img src="as.jpg">
+        <pp-item-panel-preview [item]="item"></pp-item-panel-preview>
       </div>
       <div class="item-info">
         <ul>
           <li class="title">{{ item.content.fileName }}</li>
           <li>{{ item.content.width }}x{{ item.content.height }}px - {{ item.content.fileSizeInBytes }} KB - Colorspace {{ item.content.colorSpace }} - DPI: ?</li>
-          <li>Creation date: Modification date:</li>
+          <li>Creation date: {{ creationDate | date: 'yyyy-MM-dd' }} Modification date: {{ modificationDate | date: 'yyyy-MM-dd' }}</li>
         </ul>
       </div>
       <div class="item-funcs">

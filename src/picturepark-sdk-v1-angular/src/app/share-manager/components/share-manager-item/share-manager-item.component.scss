@@ -1,9 +1,17 @@
 .share-manager-item-container {
     background-color: rgb(238,238,238); height: calc(100vh - 64px); display: flex; overflow-y: scroll; overflow-x: hidden;
-    .share-manager-item-menu-container {
+    & .share-manager-item-loader {
+        position: absolute;
+        top: 63px;
+        left: 0px;
+        height: 3px;
+        width: 100%;
+        z-index: 10;
+    }   
+    & .share-manager-item-menu-container {
         width: 20%; float: left;
     }
-    .share-manager-item-content-container {
+    & .share-manager-item-content-container {
         width: 50%; float: left;
     }
 }

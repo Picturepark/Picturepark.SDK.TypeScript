@@ -18,13 +18,16 @@
                 float: left; width: 20%;
             }
             & .item-info {
-                float: left; width: 60%;
+                float: left; width: 60%; position: relative; top: 15px;
             }
             & .item-funcs {
                 float: left; width: 20%; display: none;
-                & ul li {
-                    float: left; margin: 0px; width: 50px;
-                    & i { font-size: 21px; cursor: pointer; }
+                & ul {
+                    position: relative; top: 40px;
+                    & li {
+                        float: left; margin: 0px; width: 50px;
+                        & i { font-size: 21px; cursor: pointer; }
+                    }
                 }
             }
         }

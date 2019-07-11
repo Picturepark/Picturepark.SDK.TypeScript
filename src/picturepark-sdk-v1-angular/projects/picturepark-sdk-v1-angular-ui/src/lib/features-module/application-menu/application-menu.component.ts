@@ -78,7 +78,7 @@ export class ApplicationMenuComponent implements OnInit {
   showLabel(event: any, labelName: string): void {
     if (!this.menuState) {
       this.labelName = labelName;
-      this.renderer.setStyle(this.labelNameElement.nativeElement, 'top', `${ event.target.offsetTop + 80 }px`);
+      this.renderer.setStyle(this.labelNameElement.nativeElement, 'top', `${ event.target.offsetTop + 76 }px`);
       this.renderer.setStyle(this.labelNameElement.nativeElement, 'left', '70px');
     }
   }

@@ -1,5 +1,5 @@
 .application-menu-container {
-    position: relative; background-color: rgb(68,68,68); height: 100vh; width: 64px; float: left; transition: 300ms; overflow: hidden;
+    position: relative; background-color: rgb(68,68,68); height: 100vh; width: 64px; float: left; transition: 300ms; overflow: hidden; z-index: 100;
     &.active {
         width: 240px;
         .application-menu-logo {
@@ -81,7 +81,7 @@
             }
             &.active { background-color: #2f2f2f; color: white; }
 
-            & i { line-height: 44px; font-size: 21px; position: relative; width: 64px; text-align: center; top: 6px; }
+            & i { line-height: 36px; font-size: 18px; position: relative; width: 64px; text-align: center; top: 6px; }
             & span {
                 width: 200px; transition: 300ms; opacity: 0; font-size: 13px;
             }
