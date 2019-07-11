@@ -6,14 +6,10 @@ import { IMailRecipient } from '@picturepark/sdk-v1-angular';
 // COMPONENTS
 import { PanelBaseComponent } from '../panel-base/panel-base.component';
 
-// PIPES
-import { AvatarPipe } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/pipes/avatar.pipe';
-
 @Component({
   selector: 'pp-mail-recipients-panel',
   templateUrl: './mail-recipients-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss'],
-  providers: [ AvatarPipe ]
+  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss']
 })
 export class MailRecipientsPanelComponent extends PanelBaseComponent implements OnInit {
 

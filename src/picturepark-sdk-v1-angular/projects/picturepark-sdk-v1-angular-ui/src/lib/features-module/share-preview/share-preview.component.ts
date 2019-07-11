@@ -26,8 +26,8 @@ export class SharePreviewComponent implements OnInit {
   ngOnInit() {
 
     // SUBSCRIBERS
-    this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.item.id, ThumbnailSize.Large, null, null
+    this.downloadThumbnailSubscription = this.contentService.download(
+      this.item.id, 'Preview', null, null, null
     ).subscribe(result => {
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
@@ -35,6 +35,5 @@ export class SharePreviewComponent implements OnInit {
     });
 
   }
-
 
 }

@@ -40,4 +40,7 @@ body {
 .item-panel-preview-container .loader mat-spinner { width: 30px !important; height: 30px !important; margin: 0 auto; position: relative; top: 35%; }
 .item-panel-preview-container .loader mat-spinner svg { width: 30px !important; height: 30px !important; }
 
+// SHARE ITEM MANAGE LOADER
+.share-preview-container mat-spinner circle { stroke: #3fb3b1; }
+
 @import "styles-resp.scss";

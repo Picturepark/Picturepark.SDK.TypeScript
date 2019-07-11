@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 // COMPONETNS
 import { PanelBaseComponent } from '../panel-base/panel-base.component';
@@ -9,6 +9,11 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
   styleUrls: ['../panel-base/panel-base.component.scss', './settings-panel.component.scss']
 })
 export class SettingsPanelComponent extends PanelBaseComponent implements OnInit {
+
+  @Input() subject: string;
+  @Input() accessOriginal: string;
+  @Input() creationDate: Date;
+  @Input() modificationDate: Date;
 
   constructor() {
     super();

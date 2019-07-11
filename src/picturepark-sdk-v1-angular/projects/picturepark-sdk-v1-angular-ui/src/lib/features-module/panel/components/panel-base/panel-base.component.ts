@@ -7,7 +7,6 @@ export class PanelBaseComponent implements OnInit, OnDestroy {
 
   // VARS
   @Input() title: string;
-  menuItems: string[] = [];
 
   constructor() { }
 
