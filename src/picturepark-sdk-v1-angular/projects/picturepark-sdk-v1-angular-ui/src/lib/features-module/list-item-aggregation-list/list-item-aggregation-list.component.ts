@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 // LIBRARIES
 import {
   BrokenDependenciesFilter, LifeCycleFilter,
-  ObjectAggregationResult, ListItemAggregationRequest, ListItemService
+  ObjectAggregationResult, ListItemAggregationRequest, ListItemService, AggregatorBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -39,5 +39,19 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
     }
 
     return of(null);
+  }
+
+  protected fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null> => {
+    const request = new ListItemAggregationRequest({
+      schemaIds: [this.schemaId],
+      searchString: searchString,
+      brokenDependenciesFilter: BrokenDependenciesFilter.All,
+      aggregators: [aggregator],
+      aggregationFilters: this.aggregationFilters,
+      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+      includeAllSchemaChildren: false
+    });
+
+    return this.listItemService.aggregate(request);
   }
 }

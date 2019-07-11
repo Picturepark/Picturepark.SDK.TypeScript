@@ -11,9 +11,16 @@
     </mat-toolbar>
 
     <mat-accordion displayMode="flat" multi="true">
-      <pp-content-aggregation *ngFor="let aggregator of aggregators, let i=index; trackBy: trackByName" [isExpanded]="i===0" [query]="query" [channelId]="channelId" [aggregator]="aggregator"
-        [globalAggregationFilters]="aggregationFilters" [aggregationResult]="aggregationResults[i]" (aggregationFiltersChange)="aggregationFiltersChanged(i,$event)">
-      </pp-content-aggregation>
+      <pp-aggregation-item 
+        *ngFor="let aggregator of aggregators, let i=index; trackBy: trackByName"
+        [isExpanded]="i===0"
+        [query]="query"
+        [aggregator]="aggregator"
+        [globalAggregationFilters]="aggregationFilters"
+        [aggregationResult]="aggregationResults[i]"
+        (aggregationFiltersChange)="aggregationFiltersChanged(i,$event)"
+        [fetchSearchData]="fetchSearchData">
+      </pp-aggregation-item>
     </mat-accordion>
   </div>
   <div *ngIf="isLoading | async" class="aggregation-filter__loading-spinner">
