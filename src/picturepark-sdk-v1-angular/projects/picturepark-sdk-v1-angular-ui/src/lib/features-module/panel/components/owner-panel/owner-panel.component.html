@@ -5,8 +5,8 @@
   <div class="panel-content">
     <div class="menu-options">
       <ul>
-        <li class="avatar"><img src="{{userAvatar}}"></li>
-        <li class="user-info">{{ user.firstName }} {{ user.lastName }}</li>
+        <li class="avatar"><img src="{{ userAvatar }}"></li>
+        <li class="user-info" *ngIf="user">{{ user.firstName }} {{ user.lastName }}</li>
       </ul>
     </div>
   </div>

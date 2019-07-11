@@ -1,4 +1,15 @@
 .panel-container {
+    position: relative;
+    & .panel-header {
+        & .panel-buttons {
+            position: absolute; right: 30px; top: 14px;
+            & button { 
+                float: right; color: #3fb3b1; font-size: 12px; width: 100px; border-radius: 0px; line-height: 30px; margin: 0px 0px 0px 15px; border: 2px solid #fff;
+                &:hover { background-color: white; border: 2px solid #3fb3b1; box-shadow: 0 0 3px #3fb3b1; }
+                &.square { border: 2px solid #3fb3b1; }
+            }
+        }
+    }
     & .panel-content {
         & .item {
             &:hover {
@@ -23,7 +34,7 @@
             & .item-funcs {
                 float: left; width: 20%; display: none;
                 & ul {
-                    position: relative; top: 40px;
+                    position: relative; top: 35px;
                     & li {
                         float: left; margin: 0px; width: 50px;
                         & i { font-size: 21px; cursor: pointer; }

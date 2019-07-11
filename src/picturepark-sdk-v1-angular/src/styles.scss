@@ -33,6 +33,9 @@ body {
 // OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
 .cdk-focused.cdk-program-focused { background-color: transparent !important; }
 
+// PANEL ITEMS BUTTON HOVER
+.panel-container .panel-header .panel-buttons button .mat-button-focus-overlay { background: white; }
+
 // PANEL ITEMS LOADER
 .item-panel-preview-container .loader mat-spinner { width: 30px !important; height: 30px !important; margin: 0 auto; position: relative; top: 35%; }
 .item-panel-preview-container .loader mat-spinner svg { width: 30px !important; height: 30px !important; }
