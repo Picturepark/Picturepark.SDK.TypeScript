@@ -14,6 +14,7 @@ import { NotificationService } from './services/notification/notification.servic
 import { TranslationService } from './services/translations/translation.service';
 
 // PIPES
+import { AvatarPipe } from './pipes/avatar.pipe';
 import { FileSizePipe } from './pipes/filesize.pipe';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { LazyLoadDirective } from './directives/lazy-load.directive';
@@ -22,6 +23,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
   declarations: [
     // COMPONENTS
     // PIPES
+    AvatarPipe,
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective,
@@ -37,6 +39,7 @@ import { LazyLoadDirective } from './directives/lazy-load.directive';
     MaterialsModule,
     // COMPONENTS
     // PIPES
+    AvatarPipe,
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective

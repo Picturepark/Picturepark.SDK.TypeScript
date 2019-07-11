@@ -42,6 +42,16 @@ export class ApplicationMenuComponent implements OnInit {
     link: 'file-types'
   },
   {
+    name: 'Applications',
+    icon: 'web_asset',
+    link: 'applications'
+  },
+  {
+    name: 'Settings',
+    icon: 'tune',
+    link: 'settings'
+  },
+  {
     name: 'Help',
     icon: 'contact_support',
     link: 'help'

@@ -9,6 +9,7 @@
       <pp-share-preview [item]="items[0]" *ngIf="items.length === 1"></pp-share-preview>
       <pp-item-tool-bar [toolBarOptions]="toolBarOptions"></pp-item-tool-bar>
       <pp-settings-panel [title]="'Settings'"></pp-settings-panel>
+      <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients.length > 0"></pp-mail-recipients-panel>
       <pp-items-panel
         [title]="'Items'"
         [items]="items"

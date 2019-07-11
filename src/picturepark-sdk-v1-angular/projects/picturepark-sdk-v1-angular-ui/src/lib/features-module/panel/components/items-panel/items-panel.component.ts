@@ -44,7 +44,7 @@ export class ItemsPanelComponent extends PanelBaseComponent implements OnInit, O
     this.creationDate = changes.creationDate && changes.creationDate.currentValue;
     this.modificationDate = changes.modificationDate && changes.modificationDate.currentValue;
 
-    if(this.items && this.creationDate && this.modificationDate) {
+    if (this.items && this.creationDate && this.modificationDate) {
       this.loader = false;
     }
 

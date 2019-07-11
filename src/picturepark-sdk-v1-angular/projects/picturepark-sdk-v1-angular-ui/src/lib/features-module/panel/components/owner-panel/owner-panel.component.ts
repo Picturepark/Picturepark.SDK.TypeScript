@@ -33,7 +33,6 @@ export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
     // USER SUBSCRIBER
     const userSubscriber = this.userService.get(this.userId).subscribe(data => {
       this.user = data;
-      this.userAvatar = `https://www.gravatar.com/avatar/${Md5.hashStr(data.emailAddress)}?d=mm&s=48`;
     });
 
     // ADD SUBSCRIBERS

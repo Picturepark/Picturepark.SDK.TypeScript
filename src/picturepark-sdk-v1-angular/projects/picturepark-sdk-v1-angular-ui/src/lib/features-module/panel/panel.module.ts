@@ -9,13 +9,15 @@ import { SettingsPanelComponent } from './components/settings-panel/settings-pan
 import { ItemsPanelComponent } from './components/items-panel/items-panel.component';
 import { OwnerPanelComponent } from './components/owner-panel/owner-panel.component';
 import { ItemPanelPreviewComponent } from './components/items-panel/components/item-panel-preview/item-panel-preview.component';
+import { MailRecipientsPanelComponent } from './components/mail-recipients-panel/mail-recipients-panel.component';
 
 @NgModule({
   declarations: [
     SettingsPanelComponent,
     ItemsPanelComponent,
     ItemPanelPreviewComponent,
-    OwnerPanelComponent
+    OwnerPanelComponent,
+    MailRecipientsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { ItemPanelPreviewComponent } from './components/items-panel/components/i
     SettingsPanelComponent,
     ItemsPanelComponent,
     ItemPanelPreviewComponent,
-    OwnerPanelComponent
+    OwnerPanelComponent,
+    MailRecipientsPanelComponent
   ]
 })
 export class PanelModule { }
