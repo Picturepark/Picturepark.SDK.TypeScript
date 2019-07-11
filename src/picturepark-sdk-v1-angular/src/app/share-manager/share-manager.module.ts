@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 // LIBRARIES
 import {
-  ApplicationHeaderModule, ApplicationMenuModule, BrowserToolbarModule, ContentAggregationListModule, ItemsMenuModule,
-  PanelModule, SharePreviewModule, SearchBoxModule, SharedModule, ShareBrowserModule, ItemToolBarModule
+  ApplicationHeaderModule, ApplicationMenuModule, BrowserToolbarModule, ItemsMenuModule,
+  PanelModule, SharePreviewModule, SearchBoxModule, SharedModule, ShareBrowserModule, ItemToolBarModule, ShareAggregationListModule
 } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
@@ -26,7 +26,7 @@ import { SharesManagerComponent } from './components/shares-manager/shares-manag
     ApplicationHeaderModule,
     ApplicationMenuModule,
     BrowserToolbarModule,
-    ContentAggregationListModule,
+    ShareAggregationListModule,
     ItemsMenuModule,
     PanelModule,
     SharePreviewModule,
