@@ -3,16 +3,13 @@ import { Component, OnInit, Input } from '@angular/core';
 // LIBRARIES
 import { UserService, UserDetail } from '@picturepark/sdk-v1-angular';
 
-// MD5 HASH
-import { Md5 } from 'ts-md5/dist/md5';
-
 // COMPONENTS
 import { PanelBaseComponent } from '../panel-base/panel-base.component';
 
 @Component({
   selector: 'pp-owner-panel',
   templateUrl: './owner-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './owner-panel.component.scss']
+  styleUrls: ['../panel-base/panel-base.component.scss', './owner-panel.component.scss'],
 })
 export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
 

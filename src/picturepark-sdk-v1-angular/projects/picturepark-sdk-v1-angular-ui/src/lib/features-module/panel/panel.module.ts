@@ -13,22 +13,22 @@ import { MailRecipientsPanelComponent } from './components/mail-recipients-panel
 
 @NgModule({
   declarations: [
-    SettingsPanelComponent,
     ItemsPanelComponent,
     ItemPanelPreviewComponent,
+    MailRecipientsPanelComponent,
     OwnerPanelComponent,
-    MailRecipientsPanelComponent
+    SettingsPanelComponent
   ],
   imports: [
     CommonModule,
     SharedModule
   ],
   exports: [
-    SettingsPanelComponent,
     ItemsPanelComponent,
     ItemPanelPreviewComponent,
+    MailRecipientsPanelComponent,
     OwnerPanelComponent,
-    MailRecipientsPanelComponent
+    SettingsPanelComponent
   ]
 })
 export class PanelModule { }

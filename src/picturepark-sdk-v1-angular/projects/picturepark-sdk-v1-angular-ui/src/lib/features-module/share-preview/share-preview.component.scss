@@ -1,4 +1,11 @@
 .share-preview-container {
-    border-radius: 8px; overflow: hidden; margin: 20px 0px 0px 0px; display: inline-flex; width: 100%;
+    position: relative; border-radius: 8px; overflow: hidden; margin: 20px 0px 0px 0px; display: inline-flex;
+    width: 100%; background-color: #ffffff; min-height: 400px; border: 1px solid #d8d8d8;
+    .loader { 
+        margin: 0 auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        mat-spinner {
+            position: relative; top: 50%; transform: translate(-50%, 0);
+        }
+    }
     & img { width: 100%; }
 }

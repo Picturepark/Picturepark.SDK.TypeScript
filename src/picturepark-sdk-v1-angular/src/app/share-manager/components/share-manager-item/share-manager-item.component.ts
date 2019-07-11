@@ -21,9 +21,12 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   modificationDate: Date;
   items: ShareContentDetail[] = [];
   mailRecipients: IMailRecipient[] = [];
-  isLoading = true;
   toolBarOptions: any[];
   userId: string | undefined;
+  subject: string;
+  accessOriginal: string;
+
+  isLoading = true;
 
   constructor(
     @Inject(AuthService) public authService: OidcAuthService,
@@ -59,8 +62,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   getShareInfo(shareId: string): void {
     this.shareService.get(shareId).subscribe(data => {
 
-      console.log(data);
-
       this.items = data.contentSelections;
       this.creationDate = data.audit.creationDate;
       this.modificationDate = data.audit.modificationDate;
@@ -68,6 +69,12 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
       const shareDataBasic = <IShareDataBasic | undefined>data.data;
       this.mailRecipients = shareDataBasic!.mailRecipients;
+
+      this.subject = data.name;
+      this.accessOriginal = data.outputAccess;
+      this.creationDate = data.audit.creationDate;
+
+      setTimeout(() => { this.isLoading = false; }, 500);
 
     });
   }

@@ -23,6 +23,11 @@ export class ItemsMenuComponent implements OnInit {
         state: true,
       },
       {
+        name: 'Recipients',
+        link: '#recipients',
+        state: false,
+      },
+      {
         name: 'Items',
         link: '#items',
         state: false,

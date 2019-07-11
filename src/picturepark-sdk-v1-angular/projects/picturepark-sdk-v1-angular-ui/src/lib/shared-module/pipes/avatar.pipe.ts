@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, LOCALE_ID, Inject } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 // MD5 HASH
 import { Md5 } from 'ts-md5/dist/md5';
