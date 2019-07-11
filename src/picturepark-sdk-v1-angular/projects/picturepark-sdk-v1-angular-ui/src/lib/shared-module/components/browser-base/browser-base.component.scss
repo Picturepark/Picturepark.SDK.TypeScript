@@ -1,11 +1,12 @@
 .browser {
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   &__header {
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    & mat-toolbar {
+      height: 57px;
+    border-bottom: 1px solid #d8d8d8;
+    }
   }
   &__toolbar {
     display: flex;
@@ -21,6 +22,8 @@
     align-self: center;
   }
   &__items {
+    overflow-y: scroll;
+    overflow-x: hidden;
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;
