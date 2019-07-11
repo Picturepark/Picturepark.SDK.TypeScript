@@ -25,7 +25,7 @@ export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
 export { PanelModule } from './lib/features-module/panel/panel.module';
-export { PreviewModule } from './lib/features-module/preview/preview.module';
+export { SharePreviewModule } from './lib/features-module/share-preview/share-preview.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 

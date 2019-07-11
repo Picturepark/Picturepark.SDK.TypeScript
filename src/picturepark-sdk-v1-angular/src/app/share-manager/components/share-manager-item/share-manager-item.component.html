@@ -6,7 +6,7 @@
     <pp-items-menu></pp-items-menu>
   </div>
   <div class="share-manager-item-content-container">
-      <pp-preview></pp-preview>
+      <pp-share-preview [item]="items[0]" *ngIf="items.length === 1"></pp-share-preview>
       <pp-item-tool-bar [toolBarOptions]="toolBarOptions"></pp-item-tool-bar>
       <pp-settings-panel [title]="'Settings'"></pp-settings-panel>
       <pp-items-panel 
@@ -15,7 +15,7 @@
         [creationDate]="creationDate"
         [modificationDate]="modificationDate">
       </pp-items-panel>
-      <pp-owner-panel [title]="'Owner'" id="owner"></pp-owner-panel>
+      <pp-owner-panel [title]="'Owner'" [userId]="userId" id="owner" *ngIf="userId"></pp-owner-panel>
   </div>
 </div>
 

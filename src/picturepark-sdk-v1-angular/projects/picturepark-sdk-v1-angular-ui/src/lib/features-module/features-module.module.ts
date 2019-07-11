@@ -19,7 +19,7 @@ import { ItemsMenuModule } from './items-menu/items-menu.module';
 import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { PanelModule } from './panel/panel.module';
-import { PreviewModule } from './preview/preview.module';
+import { SharePreviewModule } from './share-preview/share-preview.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
@@ -49,7 +49,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     SearchBoxModule,
     ShareBrowserModule,
     PanelModule,
-    PreviewModule,
+    SharePreviewModule,
     ItemToolBarModule,
   ],
   exports: [
@@ -73,7 +73,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     SearchBoxModule,
     ShareBrowserModule,
     PanelModule,
-    PreviewModule,
+    SharePreviewModule,
     ItemToolBarModule,
   ]
 })

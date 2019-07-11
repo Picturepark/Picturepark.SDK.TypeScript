@@ -21,6 +21,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   items: ShareContentDetail[] = [];
   toolBarOptions: any[];
   isLoading = true;
+  userId: string | undefined;
 
   constructor(
     @Inject(AuthService) public authService: OidcAuthService,
@@ -35,6 +36,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       this.items = data.contentSelections;
       this.creationDate = data.audit.creationDate;
       this.modificationDate = data.audit.modificationDate;
+      this.userId = data.audit.createdByUser;
 
     });
   }
