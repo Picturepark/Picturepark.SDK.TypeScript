@@ -8,21 +8,20 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { AggregationComponent } from '../../../../shared-module/components/aggregation-list/aggregation.component';
+import { AggregationComponent } from '../../../../shared-module/components/aggregation/aggregation.component';
 
 @Component({
   selector: 'pp-content-aggregation',
-  templateUrl: './content-aggregation.component.html',
-  styleUrls: ['./content-aggregation.component.scss']
+  templateUrl: '../../../../shared-module/components/aggregation/aggregation.component.html',
+  styleUrls: [
+    '../../../../shared-module/components/aggregation/aggregation.component.scss',
+    './content-aggregation.component.scss'
+  ]
 })
 export class ContentAggregationComponent extends AggregationComponent {
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
   public channelId: string | undefined;
-
-  // Used for expanding aggregation list (by default only first element is expanded).
-  @Input()
-  public isExpanded: boolean;
 
   constructor(@Inject(LOCALE_ID) public locale: string, private contentService: ContentService) {
     super();

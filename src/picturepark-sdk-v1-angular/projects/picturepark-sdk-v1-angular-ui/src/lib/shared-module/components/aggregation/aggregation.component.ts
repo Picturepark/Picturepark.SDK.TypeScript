@@ -27,6 +27,10 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
   @Input()
   aggregationResult: AggregationResult | null = null;
 
+  // Used for expanding aggregation list (by default only first element is expanded).
+  @Input()
+  public isExpanded: boolean;
+
   @Output()
   aggregationFiltersChange: EventEmitter<AggregationFilter[]> = new EventEmitter();
 
