@@ -49,10 +49,20 @@ export class ApplicationMenuComponent implements OnInit {
 
   // VARS
   menuState = false;
+  animateLogoState = false;
 
   constructor(
     private renderer: Renderer2,
-  ) { }
+  ) {}
+
+  // ANIMATE LOGO
+  animateLogo(): void {
+    if (!this.menuState) {
+      this.animateLogoState = true;
+    } else {
+      this.animateLogoState = false;
+    }
+  }
 
   // EXPAND MENU
   expandMenu(): void {
@@ -60,6 +70,7 @@ export class ApplicationMenuComponent implements OnInit {
       this.menuState = false;
     } else {
       this.menuState = true;
+      this.animateLogoState = false;
     }
   }
 

@@ -4,7 +4,6 @@
         width: 240px;
         .application-menu-logo {
             svg#text {
-     
                 opacity: 1;
             }
             & .back {
@@ -16,9 +15,21 @@
     
     & .application-menu-logo {
         text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f; position: relative;
-        svg#graphic { position: absolute; top: 13px; left: 20px; }
+        &.active {
+            background-color: #2f2f2f;
+            & svg#graphic {
+                top: 11px;
+            }
+        }
+        svg#graphic {
+            position: absolute;
+            top: 18px;
+            left: 20px;
+            cursor: pointer;
+            height: 30px; transition: 300ms;
+        }
         svg#text {
-
+            cursor: pointer;
             position: absolute;
             height: 25px;
             left: 56px;
