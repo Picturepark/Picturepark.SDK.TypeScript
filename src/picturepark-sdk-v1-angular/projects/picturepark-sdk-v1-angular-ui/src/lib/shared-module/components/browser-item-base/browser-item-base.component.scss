@@ -7,7 +7,6 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: white;
   cursor: pointer;
   @include mat-elevation-transition;
 
@@ -36,7 +35,7 @@
 
   &:hover {
     &:not(#{ $self }--selected) {
-      @include mat-elevation(8);
+      
       #{ $self }__actions {
         visibility: initial;
       }
@@ -50,7 +49,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 10px;
     font-size: 14px;
   }
   
@@ -63,6 +61,7 @@
     left: 0;
     right: 0;
     // TODO: theme color;
-    background: rgba($color: white, $alpha: 0.5)
+    background: rgba(0,0,0,.4);
+    height: 100%;
   }
 }

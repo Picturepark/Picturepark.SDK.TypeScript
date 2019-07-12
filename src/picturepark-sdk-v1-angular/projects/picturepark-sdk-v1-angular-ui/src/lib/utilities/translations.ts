@@ -100,6 +100,9 @@ export let TRANSLATIONS = {
       en: 'Preview',
       de: 'Vorschau'
     },
+    More: {
+      en: 'More',
+    },
     Download: {
       en: 'Download',
       de: 'Download'
