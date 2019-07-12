@@ -1,8 +1,14 @@
-import { BaseComponent } from '../base.component';
-import { ContentModel } from '../../models/content-model';
 import { Input, Output, EventEmitter } from '@angular/core';
-import { ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { Subject } from 'rxjs';
+
+// LIBRARIES
+import { ThumbnailSize } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
+import { BaseComponent } from '../base.component';
+
+// INTERFACES
+import { ContentModel } from '../../models/content-model';
 
 export abstract class BaseBrowserItemComponent<TEntity extends { id: string }> extends BaseComponent {
     // INPUTS

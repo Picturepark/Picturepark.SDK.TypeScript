@@ -12,7 +12,6 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../base.component';
 
-
 @Component({
   selector: 'pp-aggregation-item',
   templateUrl: './aggregation.component.html',

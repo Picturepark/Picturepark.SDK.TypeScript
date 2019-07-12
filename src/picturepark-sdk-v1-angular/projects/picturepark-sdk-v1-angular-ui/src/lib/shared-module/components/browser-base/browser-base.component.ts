@@ -195,7 +195,7 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
 
     public previewItem(item: TEntity): void {
         this.previewItemChange.emit(item);
-      }
+    }
 
     // HANDLE COMPONENENT CLICK EVENT
     @HostListener('document:click', ['$event'])
