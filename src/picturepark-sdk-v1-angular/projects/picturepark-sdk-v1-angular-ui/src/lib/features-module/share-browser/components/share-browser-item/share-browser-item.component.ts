@@ -29,9 +29,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {
-
     super();
-
   }
 
   public ngOnInit(): void {
@@ -59,6 +57,9 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+
+    console.log(changes);
+
     if (changes['thumbnailSize'] && this.isVisible) {
       const updateImage =
         (changes['thumbnailSize'].firstChange) ||

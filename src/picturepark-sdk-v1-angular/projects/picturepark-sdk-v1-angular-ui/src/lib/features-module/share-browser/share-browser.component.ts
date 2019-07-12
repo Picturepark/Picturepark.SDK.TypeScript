@@ -10,6 +10,9 @@ import {
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 
+// INTERFACES
+import { ContentModel } from '../../shared-module/models/content-model';
+
 @Component({
   selector: 'pp-share-browser',
   templateUrl: './share-browser.component.html',
@@ -81,12 +84,17 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
-    const containClasses = ['browser'];
+    const containClasses = ['browser__items'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
-  itemClicked(item): void {
+  itemDetails(item: Share): void {
     this.router.navigate([item.id], { relativeTo: this.activatedRoute });
+  }
+
+  previewItemEvent(item: ContentModel<Share>): void {
+    console.log(item)
+    this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

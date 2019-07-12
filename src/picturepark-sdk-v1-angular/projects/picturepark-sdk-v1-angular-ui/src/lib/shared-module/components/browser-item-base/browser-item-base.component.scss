@@ -4,6 +4,7 @@
   border-radius: 2px;
   position: relative;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   height: 100%;
   width: 100%;
@@ -12,10 +13,15 @@
 
   &--selected {
     // use primary color.
-    box-shadow: 0 0 0 4px #6f6f6f;
+    box-shadow: 0 0 0 2px #6f6f6f;
     #{ $self }__actions {
       visibility: initial;
     }
+
+    #{ $self }__title {
+      background-color: #6f6f6f; color: #fff; line-height: 21px; padding: 0px 5px;
+    }
+
   }
 
   &--list-view {
@@ -35,7 +41,6 @@
 
   &:hover {
     &:not(#{ $self }--selected) {
-      
       #{ $self }__actions {
         visibility: initial;
       }

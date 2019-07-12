@@ -76,7 +76,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       this.accessOriginal = data.outputAccess;
       this.creationDate = data.audit.creationDate;
 
-      setTimeout(() => { this.isLoading = false; }, 500);
+      setTimeout(() => { this.isLoading = false; }, 0);
 
     });
   }

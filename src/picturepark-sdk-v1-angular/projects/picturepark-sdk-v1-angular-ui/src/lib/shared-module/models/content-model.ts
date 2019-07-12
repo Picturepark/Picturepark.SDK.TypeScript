@@ -1,5 +1,5 @@
 export class ContentModel<TEntity> {
-  isSelected = false;
+  public isSelected = false;
   isInBasket = false;
   item: TEntity;
 
