@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult
+  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult, ThumbnailSize
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -55,11 +55,13 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     this.views = [{
       name: 'ThumbnailMedium',
       icon: 'collections',
-      type: 'thumbnailMedium'
+      type: 'thumbnailMedium',
+      thumbnailSize: ThumbnailSize.Medium
     }, {
       name: 'ThumbnailLarge',
       icon: 'collections',
-      type: 'thumbnailLarge'
+      type: 'thumbnailLarge',
+      thumbnailSize: ThumbnailSize.Large
     }];
     this.activeView = this.views[0];
   }

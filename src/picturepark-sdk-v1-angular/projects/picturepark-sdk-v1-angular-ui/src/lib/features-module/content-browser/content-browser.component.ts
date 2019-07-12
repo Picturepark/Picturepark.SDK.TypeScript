@@ -37,12 +37,6 @@ import { Observable } from 'rxjs';
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
   private basketItems: string[] = [];
 
-  public thumbnailSizes = ThumbnailSize;
-
-  public thumbnailSizesArray: string[] = Object.keys(ThumbnailSize).map(key => ThumbnailSize[key]);
-
-  public activeThumbnailSize: ThumbnailSize | null = ThumbnailSize.Medium;
-
   @Input()
   public channel: Channel | null = null;
 
@@ -90,17 +84,20 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       icon: 'list',
       type: 'list'
     }, {
-      name: 'Thumbnail Small',
+      name: 'Small',
       icon: 'collections',
-      type: 'thumbnailSmall'
+      type: 'thumbnailSmall',
+      thumbnailSize: ThumbnailSize.Small
     }, {
-      name: 'ThumbnailMedium',
+      name: 'Medium',
       icon: 'collections',
-      type: 'thumbnailMedium'
+      type: 'thumbnailMedium',
+      thumbnailSize: ThumbnailSize.Medium
     }, {
-      name: 'ThumbnailLarge',
+      name: 'Large',
       icon: 'collections',
-      type: 'thumbnailLarge'
+      type: 'thumbnailLarge',
+      thumbnailSize: ThumbnailSize.Large
     }];
     this.activeView = this.views[2];
   }

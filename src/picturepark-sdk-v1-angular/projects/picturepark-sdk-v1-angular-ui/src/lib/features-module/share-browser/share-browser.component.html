@@ -13,7 +13,7 @@
       <pp-share-browser-item 
         class="browser__item"
         [itemModel]="itemModel"
-        [thumbnailSize]=""
+        [thumbnailSize]="activeThumbnailSize"
         [isListView]="false"
         (previewItemChange)="previewItemEvent($event)"
         (click)="itemClicked($event,i)" 

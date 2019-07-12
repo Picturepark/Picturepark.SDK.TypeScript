@@ -9,7 +9,7 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase } from '@picturepark/sdk-v1-angular';
+import { FilterBase, IEntityBase, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
 import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
 import { ContentModel } from '../../models/content-model';
@@ -58,6 +58,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public sortingTypes: ISortItem[];
     public views: IBrowserView[];
     public activeView: IBrowserView;
+    public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
@@ -89,6 +90,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             }];
             this.activeSortingType = this.sortingTypes[0];
         }
+        this.setSortingType(this.activeSortingType, false);
 
         this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
     }
@@ -219,7 +221,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.previewItemChange.emit(item);
     }
 
-    setSortingType(newValue: ISortItem): void {
+    setSortingType(newValue: ISortItem, reload: boolean = true): void {
         if (newValue.field === 'relevance') {
             this.isAscending = null;
         } else if (this.isAscending === null) {
@@ -227,11 +229,14 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
 
         this.activeSortingType = newValue;
-        this.update();
+        if (reload) {
+            this.update();
+        }
     }
 
     changeView(view: IBrowserView): void {
         this.activeView = view;
+        this.activeThumbnailSize = view.thumbnailSize;
     }
 
     // HANDLE COMPONENENT CLICK EVENT
