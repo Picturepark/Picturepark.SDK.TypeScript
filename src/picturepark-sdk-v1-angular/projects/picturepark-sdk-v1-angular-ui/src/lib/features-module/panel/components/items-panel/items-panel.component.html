@@ -13,9 +13,8 @@
       </div>
       <div class="item-info">
         <ul>
-          <li class="title">{{ item.content.fileName }}</li>
-          <li>{{ item.content.width }}x{{ item.content.height }}px - {{ item.content.fileSizeInBytes }} KB - Colorspace {{ item.content.colorSpace }} - DPI: ?</li>
-          <li>Creation date: {{ creationDate | date: 'yyyy-MM-dd' }} Modification date: {{ modificationDate | date: 'yyyy-MM-dd' }}</li>
+          <li class="title" [innerHTML]="item.displayValues['name']"></li>
+          <li [innerHTML]="item.displayValues['list']"></li>
         </ul>
       </div>
       <div class="item-funcs">

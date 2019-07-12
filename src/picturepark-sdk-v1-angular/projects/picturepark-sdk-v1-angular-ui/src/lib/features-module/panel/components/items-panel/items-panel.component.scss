@@ -24,7 +24,7 @@
             & .item-funcs {
                 float: left; width: 20%; display: none;
                 & ul {
-                    position: relative; top: 35px;
+                    position: relative; top: 35px; float: right;
                     & li {
                         float: left; margin: 0px; width: 50px;
                         & i { font-size: 21px; cursor: pointer; }

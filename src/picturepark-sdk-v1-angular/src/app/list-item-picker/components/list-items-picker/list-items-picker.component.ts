@@ -7,10 +7,11 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter, Au
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 @Component({
-  selector: 'app-list-item-picker',
-  templateUrl: './list-item-picker.component.html'
+  selector: 'app-list-items-picker',
+  templateUrl: './list-items-picker.component.html',
+  styleUrls: ['./list-items-picker.component.scss']
 })
-export class ListItemPickerComponent implements OnInit {
+export class ListItemsPickerComponent implements OnInit {
 
   public activeParentSchema = new BehaviorSubject(null);
   public search = new BehaviorSubject('');

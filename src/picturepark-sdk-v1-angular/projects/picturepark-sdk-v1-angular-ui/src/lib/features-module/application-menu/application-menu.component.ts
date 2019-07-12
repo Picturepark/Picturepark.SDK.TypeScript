@@ -34,7 +34,7 @@ export class ApplicationMenuComponent implements OnInit {
   {
     name: 'Lists',
     icon: 'reorder',
-    link: 'lists'
+    link: 'list-item-picker'
   },
   {
     name: 'File Types',

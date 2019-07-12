@@ -36,6 +36,9 @@
             bottom: 21px;
             opacity: 0;
             transition: 300ms;
+            &:focus {
+                outline: -webkit-focus-ring-color auto 0px;
+            }
             & path {
                 fill: #fff;
             }
@@ -55,10 +58,10 @@
                 color: #eee; background-color: rgba(114,114,114,0.2);
             }
             & i {
-                font-size: 15px;
+                font-size: 13px;
                 position: absolute;
                 left: 10px;
-                top: 3px;
+                top: 4px;
                 font-weight: 600;
                 &:first-child {
                     position: absolute;
