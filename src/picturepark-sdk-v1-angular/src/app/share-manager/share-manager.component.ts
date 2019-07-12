@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthService } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
+// import { AuthService } from '@picturepark/sdk-v1-angular';
+// import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 @Component({
   selector: 'app-share-manager',
@@ -9,13 +9,7 @@ import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 })
 export class ShareBrowserComponent implements OnInit {
 
-  constructor(
-    @Inject(AuthService) public authService: OidcAuthService
-  ) { }
+  constructor() { }
 
-  public ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/share-manager');
-    }
-  }
+  ngOnInit() {}
 }

@@ -19,6 +19,8 @@
     </div>
   </div>
   <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subheading-2">
-    {{ itemModel.item.name }} {{ itemModel.isSelected }}
+    <i class="material-icons" *ngIf="itemModel.item.shareType === 'Embed'">code</i>
+    <i class="material-icons" *ngIf="itemModel.item.shareType === 'Basic'">share</i>
+    {{ itemModel.item.name }}
   </div>
 </div>
