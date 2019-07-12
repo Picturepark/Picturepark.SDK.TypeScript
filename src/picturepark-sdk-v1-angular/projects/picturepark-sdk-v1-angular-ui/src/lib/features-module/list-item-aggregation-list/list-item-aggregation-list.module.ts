@@ -6,20 +6,17 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
 import { ListItemAggregationListComponent } from './list-item-aggregation-list.component';
-import { ListItemAggregationComponent } from './components/list-item-aggregation/list-item-aggregation.component';
 
 @NgModule({
   declarations: [
-    ListItemAggregationListComponent,
-    ListItemAggregationComponent,
+    ListItemAggregationListComponent
   ],
   imports: [
     CommonModule,
     SharedModule
   ],
   exports: [
-    ListItemAggregationListComponent,
-    ListItemAggregationComponent
+    ListItemAggregationListComponent
   ]
 })
 export class ListItemAggregationListModule { }

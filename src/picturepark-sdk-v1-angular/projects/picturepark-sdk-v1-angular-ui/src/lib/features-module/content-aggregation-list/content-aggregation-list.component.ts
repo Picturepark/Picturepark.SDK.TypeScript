@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 import {
   ContentService, ContentAggregationRequest, BrokenDependenciesFilter,
-  ContentSearchType, LifeCycleFilter, ObjectAggregationResult
+  ContentSearchType, LifeCycleFilter, ObjectAggregationResult, AggregatorBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -39,5 +39,19 @@ export class ContentAggregationListComponent extends AggregationListComponent {
     }
 
     return of(null);
+  }
+
+  protected fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
+    const request = new ContentAggregationRequest({
+      channelId: this.channelId,
+      searchString: searchString,
+      brokenDependenciesFilter: BrokenDependenciesFilter.All,
+      aggregators: [aggregator],
+      aggregationFilters: this.aggregationFilters,
+      searchType: ContentSearchType.MetadataAndFullText,
+      lifeCycleFilter: LifeCycleFilter.ActiveOnly
+    });
+
+    return this.contentService.aggregate(request);
   }
 }

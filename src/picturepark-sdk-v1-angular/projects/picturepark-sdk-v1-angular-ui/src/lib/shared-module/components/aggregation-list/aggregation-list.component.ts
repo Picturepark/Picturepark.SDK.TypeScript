@@ -52,6 +52,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   }
 
   protected abstract fetchData(): Observable<ObjectAggregationResult | null>;
+  protected abstract fetchSearchData(searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null>;
 
   public clearFilters(): void {
     this.aggregationFiltersStates = [];

@@ -26,6 +26,7 @@ export { NotificationModule } from './lib/features-module/notification/notificat
 export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
 export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SharePreviewModule } from './lib/features-module/share-preview/share-preview.module';
+export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 

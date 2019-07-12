@@ -1,4 +1,4 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
@@ -12,7 +12,16 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../base.component';
 
-export abstract class AggregationComponent extends BaseComponent implements OnChanges {
+
+@Component({
+  selector: 'pp-aggregation-item',
+  templateUrl: './aggregation.component.html',
+  styleUrls: [
+    './aggregation.component.scss'
+  ]
+})
+export class AggregationComponent extends BaseComponent implements OnChanges, OnInit {
+
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
   public query = '';
@@ -27,8 +36,15 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
   @Input()
   aggregationResult: AggregationResult | null = null;
 
+  // Used for expanding aggregation list (by default only first element is expanded).
+  @Input()
+  public isExpanded: boolean;
+
   @Output()
   aggregationFiltersChange: EventEmitter<AggregationFilter[]> = new EventEmitter();
+
+  @Input()
+  fetchSearchData: (searchString: string, aggregator: AggregatorBase) => Observable<ObjectAggregationResult>;
 
   public pagingSize = 0;
 
@@ -50,6 +66,10 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
       flatMap(value => this.searchAggregator(value)));
   }
 
+  ngOnInit(): void {
+
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['aggregator']) {
       this.expandedAggregator = this.expandAggregator(this.aggregator);
@@ -67,12 +87,10 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
     }
   }
 
-  protected abstract fetchData(): Observable<ObjectAggregationResult>;
-
   public loadMore() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    const fetchDataSubscription = this.fetchData().subscribe(result => {
+    const fetchDataSubscription = this.fetchSearchData(this.query, this.expandedAggregator).subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
     this.subscription.add(fetchDataSubscription);
@@ -81,7 +99,7 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
   public loadLess() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    const fetchDataSubscription = this.fetchData().subscribe(result => {
+    const fetchDataSubscription = this.fetchSearchData(this.query, this.expandedAggregator).subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
     this.subscription.add(fetchDataSubscription);
@@ -97,7 +115,7 @@ export abstract class AggregationComponent extends BaseComponent implements OnCh
     this.expandedAggregator.searchString = query;
     this.expandedAggregator.size = this.pagingSize;
 
-    const observableResult = this.fetchData()
+    const observableResult = this.fetchSearchData(query, this.expandedAggregator)
       .pipe(map((result) => {
 
         if (result.aggregationResults !== undefined) {

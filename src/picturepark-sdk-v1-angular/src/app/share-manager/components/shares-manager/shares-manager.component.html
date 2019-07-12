@@ -1,18 +1,17 @@
-<div class="shares-manager-container">
+<div class="shares-manager-container" *ngIf="authService.isAuthenticated">
   <div class="content">
     <pp-browser-toolbar></pp-browser-toolbar>
-    <pp-share-browser *ngIf="authService.isAuthenticated"></pp-share-browser>
+    <pp-share-browser [filter]="selectedFilter"></pp-share-browser>
   </div>
   <div class="filters">
     <mat-tab-group>
       <mat-tab label="Filters">
         
-        <pp-content-aggregation-list
+        <pp-share-aggregation-list
           [query]="searchText"
-          [channelId]="selectedChannel?.id"
-          [aggregators]="selectedChannel?.aggregations"
+          [aggregators]="aggregators"
           (filterChange)="selectedFilter = $event">
-        </pp-content-aggregation-list>
+        </pp-share-aggregation-list>
         
       </mat-tab>
     </mat-tab-group>

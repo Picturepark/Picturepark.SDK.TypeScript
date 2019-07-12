@@ -5,18 +5,18 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
-import { ContentAggregationListComponent } from './content-aggregation-list.component';
+import { ShareAggregationListComponent } from './share-aggregation-list.component';
 
 @NgModule({
   declarations: [
-    ContentAggregationListComponent
+    ShareAggregationListComponent
   ],
   imports: [
     CommonModule,
     SharedModule
   ],
   exports: [
-    ContentAggregationListComponent
+    ShareAggregationListComponent
   ]
 })
-export class ContentAggregationListModule { }
+export class ShareAggregationListModule { }
