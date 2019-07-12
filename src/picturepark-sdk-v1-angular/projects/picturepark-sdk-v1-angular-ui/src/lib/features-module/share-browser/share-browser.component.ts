@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -18,7 +18,7 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
     './share-browser.component.scss'
   ]
 })
-export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
+export class ShareBrowserComponent extends BaseBrowserComponent<Share> implements OnChanges {
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -72,4 +72,9 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     this.router.navigate([item.id], { relativeTo: this.activatedRoute });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filter'] || changes['searchString']) {
+      this.update();
+    }
+  }
 }
