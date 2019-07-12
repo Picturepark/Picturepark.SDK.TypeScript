@@ -33,6 +33,9 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     this.loadData();
   }
 
+  initSort(): void {
+  }
+
   onScroll(): void {
     this.loadData();
   }
@@ -51,9 +54,9 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm
       ],
-      sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
+      sort: this.activeSortingType.field === 'relevance' ? [] : [
         new SortInfo({
-          field: this.activeSortingType,
+          field: this.activeSortingType.field,
           direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
         })
       ]

@@ -21,8 +21,8 @@ import {
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { SortingType } from '../../shared-module/models/sorting-type';
 import { Observable } from 'rxjs';
+import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -36,7 +36,6 @@ import { Observable } from 'rxjs';
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-
   private basketItems: string[] = [];
 
   public thumbnailSizes = ThumbnailSize;
@@ -71,6 +70,25 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.subscription.add(basketSubscription);
   }
 
+  initSort(): void {
+    this.sortingTypes = [
+      {
+        field: 'relevance',
+        name: this.translationService.translate('SortMenu.Relevance')
+      }, {
+        field: 'fileMetadata.fileName',
+        name: this.translationService.translate('SortMenu.FileName')
+      }, {
+        field: 'audit.creationDate',
+        name: this.translationService.translate('SortMenu.CreationDate')
+      }, {
+        field: 'audit.modificationDate',
+        name: this.translationService.translate('SortMenu.ModificationDate')
+      }
+    ];
+    this.activeSortingType = this.sortingTypes[0];
+  }
+
   onScroll(): void {
     this.loadData();
   }
@@ -93,9 +111,9 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm
       ],
-      sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
+      sort: this.activeSortingType.field === 'relevance' ? [] : [
         new SortInfo({
-          field: this.activeSortingType,
+          field: this.activeSortingType.field,
           direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
         })
       ]
@@ -108,17 +126,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     if (changes['channel'] || changes['filter'] || changes['searchString']) {
       this.update();
     }
-  }
-
-  setSortingType(newValue: SortingType): void {
-    if (newValue === SortingType.relevance) {
-      this.isAscending = null;
-    } else if (this.isAscending === null) {
-      this.isAscending = true;
-    }
-
-    this.activeSortingType = newValue;
-    this.update();
   }
 
   public previewSelectedItem(): void {

@@ -1,5 +1,7 @@
 <div class="browser" cdkScrollable>
   <div class="browser__header">
+    <pp-browser-toolbar [browser]="self"></pp-browser-toolbar>
+
     <mat-toolbar>
 
       <div class="browser__toolbar">
@@ -32,40 +34,6 @@
         <ng-content select="[content-buttons]"></ng-content>
         <div class="browser__spacer"></div>
         <span *ngIf="totalResults !== null" class="browser__items-count mat-body-1">{{ 'ContentBrowser.ItemsLength' | pptranslate:totalResults }}</span>
-
-        <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
-          <mat-icon aria-label="Select sorting">sort</mat-icon>
-        </button>
-
-        <mat-menu #sortMenu="matMenu">
-          <ng-template matMenuContent>
-            <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = true; update();">
-              <span>{{ 'ContentBrowser.SortingAscending' | pptranslate }}</span>
-              <mat-icon *ngIf="isAscending === true">check</mat-icon>
-            </button>
-            <button mat-menu-item [disabled]="activeSortingType === sortingTypes.relevance" (click)="isAscending = false; update();">
-              <span>{{ 'ContentBrowser.SortingDescending' | pptranslate }}</span>
-              <mat-icon *ngIf="isAscending === false">check</mat-icon>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item (click)="setSortingType(sortingTypes.relevance)">
-              <span>{{ 'ContentBrowser.SortingByRelevance' | pptranslate }}</span>
-              <mat-icon *ngIf="activeSortingType === sortingTypes.relevance">check</mat-icon>
-            </button>
-            <button mat-menu-item (click)="setSortingType(sortingTypes.fileName)">
-              <span>{{ 'ContentBrowser.SortingByName' | pptranslate }}</span>
-              <mat-icon *ngIf="activeSortingType === sortingTypes.fileName">check</mat-icon>
-            </button>
-            <button mat-menu-item (click)="setSortingType(sortingTypes.dateCreated)">
-              <span>{{ 'ContentBrowser.SortingByDateCreated' | pptranslate }}</span>
-              <mat-icon *ngIf="activeSortingType === sortingTypes.dateCreated">check</mat-icon>
-            </button>
-            <button mat-menu-item (click)="setSortingType(sortingTypes.dateModified)">
-              <span>{{ 'ContentBrowser.SortingByDateModified' | pptranslate }}</span>
-              <mat-icon *ngIf="activeSortingType === sortingTypes.dateModified">check</mat-icon>
-            </button>
-          </ng-template>
-        </mat-menu>
 
         <button mat-icon-button [matMenuTriggerFor]="displayStyle" [matTooltip]="'View type'">
           <mat-icon aria-label="Select view type">list</mat-icon>

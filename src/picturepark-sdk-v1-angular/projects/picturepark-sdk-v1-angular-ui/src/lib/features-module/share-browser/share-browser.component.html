@@ -1,6 +1,7 @@
 <div class="browser" cdkScrollable>
   <div class="browser__header">
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <pp-browser-toolbar [browser]="self"></pp-browser-toolbar>
   </div>
 
   <div *ngIf="totalResults !== 0" class="browser__items">

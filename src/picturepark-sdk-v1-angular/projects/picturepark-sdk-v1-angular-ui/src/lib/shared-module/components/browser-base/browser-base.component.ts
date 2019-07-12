@@ -9,13 +9,14 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase } from '@picturepark/sdk-v1-angular';
-import { SortingType } from '../../models/sorting-type';
+import { FilterBase, IEntityBase } from '@picturepark/sdk-v1-angular';
 import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
 import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
 import { ContentModel } from '../../models/content-model';
+import { ISortItem } from './interfaces/sort-item';
+import { TranslationService } from '../../services/translations/translation.service';
 
-export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
+export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
     @LazyGetter()
     protected get scrollDispatcher(): ScrollDispatcher {
@@ -30,6 +31,10 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         return this.injector.get(LiquidRenderingService);
     }
     @LazyGetter()
+    protected get translationService(): TranslationService {
+        return this.injector.get(TranslationService);
+    }
+    @LazyGetter()
     protected get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
         return new ContentItemSelectionService<TEntity>();
     }
@@ -37,6 +42,8 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     protected get dialog(): MatDialog {
         return this.injector.get(MatDialog);
     }
+
+    public self: BaseBrowserComponent<TEntity>;
 
     protected pictureParkUIConfig: PictureparkUIConfiguration;
 
@@ -46,8 +53,8 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     public nextPageToken: string | undefined;
     public readonly pageSize = 50;
     public isAscending: boolean | null = null;
-    public activeSortingType = SortingType.relevance;
-    public sortingTypes = SortingType;
+    public activeSortingType: ISortItem;
+    public sortingTypes: ISortItem[];
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
@@ -61,12 +68,24 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     private lastSelectedIndex = 0;
 
     abstract init(): void;
+    abstract initSort(): void;
     abstract onScroll(): void;
     abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string, protected injector: Injector) {
         super();
+
+        this.self = this;
+        // Init default sort
+        this.initSort();
+        if (!this.sortingTypes) {
+            this.sortingTypes = [{
+                field: 'relevance',
+                name: this.translationService.translate('SortInfo.Relevance')
+            }];
+            this.activeSortingType = this.sortingTypes[0];
+        }
 
         this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
     }
@@ -195,7 +214,18 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
 
     public previewItem(item: TEntity): void {
         this.previewItemChange.emit(item);
-      }
+    }
+
+    setSortingType(newValue: ISortItem): void {
+        if (newValue.field === 'relevance') {
+            this.isAscending = null;
+        } else if (this.isAscending === null) {
+            this.isAscending = true;
+        }
+
+        this.activeSortingType = newValue;
+        this.update();
+    }
 
     // HANDLE COMPONENENT CLICK EVENT
     @HostListener('document:click', ['$event'])

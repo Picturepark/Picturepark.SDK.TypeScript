@@ -3,15 +3,31 @@
     <div class="select">
       <button [matMenuTriggerFor]="select">{{ 'ContentBrowser.SelectMenu' | pptranslate }}<i class="material-icons">more_vert</i></button>
       <mat-menu #select="matMenu" xPosition="after">
-        <button mat-menu-item>{{ 'ContentBrowser.SelectFirstItems' | pptranslate: 9 }}</button>
-        <button mat-menu-item>{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
+          <button mat-menu-item (click)="browser.toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}</button>
+          <button mat-menu-item (click)="browser.toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
       </mat-menu>
     </div>
     <div class="order-by">
-      <button [matMenuTriggerFor]="select"><i class="material-icons">sort</i></button>
-      <mat-menu #select="matMenu" xPosition="before">
-        <button mat-menu-item>{{ 'ContentBrowser.Acending' | pptranslate }}</button>
-        <button mat-menu-item>{{ 'ContentBrowser.Descending' | pptranslate }}</button>
+      <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
+       <mat-icon aria-label="Select sorting">sort</mat-icon>
+      </button>
+
+      <mat-menu #sortMenu="matMenu">
+        <ng-template matMenuContent>
+          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="isAscending = true; browser.update();">
+            <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
+            <mat-icon *ngIf="browser.isAscending === true">check</mat-icon>
+          </button>
+          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="isAscending = false; browser.update();">
+            <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
+            <mat-icon *ngIf="browser.isAscending === false">check</mat-icon>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="browser.setSortingType(sort)" *ngFor="let sort of browser.sortingTypes">
+            <span>{{ sort.name }}</span>
+            <mat-icon *ngIf="browser.activeSortingType.field === sort.field">check</mat-icon>
+          </button>
+        </ng-template>
       </mat-menu>
     </div>
   </div>

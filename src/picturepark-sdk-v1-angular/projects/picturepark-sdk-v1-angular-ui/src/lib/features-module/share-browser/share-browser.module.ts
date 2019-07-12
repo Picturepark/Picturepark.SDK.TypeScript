@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 // COMPONENTS
 import { ShareBrowserComponent } from './share-browser.component';
 import { ShareBrowserItemComponent } from './components/share-browser-item/share-browser-item.component';
+import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ShareBrowserItemComponent } from './components/share-browser-item/share
   imports: [
     CommonModule,
     SharedModule,
+    BrowserToolbarModule
   ],
   exports: [
     ShareBrowserComponent,
