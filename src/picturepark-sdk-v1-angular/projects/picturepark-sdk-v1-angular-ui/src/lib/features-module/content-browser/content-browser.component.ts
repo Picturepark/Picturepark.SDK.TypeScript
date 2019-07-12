@@ -22,7 +22,6 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 
 // INTERFACES
 import { Observable } from 'rxjs';
-import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK

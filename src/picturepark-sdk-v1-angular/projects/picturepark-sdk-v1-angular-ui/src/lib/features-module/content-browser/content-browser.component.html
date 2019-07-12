@@ -6,22 +6,10 @@
 
       <div class="browser__toolbar">
 
-        <button mat-button [matMenuTriggerFor]="selectMenu" *ngIf="configActions.selectContent">
-          <span class="desc">{{ 'ContentBrowser.SelectMenu' | pptranslate }}</span>
-          <mat-icon>more_vert</mat-icon>
-        </button>
-
         <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1 && configActions.shareContent">
           <span class="desc">{{ 'ContentBrowser.ShareImages' | pptranslate }}</span>
           <mat-icon>share</mat-icon>
         </button>
-
-        <mat-menu #selectMenu="matMenu">
-          <ng-template matMenuContent>
-            <button mat-menu-item (click)="toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: items.length }}</button>
-            <button mat-menu-item (click)="toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
-          </ng-template>
-        </mat-menu>
 
         <mat-divider class="browser__divider" [vertical]="true"></mat-divider>
 
