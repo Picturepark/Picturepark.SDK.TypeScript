@@ -1,5 +1,5 @@
 <div class="content-picker-container" [style.display]="detailsItemId ? 'none' : ''">
-  <div *ngIf="!authService.isAuthenticated">
+  <div class="authorization-container" *ngIf="!authService.isAuthenticated">
     Authorization...
   </div>
 

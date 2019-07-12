@@ -74,7 +74,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
         autoFocus: false
       });
 
-      dialogRef.componentInstance.title = 'Download content';
+      dialogRef.componentInstance.title = 'Basket.Share';
     });
   }
 

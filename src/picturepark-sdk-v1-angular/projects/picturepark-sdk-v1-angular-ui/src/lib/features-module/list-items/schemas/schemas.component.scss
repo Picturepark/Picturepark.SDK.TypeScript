@@ -1,8 +1,6 @@
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    display: flex;
+    width: unset;
   
     a:visited {
       color: inherit;
