@@ -1,4 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+// COMPONENTS
+import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'pp-item-tool-bar',
@@ -8,10 +13,15 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ItemToolBarComponent implements OnInit {
 
   @Input() toolBarOptions: any[] = [];
+  @Output() toolBarOutPutEvent = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog,
+  ) { }
 
-  displayLabel() {}
+  fireAction(action: string): void {
+    this.toolBarOutPutEvent.emit(action);
+  }
 
   ngOnInit() {}
 

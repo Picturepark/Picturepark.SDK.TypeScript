@@ -37,11 +37,13 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     // TOOL BAR OPTIONS DEFINITION
     this.toolBarOptions = [{
       name: 'Download all contents',
-      icon: 'file_download'
+      icon: 'file_download',
+      action: 'download'
     },
     {
       name: 'Share all contents',
-      icon: 'share'
+      icon: 'share',
+      action: 'share'
     },
     {
       name: 'Embed all contents',
