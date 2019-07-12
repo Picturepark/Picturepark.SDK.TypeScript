@@ -43,8 +43,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   public activeThumbnailSize: ThumbnailSize | null = ThumbnailSize.Medium;
 
-  public isListView = false;
-
   @Input()
   public channel: Channel | null = null;
 
@@ -86,6 +84,25 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       }
     ];
     this.activeSortingType = this.sortingTypes[0];
+
+    this.views = [{
+      name: 'List',
+      icon: 'list',
+      type: 'list'
+    }, {
+      name: 'Thumbnail Small',
+      icon: 'collections',
+      type: 'thumbnailSmall'
+    }, {
+      name: 'ThumbnailMedium',
+      icon: 'collections',
+      type: 'thumbnailMedium'
+    }, {
+      name: 'ThumbnailLarge',
+      icon: 'collections',
+      type: 'thumbnailLarge'
+    }];
+    this.activeView = this.views[2];
   }
 
   onScroll(): void {

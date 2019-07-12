@@ -1,6 +1,9 @@
 .browser-toolbar-container {
     height: 56px; background-color: #eee; border-bottom: 1px solid #d8d8d8;
     & .browser-toolbar-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         line-height: 56px; padding: 0px 30px; overflow: hidden;
         button:focus {
             outline: -webkit-focus-ring-color auto 0px;
@@ -35,8 +38,25 @@
             }
         }
 
-        & .select { float: left; }
-        & .order-by { float: right; }
-
     }
+
+    .spacer {
+        flex-grow: 1;
+    }
+
+    .items-count {
+        padding-top: 4px;
+        font-size: 12px;
+    }
+}
+
+.menu-title {
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-weight: 500;
+}
+
+.active {
+    font-weight: 600;
 }

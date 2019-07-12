@@ -11,6 +11,9 @@ import { IEntityBase } from '@picturepark/sdk-v1-angular';
 export class BrowserToolbarComponent extends BaseComponent implements OnInit {
 
   @Input()
+  entityName: string;
+
+  @Input()
   browser: BaseBrowserComponent<IEntityBase>;
 
   constructor() {

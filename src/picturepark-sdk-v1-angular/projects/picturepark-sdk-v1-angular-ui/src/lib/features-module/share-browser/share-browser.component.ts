@@ -51,6 +51,17 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     ];
     this.activeSortingType = this.sortingTypes[1];
     this.isAscending = false;
+
+    this.views = [{
+      name: 'ThumbnailMedium',
+      icon: 'collections',
+      type: 'thumbnailMedium'
+    }, {
+      name: 'ThumbnailLarge',
+      icon: 'collections',
+      type: 'thumbnailLarge'
+    }];
+    this.activeView = this.views[0];
   }
 
   onScroll(): void {

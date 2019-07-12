@@ -15,6 +15,7 @@ import { ContentItemSelectionService } from '../../services/content-item-selecti
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
+import { IBrowserView } from './interfaces/browser-view';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -55,6 +56,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public isAscending: boolean | null = null;
     public activeSortingType: ISortItem;
     public sortingTypes: ISortItem[];
+    public views: IBrowserView[];
+    public activeView: IBrowserView;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
@@ -225,6 +228,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
         this.activeSortingType = newValue;
         this.update();
+    }
+
+    changeView(view: IBrowserView): void {
+        this.activeView = view;
     }
 
     // HANDLE COMPONENENT CLICK EVENT

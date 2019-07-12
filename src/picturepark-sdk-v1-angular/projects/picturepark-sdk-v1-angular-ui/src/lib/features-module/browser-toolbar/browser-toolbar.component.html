@@ -7,25 +7,39 @@
           <button mat-menu-item (click)="browser.toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
       </mat-menu>
     </div>
+
+    <ng-content select="[browser-buttons]"></ng-content>
+
+    <div class="spacer"></div>
+    <span *ngIf="browser.totalResults" class="items-count mat-body-1">{{ browser.totalResults }} {{ entityName }}</span>
+    
     <div class="order-by">
       <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
-       <mat-icon aria-label="Select sorting">sort</mat-icon>
+       <mat-icon aria-label="Select sorting">settings</mat-icon>
       </button>
 
       <mat-menu #sortMenu="matMenu">
         <ng-template matMenuContent>
-          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="browser.isAscending = true; browser.update();">
-            <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
-            <mat-icon *ngIf="browser.isAscending === true">check</mat-icon>
+          <div class="menu-title">Views</div>
+          <mat-divider></mat-divider>
+          <button *ngFor="let view of browser.views" mat-menu-item (click)="browser.changeView(view)" [class.active]="browser.activeView === view">
+              <mat-icon>{{ view.icon }}</mat-icon>
+              <span>{{view.name}}</span>
           </button>
-          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="browser.isAscending = false; browser.update();">
+
+          <mat-divider></mat-divider>
+          <div class="menu-title">Sort</div>
+          <mat-divider></mat-divider>
+
+          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="browser.isAscending = true; browser.update();" [class.active]="browser.isAscending === true">
+            <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
+          </button>
+          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="browser.isAscending = false; browser.update();" [class.active]="browser.isAscending === false">
             <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
-            <mat-icon *ngIf="browser.isAscending === false">check</mat-icon>
           </button>
           <mat-divider></mat-divider>
-          <button mat-menu-item (click)="browser.setSortingType(sort)" *ngFor="let sort of browser.sortingTypes">
+          <button mat-menu-item (click)="browser.setSortingType(sort)" *ngFor="let sort of browser.sortingTypes" [class.active]="browser.activeSortingType.field === sort.field">
             <span>{{ sort.name }}</span>
-            <mat-icon *ngIf="browser.activeSortingType.field === sort.field">check</mat-icon>
           </button>
         </ng-template>
       </mat-menu>

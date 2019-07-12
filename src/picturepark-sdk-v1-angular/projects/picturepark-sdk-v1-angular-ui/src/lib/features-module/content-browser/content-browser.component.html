@@ -1,59 +1,28 @@
 <div class="browser" cdkScrollable>
   <div class="browser__header">
-    <pp-browser-toolbar [browser]="self"></pp-browser-toolbar>
-
-    <mat-toolbar>
-
-      <div class="browser__toolbar">
-
-        <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1 && configActions.shareContent">
-          <span class="desc">{{ 'ContentBrowser.ShareImages' | pptranslate }}</span>
-          <mat-icon>share</mat-icon>
-        </button>
-
-        <mat-divider class="browser__divider" [vertical]="true"></mat-divider>
-
+    <pp-browser-toolbar [browser]="self" entityName="contents">
+      <ng-container browser-buttons>
         <button *ngIf="selectedItems.length === 1" mat-icon-button [matTooltip]="'ContentBrowser.Preview' | pptranslate">
           <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
         </button>
         <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
           <mat-icon aria-label="Download selected items">get_app</mat-icon>
         </button>
-        <ng-content select="[content-buttons]"></ng-content>
-        <div class="browser__spacer"></div>
-        <span *ngIf="totalResults !== null" class="browser__items-count mat-body-1">{{ 'ContentBrowser.ItemsLength' | pptranslate:totalResults }}</span>
-
-        <button mat-icon-button [matMenuTriggerFor]="displayStyle" [matTooltip]="'View type'">
-          <mat-icon aria-label="Select view type">list</mat-icon>
+        <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1 && configActions.shareContent">
+          <span class="desc">{{ 'ContentBrowser.ShareImages' | pptranslate }}</span>
+          <mat-icon>share</mat-icon>
         </button>
+        <ng-content select="[content-buttons]"></ng-content>
+      </ng-container>
+    </pp-browser-toolbar>
 
-        <mat-menu #displayStyle="matMenu">
-          <ng-template matMenuContent>
-            <button mat-menu-item [matMenuTriggerFor]="thumbnailSizeMenu">
-              {{ 'ContentBrowser.ViewTypeThumbnail' | pptranslate }}
-            </button>
-            <button mat-menu-item (click)="activeThumbnailSize = null; isListView = true;">
-              <mat-icon *ngIf="isListView === true">check</mat-icon>
-              <span>{{ 'ContentBrowser.ViewTypeList' | pptranslate }}</span>
-            </button>
-          </ng-template>
-        </mat-menu>
-
-        <mat-menu #thumbnailSizeMenu="matMenu">
-          <ng-template matMenuContent>
-            <button *ngFor="let size of thumbnailSizesArray; trackBy: trackByThumbnailSize" mat-menu-item (click)="isListView = false; activeThumbnailSize = size">
-              <span>{{size}}</span>
-              <mat-icon *ngIf="activeThumbnailSize === size">check</mat-icon>
-            </button>
-          </ng-template>
-        </mat-menu>
-      </div>
-    </mat-toolbar>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
 
-  <div *ngIf="totalResults !== 0" class="browser__items" [class.browser__items--list]="isListView" [class.browser__items--large]=" activeThumbnailSize === thumbnailSizes.Large"
-       [class.browser__items--medium]=" activeThumbnailSize === thumbnailSizes.Medium">
+  <div *ngIf="totalResults !== 0" class="browser__items" 
+       [class.browser__items--list]="activeView.type === 'list'"
+       [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
+       [class.browser__items--medium]="activeView.type === 'thumbnailMedium'">
     <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
       <pp-content-browser-item 
         class="browser__item" 
