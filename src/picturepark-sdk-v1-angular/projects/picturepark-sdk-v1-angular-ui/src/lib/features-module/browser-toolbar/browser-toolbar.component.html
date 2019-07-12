@@ -14,11 +14,11 @@
 
       <mat-menu #sortMenu="matMenu">
         <ng-template matMenuContent>
-          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="isAscending = true; browser.update();">
+          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="browser.isAscending = true; browser.update();">
             <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
             <mat-icon *ngIf="browser.isAscending === true">check</mat-icon>
           </button>
-          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="isAscending = false; browser.update();">
+          <button mat-menu-item [disabled]="browser.activeSortingType.field === 'relevance'" (click)="browser.isAscending = false; browser.update();">
             <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
             <mat-icon *ngIf="browser.isAscending === false">check</mat-icon>
           </button>

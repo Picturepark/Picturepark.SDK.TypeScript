@@ -34,6 +34,20 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
   }
 
   initSort(): void {
+    this.sortingTypes = [
+      {
+        field: 'relevance',
+        name: this.translationService.translate('SortMenu.Relevance')
+      }, {
+        field: 'audit.creationDate',
+        name: this.translationService.translate('SortMenu.CreationDate')
+      }, {
+        field: 'audit.modificationDate',
+        name: this.translationService.translate('SortMenu.ModificationDate')
+      }
+    ];
+    this.activeSortingType = this.sortingTypes[1];
+    this.isAscending = false;
   }
 
   onScroll(): void {
