@@ -1,22 +1,24 @@
-<div mat-dialog-content *ngIf="content">
-  <h1 mat-dialog-title> {{ content?.displayValues['name'] || contentId }}</h1>
-  <div class="detail-wrap">
-    <div>
-      <img [src]="thumbnailUrlSafe" (click)="showFullscreen()"><br />
-      <p [innerHTML]="content?.displayValues['detail']"></p>
+<div *ngIf="content">
+  <h3 mat-dialog-title> {{ content?.displayValues['name'] || contentId }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+  <mat-dialog-content>
+    <div class="detail-wrap">
+      <div>
+        <img [src]="thumbnailUrlSafe" (click)="showFullscreen()"><br />
+        <p [innerHTML]="content?.displayValues['detail']"></p>
+      </div>
+
+      <dl>
+        <dt>{{'ContentPickerDetails.LabelFileExtension' | pptranslate}}</dt>
+        <dd>{{content.content.fileExtension}}</dd>
+
+        <dt>{{'ContentPickerDetails.LabelFileSize' | pptranslate}}</dt>
+        <dd>{{content.content.fileSizeInBytes | filesize}}</dd>
+
+        <ng-container *ngIf="content.content.kind === 'ImageMetadata'">
+          <dt>{{'ContentPickerDetails.LabelSize' | pptranslate}}</dt>
+          <dd>{{content.content.width}}px x {{content.content.height}}px</dd>
+        </ng-container>
+      </dl>
     </div>
-
-    <dl>
-      <dt>{{'ContentPickerDetails.LabelFileExtension' | pptranslate}}</dt>
-      <dd>{{content.content.fileExtension}}</dd>
-
-      <dt>{{'ContentPickerDetails.LabelFileSize' | pptranslate}}</dt>
-      <dd>{{content.content.fileSizeInBytes | filesize}}</dd>
-
-      <ng-container *ngIf="content.content.kind === 'ImageMetadata'">
-        <dt>{{'ContentPickerDetails.LabelSize' | pptranslate}}</dt>
-        <dd>{{content.content.width}}px x {{content.content.height}}px</dd>
-      </ng-container>
-    </dl>
-  </div>
+  </mat-dialog-content>
 </div>

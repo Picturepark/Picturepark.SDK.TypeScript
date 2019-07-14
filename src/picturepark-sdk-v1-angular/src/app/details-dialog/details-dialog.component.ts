@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy,
-  Inject, SimpleChanges, OnChanges
+  Inject, SimpleChanges, OnChanges, Injector
 } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
@@ -9,16 +9,21 @@ import {
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehavior
 } from '@picturepark/sdk-v1-angular';
 
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
+// tslint:disable-next-line:max-line-length
+import { DialogBaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/dialog/components/dialog-base/dialog-base.component';
 
 @Component({
   selector: 'app-details-dialog',
   templateUrl: './details-dialog.component.html',
-  styleUrls: ['./details-dialog.component.scss']
+  styleUrls: [
+    '../../../projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/dialog/components/dialog-base/dialog-base.component.scss',
+    './details-dialog.component.scss'
+  ]
 })
-export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
+export class DetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy, OnChanges {
 
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
@@ -26,13 +31,14 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
   content: ContentDetail;
 
   contentId: string;
-  private subscription: Subscription = new Subscription();
 
   constructor(private contentService: ContentService,
     private liquidRenderingService: LiquidRenderingService,
     private sanitizer: DomSanitizer,
+    protected dialogRef: MatDialogRef<DetailsDialogComponent>,
+    protected injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: string) {
-
+      super(data, dialogRef, injector);
     this.contentId = data;
     if (data) {
       const downloadThumbnailSubscription = this.contentService.download(data, 'Preview', 800, 800, null)
