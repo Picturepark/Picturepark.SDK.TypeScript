@@ -6,11 +6,11 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
   ContentService, ContentDetail,
-  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehavior
+  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink,
+  ContentResolveBehavior, SchemaDetail, SchemaService
 } from '@picturepark/sdk-v1-angular';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 import { LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
 // tslint:disable-next-line:max-line-length
 import { DialogBaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/dialog/components/dialog-base/dialog-base.component';
@@ -31,9 +31,12 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
   content: ContentDetail;
 
   contentId: string;
+  public schemas: SchemaDetail[];
 
   constructor(private contentService: ContentService,
     private liquidRenderingService: LiquidRenderingService,
+    private schemaService: SchemaService,
+
     private sanitizer: DomSanitizer,
     protected dialogRef: MatDialogRef<DetailsDialogComponent>,
     protected injector: Injector,
@@ -41,7 +44,7 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
       super(data, dialogRef, injector);
     this.contentId = data;
     if (data) {
-      const downloadThumbnailSubscription = this.contentService.download(data, 'Preview', 800, 800, null)
+      const downloadThumbnailSubscription = this.contentService.download(data, 'Preview', 860, 650, null)
         .subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
@@ -60,6 +63,8 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
       ]).subscribe(async (content: ContentDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         this.content = content;
+
+        this.schemas = await this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).toPromise();
       });
 
       this.subscription.add(contentGetSubscription);
