@@ -5,7 +5,7 @@ import {
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
-  ContentService, ContentDetail, ThumbnailSize,
+  ContentService, ContentDetail,
   ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehavior
 } from '@picturepark/sdk-v1-angular';
 
@@ -15,7 +15,8 @@ import { LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
   selector: 'app-details-dialog',
-  templateUrl: './details-dialog.component.html'
+  templateUrl: './details-dialog.component.html',
+  styleUrls: ['./details-dialog.component.scss']
 })
 export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -34,7 +35,7 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
 
     this.contentId = data;
     if (data) {
-      const downloadThumbnailSubscription = this.contentService.downloadThumbnail(data, ThumbnailSize.Medium, null, null)
+      const downloadThumbnailSubscription = this.contentService.download(data, 'Preview', 800, 800, null)
         .subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
@@ -47,6 +48,8 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
         ContentResolveBehavior.Metadata,
         ContentResolveBehavior.LinkedListItems,
         ContentResolveBehavior.InnerDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueDetail,
         ContentResolveBehavior.Outputs
       ]).subscribe(async (content: ContentDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
