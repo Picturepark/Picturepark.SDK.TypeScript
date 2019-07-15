@@ -106,7 +106,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
   }
 
   previewItemEvent(item: ContentModel<Share>): void {
-    console.log(item)
+    console.log(item);
     this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
   }
 
