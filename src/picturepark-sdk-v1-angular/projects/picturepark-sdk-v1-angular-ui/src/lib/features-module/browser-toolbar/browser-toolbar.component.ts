@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
+
+// LIBRARIES
+import { IEntityBase } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { IEntityBase } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-browser-toolbar',

@@ -19,7 +19,7 @@
     }
 
     #{ $self }__title {
-      background-color: #6f6f6f; color: #fff; line-height: 21px; padding: 0px 5px;
+      background-color: #6f6f6f; color: #fff; color: #d8d8d8;
     }
 
   }
@@ -55,6 +55,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
+    margin: 0px;
+    line-height: 21px;
+    padding: 0px 5px; 
+    color: #727272;
   }
   
   &__actions {

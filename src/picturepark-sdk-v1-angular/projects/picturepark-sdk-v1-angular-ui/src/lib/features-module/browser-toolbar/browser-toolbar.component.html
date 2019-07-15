@@ -3,8 +3,8 @@
     <div class="select">
       <button [matMenuTriggerFor]="select">{{ 'ContentBrowser.SelectMenu' | pptranslate }}<i class="material-icons">more_vert</i></button>
       <mat-menu #select="matMenu" xPosition="after">
-          <button mat-menu-item (click)="browser.toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}</button>
-          <button mat-menu-item (click)="browser.toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
+        <button mat-menu-item (click)="browser.toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}</button>
+        <button mat-menu-item (click)="browser.toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>
       </mat-menu>
     </div>
 
@@ -15,7 +15,7 @@
     
     <div class="order-by">
       <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
-       <mat-icon aria-label="Select sorting">settings</mat-icon>
+       <mat-icon aria-label="Select sorting">sort</mat-icon>
       </button>
 
       <mat-menu #sortMenu="matMenu">
@@ -23,8 +23,8 @@
           <div class="menu-title">Views</div>
           <mat-divider></mat-divider>
           <button *ngFor="let view of browser.views" mat-menu-item (click)="browser.changeView(view)" [class.active]="browser.activeView === view">
-              <mat-icon>{{ view.icon }}</mat-icon>
-              <span>{{view.name}}</span>
+            <mat-icon>{{ view.icon }}</mat-icon>
+            <span>{{ view.name }}</span>
           </button>
 
           <mat-divider></mat-divider>

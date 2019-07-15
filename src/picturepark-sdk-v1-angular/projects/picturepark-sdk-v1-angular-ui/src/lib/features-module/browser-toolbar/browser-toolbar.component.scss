@@ -9,6 +9,7 @@
             outline: -webkit-focus-ring-color auto 0px;
         }
         & .select {
+            margin: 0px 15px 0px 0px;
             button {
                 border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #39acaa; padding: 0px;
                 &:hover {
@@ -25,15 +26,15 @@
 
         & .order-by {
             button {
-                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #39acaa; padding: 0px;
+                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #727272; padding: 0px;
                 &:hover {
                     background-color: unset; text-decoration: underline;
-                    i {
+                    mat-icon {
                         color: #2f2f2f;
                     }
                 }
-                i {
-                    font-size: 21px; color: #727272; padding: 2px; position: relative; top: 6px; left: 6px;
+                mat-icon {
+                    font-size: 18px; color: #727272; padding: 2px;
                 }
             }
         }

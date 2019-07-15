@@ -1,0 +1,14 @@
+.browser {
+    &__header {
+        button {
+            &:hover {
+                mat-icon {
+                    color: #2f2f2f
+                }
+            }
+            mat-icon { 
+                font-size: 18px; color: #727272;
+            }
+        }
+    }
+}

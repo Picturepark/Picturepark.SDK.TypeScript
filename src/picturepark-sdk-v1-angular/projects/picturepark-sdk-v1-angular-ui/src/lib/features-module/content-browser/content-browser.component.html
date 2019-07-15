@@ -1,21 +1,19 @@
-<div class="browser" cdkScrollable>
+<div class="browser">
   <div class="browser__header">
     <pp-browser-toolbar [browser]="self" entityName="contents">
       <ng-container browser-buttons>
-        <button *ngIf="selectedItems.length === 1" mat-icon-button [matTooltip]="'ContentBrowser.Preview' | pptranslate">
-          <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
-        </button>
-        <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
-          <mat-icon aria-label="Download selected items">get_app</mat-icon>
-        </button>
-        <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1">
-          <span class="desc">{{ 'ContentBrowser.ShareImages' | pptranslate }}</span>
-          <mat-icon>share</mat-icon>
-        </button>
-        <ng-content select="[content-buttons]"></ng-content>
+          <button mat-icon-button *ngIf="selectedItems.length === 1" [matTooltip]="'ContentBrowser.Preview' | pptranslate">
+            <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="selectedItems.length > 0" (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
+            <mat-icon aria-label="Download selected items">get_app</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openShareContentDialog()" [matTooltip]="'ContentBrowser.ShareImages' | pptranslate" *ngIf="selectedItems.length >= 1">
+            <mat-icon aria-label="Share selected items">share</mat-icon>
+          </button>
+          <ng-content select="[content-buttons]"></ng-content>
       </ng-container>
     </pp-browser-toolbar>
-
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
 
