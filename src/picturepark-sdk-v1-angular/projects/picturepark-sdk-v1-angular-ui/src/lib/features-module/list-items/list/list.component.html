@@ -11,33 +11,24 @@
     </pp-list-browser>
   </div>
   <div class="list-filters">
-    <mat-sidenav 
-      #snav position="end" 
-      [mode]="mobileQuery.matches ? 'over' : 'side'" 
-      [fixedInViewport]="mobileQuery.matches" 
-      fixedTopGap="168"
-      [opened]="mobileQuery.matches ? false : true" 
-      style="width: 375px;">
-
-      <mat-tab-group class="content-panel">
-        <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate}}">
-          <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
-            <p>
-              <span>{{ 'ContentAggregationList.NoFiltersApplied' | pptranslate}}</span>
-            </p>
-          </div>
-          <ng-template #listItemFilter>
-            <pp-list-item-aggregation-list 
-              [schemaId]="schemaId"
-              [aggregators]="aggregations"
-              [aggregationFilters]="aggregationFilters"
-              (aggregationFiltersChange)="changeAggregationFilters($event)"
-              [query]="searchQuery | async"
-              (filterChange)="filter.next($event)">
-            </pp-list-item-aggregation-list>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-sidenav>
+    <mat-tab-group class="content-panel">
+      <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
+        <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
+          <p>
+            <span>{{ 'ContentAggregationList.NoFiltersApplied' | pptranslate}}</span>
+          </p>
+        </div>
+        <ng-template #listItemFilter>
+          <pp-list-item-aggregation-list 
+            [schemaId]="schemaId"
+            [aggregators]="aggregations"
+            [aggregationFilters]="aggregationFilters"
+            (aggregationFiltersChange)="changeAggregationFilters($event)"
+            [query]="searchQuery | async"
+            (filterChange)="filter.next($event)">
+          </pp-list-item-aggregation-list>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
