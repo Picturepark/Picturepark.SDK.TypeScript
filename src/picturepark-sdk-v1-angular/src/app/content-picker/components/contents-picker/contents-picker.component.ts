@@ -69,10 +69,12 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    console.log(this.route.snapshot.queryParams['postUrl'])
+
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
-
+    
     if (!this.authService.isAuthenticated) {
       this.authService.login('/content-picker?postUrl=' + encodeURI(this.postUrl));
     }
