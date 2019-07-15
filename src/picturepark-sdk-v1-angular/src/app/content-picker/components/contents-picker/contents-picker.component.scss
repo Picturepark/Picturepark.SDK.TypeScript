@@ -1,0 +1,33 @@
+.content-picker-container {
+
+  & .content-picker-toolbar {
+    display: flex;
+  }
+  & .content-picker-content {
+    display: flex; height: calc(100vh - 64px); overflow: hidden;
+
+    .content {
+      width: 80%; float: left; background-color: #eee;
+    }
+    .filters {
+      width: 20%;
+      float: left;
+      background-color: #eee;
+      
+    }
+    .footer {
+      width: 100%;
+      position: fixed;
+      bottom: 0px;
+    }
+  }
+}
+
+.footer {
+  background-color: lightgray;
+  height: 64px;
+  align-items: center;
+  padding: 0 20px;
+  opacity: 0.8;
+}
+
