@@ -41,7 +41,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
     return of(null);
   }
 
-  protected fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null> => {
+  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null> => {
     const request = new ListItemAggregationRequest({
       schemaIds: [this.schemaId],
       searchString: searchString,

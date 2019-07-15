@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // LIBRARIES
 import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
-import { PictureparkUiModule } from '@picturepark/sdk-v1-angular-ui';
+import { PictureparkUiModule, LayerPanelsModule } from '@picturepark/sdk-v1-angular-ui';
 import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 
 // MODULES
@@ -47,6 +47,7 @@ export function PictureparkConfigurationFactory() {
     AppRoutingModule,
     PictureparkUiModule,
     PictureparkOidcModule,
+    LayerPanelsModule
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },

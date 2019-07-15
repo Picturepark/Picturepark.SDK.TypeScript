@@ -14,29 +14,29 @@ export class ApplicationMenuComponent implements OnInit {
   menuOptions: any[] = [{
     name: 'Search',
     icon: 'search',
-    link: 'search'
-  },
+    link: 'content-picker'
+  }, /*
   {
     name: 'Collections',
     icon: 'star_border',
     link: 'collections'
-  },
+  }, */
   {
     name: 'Shares',
     icon: 'share',
     link: 'share-manager'
-  },
+  }, /*
   {
     name: 'Transfers',
     icon: 'swap_horiz',
     link: 'transfers'
-  },
+  },*/
   {
     name: 'Lists',
     icon: 'reorder',
     link: 'list-item-picker'
   },
-  {
+  /*{
     name: 'File Types',
     icon: 'insert_drive_file',
     link: 'file-types'
@@ -50,7 +50,7 @@ export class ApplicationMenuComponent implements OnInit {
     name: 'Settings',
     icon: 'tune',
     link: 'settings'
-  },
+  },*/
   {
     name: 'Help',
     icon: 'contact_support',

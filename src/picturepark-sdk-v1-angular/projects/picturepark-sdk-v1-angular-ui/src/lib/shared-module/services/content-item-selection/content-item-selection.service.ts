@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { IEntityBase } from '@picturepark/sdk-v1-angular';
 
 
 @Injectable({
   providedIn: 'root',
 })
-export class ContentItemSelectionService<TEntity extends { id: string }> {
+export class ContentItemSelectionService<TEntity extends IEntityBase> {
   private selectedItemsSubject: BehaviorSubject<TEntity[]> = new BehaviorSubject([]);
 
   private items: Set<TEntity> = new Set();

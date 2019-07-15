@@ -46,13 +46,12 @@ export class SchemaBrowserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // tslint:disable-next-line: deprecation
-    const schemaSearchResult = combineLatest(
+    const schemaSearchResult = combineLatest([
       this.activeSortingType,
       this.activeSortDirection,
       this.filter,
       this.search,
-      this.activeParentSchema).pipe(
+      this.activeParentSchema]).pipe(
         switchMap(([activeSortingType, activeSortDirection, filter, search, activeParentSchema]) => {
 
         if (activeParentSchema) {

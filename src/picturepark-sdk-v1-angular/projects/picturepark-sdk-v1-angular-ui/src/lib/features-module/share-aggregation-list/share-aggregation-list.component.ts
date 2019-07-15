@@ -33,7 +33,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
     return of(null);
   }
 
-  protected fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
+  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ShareAggregationRequest({
       searchString: searchString,
       aggregators: [aggregator],

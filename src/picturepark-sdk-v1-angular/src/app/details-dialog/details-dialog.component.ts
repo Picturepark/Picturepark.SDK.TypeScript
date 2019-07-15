@@ -1,23 +1,29 @@
 import {
   Component, OnInit, OnDestroy,
-  Inject, SimpleChanges, OnChanges
+  Inject, SimpleChanges, OnChanges, Injector
 } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
-  ContentService, ContentDetail, ThumbnailSize,
-  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink, ContentResolveBehavior
+  ContentService, ContentDetail,
+  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink,
+  ContentResolveBehavior, SchemaDetail, SchemaService
 } from '@picturepark/sdk-v1-angular';
 
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
+// tslint:disable-next-line:max-line-length
+import { DialogBaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/dialog/components/dialog-base/dialog-base.component';
 
 @Component({
   selector: 'app-details-dialog',
-  templateUrl: './details-dialog.component.html'
+  templateUrl: './details-dialog.component.html',
+  styleUrls: [
+    '../../../projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/dialog/components/dialog-base/dialog-base.component.scss',
+    './details-dialog.component.scss'
+  ]
 })
-export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
+export class DetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy, OnChanges {
 
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
@@ -25,16 +31,20 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
   content: ContentDetail;
 
   contentId: string;
-  private subscription: Subscription = new Subscription();
+  public schemas: SchemaDetail[];
 
   constructor(private contentService: ContentService,
     private liquidRenderingService: LiquidRenderingService,
-    private sanitizer: DomSanitizer,
-    @Inject(MAT_DIALOG_DATA) public data: string) {
+    private schemaService: SchemaService,
 
+    private sanitizer: DomSanitizer,
+    protected dialogRef: MatDialogRef<DetailsDialogComponent>,
+    protected injector: Injector,
+    @Inject(MAT_DIALOG_DATA) public data: string) {
+      super(data, dialogRef, injector);
     this.contentId = data;
     if (data) {
-      const downloadThumbnailSubscription = this.contentService.downloadThumbnail(data, ThumbnailSize.Medium, null, null)
+      const downloadThumbnailSubscription = this.contentService.download(data, 'Preview', 860, 650, null)
         .subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
@@ -47,10 +57,14 @@ export class DetailsDialogComponent implements OnInit, OnDestroy, OnChanges {
         ContentResolveBehavior.Metadata,
         ContentResolveBehavior.LinkedListItems,
         ContentResolveBehavior.InnerDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueDetail,
         ContentResolveBehavior.Outputs
       ]).subscribe(async (content: ContentDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         this.content = content;
+
+        this.schemas = await this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).toPromise();
       });
 
       this.subscription.add(contentGetSubscription);

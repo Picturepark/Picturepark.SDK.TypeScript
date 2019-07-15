@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult
+  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult, ThumbnailSize
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -36,6 +36,36 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     this.loadData();
   }
 
+  initSort(): void {
+    this.sortingTypes = [
+      {
+        field: 'relevance',
+        name: this.translationService.translate('SortMenu.Relevance')
+      }, {
+        field: 'audit.creationDate',
+        name: this.translationService.translate('SortMenu.CreationDate')
+      }, {
+        field: 'audit.modificationDate',
+        name: this.translationService.translate('SortMenu.ModificationDate')
+      }
+    ];
+    this.activeSortingType = this.sortingTypes[1];
+    this.isAscending = false;
+
+    this.views = [{
+      name: 'ThumbnailMedium',
+      icon: 'collections',
+      type: 'thumbnailMedium',
+      thumbnailSize: ThumbnailSize.Medium
+    }, {
+      name: 'ThumbnailLarge',
+      icon: 'collections',
+      type: 'thumbnailLarge',
+      thumbnailSize: ThumbnailSize.Large
+    }];
+    this.activeView = this.views[0];
+  }
+
   onScroll(): void {
     this.loadData();
   }
@@ -54,9 +84,9 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm
       ],
-      sort: this.activeSortingType === this.sortingTypes.relevance ? [] : [
+      sort: this.activeSortingType.field === 'relevance' ? [] : [
         new SortInfo({
-          field: this.activeSortingType,
+          field: this.activeSortingType.field,
           direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
         })
       ]
@@ -76,7 +106,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
   }
 
   previewItemEvent(item: ContentModel<Share>): void {
-    console.log(item)
+    console.log(item);
     this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
   }
 
