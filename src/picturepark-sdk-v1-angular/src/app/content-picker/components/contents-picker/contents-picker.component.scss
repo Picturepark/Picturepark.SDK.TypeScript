@@ -1,5 +1,6 @@
 .content-picker-content {
   display: flex; height: calc(100vh - 64px); overflow: hidden;
+  pp-channel-picker { position: absolute; top: 16px; right: 80px; }
   .filters {
     width: 20%;
     background: whitesmoke;

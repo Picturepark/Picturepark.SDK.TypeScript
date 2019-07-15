@@ -35,6 +35,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
+
   private basketItems: string[] = [];
 
   @Input()

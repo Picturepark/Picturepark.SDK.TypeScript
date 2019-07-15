@@ -1,17 +1,16 @@
-<div class="content" [style.top.px]="mobileQuery.matches ? 168 : 68">
-  <mat-sidenav-container style="width:100%" #snav *ngIf="schemaDetail">
-    <mat-sidenav-content>
-      <pp-list-browser 
-        [schema]="schema"
-        [search]="searchQuery"
-        [filter]="filter"
-        [deselectAll]="deselectAll"
-        [enableSelection]="true"
-        [selectedItemIds]="selectedItems"
-        (selectedItemsChange)="selectedItemsChange($event)">
-      </pp-list-browser>
-    </mat-sidenav-content>
-
+<div class="list-container">
+  <div class="list-content">
+    <pp-list-browser 
+      [schema]="schema"
+      [search]="searchQuery"
+      [filter]="filter"
+      [deselectAll]="deselectAll"
+      [enableSelection]="true"
+      [selectedItemIds]="selectedItems"
+      (selectedItemsChange)="selectedItemsChange($event)">
+    </pp-list-browser>
+  </div>
+  <div class="list-filters">
     <mat-sidenav 
       #snav position="end" 
       [mode]="mobileQuery.matches ? 'over' : 'side'" 
@@ -21,10 +20,10 @@
       style="width: 375px;">
 
       <mat-tab-group class="content-panel">
-        <mat-tab label="{{'Filters' | pptranslate}}">
+        <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate}}">
           <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
             <p>
-              <span>{{ 'NoFiltersApplied' | pptranslate}}</span>
+              <span>{{ 'ContentAggregationList.NoFiltersApplied' | pptranslate}}</span>
             </p>
           </div>
           <ng-template #listItemFilter>
@@ -40,5 +39,5 @@
         </mat-tab>
       </mat-tab-group>
     </mat-sidenav>
-  </mat-sidenav-container>
+  </div>
 </div>

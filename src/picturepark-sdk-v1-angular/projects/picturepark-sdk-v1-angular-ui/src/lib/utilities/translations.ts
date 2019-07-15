@@ -27,6 +27,9 @@ export let TRANSLATIONS = {
     }
   },
   ContentAggregationList: {
+    FiltersLabel: {
+      en: 'Filters'
+    },
     ClearFilters: {
       en: 'Clear filters',
       de: 'Filter entfernen'

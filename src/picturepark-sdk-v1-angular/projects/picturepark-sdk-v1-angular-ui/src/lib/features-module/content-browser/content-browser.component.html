@@ -8,7 +8,7 @@
         <button *ngIf="selectedItems.length > 0" mat-icon-button (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
           <mat-icon aria-label="Download selected items">get_app</mat-icon>
         </button>
-        <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1 && configActions.shareContent">
+        <button mat-button (click)="openShareContentDialog()" *ngIf="selectedItems.length >= 1">
           <span class="desc">{{ 'ContentBrowser.ShareImages' | pptranslate }}</span>
           <mat-icon>share</mat-icon>
         </button>
