@@ -6,9 +6,38 @@
     visibility: hidden;
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    box-shadow: unset;
+    background-color: transparent;
     &--selected {
       visibility: initial;
+      background-color: black;
+      
+    }
+    &:hover {
+      background-color: black;
+      mat-icon {
+        color: #39acaa;
+      }
+    }
+    mat-icon {
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      color: white;
+      line-height: 20px;
+      font-size: 15px;
+    }
+    .mat-mini-fab .mat-button-wrapper {
+      position: relative;
+      bottom: 15px;
+      right: 7px;
+      padding: 0px;
     }
   }
 

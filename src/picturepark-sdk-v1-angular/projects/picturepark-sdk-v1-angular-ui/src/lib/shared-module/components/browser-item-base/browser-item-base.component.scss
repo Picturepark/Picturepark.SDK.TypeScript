@@ -72,5 +72,24 @@
     // TODO: theme color;
     background: rgba(0,0,0,.4);
     height: 100%;
+    ul {
+      position: absolute;
+      list-style: none;
+      top: 0px;
+      right: 10px;
+      margin: 0px;
+      padding: 0px;
+      li {
+        float: left;
+        button {
+          width: 24px;
+        }
+        .material-icons {
+          font-size: 15px;
+          color: white;
+          
+        }
+      }
+    }
   }
 }
