@@ -41,7 +41,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
     return of(null);
   }
 
-  protected fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
+  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ContentAggregationRequest({
       channelId: this.channelId,
       searchString: searchString,

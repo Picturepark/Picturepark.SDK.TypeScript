@@ -11,9 +11,6 @@ import { NotificationService } from '../../../../shared-module/services/notifica
 // INTERFACES
 import { Notification } from '../../../notification/interfaces/notification.interface';
 
-@Component({
-  template: ''
-})
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
 
   // SUBSCRIBERS

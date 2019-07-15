@@ -7,7 +7,6 @@ import { NotificationModule } from '../notification/notification.module';
 import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
-import { DialogBaseComponent } from './components/dialog-base/dialog-base.component';
 import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
 import { ShareContentDialogComponent } from './components/share-content-dialog/share-content-dialog.component';
 import {
@@ -17,7 +16,6 @@ import { ShareContentDialogItemComponent } from './components/share-content-dial
 
 @NgModule({
   declarations: [
-    DialogBaseComponent,
     ContentDownloadDialogComponent,
     ShareContentDialogComponent,
     ShareContentRecipientsInputComponent,
@@ -30,7 +28,6 @@ import { ShareContentDialogItemComponent } from './components/share-content-dial
     SharedModule
   ],
   exports: [
-    DialogBaseComponent,
     ContentDownloadDialogComponent,
     ShareContentDialogComponent,
     ShareContentRecipientsInputComponent

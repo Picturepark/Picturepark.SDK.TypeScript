@@ -28,7 +28,7 @@
         class="browser__item" 
         [itemModel]="itemModel" 
         [thumbnailSize]="activeThumbnailSize" 
-        [isListView]="isListView" 
+        [isListView]="activeView.type === 'list'" 
         (previewItemChange)="previewItem($event)"
         (click)="itemClicked($event,i)" 
         (dblclick)="previewItem(itemModel)">
