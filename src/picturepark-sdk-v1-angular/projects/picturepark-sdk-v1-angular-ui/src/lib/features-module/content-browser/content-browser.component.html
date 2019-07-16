@@ -20,7 +20,7 @@
   <div *ngIf="totalResults !== 0" class="browser__items" 
        [class.browser__items--list]="activeView.type === 'list'"
        [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
-       [class.browser__items--medium]="activeView.type === 'thumbnailMedium'">
+       [class.browser__items--medium]="activeView.type === 'thumbnailMedium'" cdkScrollable>
     <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
       <pp-content-browser-item 
         class="browser__item" 
