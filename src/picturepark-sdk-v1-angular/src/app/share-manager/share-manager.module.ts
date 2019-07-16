@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 // LIBRARIES
 import {
-  ApplicationHeaderModule, ApplicationMenuModule, BrowserToolbarModule, ItemsMenuModule,
+  ApplicationHeaderModule, ApplicationMenuModule, BrowserToolbarModule,
   PanelModule, SharePreviewModule, SearchBoxModule, SharedModule, ShareBrowserModule, ItemToolBarModule, ShareAggregationListModule
 } from '@picturepark/sdk-v1-angular-ui';
 
