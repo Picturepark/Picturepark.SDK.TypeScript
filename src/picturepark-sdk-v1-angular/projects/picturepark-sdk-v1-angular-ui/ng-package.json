@@ -7,6 +7,7 @@
   "whitelistedNonPeerDependencies":[
     "tslib",
     "ts-md5",
-    "moment"
+    "moment",
+    "lazy-get-decorator"
   ]
 }
