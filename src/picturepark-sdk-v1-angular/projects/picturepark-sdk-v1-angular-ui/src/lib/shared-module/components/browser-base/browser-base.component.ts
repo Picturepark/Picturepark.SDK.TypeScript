@@ -52,7 +52,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public isLoading = false;
     public items: ContentModel<TEntity>[] = [];
     public nextPageToken: string | undefined;
-    public readonly pageSize = 50;
+    public readonly pageSize = 75;
     public isAscending: boolean | null = null;
     public activeSortingType: ISortItem;
     public sortingTypes: ISortItem[];
