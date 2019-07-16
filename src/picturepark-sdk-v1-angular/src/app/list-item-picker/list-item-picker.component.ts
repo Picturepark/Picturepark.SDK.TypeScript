@@ -4,9 +4,5 @@ import { Component } from '@angular/core';
   selector: 'app-list-item-picker',
   templateUrl: './list-item-picker.component.html'
 })
-export class ListItemPickerComponent {
-
-  constructor() {}
-
-}
+export class ListItemPickerComponent {}
 

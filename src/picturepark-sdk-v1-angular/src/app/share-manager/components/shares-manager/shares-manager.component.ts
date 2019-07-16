@@ -1,8 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // LIBRARIES
-import { AuthService, Channel, FilterBase, AggregatorBase, TermsAggregator, InfoService } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
+import { Channel, FilterBase, AggregatorBase, TermsAggregator, InfoService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-shares-manager',
@@ -17,14 +16,10 @@ export class SharesManagerComponent implements OnInit {
   public aggregators: AggregatorBase[] = [];
 
   constructor(
-    @Inject(AuthService) public authService: OidcAuthService,
     private infoService: InfoService
   ) { }
 
   async ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/share-manager');
-    }
 
     const customerInfo = await this.infoService.getInfo().toPromise();
 

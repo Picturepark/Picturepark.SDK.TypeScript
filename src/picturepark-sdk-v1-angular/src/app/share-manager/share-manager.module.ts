@@ -27,7 +27,6 @@ import { SharesManagerComponent } from './components/shares-manager/shares-manag
     ApplicationMenuModule,
     BrowserToolbarModule,
     ShareAggregationListModule,
-    ItemsMenuModule,
     PanelModule,
     SharePreviewModule,
     ShareManagerRoutingModule,

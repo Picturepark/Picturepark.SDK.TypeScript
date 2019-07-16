@@ -16,7 +16,6 @@ export { ContentBrowserModule } from './lib/features-module/content-browser/cont
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
 export { DialogModule } from './lib/features-module/dialog/dialog.module';
-export { ItemsMenuModule } from './lib/features-module/items-menu/items-menu.module';
 export { ItemToolBarModule } from './lib/features-module/item-tool-bar/item-tool-bar.module';
 export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-panels.module';
 export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';

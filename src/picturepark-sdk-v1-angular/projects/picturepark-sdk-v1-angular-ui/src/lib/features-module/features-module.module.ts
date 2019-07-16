@@ -15,7 +15,6 @@ import { LayerPanelsModule } from './layer-panels/layer-panels.module';
 import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
 import { ListItemAggregationListModule } from './list-item-aggregation-list/list-item-aggregation-list.module';
-import { ItemsMenuModule } from './items-menu/items-menu.module';
 import { NotificationModule } from './notification/notification.module';
 import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { PanelModule } from './panel/panel.module';
@@ -42,7 +41,6 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     ListItemsModule,
     ListBrowserModule,
     ListItemAggregationListModule,
-    ItemsMenuModule,
     NotificationModule,
     OutputDownloadMenuModule,
     SchemaBrowserModule,
@@ -66,7 +64,6 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     ListItemsModule,
     ListBrowserModule,
     ListItemAggregationListModule,
-    ItemsMenuModule,
     NotificationModule,
     OutputDownloadMenuModule,
     SchemaBrowserModule,

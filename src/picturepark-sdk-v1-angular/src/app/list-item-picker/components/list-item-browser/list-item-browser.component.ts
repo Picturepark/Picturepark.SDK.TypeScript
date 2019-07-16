@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
-import { map, distinctUntilChanged, tap, take } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
+import { take } from 'rxjs/operators';
+
 
 // LIBRARIES
 import {
-  SchemaDetail, FilterBase, SchemaService, AuthService,
-  AggregationFilter, AggregatorBase, OrFilter, AndFilter
+  SchemaDetail, SchemaService, AuthService,
+
 } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
-import * as lodash from 'lodash';
+
 
 @Component({
   selector: 'app-list-item-browser',
@@ -24,9 +24,7 @@ export class ListItemBrowserComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private schemaService: SchemaService,
     @Inject(AuthService) public authService: OidcAuthService
   ) {}
 
@@ -39,7 +37,7 @@ export class ListItemBrowserComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: deprecation
     const listSubscription = combineLatest(this.schema, this.route.paramMap, this.route.queryParamMap)
       .pipe(take(1))
-      .subscribe(([schemaDetail, paramMap, queryParamMap]) => {
+      .subscribe(([schemaDetail]) => {
 
         this.activeSchema.next(schemaDetail);
       });

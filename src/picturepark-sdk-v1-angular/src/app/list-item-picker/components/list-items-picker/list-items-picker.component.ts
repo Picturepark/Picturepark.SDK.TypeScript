@@ -10,7 +10,7 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } f
   templateUrl: './list-items-picker.component.html',
   styleUrls: ['./list-items-picker.component.scss']
 })
-export class ListItemsPickerComponent implements OnInit {
+export class ListItemsPickerComponent {
 
   public activeParentSchema = new BehaviorSubject(null);
   public search = new BehaviorSubject('');
@@ -47,8 +47,6 @@ export class ListItemsPickerComponent implements OnInit {
     return filter;
 
   }
-
-  ngOnInit() {}
 
 }
 

@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { ShareService, AuthService, ShareContentDetail, IShareDataBasic, IMailRecipient } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
+import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -29,7 +28,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   isLoading = true;
 
   constructor(
-    @Inject(AuthService) public authService: OidcAuthService,
     private activatedRoute: ActivatedRoute,
     private shareService: ShareService
   ) {
@@ -82,10 +80,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/share-manager');
-    }
 
     // ROUTE SUBSCRIBER
     const activatedRoute = this.activatedRoute.params.subscribe(params => {

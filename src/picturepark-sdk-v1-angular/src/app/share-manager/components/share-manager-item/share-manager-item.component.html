@@ -2,9 +2,6 @@
   <div class="share-manager-item-loader">
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
-  <div class="share-manager-item-menu-container" *ngIf="!isLoading">
-    <pp-items-menu></pp-items-menu>
-  </div>
   <div class="share-manager-item-content-container" *ngIf="!isLoading">
       <pp-share-preview [item]="items[0]" *ngIf="items.length === 1"></pp-share-preview>
       <pp-item-tool-bar [toolBarOptions]="toolBarOptions"></pp-item-tool-bar>
