@@ -1,24 +1,26 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { AggregationResult, Channel, FilterBase, Content, IEntityBase } from '@picturepark/sdk-v1-angular';
-import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
+import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
+import { ContentItemSelectionService, BasketService, ContentBrowserModule } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
 import { DetailsDialogComponent } from '../../../details-dialog/details-dialog.component';
+import { ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from '../../../embed.service';
-
 
 @Component({
   templateUrl: './contents-picker.component.html',
   styleUrls: ['./contents-picker.component.scss', './contents-picker-resp.component.scss']
 })
 export class ContentsPickerComponent implements OnInit, OnDestroy {
+
+  @ViewChild('contentBrowser', {static: true}) contentBrowser: ContentBrowserComponent;
 
   public basketItemsCount = 0;
 
@@ -42,7 +44,8 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private embedService: EmbedService,
-    private basketService: BasketService
+    private basketService: BasketService,
+    public contentItemSelectionService: ContentItemSelectionService<Content>
   ) {}
 
   public openDetails(item: any) {
@@ -62,8 +65,8 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
 
   }
 
-  public selectionChange(items: Content[]): void {
-    console.log(items);
+  public selectionChange(items: string[]): void {
+    this.selectedItems = items;
   }
 
   public async embed() {
@@ -75,8 +78,9 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public cancel() {
-    window.close();
+  // CLEAR SELECTION
+  cancel(): void {
+    this.contentBrowser.cancel();
   }
 
   public ngOnDestroy() {

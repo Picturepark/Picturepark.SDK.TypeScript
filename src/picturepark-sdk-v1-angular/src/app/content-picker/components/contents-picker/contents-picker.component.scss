@@ -9,7 +9,30 @@
       border-left: 1px solid #d8d8d8;
     }
   }
-
+  .footer {
+    position: fixed;
+    bottom: -64px;
+    width: 100%;
+    opacity: 0.8;
+    background-color: lightgray;
+    height: 64px;
+    align-items: center;
+    padding: 0 30px;
+    transition: 300ms;
+    &.active {
+      bottom: 0px;
+    }
+    .title {
+      float: left;
+      line-height: 64px;
+      margin: 0px 20px 0px 0px;
+    }
+    .action-buttons {
+      line-height: 64px;
+      position: absolute;
+      right: 120px;
+    }
+  }
 }
 
 

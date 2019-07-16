@@ -13,6 +13,7 @@ export { BrowserToolbarModule } from './lib/features-module/browser-toolbar/brow
 export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
 export { ContentAggregationListModule } from './lib/features-module/content-aggregation-list/content-aggregation-list.module';
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
+export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
 export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { ItemsMenuModule } from './lib/features-module/items-menu/items-menu.module';

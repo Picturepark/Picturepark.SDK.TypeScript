@@ -8,6 +8,8 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 
+
+
 @Component({
   selector: 'pp-share-browser-item',
   templateUrl: './share-browser-item.component.html',
