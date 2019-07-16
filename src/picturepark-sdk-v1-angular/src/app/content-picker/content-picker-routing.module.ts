@@ -3,11 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 // COMPONENTS
 import { ContentPickerComponent } from './content-picker.component';
+import { ContentsPickerComponent } from './components/contents-picker/contents-picker.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ContentPickerComponent
+    component: ContentPickerComponent,
+    children: [{
+      path: '',
+      component: ContentsPickerComponent
+    }]
   }
 ];
 

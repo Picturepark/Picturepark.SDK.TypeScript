@@ -1,0 +1,63 @@
+.browser-toolbar-container {
+    height: 56px; background-color: #eee; border-bottom: 1px solid #d8d8d8;
+    .browser-toolbar-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        line-height: 56px; padding: 0px 30px; overflow: hidden;
+        button:focus {
+            outline: -webkit-focus-ring-color auto 0px;
+        }
+        .select {
+            margin: 0px 15px 0px 0px;
+            button {
+                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #39acaa; padding: 0px;
+                &:hover {
+                    background-color: unset; text-decoration: underline;
+                    i { 
+                        background-color: #39acaa; border-radius: 50%; color: white;
+                    }
+                }
+                i {
+                    font-size: 21px; color: #39acaa; padding: 2px; position: relative; top: 6px; left: 6px;
+                }
+            }
+        }
+
+        .order-by {
+            button {
+                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #727272; padding: 0px;
+                &:hover {
+                    background-color: unset; text-decoration: underline;
+                    mat-icon {
+                        color: #2f2f2f;
+                    }
+                }
+                mat-icon {
+                    font-size: 18px; color: #727272; padding: 2px;
+                }
+            }
+        }
+
+    }
+
+    .spacer {
+        flex-grow: 1;
+    }
+
+    .items-count {
+        padding-top: 4px;
+        font-size: 12px;
+    }
+}
+
+.menu-title {
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-weight: 500;
+}
+
+.active {
+    font-weight: 600;
+}

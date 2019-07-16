@@ -1,11 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input, ElementRef, HostListener, Injector, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { BaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/components/base.component';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, SearchBehavior } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 @Component({
   selector: 'pp-share-content-recipients-input',

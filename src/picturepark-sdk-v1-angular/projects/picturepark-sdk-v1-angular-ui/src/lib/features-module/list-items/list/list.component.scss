@@ -1,48 +1,16 @@
-.content {
-    position: fixed;
-    top: 68px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
+.list-container {
+  display: flex; height: calc(100vh - 64px); overflow: hidden;
+  .list-content {
+    width: 80%; 
+    float: left;
   }
-  
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  
-    a:visited {
-      color: inherit;
-    }
+  .list-filters {
+    width: 20%; 
+    float: left;
+    .mat-tab-group {
+      height: 100%;
+      background-color: #eee;
+      border-left: 1px solid #d8d8d8;
   }
-  
-  .content-panel {
-    background-color: whitesmoke;
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
-    height: 100%;
   }
-  
-  .item {
-    position: fixed;
-    overflow: auto;
-    top: 64px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: whitesmoke;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  
-  .nofilters {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .browser-buttons {
-    margin-right: 8px;
-  }
+}

@@ -27,6 +27,9 @@ export let TRANSLATIONS = {
     }
   },
   ContentAggregationList: {
+    FiltersLabel: {
+      en: 'Filters'
+    },
     ClearFilters: {
       en: 'Clear filters',
       de: 'Filter entfernen'
@@ -84,7 +87,6 @@ export let TRANSLATIONS = {
     SelectMenu: {
       en: 'Select',
       de: 'Selektieren'
-
     },
     ShareImages: {
       en: 'Share'
@@ -101,8 +103,15 @@ export let TRANSLATIONS = {
       en: 'Preview',
       de: 'Vorschau'
     },
+    More: {
+      en: 'More',
+    },
     Download: {
       en: 'Download',
+      de: 'Download'
+    },
+    Details: {
+      en: 'Details',
       de: 'Download'
     },
     ItemsLength: {
@@ -112,30 +121,6 @@ export let TRANSLATIONS = {
     SortingMenu: {
       en: 'Sort',
       de: 'Sortieren'
-    },
-    SortingAscending: {
-      en: 'Ascending',
-      de: 'Aufsteigend'
-    },
-    SortingDescending: {
-      en: 'Descending',
-      de: 'Absteigend'
-    },
-    SortingByRelevance: {
-      en: 'Relevance',
-      de: 'Relevanz'
-    },
-    SortingByName: {
-      en: 'File name',
-      de: 'Dateiname'
-    },
-    SortingByDateCreated: {
-      en: 'Date created',
-      de: 'Erstellungsdatum'
-    },
-    SortingByDateModified: {
-      en: 'Date modified',
-      de: 'Modifikationsdatum'
     },
     ViewTypeMenu: {
       en: 'View type',
@@ -164,6 +149,32 @@ export let TRANSLATIONS = {
     NoItemsActionSearchString: {
       en: 'Change your search string',
       de: 'Ändern Sie Ihren Suchbegriff'
+    }
+  },
+  SortMenu: {
+    Ascending: {
+      en: 'Ascending',
+      de: 'Aufsteigend'
+    },
+    Descending: {
+      en: 'Descending',
+      de: 'Absteigend'
+    },
+    Relevance: {
+      en: 'Relevance',
+      de: 'Relevanz'
+    },
+    FileName: {
+      en: 'File name',
+      de: 'Dateiname'
+    },
+    CreationDate: {
+      en: 'Date created',
+      de: 'Erstellungsdatum'
+    },
+    ModificationDate: {
+      en: 'Date modified',
+      de: 'Modifikationsdatum'
     }
   },
   ContentPicker: {

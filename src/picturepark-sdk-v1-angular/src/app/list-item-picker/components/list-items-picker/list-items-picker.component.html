@@ -1,0 +1,14 @@
+<div class="list-items-picker-container">
+    <div class="list-items-picker-content">
+        <pp-schema-browser  
+            class="content-browser" 
+            [activeParentSchema]="activeParentSchema" 
+            [search]="search" 
+            [filter]="filter" 
+            (activeSchemaChange)="setUpActiveSchema($event)">
+        </pp-schema-browser>
+    </div>
+    <div class="lists-items-picker-filters">
+        filters
+    </div>
+</div>

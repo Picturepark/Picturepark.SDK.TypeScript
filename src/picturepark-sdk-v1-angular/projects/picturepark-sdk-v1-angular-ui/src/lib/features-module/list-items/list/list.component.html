@@ -1,45 +1,34 @@
-<div class="content" [style.top.px]="mobileQuery.matches ? 168 : 68">
-  <mat-sidenav-container style="width:100%" #snav *ngIf="schemaDetail">
-    <mat-sidenav-content>
-      <pp-list-browser 
-        [schema]="schema"
-        [search]="searchQuery"
-        [filter]="filter"
-        [deselectAll]="deselectAll"
-        [enableSelection]="true"
-        [selectedItemIds]="selectedItems"
-        (selectedItemsChange)="selectedItemsChange($event)">
-
-      </pp-list-browser>
-    </mat-sidenav-content>
-
-    <mat-sidenav 
-      #snav position="end" 
-      [mode]="mobileQuery.matches ? 'over' : 'side'" 
-      [fixedInViewport]="mobileQuery.matches" 
-      fixedTopGap="168"
-      [opened]="mobileQuery.matches ? false : true" 
-      style="width: 375px;">
-
-      <mat-tab-group class="content-panel">
-        <mat-tab label="{{'Filters' | pptranslate}}">
-          <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
-            <p>
-              <span>{{ 'NoFiltersApplied' | pptranslate}}</span>
-            </p>
-          </div>
-          <ng-template #listItemFilter>
-            <pp-list-item-aggregation-list 
-              [schemaId]="schemaId"
-              [aggregators]="aggregations"
-              [aggregationFilters]="aggregationFilters"
-              (aggregationFiltersChange)="changeAggregationFilters($event)"
-              [query]="searchQuery | async"
-              (filterChange)="filter.next($event)">
-            </pp-list-item-aggregation-list>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-sidenav>
-  </mat-sidenav-container>
+<div class="list-container">
+  <div class="list-content">
+    <pp-list-browser 
+      [schema]="schema"
+      [search]="searchQuery"
+      [filter]="filter"
+      [deselectAll]="deselectAll"
+      [enableSelection]="true"
+      [selectedItemIds]="selectedItems"
+      (selectedItemsChange)="selectedItemsChange($event)">
+    </pp-list-browser>
+  </div>
+  <div class="list-filters">
+    <mat-tab-group class="content-panel">
+      <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
+        <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
+          <p>
+            <span>{{ 'ContentAggregationList.NoFiltersApplied' | pptranslate}}</span>
+          </p>
+        </div>
+        <ng-template #listItemFilter>
+          <pp-list-item-aggregation-list 
+            [schemaId]="schemaId"
+            [aggregators]="aggregations"
+            [aggregationFilters]="aggregationFilters"
+            (aggregationFiltersChange)="changeAggregationFilters($event)"
+            [query]="searchQuery | async"
+            (filterChange)="filter.next($event)">
+          </pp-list-item-aggregation-list>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

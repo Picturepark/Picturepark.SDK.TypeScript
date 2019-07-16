@@ -8,6 +8,8 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 
+
+
 @Component({
   selector: 'pp-share-browser-item',
   templateUrl: './share-browser-item.component.html',
@@ -29,9 +31,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     private contentService: ContentService,
     private sanitizer: DomSanitizer
   ) {
-
     super();
-
   }
 
   public ngOnInit(): void {
@@ -59,6 +59,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+
     if (changes['thumbnailSize'] && this.isVisible) {
       const updateImage =
         (changes['thumbnailSize'].firstChange) ||

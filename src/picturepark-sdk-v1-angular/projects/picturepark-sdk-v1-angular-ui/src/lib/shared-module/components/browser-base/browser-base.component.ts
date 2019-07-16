@@ -9,13 +9,15 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase } from '@picturepark/sdk-v1-angular';
-import { SortingType } from '../../models/sorting-type';
+import { FilterBase, IEntityBase, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
 import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
 import { ContentModel } from '../../models/content-model';
+import { ISortItem } from './interfaces/sort-item';
+import { TranslationService } from '../../services/translations/translation.service';
+import { IBrowserView } from './interfaces/browser-view';
 
-export abstract class BaseBrowserComponent<TEntity extends { id: string }> extends BaseComponent implements OnInit {
+export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
     @LazyGetter()
     protected get scrollDispatcher(): ScrollDispatcher {
@@ -30,6 +32,10 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         return this.injector.get(LiquidRenderingService);
     }
     @LazyGetter()
+    protected get translationService(): TranslationService {
+        return this.injector.get(TranslationService);
+    }
+    @LazyGetter()
     protected get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
         return new ContentItemSelectionService<TEntity>();
     }
@@ -38,16 +44,21 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
         return this.injector.get(MatDialog);
     }
 
+    public self: BaseBrowserComponent<TEntity>;
+
     protected pictureParkUIConfig: PictureparkUIConfiguration;
 
     public configActions: ConfigActions;
     public isLoading = false;
     public items: ContentModel<TEntity>[] = [];
     public nextPageToken: string | undefined;
-    public readonly pageSize = 50;
+    public readonly pageSize = 75;
     public isAscending: boolean | null = null;
-    public activeSortingType = SortingType.relevance;
-    public sortingTypes = SortingType;
+    public activeSortingType: ISortItem;
+    public sortingTypes: ISortItem[];
+    public views: IBrowserView[];
+    public activeView: IBrowserView;
+    public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
@@ -61,12 +72,25 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
     private lastSelectedIndex = 0;
 
     abstract init(): void;
+    abstract initSort(): void;
     abstract onScroll(): void;
     abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string, protected injector: Injector) {
         super();
+
+        this.self = this;
+        // Init default sort
+        this.initSort();
+        if (!this.sortingTypes) {
+            this.sortingTypes = [{
+                field: 'relevance',
+                name: this.translationService.translate('SortInfo.Relevance')
+            }];
+            this.activeSortingType = this.sortingTypes[0];
+        }
+        this.setSortingType(this.activeSortingType, false);
 
         this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
     }
@@ -195,7 +219,25 @@ export abstract class BaseBrowserComponent<TEntity extends { id: string }> exten
 
     public previewItem(item: TEntity): void {
         this.previewItemChange.emit(item);
-      }
+    }
+
+    setSortingType(newValue: ISortItem, reload: boolean = true): void {
+        if (newValue.field === 'relevance') {
+            this.isAscending = null;
+        } else if (this.isAscending === null) {
+            this.isAscending = true;
+        }
+
+        this.activeSortingType = newValue;
+        if (reload) {
+            this.update();
+        }
+    }
+
+    changeView(view: IBrowserView): void {
+        this.activeView = view;
+        this.activeThumbnailSize = view.thumbnailSize;
+    }
 
     // HANDLE COMPONENENT CLICK EVENT
     @HostListener('document:click', ['$event'])

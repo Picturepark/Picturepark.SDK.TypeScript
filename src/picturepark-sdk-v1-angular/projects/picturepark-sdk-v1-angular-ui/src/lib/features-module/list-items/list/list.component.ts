@@ -33,7 +33,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public aggregationFilters: AggregationFilter[] = [];
   public searchQuery: Observable<string>;
   public filter: BehaviorSubject<FilterBase | null>;
-  public aggregations: AggregatorBase[];
+  public aggregations: AggregatorBase[] = [];
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
   public deselectAll: Subject<void> = new Subject<void>();

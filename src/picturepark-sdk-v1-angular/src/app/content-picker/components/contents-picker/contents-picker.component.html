@@ -1,0 +1,67 @@
+<div class="content-picker-content">
+  <pp-channel-picker [(channel)]="selectedChannel"></pp-channel-picker>
+  <div class="content">
+    <pp-content-browser 
+      #contentBrowser
+      [channel]="selectedChannel"
+      [filter]="selectedFilter"
+      [searchString]="searchText"
+      (previewItemChange)="openDetails($event)"
+      (selectedItemsChange)="selectionChange($event)">
+    </pp-content-browser>
+  </div>
+
+  <div class="filters">
+    <mat-tab-group>
+      <mat-tab label="Filters">
+        <pp-content-aggregation-list 
+          [query]="searchText" 
+          [channelId]="selectedChannel?.id" 
+          [aggregators]="selectedChannel?.aggregations"
+          (filterChange)="selectedFilter = $event">
+        </pp-content-aggregation-list>
+      </mat-tab>
+      <mat-tab label="Basket">
+        <ng-template mat-tab-label>
+          <span [matBadge]="basketItemsCount" matBadgeOverlap="false">Basket</span>
+        </ng-template>
+        <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
+      </mat-tab>
+      <mat-tab label="Shares">
+        <ng-template mat-tab-label>
+          <span matBadgeOverlap="false">Shares</span>
+        </ng-template>
+        <ul>
+          <li>
+            <!--<pp-share-content-list></pp-share-content-list>-->
+          </li>
+        </ul>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="footer" [ngClass]="{ active: selectedItems.length > 0 }">
+    <div class="mat-typography title">
+      <ng-container *ngIf="selectedItems.length === 1">
+        {{'ContentPicker.TextSelectedSingle' | pptranslate: selectedItems.length }}
+      </ng-container>
+      <ng-container *ngIf="selectedItems.length != 1">
+        {{'ContentPicker.TextSelectedMultiple' | pptranslate: selectedItems.length }}
+      </ng-container>
+    </div>
+    <div class="action-buttons">
+      <button mat-button (click)="cancel()">
+        {{'ContentPicker.ButtonCancel' | pptranslate }}
+      </button>
+      <button mat-button [disabled]="selectedItems.length === 0 || loading" (click)="embed()">
+        <ng-container>
+          {{'ContentPicker.ButtonChoose' | pptranslate }}
+        </ng-container>
+        <ng-container *ngIf="loading">
+          {{'ContentPicker.ButtonLoading' | pptranslate }}
+        </ng-container>
+      </button>
+    </div>
+  </div>
+
+</div>
+

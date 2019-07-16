@@ -8,6 +8,7 @@ import { OutputDownloadMenuModule } from '../output-download-menu/output-downloa
 // COMPONENTS
 import { ContentBrowserComponent } from './content-browser.component';
 import { ContentBrowserItemComponent } from './components/content-browser-item/content-browser-item.component';
+import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ContentBrowserItemComponent } from './components/content-browser-item/c
   imports: [
     CommonModule,
     SharedModule,
-    OutputDownloadMenuModule
+    OutputDownloadMenuModule,
+    BrowserToolbarModule
   ],
   exports: [
     ContentBrowserComponent,

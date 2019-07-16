@@ -1,7 +1,32 @@
-.content-browser {
+.content-browser-container {
   height: 100%;
-  overflow: auto;
   position: relative;
+
+  .content-browser-toolbar-container {
+    height: 54px;
+    background-color: #eee;
+  }
+
+  .table-container {
+    height: calc(100% - 54px);
+    overflow-y: scroll;
+    table {
+      width: 100%;
+      mat-checkbox {
+        position: relative; left: 7px;
+      }
+    }
+    .mat-cell, .mat-header-cell {
+      padding: 10px 10px 10px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 350px;
+    }
+    .mat-row:hover {
+      background-color: lightgray;
+    }
+  }
 
   &__header {
     position: sticky;
@@ -40,30 +65,10 @@
     }
   }
 
-  table {
-    width: 100%;
-  }
-
-  table th {
-    position: sticky;
-    top: 64px;
-    z-index: 2;
-    background: inherit;
-  }
-
-  table th:first-of-type {
-    padding-left: 24px;
-  }
 }
   
-.mat-row:hover {
-  background-color: lightgray;
-}
 
-.mat-cell, .mat-header-cell {
-  padding: 10px 10px 10px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 350px;
-}
+
+
+
+

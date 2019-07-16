@@ -4,17 +4,24 @@
   border-radius: 2px;
   position: relative;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   height: 100%;
   width: 100%;
+  cursor: pointer;
   @include mat-elevation-transition;
 
   &--selected {
     // use primary color.
-    box-shadow: 0 0 0 4px #6f6f6f;
+    box-shadow: 0 0 0 2px #6f6f6f;
     #{ $self }__actions {
       visibility: initial;
     }
+
+    #{ $self }__title {
+      background-color: #6f6f6f; color: #fff; color: #d8d8d8;
+    }
+
   }
 
   &--list-view {
@@ -34,7 +41,6 @@
 
   &:hover {
     &:not(#{ $self }--selected) {
-      @include mat-elevation(8);
       #{ $self }__actions {
         visibility: initial;
       }
@@ -48,8 +54,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 10px;
-    font-size: 14px;
+    font-size: 13px;
+    margin: 0px;
+    line-height: 28px;
+    padding: 0px 5px; 
+    color: #727272;
   }
   
   &__actions {
@@ -61,6 +70,35 @@
     left: 0;
     right: 0;
     // TODO: theme color;
-    background: rgba($color: white, $alpha: 0.5)
+    background: rgba(0,0,0,.4);
+    height: 100%;
+    ul {
+      position: absolute;
+      list-style: none;
+      top: 0px;
+      right: 10px;
+      margin: 0px;
+      padding: 0px;
+      li {
+        float: left;
+        button {
+          width: 24px;
+        }
+        .material-icons {
+          font-size: 15px;
+          color: white;
+          
+        }
+      }
+    }
+  }
+
+  &__thumbnail-overlay {
+    position: absolute;
+    bottom: 5px;
+    font-size: 10px;
+    color: white;
+    z-index: 100;
+    left: 5px;
   }
 }

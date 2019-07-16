@@ -92,6 +92,9 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
 
     this.subscription.add(scrollSubscription);
 
+    let prevFilter: FilterBase;
+    let prevQuery: string;
+
     const listSubscription = combineLatest([
       this.sortInfo,
       this.loadMore,
@@ -101,9 +104,9 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
       this.infoService.getInfo()]).pipe(
           switchMap(
             ([sortInfo, loadMore, schema, nextFilter, nextQuery, info]) => {
-
-              // tslint:disable-next-line: max-line-length
-              const needDataRefresh = true;
+              const needDataRefresh = prevFilter !== nextFilter || prevQuery !== nextQuery;
+              prevFilter = nextFilter;
+              prevQuery = nextQuery;
 
               // check default sort for the schema
               let sort: SortInfo[] = [];

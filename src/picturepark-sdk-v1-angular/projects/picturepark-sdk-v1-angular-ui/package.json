@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "moment": "^2.24.0",
-    "ts-md5": "^1.2.4"
+    "ts-md5": "^1.2.4",
+    "lazy-get-decorator": "^2.2.0"
   }
 }

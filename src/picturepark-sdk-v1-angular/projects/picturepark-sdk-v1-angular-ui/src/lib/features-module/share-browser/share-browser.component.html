@@ -1,22 +1,23 @@
 <div class="browser" cdkScrollable>
   <div class="browser__header">
-    <mat-toolbar>
-      <div class="browser__toolbar">
-      </div>
-    </mat-toolbar>
+    <pp-browser-toolbar [browser]="self" entityName="shares"></pp-browser-toolbar>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
 
-  <div *ngIf="totalResults !== 0" class="browser__items">
+  <div *ngIf="totalResults !== 0" 
+    class="browser__items browser__items--medium"
+    [class.browser__items--list]="activeView.type === 'list'"
+    [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
+    [class.browser__items--medium]="activeView.type === 'thumbnailMedium'">
     <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
       <pp-share-browser-item 
         class="browser__item"
         [itemModel]="itemModel"
-        [thumbnailSize]=""
+        [thumbnailSize]="activeThumbnailSize"
         [isListView]="false"
-        (previewItemChange)="previewItem($event)"
-        (click)="itemClicked($event, i)"
-        (dblclick)="previewItem(itemModel.item)">
+        (previewItemChange)="previewItemEvent($event)"
+        (click)="itemClicked($event,i)" 
+        (dblclick)="itemDetails(itemModel.item)">
       </pp-share-browser-item>
     </div>
   </div>

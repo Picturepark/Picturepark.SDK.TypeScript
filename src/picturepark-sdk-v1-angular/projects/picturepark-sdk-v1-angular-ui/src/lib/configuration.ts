@@ -22,6 +22,11 @@ export function PictureparkUIConfigurationFactory() {
             downloadContent: true,
             selectContent: false,
             shareContent: true
+        },
+        'ListBrowserComponent': {
+            downloadContent: true,
+            selectContent: true,
+            shareContent: true
         }
     };
 }
