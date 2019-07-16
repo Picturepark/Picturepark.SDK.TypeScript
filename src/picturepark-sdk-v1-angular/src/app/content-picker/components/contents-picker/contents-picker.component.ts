@@ -42,8 +42,7 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private embedService: EmbedService,
-    private basketService: BasketService,
-    private contentItemSelectionService: ContentItemSelectionService<Content>,
+    private basketService: BasketService
   ) {}
 
   public openDetails(item: any) {
@@ -57,16 +56,14 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
 
-    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
-      this.selectedItems = items.map(i => i.id);
-    });
-
-    this.subscription.add(itemsSubscription);
-
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
 
+  }
+
+  public selectionChange(items: Content[]): void {
+    console.log(items);
   }
 
   public async embed() {

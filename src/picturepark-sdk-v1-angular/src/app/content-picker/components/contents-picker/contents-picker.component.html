@@ -5,7 +5,8 @@
       [channel]="selectedChannel"
       [filter]="selectedFilter"
       [searchString]="searchText"
-      (previewItemChange)="openDetails($event)">
+      (previewItemChange)="openDetails($event)"
+      (selectedItemsChange)="selectionChange($event)">
     </pp-content-browser>
   </div>
 
