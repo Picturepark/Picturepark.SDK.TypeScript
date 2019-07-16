@@ -179,4 +179,9 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
+  // CLEAR SELECTION
+  cancel(): void {
+    this.contentItemSelectionService.clear();
+  }
+
 }

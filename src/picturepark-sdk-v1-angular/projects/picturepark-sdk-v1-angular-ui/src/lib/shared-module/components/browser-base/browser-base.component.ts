@@ -117,7 +117,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         // ITEM SELECTION SUBSCRIBER
         const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
             this.selectedItems = items;
-            console.log(this.items)
             this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
         });
         this.subscription.add(contentItemSelectionSubscription);

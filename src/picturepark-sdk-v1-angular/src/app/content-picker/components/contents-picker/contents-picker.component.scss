@@ -1,5 +1,5 @@
 .content-picker-content {
-  display: flex; height: calc(100vh - 128px); overflow: hidden;
+  display: flex; height: calc(100vh - 64px); overflow: hidden;
   pp-channel-picker { position: absolute; top: 16px; right: 80px; }
   .filters {
     width: 20%;
@@ -9,16 +9,7 @@
       border-left: 1px solid #d8d8d8;
     }
   }
-  .footer {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    opacity: 0.8;
-    background-color: lightgray;
-    height: 64px;
-    align-items: center;
-    padding: 0 20px;
-  }
+
 }
 
 
