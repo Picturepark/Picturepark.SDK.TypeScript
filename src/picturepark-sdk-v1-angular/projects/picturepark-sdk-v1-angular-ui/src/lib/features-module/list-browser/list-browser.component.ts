@@ -79,7 +79,6 @@ export class ListBrowserComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(100)).subscribe(scrollable => {
-      console.log(scrollable)
       if (scrollable) {
 
         const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
