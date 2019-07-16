@@ -5,8 +5,11 @@
   position: relative;
   &__header {
     & mat-toolbar {
-      height: 57px;
-    border-bottom: 1px solid #d8d8d8;
+      height: 57px; border-bottom: 1px solid #d8d8d8;
+    }
+    mat-progress-bar {
+      position: absolute;
+      top: 57px;
     }
   }
   &__divider {
