@@ -1,11 +1,10 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { AggregationResult, AuthService, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
+import { AggregationResult, Channel, FilterBase, Content, IEntityBase } from '@picturepark/sdk-v1-angular';
 import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
@@ -13,6 +12,7 @@ import { DetailsDialogComponent } from '../../../details-dialog/details-dialog.c
 
 // SERVICES
 import { EmbedService } from '../../../embed.service';
+
 
 @Component({
   templateUrl: './contents-picker.component.html',
@@ -44,15 +44,7 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     private embedService: EmbedService,
     private basketService: BasketService,
     private contentItemSelectionService: ContentItemSelectionService<Content>,
-    @Inject(AuthService) public authService: OidcAuthService
-  ) {
-
-    const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
-    this.subscription.add(basketSubscription);
-
-    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => this.selectedItems = items.map(i => i.id));
-    this.subscription.add(itemsSubscription);
-  }
+  ) {}
 
   public openDetails(item: any) {
     this.dialog.open(DetailsDialogComponent,
@@ -60,25 +52,21 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     );
   }
 
-
-  public onWindowUnload = () => {
-    // What is this?
-    if (this.authService.isAuthenticated && !this.messagePosted && window.opener) {
-      window.opener.postMessage('undefined', '*');
-    }
-  }
-
   public ngOnInit() {
+
+    const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
+    this.subscription.add(basketSubscription);
+
+    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
+      this.selectedItems = items.map(i => i.id);
+    });
+
+    this.subscription.add(itemsSubscription);
 
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
 
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/content-picker?postUrl=' + encodeURI(this.postUrl));
-    }
-
-    window.addEventListener('unload', this.onWindowUnload, false);
   }
 
   public async embed() {

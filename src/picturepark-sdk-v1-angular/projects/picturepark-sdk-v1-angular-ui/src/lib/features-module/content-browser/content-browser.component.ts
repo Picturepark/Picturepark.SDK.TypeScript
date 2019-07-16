@@ -36,8 +36,6 @@ import { Observable } from 'rxjs';
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
 
-  private basketItems: string[] = [];
-
   @Input()
   public channel: Channel | null = null;
 
@@ -54,7 +52,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   init() {
     // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
-      this.basketItems = basketItems;
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
     });
 
@@ -180,6 +177,11 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
+  }
+
+  // CLEAR SELECTION
+  cancel(): void {
+    this.contentItemSelectionService.clear();
   }
 
 }

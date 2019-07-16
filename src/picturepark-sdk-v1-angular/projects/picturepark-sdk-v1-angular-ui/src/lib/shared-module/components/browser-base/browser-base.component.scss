@@ -1,11 +1,15 @@
 .browser {
+  $self: &;
   height: 100%;
   overflow: hidden;
   position: relative;
   &__header {
     & mat-toolbar {
-      height: 57px;
-    border-bottom: 1px solid #d8d8d8;
+      height: 57px; border-bottom: 1px solid #d8d8d8;
+    }
+    mat-progress-bar {
+      position: absolute;
+      top: 57px;
     }
   }
   &__divider {
@@ -21,17 +25,21 @@
     overflow-y: scroll;
     overflow-x: hidden;
     height: calc(100% - 107px);
+    background-color: #eeeeee;
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;
     }
     &--large {
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-rows: 300px 300px;
     }
     &--medium {
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-rows: 180px 180px;
     } // image sizes: 120px, 200px, 320px
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-rows: 100px 100px;
     padding: 25px;
     display: grid;
     grid-gap: 25px;

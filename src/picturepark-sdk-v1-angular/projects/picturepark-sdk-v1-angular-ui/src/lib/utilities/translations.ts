@@ -110,6 +110,10 @@ export let TRANSLATIONS = {
       en: 'Download',
       de: 'Download'
     },
+    Details: {
+      en: 'Details',
+      de: 'Download'
+    },
     ItemsLength: {
       en: '{0} contents',
       de: '{0} Contents'

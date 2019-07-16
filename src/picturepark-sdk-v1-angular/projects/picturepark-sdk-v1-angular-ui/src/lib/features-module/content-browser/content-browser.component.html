@@ -44,4 +44,27 @@
       <li>{{ 'ContentBrowser.NoItemsActionSearchString' | pptranslate }}</li>
     </ul>
   </div>
+  <div class="browser__footer" [ngClass]="{ active: selectedItems.length > 0 }">
+    <div class="mat-typography browser__footer__title">
+      <ng-container *ngIf="selectedItems.length === 1">
+        {{'ContentPicker.TextSelectedSingle' | pptranslate: selectedItems.length }}
+      </ng-container>
+      <ng-container *ngIf="selectedItems.length != 1">
+        {{'ContentPicker.TextSelectedMultiple' | pptranslate: selectedItems.length }}
+      </ng-container>
+    </div>
+    <div class="browser__footer__action-buttons">
+      <button mat-button (click)="cancel()">
+        {{'ContentPicker.ButtonCancel' | pptranslate }}
+      </button>
+      <button mat-button [disabled]="selectedItems.length === 0 || loading" (click)="embed()">
+        <ng-container *ngIf="!loading">
+          {{'ContentPicker.ButtonChoose' | pptranslate }}
+        </ng-container>
+        <ng-container *ngIf="loading">
+          {{'ContentPicker.ButtonLoading' | pptranslate }}
+        </ng-container>
+      </button>
+    </div>
+  </div>
 </div>

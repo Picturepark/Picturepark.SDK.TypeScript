@@ -65,4 +65,9 @@ body {
 // SHARE ITEM MANAGE LOADER
 .share-preview-container mat-spinner circle { stroke: #3fb3b1; }
 
+.browser-item__image-container mat-spinner {
+  width: 40px !important; height: 40px !important;
+  svg { width: 40px !important; height: 40px !important; }
+}
+
 @import "styles-resp.scss";
