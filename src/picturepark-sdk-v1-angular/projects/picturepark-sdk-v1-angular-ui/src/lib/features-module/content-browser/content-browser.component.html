@@ -57,11 +57,11 @@
       <button mat-button (click)="cancel()">
         {{'ContentPicker.ButtonCancel' | pptranslate }}
       </button>
-      <button mat-button [disabled]="selectedItems.length === 0 || loading" (click)="embed()">
-        <ng-container *ngIf="!loading">
+      <button mat-button [disabled]="selectedItems.length === 0" (click)="embed()">
+        <ng-container>
           {{'ContentPicker.ButtonChoose' | pptranslate }}
         </ng-container>
-        <ng-container *ngIf="loading">
+        <ng-container>
           {{'ContentPicker.ButtonLoading' | pptranslate }}
         </ng-container>
       </button>
