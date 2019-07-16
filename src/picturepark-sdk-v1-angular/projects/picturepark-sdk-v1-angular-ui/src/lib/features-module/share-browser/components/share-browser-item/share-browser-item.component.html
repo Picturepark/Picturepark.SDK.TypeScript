@@ -17,6 +17,7 @@
         </li>
       </ul>  
     </div>
+    <div class="browser-item__items-num-container">{{ itemModel.item.contentIds.length }}</div>
   </div>
   <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subheading-2">
     <i class="material-icons" *ngIf="itemModel.item.shareType === 'Embed'">code</i>
