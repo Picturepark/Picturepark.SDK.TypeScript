@@ -1,6 +1,6 @@
 .browser-toolbar-container {
     height: 56px; background-color: #eee; border-bottom: 1px solid #d8d8d8;
-    & .browser-toolbar-content {
+    .browser-toolbar-content {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -8,7 +8,7 @@
         button:focus {
             outline: -webkit-focus-ring-color auto 0px;
         }
-        & .select {
+        .select {
             margin: 0px 15px 0px 0px;
             button {
                 border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #39acaa; padding: 0px;
@@ -24,7 +24,7 @@
             }
         }
 
-        & .order-by {
+        .order-by {
             button {
                 border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #727272; padding: 0px;
                 &:hover {

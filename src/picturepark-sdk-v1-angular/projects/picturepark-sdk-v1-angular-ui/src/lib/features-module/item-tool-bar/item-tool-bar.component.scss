@@ -1,6 +1,6 @@
 .tool-bar-container {
     border-radius: 12px 8px 8px 12px; background: rgba(47, 47, 47, 0.95); height: 68px; margin: 20px 0px 20px 0px;
-    & .to-top {
+    .to-top {
         width: 68px; height: 68px; float: left; background-color: #f8f8f8; border-radius: 8px 0px 0px 8px; text-align: center; color: #aaa;
         & i {
             position: relative; top: 50%; transform: translateY(-50%);
@@ -10,7 +10,7 @@
         list-style: none; margin: 0px 0px 0px 40px;
         li { 
             float: left; line-height: 68px; width: 50px; text-align: center;
-            & .to-top {
+            .to-top {
                 position: absolute;
                 width: 100%;
                 height: 100%;

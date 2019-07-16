@@ -1,9 +1,9 @@
 .panel-container {
     position: relative;
-    & .panel-content {
-        & .item {
+    .panel-content {
+        .item {
             &:hover {
-                & .item-funcs {
+                .item-funcs {
                     display: inherit;
                 }
             }
@@ -11,17 +11,17 @@
             & ul { 
                 list-style: none; padding: 0px; margin: 20px 0px;
                 li { color: #727272; font-size: 13px; line-height: 21px;}
-                & .title {
+                .title {
                     color: #2f2f2f; font-size: 14px;
                 }
             }
-            & .thumbnail {
+            .thumbnail {
                 float: left; width: 20%;
             }
-            & .item-info {
+            .item-info {
                 float: left; width: 60%; position: relative; top: 15px;
             }
-            & .item-funcs {
+            .item-funcs {
                 float: left; width: 20%; display: none;
                 & ul {
                     position: relative; top: 35px; float: right;

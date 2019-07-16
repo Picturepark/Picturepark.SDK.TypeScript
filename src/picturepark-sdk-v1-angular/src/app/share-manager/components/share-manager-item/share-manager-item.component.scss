@@ -1,6 +1,6 @@
 .share-manager-item-container {
     position: relative; background-color: rgb(238,238,238); height: calc(100vh - 64px); display: flex; overflow-y: scroll; overflow-x: hidden;
-    & .share-manager-item-loader {
+    .share-manager-item-loader {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -8,13 +8,13 @@
         width: 100%;
         z-index: 10;
     }   
-    & .share-manager-item-menu-container {
+    .share-manager-item-menu-container {
         width: 20%; float: left;
     }
-    & .share-manager-item-content-container {
+    .share-manager-item-content-container {
         width: 50%; float: left;
     }
-    & .background-image {
+    .background-image {
         position: relative; top: 50%; margin: 0 auto; height: 200px;
         svg {
             height: 200px;

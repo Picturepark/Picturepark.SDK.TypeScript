@@ -7,14 +7,14 @@
             svg#text {
                 opacity: 1;
             }
-            & .back {
+            .back {
                 display: inherit;
             }
         }
         & ul li span { opacity: 1; }
     }
     
-    & .application-menu-logo {
+    .application-menu-logo {
         text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f; position: relative;
         &.active {
             background-color: #2f2f2f;
@@ -44,7 +44,7 @@
                 fill: #fff;
             }
         }
-        & .back {
+        .back {
             display: none;
             position: relative;
             cursor: pointer;
