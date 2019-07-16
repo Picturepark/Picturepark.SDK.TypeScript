@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
 
 // LIBRARIES
 import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest, Content } from '@picturepark/sdk-v1-angular';
@@ -12,7 +11,6 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { ContentModel } from '../../../../shared-module/models/content-model';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
