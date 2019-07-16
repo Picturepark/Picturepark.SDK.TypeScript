@@ -1,16 +1,29 @@
-<div class="content-browser-container">
+<div class="content-browser-container" >
   <div class="content-browser-toolbar-container">
-    toolbar
-    <!--<mat-toolbar>
+    <mat-toolbar>
       <div class="content-browser__toolbar">
         <ng-content select="[content-buttons]"></ng-content>
         <div class="content-browser__spacer">
         </div>
         <span *ngIf="totalResults" class="content-browser__items-count mat-body-1">{{ totalResults }} {{ 'ListBrowser.ListItemsLowercase' | pptranslate }}</span>
       </div>
-    </mat-toolbar>-->
+    </mat-toolbar>
+    <!--<pp-browser-toolbar [browser]="self" entityName="contents">
+      <ng-container browser-buttons>
+          <button mat-icon-button *ngIf="selectedItems.length === 1" [matTooltip]="'ContentBrowser.Preview' | pptranslate">
+            <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="selectedItems.length > 0" (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
+            <mat-icon aria-label="Download selected items">get_app</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openShareContentDialog()" [matTooltip]="'ContentBrowser.ShareImages' | pptranslate" *ngIf="selectedItems.length >= 1">
+            <mat-icon aria-label="Share selected items">share</mat-icon>
+          </button>
+          <ng-content select="[content-buttons]"></ng-content>
+      </ng-container>
+    </pp-browser-toolbar>-->
   </div>
-  <div class="table-container" *ngIf="totalResults !== 0" >
+  <div class="table-container" *ngIf="totalResults !== 0" cdkScrollable>
     <table 
       mat-table 
       matSort 

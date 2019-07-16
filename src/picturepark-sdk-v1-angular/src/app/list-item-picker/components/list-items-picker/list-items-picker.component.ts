@@ -1,10 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
-import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter, AuthService } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
+import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-list-items-picker',
@@ -19,8 +18,7 @@ export class ListItemsPickerComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    @Inject(AuthService) public authService: OidcAuthService
+    private router: Router
   ) {
     const newFilter = this.createFilter();
     this.filter = new BehaviorSubject(newFilter);
@@ -50,11 +48,7 @@ export class ListItemsPickerComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/list-item-picker');
-    }
-  }
+  ngOnInit() {}
 
 }
 
