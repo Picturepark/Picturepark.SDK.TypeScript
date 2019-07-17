@@ -325,6 +325,9 @@ export let TRANSLATIONS = {
     },
     Cancel: {
       en: 'Cancel'
+    },
+    NoAccess: {
+      en: 'No access to any format'
     }
   },
   SchemaBrowser: {

@@ -138,18 +138,18 @@ export class MetaDataPreviewService {
         fields[fieldId] = value.join(', ');
 
       } else if (fieldType === FieldSingleFieldset) {
-        fields[fieldId] = value.displayValue ? value.displayValue.name : '';
+        fields[fieldId] = value._displayValues ? value._displayValues.name : '';
 
       } else if (fieldType === FieldMultiFieldset) {
 
       } else if (fieldType === FieldSingleTagbox) {
-        if (value.displayValue) {
-          fields[fieldId] = value.displayValue.name;
+        if (value._displayValues) {
+          fields[fieldId] = value._displayValues.name;
         }
 
       } else if (fieldType === FieldMultiTagbox) {
-        if (value[0] && value[0].displayValue) {
-          fields[fieldId] = value.map((f: any) => f.displayValue ? f.displayValue.name : '').join(', ');
+        if (value[0] && value[0]._displayValues) {
+          fields[fieldId] = value.map((f: any) => f._displayValues ? f._displayValues.name : '').join(', ');
         }
       } else if (fieldType === FieldSingleRelation) {
 
