@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ListModule } from './list/list.module';
 import { ListBrowserModule } from '../list-browser/list-browser.module';
 import { ListItemAggregationListModule } from '../list-item-aggregation-list/list-item-aggregation-list.module';
-import { SchemasModule } from './schemas/schemas.module';
 
 @NgModule({
   declarations: [],
@@ -13,12 +12,10 @@ import { SchemasModule } from './schemas/schemas.module';
     CommonModule,
     ListModule,
     ListBrowserModule,
-    ListItemAggregationListModule,
-    SchemasModule,
+    ListItemAggregationListModule
   ],
   exports: [
-    ListModule,
-    SchemasModule
+    ListModule
   ]
 })
 export class ListItemsModule { }

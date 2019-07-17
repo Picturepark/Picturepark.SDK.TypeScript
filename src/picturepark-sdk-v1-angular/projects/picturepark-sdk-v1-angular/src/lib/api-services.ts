@@ -46429,7 +46429,7 @@ export interface ISchemaSearchResult extends ISearchBehaviorBaseResultOfSchema {
 /** A schema */
 export class Schema implements ISchema {
     /** The schema ID. It is unique throughout the whole customer setup. */
-    id?: string | undefined;
+    id: string;
     /** The parent schema ID. */
     parentSchemaId?: string | undefined;
     /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */

@@ -11,9 +11,6 @@ import {
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import {
-  ContentDownloadDialogComponent
-} from '../dialog/components/content-download-dialog/content-download-dialog.component';
-import {
   ShareContentDialogComponent
 } from '../dialog/components/share-content-dialog/share-content-dialog.component';
 
