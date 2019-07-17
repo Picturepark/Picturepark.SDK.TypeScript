@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 // MODULES
 import { SharedModule } from '../../shared-module/shared-module.module';
-import { OutputDownloadMenuModule } from '../output-download-menu/output-download-menu.module';
 
 // COMPONENTS
 import { ContentBrowserComponent } from './content-browser.component';
@@ -19,7 +18,6 @@ import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module'
   imports: [
     CommonModule,
     SharedModule,
-    OutputDownloadMenuModule,
     BrowserToolbarModule
   ],
   exports: [

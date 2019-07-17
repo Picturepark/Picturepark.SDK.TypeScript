@@ -23,7 +23,6 @@ export { ListItemAggregationListModule } from './lib/features-module/list-item-a
 export { ListItemsModule } from './lib/features-module/list-items/list-items.module';
 export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
-export { OutputDownloadMenuModule } from './lib/features-module/output-download-menu/output-download-menu.module';
 export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SharePreviewModule } from './lib/features-module/share-preview/share-preview.module';
 export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
@@ -38,3 +37,5 @@ export { ContentItemSelectionService } from './lib/shared-module/services/conten
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
+export { ContentDownloadDialogService } from
+    './lib/features-module/dialog/components/content-download-dialog/content-download-dialog.service';

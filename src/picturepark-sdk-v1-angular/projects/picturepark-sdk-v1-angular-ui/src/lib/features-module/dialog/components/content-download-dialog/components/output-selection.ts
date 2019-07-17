@@ -79,6 +79,10 @@ export class OutputSelection {
         return Object.keys(this.selection).map(fileFormat => this.selection[fileFormat]);
     }
 
+    public hasOutputs(fileFormat: IOutputPerSchemaSelection): boolean {
+        return this.getOutputs(fileFormat).length > 0;
+    }
+
     public getOutputs(fileFormat: IOutputPerSchemaSelection): IOutputPerOutputFormatSelection[] {
         return Object.keys(fileFormat.outputs)
                .map(outputFormat => fileFormat.outputs[outputFormat])
