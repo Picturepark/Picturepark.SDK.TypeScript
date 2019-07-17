@@ -68,13 +68,13 @@ export class LayerPanelsComponent implements OnInit {
             switch (field.constructor) {
               case FieldMultiTagbox:
                 values = fieldValue.map(i => {
-                  return { value: i.displayValue.name, tooltip: i.displayValue.thumbnail };
+                  return { value: i._displayValues.name, tooltip: i._displayValues.thumbnail };
                 });
                 break;
               case FieldSingleTagbox:
                 values = [{
-                  value: fieldValue.displayValue.name,
-                  tooltip: fieldValue.displayValue.thumbnail
+                  value: fieldValue._displayValues.name,
+                  tooltip: fieldValue._displayValues.thumbnail
                 }];
                 break;
               case FieldBoolean:
