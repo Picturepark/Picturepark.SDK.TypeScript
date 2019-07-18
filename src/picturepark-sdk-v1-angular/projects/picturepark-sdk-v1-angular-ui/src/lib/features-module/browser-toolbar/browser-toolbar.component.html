@@ -1,6 +1,6 @@
 <div class="browser-toolbar-container">
   <div class="browser-toolbar-content">
-    <div class="select" *ngIf="browser.configActions['selectContent']">
+    <div class="select" *ngIf="browser.configActions['select']">
       <button [matMenuTriggerFor]="select">{{ 'ContentBrowser.SelectMenu' | pptranslate }}<i class="material-icons">more_vert</i></button>
       <mat-menu #select="matMenu" xPosition="after">
         <button mat-menu-item (click)="browser.toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}</button>
