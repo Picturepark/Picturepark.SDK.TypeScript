@@ -11,9 +11,6 @@ import {
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import {
-  ContentDownloadDialogComponent
-} from '../dialog/components/content-download-dialog/content-download-dialog.component';
-import {
   ShareContentDialogComponent
 } from '../dialog/components/share-content-dialog/share-content-dialog.component';
 
@@ -51,7 +48,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   }
 
-  init() {
+  async init(): Promise<void> {
     // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));

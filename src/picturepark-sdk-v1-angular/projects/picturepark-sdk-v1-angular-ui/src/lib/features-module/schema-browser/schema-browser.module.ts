@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 // COMPONENTS
 import { SchemaBrowserComponent } from './schema-browser.component';
 import { SchemaBrowserItemComponent } from './components/schema-browser-item/schema-browser-item.component';
+import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SchemaBrowserItemComponent } from './components/schema-browser-item/sch
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    BrowserToolbarModule
   ],
   exports: [
     SchemaBrowserComponent,

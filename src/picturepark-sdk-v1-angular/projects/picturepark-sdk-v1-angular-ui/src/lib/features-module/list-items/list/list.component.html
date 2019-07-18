@@ -1,9 +1,9 @@
 <div class="list-container">
-  <div class="list-content">
+  <div class="list-content" *ngIf="schema | async as schemaDetail">
     <pp-list-browser 
-      [schema]="schema"
-      [search]="searchQuery"
-      [filter]="filter"
+      [schema]="schemaDetail"
+      [searchString]="searchQuery | async"
+      [filter]="filter | async"
       [deselectAll]="deselectAll"
       [enableSelection]="true"
       [selectedItemIds]="selectedItems"

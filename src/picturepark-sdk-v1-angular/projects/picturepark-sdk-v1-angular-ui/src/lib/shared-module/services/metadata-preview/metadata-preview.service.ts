@@ -28,6 +28,7 @@ import * as moment_ from 'moment';
 const moment = moment_;
 
 import { LocalizationService } from '../localization/localization.service';
+import { lowerFirst, isNil } from '../../../utilities/helper';
 
 @Injectable({
   providedIn: 'root'
@@ -87,7 +88,7 @@ export class MetaDataPreviewService {
 
       // find field
       const field = schema && schema.fields && schema.fields.filter(fieldData => fieldData.id === fieldId)[0];
-      if (lodash.isNil(field)) {
+      if (isNil(field)) {
         continue;
       }
 
@@ -97,13 +98,13 @@ export class MetaDataPreviewService {
       if (fieldId.lastIndexOf('.') === -1) {
         value = metadata[fieldId];
       } else {
-        const propertyName = lodash.last(fieldId.split('.'));
+        const propertyName = fieldId.split('.').pop();
         if (propertyName && typeof propertyName === 'string') {
-            value = metadata[lodash.lowerFirst(schema.id)] ? metadata[lodash.lowerFirst(schema.id)][propertyName] : metadata[propertyName];
+            value = metadata[lowerFirst(schema.id)] ? metadata[lowerFirst(schema.id)][propertyName] : metadata[propertyName];
         }
       }
 
-      if (lodash.isNil(value)) {
+      if (isNil(value)) {
         fields[fieldId] = `${value}`;
 
       } else if (fieldType === FieldString) {

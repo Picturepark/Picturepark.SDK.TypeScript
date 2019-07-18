@@ -32,7 +32,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     super('ShareBrowserComponent', injector);
   }
 
-  init(): void {
+  async init(): Promise<void> {
     this.loadData();
   }
 

@@ -16,6 +16,7 @@ import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
+import { debounceTime } from 'rxjs/operators';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -60,6 +61,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public activeView: IBrowserView;
     public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
 
+    protected scrollDebounceTime = 0;
+
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<TEntity>();
@@ -71,7 +74,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     private _selectedItems: TEntity[] = [];
     private lastSelectedIndex = 0;
 
-    abstract init(): void;
+    abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
     abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
@@ -95,14 +98,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
     }
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         this.configActions = this.pictureParkUIConfig[this.componentName];
 
-        // Call abstract init class
-        this.init();
-
         // SCROLL SUBSCRIBER
-        const scrollSubscription = this.scrollDispatcher.scrolled().subscribe(scrollable => {
+        const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
             if (!scrollable) { return; }
 
             const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
@@ -120,6 +120,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
         });
         this.subscription.add(contentItemSelectionSubscription);
+
+        // Call abstract init class
+        await this.init();
     }
 
     get totalResults(): number | null {
@@ -165,11 +168,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
             if (searchResult.results) {
                 await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
-                this.items.push(...searchResult.results.map(item => {
+                const items = searchResult.results.map(item => {
                     const contentModel = new ContentModel(item, false);
                     contentModel.isSelected = this.selectedItems.some(selected => selected.id === item.id);
                     return contentModel;
-                }));
+                });
+                this.prepareData(items);
+                this.items.push(...items);
             }
 
             this.isLoading = false;
@@ -178,6 +183,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.isLoading = false;
         });
         this.subscription.add(searchSubscription);
+    }
+
+    protected prepareData(items: ContentModel<TEntity>[]): void {
+
     }
 
     /**
