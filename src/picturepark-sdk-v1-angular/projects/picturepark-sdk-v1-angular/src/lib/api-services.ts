@@ -39227,7 +39227,7 @@ export class ListItem implements IListItem {
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
     /** The list item id. */
-    id?: string | undefined;
+    id: string;
     /** Audit data with information regarding document creation and modification. */
     audit?: UserAudit | undefined;
 

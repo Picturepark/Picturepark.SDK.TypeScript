@@ -34,7 +34,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
     super('SchemaBrowserComponent', injector);
   }
 
-  init(): void {
+  async init(): Promise<void> {
     const parentChange = this.activeParentSchema.subscribe(schema => {
       this.parentSchema = schema;
       this.update();
@@ -86,7 +86,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
 
     const request = new SchemaSearchRequest({
       debugMode: false,
-      pageToken: undefined,
+      pageToken: this.nextPageToken,
       limit: this.pageSize,
       filter: filter ? filter : this.filter!,
       searchString: this.searchString,
