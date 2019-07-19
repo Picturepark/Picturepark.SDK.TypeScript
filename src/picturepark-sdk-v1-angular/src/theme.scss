@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 
 $mat-picturepark-accent: (
+    0: #eeeeee,
     50 : #e8f6f6,
     100 : #c5e8e8,
     200 : #9fd9d8,
@@ -33,10 +34,118 @@ $mat-picturepark-accent: (
     )
 );
 
+// GLOBAL COLORS
+$base: #39acaa;        
+$dark-grey: #727272;
+$white: #fff;
 
-$picturepark-app-primary: mat-palette($mat-picturepark-accent, 600, 400, 900);
-$picturepark-app-accent: mat-palette($mat-picturepark-accent, 400,200,700);
-$picturepark-app-warn : mat-palette($mat-red);
+// PROGRESS BAR
+$pp-progress-bar: (
+    progress-bar: #3fb3b1,
+    progress-bar-background: #e4e4e4,
+    contrast: ()
+);
+
+// APPLICATION HEADER
+$pp-application-header: (
+    background-color: #fff,
+    border-color: #d8d8d8,
+    font-color: #000,
+    title-font-color: #444,
+    search-font-color: #444,
+    search-icon-font-color: #444,
+    contrast: ()
+);
+
+// APPLICATION MENU
+$pp-application-menu: (
+    background-color: #444,
+    shadow-color: #000,
+    border-color: #2f2f2f,
+    logo-active-background: #2f2f2f,
+    logo-color: #fff,
+    back-button-color: #aaa,
+    back-button-hover-color: #eee,
+    back-button-hover-background-color: #565656,
+    menu-item-color: #aaa,
+    menu-item-hover-background-color: #3a3a3a,
+    menu-item-active-color: #fff,
+    menu-item-active-background-color: #3a3a3a,
+    menu-label-color: #eee,
+    menu-label-backgroud-color: #565656,
+    contrast: ()
+);
+
+// BASKET ITEM COMPONENT
+$pp-basket-item: (
+    background-color: #fff,
+    contrast: ()
+);
+
+// BROWSER TOOLBAR CONTAINER
+$pp-browser-toolbar: (
+    background-color: #eee,
+    border-bottom-color: #d8d8d8,
+    button-background-color: #eee,
+    button-color: $base,
+    icon-hover-background-color: $base,
+    icon-hover-color: #fff,
+    icon-color: $base,
+    contrast: ()
+);
+
+// CONTENT BROWSER ITEM
+$pp-content-browser-item: (
+    basket-icon-color: #fff,
+    basket-icon-color-hover: $base,
+    basket-icon-background-color-hover: #000, 
+    image-slot-background-color: #dcdcdc,
+    image-virtual-item-color: #aaa,
+    contrast: ()
+);
+
+// SHARE CONTENT DIALOG
+$pp-share-content-dialog: (
+    font-color: #727272,
+    input-color: #2f2f2f,
+    input-focus-border-color: #444,
+    error-border-color: #f74931,
+    error-font-color: #f74931,
+    confirmation-border-bottom-color: #ccc,
+    icon-color: #727272,
+    link-color: #727272,
+    contrast: ()
+);
+
+$mat-picturepark-primary: (
+    app-menu-items: #aaa,
+    app-menu-active-item: #fff,
+    app-menu-background-item-active: #3a3a3a,
+    app-menu-background-item-hover: #3a3a3a,
+    base: $base,
+    black: #000,
+    content-picker-item-title: $dark-grey,
+    content-picker-item-title-selected:#d8d8d8, 
+    content-picker-item-selected: #6f6f6f,
+    dark-background: #444,
+    dark-border: #2f2f2f,
+    light-background: #eee,
+    light-border: #d8d8d8,
+    loader-logo: #dcdcdc,
+    icon-selected: #000000,
+    progress-bar-background: #e4e4e4,
+    progress-bar: $base,
+    spinner: $base,
+    toolbar-icon-color:$dark-grey,
+    toolbar-icon-color-hover: black,
+    white: #fff,
+    contrast: ()
+);
+
+$picturepark-app-primary: mat-palette($mat-picturepark-primary);
+$picturepark-app-accent: mat-palette($mat-picturepark-accent, 400, 200, 700);
+$picturepark-app-warn: mat-palette($mat-red);
+
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
 
-.mat-form-field-subscript-wrapper { display: none; }
+@include angular-material-theme($picturepark-app-theme);

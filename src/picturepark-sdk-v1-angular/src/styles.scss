@@ -70,4 +70,186 @@ body {
   svg { width: 40px !important; height: 40px !important; }
 }
 
+
+
+
+
+
+
+
+
+
+// APPLICATION HEADER MODULE
+.application-header-container {
+  background-color: mat-color($pp-application-header, background-color) !important;
+  border-bottom: 1px solid mat-color($pp-application-header, border-color) !important;
+  color: mat-color($pp-application-header, font-color) !important;
+  .title-container {
+    color: mat-color($pp-application-header, title-font-color) !important;
+    border-right: 1px solid mat-color($pp-application-header, border-color) !important;
+  }
+  .search-container {
+    color: mat-color($pp-application-header, search-font-color) !important;
+    font-size: 18px !important;
+    .search-content {
+        & i { color: mat-color($pp-application-header, search-icon-font-color) !important; }
+        & input { 
+            font-size: 18px !important;
+        }
+    }
+  }
+  .close-container { 
+    border-left: 1px solid mat-color($pp-application-header, border-color) !important;
+  }
+}
+
+// APPLICATION MENU MODULE
+.application-menu-container {
+  background-color: mat-color($pp-application-menu, background-color) !important;
+  box-shadow: 
+      0 5px 5px -3px rgba(mat-color($pp-application-menu, shadow-color),.2), 
+      0 8px 10px 1px rgba(mat-color($pp-application-menu, shadow-color),.14), 
+      0 3px 14px 2px rgba(mat-color($pp-application-menu, shadow-color),.12) !important;
+
+  .application-menu-logo {
+    border-bottom: 1px solid mat-color($pp-application-menu, border-color) !important;
+    &.active {
+      background-color: mat-color($pp-application-menu, logo-active-background) !important;
+    }
+    svg#text {
+        & path {
+          fill: mat-color($pp-application-menu, logo-color) !important;
+        }
+    }
+    .back {
+        color: mat-color($pp-application-menu, back-button-color) !important;
+        &:hover {
+          color: mat-color($pp-application-menu, back-button-hover-color) !important; 
+          background-color: mat-color($pp-application-menu, back-button-hover-background-color) !important;  
+        }
+        & i {
+          font-size: 13px !important;
+          font-weight: 600 !important;
+        }
+    }
+  }
+  ul {
+    li {
+      color: mat-color($pp-application-menu, menu-item-color) !important;
+      &:hover {
+        background-color: mat-color($pp-application-menu, menu-item-hover-background-color) !important;
+      }
+      &.active { 
+        color: mat-color($pp-application-menu, menu-item-active-color) !important;
+        background-color: mat-color($pp-application-menu, menu-item-active-background-color) !important;
+      }
+    }
+  }
+}
+#menu-label { 
+  font-size: 12px;
+  color: mat-color($pp-application-menu, menu-label-color) !important;
+  background-color: mat-color($pp-application-menu, menu-label-backgroud-color) !important;
+}
+
+// BASKET MODULE
+.basket-item {
+  background: mat-color($pp-basket-item, background-color) !important;
+}
+
+// BROWSER TOOLBAR MODULE
+.browser-toolbar-container {
+  background-color: mat-color($pp-browser-toolbar, background-color) !important;
+  border-bottom: 1px solid mat-color($pp-browser-toolbar, border-bottom-color) !important;
+  .browser-toolbar-content {
+    .select {
+      button {
+        background-color: mat-color($pp-browser-toolbar, button-background-color) !important;
+        color: mat-color($pp-browser-toolbar, button-color) !important;
+        &:hover {
+          i { 
+            background-color: mat-color($pp-browser-toolbar, icon-hover-background-color) !important;
+            color: mat-color($pp-browser-toolbar, icon-hover-color) !important;
+          }
+        }
+        i {
+          font-size: 21px !important;
+          color: mat-color($pp-browser-toolbar, icon-color) !important;
+        }
+      }
+    }
+    .order-by {
+      button {
+        background-color: mat-color($pp-browser-toolbar, button-background-color) !important;
+        color: mat-color($pp-browser-toolbar, button-color) !important;
+        &:hover {
+          mat-icon {
+            color: mat-color($pp-browser-toolbar, icon-hover-color) !important;
+          }
+        }
+        mat-icon {
+          font-size: 18px !important; 
+          color: mat-color($pp-browser-toolbar, icon-color) !important;
+        }
+      }
+    }
+  }
+}
+
+// CONTENT BROWSER MODULE
+.browser-item {
+  &__basket-icon {
+    &:hover {
+      background-color: mat-color($pp-content-browser-item, basket-icon-background-color-hover) !important;
+      mat-icon {
+        color: mat-color($pp-content-browser-item, basket-icon-color-hover) !important;
+      }
+    }
+    mat-icon {
+      color: mat-color($pp-content-browser-item, basket-icon-color) !important;
+    }
+  }
+
+  &__image-slot {
+    background-color: mat-color($pp-content-browser-item, image-slot-background-color) !important;
+  }
+
+  &__image-virtual-item-container {
+    color: mat-color($pp-content-browser-item, image-virtual-item-color) !important;
+  }
+}
+
+// SHARE CONTENT DIALOG MODULE
+.share-content-dialog-container {
+  ul {
+    color: mat-color($pp-share-content-dialog, font-color) !important;
+    font-size: 13px !important;
+    li { 
+      input { 
+        font-weight: 400 !important;
+        font-size: 13px !important;
+        color: mat-color($pp-share-content-dialog, input-color) !important;
+        &:focus { border: 1px solid mat-color($pp-share-content-dialog, input-focus-border-color) !important; }
+      }
+    }
+  }
+  #share-name.error-active { border: 1px solid  mat-color($pp-share-content-dialog, error-border-color) !important; }
+  .share-name-error { 
+    color: mat-color($pp-share-content-dialog, error-font-color) !important; font-size: 10px; 
+  }
+  .share-content-confirmation-container {
+    .share-content-confirmation { 
+      border-bottom: 1px solid  mat-color($pp-share-content-dialog, confirmation-border-bottom-color) !important;
+      .user-info-container { 
+        ul { 
+          li { 
+              mat-icon { font-size: 18px; color:  mat-color($pp-share-content-dialog, icon-color) !important; }
+              a { color:  mat-color($pp-share-content-dialog, link-color) !important; }
+          }
+        }
+      }
+    }
+  }
+}
+
 @import "styles-resp.scss";
