@@ -34,7 +34,7 @@ export class LiquidRenderingService {
     async renderNestedDisplayValues(obj: Object): Promise<void> {
         const displayValues: any[] = [];
         this.traverseObject(obj, (key, value) => {
-            if (key === 'displayValue' || key === 'displayValues') {
+            if (key === '_displayValues' || key === 'displayValues') {
                 displayValues.push(value);
             }
         });

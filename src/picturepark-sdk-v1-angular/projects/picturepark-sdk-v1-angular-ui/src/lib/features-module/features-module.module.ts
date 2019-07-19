@@ -16,7 +16,6 @@ import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
 import { ListItemAggregationListModule } from './list-item-aggregation-list/list-item-aggregation-list.module';
 import { NotificationModule } from './notification/notification.module';
-import { OutputDownloadMenuModule } from './output-download-menu/output-download-menu.module';
 import { PanelModule } from './panel/panel.module';
 import { SharePreviewModule } from './share-preview/share-preview.module';
 import { SearchBoxModule } from './search-box/search-box.module';
@@ -42,7 +41,6 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     ListBrowserModule,
     ListItemAggregationListModule,
     NotificationModule,
-    OutputDownloadMenuModule,
     SchemaBrowserModule,
     SearchBoxModule,
     ShareBrowserModule,
@@ -65,7 +63,6 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     ListBrowserModule,
     ListItemAggregationListModule,
     NotificationModule,
-    OutputDownloadMenuModule,
     SchemaBrowserModule,
     SearchBoxModule,
     ShareBrowserModule,

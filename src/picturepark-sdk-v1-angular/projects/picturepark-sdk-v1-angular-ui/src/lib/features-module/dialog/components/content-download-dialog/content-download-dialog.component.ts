@@ -34,6 +34,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public enableAdvanced = false;
   public advancedMode = false;
   public filteredData: Content[];
+  public noOutputs = false;
 
   public loader = false;
 
@@ -91,10 +92,10 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
               output.selected = true;
           }
       });
-
-      this.selection = selection;
     });
 
+    this.selection = selection;
+    this.noOutputs = outputs.length === 0;
   }
 
   // DOWNLOAD SELECTED CONTENT

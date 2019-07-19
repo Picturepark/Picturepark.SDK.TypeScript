@@ -2,13 +2,14 @@ import { Component, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@a
 import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 
 // LIBRARIES
-import { ContentService, ThumbnailSize, ContentDownloadLinkCreateRequest, Content } from '@picturepark/sdk-v1-angular';
+import { ContentService, ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
+import { ContentDownloadDialogService } from '../../../dialog/components/content-download-dialog/content-download-dialog.service';
 
 // INTERFACES
 import { switchMap } from 'rxjs/operators';
@@ -40,6 +41,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     private basketService: BasketService,
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
+    private contentDownloadDialogService: ContentDownloadDialogService
   ) {
 
     super();
@@ -99,17 +101,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   public downloadItem() {
-    const request = new ContentDownloadLinkCreateRequest({
-      contents: [{ contentId: this.itemModel.item.id, outputFormatId: 'Original' }]
-    });
-
-    const createDownloadSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
-      if (data.downloadUrl) {
-        window.location.replace(data.downloadUrl);
-      }
-    });
-
-    this.subscription.add(createDownloadSubscription);
+    this.contentDownloadDialogService.showDialog([this.itemModel.item]);
   }
 
   public toggleInBasket() {

@@ -2,17 +2,22 @@
   <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
-    <form>
-      <fieldset *ngFor="let filetype of selection.getFileFormats()">
-        <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
-  
-        <div *ngFor="let output of selection.getOutputs(filetype)">
-            <mat-checkbox *ngIf="!output.hidden" [name]="filetype.id + '-' + output.id" [(ngModel)]="output.selected" (change)="update()">
-              {{ output.name }} ({{ output.values.length }})
-            </mat-checkbox>
-          </div>
-      </fieldset>
+    <form *ngIf="!noOutputs">
+      <div *ngFor="let filetype of selection.getFileFormats()">
+        <fieldset *ngIf="selection.hasOutputs(filetype)">
+          <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
+    
+          <div *ngFor="let output of selection.getOutputs(filetype)">
+              <mat-checkbox *ngIf="!output.hidden && output.values.length" [name]="filetype.id + '-' + output.id" [(ngModel)]="output.selected" (change)="update()">
+                {{ output.name }} ({{ output.values.length }})
+              </mat-checkbox>
+            </div>
+        </fieldset>
+      </div>
     </form>
+    <div *ngIf="noOutputs">
+        {{ 'ContentDownloadDialog.NoAccess' | pptranslate }}
+    </div>
   
     <div class="filesize" *ngIf="fileSize" align="end">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{ fileSize | filesize }}</div>
 
@@ -31,6 +36,6 @@
     </button>
     <span class="spacer"></span>
     <button class="cancel" mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
-    <button class="active" (click)="download()" [disabled]="fileSize === 0">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
+    <button class="active" *ngIf="!noOutputs" (click)="download()" [disabled]="fileSize === 0">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
   </mat-dialog-actions>
 </div>

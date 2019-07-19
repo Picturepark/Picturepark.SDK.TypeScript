@@ -38,7 +38,6 @@ export class ListComponent implements OnInit, OnDestroy {
   public schema: Observable<SchemaDetail>;
   public deselectAll: Subject<void> = new Subject<void>();
   public schemaId: string;
-  public isImportAllowed: Observable<boolean>;
   public selectedItems: string[];
 
   private subscription = new Subscription();
@@ -46,7 +45,6 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(
     private media: MediaMatcher,
     private schemaService: SchemaService,
-    private profileService: ProfileService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {
@@ -54,9 +52,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    this.isImportAllowed = <Observable<boolean>>this.profileService.get().pipe(
-      map(t => t.userRights && t.userRights.indexOf(UserRight.ManageListItems) !== -1));
 
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 

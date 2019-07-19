@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // LIBRARIES
-import { ApplicationHeaderModule, SchemaBrowserModule, ListModule, ListBrowserModule } from '@picturepark/sdk-v1-angular-ui';
+import {
+  ApplicationHeaderModule, SchemaBrowserModule, ListModule, ListBrowserModule, SearchBoxModule
+} from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
 import { ListItemPickerRoutingModule } from './list-item-picker-routing.module';
@@ -16,7 +18,7 @@ import { ListItemBrowserComponent } from './components/list-item-browser/list-it
   declarations: [
     ListItemPickerComponent,
     ListItemsPickerComponent,
-    ListItemBrowserComponent,
+    ListItemBrowserComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { ListItemBrowserComponent } from './components/list-item-browser/list-it
     ListBrowserModule,
     ListModule,
     ListItemPickerRoutingModule,
-    SchemaBrowserModule
+    SchemaBrowserModule,
+    SearchBoxModule
   ]
 })
 export class ListItemPickerModule { }

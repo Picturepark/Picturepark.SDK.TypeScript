@@ -11,9 +11,6 @@ import {
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import {
-  ContentDownloadDialogComponent
-} from '../dialog/components/content-download-dialog/content-download-dialog.component';
-import {
   ShareContentDialogComponent
 } from '../dialog/components/share-content-dialog/share-content-dialog.component';
 
@@ -22,6 +19,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 
 // INTERFACES
 import { Observable } from 'rxjs';
+import { ContentDownloadDialogService } from '../dialog/components/content-download-dialog/content-download-dialog.service';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -42,6 +40,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
+    private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
 
@@ -49,7 +48,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   }
 
-  init() {
+  async init(): Promise<void> {
     // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
       this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
@@ -162,15 +161,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
-
-    const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-      data: this.items.filter(i => i.isSelected).map(i => i.item),
-      autoFocus: false
-    });
-
-    const instance = dialogRef.componentInstance;
-    instance.title = 'ContentDownloadDialog.Title';
-
+    this.contentDownloadDialogService.showDialog(this.items.filter(i => i.isSelected).map(i => i.item));
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
