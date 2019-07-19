@@ -90,6 +90,8 @@ $pp-browser-toolbar: (
     button-color: $base,
     icon-hover-background-color: $base,
     icon-hover-color: #fff,
+    icon-sort-color: #727272,
+    icon-sort-hover-color: #000,
     icon-color: $base,
     contrast: ()
 );
@@ -114,6 +116,13 @@ $pp-share-content-dialog: (
     confirmation-border-bottom-color: #ccc,
     icon-color: #727272,
     link-color: #727272,
+    contrast: ()
+);
+
+// LIST BROWSER MODULE
+$pp-list-browser: (
+    background-color: #eee,
+    icon-color: #aaa,
     contrast: ()
 );
 

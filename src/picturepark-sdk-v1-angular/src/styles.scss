@@ -193,12 +193,12 @@ body {
         color: mat-color($pp-browser-toolbar, button-color) !important;
         &:hover {
           mat-icon {
-            color: mat-color($pp-browser-toolbar, icon-hover-color) !important;
+            color: mat-color($pp-browser-toolbar, icon-sort-hover-color) !important;
           }
         }
         mat-icon {
           font-size: 18px !important; 
-          color: mat-color($pp-browser-toolbar, icon-color) !important;
+          color: mat-color($pp-browser-toolbar, icon-sort-color) !important;
         }
       }
     }
@@ -257,6 +257,23 @@ body {
           }
         }
       }
+    }
+  }
+}
+
+// LIST BROWSER MODULE
+.content-browser-container {
+  .content-browser-toolbar-container {
+    background-color: mat-color($pp-list-browser, background-color) !important;
+  }
+  .table-container {
+    .mat-row:hover {
+      background-color: mat-color($pp-list-browser, background-color) !important;
+    }
+  }
+  .icons {
+    mat-icon {
+      color: mat-color($pp-list-browser, icon-color) !important;
     }
   }
 }
