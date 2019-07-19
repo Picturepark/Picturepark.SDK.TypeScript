@@ -82,8 +82,11 @@ body {
 .mat-progress-bar-fill::after {
   background-color: mat-color($picturepark-app-primary, progress-bar);
 }
-// END PROGRESS BAR
 
+// SPINNER
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: mat-color($picturepark-app-primary, spinner) !important;
+}
 
 // APPLICATION HEADER MODULE
 .application-header-container {
