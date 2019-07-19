@@ -12,12 +12,12 @@
     <div class="browser-item__actions">
       <ul>
         <li>
-          <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.Details' | pptranslate">
+          <button mat-icon-button *ngIf="browser.configActions['preview']" (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.Details' | pptranslate">
             <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
           </button>
         </li>
         <li>
-          <button mat-icon-button (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate">
+          <button mat-icon-button *ngIf="browser.configActions['download']" (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate">
             <mat-icon aria-label="Download item">get_app</mat-icon>
           </button>
         </li>
@@ -30,6 +30,7 @@
     <div class="mat-subheading-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
   </div>
   <button 
+    *ngIf="browser.configActions['basket']"
     mat-mini-fab 
     class="browser-item__basket-icon" 
     (click)="toggleInBasket(); $event.stopPropagation()"

@@ -1,9 +1,9 @@
-import { BaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/components/base.component';
 import { OnInit, Input, Component } from '@angular/core';
 import {
     ContentService, ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, ContentDetail
 } from '@picturepark/sdk-v1-angular';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 @Component({
     selector: 'pp-content-image-preview',
