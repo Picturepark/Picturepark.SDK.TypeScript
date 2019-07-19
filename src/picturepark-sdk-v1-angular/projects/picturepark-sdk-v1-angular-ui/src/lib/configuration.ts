@@ -17,7 +17,8 @@ export function PictureparkUIConfigurationFactory() {
             download: true,
             select: true,
             share: true,
-            preview: true
+            preview: true,
+            basket: true
         },
         'BasketComponent': {
             download: true,

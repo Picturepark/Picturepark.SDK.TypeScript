@@ -7,8 +7,8 @@
       <mat-tab label="Overview">
         <div class="overview-wrap">
           <div>
-            <img [src]="thumbnailUrlSafe" (click)="showFullscreen()" /><br />
-            <p [innerHTML]="(content?.displayValues)['detail']"></p>
+              <pp-content-image-preview [content]="content" width="700" height="600"></pp-content-image-preview><br>
+              <p [innerHTML]="(content?.displayValues)['detail']"></p>
           </div>
 
           <dl>
@@ -33,7 +33,7 @@
           <ng-template matTabContent>
             <div class="metadata-wrap">
               <div>
-                <img [src]="thumbnailUrlSafe" (click)="showFullscreen()" />
+                <pp-content-image-preview [content]="content" width="400" height="400"></pp-content-image-preview>
               </div>
               <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas">
               </pp-layer-panels>

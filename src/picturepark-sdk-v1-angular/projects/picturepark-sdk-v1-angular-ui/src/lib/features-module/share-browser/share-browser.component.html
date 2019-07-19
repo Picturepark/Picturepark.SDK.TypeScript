@@ -12,6 +12,7 @@
     <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
       <pp-share-browser-item 
         class="browser__item"
+        [browser]="self"
         [itemModel]="itemModel"
         [thumbnailSize]="activeThumbnailSize"
         [isListView]="false"
