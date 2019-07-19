@@ -9,12 +9,14 @@ import { OutputDownloadMenuModule } from '../output-download-menu/output-downloa
 import { ContentBrowserComponent } from './content-browser.component';
 import { ContentBrowserItemComponent } from './components/content-browser-item/content-browser-item.component';
 import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
+import { ContentImagePreviewComponent } from './components/content-image-preview/content-image-preview.component';
 
 
 @NgModule({
   declarations: [
     ContentBrowserComponent,
     ContentBrowserItemComponent,
+    ContentImagePreviewComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module'
   ],
   exports: [
     ContentBrowserComponent,
-    ContentBrowserItemComponent
+    ContentBrowserItemComponent,
+    ContentImagePreviewComponent
   ]
 })
 export class ContentBrowserModule { }

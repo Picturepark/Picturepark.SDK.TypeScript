@@ -1,13 +1,9 @@
 import {
-  Component, OnInit, OnDestroy,
-  Inject, SimpleChanges, OnChanges, Injector
+  Component, OnInit, OnDestroy, Inject, Injector
 } from '@angular/core';
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import {
-  ContentService, ContentDetail,
-  ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, DownloadLink,
-  ContentResolveBehavior, SchemaDetail, SchemaService
+  ContentService, ContentDetail, ContentResolveBehavior, SchemaDetail, SchemaService
 } from '@picturepark/sdk-v1-angular';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -23,10 +19,7 @@ import { DialogBaseComponent } from 'projects/picturepark-sdk-v1-angular-ui/src/
     './details-dialog.component.scss'
   ]
 })
-export class DetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy, OnChanges {
-
-  thumbnailUrl: string;
-  thumbnailUrlSafe: SafeUrl;
+export class DetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
 
   content: ContentDetail;
 
@@ -37,22 +30,17 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
     private liquidRenderingService: LiquidRenderingService,
     private schemaService: SchemaService,
 
-    private sanitizer: DomSanitizer,
     protected dialogRef: MatDialogRef<DetailsDialogComponent>,
     protected injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: string) {
       super(data, dialogRef, injector);
-    this.contentId = data;
-    if (data) {
-      const downloadThumbnailSubscription = this.contentService.download(data, 'Preview', 860, 650, null)
-        .subscribe(response => {
-          this.thumbnailUrl = URL.createObjectURL(response!.data!);
-          this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
-        });
 
-      this.subscription.add(downloadThumbnailSubscription);
+      if (!data) {
+        return;
+      }
 
-      const contentGetSubscription = this.contentService.get(data, [
+      this.contentId = data;
+      const contentGetSubscription = this.contentService.get(this.contentId, [
         ContentResolveBehavior.Content,
         ContentResolveBehavior.Metadata,
         ContentResolveBehavior.LinkedListItems,
@@ -60,7 +48,7 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
         ContentResolveBehavior.OuterDisplayValueName,
         ContentResolveBehavior.OuterDisplayValueDetail,
         ContentResolveBehavior.Outputs
-      ]).subscribe(async (content: ContentDetail) => {
+      ]).subscribe(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         this.content = content;
 
@@ -68,70 +56,11 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
       });
 
       this.subscription.add(contentGetSubscription);
-    }
-
   }
 
   ngOnInit() {
     document.addEventListener('keydown', this.onKeyDown, false);
-
-
   }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-  }
-
-  showFullscreen() {
-    const isPdf = this.content.contentType === ContentType.InterchangeDocument;
-    const isAudio = this.content.contentType === ContentType.Audio;
-    const isVideo = this.content.contentType === ContentType.Video;
-
-    const isMovie = isAudio || isVideo;
-    const isImage = !isMovie && !isPdf;
-
-    const previewOutput =
-      isPdf ? this.content.outputs!.filter(o => o.outputFormatId === 'Original')[0] :
-        isAudio ? this.content.outputs!.filter(o => o.outputFormatId === 'AudioSmall')[0] :
-          isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
-            this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
-
-    const request = new ContentDownloadLinkCreateRequest({
-      contents: [
-        new ContentDownloadRequestItem({
-          contentId: this.contentId,
-          outputFormatId: previewOutput.outputFormatId
-        })
-      ]
-    });
-
-    const linkSubscription = this.contentService.createDownloadLink(request).subscribe((response: DownloadLink) => {
-      const item: IShareItem = {
-        id: this.content.id!,
-
-        isPdf: isPdf,
-        isImage: isImage,
-        isMovie: isMovie,
-        isBinary: false,
-
-        displayValues: {},
-        previewUrl: isImage ? response.downloadUrl! : this.thumbnailUrl,
-
-        originalUrl: response.downloadUrl!,
-        originalFileExtension: previewOutput.detail!.fileExtension!,
-
-        detail: {
-          width: (<any>previewOutput.detail).width,
-          height: (<any>previewOutput.detail).height,
-        }
-      };
-
-      ((<any>window).pictureparkWidgets).players.showDetailById(item.id, [item]);
-    });
-
-    this.subscription.add(linkSubscription);
-  }
-
 
   ngOnDestroy() {
     document.removeEventListener('keydown', this.onKeyDown, false);
@@ -140,7 +69,6 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
       this.subscription.unsubscribe();
     }
   }
-
 
   onKeyDown = (e: KeyboardEvent) => {
     /* tslint:disable-next-line */
@@ -151,21 +79,4 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
       // Close
     }
   }
-}
-
-interface IShareItem {
-  id: string;
-  isImage: boolean;
-  isPdf: boolean;
-  isMovie: boolean;
-  isBinary: boolean;
-  displayValues: any;
-  previewUrl: string;
-  originalUrl: string;
-  originalFileExtension: string;
-
-  detail: {
-    width: number;
-    height: number;
-  };
 }
