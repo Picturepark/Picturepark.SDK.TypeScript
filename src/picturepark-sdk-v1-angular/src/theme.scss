@@ -1,5 +1,7 @@
 @import '~@angular/material/theming';
 
+@include mat-core();
+
 $mat-picturepark-accent: (
     0: #eeeeee,
     50 : #e8f6f6,
@@ -46,66 +48,6 @@ $pp-progress-bar: (
     contrast: ()
 );
 
-// APPLICATION HEADER
-$pp-application-header: (
-    background-color: #fff,
-    border-color: #d8d8d8,
-    font-color: #000,
-    title-font-color: #444,
-    search-font-color: #444,
-    search-icon-font-color: #444,
-    contrast: ()
-);
-
-// APPLICATION MENU
-$pp-application-menu: (
-    background-color: #444,
-    shadow-color: #000,
-    border-color: #2f2f2f,
-    logo-active-background: #2f2f2f,
-    logo-color: #fff,
-    back-button-color: #aaa,
-    back-button-hover-color: #eee,
-    back-button-hover-background-color: #565656,
-    menu-item-color: #aaa,
-    menu-item-hover-background-color: #3a3a3a,
-    menu-item-active-color: #fff,
-    menu-item-active-background-color: #3a3a3a,
-    menu-label-color: #eee,
-    menu-label-backgroud-color: #565656,
-    contrast: ()
-);
-
-// BASKET ITEM COMPONENT
-$pp-basket-item: (
-    background-color: #fff,
-    contrast: ()
-);
-
-// BROWSER TOOLBAR CONTAINER
-$pp-browser-toolbar: (
-    background-color: #eee,
-    border-bottom-color: #d8d8d8,
-    button-background-color: #eee,
-    button-color: $base,
-    icon-hover-background-color: $base,
-    icon-hover-color: #fff,
-    icon-sort-color: #727272,
-    icon-sort-hover-color: #000,
-    icon-color: $base,
-    contrast: ()
-);
-
-// CONTENT BROWSER ITEM
-$pp-content-browser-item: (
-    basket-icon-color: #fff,
-    basket-icon-color-hover: $base,
-    basket-icon-background-color-hover: #000, 
-    image-slot-background-color: #dcdcdc,
-    image-virtual-item-color: #aaa,
-    contrast: ()
-);
-
 // SHARE CONTENT DIALOG
 $pp-share-content-dialog: (
     font-color: #727272,
@@ -119,12 +61,7 @@ $pp-share-content-dialog: (
     contrast: ()
 );
 
-// LIST BROWSER MODULE
-$pp-list-browser: (
-    background-color: #eee,
-    icon-color: #aaa,
-    contrast: ()
-);
+
 
 $mat-picturepark-primary: (
     app-menu-items: #aaa,

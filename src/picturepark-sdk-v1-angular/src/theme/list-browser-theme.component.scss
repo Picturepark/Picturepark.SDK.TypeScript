@@ -1,0 +1,24 @@
+
+// LIST BROWSER MODULE
+$pp-list-browser: (
+    background-color: #eee,
+    icon-color: #aaa,
+    contrast: ()
+);
+
+// LIST BROWSER COMPONENT
+.content-browser-container {
+    .content-browser-toolbar-container {
+      background-color: mat-color($pp-list-browser, background-color) !important;
+    }
+    .table-container {
+      .mat-row:hover {
+        background-color: mat-color($pp-list-browser, background-color) !important;
+      }
+    }
+    .icons {
+      mat-icon {
+        color: mat-color($pp-list-browser, icon-color) !important;
+      }
+    }
+  }

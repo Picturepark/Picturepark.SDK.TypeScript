@@ -1,0 +1,46 @@
+
+// SHARE CONTENT DIALOG
+$pp-share-content-dialog: (
+    font-color: #727272,
+    input-color: #2f2f2f,
+    input-focus-border-color: #444,
+    error-border-color: #f74931,
+    error-font-color: #f74931,
+    confirmation-border-bottom-color: #ccc,
+    icon-color: #727272,
+    link-color: #727272,
+    contrast: ()
+);
+
+// SHARE CONTENT DIALOG MODULE
+.share-content-dialog-container {
+    ul {
+      color: mat-color($pp-share-content-dialog, font-color) !important;
+      font-size: 13px !important;
+      li { 
+        input { 
+          font-weight: 400 !important;
+          font-size: 13px !important;
+          color: mat-color($pp-share-content-dialog, input-color) !important;
+          &:focus { border: 1px solid mat-color($pp-share-content-dialog, input-focus-border-color) !important; }
+        }
+      }
+    }
+    #share-name.error-active { border: 1px solid  mat-color($pp-share-content-dialog, error-border-color) !important; }
+    .share-name-error { 
+      color: mat-color($pp-share-content-dialog, error-font-color) !important; font-size: 10px; 
+    }
+    .share-content-confirmation-container {
+      .share-content-confirmation { 
+        border-bottom: 1px solid  mat-color($pp-share-content-dialog, confirmation-border-bottom-color) !important;
+        .user-info-container { 
+          ul { 
+            li { 
+                mat-icon { font-size: 18px; color:  mat-color($pp-share-content-dialog, icon-color) !important; }
+                a { color:  mat-color($pp-share-content-dialog, link-color) !important; }
+            }
+          }
+        }
+      }
+    }
+  }

@@ -1,0 +1,70 @@
+
+// APPLICATION MENU STYLES VARS
+$pp-application-menu: (
+    background-color: #444,
+    shadow-color: #000,
+    border-color: #2f2f2f,
+    logo-active-background: #2f2f2f,
+    logo-color: #fff,
+    back-button-color: #aaa,
+    back-button-hover-color: #eee,
+    back-button-hover-background-color: #565656,
+    menu-item-color: #aaa,
+    menu-item-hover-background-color: #3a3a3a,
+    menu-item-active-color: #fff,
+    menu-item-active-background-color: #3a3a3a,
+    menu-label-color: #eee,
+    menu-label-backgroud-color: #565656,
+    contrast: ()
+);
+
+// APPLICATION MENU MODULE
+.application-menu-container {
+    background-color: mat-color($pp-application-menu, background-color) !important;
+    box-shadow: 
+        0 5px 5px -3px rgba(mat-color($pp-application-menu, shadow-color),.2), 
+        0 8px 10px 1px rgba(mat-color($pp-application-menu, shadow-color),.14), 
+        0 3px 14px 2px rgba(mat-color($pp-application-menu, shadow-color),.12) !important;
+  
+    .application-menu-logo {
+      border-bottom: 1px solid mat-color($pp-application-menu, border-color) !important;
+      &.active {
+        background-color: mat-color($pp-application-menu, logo-active-background) !important;
+      }
+      svg#text {
+          & path {
+            fill: mat-color($pp-application-menu, logo-color) !important;
+          }
+      }
+      .back {
+          color: mat-color($pp-application-menu, back-button-color) !important;
+          &:hover {
+            color: mat-color($pp-application-menu, back-button-hover-color) !important; 
+            background-color: mat-color($pp-application-menu, back-button-hover-background-color) !important;  
+          }
+          & i {
+            font-size: 13px !important;
+            font-weight: 600 !important;
+          }
+      }
+    }
+    ul {
+      li {
+        color: mat-color($pp-application-menu, menu-item-color) !important;
+        &:hover {
+          background-color: mat-color($pp-application-menu, menu-item-hover-background-color) !important;
+        }
+        &.active { 
+          color: mat-color($pp-application-menu, menu-item-active-color) !important;
+          background-color: mat-color($pp-application-menu, menu-item-active-background-color) !important;
+        }
+      }
+    }
+  }
+  #menu-label { 
+    font-size: 12px;
+    color: mat-color($pp-application-menu, menu-label-color) !important;
+    background-color: mat-color($pp-application-menu, menu-label-backgroud-color) !important;
+  }
+
+

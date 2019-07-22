@@ -1,0 +1,33 @@
+
+// CONTENT BROWSER ITEM
+$pp-content-browser-item: (
+    basket-icon-color: #fff,
+    basket-icon-color-hover: $base,
+    basket-icon-background-color-hover: #000, 
+    image-slot-background-color: #dcdcdc,
+    image-virtual-item-color: #aaa,
+    contrast: ()
+);
+
+// CONTENT BROWSER MODULE
+.browser-item {
+    &__basket-icon {
+      &:hover {
+        background-color: mat-color($pp-content-browser-item, basket-icon-background-color-hover) !important;
+        mat-icon {
+          color: mat-color($pp-content-browser-item, basket-icon-color-hover) !important;
+        }
+      }
+      mat-icon {
+        color: mat-color($pp-content-browser-item, basket-icon-color) !important;
+      }
+    }
+  
+    &__image-slot {
+      background-color: mat-color($pp-content-browser-item, image-slot-background-color) !important;
+    }
+  
+    &__image-virtual-item-container {
+      color: mat-color($pp-content-browser-item, image-virtual-item-color) !important;
+    }
+  }
