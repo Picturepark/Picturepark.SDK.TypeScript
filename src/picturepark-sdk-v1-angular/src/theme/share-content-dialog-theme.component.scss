@@ -1,19 +1,23 @@
-
 // SHARE CONTENT DIALOG
 $pp-share-content-dialog: (
-    font-color: #727272,
-    input-color: #2f2f2f,
-    input-focus-border-color: #444,
-    error-border-color: #f74931,
-    error-font-color: #f74931,
-    confirmation-border-bottom-color: #ccc,
-    icon-color: #727272,
-    link-color: #727272,
-    contrast: ()
+  font-color: #727272,
+  input-color: #2f2f2f,
+  input-focus-border-color: #444,
+  error-border-color: #f74931,
+  error-font-color: #f74931,
+  confirmation-border-bottom-color: #ccc,
+  icon-color: #727272,
+  link-color: #727272,
+  contrast: ()
 );
 
-// SHARE CONTENT DIALOG MODULE
-.share-content-dialog-container {
+@mixin pp-share-content-dialog-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .share-content-dialog-container {
     ul {
       color: mat-color($pp-share-content-dialog, font-color) !important;
       font-size: 13px !important;
@@ -44,3 +48,4 @@ $pp-share-content-dialog: (
       }
     }
   }
+}

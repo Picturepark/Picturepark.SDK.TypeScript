@@ -48,50 +48,21 @@ $pp-progress-bar: (
     contrast: ()
 );
 
-// SHARE CONTENT DIALOG
-$pp-share-content-dialog: (
-    font-color: #727272,
-    input-color: #2f2f2f,
-    input-focus-border-color: #444,
-    error-border-color: #f74931,
-    error-font-color: #f74931,
-    confirmation-border-bottom-color: #ccc,
-    icon-color: #727272,
-    link-color: #727272,
-    contrast: ()
-);
-
-
-
 $mat-picturepark-primary: (
-    app-menu-items: #aaa,
-    app-menu-active-item: #fff,
-    app-menu-background-item-active: #3a3a3a,
-    app-menu-background-item-hover: #3a3a3a,
-    base: $base,
-    black: #000,
-    content-picker-item-title: $dark-grey,
-    content-picker-item-title-selected:#d8d8d8, 
-    content-picker-item-selected: #6f6f6f,
+    base: #39acaa,
     dark-background: #444,
     dark-border: #2f2f2f,
     light-background: #eee,
     light-border: #d8d8d8,
-    loader-logo: #dcdcdc,
+    icon-color: #444,
     icon-selected: #000000,
     progress-bar-background: #e4e4e4,
     progress-bar: $base,
     spinner: $base,
-    toolbar-icon-color:$dark-grey,
-    toolbar-icon-color-hover: black,
-    white: #fff,
     contrast: ()
 );
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn: mat-palette($mat-red);
-
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
-
-@include angular-material-theme($picturepark-app-theme);

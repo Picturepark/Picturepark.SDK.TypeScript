@@ -1,4 +1,3 @@
-
 // LIST BROWSER MODULE
 $pp-list-browser: (
     background-color: #eee,
@@ -6,8 +5,13 @@ $pp-list-browser: (
     contrast: ()
 );
 
-// LIST BROWSER COMPONENT
-.content-browser-container {
+@mixin pp-list-browser-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .content-browser-container {
     .content-browser-toolbar-container {
       background-color: mat-color($pp-list-browser, background-color) !important;
     }
@@ -22,3 +26,5 @@ $pp-list-browser: (
       }
     }
   }
+  
+}

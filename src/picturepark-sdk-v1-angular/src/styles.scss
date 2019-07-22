@@ -13,8 +13,19 @@
 @import './theme/list-browser-theme.component.scss';
 @import './theme/share-content-dialog-theme.component.scss';
 
+
+@mixin my-components-theme($theme) {
+    @include pp-application-header-theme($theme);
+    @include pp-application-menu-theme($theme);
+    @include pp-basket-item-theme($theme);
+    @include pp-browser-toolbar-theme($theme);
+    @include pp-content-browser-item-theme($theme);
+    @include pp-list-browser-theme($theme);
+    @include pp-share-content-dialog-theme($theme);
+}
+
+@include angular-material-theme($picturepark-app-theme);
+@include my-components-theme($picturepark-app-theme);
+
 // GLOBAL STYLES (keep at bottom)
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
-
-// RESPONSIVE STYLES
-@import "styles-resp.scss";

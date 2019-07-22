@@ -1,4 +1,3 @@
-
 // BROWSER TOOLBAR CONTAINER
 $pp-browser-toolbar: (
     background-color: #eee,
@@ -13,8 +12,15 @@ $pp-browser-toolbar: (
     contrast: ()
 );
 
-// BROWSER TOOLBAR MODULE
-.browser-toolbar-container {
+
+@mixin pp-browser-toolbar-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  // BROWSER TOOLBAR MODULE
+  .browser-toolbar-container {
     background-color: mat-color($pp-browser-toolbar, background-color) !important;
     border-bottom: 1px solid mat-color($pp-browser-toolbar, border-bottom-color) !important;
     .browser-toolbar-content {
@@ -50,4 +56,5 @@ $pp-browser-toolbar: (
         }
       }
     }
+  }
 }

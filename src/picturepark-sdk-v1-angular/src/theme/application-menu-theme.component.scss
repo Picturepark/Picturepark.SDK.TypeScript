@@ -1,3 +1,4 @@
+@import '~@angular/material/theming';
 
 // APPLICATION MENU STYLES VARS
 $pp-application-menu: (
@@ -18,14 +19,20 @@ $pp-application-menu: (
     contrast: ()
 );
 
-// APPLICATION MENU MODULE
-.application-menu-container {
+@mixin pp-application-menu-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  // APPLICATION MENU MODULE
+  .application-menu-container {
     background-color: mat-color($pp-application-menu, background-color) !important;
     box-shadow: 
         0 5px 5px -3px rgba(mat-color($pp-application-menu, shadow-color),.2), 
         0 8px 10px 1px rgba(mat-color($pp-application-menu, shadow-color),.14), 
         0 3px 14px 2px rgba(mat-color($pp-application-menu, shadow-color),.12) !important;
-  
+
     .application-menu-logo {
       border-bottom: 1px solid mat-color($pp-application-menu, border-color) !important;
       &.active {
@@ -66,5 +73,8 @@ $pp-application-menu: (
     color: mat-color($pp-application-menu, menu-label-color) !important;
     background-color: mat-color($pp-application-menu, menu-label-backgroud-color) !important;
   }
+
+}
+
 
 

@@ -1,4 +1,3 @@
-
 // CONTENT BROWSER ITEM
 $pp-content-browser-item: (
     basket-icon-color: #fff,
@@ -9,8 +8,13 @@ $pp-content-browser-item: (
     contrast: ()
 );
 
-// CONTENT BROWSER MODULE
-.browser-item {
+@mixin pp-content-browser-item-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .browser-item {
     &__basket-icon {
       &:hover {
         background-color: mat-color($pp-content-browser-item, basket-icon-background-color-hover) !important;
@@ -31,3 +35,5 @@ $pp-content-browser-item: (
       color: mat-color($pp-content-browser-item, image-virtual-item-color) !important;
     }
   }
+
+}
