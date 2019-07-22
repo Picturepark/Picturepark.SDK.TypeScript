@@ -37,16 +37,7 @@ $mat-picturepark-accent: (
 );
 
 // GLOBAL COLORS
-$base: #39acaa;        
-$dark-grey: #727272;
-$white: #fff;
-
-// PROGRESS BAR
-$pp-progress-bar: (
-    progress-bar: #3fb3b1,
-    progress-bar-background: #e4e4e4,
-    contrast: ()
-);
+$base: #39acaa;
 
 $mat-picturepark-primary: (
     base: #39acaa,
@@ -54,7 +45,8 @@ $mat-picturepark-primary: (
     dark-border: #2f2f2f,
     light-background: #eee,
     light-border: #d8d8d8,
-    icon-color: #444,
+    white-background: #fff,
+    font-color: #444,
     icon-selected: #000000,
     progress-bar-background: #e4e4e4,
     progress-bar: $base,

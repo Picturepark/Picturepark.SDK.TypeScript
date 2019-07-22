@@ -1,8 +1,8 @@
+@import '~@angular/material/theming';
+
 // BROWSER TOOLBAR CONTAINER
 $pp-browser-toolbar: (
-    background-color: #eee,
     border-bottom-color: #d8d8d8,
-    button-background-color: #eee,
     button-color: $base,
     icon-hover-background-color: $base,
     icon-hover-color: #fff,
@@ -21,12 +21,12 @@ $pp-browser-toolbar: (
 
   // BROWSER TOOLBAR MODULE
   .browser-toolbar-container {
-    background-color: mat-color($pp-browser-toolbar, background-color) !important;
-    border-bottom: 1px solid mat-color($pp-browser-toolbar, border-bottom-color) !important;
+    background-color: mat-color($primary, light-background) !important;
+    border-bottom: 1px solid mat-color($primary, light-border) !important;
     .browser-toolbar-content {
       .select {
         button {
-          background-color: mat-color($pp-browser-toolbar, button-background-color) !important;
+          background-color: mat-color($primary, light-background) !important;
           color: mat-color($pp-browser-toolbar, button-color) !important;
           &:hover {
             i { 
@@ -42,7 +42,7 @@ $pp-browser-toolbar: (
       }
       .order-by {
         button {
-          background-color: mat-color($pp-browser-toolbar, button-background-color) !important;
+          background-color: mat-color($primary, light-background) !important;
           color: mat-color($pp-browser-toolbar, button-color) !important;
           &:hover {
             mat-icon {

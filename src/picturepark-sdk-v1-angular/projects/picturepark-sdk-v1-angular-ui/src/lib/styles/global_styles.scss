@@ -6,6 +6,16 @@
   background-color: mat-color($picturepark-app-primary, progress-bar);
 }
 
+// FILTERS AGGREGATES
+.mat-ink-bar {
+  background-color: mat-color($picturepark-app-primary, base);
+}
+
+.mat-badge-content {
+  background: mat-color($picturepark-app-primary, base); color: white;
+}
+// END FILTERS AGGREGATES
+
 // SPINNER
 .mat-progress-spinner circle, .mat-spinner circle {
   stroke: mat-color($picturepark-app-primary, spinner) !important;

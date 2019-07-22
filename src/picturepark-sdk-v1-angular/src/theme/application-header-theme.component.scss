@@ -2,8 +2,6 @@
 
 // APPLICATION HEADER
 $pp-application-header: (
-    background-color: #fff,
-    border-color: #d8d8d8,
     font-color: #000,
     title-font-color: #444,
     search-font-color: #444,
@@ -18,12 +16,12 @@ $pp-application-header: (
     $warn: map-get($theme, warn);
 
     .application-header-container {
-        background-color: mat-color($pp-application-header, background-color) !important;
-        border-bottom: 1px solid mat-color($pp-application-header, border-color) !important;
+        background-color: mat-color($primary, white-background) !important;
+        border-bottom: 1px solid mat-color($primary, light-border) !important;
         color: mat-color($pp-application-header, font-color) !important;
         .title-container {
             color: mat-color($pp-application-header, title-font-color) !important;
-            border-right: 1px solid mat-color($pp-application-header, border-color) !important;
+            border-right: 1px solid mat-color($primary, light-border) !important;
         }
         .search-container {
             color: mat-color($pp-application-header, search-font-color) !important;
@@ -31,12 +29,12 @@ $pp-application-header: (
             .search-content {
                 & i { color: mat-color($pp-application-header, search-icon-font-color) !important; }
                 & input { 
-                    font-size: 18px !important;
+                    font-size: 18px !important; background-color: mat-color($primary, white-background) !important;
                 }
             }
         }
         .close-container { 
-            border-left: 1px solid mat-color($pp-application-header, border-color) !important;
+            border-left: 1px solid mat-color($primary, light-border) !important;
         }
     }
 

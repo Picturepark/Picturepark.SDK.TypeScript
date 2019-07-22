@@ -27,7 +27,7 @@ $pp-application-menu: (
 
   // APPLICATION MENU MODULE
   .application-menu-container {
-    background-color: mat-color($pp-application-menu, background-color) !important;
+    background-color: mat-color($primary, dark-background) !important;
     box-shadow: 
         0 5px 5px -3px rgba(mat-color($pp-application-menu, shadow-color),.2), 
         0 8px 10px 1px rgba(mat-color($pp-application-menu, shadow-color),.14), 

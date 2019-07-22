@@ -1,0 +1,29 @@
+@import '~@angular/material/theming';
+
+// LIST BROWSER MODULE
+$pp-share-aggregation-list: (
+    contrast: ()
+);
+
+@mixin pp-share-aggregation-list-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .aggregation-filter {
+    &__loading-spinner {
+      background: rgba(0, 0, 0, 0.288);
+    }
+    &__filters {
+      background-color: mat-color($primary, light-background) !important;
+    }
+  }
+  
+  .filters {
+    &__active-filters {
+      background-color: mat-color($primary, light-background) !important;
+    }
+  }
+  
+}
