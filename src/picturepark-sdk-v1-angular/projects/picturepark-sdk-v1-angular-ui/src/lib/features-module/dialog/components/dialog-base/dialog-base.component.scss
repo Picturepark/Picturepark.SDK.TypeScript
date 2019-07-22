@@ -7,7 +7,9 @@ h3 {
     width: calc(100% + 48px) !important;
 }
 
-mat-dialog-content { background-color: #f8f8f8; }
+mat-dialog-content {
+    background-color: #f8f8f8;
+}
 
 .loader-container { 
     background-color: #f8f8f8; position: absolute; display: none; width: calc(100% + 48px); top: 46px; left:-24px; height: 515px; z-index: 20;

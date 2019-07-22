@@ -1,0 +1,41 @@
+@import '~@angular/material/theming';
+
+// SHARE CONTENT DIALOG
+$pp-share-content-recipients-input-theme: (
+  contrast: ()
+);
+
+
+@mixin pp-share-content-recipients-input-theme($theme) {
+    
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .chip-list-container { 
+        .chip-list-content {
+            &.error-active { border: 1px solid #f74931; }
+        }
+    }
+    
+    mat-chip-list { position: relative; z-index: 10; }
+    html body .share-content-dialog-container ul li input { 
+        color: #2f2f2f;
+        background-color: white;
+        &:focus {
+            border: 0px !important;
+        }
+    }
+    
+    .mat-chip {
+        &.mat-standard-chip {
+            background-color: #3fb3b1; color: white; 
+            .mat-chip-remove { color: #246f6e; }
+        }
+    }
+    
+    .chip-input-error { 
+        color: #f74931;
+    }
+
+}

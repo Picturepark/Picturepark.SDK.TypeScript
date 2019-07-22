@@ -14,6 +14,7 @@
 @import './theme/list-browser-theme.component.scss';
 @import './theme/share-content-dialog-theme.component.scss';
 @import './theme/share-aggregation-list-theme.component.scss';
+@import './theme/share-content-recipients-input-theme.component.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin my-components-theme($theme) {
@@ -26,6 +27,7 @@
     @include pp-list-browser-theme($theme);
     @include pp-share-content-dialog-theme($theme);
     @include pp-share-aggregation-list-theme($theme);
+    @include pp-share-content-recipients-input-theme($theme);
 }
 
 @include angular-material-theme($picturepark-app-theme);

@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+
+// DIALOG BASE VARS
+$pp-dialog-base: (
+    background-color: #f8f8f8,
+    contrast: ()
+);
+
+@mixin pp-dialog-base-theme($theme) {
+
+    h3 { 
+        color: #444; border-bottom: 1px solid #eee;
+        mat-icon { color:rgb(68,68,68); }
+    }
+
+    mat-dialog-content { background-color: mat-color($pp-dialog-base, background-color) !important; }
+
+    .loader-container { 
+        background-color: mat-color($pp-dialog-base, background-color) !important; 
+    }
+
+    mat-dialog-actions { 
+        border-top: 1px solid #eee; background-color: mat-color($primary, white-background) !important;
+        button { 
+            color: white; background: #aaaaaa;
+            &.active { background-color: #3fb3b1; }
+            &.option { background-color: mat-color($primary, white-background) !important; color: #727272; border: 1px solid #727272; }
+            &.cancel { background-color: mat-color($primary, white-background) !important; color: #727272; }
+        }
+    }
+
+}
