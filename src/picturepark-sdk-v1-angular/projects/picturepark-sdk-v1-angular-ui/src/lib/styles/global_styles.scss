@@ -58,7 +58,6 @@ html body {
 .mat-expansion-panel-header.mat-expanded:hover { background: mat-color($picturepark-app-primary, light-background) !important; }
 .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, light-background); }
 pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }
-.content-browser__header { border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important; }
 
 // APP ROOT CONTAINER
 .authorization-container .authorization-content mat-spinner {
@@ -86,4 +85,9 @@ pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($p
 
 .mat-tab-body-wrapper {
   height: 100% !important;
+}
+
+.mat-menu-panel {
+  min-width: 200px !important;
+  max-width: 280px !important;
 }
