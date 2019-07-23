@@ -35,7 +35,7 @@ html body {
       width: 200px;
       transform: translate(0%, -50%);
       path {
-          fill: #dcdcdc;
+        fill: #dcdcdc;
       }
     }
   }
@@ -82,4 +82,8 @@ pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($p
 .browser-item__image-container mat-spinner {
   width: 40px !important; height: 40px !important;
   svg { width: 40px !important; height: 40px !important; }
+}
+
+.mat-tab-body-wrapper {
+  height: 100% !important;
 }

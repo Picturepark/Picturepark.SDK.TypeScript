@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PictureparkUIConfiguration } from '../../configuration';
 
 @Component({
@@ -6,7 +6,7 @@ import { PictureparkUIConfiguration } from '../../configuration';
   templateUrl: './application-header.component.html',
   styleUrls: ['./application-header.component.scss']
 })
-export class ApplicationHeaderComponent implements OnInit {
+export class ApplicationHeaderComponent implements OnChanges {
 
   @Input() title: string;
 
@@ -14,7 +14,9 @@ export class ApplicationHeaderComponent implements OnInit {
 
   focusSearch() {}
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
+    this.title = changes.title && changes.title.currentValue;
   }
 
 }

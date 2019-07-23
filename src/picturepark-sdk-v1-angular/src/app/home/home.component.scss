@@ -1,0 +1,14 @@
+@import '../../theme.scss';
+
+.home-container {
+  display: flex;
+  height: 100vh;
+  background-color: mat-color($picturepark-app-primary, light-background);
+  .home-content {
+    width: 100%;
+    .header {
+      background-color: mat-color($picturepark-app-primary, base);
+      color: white;
+    }
+  }
+}

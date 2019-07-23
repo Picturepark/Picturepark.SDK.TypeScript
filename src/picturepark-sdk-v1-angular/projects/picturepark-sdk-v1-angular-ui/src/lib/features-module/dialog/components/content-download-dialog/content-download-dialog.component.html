@@ -16,7 +16,7 @@
       </div>
     </form>
     <div *ngIf="noOutputs">
-        {{ 'ContentDownloadDialog.NoAccess' | pptranslate }}
+      {{ 'ContentDownloadDialog.NoAccess' | pptranslate }}
     </div>
   
     <div class="filesize" *ngIf="fileSize" align="end">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{ fileSize | filesize }}</div>

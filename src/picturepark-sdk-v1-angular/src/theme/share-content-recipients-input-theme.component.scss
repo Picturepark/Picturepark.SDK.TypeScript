@@ -19,14 +19,17 @@ $pp-share-content-recipients-input-theme: (
     }
     
     mat-chip-list { position: relative; z-index: 10; }
-    html body .share-content-dialog-container ul li input { 
+    .share-content-dialog-container ul li input { 
         color: #2f2f2f;
         background-color: white;
+    }
+    
+    .share-content-dialog-container ul li input#recipient {
         &:focus {
             border: 0px !important;
         }
     }
-    
+
     .mat-chip {
         &.mat-standard-chip {
             background-color: #3fb3b1; color: white; 

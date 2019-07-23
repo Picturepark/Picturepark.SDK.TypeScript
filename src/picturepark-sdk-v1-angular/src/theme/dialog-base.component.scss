@@ -8,12 +8,16 @@ $pp-dialog-base: (
 
 @mixin pp-dialog-base-theme($theme) {
 
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
     h3 { 
         color: #444; border-bottom: 1px solid #eee;
         mat-icon { color:rgb(68,68,68); }
     }
 
-    mat-dialog-content { background-color: mat-color($pp-dialog-base, background-color) !important; }
+    mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
 
     .loader-container { 
         background-color: mat-color($pp-dialog-base, background-color) !important; 
