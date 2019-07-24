@@ -5,6 +5,11 @@
     top: 0;
     z-index: 1;
     display: flex;
+    .clear-basket {
+      width: 100%;
+      text-align: right;
+      border-radius: unset;
+    }
   }
   &__items {
     display: grid;
