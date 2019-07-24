@@ -7,8 +7,10 @@
     display: flex;
     .clear-basket {
       width: 100%;
-      text-align: right;
-      border-radius: unset;
+      font-size: 14px;
+      line-height: 42px;
+      span { float: left; }
+      button { float: right;}
     }
   }
   &__items {

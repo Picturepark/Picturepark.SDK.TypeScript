@@ -7,10 +7,12 @@
       <button mat-icon-button [matTooltip]="'Basket.Share' | pptranslate" (click)="openShareContentDialog()" *ngIf="configActions.shareContent">
         <mat-icon aria-label="Share items">share</mat-icon>
       </button>
-      <div style="flex-grow: 1;"></div>
-      <button mat-icon-button (click)="clearBasket();" class="clear-basket" [matTooltip]="'Basket.ClearBasket' | pptranslate">
-        {{ 'Basket.ClearBasket2' | pptranslate }} <mat-icon aria-label="Clear basket">clear</mat-icon>
-      </button>
+      <div class="clear-basket">
+        <span>{{ 'Basket.ClearBasket2' | pptranslate }}</span>
+        <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
+          <mat-icon aria-label="Clear basket">clear</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <div class="basket__items">
       <div class="basket__item-container" *ngFor="let basketItem of basketItems; trackBy: trackByBasket">
