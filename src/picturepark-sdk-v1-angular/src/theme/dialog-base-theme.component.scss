@@ -13,7 +13,8 @@ $pp-dialog-base: (
     $warn: map-get($theme, warn);
 
     h3 { 
-        color: #444; border-bottom: 1px solid #eee;
+        color: #444; 
+        border-bottom: 1px solid #eee;
         mat-icon { color:rgb(68,68,68); }
     }
 
@@ -27,7 +28,7 @@ $pp-dialog-base: (
         border-top: 1px solid #eee; background-color: mat-color($primary, white-background) !important;
         button { 
             color: white; background: #aaaaaa;
-            &.active { background-color: #3fb3b1; }
+            &.active { background-color: mat-color($primary, base) !important; }
             &.option { background-color: mat-color($primary, white-background) !important; color: #727272; border: 1px solid #727272; }
             &.cancel { background-color: mat-color($primary, white-background) !important; color: #727272; }
         }
