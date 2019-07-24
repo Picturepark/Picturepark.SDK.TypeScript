@@ -25,11 +25,11 @@ $pp-application-header: (
         }
         .search-container {
             color: mat-color($pp-application-header, search-font-color) !important;
-            font-size: 18px !important;
+           
             .search-content {
                 & i { color: mat-color($pp-application-header, search-icon-font-color) !important; }
                 & input { 
-                    font-size: 18px !important; background-color: mat-color($primary, white-background) !important;
+                   background-color: mat-color($primary, white-background) !important;
                 }
             }
         }

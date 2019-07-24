@@ -20,6 +20,7 @@
 
     #{ $self }__title {
       background-color: #6f6f6f; color: #d8d8d8;
+      
     }
 
   }
@@ -59,6 +60,9 @@
     line-height: 28px;
     padding: 0px 5px; 
     color: #727272;
+    &__title-content {
+      display: contents;
+    }
   }
   
   &__actions {
