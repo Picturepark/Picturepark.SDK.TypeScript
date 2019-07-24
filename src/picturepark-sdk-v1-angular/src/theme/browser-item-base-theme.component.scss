@@ -1,0 +1,51 @@
+@import '~@angular/material/theming';
+
+// BROWSER ITEM BASE VARS
+$pp-browser-item: (
+    background-color: #fff,
+    white-font: #fff,
+    selected-background: #6f6f6f,
+    contrast: ()
+);
+
+@mixin pp-browser-item-base-theme($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .browser-item {
+      $self: &;
+      &--selected {
+        // use primary color.
+        box-shadow: 0 0 0 2px mat-color($pp-browser-item, selected-background) !important;
+    
+        #{ $self }__title {
+          background-color: mat-color($pp-browser-item, selected-background) !important;
+          color: mat-color($pp-browser-item, white-font) !important;
+        }
+    
+      }
+    
+      &__title {
+        color: #727272;
+      }
+      
+      &__actions {
+    
+        background: rgba(0,0,0,.4);
+        ul {
+          li {
+            .material-icons {
+              font-size: 15px;
+              color: white;
+            }
+          }
+        }
+      }
+    
+      &__thumbnail-overlay {
+        color: white;
+      }
+    }
+}

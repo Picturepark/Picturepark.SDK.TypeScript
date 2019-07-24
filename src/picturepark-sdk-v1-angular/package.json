@@ -27,6 +27,7 @@
     "@angular/platform-browser-dynamic": "^8.0.1",
     "@angular/router": "^8.0.1",
     "core-js": "^2.6.2",
+    "cpx": "^1.5.0",
     "lazy-get-decorator": "^2.2.0",
     "liquidjs": "8.2.1",
     "moment": "^2.24.0",

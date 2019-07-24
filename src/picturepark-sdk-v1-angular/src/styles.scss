@@ -10,6 +10,7 @@
 @import './theme/basket-item-theme.components.scss';
 @import './theme/browser-base-theme.component.scss';
 @import './theme/browser-toolbar-theme.component.scss';
+@import './theme/browser-item-base-theme.component.scss';
 @import './theme/content-browser-item-theme.component.scss';
 @import './theme/dialog-base.component.scss';
 @import './theme/list-browser-theme.component.scss';
@@ -24,6 +25,7 @@
     @include pp-application-menu-theme($theme);
     @include pp-basket-item-theme($theme);
     @include pp-browser-base-theme($theme);
+    @include pp-browser-item-base-theme($theme);
     @include pp-browser-toolbar-theme($theme);
     @include pp-content-browser-item-theme($theme);
     @include pp-dialog-base-theme($theme);
