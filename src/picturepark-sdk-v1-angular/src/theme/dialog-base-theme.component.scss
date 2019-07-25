@@ -3,6 +3,7 @@
 // DIALOG BASE VARS
 $pp-dialog-base: (
     background-color: #f8f8f8,
+    light-border: #eee,
     contrast: ()
 );
 
@@ -14,9 +15,9 @@ $pp-dialog-base: (
 
     .dialog {
         h3 { 
-            color: #444; 
-            border-bottom: 1px solid #eee;
-            mat-icon { color:rgb(68,68,68); }
+            color: mat-color($primary, font-color) !important; 
+            border-bottom: 1px solid mat-color($pp-dialog-base, light-border) !important; 
+            mat-icon { color: mat-color($primary, icon-color) !important;  }
         }
     
         mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
@@ -26,9 +27,10 @@ $pp-dialog-base: (
         }
     
         mat-dialog-actions { 
-            border-top: 1px solid #eee; background-color: mat-color($primary, white-background) !important;
+            border-top: 1px solid mat-color($pp-dialog-base, light-border) !important;
+            background-color: mat-color($primary, white-background) !important;
             button { 
-                color: white; background: #aaaaaa;
+                color: mat-color($primary, white-font) !important; background: mat-color($primary, button) !important;
                 &.active { background-color: mat-color($primary, base) !important; }
                 &.option { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; border: 1px solid mat-color($primary, button) !important; }
                 &.cancel { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; }
