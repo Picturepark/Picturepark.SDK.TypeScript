@@ -1,0 +1,28 @@
+@import '~@angular/material/theming';
+
+// BROWSER TOOLBAR CONTAINER
+$pp-content-aggregation-list: (
+    contrast: ()
+);
+
+@mixin pp-content-aggregation-list-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .aggregation-filter {
+
+    &__loading-spinner {
+      background: rgba(mat-color($primary, shadow-color), 0.288) !important;
+    }
+    
+    .filters {
+      &__active-filters {
+        font-size: mat-font-size($custom-typography, body-1) !important;
+        background-color: mat-color($primary, light-background) !important;
+      }
+    }
+  }
+
+}

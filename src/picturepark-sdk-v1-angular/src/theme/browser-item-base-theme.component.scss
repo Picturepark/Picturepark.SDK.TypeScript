@@ -44,6 +44,7 @@ $pp-browser-item: (
     
       &__thumbnail-overlay {
         color: mat-color($primary, white-font) !important;
+        font-size: mat-font-size($custom-typography, caption) !important;
       }
     }
 }

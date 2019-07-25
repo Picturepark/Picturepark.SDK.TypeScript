@@ -98,10 +98,10 @@
 
   &__thumbnail-overlay {
     position: absolute;
+    left: 10px;
     bottom: 5px;
     font-size: 10px;
     color: white;
     z-index: 100;
-    left: 5px;
   }
 }

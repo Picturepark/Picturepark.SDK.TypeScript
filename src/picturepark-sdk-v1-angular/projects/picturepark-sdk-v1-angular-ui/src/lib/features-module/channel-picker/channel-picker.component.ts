@@ -8,7 +8,8 @@ import { BaseComponent } from '../../shared-module/components/base.component';
 
 @Component({
   selector: 'pp-channel-picker',
-  templateUrl: './channel-picker.component.html'
+  templateUrl: './channel-picker.component.html',
+  styleUrls: ['./channel-picker.component.scss']
 })
 export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
