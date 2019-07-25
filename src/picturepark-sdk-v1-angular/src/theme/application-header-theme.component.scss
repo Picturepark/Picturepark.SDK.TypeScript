@@ -15,15 +15,15 @@ $pp-application-header: (
     .application-header-container {
         background-color: mat-color($primary, white-background) !important;
         border-bottom: 1px solid mat-color($primary, light-border) !important;
-        color: mat-color($pp-application-header, font-color) !important;
+        color: mat-color($pp-application-header, dark-font) !important;
         .title-container {
-            color: mat-color($primary, font-color) !important;
+            color: mat-color($primary, dark-font) !important;
             border-right: 1px solid mat-color($primary, light-border) !important;
         }
         .search-container {
-            color: mat-color($primary, font-color) !important;
+            color: mat-color($primary, dark-font) !important;
             .search-content {
-                & i { color: mat-color($primary, font-color) !important; }
+                & i { color: mat-color($primary, dark-font) !important; }
                 & input { 
                    background-color: mat-color($primary, white-background) !important;
                    font-size: mat-font-size($custom-typography, display-2) !important;

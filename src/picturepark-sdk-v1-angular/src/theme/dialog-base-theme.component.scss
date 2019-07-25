@@ -14,9 +14,9 @@ $pp-dialog-base: (
 
     .dialog {
         h3 { 
-            color: mat-color($primary, font-color) !important; 
+            color: mat-color($primary, dark-font) !important; 
             border-bottom: 1px solid mat-color($pp-dialog-base, light-border) !important; 
-            mat-icon { color: mat-color($primary, icon-color) !important;  }
+            mat-icon { color: mat-color($primary, light-font) !important; }
         }
     
         mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }

@@ -14,12 +14,12 @@ $pp-share-content-dialog: (
 
   .share-content-dialog-container {
     ul {
-      color: mat-color($primary, icon-color) !important;
+      color: mat-color($primary, light-font) !important;
       font-size: mat-font-size($custom-typography, display-1) !important;
       li { 
         input {
           font-size: mat-font-size($custom-typography, display-1) !important;
-          color: mat-color($primary, font-color) !important;
+          color: mat-color($primary, dark-font) !important;
           &:focus { border: 1px solid mat-color($pp-share-content-dialog, input-focus-border-color) !important; }
         }
       }
@@ -36,9 +36,9 @@ $pp-share-content-dialog: (
             li { 
                 mat-icon { 
                   font-size: mat-font-size($custom-typography, subheading-2) !important;
-                  color:  mat-color($primary, icon-color) !important;
+                  color:  mat-color($primary, light-font) !important;
                 }
-                a { color:  mat-color($primary, icon-color) !important; }
+                a { color:  mat-color($primary, light-font) !important; }
             }
           }
         }

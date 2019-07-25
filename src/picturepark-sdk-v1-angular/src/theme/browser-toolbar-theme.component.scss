@@ -2,13 +2,6 @@
 
 // BROWSER TOOLBAR CONTAINER
 $pp-browser-toolbar: (
-    border-bottom-color: #d8d8d8,
-    button-color: $base,
-    icon-hover-background-color: $base,
-    icon-hover-color: #fff,
-    icon-sort-color: #727272,
-    icon-sort-hover-color: #000,
-    icon-color: $base,
     contrast: ()
 );
 
@@ -26,33 +19,33 @@ $pp-browser-toolbar: (
       .select {
         button {
           background-color: mat-color($primary, light-background) !important;
-          color: mat-color($pp-browser-toolbar, button-color) !important;
+          color: mat-color($primary, base) !important;
           font-size: mat-font-size($custom-typography, display-1) !important;
           &:hover {
             i { 
-              background-color: mat-color($pp-browser-toolbar, icon-hover-background-color) !important;
-              color: mat-color($pp-browser-toolbar, icon-hover-color) !important;
+              background-color: mat-color($primary, base) !important;
+              color: mat-color($primary, white-font) !important;
             }
           }
           i {
             font-size: mat-font-size($custom-typography, display-4) !important;
-            color: mat-color($pp-browser-toolbar, icon-color) !important;
+            color: mat-color($primary, light-font) !important;
           }
         }
       }
       .order-by {
         button {
           background-color: mat-color($primary, light-background) !important;
-          color: mat-color($pp-browser-toolbar, button-color) !important;
+          color: mat-color($primary, base) !important;
           font-size: mat-font-size($custom-typography, display-1) !important;
           &:hover {
             mat-icon {
-              color: mat-color($pp-browser-toolbar, icon-sort-hover-color) !important;
+              color: mat-color($primary, base) !important;
             }
           }
           mat-icon {
             font-size: mat-font-size($custom-typography, display-3) !important;
-            color: mat-color($pp-browser-toolbar, icon-sort-color) !important;
+            color: mat-color($primary, light-font) !important;
           }
         }
       }

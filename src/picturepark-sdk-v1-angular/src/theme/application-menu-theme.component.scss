@@ -5,10 +5,8 @@ $pp-application-menu: (
     border-color: #2f2f2f,
     logo-active-background: #2f2f2f,
     logo-color: #fff,
-    back-button-color: #aaa,
     back-button-hover-color: #eee,
     back-button-hover-background-color: #565656,
-    menu-item-color: #aaa,
     menu-item-hover-background-color: #3a3a3a,
     menu-item-active-color: #fff,
     menu-item-active-background-color: #3a3a3a,
@@ -42,7 +40,7 @@ $pp-application-menu: (
           }
       }
       .back {
-          color: mat-color($pp-application-menu, back-button-color) !important;
+          color: mat-color($primary, button) !important;
           &:hover {
             color: mat-color($pp-application-menu, back-button-hover-color) !important; 
             background-color: mat-color($pp-application-menu, back-button-hover-background-color) !important;  
@@ -54,7 +52,7 @@ $pp-application-menu: (
     }
     ul {
       li {
-        color: mat-color($pp-application-menu, menu-item-color) !important;
+        color: mat-color($primary, button) !important;
         &:hover {
           background-color: mat-color($pp-application-menu, menu-item-hover-background-color) !important;
         }
