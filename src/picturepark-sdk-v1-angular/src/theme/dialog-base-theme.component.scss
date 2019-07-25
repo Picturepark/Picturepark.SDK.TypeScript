@@ -2,7 +2,6 @@
 
 // DIALOG BASE VARS
 $pp-dialog-base: (
-    background-color: #f8f8f8,
     light-border: #eee,
     contrast: ()
 );
@@ -23,7 +22,7 @@ $pp-dialog-base: (
         mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
     
         .loader-container { 
-            background-color: mat-color($pp-dialog-base, background-color) !important; 
+            background-color: mat-color($primary, dialog-background) !important; 
         }
     
         mat-dialog-actions { 

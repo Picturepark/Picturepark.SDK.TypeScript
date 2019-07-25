@@ -2,12 +2,7 @@
 
 // SHARE CONTENT DIALOG
 $pp-share-content-dialog: (
-  font-color: #727272,
-  input-color: #2f2f2f,
   input-focus-border-color: #444,
-  confirmation-border-bottom-color: #ccc,
-  icon-color: #727272,
-  link-color: #727272,
   contrast: ()
 );
 
@@ -19,29 +14,31 @@ $pp-share-content-dialog: (
 
   .share-content-dialog-container {
     ul {
-      color: mat-color($pp-share-content-dialog, font-color) !important;
-      font-size: 13px !important;
+      color: mat-color($primary, icon-color) !important;
+      font-size: mat-font-size($custom-typography, display-1) !important;
       li { 
-        input { 
-          font-weight: 400 !important;
-          font-size: 13px !important;
-          color: mat-color($pp-share-content-dialog, input-color) !important;
+        input {
+          font-size: mat-font-size($custom-typography, display-1) !important;
+          color: mat-color($primary, font-color) !important;
           &:focus { border: 1px solid mat-color($pp-share-content-dialog, input-focus-border-color) !important; }
         }
       }
     }
     #share-name.error-active { border: 1px solid mat-color($warn) !important; }
     .share-name-error { 
-      color: mat-color($warn) !important; font-size: 10px; 
+      color: mat-color($warn) !important; font-size: mat-font-size($custom-typography, caption) !important;
     }
     .share-content-confirmation-container {
       .share-content-confirmation { 
-        border-bottom: 1px solid  mat-color($pp-share-content-dialog, confirmation-border-bottom-color) !important;
+        border-bottom: 1px solid  mat-color($pp-dialog-base, light-border) !important;
         .user-info-container { 
           ul { 
             li { 
-                mat-icon { font-size: 18px; color:  mat-color($pp-share-content-dialog, icon-color) !important; }
-                a { color:  mat-color($pp-share-content-dialog, link-color) !important; }
+                mat-icon { 
+                  font-size: mat-font-size($custom-typography, subheading-2) !important;
+                  color:  mat-color($primary, icon-color) !important;
+                }
+                a { color:  mat-color($primary, icon-color) !important; }
             }
           }
         }

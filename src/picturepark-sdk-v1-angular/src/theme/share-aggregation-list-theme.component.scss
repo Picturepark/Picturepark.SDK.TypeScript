@@ -13,7 +13,7 @@ $pp-share-aggregation-list: (
 
   .aggregation-filter {
     &__loading-spinner {
-      background: rgba(0, 0, 0, 0.288);
+      background: rgba(mat-color($primary, shadow-color), 0.288) !important;
     }
     &__filters {
       background-color: mat-color($primary, light-background) !important;

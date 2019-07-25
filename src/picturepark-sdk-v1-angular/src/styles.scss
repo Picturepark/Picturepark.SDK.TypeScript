@@ -20,6 +20,7 @@
 @import './theme/list-browser-theme.component.scss';
 @import './theme/share-content-dialog-theme.component.scss';
 @import './theme/share-aggregation-list-theme.component.scss';
+@import './theme/share-content-dialog-item-theme.component.scss';
 @import './theme/share-content-recipients-input-theme.component.scss';
 @import './theme/panel-base-theme.component.scss';
 
@@ -40,6 +41,7 @@
     @include pp-list-browser-theme($theme);
     @include pp-share-content-dialog-theme($theme);
     @include pp-share-aggregation-list-theme($theme);
+    @include pp-share-content-dialog-item-theme($theme);
     @include pp-share-content-recipients-input-theme($theme);
     @include pp-panel-base-theme($theme);
 }
