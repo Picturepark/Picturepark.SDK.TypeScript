@@ -13,11 +13,11 @@ $pp-application-header: (
 
     .application-header-container {
         background-color: mat-color($primary, white-background) !important;
-        border-bottom: 1px solid mat-color($primary, light-border) !important;
+        border-bottom: 1px solid mat-contrast($primary, light-background) !important;
         color: mat-color($primary, dark-font) !important;
         .title-container {
             color: mat-color($primary, dark-font) !important;
-            border-right: 1px solid mat-color($primary, light-border) !important;
+            border-right: 1px solid mat-contrast($primary, light-background) !important;
         }
         .search-container {
             color: mat-color($primary, dark-font) !important;
@@ -33,7 +33,7 @@ $pp-application-header: (
             }
         }
         .close-container { 
-            border-left: 1px solid mat-color($primary, light-border) !important;
+            border-left: 1px solid mat-contrast($primary, light-background) !important;
         }
     }
 

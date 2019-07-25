@@ -30,7 +30,7 @@ $pp-share-content-dialog: (
     }
     .share-content-confirmation-container {
       .share-content-confirmation { 
-        border-bottom: 1px solid  mat-color($pp-dialog-base, light-border) !important;
+        border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
         .user-info-container { 
           ul { 
             li { 

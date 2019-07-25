@@ -14,7 +14,7 @@ $pp-browser-toolbar: (
   // BROWSER TOOLBAR MODULE
   .browser-toolbar-container {
     background-color: mat-color($primary, light-background) !important;
-    border-bottom: 1px solid mat-color($primary, light-border) !important;
+    border-bottom: 1px solid mat-contrast($primary, light-background) !important;
     .browser-toolbar-content {
       .select {
         button {

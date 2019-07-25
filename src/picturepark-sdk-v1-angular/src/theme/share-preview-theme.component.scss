@@ -13,7 +13,7 @@ $pp-share-preview: (
 
     .share-preview-container {
         background-color: mat-color($primary, white-background) !important;
-        border: 1px solid mat-color($primary, light-border) !important;
+        border: 1px solid mat-contrast($primary, light-background) !important;
     }
 
 }

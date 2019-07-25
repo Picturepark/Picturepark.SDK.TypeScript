@@ -2,7 +2,6 @@
 
 // DIALOG BASE VARS
 $pp-dialog-base: (
-    light-border: #eee,
     contrast: ()
 );
 
@@ -15,7 +14,7 @@ $pp-dialog-base: (
     .dialog {
         h3 { 
             color: mat-color($primary, dark-font) !important; 
-            border-bottom: 1px solid mat-color($pp-dialog-base, light-border) !important; 
+            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important; 
             mat-icon { color: mat-color($primary, light-font) !important; }
         }
     
@@ -26,7 +25,7 @@ $pp-dialog-base: (
         }
     
         mat-dialog-actions { 
-            border-top: 1px solid mat-color($pp-dialog-base, light-border) !important;
+            border-top: 1px solid mat-contrast($primary, dialog-background) !important; 
             background-color: mat-color($primary, white-background) !important;
             button { 
                 color: mat-color($primary, white-font) !important; background: mat-color($primary, button) !important;

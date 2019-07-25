@@ -16,7 +16,7 @@ $pp-list-browser: (
   .content-browser-container {
     .content-browser-toolbar-container {
       background-color: mat-color($primary, light-background) !important;
-      border-bottom: 1px solid mat-color($primary, light-border) !important;
+      border-bottom: 1px solid mat-contrast($primary, light-background) !important;
       .mat-toolbar {
         background: mat-color($primary, light-background) !important;
       }

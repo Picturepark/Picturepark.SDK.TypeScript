@@ -3,7 +3,6 @@
 // PANEL BASE VARS
 $pp-panel-base: (
     title-color: #aaa,
-    light-border: #eee,
     contrast: ()
 );
 
@@ -16,7 +15,7 @@ $pp-panel-base: (
     .panel-container { 
         background-color: mat-color($primary, white-background) !important;
         .panel-header {
-            border-bottom: 1px solid mat-color($pp-panel-base, light-border) !important;
+            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
             h3 { 
                 color: mat-color($pp-panel-base, title-color) !important;
             }

@@ -63,7 +63,6 @@ $mat-picturepark-primary: (
     dark-background: #444,
     dialog-background: #f8f8f8,
     light-background: #eee,
-    light-border: #d8d8d8,
     white-background: #fff,
     white-font: #fff,
     dark-font: #444,
@@ -76,7 +75,10 @@ $mat-picturepark-primary: (
     progress-bar-background: #e4e4e4,
     spinner: $base,
     shadow-color: #000,
-    contrast: ()
+    contrast: (
+        light-background: #d8d8d8,
+        dialog-background: #eee,
+    )
 );
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
