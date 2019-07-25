@@ -12,26 +12,29 @@ $pp-dialog-base: (
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
 
-    h3 { 
-        color: #444; 
-        border-bottom: 1px solid #eee;
-        mat-icon { color:rgb(68,68,68); }
-    }
-
-    mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
-
-    .loader-container { 
-        background-color: mat-color($pp-dialog-base, background-color) !important; 
-    }
-
-    mat-dialog-actions { 
-        border-top: 1px solid #eee; background-color: mat-color($primary, white-background) !important;
-        button { 
-            color: white; background: #aaaaaa;
-            &.active { background-color: mat-color($primary, base) !important; }
-            &.option { background-color: mat-color($primary, white-background) !important; color: #727272; border: 1px solid #727272; }
-            &.cancel { background-color: mat-color($primary, white-background) !important; color: #727272; }
+    .dialog {
+        h3 { 
+            color: #444; 
+            border-bottom: 1px solid #eee;
+            mat-icon { color:rgb(68,68,68); }
+        }
+    
+        mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
+    
+        .loader-container { 
+            background-color: mat-color($pp-dialog-base, background-color) !important; 
+        }
+    
+        mat-dialog-actions { 
+            border-top: 1px solid #eee; background-color: mat-color($primary, white-background) !important;
+            button { 
+                color: white; background: #aaaaaa;
+                &.active { background-color: mat-color($primary, base) !important; }
+                &.option { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; border: 1px solid mat-color($primary, button) !important; }
+                &.cancel { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; }
+            }
         }
     }
+
 
 }

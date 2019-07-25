@@ -8,12 +8,12 @@ $custom-typography: mat-typography-config(
     $display-1:     mat-typography-level(13px, 40px, 400),
     $headline:      mat-typography-level(21px, 64px, 600),
     $title:         mat-typography-level(20px, 32px, 500),
-    $subheading-2:  mat-typography-level(16px, 28px, 400),
+    $subheading-2:  mat-typography-level(18px, 24px, 200),
     $subheading-1:  mat-typography-level(15px, 24px, 400),
     $body-2:        mat-typography-level(14px, 24px, 500),
     $body-1:        mat-typography-level(14px, 20px, 400),
     $caption:       mat-typography-level(12px, 20px, 400),
-    $button:        mat-typography-level(14px, 14px, 500),
+    $button:        mat-typography-level(12px, 21px, 500),
     $input:         mat-typography-level(18px, 1.125, 400)
 );
 
@@ -66,11 +66,15 @@ $mat-picturepark-primary: (
     light-background: #eee,
     light-border: #d8d8d8,
     white-background: #fff,
+    white-font: #fff,
     font-color: #444,
     icon-selected: #000000,
     progress-bar-background: #e4e4e4,
+    button: #aaa,
+    button-active: $base,
     progress-bar: $base,
     spinner: $base,
+    shadow-color: #000,
     contrast: ()
 );
 

@@ -5,6 +5,7 @@
 @import "theme.scss";
 
 // REQUIRED THEMES
+@import './theme/aggregation-theme.component.scss';
 @import './theme/application-header-theme.component.scss';
 @import './theme/application-menu-theme.component.scss';
 @import './theme/basket-item-theme.components.scss';
@@ -21,6 +22,7 @@
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin my-components-theme($theme) {
+    @include pp-aggregation-theme($theme);
     @include pp-application-header-theme($theme);
     @include pp-application-menu-theme($theme);
     @include pp-basket-item-theme($theme);

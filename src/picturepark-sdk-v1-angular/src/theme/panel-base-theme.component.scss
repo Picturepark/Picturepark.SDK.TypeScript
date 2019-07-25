@@ -17,7 +17,9 @@ $pp-panel-base: (
         background-color: mat-color($primary, white-background) !important;
         .panel-header {
             border-bottom: 1px solid mat-color($pp-panel-base, light-border) !important;
-            h3 { color: mat-color($pp-panel-base, title-color) !important; }
+            h3 { 
+                color: mat-color($pp-panel-base, title-color) !important;
+            }
             .panel-buttons {
                 & button { 
                     color: mat-color($primary, base); border: 2px solid mat-color($primary, white-background) !important;

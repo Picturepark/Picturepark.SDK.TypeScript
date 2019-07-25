@@ -32,7 +32,8 @@ $pp-share-content-recipients-input-theme: (
 
     .mat-chip {
         &.mat-standard-chip {
-            background-color: mat-color($primary, base) !important; color: white; 
+            background-color: mat-color($primary, base) !important;
+            color: mat-color($primary, white-font) !important;
             .mat-chip-remove { color: mat-color($primary, dark-base) !important; }
         }
     }

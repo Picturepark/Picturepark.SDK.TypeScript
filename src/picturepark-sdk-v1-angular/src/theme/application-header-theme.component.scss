@@ -3,9 +3,6 @@
 // APPLICATION HEADER
 $pp-application-header: (
     font-color: #000,
-    title-font-color: #444,
-    search-font-color: #444,
-    search-icon-font-color: #444,
     contrast: ()
 );
 
@@ -20,16 +17,19 @@ $pp-application-header: (
         border-bottom: 1px solid mat-color($primary, light-border) !important;
         color: mat-color($pp-application-header, font-color) !important;
         .title-container {
-            color: mat-color($pp-application-header, title-font-color) !important;
+            color: mat-color($primary, font-color) !important;
             border-right: 1px solid mat-color($primary, light-border) !important;
         }
         .search-container {
-            color: mat-color($pp-application-header, search-font-color) !important;
-           
+            color: mat-color($primary, font-color) !important;
             .search-content {
-                & i { color: mat-color($pp-application-header, search-icon-font-color) !important; }
+                & i { color: mat-color($primary, font-color) !important; }
                 & input { 
                    background-color: mat-color($primary, white-background) !important;
+                   font-size: mat-font-size($custom-typography, display-2) !important;
+                   &:focus {
+                    font-size: mat-font-size($custom-typography, display-4) !important;
+                   }
                 }
             }
         }

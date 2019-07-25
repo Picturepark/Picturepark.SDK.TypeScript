@@ -2,8 +2,7 @@
 
 // BROWSER ITEM BASE VARS
 $pp-browser-item: (
-    background-color: #fff,
-    white-font: #fff,
+    title-font-color: #727272,
     selected-background: #6f6f6f,
     contrast: ()
 );
@@ -22,30 +21,29 @@ $pp-browser-item: (
     
         #{ $self }__title {
           background-color: mat-color($pp-browser-item, selected-background) !important;
-          color: mat-color($pp-browser-item, white-font) !important;
+          color: mat-color($primary, white-font) !important;
         }
     
       }
     
       &__title {
-        color: #727272;
+        font-size: mat-font-size($custom-typography, display-1) !important;
+        color: mat-color($pp-browser-item, title-font-color) !important;
       }
       
       &__actions {
-    
-        background: rgba(0,0,0,.4);
         ul {
           li {
             .material-icons {
-              font-size: 15px;
-              color: white;
+              font-size: mat-font-size($custom-typography, display-1) !important;
+              color: mat-color($primary, white-font) !important;
             }
           }
         }
       }
     
       &__thumbnail-overlay {
-        color: white;
+        color: mat-color($primary, white-font) !important;
       }
     }
 }

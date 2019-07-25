@@ -1,4 +1,4 @@
-<div class="download-content-dialog-container" #contentContainer>
+<div class="dialog-container" #contentContainer>
   <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">

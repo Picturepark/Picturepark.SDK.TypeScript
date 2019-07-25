@@ -2,7 +2,7 @@
     background-color: white; border-radius: 8px; box-shadow: 0 2px 0 0 rgba(0,0,0,.12); margin: 20px 0px;
     .panel-header {
         position: relative; padding: 0px 30px; border-bottom: 1px solid #eee; overflow: hidden;
-        h3 { font-size: 18px; line-height: 25px; color: #aaa; font-weight: 300; border-bottom: 0px; }
+        h3 { font-size: 18px; line-height: 64px; color: #aaa; font-weight: 300; border-bottom: 0px; margin: 0px; }
         .panel-buttons {
             position: absolute; right: 30px; top: 14px;
             & button { 
