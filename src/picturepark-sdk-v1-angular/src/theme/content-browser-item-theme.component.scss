@@ -2,11 +2,6 @@
 
 // CONTENT BROWSER ITEM
 $pp-content-browser-item: (
-    basket-icon-color: #fff,
-    basket-icon-color-hover: $base,
-    basket-icon-background-color-hover: #000, 
-    image-slot-background-color: #dcdcdc,
-    image-virtual-item-color: #aaa,
     contrast: ()
 );
 
@@ -19,22 +14,22 @@ $pp-content-browser-item: (
   .browser-item {
     &__basket-icon {
       &:hover {
-        background-color: mat-color($pp-content-browser-item, basket-icon-background-color-hover) !important;
+        background-color: mat-color($primary, icon-selected-color) !important;
         mat-icon {
-          color: mat-color($pp-content-browser-item, basket-icon-color-hover) !important;
+          color: mat-color($primary, base) !important;
         }
       }
       mat-icon {
-        color: mat-color($pp-content-browser-item, basket-icon-color) !important;
+        color: mat-color($primary, white-font) !important;
       }
     }
   
     &__image-slot {
-      background-color: mat-color($pp-content-browser-item, image-slot-background-color) !important;
+      background-color: mat-color($primary, image-slot-background-color) !important;
     }
   
     &__image-virtual-item-container {
-      color: mat-color($pp-content-browser-item, image-virtual-item-color) !important;
+      color: mat-color($primary, light-font) !important;
     }
   }
 

@@ -20,7 +20,7 @@ $pp-share-content-recipients-input-theme: (
     
     mat-chip-list { position: relative; z-index: 10; }
     .share-content-dialog-container ul li input { 
-        color: #2f2f2f;
+        color: mat-color($primary, icon-selected-color) !important;
         background-color: mat-color($primary, white-background) !important;
     }
     

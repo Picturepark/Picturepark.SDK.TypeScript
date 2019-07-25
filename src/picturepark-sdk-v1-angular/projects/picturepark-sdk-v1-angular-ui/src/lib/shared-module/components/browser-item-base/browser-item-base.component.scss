@@ -78,14 +78,16 @@
     ul {
       position: absolute;
       list-style: none;
-      top: 0px;
-      right: 10px;
+      right: 4px;
+      top: 4px;
       margin: 0px;
       padding: 0px;
       li {
         float: left;
         button {
           width: 24px;
+          height: 24px;
+          line-height: 24px;
         }
         .material-icons {
           font-size: 15px;
