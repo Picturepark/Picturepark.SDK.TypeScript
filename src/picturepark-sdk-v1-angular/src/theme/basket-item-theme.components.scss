@@ -12,6 +12,6 @@ $pp-basket-item: (
     $warn: map-get($theme, warn);
 
     .basket-item {
-        background: mat-color($pp-basket-item, background-color) !important;
+        background: mat-color($primary, white-background) !important;
     }
 }

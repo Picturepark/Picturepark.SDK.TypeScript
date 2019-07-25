@@ -2,7 +2,6 @@
 
 // APPLICATION HEADER
 $pp-application-header: (
-    font-color: #000,
     contrast: ()
 );
 
@@ -15,7 +14,7 @@ $pp-application-header: (
     .application-header-container {
         background-color: mat-color($primary, white-background) !important;
         border-bottom: 1px solid mat-color($primary, light-border) !important;
-        color: mat-color($pp-application-header, dark-font) !important;
+        color: mat-color($primary, dark-font) !important;
         .title-container {
             color: mat-color($primary, dark-font) !important;
             border-right: 1px solid mat-color($primary, light-border) !important;
