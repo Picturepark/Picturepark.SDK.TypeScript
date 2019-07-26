@@ -26,24 +26,36 @@
     overflow-y: scroll;
     overflow-x: hidden;
     height: calc(100% - 107px);
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(90px, 1fr));
     background-color: #eeeeee;
+    
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;
     }
     &--large {
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      grid-template-rows: 300px 300px;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(270px, 1fr));
     }
     &--medium {
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      grid-template-rows: 180px 180px;
+      grid-template-rows: repeat(auto-fill, minmax(180px, 1fr));
     } // image sizes: 120px, 200px, 320px
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    grid-template-rows: 100px 100px;
+
     padding: 25px;
     display: grid;
     grid-gap: 25px;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+
   }
   &__item-container {
     position: relative;
