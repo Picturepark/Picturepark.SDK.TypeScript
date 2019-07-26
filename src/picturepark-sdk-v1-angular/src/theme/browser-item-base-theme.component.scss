@@ -31,17 +31,12 @@ $pp-browser-item: (
       
       &__actions {
         ul {
-          list-style: none; padding: 0px; margin: 0px; position: absolute; right: 0px; top: 4px;
           li {
-            float: left; width: 16px; height: 16px;
+            float: left; 
             button {
-              width: 16px; padding: 0px; height: 16px; float: right; line-height: 16px;
               mat-icon {     
-                font-size: 16px;
-                color: white;
-                line-height: 16px;
-                width: 16px;
-                height: 16px;
+                font-size: mat-font-size($custom-typography, display-1) !important;
+                color: mat-color($primary, white-font) !important;
               }
             }
             .material-icons {

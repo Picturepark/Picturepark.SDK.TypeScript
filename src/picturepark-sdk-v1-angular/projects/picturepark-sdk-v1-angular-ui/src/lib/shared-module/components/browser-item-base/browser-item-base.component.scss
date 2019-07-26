@@ -67,13 +67,9 @@
   &__actions {
     visibility: hidden;
     position: absolute;
-    display: flex;
-    justify-content: space-around;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    // TODO: theme color;
-    height: 100%;
+    top: 0px;
+    right: 0px;
+    width: 100%;
     ul {
       position: absolute;
       list-style: none;
@@ -83,10 +79,12 @@
       padding: 0px;
       li {
         float: left;
+        line-height: 20px;
+        text-align: center;
         button {
           width: 24px;
           height: 24px;
-          line-height: 24px;
+          line-height: 14px;
         }
         .material-icons {
           font-size: 15px;
