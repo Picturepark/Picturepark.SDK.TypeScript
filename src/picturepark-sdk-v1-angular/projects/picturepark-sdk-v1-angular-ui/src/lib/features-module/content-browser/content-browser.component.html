@@ -1,0 +1,50 @@
+<div class="browser">
+  <div class="browser__header">
+    <pp-browser-toolbar [browser]="self" entityName="contents">
+      <ng-container browser-buttons>
+          <button mat-icon-button *ngIf="selectedItems.length === 1 && configActions['preview']" [matTooltip]="'ContentBrowser.Preview' | pptranslate">
+            <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="selectedItems.length > 0 && configActions['download']" (click)="openDownloadContentDialog()" [matTooltip]="'ContentBrowser.Download' | pptranslate">
+            <mat-icon aria-label="Download selected items">get_app</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openShareContentDialog()" [matTooltip]="'ContentBrowser.ShareImages' | pptranslate" 
+            *ngIf="selectedItems.length >= 1 && configActions['share']">
+            <mat-icon aria-label="Share selected items">share</mat-icon>
+          </button>
+          <ng-content select="[content-buttons]"></ng-content>
+      </ng-container>
+    </pp-browser-toolbar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div *ngIf="totalResults !== 0" class="browser__items" 
+       [class.browser__items--list]="activeView.type === 'list'"
+       [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
+       [class.browser__items--medium]="activeView.type === 'thumbnailMedium'" cdkScrollable>
+    <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+      <pp-content-browser-item 
+        class="browser__item" 
+        [browser]="self"
+        [itemModel]="itemModel" 
+        [thumbnailSize]="activeThumbnailSize" 
+        [isListView]="activeView.type === 'list'" 
+        (previewItemChange)="previewItem($event)"
+        (click)="itemClicked($event,i)" 
+        (dblclick)="previewItem(itemModel)">
+      </pp-content-browser-item>
+    </div>
+  </div>
+
+  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
+    {{ 'ContentBrowser.NoItems' | pptranslate }}
+    <strong> {{ searchString }}</strong>
+    <br/>
+    {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
+    <ul>
+      <li>{{ 'ContentBrowser.NoItemsActionChannel' | pptranslate }}</li>
+      <li>{{ 'ContentBrowser.NoItemsActionSearchString' | pptranslate }}</li>
+    </ul>
+  </div>
+
+</div>

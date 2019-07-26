@@ -1,0 +1,62 @@
+.content-picker-content {
+  display: flex; height: calc(100vh - 64px); overflow: hidden;
+  pp-channel-picker { position: absolute; top: 16px; right: 80px; }
+  .filters {
+    width: 20%;
+    background: #eee;
+    mat-tab-group {
+      height: 100%;
+      border-left: 1px solid #d8d8d8;
+    }
+  }
+  .footer {
+    position: fixed;
+    bottom: -64px;
+    width: 100%;
+    opacity: 0.8;
+    background-color: lightgray;
+    height: 64px;
+    align-items: center;
+    padding: 0 30px;
+    transition: 300ms;
+    &.active {
+      bottom: 0px;
+    }
+    .title {
+      float: left;
+      line-height: 64px;
+      margin: 0px 20px 0px 0px;
+    }
+    .action-buttons {
+      line-height: 64px;
+      position: absolute;
+      right: 120px;
+    }
+  }
+}
+
+
+.navbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  color: #000;
+}
+
+.container {
+  background: #eee;
+}
+
+
+
+.content {
+  flex-grow: 1;
+  flex-basis: 0;
+  overflow: auto;
+  background: #fafafa;
+}
+
+
+
+.spacer {
+  flex: 1 1 auto;
+}

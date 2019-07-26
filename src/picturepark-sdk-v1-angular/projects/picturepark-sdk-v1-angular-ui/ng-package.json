@@ -3,5 +3,11 @@
   "dest": "../../dist/picturepark-sdk-v1-angular-ui",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies":[
+    "tslib",
+    "ts-md5",
+    "moment",
+    "lazy-get-decorator"
+  ]
 }

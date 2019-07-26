@@ -1,0 +1,33 @@
+.overview-wrap {
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+
+    dl {
+        padding-left: 20px;
+    }
+
+    img {
+        padding-top: 14px;
+        cursor: pointer;
+    }
+}
+
+.metadata-wrap {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+
+    pp-content-image-preview {
+        padding-right: 12px;
+    }
+}
+
+mat-tab-group {
+    margin: 0 -20px;
+}
+
+pp-layer-panels {
+    flex: 1;
+    min-width: 640px;
+}

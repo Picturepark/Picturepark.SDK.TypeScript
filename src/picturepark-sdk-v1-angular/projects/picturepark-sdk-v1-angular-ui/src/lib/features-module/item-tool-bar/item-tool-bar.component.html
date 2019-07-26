@@ -1,0 +1,13 @@
+<div class="tool-bar-container">
+  <div class="to-top">
+    <i class="material-icons">code</i>
+  </div>
+  <ul>
+    <li *ngFor="let tool of toolBarOptions">
+      <button (click)="fireAction(tool.action)">
+        <i class="material-icons">{{ tool.icon }}</i>
+        <span>{{ tool.name }}</span>
+      </button>
+    </li>
+  </ul>
+</div>

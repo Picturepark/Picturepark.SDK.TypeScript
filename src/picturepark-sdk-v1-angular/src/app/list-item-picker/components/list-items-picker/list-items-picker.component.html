@@ -1,0 +1,13 @@
+<div class="list-items-picker-container">
+    <div class="list-items-picker-content">
+        <pp-search-box style="font-size: 16px;" [query]="search | async" (queryChange)="search.next($event)"></pp-search-box>
+
+        <pp-schema-browser
+            class="content-browser"
+            [activeParentSchema]="activeParentSchema"
+            [searchString]="search | async"
+            [filter]="filter | async"
+            (activeSchemaChange)="setUpActiveSchema($event)">
+        </pp-schema-browser>
+    </div>
+</div>

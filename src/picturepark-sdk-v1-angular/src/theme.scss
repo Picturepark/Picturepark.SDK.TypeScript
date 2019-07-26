@@ -22,8 +22,8 @@ $mat-picturepark-accent: (
         300 : #000000,
         400 : #000000,
         500 : #000000,
-        600 : #000000,
-        700 : #000000,
+        600 : #ffffff,
+        700 : #ffffff,
         800 : #ffffff,
         900 : #ffffff,
         A100 : #000000,
@@ -38,3 +38,5 @@ $picturepark-app-primary: mat-palette($mat-picturepark-accent, 600, 400, 900);
 $picturepark-app-accent: mat-palette($mat-picturepark-accent, 400,200,700);
 $picturepark-app-warn : mat-palette($mat-red);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
+
+.mat-form-field-subscript-wrapper { display: none; }

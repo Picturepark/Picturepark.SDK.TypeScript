@@ -10,6 +10,7 @@ import {
 
 @Injectable({providedIn: 'root'})
 export class OidcAuthService extends AuthService {
+
   private _isAuthenticating = false;
   private _isAuthenticated = false;
   private _accessToken: string | undefined = undefined;

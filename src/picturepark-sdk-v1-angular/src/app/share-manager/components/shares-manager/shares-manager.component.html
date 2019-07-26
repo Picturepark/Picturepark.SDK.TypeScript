@@ -1,0 +1,18 @@
+<div class="shares-manager-container">
+  <div class="content">
+    <pp-share-browser [filter]="selectedFilter"></pp-share-browser>
+  </div>
+  <div class="filters">
+    <mat-tab-group>
+      <mat-tab label="Filters">
+        
+        <pp-share-aggregation-list
+          [query]="searchText"
+          [aggregators]="aggregators"
+          (filterChange)="selectedFilter = $event">
+        </pp-share-aggregation-list>
+        
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

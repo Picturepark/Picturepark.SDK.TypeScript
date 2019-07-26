@@ -1,8 +1,8 @@
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
+// LIBRARIES
 import { AuthService } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
-
 
 @Component({
   templateUrl: './home.component.html'

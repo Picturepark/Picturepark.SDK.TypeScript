@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~normalize.css";
 @import "theme.scss";
+@import "date-picker.scss";
+@import "share-content-recipients-input.scss";
+@import "share-content-dialog.scss";
+
 @include mat-core();
 @include angular-material-theme($picturepark-app-theme);
 
@@ -8,8 +12,24 @@ body {
   font-family: Roboto;
 }
 
+.app-root-container {
+  position: relative; background-color: #eeeeee; height: 100vh;
+  mat-progress-bar { position: absolute; top: 0px; }
+  .app-root-content {
+    position: relative; top: 50%; margin: 0 auto; height: 200px; text-align: center;
+      svg {
+          height: 200px;
+          width: 200px;
+          transform: translate(0%, -50%);
+          path {
+              fill: #dcdcdc;
+          }
+      }
+  }
+}
+
 .filters .mat-tab-label {
-  height: 64px;
+  height: 54px;
 }
 
 .form {
@@ -22,10 +42,32 @@ body {
 .mat-expansion-panel-body,
 .mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
-.mat-expansion-panel-header.mat-expanded:hover {
-  background: whitesmoke !important;
+.mat-expansion-panel-header.mat-expanded:hover { background: #eee !important; }
+.mat-tab-header { height: 56px; background: #eeeeee; }
+.content-browser__header { border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important; }
+
+// APP ROOT CONTAINER
+.authorization-container .authorization-content mat-spinner {
+  width: 45px !important; height: 45px !important; margin: 0 auto; position: relative; bottom: 35%;
+  svg { width: 45px !important; height: 45px !important; }
 }
 
-.content-browser__header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+// OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
+.cdk-focused.cdk-program-focused { background-color: transparent !important; }
+
+// PANEL ITEMS BUTTON HOVER
+.panel-container .panel-header .panel-buttons button .mat-button-focus-overlay { background: white; }
+
+// PANEL ITEMS LOADER
+.item-panel-preview-container .loader mat-spinner { width: 30px !important; height: 30px !important; margin: 0 auto; position: relative; top: 35%; }
+.item-panel-preview-container .loader mat-spinner svg { width: 30px !important; height: 30px !important; }
+
+// SHARE ITEM MANAGE LOADER
+.share-preview-container mat-spinner circle { stroke: #3fb3b1; }
+
+.browser-item__image-container mat-spinner {
+  width: 40px !important; height: 40px !important;
+  svg { width: 40px !important; height: 40px !important; }
 }
+
+@import "styles-resp.scss";

@@ -1,15 +1,15 @@
 ﻿{
   "runtime": "Default",
   "defaultVariables": null,
-  "swaggerGenerator": {
-    "fromSwagger": {
+  "documentGenerator": {
+    "fromDocument": {
       "json": "",
       "url": "../../../../swagger/PictureparkSwagger.json",
       "output": null
     }
   },
   "codeGenerators": {
-    "swaggerToTypeScriptClient": {
+    "openApiToTypeScriptClient": {
       "className": "{controller}Service",
       "moduleName": "",
       "namespace": "",
@@ -27,6 +27,7 @@
       "generateOptionalParameters": false,
       "exportTypes": true,
       "wrapDtoExceptions": false,
+      "exceptionClass": "SwaggerException",
       "clientBaseClass": "PictureparkServiceBase",
       "wrapResponses": false,
       "wrapResponseMethods": [],
@@ -51,6 +52,7 @@
       "extensionCode": "src/lib/services.extensions",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
+      "excludedParameterNames": [],
       "handleReferences": false,
       "generateConstructorInterface": true,
       "convertConstructorInterfaceData": true,
@@ -59,6 +61,7 @@
       "baseUrlTokenName": "PICTUREPARK_API_URL",
       "queryNullValue": "",
       "inlineNamedDictionaries": false,
+      "inlineNamedAny": false,
       "templateDirectory": null,
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,

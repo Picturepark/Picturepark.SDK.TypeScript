@@ -19,7 +19,7 @@ describe('ShareService', () => {
       const response = await contentService.search(request).toPromise();
 
       // act
-      const contents = response!.results!.map(i => new ShareContent({
+      const contents = response.results.map(i => new ShareContent({
         contentId: i.id,
         outputFormatIds: ['Original']
       }));
@@ -31,7 +31,7 @@ describe('ShareService', () => {
         outputAccess: OutputAccess.Full
       })).toPromise();
 
-      const share = await shareService.get(result!.shareId!).toPromise();
+      const share = await shareService.get(result.shareId!).toPromise();
 
       // assert
       expect(result.shareId).not.toBeNull();

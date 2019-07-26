@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+// COMPONENTS
 import { HomeComponent } from './home/home.component';
-import { ContentPickerComponent } from './content-picker/content-picker.component';
 
 const routes: Routes = [
   {
@@ -11,13 +11,21 @@ const routes: Routes = [
   },
   {
     path: 'content-picker',
-    component: ContentPickerComponent
+    loadChildren: () => import('./content-picker/content-picker.module').then(m => m.ContentPickerModule)
+  },
+  {
+    path: 'list-item-picker',
+    loadChildren: () => import('./list-item-picker/list-item-picker.module').then(m => m.ListItemPickerModule)
+  },
+  {
+    path: 'share-manager',
+    loadChildren: () => import('./share-manager/share-manager.module').then(m => m.ShareManagerModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ],
   providers: []
 })
 export class AppRoutingModule { }

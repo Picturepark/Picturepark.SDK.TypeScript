@@ -1,0 +1,16 @@
+.list-container {
+  display: flex; height: calc(100vh - 64px); overflow: hidden;
+  .list-content {
+    width: 80%; 
+    float: left;
+  }
+  .list-filters {
+    width: 20%; 
+    float: left;
+    .mat-tab-group {
+      height: 100%;
+      background-color: #eee;
+      border-left: 1px solid #d8d8d8;
+  }
+  }
+}
