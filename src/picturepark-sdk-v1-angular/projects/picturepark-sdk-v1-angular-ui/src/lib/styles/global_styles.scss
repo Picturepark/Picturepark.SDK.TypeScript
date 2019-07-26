@@ -52,7 +52,12 @@
 .mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
 .mat-expansion-panel-header.mat-expanded:hover { background: mat-color($picturepark-app-primary, light-background) !important; }
-.mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, light-background); }
+.mat-tab-header { 
+  height: 56px; 
+  background: mat-color($picturepark-app-primary, light-background);
+  border-left: 1px solid mat-contrast($picturepark-app-primary, light-background);
+  border-bottom: 1px solid mat-contrast($picturepark-app-primary, light-background);
+}
 pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }
 
 // APP ROOT CONTAINER

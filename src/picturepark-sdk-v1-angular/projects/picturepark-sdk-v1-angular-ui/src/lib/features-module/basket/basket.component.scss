@@ -1,5 +1,5 @@
 .basket {
-  min-width: 200px;
+  height: 100%;
   &__header {
     position: sticky;
     top: 0;
@@ -34,7 +34,7 @@
     right: 0;
   }
   &__empty {
-    margin: 20px;
+    padding: 20px;
   }
   .mat-toolbar {
     background: #eee;

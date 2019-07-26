@@ -8,7 +8,8 @@
 @import './theme/aggregation-theme.component.scss';
 @import './theme/application-header-theme.component.scss';
 @import './theme/application-menu-theme.component.scss';
-@import './theme/basket-item-theme.components.scss';
+@import './theme/basket-theme.component.scss';
+@import './theme/basket-item-theme.component.scss';
 @import './theme/browser-base-theme.component.scss';
 @import './theme/browser-toolbar-theme.component.scss';
 @import './theme/browser-item-base-theme.component.scss';
@@ -32,6 +33,7 @@
     @include pp-aggregation-theme($theme);
     @include pp-application-header-theme($theme);
     @include pp-application-menu-theme($theme);
+    @include pp-basket-theme($theme);
     @include pp-basket-item-theme($theme);
     @include pp-browser-base-theme($theme);
     @include pp-browser-item-base-theme($theme);

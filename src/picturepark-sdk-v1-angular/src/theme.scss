@@ -57,14 +57,14 @@ $mat-picturepark-accent: (
 // GLOBAL COLORS
 $base: #39acaa;
 
-//c0e6ff 
+// c0e6ff 
 // 93d0f9
 
 $mat-picturepark-primary: (
     base: $base,
     dark-background: #444,
     dialog-background: #f8f8f8,
-    light-background: #eee,
+    light-background: #c0e6ff,
     white-background: #fff,
     white-font: #fff,
     dark-font: #444,
@@ -78,7 +78,7 @@ $mat-picturepark-primary: (
     spinner: $base,
     shadow-color: #000,
     contrast: (
-        light-background: #d8d8d8,
+        light-background: #93d0f9,
         dialog-background: #eee,
     )
 );
