@@ -21,25 +21,25 @@
     #{ $self }__title {
       background-color: #6f6f6f;
       color: #d8d8d8;
+      
     }
 
   }
 
   &--list-view {
-    flex-direction: row;
+    display: -webkit-inline-box;
     #{ $self }__image-slot {
-      flex-grow: 0;
-      flex-basis: 120px;
+      width: 120px;
       overflow: hidden;
       margin: 10px; 
       border-top: 5px solid #d8d8d8;
       border-bottom: 5px solid #d8d8d8;
-      width: 120px;
     }
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
       background-color: transparent !important;
+      width: 50%;
       &__title-content {
         color: #2f2f2f;
       }
@@ -47,6 +47,22 @@
     #{ $self }__actions {
       align-self: flex-end;
     }
+
+    #{ $self }__list-view-actions {
+      position: absolute;
+      right: 30px;
+      top: 35px;
+      ul { 
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+        li {
+          float: left;
+          color: #727272;
+        }
+      }
+    }
+
   }
 
   &:hover {
@@ -67,6 +83,8 @@
     margin: 0px;
     line-height: 28px;
     color: #727272;
+    padding: 0px 5px;
+
     &__title-content {
       display: contents;
     }

@@ -28,8 +28,9 @@ $pp-browser-item: (
       &--list-view {
         #{ $self }__title {
           background-color: transparent !important;
-          &__title-content {
-            color: mat-color($primary, dark-font) !important;
+
+          .mat-subheading-1 {
+            color: mat-color($primary, light-font) !important;
           }
         }
         #{ $self }__actions {
