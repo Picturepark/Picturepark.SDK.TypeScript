@@ -33,8 +33,11 @@
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;
+      grid-gap: 0px;
       #{ $self }__item-container {
-        background-color: white;
+        width: 70%;
+        margin: 0 auto;
+        border-bottom: 1px solid #d8d8d8;
       }
     }
     &--large {
@@ -68,7 +71,6 @@
   }
   &__item-container {
     position: relative;
-    height: 120px;
   }
 
   &__empty-result {

@@ -27,13 +27,21 @@
 
   &--list-view {
     flex-direction: row;
-    padding: 5px;
     #{ $self }__image-slot {
       flex-grow: 0;
       flex-basis: 120px;
+      overflow: hidden;
+      margin: 10px; 
+      border-top: 5px solid #d8d8d8;
+      border-bottom: 5px solid #d8d8d8;
+      width: 120px;
     }
     #{ $self }__title {
       flex-grow: 1;
+      margin: 10px;
+      &__title-content {
+        color: #2f2f2f;
+      }
     }
     #{ $self }__actions {
       align-self: flex-end;
@@ -57,7 +65,6 @@
     text-overflow: ellipsis;
     margin: 0px;
     line-height: 28px;
-    padding: 0px 5px; 
     color: #727272;
     &__title-content {
       display: contents;
