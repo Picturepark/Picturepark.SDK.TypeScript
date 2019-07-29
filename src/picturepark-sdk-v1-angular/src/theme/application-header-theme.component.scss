@@ -22,7 +22,7 @@ $pp-application-header: (
         .search-container {
             color: mat-color($primary, dark-font) !important;
             .search-content {
-                & i { color: mat-color($primary, dark-font) !important; }
+                & i { color: mat-color($primary, light-font) !important; }
                 & input { 
                    background-color: mat-color($primary, white-background) !important;
                    font-size: mat-font-size($custom-typography, display-2) !important;

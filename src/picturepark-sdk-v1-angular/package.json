@@ -26,6 +26,7 @@
     "@angular/platform-browser": "^8.0.1",
     "@angular/platform-browser-dynamic": "^8.0.1",
     "@angular/router": "^8.0.1",
+    "@mdi/font": "^3.8.95",
     "core-js": "^2.6.2",
     "cpx": "^1.5.0",
     "lazy-get-decorator": "^2.2.0",

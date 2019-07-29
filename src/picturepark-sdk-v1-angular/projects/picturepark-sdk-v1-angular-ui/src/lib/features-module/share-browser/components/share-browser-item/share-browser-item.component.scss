@@ -1,15 +1,11 @@
 @import '~@angular/material/theming';
 .browser-item {
   $self: &;
-  &__basket-icon {
-    visibility: hidden;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    &--selected {
-      visibility: initial;
-    }
+
+  &__title {
+    i { position: relative; top: 3px; margin: 0px 3px 0px 0px; }
   }
+
   &__image-slot {
     flex-grow: 1;
     position: relative;
@@ -37,8 +33,6 @@
     left: 0;
     right: 0;
   }
-
-
 
   &__items-num-container {
     position: absolute;
