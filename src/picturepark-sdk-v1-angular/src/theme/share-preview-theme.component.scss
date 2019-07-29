@@ -1,0 +1,19 @@
+@import '~@angular/material/theming';
+
+// SHARE PREVIEW VARS
+$pp-share-preview: (
+    contrast: ()
+);
+
+@mixin pp-share-preview-theme($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .share-preview-container {
+        background-color: mat-color($primary, white-background) !important;
+        border: 1px solid mat-contrast($primary, light-background) !important;
+    }
+
+}

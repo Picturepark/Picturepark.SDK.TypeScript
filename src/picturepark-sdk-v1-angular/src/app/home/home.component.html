@@ -1,42 +1,44 @@
 <div class="home-container" style="display: flex;">
-  <mat-toolbar color="primary">
-    <div>Picturepark Content Platform</div>
-    <div style="flex-grow: 1"></div>
-    <div>
-      Server URL : {{authService.apiServer}}
+  <div class="home-content">
+    <div class="header">
+      <mat-toolbar class="header" color="primary">
+        <h1 class="mat-h1">Picturepark Content Platform</h1>
+        <div style="flex-grow: 1"></div>
+        <div>
+          Server URL : {{authService.apiServer}}
+        </div>
+        <button mat-button color="primary" *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
+      </mat-toolbar>
     </div>
-    <button style="margin: 0 10px;" mat-flat-button color="accent" *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
-  </mat-toolbar>
+    <div class="content">
+      <mat-toolbar>
+        <div>Embeddable Widgets</div>
+      </mat-toolbar>
+      <div>
+        <mat-card style="max-width: 400px; margin: 20px;">
+          <mat-card-title>content-picker</mat-card-title>
+          <mat-card-content>/content-picker: Shows a content picker</mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary" routerLink="/content-picker">View</button>
+          </mat-card-actions>
+        </mat-card>
+      
+        <mat-card style="max-width: 400px; margin: 20px; width: unset;">
+          <mat-card-title>list-item-picker</mat-card-title>
+          <mat-card-content>/list-item-picker: Shows a list browser</mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary" routerLink="/list-item-picker">View</button>
+          </mat-card-actions>
+        </mat-card>
+      
+        <mat-card style="max-width: 400px; margin: 20px; width: unset;">
+          <mat-card-title>share-manager</mat-card-title>
+          <mat-card-content>/share-manager: Shows a share manager</mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary" routerLink="/share-manager">View</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>
-<div style="display: flex;">
-  <mat-toolbar>
-    <div>Embeddable Widgets</div>
-  </mat-toolbar>
-</div>
-<div style="display: flex;">
-  <mat-card style="max-width: 400px; margin: 20px;">
-    <mat-card-title>content-picker</mat-card-title>
-    <mat-card-content>/content-picker: Shows a content picker</mat-card-content>
-    <mat-card-actions>
-      <button mat-button routerLink="/content-picker">View</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-card style="max-width: 400px; margin: 20px; width: unset;">
-    <mat-card-title>list-item-picker</mat-card-title>
-    <mat-card-content>/list-item-picker: Shows a list browser</mat-card-content>
-    <mat-card-actions>
-      <button mat-button routerLink="/list-item-picker">View</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-card style="max-width: 400px; margin: 20px; width: unset;">
-    <mat-card-title>share-manager</mat-card-title>
-    <mat-card-content>/share-manager: Shows a share manager</mat-card-content>
-    <mat-card-actions>
-      <button mat-button routerLink="/share-manager">View</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
-
-

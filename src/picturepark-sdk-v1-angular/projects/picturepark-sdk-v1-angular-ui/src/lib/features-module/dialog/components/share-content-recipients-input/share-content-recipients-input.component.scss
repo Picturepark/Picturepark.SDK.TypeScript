@@ -7,11 +7,19 @@
 }
 
 mat-chip-list { position: relative; z-index: 10; }
-input { font-weight: 200; font-size: 13px; color: #2f2f2f; line-height: 30px; border-radius: 0px; padding: 0px; border: 0px; transition: .5s; background-color: white; margin: 0px; position: relative; z-index: 10; }
+input { 
+    font-weight: 200; font-size: 13px; color: #2f2f2f; line-height: 30px; border-radius: 0px;
+    padding: 0px; border: 0px; transition: .5s; background-color: white; margin: 0px; position: relative; z-index: 10;
+    &:focus {
+        border: 0px !important;
+    }
+}
 
 .mat-chip-list-wrapper {
     .mat-standard-chip, 
-    input.mat-input-element { margin: 0px; }
+    input.mat-input-element {
+        margin: 0px;
+    }
 }
 
 .mat-chip {

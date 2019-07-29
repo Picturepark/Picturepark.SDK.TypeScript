@@ -1,0 +1,36 @@
+@import '~@angular/material/theming';
+
+// LIST BROWSER MODULE
+$pp-list-browser: (
+    background-color: #eee,
+    icon-color: #aaa,
+    contrast: ()
+);
+
+@mixin pp-list-browser-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .content-browser-container {
+    .content-browser-toolbar-container {
+      background-color: mat-color($primary, light-background) !important;
+      border-bottom: 1px solid mat-contrast($primary, light-background) !important;
+      .mat-toolbar {
+        background: mat-color($primary, light-background) !important;
+      }
+    }
+    .table-container {
+      .mat-row:hover {
+        background-color: mat-color($primary, light-background) !important;
+      }
+    }
+    .icons {
+      mat-icon {
+        color: mat-color($pp-list-browser, icon-color) !important;
+      }
+    }
+  }
+  
+}

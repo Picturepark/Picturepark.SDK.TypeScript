@@ -1,0 +1,36 @@
+@import '~@angular/material/theming';
+
+// CONTENT BROWSER ITEM
+$pp-content-browser-item: (
+    contrast: ()
+);
+
+@mixin pp-content-browser-item-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .browser-item {
+    &__basket-icon {
+      &:hover {
+        background-color: mat-color($primary, icon-selected-color) !important;
+        mat-icon {
+          color: mat-color($primary, base) !important;
+        }
+      }
+      mat-icon {
+        color: mat-color($primary, white-font) !important;
+      }
+    }
+  
+    &__image-slot {
+      background-color: mat-color($primary, image-slot-background-color) !important;
+    }
+  
+    &__image-virtual-item-container {
+      color: mat-color($primary, light-font) !important;
+    }
+  }
+
+}

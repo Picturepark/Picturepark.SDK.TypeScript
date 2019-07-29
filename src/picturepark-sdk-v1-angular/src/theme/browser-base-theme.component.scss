@@ -1,0 +1,21 @@
+@import '~@angular/material/theming';
+
+@mixin pp-browser-base-theme($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .browser {
+        &__items {
+            background-color: mat-color($primary, light-background) !important;
+            
+            &::-webkit-scrollbar-thumb {
+                background-color: mat-contrast($primary, light-background) !important;
+                outline: 1px solid  mat-color($primary, light-background) !important;
+            }
+
+        }
+    }
+
+};

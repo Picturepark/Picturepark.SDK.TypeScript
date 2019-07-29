@@ -1,4 +1,4 @@
-.share-content-dialog-container {
+.dialog-container {
     position: relative; min-width: 500px;
     ul {
         list-style: none; color: #727272; font-size: 13px; margin: 30px 0px 30px 0px; min-height: 35px; padding: 0px 25px;
@@ -8,7 +8,11 @@
             &:last-child label { position: relative; bottom: 0.9em; }
             input { 
                 font-weight: 400; font-size: 13px; color: #2f2f2f; line-height: 17px; border-radius: 4px; padding: 11px 6px 10px; border: none; border: 1px solid #fff; transition: 500ms; width: 100%; position: relative; z-index: 10;
-                &:focus { border: 1px solid rgba(0,0,0,0.54); }
+                &:focus { 
+                    border: 1px solid rgba(0,0,0,0.54);
+                    outline: -webkit-focus-ring-color auto 0px !important;
+                }
+
             }
         }
         .label-content {

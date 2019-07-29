@@ -4,6 +4,7 @@
   position: relative;
   height: 100%;
   display: block;
+  border-left: 1px solid #d8d8d8;
   &__loading-spinner {
     z-index: 2;
     position: absolute;
@@ -20,17 +21,18 @@
     overflow: auto;
     height: 100%;
   }
-}
-
-.filters {
-  &__active-filters {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    background-color: #eeeeee;
+  
+  .filters {
+    &__active-filters {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      background-color: #eeeeee;
+    }
   }
 }
+

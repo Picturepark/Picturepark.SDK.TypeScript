@@ -25,6 +25,7 @@
         }
 
         .order-by {
+
             button {
                 border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #727272; padding: 0px;
                 &:hover {
@@ -49,15 +50,17 @@
         padding-top: 4px;
         font-size: 12px;
     }
+
+    .menu-title {
+        padding-left: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-weight: 500;
+    }
+    
+    .active {
+        font-weight: 600;
+    }
+    
 }
 
-.menu-title {
-    padding-left: 12px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    font-weight: 500;
-}
-
-.active {
-    font-weight: 600;
-}

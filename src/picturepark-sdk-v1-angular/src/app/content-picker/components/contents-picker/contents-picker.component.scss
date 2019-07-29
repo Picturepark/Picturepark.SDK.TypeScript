@@ -3,10 +3,8 @@
   pp-channel-picker { position: absolute; top: 16px; right: 80px; }
   .filters {
     width: 20%;
-    background: #eee;
     mat-tab-group {
       height: 100%;
-      border-left: 1px solid #d8d8d8;
     }
   }
   .footer {
@@ -19,6 +17,7 @@
     align-items: center;
     padding: 0 30px;
     transition: 300ms;
+    z-index: 10;
     &.active {
       bottom: 0px;
     }

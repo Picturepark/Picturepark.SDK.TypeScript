@@ -1,0 +1,54 @@
+@import '~@angular/material/theming';
+
+// BROWSER TOOLBAR VARS
+$pp-browser-toolbar: (
+    contrast: ()
+);
+
+@mixin pp-browser-toolbar-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  // BROWSER TOOLBAR MODULE
+  .browser-toolbar-container {
+    background-color: mat-color($primary, light-background) !important;
+    border-bottom: 1px solid mat-contrast($primary, light-background) !important;
+    .browser-toolbar-content {
+      .select {
+        button {
+          background-color: mat-color($primary, light-background) !important;
+          color: mat-color($primary, base) !important;
+          font-size: mat-font-size($custom-typography, display-1) !important;
+          &:hover {
+            i { 
+              background-color: mat-color($primary, base) !important;
+              color: mat-color($primary, white-font) !important;
+            }
+          }
+          i {
+            font-size: mat-font-size($custom-typography, display-4) !important;
+            color: mat-color($primary, light-font) !important;
+          }
+        }
+      }
+      .order-by {
+        button {
+          background-color: mat-color($primary, light-background) !important;
+          color: mat-color($primary, base) !important;
+          font-size: mat-font-size($custom-typography, display-1) !important;
+          &:hover {
+            mat-icon {
+              color: mat-color($primary, base) !important;
+            }
+          }
+          mat-icon {
+            font-size: mat-font-size($custom-typography, display-3) !important;
+            color: mat-color($primary, light-font) !important;
+          }
+        }
+      }
+    }
+  }
+}

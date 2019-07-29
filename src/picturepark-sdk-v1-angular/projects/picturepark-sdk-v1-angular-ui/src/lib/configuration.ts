@@ -7,6 +7,8 @@ export interface ConfigActions {
 export interface PictureparkUIConfiguration {
     'ContentBrowserComponent': ConfigActions;
     'BasketComponent': ConfigActions;
+    'BrowserToolbarComponent': ConfigActions;
+    'ListBrowserComponent': ConfigActions;
 }
 
 export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_UI_CONFIGURATION');
@@ -24,6 +26,9 @@ export function PictureparkUIConfigurationFactory() {
             download: true,
             select: false,
             share: true
+        },
+        'BrowserToolbarComponent': {
+            select: true,
         },
         'ListBrowserComponent': {
             download: true,

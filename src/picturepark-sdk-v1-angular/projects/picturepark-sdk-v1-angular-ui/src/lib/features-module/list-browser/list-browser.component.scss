@@ -3,13 +3,24 @@
   position: relative;
 
   .content-browser-toolbar-container {
-    height: 54px;
+    height: 56px;
     background-color: #eee;
+    border-bottom: 1px solid blue;
+    overflow: hidden;
+    mat-toolbar {
+      height: 56px;
+    }
+    .mat-toolbar {
+      background: #eee;
+    }
   }
 
   .table-container {
     height: calc(100% - 54px);
     overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 10;
     table {
       width: 100%;
       mat-checkbox {

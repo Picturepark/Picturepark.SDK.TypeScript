@@ -1,73 +1,62 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~normalize.css";
+// LIBRARY GLOBAL STYLES (keep on top)
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/styles_lib.scss';
+
+// CUSTOM THEME
 @import "theme.scss";
-@import "date-picker.scss";
-@import "share-content-recipients-input.scss";
-@import "share-content-dialog.scss";
 
-@include mat-core();
+// REQUIRED THEMES
+@import './theme/aggregation-theme.component.scss';
+@import './theme/application-header-theme.component.scss';
+@import './theme/application-menu-theme.component.scss';
+@import './theme/basket-theme.component.scss';
+@import './theme/basket-item-theme.component.scss';
+@import './theme/browser-base-theme.component.scss';
+@import './theme/browser-toolbar-theme.component.scss';
+@import './theme/browser-item-base-theme.component.scss';
+@import './theme/content-aggregation-list-theme.component.scss';
+@import './theme/content-browser-theme.component.scss';
+@import './theme/content-browser-item-theme.component.scss';
+@import './theme/channel-picker-theme.component.scss';
+@import './theme/dialog-base-theme.component.scss';
+@import './theme/item-tool-bar-theme.component.scss';
+@import './theme/list-browser-theme.component.scss';
+@import './theme/schema-browser-item-theme.component.scss';
+@import './theme/share-content-dialog-theme.component.scss';
+@import './theme/share-aggregation-list-theme.component.scss';
+@import './theme/share-browser-item-theme.component.scss';
+@import './theme/share-content-dialog-item-theme.component.scss';
+@import './theme/share-content-recipients-input-theme.component.scss';
+@import './theme/panel-base-theme.component.scss';
+@import './theme/share-preview-theme.component.scss';
+
+// LOAD THEME COMPONENTS WITH CUSTOM THEME
+@mixin my-components-theme($theme) {
+    @include pp-aggregation-theme($theme);
+    @include pp-application-header-theme($theme);
+    @include pp-application-menu-theme($theme);
+    @include pp-basket-theme($theme);
+    @include pp-basket-item-theme($theme);
+    @include pp-browser-base-theme($theme);
+    @include pp-browser-item-base-theme($theme);
+    @include pp-browser-toolbar-theme($theme);
+    @include pp-content-aggregation-list-theme($theme);
+    @include pp-content-browser-theme($theme);
+    @include pp-content-browser-item-theme($theme);
+    @include pp-channel-picker-theme($theme);
+    @include pp-dialog-base-theme($theme);
+    @include pp-list-browser-theme($theme);
+    @include pp-item-tool-bar-theme($theme);
+    @include pp-share-content-dialog-theme($theme);
+    @include pp-share-aggregation-list-theme($theme);
+    @include pp-share-browser-item-theme($theme);
+    @include pp-share-content-dialog-item-theme($theme);
+    @include pp-share-content-recipients-input-theme($theme);
+    @include pp-panel-base-theme($theme);
+    @include pp-share-preview-theme($theme);
+}
+
 @include angular-material-theme($picturepark-app-theme);
+@include my-components-theme($picturepark-app-theme);
 
-body {
-  font-family: Roboto;
-}
-
-.app-root-container {
-  position: relative; background-color: #eeeeee; height: 100vh;
-  mat-progress-bar { position: absolute; top: 0px; }
-  .app-root-content {
-    position: relative; top: 50%; margin: 0 auto; height: 200px; text-align: center;
-      svg {
-          height: 200px;
-          width: 200px;
-          transform: translate(0%, -50%);
-          path {
-              fill: #dcdcdc;
-          }
-      }
-  }
-}
-
-.filters .mat-tab-label {
-  height: 54px;
-}
-
-.form {
-  background: rgba(0,0,0,.24) !important;
-}
-.form:focus-within {
-  background: rgba(0,0,0,.14) !important;
-}
-
-.mat-expansion-panel-body,
-.mat-expansion-panel,
-.mat-expansion-panel-header.mat-expanded,
-.mat-expansion-panel-header.mat-expanded:hover { background: #eee !important; }
-.mat-tab-header { height: 56px; background: #eeeeee; }
-.content-browser__header { border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important; }
-
-// APP ROOT CONTAINER
-.authorization-container .authorization-content mat-spinner {
-  width: 45px !important; height: 45px !important; margin: 0 auto; position: relative; bottom: 35%;
-  svg { width: 45px !important; height: 45px !important; }
-}
-
-// OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
-.cdk-focused.cdk-program-focused { background-color: transparent !important; }
-
-// PANEL ITEMS BUTTON HOVER
-.panel-container .panel-header .panel-buttons button .mat-button-focus-overlay { background: white; }
-
-// PANEL ITEMS LOADER
-.item-panel-preview-container .loader mat-spinner { width: 30px !important; height: 30px !important; margin: 0 auto; position: relative; top: 35%; }
-.item-panel-preview-container .loader mat-spinner svg { width: 30px !important; height: 30px !important; }
-
-// SHARE ITEM MANAGE LOADER
-.share-preview-container mat-spinner circle { stroke: #3fb3b1; }
-
-.browser-item__image-container mat-spinner {
-  width: 40px !important; height: 40px !important;
-  svg { width: 40px !important; height: 40px !important; }
-}
-
-@import "styles-resp.scss";
+// GLOBAL STYLES (keep at bottom)
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';

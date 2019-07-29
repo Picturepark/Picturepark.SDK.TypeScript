@@ -1,0 +1,36 @@
+@import '~@angular/material/theming';
+
+// PANEL BASE VARS
+$pp-panel-base: (
+    title-color: #aaa,
+    contrast: ()
+);
+
+@mixin pp-panel-base-theme($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .panel-container { 
+        background-color: mat-color($primary, white-background) !important;
+        .panel-header {
+            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
+            h3 { 
+                color: mat-color($pp-panel-base, title-color) !important;
+            }
+            .panel-buttons {
+                & button { 
+                    color: mat-color($primary, base); border: 2px solid mat-color($primary, white-background) !important;
+                    &:hover { 
+                        background-color: mat-color($primary, white-background) !important;
+                        border: 2px solid mat-color($primary, base) !important;
+                        box-shadow: 0 0 3px mat-color($primary, base) !important;
+                    }
+                    &.square { border: 2px solid mat-color($primary, base) !important; }
+                }
+            }
+        }
+    }
+
+}

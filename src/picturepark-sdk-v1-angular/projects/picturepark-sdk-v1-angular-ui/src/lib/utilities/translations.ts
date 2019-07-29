@@ -12,6 +12,10 @@ export let TRANSLATIONS = {
       en: 'Clear',
       de: 'Leeren'
     },
+    ClearBasket2: {
+      en: 'Clear basket',
+      de: 'Leeren warenkorb'
+    },
     EmptyBasket: {
       en: 'Basket is empty.',
       de: 'Warenkorb ist leer.'

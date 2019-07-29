@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+
+// BROWSER TOOLBAR CONTAINER
+$pp-channel-picker: (
+    border-bottom-color: #d8d8d8,
+    button-color: $base,
+    icon-hover-background-color: $base,
+    icon-hover-color: #fff,
+    icon-sort-color: #727272,
+    icon-sort-hover-color: #000,
+    icon-color: $base,
+    contrast: ()
+);
+
+@mixin pp-channel-picker-theme($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .channel-picker-container {}
+
+}
