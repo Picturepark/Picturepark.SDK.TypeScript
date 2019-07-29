@@ -8,12 +8,7 @@
         color: #444; font-weight: 400; float: left;
         .search-content {
             padding: 0px 30px; cursor: pointer;
-            & svg { 
-                width: 24px; position: relative; top: 20px; margin: 0px 30px 0px 0px; float: left;
-                path {
-                    fill: #727272;
-                }
-            }
+            & i { line-height: 63px; margin: 0px 30px 0px 0px; color: rgba(0,0,0,0.54); float: left; }
             & input { 
                 border: 0px; font-weight: 200; float: left; height: 61px;
                 &:focus {
