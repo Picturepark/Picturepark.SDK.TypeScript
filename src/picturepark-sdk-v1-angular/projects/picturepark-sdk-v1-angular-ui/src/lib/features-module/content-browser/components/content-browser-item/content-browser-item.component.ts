@@ -62,6 +62,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
       ).subscribe(response => {
       if (response) {
         this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
+        console.log(this.thumbnailUrl)
         this.isLoading = false;
       }
     }, () => {

@@ -45,6 +45,15 @@
     flex-grow: 1;
     position: relative;
     background-color: #dcdcdc;
+    .apps {
+      font-size: 64px;
+      position: relative;
+      top: 50%;
+      margin: 0 auto;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #aaa;
+    }
   }
 
   &__image-virtual-item-container {
@@ -70,6 +79,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+
   }
 
   &__image {
