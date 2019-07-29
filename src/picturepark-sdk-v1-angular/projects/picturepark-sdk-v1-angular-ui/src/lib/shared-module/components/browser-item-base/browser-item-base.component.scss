@@ -49,6 +49,7 @@
     }
 
     #{ $self }__list-view-actions {
+      
       position: absolute;
       right: 30px;
       top: 35px;
@@ -59,10 +60,41 @@
         li {
           float: left;
           color: #727272;
+          margin: 0px 0px 0px 15px;
+          display: none;
+          button {
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 2px;
+            mat-icon {
+              font-size: 21px;
+            }
+            .clear { display: none; }
+            &:hover {
+              mat-icon { 
+                color: #2f2f2f;
+                
+              }
+            }
+          }
+          &.in-basket {
+            display: inherit;
+            button {
+              background-color: #2f2f2f;
+              color: #39acaa;
+              &:hover {
+                .remove { display: none; }
+                .clear { display: inherit; }
+                mat-icon { 
+                  color: red;
+                }
+              }
+            }
+          }
         }
       }
     }
-
   }
 
   &:hover {
@@ -73,6 +105,14 @@
     }
     #{ $self }__basket-icon {
       visibility: initial;
+    }
+    #{ $self }__list-view-actions {
+      ul {
+        li {
+          display: inherit;
+          
+        }
+      }
     }
   }
 
