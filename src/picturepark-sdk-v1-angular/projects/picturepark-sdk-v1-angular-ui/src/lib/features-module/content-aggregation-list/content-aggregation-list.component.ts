@@ -12,7 +12,10 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 @Component({
   selector: 'pp-content-aggregation-list',
   templateUrl: './content-aggregation-list.component.html',
-  styleUrls: ['./content-aggregation-list.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/aggregation-list/aggregation-list.component.scss',
+    './content-aggregation-list.component.scss'
+  ],
 })
 export class ContentAggregationListComponent extends AggregationListComponent {
   @Input()
