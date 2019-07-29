@@ -39,6 +39,7 @@
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
+      background-color: transparent !important;
       &__title-content {
         color: #2f2f2f;
       }
