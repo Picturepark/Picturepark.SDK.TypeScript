@@ -24,7 +24,6 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   public isLoading = true;
 
-  public thumbnailUrl: SafeUrl | null = null;
   public thumbnailUrls: SafeUrl[] = [];
 
   constructor(
@@ -77,8 +76,8 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
       if (updateImage) {
 
         this.isLoading = true;
-        this.thumbnailUrl = null;
-        this.loadItem.next();
+        this.thumbnailUrls = [];
+        this.getThumbnails(this.itemModel.item.contentIds);
       }
     }
   }

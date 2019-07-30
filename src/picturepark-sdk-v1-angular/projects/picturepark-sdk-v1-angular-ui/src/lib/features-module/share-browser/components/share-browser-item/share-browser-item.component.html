@@ -4,12 +4,12 @@
       <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[0]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
     </div>
     <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="thumbnailUrls.length === 3">
-      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[0]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
-      <div class="items">
-        <div class="item">
+      <img *ngIf="!isLoading" class="browser-item__image extra-thumbnail" [src]="thumbnailUrls[0]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
+      <div class="browser-item__extra-thumbnails">
+        <div class="thumbnail">
           <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[1]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
         </div>
-        <div class="item">
+        <div class="thumbnail">
           <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[2]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
         </div>
       </div>
