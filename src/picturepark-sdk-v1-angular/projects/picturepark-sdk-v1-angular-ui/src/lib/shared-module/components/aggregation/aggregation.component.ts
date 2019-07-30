@@ -57,6 +57,8 @@ export class AggregationComponent extends BaseComponent implements OnChanges, On
 
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
 
+  public isLoading = false;
+
   public constructor(@Inject(LOCALE_ID) public locale: string) {
     super();
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
@@ -105,6 +107,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges, On
   }
 
   public searchAggregator(query: string): Observable<AggregationResultItem[]> {
+    this.isLoading = true;
     if (query === '') {
       return from([]);
     }
@@ -114,23 +117,27 @@ export class AggregationComponent extends BaseComponent implements OnChanges, On
     this.expandedAggregator.searchString = query;
     this.expandedAggregator.size = this.pagingSize;
 
-    const observableResult = this.fetchSearchData(query, this.expandedAggregator)
-      .pipe(map((result) => {
+    const observableResult = this.fetchSearchData(query, this.expandedAggregator).pipe(map((result) => {
 
-        if (result.aggregationResults !== undefined) {
-          const items = this.expandAggregationResult(result.aggregationResults[0]).aggregationResultItems || [];
+      if (result.aggregationResults !== undefined) {
+        const items = this.expandAggregationResult(result.aggregationResults[0]).aggregationResultItems || [];
 
-          const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
-            this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
+        const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
+          this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
 
-          return items.filter((item) => !currentSelectedValues.some((value => value.name === item.name)));
-        }
+        return items.filter((item) => !currentSelectedValues.some((value => value.name === item.name)));
+      }
 
-        return [];
-      }));
+      return [];
+    }));
 
     this.expandedAggregator.searchString = undefined;
     this.expandedAggregator.size = sizeStore;
+
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 500);
 
     return observableResult;
   }
