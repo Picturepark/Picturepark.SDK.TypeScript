@@ -66,7 +66,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   // UPDATE IMAGE SRC IN CASE NOT FOUND
   updateUrl(event) {
-   event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png'
+   event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
