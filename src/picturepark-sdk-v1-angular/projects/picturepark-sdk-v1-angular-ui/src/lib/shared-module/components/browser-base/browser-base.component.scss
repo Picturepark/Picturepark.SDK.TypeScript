@@ -32,6 +32,10 @@
     grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
     background-color: #eeeeee;
     grid-gap: 25px;
+    #{ $self }__item-container {
+      height: 120px;
+    }
+
 
     &--list {
       grid-template-columns: 1fr;
