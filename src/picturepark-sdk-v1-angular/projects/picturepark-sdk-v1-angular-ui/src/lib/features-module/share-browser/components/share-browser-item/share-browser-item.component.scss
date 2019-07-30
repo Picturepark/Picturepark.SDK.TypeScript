@@ -32,6 +32,22 @@
     bottom: 0;
     left: 0;
     right: 0;
+    
+  }
+
+  &__extra-items {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 30%;
+    height: 100%;
+    .item {
+      height: 50%;
+      background-color: #dcdcdc;
+      img {
+        width: 100%
+      }
+    }
   }
 
   &__items-num-container {

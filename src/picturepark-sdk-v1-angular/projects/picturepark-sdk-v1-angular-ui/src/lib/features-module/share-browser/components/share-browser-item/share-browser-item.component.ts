@@ -1,3 +1,4 @@
+    
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { switchMap } from 'rxjs/operators';
@@ -7,8 +8,6 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
-
-
 
 @Component({
   selector: 'pp-share-browser-item',
@@ -26,6 +25,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   public isLoading = true;
 
   public thumbnailUrl: SafeUrl | null = null;
+  public thumbnailUrls: SafeUrl[] = [];
 
   constructor(
     private contentService: ContentService,
@@ -34,28 +34,36 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     super();
   }
 
-  public ngOnInit(): void {
-    const downloadSubscription = this.loadItem.pipe(
-      switchMap(
-        () => {
-          return this.contentService.downloadThumbnail(
-            this.itemModel.item.contentIds[0],
-            this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize || ThumbnailSize.Medium,
-            null,
-            null);
-        })
-    ).subscribe(response => {
-        if (response) {
-          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-          this.isLoading = false;
-        }
-    }, (error) => {
-      console.log('error', error);
-      this.thumbnailUrl = null;
+
+  public getThumbnails(contentIds: string[]): void {
+
+    const contentIdsReq = contentIds.slice(0, 3);
+
+    Promise.all(contentIdsReq.map(contentId => {
+      return this.contentService.downloadThumbnail(
+        contentId,
+        this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize || ThumbnailSize.Medium,
+        null,
+        null);
+
+    })).then(vals => {
+      vals.map(val => {
+        const downloadSubscription = val.subscribe(response => {
+          if (response) {
+            this.thumbnailUrls.push(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data)));
+          }
+        });
+        this.subscription.add(downloadSubscription);
+      });
       this.isLoading = false;
+    }).catch(err => {
+      console.log(err);
     });
 
-    this.subscription.add(downloadSubscription);
+  }
+
+  public ngOnInit(): void {
+    this.getThumbnails(this.itemModel.item.contentIds);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
