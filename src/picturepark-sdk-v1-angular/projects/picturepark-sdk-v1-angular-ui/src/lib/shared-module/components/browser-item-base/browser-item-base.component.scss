@@ -21,13 +21,19 @@
     #{ $self }__title {
       background-color: #6f6f6f;
       color: #d8d8d8;
-      
     }
 
   }
-
+  
   &--list-view {
     display: -webkit-inline-box;
+
+    #{ $self }__image {
+      max-height: unset;
+      height: unset;
+      width: 100%;
+    }
+
     #{ $self }__image-slot {
       width: 120px;
       overflow: hidden;
@@ -35,6 +41,7 @@
       border-top: 5px solid #d8d8d8;
       border-bottom: 5px solid #d8d8d8;
     }
+    
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
@@ -44,6 +51,7 @@
         color: #2f2f2f;
       }
     }
+    
     #{ $self }__actions {
       align-self: flex-end;
     }

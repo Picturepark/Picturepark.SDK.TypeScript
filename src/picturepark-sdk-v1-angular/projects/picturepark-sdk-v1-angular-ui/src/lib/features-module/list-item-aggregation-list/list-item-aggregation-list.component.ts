@@ -13,7 +13,10 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 @Component({
   selector: 'pp-list-item-aggregation-list',
   templateUrl: './list-item-aggregation-list.component.html',
-  styleUrls: ['./list-item-aggregation-list.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/aggregation-list/aggregation-list.component.scss',
+    './list-item-aggregation-list.component.scss'
+  ],
 })
 export class ListItemAggregationListComponent extends AggregationListComponent {
   @Input() schemaId: string;

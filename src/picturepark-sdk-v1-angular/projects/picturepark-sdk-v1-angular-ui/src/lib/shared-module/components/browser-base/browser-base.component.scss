@@ -26,10 +26,13 @@
     overflow-y: scroll;
     overflow-x: hidden;
     height: calc(100% - 107px);
+    padding: 25px;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
     background-color: #eeeeee;
-    
+    grid-gap: 25px;
+
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;
@@ -43,22 +46,22 @@
     &--large {
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       grid-template-rows: repeat(auto-fill, minmax(280px, 1fr));
+      grid-gap: 25px;
       #{ $self }__item-container {
         height: 280px;
       }
     }
     &--medium {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(180px, 1fr));
+      grid-gap: 45px 25px;
       #{ $self }__item-container {
         height: 200px;
       }
     } // image sizes: 120px, 200px, 320px
 
-    padding: 25px;
-    display: grid;
-    grid-gap: 25px;
 
+    
     &::-webkit-scrollbar {
       width: 10px;
     }
