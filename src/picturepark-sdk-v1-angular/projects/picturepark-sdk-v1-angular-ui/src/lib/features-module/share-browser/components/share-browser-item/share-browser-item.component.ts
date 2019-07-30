@@ -45,9 +45,9 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
         null,
         null);
 
-    })).then(vals => {
-      vals.map(val => {
-        const downloadSubscription = val.subscribe(response => {
+    })).then(items => {
+      items.map(item => {
+        const downloadSubscription = item.subscribe(response => {
           if (response) {
             this.thumbnailUrls.push(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data)));
           }
@@ -63,6 +63,11 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   public ngOnInit(): void {
     this.getThumbnails(this.itemModel.item.contentIds);
+  }
+
+  // UPDATE IMAGE SRC IN CASE NOT FOUND
+  updateUrl(event) {
+   event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png'
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
