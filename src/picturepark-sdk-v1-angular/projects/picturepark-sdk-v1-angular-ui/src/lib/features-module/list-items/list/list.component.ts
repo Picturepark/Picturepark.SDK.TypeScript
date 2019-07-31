@@ -130,11 +130,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
 
-    console.log(aggregationFilters);
-
     const flatten = lodash.chain(aggregationFilters).groupBy('aggregationName').toPairs().value();
-
-    console.log(flatten);
 
     const preparedFilters = flatten
       .map(array => {
