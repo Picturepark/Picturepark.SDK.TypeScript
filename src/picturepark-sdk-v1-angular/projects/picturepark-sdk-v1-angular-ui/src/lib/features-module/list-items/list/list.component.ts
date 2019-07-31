@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 // ANGULAR CDK
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -13,10 +13,8 @@ import {
   AndFilter,
   FilterBase,
   OrFilter,
-  ProfileService,
   SchemaDetail,
-  SchemaService,
-  UserRight
+  SchemaService
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
 
@@ -131,7 +129,13 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
+
+    console.log(aggregationFilters);
+
     const flatten = lodash.chain(aggregationFilters).groupBy('aggregationName').toPairs().value();
+
+    console.log(flatten);
+
     const preparedFilters = flatten
       .map(array => {
         const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)

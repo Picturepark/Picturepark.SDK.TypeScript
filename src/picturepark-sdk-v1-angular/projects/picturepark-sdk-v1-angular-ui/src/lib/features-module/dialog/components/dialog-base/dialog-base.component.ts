@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
+import { OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 

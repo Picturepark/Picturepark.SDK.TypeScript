@@ -30,7 +30,11 @@
       font-size: 14px;
     }
   }
-  
+
+  .mat-expansion-panel-body {
+    padding: 0;
+}
+
   .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
     padding: unset;
   

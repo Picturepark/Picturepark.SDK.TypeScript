@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Content, ContentService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { Content, ContentService } from '@picturepark/sdk-v1-angular';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({

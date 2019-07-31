@@ -1,12 +1,76 @@
 .content-picker-content {
   display: flex; height: calc(100vh - 64px); overflow: hidden;
   pp-channel-picker { position: absolute; top: 16px; right: 80px; }
-  .filters {
-    width: 20%;
-    mat-tab-group {
-      height: 100%;
+  &.active {
+    .content {
+      width: 100%;
+    }
+    .filters {  
+      width: 0%
+    }
+    .expand {
+      left: 20%;
     }
   }
+  .content {
+    position: relative;
+    width: 80%;
+    transition: 500ms;
+    .expand-browser {
+      position: absolute;
+      height: 56px;
+      width: 56px;
+      text-align: center;
+      z-index: 100;
+      cursor: pointer;
+      right: 0px;
+      top: 0px;
+      color: #727272;
+      i {
+        line-height: 56px;
+        &:hover {
+          color: #444;
+        }
+      }
+    }
+  }
+  .filters {
+    position: relative;
+    left: 0%;
+    width: 20%;
+    transition: 500ms;
+    overflow: hidden;
+    
+
+    mat-tab-group {
+      position: absolute;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      min-width: 350px;
+    }
+
+    .expand {
+      position: relative;
+      height: 56px;
+      width: 65px;
+      text-align: center;
+      z-index: 100;
+      float: right;
+      cursor: pointer;
+      i {
+        line-height: 56px;
+        color: #727272;
+      }
+      &:hover {
+        i {
+          color: #444;
+        }
+      }
+    }
+
+  }
+
   .footer {
     position: fixed;
     bottom: -64px;
@@ -32,30 +96,4 @@
       right: 120px;
     }
   }
-}
-
-
-.navbar {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  background-color: #fff;
-  color: #000;
-}
-
-.container {
-  background: #eee;
-}
-
-
-
-.content {
-  flex-grow: 1;
-  flex-basis: 0;
-  overflow: auto;
-  background: #fafafa;
-}
-
-
-
-.spacer {
-  flex: 1 1 auto;
 }

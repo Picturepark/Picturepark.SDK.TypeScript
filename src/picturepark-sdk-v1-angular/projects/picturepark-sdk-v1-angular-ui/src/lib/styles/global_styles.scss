@@ -60,6 +60,16 @@
 }
 pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }
 
+.filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
+  display: none !important;
+}
+
+.filters mat-tab-group mat-tab-header .mat-tab-label {
+  padding: 0px;
+  min-width: 100px;
+  mat-ink-bar { width: 28%; }
+}
+
 // APP ROOT CONTAINER
 .authorization-container .authorization-content mat-spinner {
   width: 45px !important; height: 45px !important; margin: 0 auto; position: relative; bottom: 35%;

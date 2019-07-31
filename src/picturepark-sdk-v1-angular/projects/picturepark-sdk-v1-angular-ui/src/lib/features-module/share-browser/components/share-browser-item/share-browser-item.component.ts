@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, SecurityContext } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { switchMap } from 'rxjs/operators';
 
@@ -7,8 +7,6 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
-
-
 
 @Component({
   selector: 'pp-share-browser-item',
