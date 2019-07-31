@@ -137,8 +137,8 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     return observableResult;
   }
 
-  public inputChange(event) {
-    if (event.code !== 'Backspace' && event.code !== 'Enter') {
+  public inputChange(event): void {
+    if (event.code !== 'Backspace' && event.code !== 'Enter' && event.code !== 'Space') {
       this.isLoading = true;
     }
   }
@@ -147,7 +147,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     return aggregationResultItem ? aggregationResultItem.name : undefined;
   }
 
-  public autoCompleteOptionSelected(value: AggregationResultItem) {
+  public autoCompleteOptionSelected(value: AggregationResultItem): void {
     const filters = this.expandedAggregationResult!.aggregationResultItems ?
       this.expandedAggregationResult!.aggregationResultItems!
         .filter(agr => agr.active === true && agr.filter)
@@ -183,11 +183,11 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
       && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
   }
 
-  public trackByName(index, aggregationResultItem: AggregationResultItem) {
+  public trackByName(index, aggregationResultItem: AggregationResultItem): string {
     return aggregationResultItem.name;
   }
 
-  private updateAggregationResult(aggregationResult: AggregationResult | null) {
+  private updateAggregationResult(aggregationResult: AggregationResult | null): void {
     this.expandedAggregationResult = aggregationResult ? this.expandAggregationResult(aggregationResult) : null;
   }
 
