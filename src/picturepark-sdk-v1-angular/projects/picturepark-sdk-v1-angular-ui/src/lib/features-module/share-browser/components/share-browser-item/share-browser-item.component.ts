@@ -64,8 +64,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     this.getThumbnails(this.itemModel.item.contentIds);
   }
 
-  // UPDATE IMAGE SRC IN CASE NOT FOUND
-  updateUrl(event) {
+  public updateUrl(event) {
    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
   }
 

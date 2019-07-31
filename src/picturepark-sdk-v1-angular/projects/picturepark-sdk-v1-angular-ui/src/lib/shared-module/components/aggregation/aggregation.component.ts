@@ -19,7 +19,7 @@ import { BaseComponent } from '../base.component';
     './aggregation.component.scss'
   ]
 })
-export class AggregationComponent extends BaseComponent implements OnChanges, OnInit {
+export class AggregationComponent extends BaseComponent implements OnChanges {
 
   // Used for performing aggregate request (autocomplete functionality).
   @Input()
@@ -67,10 +67,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges, On
       flatMap(value => this.searchAggregator(value)));
   }
 
-  ngOnInit(): void {
-
-  }
-
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['aggregator']) {
       this.expandedAggregator = this.expandAggregator(this.aggregator);
@@ -107,7 +103,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges, On
   }
 
   public searchAggregator(query: string): Observable<AggregationResultItem[]> {
-    this.isLoading = true;
+
     if (query === '') {
       return from([]);
     }
@@ -134,12 +130,17 @@ export class AggregationComponent extends BaseComponent implements OnChanges, On
     this.expandedAggregator.searchString = undefined;
     this.expandedAggregator.size = sizeStore;
 
-
     setTimeout(() => {
       this.isLoading = false;
     }, 500);
 
     return observableResult;
+  }
+
+  public inputChange(event) {
+    if (event.code !== 'Backspace' && event.code !== 'Enter') {
+      this.isLoading = true;
+    }
   }
 
   public queryDisplay(aggregationResultItem: AggregationResultItem): string | undefined {
