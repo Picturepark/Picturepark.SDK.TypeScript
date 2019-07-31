@@ -2,11 +2,11 @@
   <div class="browser-item__image-slot">
     <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="virtualItemHtml === null; else virtualContent">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
-      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
+      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
     </div>
-
     <ng-template #virtualContent>
       <div class="browser-item__image-virtual-item-container" [innerHTML]="virtualItemHtml"></div>
+      <i class="material-icons apps">apps</i>
     </ng-template>
 
     <div class="browser-item__actions" *ngIf="!isListView">
@@ -62,6 +62,8 @@
     [class.browser-item__basket-icon--selected]="itemModel.isInBasket"
     [color]="itemModel.isInBasket ? 'accent' : 'basic'"
     [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
-    <mat-icon aria-label="Add item to basket">add</mat-icon>
+    <mat-icon class="add" aria-label="Add item to basket" *ngIf="!itemModel.isInBasket">add</mat-icon>
+    <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">done</mat-icon>
+    <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">clear</mat-icon>
   </button>
 </div>

@@ -1,48 +1,49 @@
 .aggregation {
-  &__title {
-    align-items: center;
-    justify-content: space-between;
-  }
-  &__search {
-    width: 100%;
-  }
-  &__option-title {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-  }
-  &__option-name {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-right: 10px;
-  }
-  .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
-    height: 28px;
-  }
-  
-  .mat-expansion-panel-header {
-    font-size: 14px;
-  }
-  
-  .mat-list-base {
-    .mat-list-item, .mat-list-option, .mat-subheader {
+
+    .mat-expansion-panel-body {
+        padding: 0 !important;
+    }
+
+    &__search {
+      width: 100%;
+    }
+    &__option-title {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+    }
+    &__option-name {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-right: 10px;
+    }
+    .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+      height: 28px;
+      padding: 0 20px;
+    }
+    
+    .mat-expansion-panel-header {
       font-size: 14px;
     }
-  }
-  
-  .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
-    padding: unset;
-  
-    .mat-list-text {
-      padding-left: 5px;
+    
+    .mat-list-base {
+      .mat-list-item, .mat-list-option, .mat-subheader {
+        font-size: 14px;
+      }
     }
-  
-    .mat-pseudo-checkbox {
-      height: 14px;
-      width: 14px;
-      border: 1px solid #444;
+    
+    .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
+      padding: unset;
+    
+      .mat-list-text {
+        padding-left: 5px;
+      }
+    
+      .mat-pseudo-checkbox {
+        height: 14px;
+        width: 14px;
+        border: 1px solid #444;
+      }
     }
   }
-}
-  

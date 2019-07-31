@@ -104,6 +104,10 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     this.contentDownloadDialogService.showDialog([this.itemModel.item]);
   }
 
+  public updateUrl(event) {
+    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+  }
+
   public toggleInBasket() {
     if (!this.itemModel.item.id) {
       return;
