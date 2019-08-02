@@ -65,7 +65,6 @@
 .mat-tab-header { 
   height: 56px; 
   background: mat-color($picturepark-app-primary, light-background);
-  border-left: 1px solid mat-contrast($picturepark-app-primary, light-background);
   border-bottom: 1px solid mat-contrast($picturepark-app-primary, light-background);
 }
 pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }
@@ -78,6 +77,14 @@ pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($p
   padding: 0px;
   min-width: 100px;
   mat-ink-bar { width: 28%; }
+}
+
+.aggregation-filter {
+  pp-aggregation-item:last-child {
+      mat-expansion-panel {
+        border-bottom: 1px solid #d8d8d8 !important;
+      }
+  }
 }
 
 // APP ROOT CONTAINER
@@ -106,6 +113,7 @@ pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($p
 
 .mat-tab-body-wrapper {
   height: 100% !important;
+  background-color: #eee;
 }
 
 .mat-menu-panel {
