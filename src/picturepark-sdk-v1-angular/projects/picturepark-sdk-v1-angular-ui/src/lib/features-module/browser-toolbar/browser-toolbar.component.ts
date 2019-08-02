@@ -25,7 +25,7 @@ export class BrowserToolbarComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    const selectionChange = this.browser.selectedItemsChange.subscribe(i => console.log(i) );
-    this.subscription.add(selectionChange);
+    // const selectionChange = this.browser.selectedItemsChange.subscribe(i => console.log(i) );
+    // this.subscription.add(selectionChange);
   }
 }

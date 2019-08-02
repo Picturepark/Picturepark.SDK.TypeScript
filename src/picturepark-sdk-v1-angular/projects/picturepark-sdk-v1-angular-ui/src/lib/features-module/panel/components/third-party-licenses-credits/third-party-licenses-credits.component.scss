@@ -1,0 +1,22 @@
+.panel-container {
+    .panel-content {
+        padding: 30px;
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+            width: 60%;
+            display: inline-block;
+            li {
+                float: left;
+                &.source { width: 200px; }
+                &.name { width: 600px; }
+                &.license { width: 300px; }
+                span { 
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
