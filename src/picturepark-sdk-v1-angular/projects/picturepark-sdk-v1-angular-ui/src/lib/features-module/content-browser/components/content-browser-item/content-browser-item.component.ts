@@ -92,7 +92,6 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Medium && this.thumbnailSize === ThumbnailSize.Large);
 
       if (updateImage) {
-
         this.isLoading = true;
         this.thumbnailUrl = null;
         this.loadItem.next();

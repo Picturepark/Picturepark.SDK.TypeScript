@@ -38,5 +38,13 @@
   }
   .mat-toolbar {
     background: #eee;
+    padding: 0 20px;
+    border-bottom: 1px solid #d8d8d8;
+    button {
+      mat-icon {
+        font-size: 21px;
+        color: #727272;
+      }
+    }
   }
 }

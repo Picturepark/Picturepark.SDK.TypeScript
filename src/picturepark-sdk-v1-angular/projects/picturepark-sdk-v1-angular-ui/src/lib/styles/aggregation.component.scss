@@ -11,9 +11,19 @@ pp-aggregation-item {
             mat-panel-title {
                 font-weight: 500;
                 font-size: 13px;
-                color: #727272;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                &.mat-expansion-panel-header-title {
+                    color: #727272;
+                }
+                button {
+                    position: absolute !important;
+                    top: 8px;
+                    right: 25px;
+                    mat-icon {
+                        font-size: 21px !important;
+                    }
+                }
             }
             &:hover {
                 background-color: #d8d8d8;
@@ -23,6 +33,11 @@ pp-aggregation-item {
             right: 35px;
             width: calc(100% + 35px) !important;
             height: 2px !important;
+        }
+        &.expanded {
+            &.mat-expansion-panel-header {
+
+            }
         }
     }
     .mat-expansion-panel-content .mat-expansion-panel-body { padding: 0; }

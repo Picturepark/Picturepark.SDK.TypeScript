@@ -1,4 +1,4 @@
-<div class="content-picker-content">
+<div class="content-picker-content" [ngClass]="{ active: expandedContent }">
   <pp-channel-picker [(channel)]="selectedChannel"></pp-channel-picker>
   <div class="content">
     <pp-content-browser 
@@ -9,9 +9,12 @@
       (previewItemChange)="openDetails($event)"
       (selectedItemsChange)="selectionChange($event)">
     </pp-content-browser>
+    <div class="expand-browser" *ngIf="expandedContent" (click)="expand()">
+      <i class="material-icons">keyboard_arrow_left</i>
+    </div>
   </div>
 
-  <div class="filters">
+  <div class="filters" #filtersContainer>
     <mat-tab-group>
       <mat-tab label="Filters">
         <pp-content-aggregation-list 
@@ -38,7 +41,11 @@
         </ul>
       </mat-tab>
     </mat-tab-group>
+    <div class="expand" *ngIf="!expandedContent" (click)="expand()">
+      <i class="material-icons">keyboard_arrow_right</i>
+    </div>
   </div>
+
   <div class="footer" [ngClass]="{ active: selectedItems.length > 0 }">
     <div class="mat-typography title">
       <ng-container *ngIf="selectedItems.length === 1">

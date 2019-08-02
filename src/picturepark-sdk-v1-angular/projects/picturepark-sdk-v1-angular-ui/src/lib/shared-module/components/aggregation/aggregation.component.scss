@@ -34,11 +34,9 @@
       padding: 0 20px;
       position: relative;
     }
-    
-    .mat-expansion-indicator::after {
-      position: absolute;
-      right: 0px;
-      top: 0px;
+
+    .mat-expansion-panel-body {
+      padding: 0;
     }
 
     .mat-list-base {

@@ -1,6 +1,4 @@
-import {
-  Component, Input, OnChanges, SimpleChanges, Injector
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -10,9 +8,7 @@ import {
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
-import {
-  ShareContentDialogComponent
-} from '../dialog/components/share-content-dialog/share-content-dialog.component';
+import { ShareContentDialogComponent } from '../dialog/components/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';

@@ -34,4 +34,16 @@
       background-color: #eeeeee;
     }
   }
+
+  mat-toolbar {
+    button {
+      mat-icon {
+        font-size: 21px;
+        color: #727272;
+        position: relative;
+        left: 9px;
+      }
+    }
+  }
+
 }

@@ -52,6 +52,16 @@
 .mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
 .mat-expansion-panel-header.mat-expanded:hover { background: mat-color($picturepark-app-primary, light-background) !important; }
+.mat-expansion-panel-header .mat-expansion-indicator {
+  position: absolute;
+  bottom: 2px;
+  right: 24px;
+}
+.mat-expansion-panel-header .mat-selection-list {
+  &::focus {
+    outline: -webkit-focus-ring-color auto 0px;
+  }
+}
 .mat-tab-header { 
   height: 56px; 
   background: mat-color($picturepark-app-primary, light-background);
@@ -59,6 +69,16 @@
   border-bottom: 1px solid mat-contrast($picturepark-app-primary, light-background);
 }
 pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }
+
+.filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
+  display: none !important;
+}
+
+.filters mat-tab-group mat-tab-header .mat-tab-label {
+  padding: 0px;
+  min-width: 100px;
+  mat-ink-bar { width: 28%; }
+}
 
 // APP ROOT CONTAINER
 .authorization-container .authorization-content mat-spinner {
