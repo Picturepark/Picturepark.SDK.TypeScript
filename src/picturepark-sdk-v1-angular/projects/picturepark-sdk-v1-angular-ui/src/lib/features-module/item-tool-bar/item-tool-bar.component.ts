@@ -11,6 +11,7 @@ import { EventEmitter } from 'events';
 })
 export class ItemToolBarComponent implements OnInit {
 
+  @Input() toolBarIcon = 'code';
   @Input() toolBarOptions: any[] = [];
   @Output() toolBarOutPutEvent = new EventEmitter();
 

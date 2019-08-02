@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // LIBRARIES
-import { ApplicationHeaderModule, PanelModule } from '@picturepark/sdk-v1-angular-ui';
+import { ApplicationHeaderModule, ItemToolBarModule, PanelModule } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
 import { HelpRoutingModule } from './help-routing.module';
@@ -20,6 +20,7 @@ import { HelpComponent } from './components/help/help.component';
     CommonModule,
     ApplicationHeaderModule,
     HelpRoutingModule,
+    ItemToolBarModule,
     PanelModule
   ]
 })
