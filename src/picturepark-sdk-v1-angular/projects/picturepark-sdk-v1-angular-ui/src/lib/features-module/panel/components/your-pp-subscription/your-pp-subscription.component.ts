@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+// COMPONENTS
+import { PanelBaseComponent } from '../panel-base/panel-base.component';
 
 @Component({
   selector: 'pp-your-pp-subscription',
   templateUrl: './your-pp-subscription.component.html',
-  styleUrls: ['./your-pp-subscription.component.css']
+  styleUrls: ['../panel-base/panel-base.component.scss', './your-pp-subscription.component.scss']
 })
-export class YourPpSubscriptionComponent implements OnInit {
+export class YourPpSubscriptionComponent extends PanelBaseComponent {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
+    super();
   }
 
 }
