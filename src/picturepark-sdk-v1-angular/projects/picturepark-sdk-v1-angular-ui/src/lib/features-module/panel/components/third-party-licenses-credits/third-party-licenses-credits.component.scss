@@ -9,13 +9,13 @@
             padding: 0;
             margin: 0;
             font-size: 13px;
-            width: 60%;
+            width: 70%;
             display: inline-block;
             li {
                 float: left;
-                &.source { width: 100px; }
-                &.name { width: 300px; }
-                &.license { width: 100px; }
+                &.source { width: 20%; }
+                &.name { width: 50%; }
+                &.license { width: 15%; }
                 span { 
                     font-weight: 500;
                 }

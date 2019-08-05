@@ -40,6 +40,7 @@
     }
 
     .mat-list-base {
+      padding-bottom: 8px;
       .mat-list-item, .mat-list-option, .mat-subheader {
         font-size: 14px;
       }
@@ -72,6 +73,12 @@
         padding: 0px 20px;
         font-weight: 400;
       }
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 5px;
+      top: -19px;  
     }
 
   }
