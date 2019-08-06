@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnInit, Output, Injector, SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, Injector, SimpleChanges, OnChanges } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 // LIBRARIES
@@ -9,7 +7,7 @@ import {
   SchemaService, SearchBehavior, SortDirection, SortInfo, TermFilter, FilterBase, SchemaSearchResult
 } from '@picturepark/sdk-v1-angular';
 
-// INTERFACES
+// COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 
 @Component({
@@ -22,6 +20,7 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> implements OnInit, OnChanges {
+
   @Input() public activeParentSchema: BehaviorSubject<Schema>;
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
 
