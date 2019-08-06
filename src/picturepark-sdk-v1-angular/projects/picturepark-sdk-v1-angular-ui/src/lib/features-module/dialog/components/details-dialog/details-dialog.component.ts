@@ -47,7 +47,6 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
       ContentResolveBehavior.Outputs
     ]).subscribe(async content => {
       await this.liquidRenderingService.renderNestedDisplayValues(content);
-      console.log(content)
       if (content) {
         this.content = content;
         this.schemas = await this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).toPromise();

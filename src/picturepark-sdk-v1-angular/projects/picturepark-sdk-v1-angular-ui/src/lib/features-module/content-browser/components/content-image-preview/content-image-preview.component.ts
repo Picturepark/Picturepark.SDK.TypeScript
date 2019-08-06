@@ -12,7 +12,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 @Component({
     selector: 'pp-content-image-preview',
-    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()"/>`,
+    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()" style="width:100%"/>`,
     styles: ['img { cursor: pointer; }']
   })
   export class ContentImagePreviewComponent extends BaseComponent implements OnChanges {
@@ -108,9 +108,8 @@ interface IShareItem {
     previewUrl: string;
     originalUrl: string;
     originalFileExtension: string;
-
     detail: {
-        width: number;
-        height: number;
+      width: number;
+      height: number;
     };
 }

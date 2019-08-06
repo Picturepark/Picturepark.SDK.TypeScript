@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
-import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 import { HomeComponent } from './home/home.component';
 
 export function LocaleIdFactory() {
@@ -37,8 +36,7 @@ export function PictureparkConfigurationFactory() {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    DetailsDialogComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -53,8 +51,6 @@ export function PictureparkConfigurationFactory() {
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [DetailsDialogComponent]
+  bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}

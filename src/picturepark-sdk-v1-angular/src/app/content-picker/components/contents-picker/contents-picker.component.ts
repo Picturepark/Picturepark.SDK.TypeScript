@@ -49,7 +49,7 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
 
   public openDetails(item: any) {
     this.dialog.open(DetailsDialogComponent,
-      { data: item.item.id, maxWidth: '70vw', maxHeight: '90vh', minWidth: '980px', minHeight: '700px' }
+      { data: item.item.id, width: '980px', height: '700px' }
     );
   }
 
