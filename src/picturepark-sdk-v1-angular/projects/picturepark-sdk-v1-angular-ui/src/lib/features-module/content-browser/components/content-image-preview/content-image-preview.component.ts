@@ -12,7 +12,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 @Component({
     selector: 'pp-content-image-preview',
-    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()" style="width:100%"/>`,
+    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()" style="width:100%" (error)="updateUrl($event)"/>`,
     styles: ['img { cursor: pointer; }']
   })
   export class ContentImagePreviewComponent extends BaseComponent implements OnChanges {
@@ -45,6 +45,10 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
         this.subscription.add(downloadThumbnailSubscription);
 
       }
+    }
+
+    updateUrl(event) {
+      event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
     }
 
     showFullscreen() {
