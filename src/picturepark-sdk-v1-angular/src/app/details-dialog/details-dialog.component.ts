@@ -26,13 +26,14 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
   contentId: string;
   public schemas: SchemaDetail[];
 
-  constructor(private contentService: ContentService,
+  constructor(
+    private contentService: ContentService,
     private liquidRenderingService: LiquidRenderingService,
     private schemaService: SchemaService,
-
     protected dialogRef: MatDialogRef<DetailsDialogComponent>,
     protected injector: Injector,
-    @Inject(MAT_DIALOG_DATA) public data: string) {
+    @Inject(MAT_DIALOG_DATA) public data: string
+  ) {
       super(data, dialogRef, injector);
 
       if (!data) {

@@ -1,0 +1,36 @@
+.dialog-container {
+    position: relative; min-width: 500px;
+    mat-dialog-content {
+
+        .mat-tab-header {
+            height: 56px;
+            background: #eeeeee;
+            border-left: 0px solid #d8d8d8;
+            border-bottom: 0px solid #d8d8d8;
+        }
+
+        width: 100%;
+        padding: 0px;
+        overflow: hidden;
+
+        .mat-tab-labels {
+            display: flex;
+            height: 56px;
+        }
+
+        .content-preview {
+            width: 60%;
+            float: left;
+        }    
+        .content-info {
+            float: left;
+            width: 40%;
+            ul {
+                list-style: none;
+            }
+        }
+        .image-container {
+            width: 100%;
+        }
+    }
+}

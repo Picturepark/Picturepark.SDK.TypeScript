@@ -1,16 +1,21 @@
-import { OnInit, Input, Component } from '@angular/core';
-import {
-    ContentService, ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, ContentDetail
-} from '@picturepark/sdk-v1-angular';
+import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+// LIBRARIES
+import {
+  ContentService, ContentType, ContentDownloadLinkCreateRequest,
+  ContentDownloadRequestItem, ContentDetail
+} from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 @Component({
     selector: 'pp-content-image-preview',
-    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()" />`,
+    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()"/>`,
     styles: ['img { cursor: pointer; }']
   })
-  export class ContentImagePreviewComponent extends BaseComponent implements OnInit {
+  export class ContentImagePreviewComponent extends BaseComponent implements OnChanges {
     thumbnailUrl: string;
     thumbnailUrlSafe: SafeUrl;
 
@@ -20,21 +25,26 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
     @Input() public height?: number;
 
     constructor(
-        private contentService: ContentService,
-        private sanitizer: DomSanitizer) {
-            super();
-        }
+      private contentService: ContentService,
+      private sanitizer: DomSanitizer) {
+      super();
+    }
 
-    ngOnInit(): void {
+    ngOnChanges(changes: SimpleChanges) {
+      if (changes.content && changes.content.currentValue) {
+
+        this.content = changes.content.currentValue;
+
         const downloadThumbnailSubscription = this.contentService.download(
-            this.content.id, this.outputId, this.width || 800, this.height || 650, null
-        )
-        .subscribe(response => {
+          this.content.id, this.outputId, this.width || 800, this.height || 650, null
+        ).subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
         });
 
-      this.subscription.add(downloadThumbnailSubscription);
+        this.subscription.add(downloadThumbnailSubscription);
+
+      }
     }
 
     showFullscreen() {

@@ -1,0 +1,35 @@
+<div class="dialog-container" #contentContainer>
+  <h3>{{ (content?.displayValues)["name"] || contentId }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+  <mat-dialog-content>
+    <mat-tab-group>
+      <mat-tab label="Overview">
+        <div class="overview-wrap">
+          <div class="content-preview">
+            <pp-content-image-preview [content]="content" width="700" height="600"></pp-content-image-preview>
+          </div>
+          <div class="content-info">
+            <h5 [innerHTML]="(content?.displayValues)['detail']"></h5>
+            <ul>
+              <li>{{ "ContentPickerDetails.LabelFileExtension" | pptranslate }}</li>
+              <li>{{ content.content.fileExtension }}</li>
+              <li>{{ "ContentPickerDetails.LabelFileSize" | pptranslate }}</li>
+              <li>{{ content.content.fileSizeInBytes | filesize }}</li>
+            </ul>
+            <ul *ngIf="content.content.kind === 'ImageMetadata'">
+              <li>{{ "ContentPickerDetails.LabelSize" | pptranslate }}</li>
+              <li>{{ content.content.width }}px x {{ content.content.height }}px</li>
+            </ul>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Metadata">
+        <div class="metadata-wrap">
+          <div class="image-container">
+            <pp-content-image-preview [content]="content" width="400" height="400"></pp-content-image-preview>
+          </div>
+          <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas"></pp-layer-panels>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+</div>

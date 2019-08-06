@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
-import { ContentItemSelectionService, BasketService, ContentBrowserModule } from '@picturepark/sdk-v1-angular-ui';
+import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
-import { DetailsDialogComponent } from '../../../details-dialog/details-dialog.component';
-import { ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
+import { ContentBrowserComponent, DetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from '../../../embed.service';
