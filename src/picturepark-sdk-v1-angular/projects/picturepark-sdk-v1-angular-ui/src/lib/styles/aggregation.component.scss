@@ -35,11 +35,6 @@ pp-aggregation-item {
             width: calc(100% + 35px) !important;
             height: 2px !important;
         }
-        &.expanded {
-            &.mat-expansion-panel-header {
-
-            }
-        }
     }
     .mat-expansion-panel-content .mat-expansion-panel-body { padding: 0; }
     mat-form-field.search { 

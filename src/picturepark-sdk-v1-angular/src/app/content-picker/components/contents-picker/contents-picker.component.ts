@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
