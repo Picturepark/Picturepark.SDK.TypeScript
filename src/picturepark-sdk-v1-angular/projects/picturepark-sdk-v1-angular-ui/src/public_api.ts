@@ -32,7 +32,9 @@ export { ShareBrowserModule } from './lib/features-module/share-browser/share-br
 
 // COMPONENTS
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
-export { DetailsDialogComponent } from './lib/features-module/dialog/components/details-dialog/details-dialog.component';
+export {
+    ContentDetailsDialogComponent
+} from './lib/features-module/dialog/components/content-details-dialog/content-details-dialog.component';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';

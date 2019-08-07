@@ -14,12 +14,12 @@ import { LiquidRenderingService } from '../../../../shared-module/services/liqui
 import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
 
 @Component({
-  selector: 'pp-details-dialog',
-  templateUrl: './details-dialog.component.html',
-  styleUrls: ['../dialog-base/dialog-base.component.scss', './details-dialog.component.scss'],
+  selector: 'pp-content-details-dialog',
+  templateUrl: './content-details-dialog.component.html',
+  styleUrls: ['../dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
   providers: [ TranslatePipe ]
 })
-export class DetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
+export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
 
   content: ContentDetail;
 
@@ -29,7 +29,7 @@ export class DetailsDialogComponent extends DialogBaseComponent implements OnIni
   constructor(
     private contentService: ContentService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    protected dialogRef: MatDialogRef<DetailsDialogComponent>,
+    protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
     private schemaService: SchemaService,

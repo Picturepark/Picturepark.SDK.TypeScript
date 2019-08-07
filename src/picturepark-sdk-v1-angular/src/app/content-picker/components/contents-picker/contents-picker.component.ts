@@ -8,7 +8,7 @@ import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sd
 import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
-import { ContentBrowserComponent, DetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
+import { ContentBrowserComponent, ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from '../../../embed.service';
@@ -48,7 +48,7 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
   ) {}
 
   public openDetails(item: any) {
-    this.dialog.open(DetailsDialogComponent,
+    this.dialog.open(ContentDetailsDialogComponent,
       { data: item.item.id, width: '980px', height: '700px' }
     );
   }
