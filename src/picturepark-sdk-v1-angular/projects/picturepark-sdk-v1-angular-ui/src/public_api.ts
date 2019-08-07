@@ -30,6 +30,7 @@ export { SharePreviewModule } from './lib/features-module/share-preview/share-pr
 export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
+export { ShareContentDialogModule } from './lib/features-module/share-content-dialog/share-content-dialog.module';
 
 // COMPONENTS
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
