@@ -8,6 +8,7 @@ import { BasketModule } from './basket/basket.module';
 import { BrowserToolbarModule } from './browser-toolbar/browser-toolbar.module';
 import { ContentAggregationListModule } from './content-aggregation-list/content-aggregation-list.module';
 import { ContentBrowserModule } from './content-browser/content-browser.module';
+import { ContentDetailsDialogModule } from './content-details-dialog/content-details-dialog.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { DialogModule } from './dialog/dialog.module';
@@ -32,6 +33,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     BrowserToolbarModule,
     ContentAggregationListModule,
     ContentBrowserModule,
+    ContentDetailsDialogModule,
     ChannelPickerModule,
     CommonModule,
     DatePickerModule,
@@ -55,6 +57,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     BrowserToolbarModule,
     ContentAggregationListModule,
     ContentBrowserModule,
+    ContentDetailsDialogModule,
     ChannelPickerModule,
     DatePickerModule,
     DialogModule,

@@ -13,6 +13,7 @@ export { BrowserToolbarModule } from './lib/features-module/browser-toolbar/brow
 export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
 export { ContentAggregationListModule } from './lib/features-module/content-aggregation-list/content-aggregation-list.module';
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
+export { ContentDetailsDialogModule } from './lib/features-module/content-details-dialog/content-details-dialog.module';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
 export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { ItemToolBarModule } from './lib/features-module/item-tool-bar/item-tool-bar.module';
@@ -34,7 +35,7 @@ export { ShareBrowserModule } from './lib/features-module/share-browser/share-br
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export {
     ContentDetailsDialogComponent
-} from './lib/features-module/dialog/components/content-details-dialog/content-details-dialog.component';
+} from './lib/features-module/content-details-dialog/content-details-dialog.component';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';

@@ -10,7 +10,6 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
 import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
-import { ContentDetailsDialogComponent } from './components/content-details-dialog/content-details-dialog.component';
 import { ShareContentDialogComponent } from './components/share-content-dialog/share-content-dialog.component';
 import { ShareContentRecipientsInputComponent } from './components/share-content-recipients-input/share-content-recipients-input.component';
 import { ShareContentDialogItemComponent } from './components/share-content-dialog-item/share-content-dialog-item.component';
@@ -18,7 +17,7 @@ import { ShareContentDialogItemComponent } from './components/share-content-dial
 @NgModule({
   declarations: [
     ContentDownloadDialogComponent,
-    ContentDetailsDialogComponent,
+
     ShareContentDialogComponent,
     ShareContentRecipientsInputComponent,
     ShareContentDialogItemComponent
@@ -33,13 +32,11 @@ import { ShareContentDialogItemComponent } from './components/share-content-dial
   ],
   exports: [
     ContentDownloadDialogComponent,
-    ContentDetailsDialogComponent,
     ShareContentDialogComponent,
     ShareContentRecipientsInputComponent
   ],
   entryComponents: [
     ContentDownloadDialogComponent,
-    ContentDetailsDialogComponent,
     ShareContentDialogComponent,
     ShareContentDialogItemComponent,
     // ShareContentRecipientsInputComponent

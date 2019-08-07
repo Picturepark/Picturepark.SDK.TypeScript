@@ -5,18 +5,18 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ContentDetail, ContentResolveBehavior, SchemaDetail, ContentService, SchemaService } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
 
 // SERVICES
-import { LiquidRenderingService } from '../../../../shared-module/services/liquid-rendering/liquid-rendering.service';
+import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 
 // PIPES
-import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 
 @Component({
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
-  styleUrls: ['../dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
+  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
   providers: [ TranslatePipe ]
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
