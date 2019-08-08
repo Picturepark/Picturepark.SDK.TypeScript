@@ -62,12 +62,15 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   getShareInfo(shareId: string): void {
     this.shareService.get(shareId).subscribe(data => {
 
+      console.log(data)
+
       this.items = data.contentSelections;
       this.creationDate = data.audit.creationDate;
       this.modificationDate = data.audit.modificationDate;
       this.userId = data.audit.createdByUser;
 
       const shareDataBasic = <IShareDataBasic | undefined>data.data;
+
       this.mailRecipients = shareDataBasic!.mailRecipients;
 
       this.subject = data.name;

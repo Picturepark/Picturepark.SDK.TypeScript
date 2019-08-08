@@ -137,7 +137,7 @@
 pp-aggregation-item .mat-expansion-panel { border-radius: 0px; }
 
 // CONTENT DETAILS DIALOG
-pp-content-details-dialog .mat-tab-body .mat-tab-body-content { overflow: hidden; }
+pp-content-details-dialog .mat-tab-body .mat-tab-body-content { overflow-x: hidden; overflow-y: scroll; }
 pp-content-details-dialog .dialog-content .mat-tab-labels .mat-tab-label { height: 54px; }
 
 // SHARE CONTENT DIALOG
