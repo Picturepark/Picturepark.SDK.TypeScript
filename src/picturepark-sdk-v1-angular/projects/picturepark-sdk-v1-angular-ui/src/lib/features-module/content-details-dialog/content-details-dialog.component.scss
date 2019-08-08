@@ -3,7 +3,7 @@
     .dialog-content {
         overflow: hidden;
         margin: 0px -24px;
-        height: 100%;
+        height: calc(100% - 25px);
         background-color: #f8f8f8;
 
         mat-dialog-content {
