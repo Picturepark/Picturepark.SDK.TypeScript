@@ -1,7 +1,7 @@
 .aggregation {
 
     .mat-expansion-panel-body {
-        padding: 0 !important;
+      padding: 0 !important;
     }
 
     &__search {
@@ -9,8 +9,8 @@
     }
     &__option-title {
       display: flex;
-      justify-content: space-between;
       flex-wrap: nowrap;
+      color: #727272;
     }
     &__option-name {
       text-overflow: ellipsis;
@@ -18,16 +18,29 @@
       overflow: hidden;
       margin-right: 10px;
     }
+    &__option-number {
+      position: absolute;
+      right: 5px;
+  
+    }
     .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
       height: 28px;
       padding: 0 20px;
+      width: unset;
     }
     
     .mat-expansion-panel-header {
       font-size: 14px;
+      padding: 0 20px;
+      position: relative;
     }
-    
+
+    .mat-expansion-panel-body {
+      padding: 0 0 10px 0;
+    }
+
     .mat-list-base {
+      padding-bottom: 8px;
       .mat-list-item, .mat-list-option, .mat-subheader {
         font-size: 14px;
       }
@@ -41,9 +54,31 @@
       }
     
       .mat-pseudo-checkbox {
-        height: 14px;
-        width: 14px;
-        border: 1px solid #444;
+        height: 15px;
+        width: 15px;
+        border: 2px solid #aaa;
+        margin: 0px 5px 0px 0px;
+        &.mat-pseudo-checkbox-checked {
+          border: 2px solid #5cbebd;
+        }
       }
     }
+
+    .expand-filters {
+      button {
+        text-align: left;
+        color: #39acaa;
+        width: 100%;
+        border-radius: 0px;
+        padding: 0px 20px;
+        font-weight: 400;
+      }
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 5px;
+      top: -19px;  
+    }
+
   }

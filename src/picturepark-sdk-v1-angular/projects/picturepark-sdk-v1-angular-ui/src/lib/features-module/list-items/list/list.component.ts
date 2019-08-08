@@ -136,6 +136,20 @@ export class ListComponent implements OnInit, OnDestroy {
       aggregationFilter.filter).map(aggregationFilter =>
         aggregationFilter.filter as FilterBase);
 
+    /*
+      const preparedFilters = flatten
+      .map(array => {
+        const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)
+          .map(aggregationFilter => aggregationFilter.filter as FilterBase);
+
+        switch (filtered.length) {
+          case 0: return null;
+          case 1: return filtered[0];
+          default: return new OrFilter({ filters: filtered });
+        }
+      })
+      .filter(value => value !== null);
+    */
     switch (filtered.length) {
       case 0: return null;
       case 1: return filtered[0];

@@ -1,4 +1,4 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
@@ -15,9 +15,7 @@ import { BaseComponent } from '../base.component';
 @Component({
   selector: 'pp-aggregation-item',
   templateUrl: './aggregation.component.html',
-  styleUrls: [
-    './aggregation.component.scss'
-  ]
+  styleUrls: ['./aggregation.component.scss']
 })
 export class AggregationComponent extends BaseComponent implements OnChanges {
 
@@ -84,7 +82,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     }
   }
 
-  public loadMore() {
+  public loadMore(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
     const fetchDataSubscription = this.fetchSearchData(this.query, this.expandedAggregator).subscribe(result => {
@@ -93,7 +91,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     this.subscription.add(fetchDataSubscription);
   }
 
-  public loadLess() {
+  public loadLess(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
     const fetchDataSubscription = this.fetchSearchData(this.query, this.expandedAggregator).subscribe(result => {
@@ -105,6 +103,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   public searchAggregator(query: string): Observable<AggregationResultItem[]> {
 
     if (query === '') {
+      this.hideLoader();
       return from([]);
     }
 
@@ -121,20 +120,22 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
         const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
           this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
 
+        this.hideLoader();
         return items.filter((item) => !currentSelectedValues.some((value => value.name === item.name)));
+
       }
 
+      this.hideLoader();
       return [];
+
     }));
 
     this.expandedAggregator.searchString = undefined;
     this.expandedAggregator.size = sizeStore;
 
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 500);
-
+    this.hideLoader();
     return observableResult;
+
   }
 
   public inputChange(event): void {
@@ -192,6 +193,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
+
     if (aggregator.aggregators && aggregator.aggregators.length > 0) {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
@@ -206,9 +208,17 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
       aggregationResult.aggregationResultItems[0] &&
       aggregationResult.aggregationResultItems[0].aggregationResults &&
       aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
+
       return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
     }
 
     return aggregationResult;
   }
+
+  public hideLoader(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 500);
+  }
+
 }

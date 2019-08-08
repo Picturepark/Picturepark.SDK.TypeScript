@@ -12,7 +12,6 @@ $pp-content-aggregation-list: (
   $warn: map-get($theme, warn);
 
   .aggregation-filter {
-    border-left: 1px solid mat-contrast($primary, light-background) !important;
     &__loading-spinner {
       background: rgba(mat-color($primary, shadow-color), 0.288) !important;
     }

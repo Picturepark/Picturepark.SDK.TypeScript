@@ -4,7 +4,7 @@
   position: relative;
   height: 100%;
   display: block;
-  border-left: 1px solid #d8d8d8;
+
   &__loading-spinner {
     z-index: 2;
     position: absolute;
@@ -32,6 +32,19 @@
       justify-content: space-between;
       font-size: 14px;
       background-color: #eeeeee;
+      padding: 0 20px;
     }
   }
+
+  mat-toolbar {
+    button {
+      mat-icon {
+        font-size: 21px;
+        color: #727272;
+        position: relative;
+        left: 9px;
+      }
+    }
+  }
+
 }

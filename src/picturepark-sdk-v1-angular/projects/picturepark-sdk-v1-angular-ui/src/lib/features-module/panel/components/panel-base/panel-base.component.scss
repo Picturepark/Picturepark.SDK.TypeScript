@@ -14,5 +14,17 @@
     }
     .panel-content {
         padding: 0px 30px; overflow: hidden;
+        p {
+            font-weight: 400;
+            font-size: 13px;
+        }
+        a {
+            color: #8c8c8c;
+            font-weight: 200;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }

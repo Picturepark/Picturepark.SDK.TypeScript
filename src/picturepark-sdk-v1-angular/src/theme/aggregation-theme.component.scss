@@ -20,9 +20,16 @@
     
     .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
       .mat-pseudo-checkbox {
-        border: 1px solid mat-color($pp-application-menu, font-color) !important;
+        border: 1px solid mat-color($primary, button) !important;
       }
     }
+
+    .expand-filters {
+      button {
+        color: mat-color($primary, base) !important;
+      }
+    }
+
   }
 
 };

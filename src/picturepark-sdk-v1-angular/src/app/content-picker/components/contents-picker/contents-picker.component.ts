@@ -19,7 +19,9 @@ import { EmbedService } from '../../../embed.service';
 })
 export class ContentsPickerComponent implements OnInit, OnDestroy {
 
-  @ViewChild('contentBrowser', {static: true}) contentBrowser: ContentBrowserComponent;
+  @ViewChild('contentBrowser', { static: true }) contentBrowser: ContentBrowserComponent;
+
+  public expandedContent = false;
 
   public basketItemsCount = 0;
 
@@ -64,6 +66,14 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
 
   }
 
+  public expand(): void {
+    if (this.expandedContent) {
+      this.expandedContent = false;
+    } else {
+      this.expandedContent = true;
+    }
+  }
+
   public selectionChange(items: string[]): void {
     this.selectedItems = items;
   }
@@ -82,7 +92,7 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     this.contentBrowser.cancel();
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

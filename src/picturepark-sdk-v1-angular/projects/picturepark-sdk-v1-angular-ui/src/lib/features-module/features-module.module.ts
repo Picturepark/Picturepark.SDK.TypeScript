@@ -12,6 +12,7 @@ import { ContentDetailsDialogModule } from './content-details-dialog/content-det
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { DialogModule } from './dialog/dialog.module';
+
 import { LayerPanelsModule } from './layer-panels/layer-panels.module';
 import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
