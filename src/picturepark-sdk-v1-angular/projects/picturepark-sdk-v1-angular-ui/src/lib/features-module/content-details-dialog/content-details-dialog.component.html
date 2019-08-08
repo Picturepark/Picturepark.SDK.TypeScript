@@ -1,5 +1,5 @@
 <div class="dialog-container" #contentContainer>
-  <h3>{{ (content?.displayValues)["name"] || contentId }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+  <h3 *ngIf="content || contentId">{{ (content!.displayValues)!["name"] || contentId }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
   <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
       <mat-tab-group>
@@ -10,7 +10,7 @@
             </div>
             <div class="content-info">
               <ul>
-                <li class="inner" [innerHTML]="(content?.displayValues)['detail']"></li>
+                <li class="inner" [innerHTML]="(content!.displayValues)!['detail']"></li>
               </ul>
               <ul>
                 <li>{{ "ContentPickerDetails.LabelFileExtension" | pptranslate }}<span>{{ content.content.fileExtension }}</span></li>
