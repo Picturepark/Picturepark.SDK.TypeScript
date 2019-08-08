@@ -45,7 +45,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
         ).subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
-          //this.isLoading = false;
+          this.isLoading = false;
         });
 
         this.subscription.add(downloadThumbnailSubscription);
