@@ -19,7 +19,7 @@
         [formControl]="aggregationQuery" 
         [matAutocomplete]="searchAutocomplete">
         
-      <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')">
+      <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')" class="clear-search">
         <mat-icon>close</mat-icon>
       </button>
       
@@ -40,19 +40,17 @@
         checkboxPosition="before"
         [selected]="item.active"
         [value]="item">
-        <div class="aggregation__option-title" matTooltip="{{item.getDisplayName(locale)}}" [matTooltipDisabled]="false">
-          <div class="aggregation__option-name">{{item.getDisplayName(locale)}} </div>
-          <div>{{ item.count }} </div>
+        <div class="aggregation__option-title" matTooltip="{{ item.getDisplayName(locale) }}" [matTooltipDisabled]="false">
+          <div class="aggregation__option-name">{{ item.getDisplayName(locale) }} </div>
+          <div class="aggregation__option-number">{{ item.count }} </div>
         </div>
       </mat-list-option>
     </mat-selection-list>
-    <div>
+    <div class="expand-filters">
       <button mat-button *ngIf="expandedAggregationResult?.sumOtherDocCount" (click)="loadMore()">
-        <mat-icon>add</mat-icon>
         {{ 'ContentAggregationList.ShowMoreFilters' | pptranslate }}
       </button>
       <button mat-button *ngIf="showLess" (click)="loadLess()">
-        <mat-icon>remove</mat-icon>
         {{ 'ContentAggregationList.ShowLessFilters' | pptranslate }}
       </button>
     </div>

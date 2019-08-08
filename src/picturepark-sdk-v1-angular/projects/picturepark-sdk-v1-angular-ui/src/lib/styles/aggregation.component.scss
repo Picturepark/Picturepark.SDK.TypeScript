@@ -1,6 +1,7 @@
 pp-aggregation-item {
     mat-expansion-panel {
         border-top: 1px solid #d8d8d8;
+        border-radius: 0px !important;
         mat-expansion-panel-header {
             line-height: 56px;
             transition: 300ms;
@@ -11,9 +12,19 @@ pp-aggregation-item {
             mat-panel-title {
                 font-weight: 500;
                 font-size: 13px;
-                color: #727272;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                &.mat-expansion-panel-header-title {
+                    color: #727272;
+                }
+                button {
+                    position: absolute !important;
+                    top: 8px;
+                    right: 25px;
+                    mat-icon {
+                        font-size: 21px !important;
+                    }
+                }
             }
             &:hover {
                 background-color: #d8d8d8;

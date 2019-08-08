@@ -28,7 +28,6 @@ export { SharePreviewModule } from './lib/features-module/share-preview/share-pr
 export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
-
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
 
