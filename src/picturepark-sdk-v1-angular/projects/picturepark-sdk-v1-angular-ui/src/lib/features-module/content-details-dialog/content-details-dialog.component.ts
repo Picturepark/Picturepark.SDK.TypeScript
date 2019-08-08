@@ -24,7 +24,8 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   content: ContentDetail;
 
   contentId: string;
-  public schemas: SchemaDetail[];
+  isLoading = false;
+  schemas: SchemaDetail[];
 
   constructor(
     private contentService: ContentService,
@@ -56,4 +57,9 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     this.subscription.add(contentGetSubscription);
 
   }
+
+  setLoadingState(event) {
+    this.isLoading = event;
+  }
+
 }

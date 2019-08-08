@@ -6,9 +6,9 @@
         <mat-tab label="Overview">
           <div class="overview-wrap">
             <div class="content-preview">
-              <pp-content-image-preview [content]="content" width="700" height="600"></pp-content-image-preview>
+              <pp-content-image-preview [content]="content" (loadingState)="setLoadingState($event)" width="700" height="600" *ngIf="!isLoading"></pp-content-image-preview>
             </div>
-            <div class="content-info">
+            <div class="content-info" *ngIf="content">
               <ul>
                 <li class="inner" [innerHTML]="(content?.displayValues)['detail']"></li>
               </ul>

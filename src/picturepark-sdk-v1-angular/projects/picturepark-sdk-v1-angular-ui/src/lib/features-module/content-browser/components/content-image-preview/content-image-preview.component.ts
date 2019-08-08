@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Input, Component, OnChanges, EventEmitter, SimpleChanges, Output } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -12,10 +12,11 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 @Component({
     selector: 'pp-content-image-preview',
-    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()" style="width:100%" (error)="updateUrl($event)"/>`,
-    styles: ['img { cursor: pointer; }']
+    templateUrl: './content-image-preview.component.html',
+    styleUrls: ['./content-image-preview.component.scss']
   })
   export class ContentImagePreviewComponent extends BaseComponent implements OnChanges {
+
     thumbnailUrl: string;
     thumbnailUrlSafe: SafeUrl;
 
@@ -23,6 +24,10 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
     @Input() public outputId = 'Preview';
     @Input() public width?: number;
     @Input() public height?: number;
+
+    @Output() public loadingState: EventEmitter<boolean> = new EventEmitter();
+
+    isLoading = true;
 
     constructor(
       private contentService: ContentService,
@@ -40,6 +45,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
         ).subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+          //this.isLoading = false;
         });
 
         this.subscription.add(downloadThumbnailSubscription);
@@ -48,7 +54,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
     }
 
     updateUrl(event) {
-      event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+      this.thumbnailUrlSafe = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
     }
 
     showFullscreen() {
