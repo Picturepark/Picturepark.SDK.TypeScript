@@ -1,5 +1,9 @@
 <div class="dialog-container" #contentContainer>
-  <h3 *ngIf="content || contentId">{{ (content!.displayValues)!["name"] || contentId }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+  <h3>
+    <span *ngIf="content && content.displayValues">{{ content.displayValues['name'] }}</span>
+    <span *ngIf="contentId && !(content && content.displayValues)">{{ contentId }}</span>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
+  </h3>
   <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
       <mat-tab-group>
