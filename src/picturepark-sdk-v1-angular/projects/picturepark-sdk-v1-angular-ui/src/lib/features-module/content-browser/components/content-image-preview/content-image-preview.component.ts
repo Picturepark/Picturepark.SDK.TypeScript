@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, EventEmitter, SimpleChanges, Output } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -24,8 +24,6 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
     @Input() public outputId = 'Preview';
     @Input() public width?: number;
     @Input() public height?: number;
-
-    @Output() public loadingState: EventEmitter<boolean> = new EventEmitter();
 
     isLoading = true;
 
