@@ -55,7 +55,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       await this.liquidRenderingService.renderNestedDisplayValues(content);
       if (content) {
         this.content = content;
-        console.log(this.content)
         this.schemas = await this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).toPromise();
       }
     });
