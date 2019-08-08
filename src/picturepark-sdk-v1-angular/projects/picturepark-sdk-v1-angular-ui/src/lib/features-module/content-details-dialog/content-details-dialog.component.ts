@@ -36,9 +36,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     private schemaService: SchemaService,
   ) {
     super(data, dialogRef, injector);
-
-    console.log(data)
-
+    
     this.contentId = data;
     const contentGetSubscription = this.contentService.get(this.contentId, [
       ContentResolveBehavior.Content,
@@ -49,9 +47,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       ContentResolveBehavior.OuterDisplayValueDetail,
       ContentResolveBehavior.Outputs
     ]).subscribe(async content => {
-
-      console.log(content)
-
       await this.liquidRenderingService.renderNestedDisplayValues(content);
       if (content) {
         this.content = content;
