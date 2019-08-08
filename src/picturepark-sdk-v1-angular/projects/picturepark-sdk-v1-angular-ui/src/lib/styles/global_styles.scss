@@ -105,4 +105,7 @@ pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($p
 }
 
 .mat-dialog-container { overflow: hidden !important; }
-pp-details-dialog .mat-tab-body .mat-tab-body-content { overflow: hidden; }
+
+// CONTENT DETAILS DIALOG
+pp-content-details-dialog .mat-tab-body .mat-tab-body-content { overflow: hidden; }
+pp-content-details-dialog .dialog-content .mat-tab-labels .mat-tab-label { height: 54px; }

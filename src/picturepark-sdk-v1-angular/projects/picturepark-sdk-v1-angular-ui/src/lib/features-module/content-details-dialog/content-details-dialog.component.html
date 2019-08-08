@@ -1,6 +1,6 @@
 <div class="dialog-container" #contentContainer>
   <h3>{{ (content?.displayValues)["name"] || contentId }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
-  <div class="dialog-content">
+  <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
       <mat-tab-group>
         <mat-tab label="Overview">
@@ -8,7 +8,7 @@
             <div class="content-preview">
               <pp-content-image-preview [content]="content" (loadingState)="setLoadingState($event)" width="700" height="600" *ngIf="!isLoading"></pp-content-image-preview>
             </div>
-            <div class="content-info" *ngIf="content">
+            <div class="content-info">
               <ul>
                 <li class="inner" [innerHTML]="(content?.displayValues)['detail']"></li>
               </ul>
