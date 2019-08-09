@@ -14,7 +14,7 @@ import {
   FilterBase,
   OrFilter,
   SchemaDetail,
-  SchemaService
+  SchemaService,
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
 
@@ -131,8 +131,13 @@ export class ListComponent implements OnInit, OnDestroy {
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
 
     const flatten = lodash.chain(aggregationFilters).groupBy('aggregationName').toPairs().value();
+    const preparedFilters = flatten.map(array => {
+    const filtered = array[1].filter(aggregationFilter =>
+      aggregationFilter.filter).map(aggregationFilter =>
+        aggregationFilter.filter as FilterBase);
 
-    const preparedFilters = flatten
+    /*
+      const preparedFilters = flatten
       .map(array => {
         const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)
           .map(aggregationFilter => aggregationFilter.filter as FilterBase);
@@ -144,7 +149,13 @@ export class ListComponent implements OnInit, OnDestroy {
         }
       })
       .filter(value => value !== null);
-
+    */
+    switch (filtered.length) {
+      case 0: return null;
+      case 1: return filtered[0];
+      default: return new OrFilter({ filters: filtered });
+    }
+  }).filter(value => value !== null);
     switch (preparedFilters.length) {
       case 0: return null;
       case 1: return preparedFilters[0]!;

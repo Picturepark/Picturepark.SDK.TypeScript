@@ -128,7 +128,13 @@ export class MetaDataPreviewService {
         fields[fieldId] = lodash.values(value).join(', ');
 
       } else if (fieldType === FieldDictionaryArray) {
-        fields[fieldId] = value.map((v: any) => lodash.values(v).join(', ')).join(', ');
+
+        fields[fieldId] = value.map((v: any) => {
+          const test = lodash.values(v).join(', ');
+          console.log(test);
+        }).join(', ');
+
+        console.log(fields[fieldId]);
 
       } else if (fieldType === FieldDateTimeArray) {
         fields[fieldId] = value.map((v: any) =>

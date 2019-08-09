@@ -67,7 +67,6 @@
   background: mat-color($picturepark-app-primary, light-background);
   border-bottom: 1px solid mat-contrast($picturepark-app-primary, light-background);
 }
-pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }
 
 .filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
   display: none !important;
@@ -131,3 +130,15 @@ pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($p
     line-height: 42px;
   }
 }
+
+.mat-dialog-container { overflow: hidden !important; }
+
+// AGGREGATION ITEM
+pp-aggregation-item .mat-expansion-panel { border-radius: 0px; }
+
+// CONTENT DETAILS DIALOG
+pp-content-details-dialog .mat-tab-body .mat-tab-body-content { overflow-x: hidden; overflow-y: auto; }
+pp-content-details-dialog .dialog-content .mat-tab-labels .mat-tab-label { height: 54px; }
+
+// SHARE CONTENT DIALOG
+pp-share-content-dialog .mat-tab-header { height: 56px; background: mat-color($picturepark-app-primary, dialog-background); }

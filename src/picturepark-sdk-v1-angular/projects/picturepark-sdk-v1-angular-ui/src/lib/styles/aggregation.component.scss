@@ -36,9 +36,17 @@ pp-aggregation-item {
             height: 2px !important;
         }
     }
-    .mat-expansion-panel-content .mat-expansion-panel-body { padding: 0; }
+    .mat-expansion-panel-content .mat-expansion-panel-body { 
+        padding: 0;
+        overflow: auto;
+        max-height: 450px;
+    }
     mat-form-field.search { 
-        display: flex; background-color: white; margin: 20px; border-radius: 2px;
+        display: flex; 
+        background-color: white; 
+        margin: 20px; 
+        border-radius: 2px; 
+        margin: 20px 20px 10px 20px;
         .search-icon {
             position: absolute;
             left: 8px;

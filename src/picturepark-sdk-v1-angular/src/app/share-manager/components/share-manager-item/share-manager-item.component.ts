@@ -68,6 +68,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       this.userId = data.audit.createdByUser;
 
       const shareDataBasic = <IShareDataBasic | undefined>data.data;
+
       this.mailRecipients = shareDataBasic!.mailRecipients;
 
       this.subject = data.name;

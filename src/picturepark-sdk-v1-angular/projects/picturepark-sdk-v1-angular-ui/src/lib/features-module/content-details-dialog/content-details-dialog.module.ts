@@ -3,32 +3,27 @@ import { CommonModule } from '@angular/common';
 
 // MODULES
 import { ContentBrowserModule } from '../content-browser/content-browser.module';
-
 import { LayerPanelsModule } from '../layer-panels/layer-panels.module';
-import { NotificationModule } from '../notification/notification.module';
 import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
-import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
+import { ContentDetailsDialogComponent} from './content-details-dialog.component';
 
 @NgModule({
   declarations: [
-    ContentDownloadDialogComponent,
+    ContentDetailsDialogComponent
   ],
   imports: [
     CommonModule,
     ContentBrowserModule,
     LayerPanelsModule,
-    NotificationModule,
     SharedModule
   ],
   exports: [
-    ContentDownloadDialogComponent,
-
+    ContentDetailsDialogComponent
   ],
   entryComponents: [
-    ContentDownloadDialogComponent,
-    // ShareContentRecipientsInputComponent
+    ContentDetailsDialogComponent
   ]
 })
-export class DialogModule {}
+export class ContentDetailsDialogModule { }

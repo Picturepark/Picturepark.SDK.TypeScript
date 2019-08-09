@@ -8,6 +8,7 @@ import { BasketModule } from './basket/basket.module';
 import { BrowserToolbarModule } from './browser-toolbar/browser-toolbar.module';
 import { ContentAggregationListModule } from './content-aggregation-list/content-aggregation-list.module';
 import { ContentBrowserModule } from './content-browser/content-browser.module';
+import { ContentDetailsDialogModule } from './content-details-dialog/content-details-dialog.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { DialogModule } from './dialog/dialog.module';
@@ -22,6 +23,7 @@ import { SharePreviewModule } from './share-preview/share-preview.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
+import { ShareContentDialogModule } from './share-content-dialog/share-content-dialog.module';
 import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
 
 @NgModule({
@@ -33,6 +35,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     BrowserToolbarModule,
     ContentAggregationListModule,
     ContentBrowserModule,
+    ContentDetailsDialogModule,
     ChannelPickerModule,
     CommonModule,
     DatePickerModule,
@@ -45,6 +48,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     SchemaBrowserModule,
     SearchBoxModule,
     ShareBrowserModule,
+    ShareContentDialogModule,
     PanelModule,
     SharePreviewModule,
     ItemToolBarModule,
@@ -56,6 +60,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     BrowserToolbarModule,
     ContentAggregationListModule,
     ContentBrowserModule,
+    ContentDetailsDialogModule,
     ChannelPickerModule,
     DatePickerModule,
     DialogModule,
@@ -67,6 +72,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     SchemaBrowserModule,
     SearchBoxModule,
     ShareBrowserModule,
+    ShareContentDialogModule,
     PanelModule,
     SharePreviewModule,
     ItemToolBarModule,

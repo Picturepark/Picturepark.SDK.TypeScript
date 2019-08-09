@@ -13,6 +13,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
   styleUrls: ['./share-content-recipients-input.component.scss']
 })
 export class ShareContentRecipientsInputComponent extends BaseComponent implements OnInit {
+
   @Input() parentForm: FormGroup;
 
   public elementRef: ElementRef;

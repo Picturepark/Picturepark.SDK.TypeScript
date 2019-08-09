@@ -22,10 +22,10 @@ export class MailRecipientsPanelComponent extends PanelBaseComponent implements 
   // COPY TO CLIPBOARD
   public copyToClipboard(recipienturl: string): void {
     const copyBox = document.createElement('textarea');
-        copyBox.value = recipienturl;
-        document.body.appendChild(copyBox);
-        document.execCommand('copy');
-        document.body.removeChild(copyBox);
+          copyBox.value = recipienturl;
+          document.body.appendChild(copyBox);
+          document.execCommand('copy');
+          document.body.removeChild(copyBox);
   }
 
   ngOnInit() {
