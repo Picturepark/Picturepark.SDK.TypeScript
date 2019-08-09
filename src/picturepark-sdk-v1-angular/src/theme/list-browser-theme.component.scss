@@ -23,8 +23,8 @@ $pp-list-browser: (
     }
     .table-container {
       &::-webkit-scrollbar-thumb {
-        background-color: mat-color($primary, dark-background) !important;
-        outline: 1px solid mat-color($primary, dark-background) !important;
+        background-color: mat-color($primary, light-background) !important;
+        outline: 1px solid mat-color($primary, light-background) !important;
       }
       .mat-row:hover {
         background-color: mat-color($primary, light-background) !important;
