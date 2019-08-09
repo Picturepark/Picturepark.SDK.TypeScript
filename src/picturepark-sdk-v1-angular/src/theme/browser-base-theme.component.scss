@@ -12,7 +12,7 @@
             
             &::-webkit-scrollbar-thumb {
                 background-color: mat-contrast($primary, light-background) !important;
-                outline: 1px solid  mat-color($primary, light-background) !important;
+                outline: 1px solid  mat-contrast($primary, light-background) !important;
             }
 
         }
