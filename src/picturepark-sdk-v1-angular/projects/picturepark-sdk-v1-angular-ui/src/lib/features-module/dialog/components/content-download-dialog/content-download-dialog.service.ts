@@ -13,13 +13,13 @@ export class ContentDownloadDialogService {
 
   showDialog(items: Content[]): MatDialogRef<ContentDownloadDialogComponent, any> {
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-        data: items,
-        autoFocus: false
-      });
+      data: items,
+      autoFocus: false
+    });
 
-      const instance = dialogRef.componentInstance;
-      instance.title = 'ContentDownloadDialog.Title';
+    const instance = dialogRef.componentInstance;
+    instance.title = 'ContentDownloadDialog.Title';
 
-      return dialogRef;
+    return dialogRef;
   }
 }

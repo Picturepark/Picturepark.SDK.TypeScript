@@ -55,7 +55,8 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     },
     {
       name: 'Delete',
-      icon: 'delete'
+      icon: 'delete',
+      action: 'delete'
     }];
 
   }

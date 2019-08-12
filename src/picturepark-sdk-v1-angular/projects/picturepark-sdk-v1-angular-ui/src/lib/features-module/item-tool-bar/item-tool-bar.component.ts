@@ -11,7 +11,7 @@ import {
 } from '../../features-module/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
-import { ShareService } from '@picturepark/sdk-v1-angular';
+import { ShareService, ShareDeleteManyRequest } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-item-tool-bar',
@@ -42,6 +42,7 @@ export class ItemToolBarComponent implements OnInit {
         break;
       }
       case 'delete': {
+        this.deleteShare(this.shareId);
         break;
       }
       default: {
@@ -70,6 +71,14 @@ export class ItemToolBarComponent implements OnInit {
         autoFocus: false
       });
       dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
+    }
+  }
+
+  async deleteShare(shareId: string | undefined) {
+    if (shareId) {
+      const share = await this.shareService.get(shareId).toPromise();
+      const shareIds = {ids: share.contentSelections.map(content => content.id)} as ShareDeleteManyRequest;
+      this.shareService.deleteMany(shareIds);
     }
   }
 
