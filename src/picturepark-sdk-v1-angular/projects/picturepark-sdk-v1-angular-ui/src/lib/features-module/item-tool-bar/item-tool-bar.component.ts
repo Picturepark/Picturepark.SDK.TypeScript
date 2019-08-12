@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 // COMPONENTS
-
+import { BaseComponent } from '../../shared-module/components/base.component';
 import {
   ContentDownloadDialogComponent
 } from '../../features-module/dialog/components/content-download-dialog/content-download-dialog.component';
@@ -11,6 +12,7 @@ import {
 } from '../../features-module/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
+import { LoaderService } from '../../shared-module/services/loader/loader-service.service';
 import { ShareService, ShareDeleteManyRequest } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -18,17 +20,24 @@ import { ShareService, ShareDeleteManyRequest } from '@picturepark/sdk-v1-angula
   templateUrl: './item-tool-bar.component.html',
   styleUrls: ['./item-tool-bar.component.scss']
 })
-export class ItemToolBarComponent implements OnInit {
+export class ItemToolBarComponent extends BaseComponent implements OnInit {
 
   @Input() toolBarIcon = 'code';
   @Input() toolBarOptions: any[] = [];
   @Input() shareId?: string;
+
   @Output() toolBarOutPutEvent = new EventEmitter();
+  @Output() loaderEmitter = new EventEmitter<boolean>();
 
   constructor(
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private shareService: ShareService,
-  ) { }
+    private loaderService: LoaderService,
+    private router: Router
+  ) {
+    super();
+  }
 
   fireAction(action: string): void {
 
@@ -74,12 +83,20 @@ export class ItemToolBarComponent implements OnInit {
     }
   }
 
-  async deleteShare(shareId: string | undefined) {
+  deleteShare(shareId: string | undefined) {
     if (shareId) {
-      const share = await this.shareService.get(shareId).toPromise();
-      const shareIds = {ids: share.contentSelections.map(content => content.id)} as ShareDeleteManyRequest;
-      this.shareService.deleteMany(shareIds);
+      this.loaderService.setLoader(true);
+      const shareIds = {ids: [shareId]} as ShareDeleteManyRequest;
+      const shareServiceSubscriber = this.shareService.deleteMany(shareIds).subscribe(res => {
+        this.loaderService.setLoader(false);
+        this.router.navigate(['./share-manager']);
+      });
+      this.subscription.add(shareServiceSubscriber);
     }
+  }
+
+  setLoaderState(state) {
+    this.loaderEmitter.emit(state);
   }
 
   ngOnInit() {}

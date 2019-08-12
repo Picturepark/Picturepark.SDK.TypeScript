@@ -4,7 +4,9 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient } from '@picturepark/sdk-v1-angular';
-import { share } from 'rxjs/operators';
+
+// SERVICES
+import { LoaderService } from '@picturepark/sdk-v1-angular-ui/LoaderService';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -31,6 +33,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private loaderService: LoaderService,
     private shareService: ShareService
   ) {
 
@@ -86,11 +89,16 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     });
   }
 
+
   ngOnInit() {
 
     // ROUTE SUBSCRIBER
     const activatedRoute = this.activatedRoute.params.subscribe(params => {
       this.getShareInfo(params.shareId);
+    });
+
+    this.loaderService.loaderSubscriber.subscribe(loaderStatus => {
+      this.isLoading = loaderStatus;
     });
 
     // ADD TO SUBSCRIBERS

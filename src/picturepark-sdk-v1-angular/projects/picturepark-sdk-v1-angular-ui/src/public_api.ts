@@ -43,5 +43,6 @@ export { ContentItemSelectionService } from './lib/shared-module/services/conten
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
+export { LoaderService } from './lib/shared-module/services/loader/loader-service.service';
 export { ContentDownloadDialogService } from
     './lib/features-module/dialog/components/content-download-dialog/content-download-dialog.service';

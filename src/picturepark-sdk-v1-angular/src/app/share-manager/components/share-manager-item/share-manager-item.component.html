@@ -2,7 +2,7 @@
   <div class="share-manager-item-loader">
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
-  <div class="share-manager-item-content-container" *ngIf="!isLoading">
+  <div class="share-manager-item-content-container" [ngClass]="{ active: !isLoading }">
       <pp-share-preview [item]="items[0]" *ngIf="items.length === 1"></pp-share-preview>
       <pp-item-tool-bar [toolBarOptions]="toolBarOptions" [shareId]="shareId"></pp-item-tool-bar>
       <pp-settings-panel
@@ -12,7 +12,7 @@
         [creationDate]="creationDate"
         [modificationDate]="modificationDate">
       </pp-settings-panel>
-      <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients.length"></pp-mail-recipients-panel>
+      <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
       <pp-items-panel
         [title]="'Items'"
         [items]="items"

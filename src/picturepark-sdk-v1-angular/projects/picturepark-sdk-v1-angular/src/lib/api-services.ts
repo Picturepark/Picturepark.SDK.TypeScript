@@ -12861,7 +12861,11 @@ export class ShareService extends PictureparkServiceBase {
         let url_ = this.baseUrl + "/v1/shares/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
+
+        console.log(url_)
         const content_ = JSON.stringify(deleteManyRequest);
+
+        console.log(content_)
 
         let options_ : any = {
             body: content_,

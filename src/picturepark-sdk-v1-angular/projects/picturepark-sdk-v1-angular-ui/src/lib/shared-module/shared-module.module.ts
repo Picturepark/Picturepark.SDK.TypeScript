@@ -9,6 +9,7 @@ import { MaterialsModule } from '../materials-module/materials-module.module';
 import { BasketService } from './services/basket/basket.service';
 import { ContentItemSelectionService } from './services/content-item-selection/content-item-selection.service';
 import { LiquidRenderingService } from './services/liquid-rendering/liquid-rendering.service';
+import { LoaderService } from './services/loader/loader-service.service';
 import { MetaDataPreviewService } from './services/metadata-preview/metadata-preview.service';
 import { NotificationService } from './services/notification/notification.service';
 import { TranslationService } from './services/translations/translation.service';
@@ -57,6 +58,7 @@ export class SharedModule {
         BasketService,
         ContentItemSelectionService,
         LiquidRenderingService,
+        LoaderService,
         MetaDataPreviewService,
         NotificationService,
         TranslationService,

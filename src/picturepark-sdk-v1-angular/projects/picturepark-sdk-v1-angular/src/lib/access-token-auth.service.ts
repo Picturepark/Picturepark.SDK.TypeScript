@@ -19,6 +19,7 @@ export class AccessTokenAuthService extends AuthService {
   }
 
   transformHttpRequestOptions(options: any) {
+    console.log(options)
     if (options.headers) {
       if (this.pictureparkConfiguration && this.pictureparkConfiguration.accessToken) {
         options.headers = options.headers.append('Authorization', 'Bearer ' + this.pictureparkConfiguration.accessToken);
