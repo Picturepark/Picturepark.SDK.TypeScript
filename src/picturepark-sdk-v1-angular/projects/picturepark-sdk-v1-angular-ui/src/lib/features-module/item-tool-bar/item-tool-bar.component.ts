@@ -2,6 +2,10 @@ import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 // COMPONENTS
+
+import {
+  ContentDownloadDialogComponent
+} from '../../features-module/dialog/components/content-download-dialog/content-download-dialog.component';
 import {
   ShareContentDialogComponent
 } from '../../features-module/share-content-dialog/share-content-dialog.component';
@@ -30,23 +34,11 @@ export class ItemToolBarComponent implements OnInit {
 
     switch (action) {
       case 'download': {
-        // this.dialog.open(ContentDetailsDialogComponent,
-          // { data: this.shareId, width: '980px', height: '700px' }
-        // );
+        this.downloadItems(this.shareId);
         break;
       }
       case 'share': {
-        console.log(this.s)
-        if (this.shareId) {
-          this.getShareItems(this.shareId);
-        }
-        /*
-        const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-          data: [],
-          autoFocus: false
-        });
-        dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
-        */
+        this.shareItems(this.shareId);
         break;
       }
       case 'delete': {
@@ -59,16 +51,28 @@ export class ItemToolBarComponent implements OnInit {
 
   }
 
+  async shareItems(shareId: string | undefined) {
+    if (shareId) {
+      const share = await this.shareService.get(shareId).toPromise();
+      const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+        data: share.contentSelections,
+        autoFocus: false
+      });
+      dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
+    }
+  }
 
-  async getShareItems(shareId: string) {
+  async downloadItems(shareId: string | undefined) {
+    if (shareId) {
+      const share = await this.shareService.get(shareId).toPromise();
+      const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
+        data: share.contentSelections,
+        autoFocus: false
+      });
 
-    const share = await this.shareService.get(shareId).toPromise();
-    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: share.contentSelections,
-      autoFocus: false
-    });
-    dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
-
+      const instance = dialogRef.componentInstance;
+      instance.title = 'ContentDownloadDialog.Title';
+    }
   }
 
   ngOnInit() {}
