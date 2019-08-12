@@ -58,7 +58,7 @@ export class ItemToolBarComponent implements OnInit {
         data: share.contentSelections,
         autoFocus: false
       });
-      dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
+      dialogRef.componentInstance.title = 'ShareContentDialog.CreateShare';
     }
   }
 
@@ -69,9 +69,7 @@ export class ItemToolBarComponent implements OnInit {
         data: share.contentSelections,
         autoFocus: false
       });
-
-      const instance = dialogRef.componentInstance;
-      instance.title = 'ContentDownloadDialog.Title';
+      dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
     }
   }
 
