@@ -149,7 +149,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
-      autoFocus: false
+      autoFocus: false,
+      width: '640px'
     });
 
     const instance = dialogRef.componentInstance;
