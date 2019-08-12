@@ -48,6 +48,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       icon: 'share',
       action: 'share'
     },
+    /*
     {
       name: 'Embed all contents',
       icon: 'code'
@@ -55,7 +56,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     {
       name: 'Expire',
       icon: 'schedule'
-    },
+    },*/
     {
       name: 'Delete',
       icon: 'delete',
