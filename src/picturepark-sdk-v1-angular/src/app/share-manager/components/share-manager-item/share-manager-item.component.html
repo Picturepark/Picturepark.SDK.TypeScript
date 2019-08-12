@@ -4,7 +4,7 @@
   </div>
   <div class="share-manager-item-content-container" *ngIf="!isLoading">
       <pp-share-preview [item]="items[0]" *ngIf="items.length === 1"></pp-share-preview>
-      <pp-item-tool-bar [toolBarOptions]="toolBarOptions"></pp-item-tool-bar>
+      <pp-item-tool-bar [toolBarOptions]="toolBarOptions" [shareId]="shareId"></pp-item-tool-bar>
       <pp-settings-panel
         [title]="'Settings'"
         [subject]="subject"

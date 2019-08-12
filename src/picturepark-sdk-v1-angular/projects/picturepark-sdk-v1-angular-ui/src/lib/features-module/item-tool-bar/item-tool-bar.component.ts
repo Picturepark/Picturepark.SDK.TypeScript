@@ -1,8 +1,13 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 // COMPONENTS
-import { EventEmitter } from 'events';
+import {
+  ShareContentDialogComponent
+} from '../../features-module/share-content-dialog/share-content-dialog.component';
+
+// SERVICES
+import { ShareService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-item-tool-bar',
@@ -13,14 +18,57 @@ export class ItemToolBarComponent implements OnInit {
 
   @Input() toolBarIcon = 'code';
   @Input() toolBarOptions: any[] = [];
+  @Input() shareId?: string;
   @Output() toolBarOutPutEvent = new EventEmitter();
 
   constructor(
     public dialog: MatDialog,
+    private shareService: ShareService,
   ) { }
 
   fireAction(action: string): void {
-    this.toolBarOutPutEvent.emit(action);
+
+    switch (action) {
+      case 'download': {
+        // this.dialog.open(ContentDetailsDialogComponent,
+          // { data: this.shareId, width: '980px', height: '700px' }
+        // );
+        break;
+      }
+      case 'share': {
+        console.log(this.s)
+        if (this.shareId) {
+          this.getShareItems(this.shareId);
+        }
+        /*
+        const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+          data: [],
+          autoFocus: false
+        });
+        dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
+        */
+        break;
+      }
+      case 'delete': {
+        break;
+      }
+      default: {
+        this.toolBarOutPutEvent.emit(action);
+      }
+    }
+
+  }
+
+
+  async getShareItems(shareId: string) {
+
+    const share = await this.shareService.get(shareId).toPromise();
+    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+      data: share.contentSelections,
+      autoFocus: false
+    });
+    dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
+
   }
 
   ngOnInit() {}

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient } from '@picturepark/sdk-v1-angular';
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -24,6 +25,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   userId: string | undefined;
   subject: string;
   accessOriginal: string;
+  shareId: string;
 
   isLoading = true;
 
@@ -60,6 +62,9 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   // GET SHARE INFO
   getShareInfo(shareId: string): void {
+
+    this.shareId = shareId;
+
     this.shareService.get(shareId).subscribe(data => {
 
       this.items = data.contentSelections;

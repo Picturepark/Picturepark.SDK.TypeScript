@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -16,7 +17,6 @@ import {
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-basket',
