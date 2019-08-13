@@ -2,7 +2,7 @@
   <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
   <pp-notification [notification]="notification"></pp-notification>
 
-  <form [formGroup]="sharedContentForm" class="example-form">
+  <form [formGroup]="sharedContentForm" class="example-form" autocomplete="false">
     
     <mat-dialog-content class="inputs-content" *ngIf="recipients.length === 0">
       <ul>
@@ -29,7 +29,7 @@
         </li>
       </ul>
       <ul>
-        <li class="label-content"><label for="recipients">{{ 'ShareContentDialog.Recipients' | pptranslate }}:</label></li>
+        <li class="label-content"><label for="share-recipients">{{ 'ShareContentDialog.Recipients' | pptranslate }}:</label></li>
         <li class="input-content"><pp-share-content-recipients-input [parentForm]="sharedContentForm"></pp-share-content-recipients-input></li>
       </ul>
       <ul>

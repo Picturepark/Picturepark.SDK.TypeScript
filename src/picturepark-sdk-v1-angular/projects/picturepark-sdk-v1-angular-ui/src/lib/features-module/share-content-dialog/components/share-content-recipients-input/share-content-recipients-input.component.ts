@@ -67,7 +67,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
 
   optionSelected(event: MatAutocompleteSelectedEvent): void {
     this.recipientsAutocomplete = [];
-    this.add({ input: document.getElementById('recipient')! as HTMLInputElement, value: event.option.value });
+    this.add({ input: document.getElementById('share-recipients')! as HTMLInputElement, value: event.option.value });
   }
 
   // ADD RECIPIENT TO LIST
