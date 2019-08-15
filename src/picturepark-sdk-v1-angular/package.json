@@ -6,8 +6,9 @@
     "init": "npm install",
     "ng": "ng",
     "start": "ng serve --port 4300 -o",
-    "build-libraries": "ng build picturepark-sdk-v1-angular && ng build picturepark-sdk-v1-angular-oidc && ng build picturepark-sdk-v1-angular-ui && npm run build-css",
+    "build-libraries": "ng build picturepark-sdk-v1-angular && ng build picturepark-sdk-v1-angular-oidc && npm run build-ui && npm run build-css",
     "build": "npm run init && npm run lint && npm run build-libraries && ng build --prod",
+    "build-ui": "ng build picturepark-sdk-v1-angular-ui && scss-bundle -c projects/picturepark-sdk-v1-angular-ui/scss-bundle.config.json",
     "build-css": "cpx \"./projects/picturepark-sdk-v1-angular-ui/src/lib/styles/*\" \"./dist/picturepark-sdk-v1-angular-ui/lib/styles/\"",
     "test": "ng test",
     "test-nowatch": "ng test",
@@ -60,6 +61,7 @@
     "ts-node": "~7.0.0",
     "tsickle": "^0.36.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "scss-bundle": "^2.5.1"
   }
 }

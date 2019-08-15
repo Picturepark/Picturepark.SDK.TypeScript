@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin pp-channel-picker-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .channel-picker-container {}
+
+}
