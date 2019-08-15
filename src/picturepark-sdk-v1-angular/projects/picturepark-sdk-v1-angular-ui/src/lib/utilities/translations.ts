@@ -239,7 +239,7 @@ export let TRANSLATIONS = {
   },
   ListBrowser: {
     ListItemsLowercase: {
-      en: 'items list'
+      en: 'list items'
     },
     ItemsWereNotFound: {
       en: 'Items were not found'
