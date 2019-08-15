@@ -10,7 +10,7 @@
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng && npm run docs",
     "start:fetch": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090",
     "start:pickers": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-pickers/\" -p 8090",
-    "start:widgets": "start \"\" http://localhost:8090/dist/picturepark-widgets.js && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090",
+    "start:widgets": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090",
     "dev:pickers": "watch \"npm run build:pickers\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-pickers",
     "dev:widgets": "watch \"npm run build:widgets\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-widgets"
   },
