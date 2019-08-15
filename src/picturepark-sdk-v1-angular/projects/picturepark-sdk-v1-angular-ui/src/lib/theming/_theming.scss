@@ -1,7 +1,7 @@
 // REQUIRED THEMES
-@import './aggregation-theme.component.scss';
-@import '../features-module/application-header/application-header.component-theme.scss';
-@import '../features-module/application-menu/application-menu.component-theme.scss';
+@import '../shared-module/components/aggregation/aggregation.component.theme.scss';
+@import '../features-module/application-header/application-header.component.theme.scss';
+@import '../features-module/application-menu/application-menu.component.theme.scss';
 @import './basket-theme.component.scss';
 @import './basket-item-theme.component.scss';
 @import './browser-base-theme.component.scss';
