@@ -1,27 +1,29 @@
-// REQUIRED THEMES
+// Shared themes
 @import '../shared-module/components/aggregation/aggregation.component.theme.scss';
+@import '../shared-module/components/browser-base/browser-base.component.theme.scss';
+@import '../shared-module/components/browser-item-base/browser-item-base.component.theme.scss';
+@import '../features-module/dialog/components/dialog-base/dialog-base.component.theme.scss'; // TODO: Move to shared module
+@import '../features-module/panel/components/panel-base/panel-base.component.theme.scss'; // TODO: Move to shared module
+
+// Feature themes
 @import '../features-module/application-header/application-header.component.theme.scss';
 @import '../features-module/application-menu/application-menu.component.theme.scss';
-@import './basket-theme.component.scss';
-@import './basket-item-theme.component.scss';
-@import './browser-base-theme.component.scss';
-@import './browser-toolbar-theme.component.scss';
-@import './browser-item-base-theme.component.scss';
-@import './content-aggregation-list-theme.component.scss';
-@import './content-browser-theme.component.scss';
-@import './content-browser-item-theme.component.scss';
-@import './channel-picker-theme.component.scss';
-@import './dialog-base-theme.component.scss';
-@import './item-tool-bar-theme.component.scss';
-@import './list-browser-theme.component.scss';
-@import './schema-browser-item-theme.component.scss';
-@import './share-content-dialog-theme.component.scss';
-@import './share-aggregation-list-theme.component.scss';
-@import './share-browser-item-theme.component.scss';
-@import './share-content-dialog-item-theme.component.scss';
-@import './share-content-recipients-input-theme.component.scss';
-@import './panel-base-theme.component.scss';
-@import './share-preview-theme.component.scss';
+@import '../features-module/basket/basket.component.theme.scss';
+@import '../features-module/basket/components/basket-item/basket-item.component.theme.scss';
+@import '../features-module/browser-toolbar/browser-toolbar.component.theme.scss';
+@import '../features-module/content-aggregation-list/content-aggregation-list.component.theme.scss';
+@import '../features-module/content-browser/content-browser.component.theme.scss';
+@import '../features-module/content-browser/components/content-browser-item/content-browser-item.component.theme.scss';
+@import '../features-module/channel-picker/channel-picker.component.theme.scss';
+@import '../features-module/item-tool-bar/item-tool-bar.component.theme.scss';
+@import '../features-module/list-browser/list-browser.component.theme.scss';
+@import '../features-module/schema-browser/components/schema-browser-item/schema-browser-item.component.theme.scss';
+@import '../features-module/share-content-dialog/share-content-dialog.component.theme.scss';
+@import '../features-module/share-aggregation-list/share-aggregation-list.component.theme.scss';
+@import '../features-module/share-browser/components/share-browser-item/share-browser-item.component.theme.scss';
+@import '../features-module/share-content-dialog/components/share-content-dialog-item/share-content-dialog-item.component.theme.scss';
+@import '../features-module/share-content-dialog/components/share-content-recipients-input/share-content-recipients-input.component.theme.scss';
+@import '../features-module/share-preview/share-preview.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
