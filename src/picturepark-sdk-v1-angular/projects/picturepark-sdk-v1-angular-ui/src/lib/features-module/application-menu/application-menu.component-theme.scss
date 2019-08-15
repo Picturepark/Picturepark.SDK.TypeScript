@@ -16,23 +16,20 @@ $pp-application-menu: (
 );
 
 @mixin pp-application-menu-theme($theme) {
-
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
 
   // APPLICATION MENU MODULE
-  .application-menu-container {
-    background-color: mat-color($primary, dark-background) !important;
+  pp-application-menu > div {
+    background-color: mat-color($primary, dark-background);
     box-shadow: 
         0 5px 5px -3px rgba(mat-color($primary, shadow-color),.2), 
         0 8px 10px 1px rgba(mat-color($primary, shadow-color),.14), 
-        0 3px 14px 2px rgba(mat-color($primary, shadow-color),.12) !important;
+        0 3px 14px 2px rgba(mat-color($primary, shadow-color),.12);
 
     .application-menu-logo {
-      border-bottom: 1px solid mat-color($pp-application-menu, border-color) !important;
+      border-bottom-color: mat-color($pp-application-menu, border-color);
       &.active {
-        background-color: mat-color($pp-application-menu, logo-active-background) !important;
+        background-color: mat-color($pp-application-menu, logo-active-background);
       }
       svg#text {
           & path {
@@ -52,13 +49,13 @@ $pp-application-menu: (
     }
     ul {
       li {
-        color: mat-color($primary, button) !important;
+        color: mat-color($primary, button);
         &:hover {
-          background-color: mat-color($pp-application-menu, menu-item-hover-background-color) !important;
+          background-color: mat-color($pp-application-menu, menu-item-hover-background-color);
         }
         &.active { 
-          color: mat-color($pp-application-menu, menu-item-active-color) !important;
-          background-color: mat-color($pp-application-menu, menu-item-active-background-color) !important;
+          color: mat-color($pp-application-menu, menu-item-active-color);
+          background-color: mat-color($pp-application-menu, menu-item-active-background-color);
         }
         & i { font-size: mat-font-size($custom-typography, display-3) !important; }
         & span {
@@ -74,6 +71,3 @@ $pp-application-menu: (
   }
 
 }
-
-
-
