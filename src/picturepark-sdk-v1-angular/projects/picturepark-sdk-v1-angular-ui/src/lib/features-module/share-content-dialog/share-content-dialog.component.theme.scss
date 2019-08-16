@@ -9,7 +9,6 @@ $pp-share-content-dialog: (
 @mixin pp-share-content-dialog-theme($theme) {
 
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
   .share-content-dialog-container {

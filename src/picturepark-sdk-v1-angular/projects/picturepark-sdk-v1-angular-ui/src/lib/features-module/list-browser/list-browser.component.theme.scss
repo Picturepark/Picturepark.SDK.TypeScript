@@ -10,8 +10,6 @@ $pp-list-browser: (
 @mixin pp-list-browser-theme($theme) {
 
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
 
   .content-browser-container {
     .content-browser-toolbar-container {

@@ -8,8 +8,6 @@ $pp-item-tool-bar: (
 @mixin pp-item-tool-bar-theme($theme) {
 
     $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    $warn: map-get($theme, warn);
 
     .tool-bar-container {
         background: mat-color($primary, dark-background) !important;

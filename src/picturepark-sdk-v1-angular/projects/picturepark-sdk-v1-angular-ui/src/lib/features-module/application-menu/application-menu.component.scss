@@ -16,7 +16,11 @@
     }
     
     .application-menu-logo {
-        text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f; position: relative;
+        text-align: center;
+        height: 63px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        position: relative;
         &.active {
             background-color: #2f2f2f;
             & svg#graphic {
@@ -77,19 +81,18 @@
     ul {
         position: absolute; margin: 0px; padding: 0px; width: 240px; margin: 13px 0px 0px 0px;
         li {
-            position: relative; text-align: left; line-height: 44px; cursor: pointer; color: #aaa;
-            &:hover {
-                background-color: rgba(47,47,47,.5);
-                & a { color: white; }
-            }
+            position: relative;
+            text-align: left;
+            line-height: 44px;
+            cursor: pointer;
+
             &:focus {
                 outline: -webkit-focus-ring-color auto 0px;
             }
-            &.active { background-color: #2f2f2f; color: white; }
 
-            & i { font-size: 18px; position: relative; width: 64px; text-align: center; top: 6px; }
+            & i { position: relative; width: 64px; text-align: center; top: 6px; }
             & span {
-                width: 200px; transition: 300ms; opacity: 0; font-size: 13px;
+                width: 200px; transition: 300ms; opacity: 0;
             }
         }
     }

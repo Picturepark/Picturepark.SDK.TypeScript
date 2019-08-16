@@ -9,7 +9,6 @@ $pp-share-content-recipients-input-theme: (
 @mixin pp-share-content-recipients-input-theme($theme) {
     
     $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
 
     .chip-list-container { 

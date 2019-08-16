@@ -8,8 +8,6 @@ $pp-application-header: (
 @mixin pp-application-header-theme($theme) {
 
     $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    $warn: map-get($theme, warn);
 
     .application-header-container {
         background-color: mat-color($primary, white-background) !important;
@@ -37,8 +35,4 @@ $pp-application-header: (
         }
     }
 
-};
-
-
-
-
+}

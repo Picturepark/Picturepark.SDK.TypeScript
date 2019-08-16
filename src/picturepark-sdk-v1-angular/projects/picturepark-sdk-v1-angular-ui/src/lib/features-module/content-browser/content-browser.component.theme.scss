@@ -4,8 +4,6 @@
 @mixin pp-content-browser-theme($theme) {
 
     $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    $warn: map-get($theme, warn);
 
     .browser {
         &__header {
@@ -23,5 +21,4 @@
         }   
     }
 
-};
-
+}

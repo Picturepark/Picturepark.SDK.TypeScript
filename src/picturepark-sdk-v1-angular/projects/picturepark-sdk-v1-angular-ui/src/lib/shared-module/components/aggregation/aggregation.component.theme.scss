@@ -1,11 +1,8 @@
 @import '~@angular/material/theming';
 
-
 @mixin pp-aggregation-theme($theme) {
 
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
 
   .aggregation {
     .mat-expansion-panel-header {
@@ -32,7 +29,4 @@
 
   }
 
-};
-
-
-  
+}

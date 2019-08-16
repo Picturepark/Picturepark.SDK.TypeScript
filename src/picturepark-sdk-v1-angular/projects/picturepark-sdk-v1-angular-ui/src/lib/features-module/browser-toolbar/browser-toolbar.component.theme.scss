@@ -8,8 +8,6 @@ $pp-browser-toolbar: (
 @mixin pp-browser-toolbar-theme($theme) {
 
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
 
   // BROWSER TOOLBAR MODULE
   .browser-toolbar-container {

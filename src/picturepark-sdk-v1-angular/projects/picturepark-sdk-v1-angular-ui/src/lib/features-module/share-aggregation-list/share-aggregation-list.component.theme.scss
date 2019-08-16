@@ -8,8 +8,6 @@ $pp-share-aggregation-list: (
 @mixin pp-share-aggregation-list-theme($theme) {
 
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
 
   .aggregation-filter {
     &__loading-spinner {

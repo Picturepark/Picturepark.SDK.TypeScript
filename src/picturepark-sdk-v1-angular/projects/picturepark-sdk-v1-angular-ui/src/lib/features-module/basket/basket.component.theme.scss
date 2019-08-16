@@ -8,8 +8,6 @@ $pp-basket: (
 @mixin pp-basket-theme($theme) {
 
     $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    $warn: map-get($theme, warn);
 
     .basket {
         background-color: mat-color($primary, light-background) !important;
