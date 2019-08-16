@@ -26,7 +26,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
       this.isLoading.next(true);
       const request = new ShareAggregationRequest({
         aggregators: this.aggregators,
-        searchString: this.query,
+        searchString: this.searchString,
         aggregationFilters: this.aggregationFilters
       });
 
@@ -38,7 +38,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
 
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ShareAggregationRequest({
-      searchString: searchString,
+      searchString: this.searchString,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters
     });

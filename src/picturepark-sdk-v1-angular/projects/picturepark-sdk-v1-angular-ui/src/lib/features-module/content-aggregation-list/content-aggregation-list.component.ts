@@ -31,7 +31,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
       const request = new ContentAggregationRequest({
         aggregators: this.aggregators,
         channelId: this.channelId,
-        searchString: this.query,
+        searchString: this.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
@@ -47,7 +47,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ContentAggregationRequest({
       channelId: this.channelId,
-      searchString: searchString,
+      searchString: this.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters,

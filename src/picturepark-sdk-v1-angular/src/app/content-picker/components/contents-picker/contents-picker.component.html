@@ -18,7 +18,7 @@
     <mat-tab-group>
       <mat-tab label="Filters">
         <pp-content-aggregation-list 
-          [query]="searchText" 
+          [searchString]="searchText" 
           [channelId]="selectedChannel?.id" 
           [aggregators]="selectedChannel?.aggregations"
           (filterChange)="selectedFilter = $event">
@@ -29,16 +29,6 @@
           <span [matBadge]="basketItemsCount" matBadgeOverlap="false">Basket</span>
         </ng-template>
         <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
-      </mat-tab>
-      <mat-tab label="Shares">
-        <ng-template mat-tab-label>
-          <span matBadgeOverlap="false">Shares</span>
-        </ng-template>
-        <ul>
-          <li>
-            <!--<pp-share-content-list></pp-share-content-list>-->
-          </li>
-        </ul>
       </mat-tab>
     </mat-tab-group>
     <div class="expand" *ngIf="!expandedContent" (click)="expand()">
