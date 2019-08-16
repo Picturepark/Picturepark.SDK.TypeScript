@@ -9,8 +9,6 @@ $pp-panel-base: (
 @mixin pp-panel-base-theme($theme) {
 
     $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    $warn: map-get($theme, warn);
 
     .panel-container { 
         background-color: mat-color($primary, white-background) !important;
