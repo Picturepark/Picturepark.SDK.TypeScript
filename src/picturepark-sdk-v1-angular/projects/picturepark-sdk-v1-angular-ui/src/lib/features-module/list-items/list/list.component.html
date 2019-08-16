@@ -24,7 +24,7 @@
             [aggregators]="aggregations"
             [aggregationFilters]="aggregationFilters"
             (aggregationFiltersChange)="changeAggregationFilters($event)"
-            [query]="searchQuery | async"
+            [searchString]="searchQuery | async"
             (filterChange)="filter.next($event)">
           </pp-list-item-aggregation-list>
         </ng-template>

@@ -14,7 +14,7 @@ import { BaseComponent } from '../../components/base.component';
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
 
   @Input()
-  public query = '';
+  public searchString = '';
 
   @Input()
   public aggregators: AggregatorBase[] | null = [];
@@ -46,7 +46,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
       this.filterChange.emit(null);
     }
 
-    if (changes['aggregators'] || changes['query'] || changes['aggregationFilters']) {
+    if (changes['aggregators'] || changes['searchString'] || changes['aggregationFilters']) {
       this.updateData();
     }
   }

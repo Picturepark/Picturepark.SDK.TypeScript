@@ -13,23 +13,23 @@ export class SearchBoxComponent implements OnChanges {
   public result: ContentSearchResult | null = null;
 
   @Input()
-  public query = '';
+  public searchString = '';
 
   @Output()
-  public queryChange = new EventEmitter<string>();
+  public searchStringChange = new EventEmitter<string>();
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['query']) {
+    if (changes['searchString']) {
       this.search();
     }
   }
 
   public search() {
-    this.queryChange.emit(this.query);
+    this.searchStringChange.emit(this.searchString);
   }
 
   public clear() {
-    this.query = '';
-    this.queryChange.emit(this.query);
+    this.searchString = '';
+    this.searchStringChange.emit(this.searchString);
   }
 }
