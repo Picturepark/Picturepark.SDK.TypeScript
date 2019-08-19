@@ -24,11 +24,13 @@ import {
   SchemaDetail,
   ThumbnailSize,
 } from '@picturepark/sdk-v1-angular';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
 import { map } from 'rxjs/operators';
 
 import { LayerField } from '../models/layer-field';
 import { RelationFieldInfo } from '../models/relation-field-info';
+
+const moment = moment_;
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +40,9 @@ export class LayerFieldService {
   constructor(private sanitizer: DomSanitizer,
     private contentService: ContentService) { }
 
-  public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField {
+  public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField | null {
     const fieldValue = schemaMetadata[field.id];
-    let layerField = new LayerField(field);
+    let layerField: LayerField | null = new LayerField(field);
 
     switch (field.constructor) {
       case FieldMultiTagbox:
@@ -60,36 +62,39 @@ export class LayerFieldService {
         break;
 
       case FieldSingleFieldset:
-        const referencedToSingleFieldset: SchemaDetail = allSchemas.find(i => i.id === (field as FieldSingleFieldset).schemaId);
+        const referencedToSingleFieldset: SchemaDetail | undefined = allSchemas.find(i => i.id === (field as FieldSingleFieldset).schemaId);
 
         const layerFieldSingleFieldset = new LayerField(field);
-        referencedToSingleFieldset.fields.forEach(rf => {
-          if (fieldValue[rf.id]) {
-            const referencedField = this.generate(rf, fieldValue, allSchemas);
-            if (referencedField) {
-              layerFieldSingleFieldset.fieldsetFields.push(referencedField);
+        if (referencedToSingleFieldset && referencedToSingleFieldset.fields) {
+          referencedToSingleFieldset.fields.forEach(rf => {
+            if (fieldValue[rf.id]) {
+              const referencedField = this.generate(rf, fieldValue, allSchemas);
+              if (referencedField) {
+                layerFieldSingleFieldset.fieldsetFields.push(referencedField);
+              }
             }
-          }
-        });
+          });
+        }
         layerField.title = fieldValue._displayValues.list;
         layerField.fieldsetFields = [layerFieldSingleFieldset];
         break;
 
       case FieldMultiFieldset:
-        const referencedToMultiFieldset: SchemaDetail = allSchemas.find(i => i.id === (field as FieldMultiFieldset).schemaId);
+        const referencedToMultiFieldset: SchemaDetail | undefined = allSchemas.find(i => i.id === (field as FieldMultiFieldset).schemaId);
 
         layerField.fieldsetFields = fieldValue.map((value: any) => {
           const lf = new LayerField(field);
           lf.title = value._displayValues.list;
-
-          referencedToMultiFieldset.fields.forEach(rf => {
-            if (value[rf.id]) {
-              const referencedField = this.generate(rf, value, allSchemas);
-              if (referencedField) {
-                lf.fieldsetFields.push(referencedField);
+          if (referencedToMultiFieldset && referencedToMultiFieldset.fields) {
+            referencedToMultiFieldset.fields.forEach(rf => {
+              if (value[rf.id]) {
+                const referencedField = this.generate(rf, value, allSchemas);
+                if (referencedField) {
+                  lf.fieldsetFields.push(referencedField);
+                }
               }
-            }
-          });
+            });
+          }
           return lf;
         });
         break;
@@ -99,13 +104,16 @@ export class LayerFieldService {
         const targetSingleFielDocType = fieldValue['_targetDocType'];
 
         if (targetSingleFieldId && targetSingleFielDocType && targetSingleFielDocType === 'Content') {
-          const referencedToSingleRelation: SchemaDetail = allSchemas.find(i => i.id === (field as FieldSingleRelation).schemaId);
-          layerField.relationFields = [this.getRelationField(targetSingleFieldId, fieldValue, referencedToSingleRelation, allSchemas)];
+          const referencedToSingleRelation: SchemaDetail | undefined =
+            allSchemas.find(i => i.id === (field as FieldSingleRelation).schemaId);
+          if (referencedToSingleRelation) {
+            layerField.relationFields = [this.getRelationField(targetSingleFieldId, fieldValue, referencedToSingleRelation, allSchemas)];
+          }
         }
         break;
 
       case FieldMultiRelation:
-        const referencedToMultiRelation: SchemaDetail = allSchemas.find(i => i.id === (field as FieldMultiRelation).schemaId);
+        const referencedToMultiRelation: SchemaDetail | undefined = allSchemas.find(i => i.id === (field as FieldMultiRelation).schemaId);
 
         const relationsFields = fieldValue.map((v: any) => {
           const targetMultiRelationId = v['_targetId'];
@@ -177,15 +185,18 @@ export class LayerFieldService {
     return layerField;
   }
 
-  private getRelationField(targetId: string, fieldValue: any, referencedSchema: SchemaDetail, allSchemas: SchemaDetail[]) {
-    const relationfields = referencedSchema.fields.map(rf => {
-      if (fieldValue[rf.id]) {
-        const referencedField = this.generate(rf, fieldValue, allSchemas);
-        if (referencedField) {
-          return referencedField;
+  private getRelationField(targetId: string, fieldValue: any, referencedSchema: SchemaDetail | undefined, allSchemas: SchemaDetail[]) {
+    let relationfields;
+    if (referencedSchema && referencedSchema.fields) {
+      relationfields = referencedSchema.fields.map(rf => {
+        if (fieldValue[rf.id]) {
+          const referencedField = this.generate(rf, fieldValue, allSchemas);
+          if (referencedField) {
+            return referencedField;
+          }
         }
-      }
-    }).filter(x => x);
+      }).filter(x => x);
+    }
 
     const relationFieldInfo = this.contentService.downloadThumbnail(
       targetId,

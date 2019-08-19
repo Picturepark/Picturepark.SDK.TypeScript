@@ -47,9 +47,11 @@ export class LayerPanelsComponent implements OnInit {
     const schemaIds = new Set<string>();
 
     this.schemas.forEach(s => {
-      s.fields.filter(f => referencedTypes.some(t => t === f.constructor)).
-        forEach((tg: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox | FieldMultiFieldset)) =>
-          schemaIds.add(tg.schemaId));
+      if (s && s.fields) {
+        s.fields.filter(f => referencedTypes.some(t => t === f.constructor)).
+          forEach((tg: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox | FieldMultiFieldset)) =>
+            schemaIds.add(tg.schemaId));
+      }
     });
 
     const referencedSchemas = schemaIds.size ?
@@ -72,7 +74,7 @@ export class LayerPanelsComponent implements OnInit {
           }
 
           // tslint:disable-next-line
-          const schema: SchemaDetail = this.schemas.find(i => i.id === layerSchemaId);
+          const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
 
           if (schema) {
             const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];

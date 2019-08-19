@@ -19,7 +19,9 @@ export class ReferencedSchemaService {
 
   constructor(private schemaService: SchemaService) { }
 
-  public getReferencedSchemas(referencedSchemasStorage: Observable<ReferencedSchemas>, referencedTypes: (typeof FieldBase)[]): Observable<ReferencedSchemas> {
+  public getReferencedSchemas(
+    referencedSchemasStorage: Observable<ReferencedSchemas>,
+    referencedTypes: (typeof FieldBase)[]): Observable<ReferencedSchemas> {
     return referencedSchemasStorage.pipe(
       flatMap((referencedSchemas) => {
         return zip(of(referencedSchemas), this.schemaService.getMany(referencedSchemas.schemaIds));
@@ -32,12 +34,14 @@ export class ReferencedSchemaService {
         const schemaIds = new Set<string>();
 
         schemas.forEach(s => {
-          s.fields.filter(f => referencedTypes.some(x => f.constructor === x))
-            .filter((f: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox)) => {
-              return !referencedSchemas.schemaDetails.some(x => x.id === f.schemaId);
-            })
-            .forEach((f: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox)) =>
-              schemaIds.add(f.schemaId));
+          if (s && s.fields) {
+            s.fields.filter(f => referencedTypes.some(x => f.constructor === x))
+              .filter((f: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox)) => {
+                return !referencedSchemas.schemaDetails.some(x => x.id === f.schemaId);
+              })
+              .forEach((f: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox)) =>
+                schemaIds.add(f.schemaId));
+          }
         });
 
         referencedSchemas.schemaIds = Array.from(schemaIds);
