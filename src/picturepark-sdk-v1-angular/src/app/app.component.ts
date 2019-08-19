@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 // LIBRARIES
 import { AuthService } from '@picturepark/sdk-v1-angular';
@@ -12,12 +13,13 @@ import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 export class AppComponent implements OnInit {
 
   constructor(
-    @Inject(AuthService) public authService: OidcAuthService
+    @Inject(AuthService) public authService: OidcAuthService,
+    private location: Location
   ) {}
 
   public ngOnInit() {
     if (!this.authService.isAuthenticated) {
-      this.authService.login('/');
+      this.authService.login(location.pathname);
     }
   }
 

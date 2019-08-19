@@ -1,10 +1,17 @@
 .basket {
-  min-width: 200px;
+  height: 100%;
   &__header {
     position: sticky;
     top: 0;
     z-index: 1;
     display: flex;
+    .clear-basket {
+      width: 100%;
+      font-size: 14px;
+      line-height: 42px;
+      span { float: left; }
+      button { float: right;}
+    }
   }
   &__items {
     display: grid;
@@ -27,6 +34,19 @@
     right: 0;
   }
   &__empty {
-    margin: 20px;
+    padding: 20px;
+    color: #444;
+    font-weight: 500;
+  }
+  .mat-toolbar {
+    background: #eee;
+    padding: 0 20px;
+    border-bottom: 1px solid #d8d8d8;
+    button {
+      mat-icon {
+        font-size: 21px;
+        color: #727272;
+      }
+    }
   }
 }

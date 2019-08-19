@@ -2,14 +2,13 @@
   <div class="browser-item__image-slot">
     <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="virtualItemHtml === null; else virtualContent">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
-      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" />
+      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
     </div>
-
     <ng-template #virtualContent>
       <div class="browser-item__image-virtual-item-container" [innerHTML]="virtualItemHtml"></div>
     </ng-template>
 
-    <div class="browser-item__actions">
+    <div class="browser-item__actions" *ngIf="!isListView">
       <ul>
         <li>
           <button mat-icon-button *ngIf="browser.configActions['preview']" (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.Details' | pptranslate">
@@ -23,20 +22,46 @@
         </li>
       </ul>
     </div>
-    <div class="browser-item__thumbnail-overlay" *ngIf="itemModel.item.displayValues['thumbnail']">{{ itemModel.item.displayValues['thumbnail'] }}</div>
   </div>
-  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subheading-2">
-    <div>{{ itemModel.item.displayValues!['name'] || 'n/a'}}</div>
+  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title">
+    <div class="browser-item__title__title-content">{{ itemModel.item.displayValues!['name'] || 'n/a'}}</div>
     <div class="mat-subheading-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
   </div>
+  <div class="browser-item__list-view-actions" *ngIf="isListView">
+    <ul>
+      <li>
+        <button mat-icon-button *ngIf="browser.configActions['preview']" (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.Details' | pptranslate">
+          <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
+        </button>
+      </li>
+      <li>
+        <button mat-icon-button *ngIf="browser.configActions['download']" (click)="downloadItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate">
+          <mat-icon aria-label="Download item">get_app</mat-icon>
+        </button>
+      </li>
+      <li [ngClass]="{ 'in-basket': itemModel.isInBasket }">
+        <button 
+          mat-icon-button 
+          *ngIf="browser.configActions['basket']" 
+          (click)="toggleInBasket(); $event.stopPropagation()" 
+          [matTooltip]="'ContentBrowser.AddToBasket' | pptranslate">
+          <mat-icon class="add" aria-label="Add item to basket" *ngIf="!itemModel.isInBasket">add</mat-icon>
+          <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">done</mat-icon>
+          <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">clear</mat-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
   <button 
-    *ngIf="browser.configActions['basket']"
+    *ngIf="browser.configActions['basket'] && !isListView"
     mat-mini-fab 
     class="browser-item__basket-icon" 
     (click)="toggleInBasket(); $event.stopPropagation()"
     [class.browser-item__basket-icon--selected]="itemModel.isInBasket"
     [color]="itemModel.isInBasket ? 'accent' : 'basic'"
     [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
-    <mat-icon aria-label="Add item to basket">add</mat-icon>
+    <mat-icon class="add" aria-label="Add item to basket" *ngIf="!itemModel.isInBasket">add</mat-icon>
+    <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">done</mat-icon>
+    <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">clear</mat-icon>
   </button>
 </div>

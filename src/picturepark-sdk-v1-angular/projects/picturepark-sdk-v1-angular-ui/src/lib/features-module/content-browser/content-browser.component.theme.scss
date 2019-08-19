@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+
+
+@mixin pp-content-browser-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    .browser {
+        &__header {
+            button {
+                &:hover {
+                    mat-icon {
+                        color: mat-color($primary, icon-selected-color) !important;
+                    }
+                }
+                mat-icon { 
+                    font-size: mat-font-size($custom-typography, display-3) !important; 
+                    color: mat-color($primary, light-font) !important;
+                }
+            }
+        }   
+    }
+
+}

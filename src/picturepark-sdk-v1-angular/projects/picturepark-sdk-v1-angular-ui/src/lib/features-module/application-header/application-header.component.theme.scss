@@ -1,0 +1,38 @@
+@import '~@angular/material/theming';
+
+// APPLICATION HEADER
+$pp-application-header: (
+    contrast: ()
+);
+
+@mixin pp-application-header-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    .application-header-container {
+        background-color: mat-color($primary, white-background) !important;
+        border-bottom: 1px solid mat-contrast($primary, light-background) !important;
+        color: mat-color($primary, dark-font) !important;
+        .title-container {
+            color: mat-color($primary, dark-font) !important;
+            border-right: 1px solid mat-contrast($primary, light-background) !important;
+        }
+        .search-container {
+            color: mat-color($primary, dark-font) !important;
+            .search-content {
+                & i { color: mat-color($primary, light-font) !important; }
+                & input { 
+                   background-color: mat-color($primary, white-background) !important;
+                   font-size: mat-font-size($custom-typography, display-2) !important;
+                   &:focus {
+                    font-size: mat-font-size($custom-typography, display-4) !important;
+                   }
+                }
+            }
+        }
+        .close-container { 
+            border-left: 1px solid mat-contrast($primary, light-background) !important;
+        }
+    }
+
+}

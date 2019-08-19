@@ -1,0 +1,41 @@
+.dialog-container {
+    height: 100%;
+    .dialog-content {
+        overflow: hidden;
+        margin: 0px -24px;
+        height: calc(100% - 25px);
+        background-color: #f8f8f8;
+
+        mat-dialog-content {
+
+            .mat-tab-header {
+                height: 56px;
+                background: #eeeeee;
+                border-left: 0px solid #d8d8d8;
+                border-bottom: 0px solid #d8d8d8;
+            }
+    
+            .content-preview {
+                width: 50%;
+                float: left;
+                padding: 24px;
+
+            }    
+            .content-info {
+                float: left;
+                width: 40%;
+
+                .inner { font-weight: 500; }
+                ul {
+                    margin: 24px;
+                    list-style: none;
+                    padding: 0;
+                    span { color: #444; font-weight: 500; padding: 0px 0px 0px 5px;}
+                }
+            }
+            .image-container { width: 100%; }
+            img { width: 100%; }
+
+        }
+    }
+}

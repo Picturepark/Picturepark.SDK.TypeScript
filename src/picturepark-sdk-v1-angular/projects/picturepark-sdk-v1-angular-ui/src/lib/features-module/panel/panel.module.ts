@@ -28,7 +28,7 @@ import { MailRecipientsPanelComponent } from './components/mail-recipients-panel
     ItemPanelPreviewComponent,
     MailRecipientsPanelComponent,
     OwnerPanelComponent,
-    SettingsPanelComponent
+    SettingsPanelComponent,
   ]
 })
 export class PanelModule { }

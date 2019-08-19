@@ -1,6 +1,7 @@
 .application-menu-container {
     position: relative; background-color: rgb(68,68,68); height: 100vh; width: 64px;
-    float: left; transition: 300ms; overflow: hidden; z-index: 100; box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+    float: left; transition: 300ms; overflow: hidden; z-index: 100; 
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
     &.active {
         width: 240px;
         .application-menu-logo {
@@ -15,7 +16,11 @@
     }
     
     .application-menu-logo {
-        text-align: center; height: 63px; border-bottom: 1px solid #2f2f2f; position: relative;
+        text-align: center;
+        height: 63px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        position: relative;
         &.active {
             background-color: #2f2f2f;
             & svg#graphic {
@@ -27,7 +32,8 @@
             top: 18px;
             left: 20px;
             cursor: pointer;
-            height: 30px; transition: 300ms;
+            height: 27px;
+            transition: 300ms;
         }
         svg#text {
             cursor: pointer;
@@ -73,21 +79,20 @@
     }
 
     ul {
-        position: absolute; margin: 0px; padding: 0px; width: 240px;
+        position: absolute; margin: 0px; padding: 0px; width: 240px; margin: 13px 0px 0px 0px;
         li {
-            position: relative; text-align: left; line-height: 44px; cursor: pointer; color: #aaa;
-            &:hover {
-                background-color: rgba(47,47,47,.5);
-                & a { color: white; }
-            }
+            position: relative;
+            text-align: left;
+            line-height: 44px;
+            cursor: pointer;
+
             &:focus {
                 outline: -webkit-focus-ring-color auto 0px;
             }
-            &.active { background-color: #2f2f2f; color: white; }
 
-            & i { line-height: 36px; font-size: 18px; position: relative; width: 64px; text-align: center; top: 6px; }
+            & i { position: relative; width: 64px; text-align: center; top: 6px; }
             & span {
-                width: 200px; transition: 300ms; opacity: 0; font-size: 13px;
+                width: 200px; transition: 300ms; opacity: 0;
             }
         }
     }

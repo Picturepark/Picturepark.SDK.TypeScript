@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { AuthService } from './api-services';
+import { AuthService } from './auth.service';
 
 export const PICTUREPARK_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_CONFIGURATION');
 

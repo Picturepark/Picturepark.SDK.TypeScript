@@ -1,16 +1,17 @@
 <div class="basket">
   <ng-container *ngIf="basketItems.length > 0; else emptyBasket">
     <mat-toolbar class="basket__header">
-      <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()" *ngIf="configActions.downloadContent">
+      <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()" *ngIf="configActions.download">
         <mat-icon aria-label="Download items">get_app</mat-icon>
       </button>
-      <button mat-icon-button [matTooltip]="'Basket.Share' | pptranslate" (click)="openShareContentDialog()" *ngIf="configActions.shareContent">
+      <button mat-icon-button [matTooltip]="'Basket.Share' | pptranslate" (click)="openShareContentDialog()" *ngIf="configActions.share">
         <mat-icon aria-label="Share items">share</mat-icon>
       </button>
-      <div style="flex-grow: 1;"></div>
-      <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
-        <mat-icon aria-label="Clear basket">clear</mat-icon>
-      </button>
+      <div class="clear-basket">
+        <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
+          <mat-icon aria-label="Clear basket">clear</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <div class="basket__items">
       <div class="basket__item-container" *ngFor="let basketItem of basketItems; trackBy: trackByBasket">

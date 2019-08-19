@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+// BASKET ITEM COMPONENT
+$pp-basket-item: (
+    contrast: ()
+);
+
+@mixin pp-basket-item-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    .basket-item {
+        background: mat-color($primary, white-background) !important;
+    }
+}

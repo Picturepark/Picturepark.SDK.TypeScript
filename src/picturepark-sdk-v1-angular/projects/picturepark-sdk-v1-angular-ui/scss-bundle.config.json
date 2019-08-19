@@ -1,0 +1,7 @@
+{
+    "entry": "./projects/picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss",
+    "dest": "dist/picturepark-sdk-v1-angular-ui/_theming.scss",
+    "ignoredImports": [
+        "~@angular/.*"
+    ]
+}

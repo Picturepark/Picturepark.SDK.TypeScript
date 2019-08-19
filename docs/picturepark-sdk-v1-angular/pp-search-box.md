@@ -1,12 +1,12 @@
 # pp-search-box
 
-Renders a search box to enter a search query.
+Renders a search box to enter a search string.
 
 ```
-<pp-search-box [(query)]="searchText"></pp-search-box>
+<pp-search-box [(searchString)]="searchText"></pp-search-box>
 ```
 
 Properties: 
 
 - **label:** The label of the component.
-- **query (two-way):** The entery search query.
+- **searchString (two-way):** The entery search searchString.

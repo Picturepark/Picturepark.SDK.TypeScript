@@ -5,6 +5,7 @@
 // exports
 export * from './lib/configuration';
 export * from './lib/entity-base';
+export * from './lib/auth.service';
 export * from './lib/base.service';
 export * from './lib/access-token-auth.service';
 

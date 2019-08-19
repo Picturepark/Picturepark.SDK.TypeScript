@@ -12,7 +12,7 @@ import { BaseComponent } from '../../shared-module/components/base.component';
 import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
 import {
   ShareContentDialogComponent
-} from '../../features-module/dialog/components/share-content-dialog/share-content-dialog.component';
+} from '../../features-module/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';

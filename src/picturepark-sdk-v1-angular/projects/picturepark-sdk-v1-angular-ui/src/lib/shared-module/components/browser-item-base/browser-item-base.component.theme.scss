@@ -1,0 +1,66 @@
+@import '~@angular/material/theming';
+
+// BROWSER ITEM BASE VARS
+$pp-browser-item: (
+    selected-background: #6f6f6f,
+    contrast: ()
+);
+
+@mixin pp-browser-item-base-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    .browser-item {
+      $self: &;
+      &--selected {
+        // use primary color.
+        box-shadow: 0 0 0 2px mat-color($pp-browser-item, selected-background) !important;
+    
+        #{ $self }__title {
+          background-color: mat-color($pp-browser-item, selected-background) !important;
+          color: mat-color($primary, white-font) !important;
+        }
+    
+      }
+
+      &--list-view {
+        #{ $self }__title {
+          background-color: transparent !important;
+
+          .mat-subheading-1 {
+            color: mat-color($primary, light-font) !important;
+          }
+        }
+        #{ $self }__actions {
+          align-self: flex-end;
+        }
+      }
+    
+      &__title {
+        color: mat-color($primary, light-font) !important;
+      }
+      
+      &__actions {
+        ul {
+          li {
+            float: left; 
+            button {
+              mat-icon {     
+                font-size: mat-font-size($custom-typography, display-1) !important;
+                color: mat-color($primary, white-font) !important;
+              }
+            }
+            .material-icons {
+              font-size: mat-font-size($custom-typography, display-1) !important;
+              color: mat-color($primary, white-font) !important;
+            }
+          }
+        }
+      }
+    
+      &__thumbnail-overlay {
+        color: mat-color($primary, white-font) !important;
+        font-size: mat-font-size($custom-typography, caption) !important;
+      }
+    }
+}

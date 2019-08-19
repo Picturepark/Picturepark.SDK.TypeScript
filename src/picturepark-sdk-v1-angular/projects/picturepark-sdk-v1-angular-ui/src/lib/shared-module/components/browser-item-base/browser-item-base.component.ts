@@ -1,9 +1,15 @@
 import { Input, Output, EventEmitter } from '@angular/core';
-import { ThumbnailSize, IEntityBase } from '@picturepark/sdk-v1-angular';
 import { Subject } from 'rxjs';
-import { ContentModel } from '../../models/content-model';
-import { BaseComponent } from '../base.component';
+
+// LIBRARIES
+import { ThumbnailSize, IEntityBase } from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseBrowserComponent } from '../browser-base/browser-base.component';
+import { BaseComponent } from '../base.component';
+
+// INTERFACES
+import { ContentModel } from '../../models/content-model';
 
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
     // INPUTS

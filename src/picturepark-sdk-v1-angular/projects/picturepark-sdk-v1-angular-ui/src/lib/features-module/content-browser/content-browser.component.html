@@ -15,7 +15,7 @@
           <ng-content select="[content-buttons]"></ng-content>
       </ng-container>
     </pp-browser-toolbar>
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
   </div>
 
   <div *ngIf="totalResults !== 0" class="browser__items" 

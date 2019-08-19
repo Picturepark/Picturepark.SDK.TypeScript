@@ -1,0 +1,37 @@
+@import '~@angular/material/theming';
+
+// DIALOG BASE VARS
+$pp-dialog-base: (
+    contrast: ()
+);
+
+@mixin pp-dialog-base-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    .dialog {
+        h3 { 
+            color: mat-color($primary, dark-font) !important; 
+            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important; 
+            mat-icon { color: mat-color($primary, light-font) !important; }
+        }
+    
+        mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
+    
+        .loader-container { 
+            background-color: mat-color($primary, dialog-background) !important; 
+        }
+    
+        mat-dialog-actions { 
+            border-top: 1px solid mat-contrast($primary, dialog-background) !important; 
+            background-color: mat-color($primary, white-background) !important;
+            button { 
+                color: mat-color($primary, white-font) !important; background: mat-color($primary, button) !important;
+                &.active { background-color: mat-color($primary, base) !important; }
+                &.option { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; border: 1px solid mat-color($primary, button) !important; }
+                &.cancel { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; }
+            }
+        }
+    }
+
+}

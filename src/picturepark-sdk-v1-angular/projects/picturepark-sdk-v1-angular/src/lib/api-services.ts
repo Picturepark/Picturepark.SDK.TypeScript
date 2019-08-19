@@ -12,23 +12,9 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 export const PICTUREPARK_API_URL = new InjectionToken<string>('PICTUREPARK_API_URL');
-
-export abstract class AuthService {
-    private _pictureparkApiUrl: string;
-
-    constructor(pictureparkApiUrl: string) {
-        this._pictureparkApiUrl = pictureparkApiUrl;
-    }
-
-    get apiServer() {
-        return this._pictureparkApiUrl;
-    }
-
-    abstract get isAuthenticated(): boolean;
-    abstract transformHttpRequestOptions(options: any): Promise<any>;
-}
 
 @Injectable({
     providedIn: 'root'

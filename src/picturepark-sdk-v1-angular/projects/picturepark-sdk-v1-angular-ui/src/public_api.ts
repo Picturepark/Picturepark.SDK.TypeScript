@@ -13,7 +13,7 @@ export { BrowserToolbarModule } from './lib/features-module/browser-toolbar/brow
 export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
 export { ContentAggregationListModule } from './lib/features-module/content-aggregation-list/content-aggregation-list.module';
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
-export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
+export { ContentDetailsDialogModule } from './lib/features-module/content-details-dialog/content-details-dialog.module';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
 export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { ItemToolBarModule } from './lib/features-module/item-tool-bar/item-tool-bar.module';
@@ -24,13 +24,19 @@ export { ListItemsModule } from './lib/features-module/list-items/list-items.mod
 export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { PanelModule } from './lib/features-module/panel/panel.module';
+export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
+export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { SharePreviewModule } from './lib/features-module/share-preview/share-preview.module';
 export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
-export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
-export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
-
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
+export { ShareContentDialogModule } from './lib/features-module/share-content-dialog/share-content-dialog.module';
+
+// COMPONENTS
+export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
+export {
+    ContentDetailsDialogComponent
+} from './lib/features-module/content-details-dialog/content-details-dialog.component';
 
 // SERVICES
 export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
