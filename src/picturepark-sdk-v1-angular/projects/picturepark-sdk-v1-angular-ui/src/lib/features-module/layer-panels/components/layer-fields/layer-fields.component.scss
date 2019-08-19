@@ -1,0 +1,20 @@
+.field {
+  padding-bottom: 15px;
+}
+
+.raw, .relation {
+  display: flex;
+}
+
+.label {
+  flex: 1;
+}
+
+.value {
+  flex: 3;
+}
+
+.relationFields {
+  width: 100%;
+  padding-left: 15px;
+}

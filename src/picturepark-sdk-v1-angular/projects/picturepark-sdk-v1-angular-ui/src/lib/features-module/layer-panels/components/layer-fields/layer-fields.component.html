@@ -1,0 +1,51 @@
+<div class="raw">
+
+  <div class="label" *ngIf="!noname" #name>{{field.name}}</div>
+
+  <div class="value" *ngIf="field.value">
+    {{field.value}}
+  </div>
+
+  <div class="value" *ngIf="field.tagboxFields?.length">
+    <span *ngFor="let tagboxField of field.tagboxFields; let last = last;index as i">
+      <a href="javascript:" (click)="showItem(tagboxField, $event)"> {{tagboxField.value}}</a>
+      <span *ngIf="!last">, </span>
+    </span>
+  </div>
+
+  <div class="value" *ngIf="field.fieldsetFields?.length">
+    <div *ngFor="let ref of field.fieldsetFields" class="field">
+      <ng-container *ngIf="ref.name === field.name; else noPanel">
+        <mat-expansion-panel (opened)="ref.isOpened = true"
+                             (closed)="ref.isOpened = false">
+          <mat-expansion-panel-header>
+            <mat-panel-description>
+              {{ref.isOpened ? ref.name : ref.title}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <pp-layer-fields [field]="ref" [noname]="true"></pp-layer-fields>
+          </ng-template>
+        </mat-expansion-panel>
+      </ng-container>
+
+      <ng-template #noPanel>
+        <pp-layer-fields [field]="ref"></pp-layer-fields>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="value" *ngIf="field.relationFields?.length">
+    <ng-container *ngFor="let relationField of field.relationFields">
+      <div class="relation field" *ngIf="relationField.info | async as info">
+        <img [src]="info.fileUrl" />
+        <div class="relationFields">
+          <div class="field">{{info.fileName}}</div>
+          <ng-container *ngFor="let layerField of relationField.fields">
+            <pp-layer-fields [field]="layerField"></pp-layer-fields>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

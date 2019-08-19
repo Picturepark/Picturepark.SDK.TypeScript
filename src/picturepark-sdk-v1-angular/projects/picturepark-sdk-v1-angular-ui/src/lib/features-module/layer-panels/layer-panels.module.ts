@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-// MODULES
 import { SharedModule } from '../../shared-module/shared-module.module';
-
-// COMPONENTS
-import { LayerPanelsComponent } from './layer-panels.component';
 import { FieldDetailInfoDialogComponent } from './components/field-detail-info-dialog/field-detail-info-dialog.component';
+import { LayerFieldsComponent } from './components/layer-fields/layer-fields.component';
+import { LayerPanelsComponent } from './layer-panels.component';
 
 @NgModule({
   declarations: [
     LayerPanelsComponent,
-    FieldDetailInfoDialogComponent
+    FieldDetailInfoDialogComponent,
+    LayerFieldsComponent
   ],
   imports: [
     CommonModule,

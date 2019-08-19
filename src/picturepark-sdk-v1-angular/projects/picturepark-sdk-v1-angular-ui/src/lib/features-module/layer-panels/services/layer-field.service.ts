@@ -1,0 +1,201 @@
+import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import {
+  ContentService,
+  FieldBase,
+  FieldBoolean,
+  FieldDate,
+  FieldDateTime,
+  FieldDateTimeArray,
+  FieldDictionary,
+  FieldDictionaryArray,
+  FieldGeoPoint,
+  FieldLong,
+  FieldLongArray,
+  FieldMultiFieldset,
+  FieldMultiRelation,
+  FieldMultiTagbox,
+  FieldSingleFieldset,
+  FieldSingleRelation,
+  FieldSingleTagbox,
+  FieldString,
+  FieldStringArray,
+  FieldTranslatedString,
+  SchemaDetail,
+  ThumbnailSize,
+} from '@picturepark/sdk-v1-angular';
+import * as moment from 'moment';
+import { map } from 'rxjs/operators';
+
+import { LayerField } from '../models/layer-field';
+import { RelationFieldInfo } from '../models/relation-field-info';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LayerFieldService {
+
+  constructor(private sanitizer: DomSanitizer,
+    private contentService: ContentService) { }
+
+  public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField {
+    const fieldValue = schemaMetadata[field.id];
+    let layerField = new LayerField(field);
+
+    switch (field.constructor) {
+      case FieldMultiTagbox:
+        layerField.tagboxFields = fieldValue.map((i: any) => {
+          return {
+            value: i._displayValues.name,
+            tooltip: i._displayValues.thumbnail
+          };
+        });
+        break;
+
+      case FieldSingleTagbox:
+        layerField.tagboxFields = [{
+          value: fieldValue._displayValues.name,
+          tooltip: fieldValue._displayValues.thumbnail
+        }];
+        break;
+
+      case FieldSingleFieldset:
+        const referencedToSingleFieldset: SchemaDetail = allSchemas.find(i => i.id === (field as FieldSingleFieldset).schemaId);
+
+        const layerFieldSingleFieldset = new LayerField(field);
+        referencedToSingleFieldset.fields.forEach(rf => {
+          if (fieldValue[rf.id]) {
+            const referencedField = this.generate(rf, fieldValue, allSchemas);
+            if (referencedField) {
+              layerFieldSingleFieldset.fieldsetFields.push(referencedField);
+            }
+          }
+        });
+        layerField.title = fieldValue._displayValues.list;
+        layerField.fieldsetFields = [layerFieldSingleFieldset];
+        break;
+
+      case FieldMultiFieldset:
+        const referencedToMultiFieldset: SchemaDetail = allSchemas.find(i => i.id === (field as FieldMultiFieldset).schemaId);
+
+        layerField.fieldsetFields = fieldValue.map((value: any) => {
+          const lf = new LayerField(field);
+          lf.title = value._displayValues.list;
+
+          referencedToMultiFieldset.fields.forEach(rf => {
+            if (value[rf.id]) {
+              const referencedField = this.generate(rf, value, allSchemas);
+              if (referencedField) {
+                lf.fieldsetFields.push(referencedField);
+              }
+            }
+          });
+          return lf;
+        });
+        break;
+
+      case FieldSingleRelation:
+        const targetSingleFieldId = fieldValue['_targetId'];
+        const targetSingleFielDocType = fieldValue['_targetDocType'];
+
+        if (targetSingleFieldId && targetSingleFielDocType && targetSingleFielDocType === 'Content') {
+          const referencedToSingleRelation: SchemaDetail = allSchemas.find(i => i.id === (field as FieldSingleRelation).schemaId);
+          layerField.relationFields = [this.getRelationField(targetSingleFieldId, fieldValue, referencedToSingleRelation, allSchemas)];
+        }
+        break;
+
+      case FieldMultiRelation:
+        const referencedToMultiRelation: SchemaDetail = allSchemas.find(i => i.id === (field as FieldMultiRelation).schemaId);
+
+        const relationsFields = fieldValue.map((v: any) => {
+          const targetMultiRelationId = v['_targetId'];
+          const targetMultiRelationDocType = v['_targetDocType'];
+
+          if (targetMultiRelationId && targetMultiRelationDocType && targetMultiRelationDocType === 'Content') {
+            return this.getRelationField(targetMultiRelationId, v, referencedToMultiRelation, allSchemas);
+          }
+        }).filter((x: LayerField) => x);
+
+        layerField.relationFields = relationsFields;
+
+        break;
+
+      case FieldBoolean:
+        layerField.value = fieldValue ? 'Yes' : 'No';
+        break;
+
+      case FieldString:
+        layerField.value = fieldValue;
+        break;
+
+      case FieldStringArray:
+        layerField.value = fieldValue.join(', ');
+        break;
+
+      case FieldDictionary:
+        layerField.value = Object.values(fieldValue).join(', ');
+        break;
+
+      case FieldDictionaryArray:
+        layerField.value = fieldValue.map((v: any) => Object.values(v).join(', ')).join(', ');
+        break;
+
+      case FieldTranslatedString:
+        layerField.value = fieldValue['x-default'];
+        break;
+
+      case FieldDateTimeArray:
+        layerField.value = fieldValue.map((f: any) => f ? moment(f).format((field as FieldDateTime).format || 'LLL') : '').join(', ');
+        break;
+
+      case FieldDateTime:
+        layerField.value = fieldValue ? moment(fieldValue).format((field as FieldDateTime).format || 'LLL') : '';
+        break;
+
+      case FieldDate:
+        layerField.value = fieldValue ? moment(fieldValue).format((field as FieldDateTime).format || 'll') : '';
+        break;
+
+      case FieldLong:
+        layerField.value = fieldValue;
+        break;
+
+      case FieldLongArray:
+        layerField.value = fieldValue.join(', ');
+        break;
+
+      case FieldGeoPoint:
+        layerField.value = fieldValue ? `${fieldValue['lat']}, ${fieldValue['lon']}` : '';
+        break;
+
+      default: {
+        layerField = null;
+        break;
+      }
+    }
+
+    return layerField;
+  }
+
+  private getRelationField(targetId: string, fieldValue: any, referencedSchema: SchemaDetail, allSchemas: SchemaDetail[]) {
+    const relationfields = referencedSchema.fields.map(rf => {
+      if (fieldValue[rf.id]) {
+        const referencedField = this.generate(rf, fieldValue, allSchemas);
+        if (referencedField) {
+          return referencedField;
+        }
+      }
+    }).filter(x => x);
+
+    const relationFieldInfo = this.contentService.downloadThumbnail(
+      targetId,
+      ThumbnailSize.Small,
+      null,
+      null).pipe(map(response =>
+        new RelationFieldInfo(response.fileName,
+          this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data))
+        )));
+
+    return { fields: relationfields, info: relationFieldInfo };
+  }
+}
