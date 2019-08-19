@@ -1,25 +1,49 @@
 .application-header-container {
-   display: flex; background-color: white; color: #444; border-bottom: 1px solid #d8d8d8; height: 63px;
+    display: flex;
+    height: 63px;
+
     .title-container {
-        color: #444; width: 30%; float: left; border-right: 1px solid #d8d8d8;
+        width: 30%;
+        float: left;
+
         h1 { padding: 0px 30px; margin: 0px; }
     }
     .search-container {
-        color: #444; font-weight: 400; float: left;
+        font-weight: 400;
+        float: left;
+
         .search-content {
-            padding: 0px 30px; cursor: pointer;
-            & i { line-height: 63px; margin: 0px 30px 0px 0px; color: rgba(0,0,0,0.54); float: left; }
+            padding: 0px 30px;
+            cursor: pointer;
+
+            & i {
+                line-height: 63px;
+                margin: 0px 30px 0px 0px;
+                float: left;
+            }
+
             & input { 
-                border: 0px; font-weight: 200; float: left; height: 61px;
+                border: 0px;
+                font-weight: 200;
+                float: left;
+                height: 61px;
+
                 &:focus {
-                    outline-offset: 0px; outline: -webkit-focus-ring-color auto 0px;
+                    outline-offset: 0px;
+                    outline: -webkit-focus-ring-color auto 0px;
                 } 
             }
         }
     }
 
     .close-container { 
-        float: right; width: 64px; height: 64px; border-left: 1px solid #d8d8d8; cursor: pointer; position: absolute; right: 0px;
+        float: right;
+        width: 64px;
+        height: 64px;
+        cursor: pointer;
+        position: absolute;
+        right: 0px;
+
         .close-content {
             text-align: center;
             & i { line-height: 63px; }

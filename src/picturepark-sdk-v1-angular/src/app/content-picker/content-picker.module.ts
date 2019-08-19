@@ -12,12 +12,10 @@ import { ContentPickerRoutingModule } from './content-picker-routing.module';
 
 // COMPONENTS
 import { ContentPickerComponent } from './content-picker.component';
-import { ContentsPickerComponent } from './components/contents-picker/contents-picker.component';
 
 @NgModule({
   declarations: [
-    ContentPickerComponent,
-    ContentsPickerComponent
+    ContentPickerComponent
   ],
   imports: [
     CommonModule,

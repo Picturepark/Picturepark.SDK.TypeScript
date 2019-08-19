@@ -1,2 +1,72 @@
-<pp-application-header [title]="'Content Picker'"></pp-application-header>
-<router-outlet></router-outlet>
+<div class="wrap">
+  <mat-toolbar class="navbar" color="primary">
+    <pp-channel-picker [(channel)]="selectedChannel"></pp-channel-picker>
+
+    <span class="spacer"></span>
+
+    <pp-search-box [(searchString)]="searchText">
+    </pp-search-box>
+  </mat-toolbar>
+
+  <div class="content-picker-content" [ngClass]="{ active: expandedContent }">
+    <div class="content">
+      <pp-content-browser 
+        #contentBrowser
+        [channel]="selectedChannel"
+        [filter]="selectedFilter"
+        [searchString]="searchText"
+        (previewItemChange)="openDetails($event)"
+        (selectedItemsChange)="selectionChange($event)">
+      </pp-content-browser>
+      <div class="expand-browser" *ngIf="expandedContent" (click)="expand()">
+        <i class="material-icons">keyboard_arrow_left</i>
+      </div>
+    </div>
+
+    <div class="filters">
+      <mat-tab-group>
+        <mat-tab label="Filters">
+          <pp-content-aggregation-list 
+            [searchString]="searchText" 
+            [channelId]="selectedChannel?.id" 
+            [aggregators]="selectedChannel?.aggregations"
+            (filterChange)="selectedFilter = $event">
+          </pp-content-aggregation-list>
+        </mat-tab>
+        <mat-tab label="Basket">
+          <ng-template mat-tab-label>
+            <span [matBadge]="basketItemsCount" matBadgeOverlap="false" [matBadgeHidden]="!basketItemsCount">Basket</span>
+          </ng-template>
+          <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
+        </mat-tab>
+      </mat-tab-group>
+      <div class="expand" *ngIf="!expandedContent" (click)="expand()">
+        <i class="material-icons">keyboard_arrow_right</i>
+      </div>
+    </div>
+
+    <div class="footer" [ngClass]="{ active: selectedItems.length > 0 }">
+      <div class="mat-typography title">
+        <ng-container *ngIf="selectedItems.length === 1">
+          {{'ContentPicker.TextSelectedSingle' | pptranslate: selectedItems.length }}
+        </ng-container>
+        <ng-container *ngIf="selectedItems.length != 1">
+          {{'ContentPicker.TextSelectedMultiple' | pptranslate: selectedItems.length }}
+        </ng-container>
+      </div>
+      <div class="action-buttons">
+        <button mat-button (click)="cancel()">
+          {{'ContentPicker.ButtonCancel' | pptranslate }}
+        </button>
+        <button mat-button [disabled]="selectedItems.length === 0 || loading" (click)="embed()">
+          <ng-container>
+            {{'ContentPicker.ButtonChoose' | pptranslate }}
+          </ng-container>
+          <ng-container *ngIf="loading">
+            {{'ContentPicker.ButtonLoading' | pptranslate }}
+          </ng-container>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
