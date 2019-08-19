@@ -1,10 +1,15 @@
 .browser-toolbar-container {
-    height: 56px; background-color: #eee; border-bottom: 1px solid #d8d8d8;
+    height: 56px;
+    background-color: #eee;
+    border-bottom: 1px solid #d8d8d8;
     .browser-toolbar-content {
         display: flex;
         flex-direction: row;
         align-items: center;
-        line-height: 56px; padding: 0px 30px; overflow: hidden;
+        line-height: 56px;
+        padding: 0px 30px;
+        overflow: hidden;
+        
         button:focus {
             outline: -webkit-focus-ring-color auto 0px;
         }
@@ -27,7 +32,9 @@
         .order-by {
             
             button {
-                border: 0px; background-color: #eee; cursor: pointer; font-size: 13px; color: #727272; padding: 0px;
+                border: 0px;
+                cursor: pointer;
+                padding: 0px;
                 &:hover {
                     background-color: unset; text-decoration: underline;
                     mat-icon {
@@ -57,10 +64,8 @@
         padding-bottom: 12px;
         font-weight: 500;
     }
-    
-    .active {
-        font-weight: 600;
-    }
-    
 }
 
+.active {
+    font-weight: 600;
+}
