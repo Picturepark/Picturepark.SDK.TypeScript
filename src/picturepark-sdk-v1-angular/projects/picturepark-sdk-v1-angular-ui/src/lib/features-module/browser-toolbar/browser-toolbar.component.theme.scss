@@ -33,9 +33,9 @@ $pp-browser-toolbar: (
       }
       .order-by {
         button {
-          background-color: mat-color($primary, light-background) !important;
-          color: mat-color($primary, base) !important;
-          font-size: mat-font-size($custom-typography, display-1) !important;
+          background-color: mat-color($primary, light-background);
+          color: mat-color($primary, base);
+          font-size: mat-font-size($custom-typography, display-1);
           &:hover {
             mat-icon {
               color: mat-color($primary, base) !important;

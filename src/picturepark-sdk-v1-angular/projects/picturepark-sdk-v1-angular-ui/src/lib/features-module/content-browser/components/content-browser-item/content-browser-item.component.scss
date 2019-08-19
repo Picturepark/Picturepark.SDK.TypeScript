@@ -62,15 +62,6 @@
     flex-grow: 1;
     position: relative;
     background-color: #dcdcdc;
-    .apps {
-      font-size: 64px;
-      position: relative;
-      top: 50%;
-      margin: 0 auto;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #aaa;
-    }
   }
 
   &__image-virtual-item-container {
@@ -100,14 +91,7 @@
 
   &__image {
     max-height: 100%;
-    height: 100%;
-  }
-  &--list-view {
-    .apps {
-      position: relative;
-      top: 35px;
-      font-size: 40px;
-    }
+    max-width: 100%;
   }
 
 }
