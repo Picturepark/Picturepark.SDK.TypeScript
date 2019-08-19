@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
-import { ContentItemSelectionService, BasketService, ContentBrowserModule } from '@picturepark/sdk-v1-angular-ui';
+import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
-import { DetailsDialogComponent } from '../../../details-dialog/details-dialog.component';
-import { ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
+import { ContentBrowserComponent, ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from '../../../embed.service';
@@ -20,7 +19,9 @@ import { EmbedService } from '../../../embed.service';
 })
 export class ContentsPickerComponent implements OnInit, OnDestroy {
 
-  @ViewChild('contentBrowser', {static: true}) contentBrowser: ContentBrowserComponent;
+  @ViewChild('contentBrowser', { static: true }) contentBrowser: ContentBrowserComponent;
+
+  public expandedContent = false;
 
   public basketItemsCount = 0;
 
@@ -49,8 +50,8 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
   ) {}
 
   public openDetails(item: any) {
-    this.dialog.open(DetailsDialogComponent,
-      { data: item.item.id, maxWidth: '70vw', maxHeight: '90vh', minWidth: '980px', minHeight: '700px' }
+    this.dialog.open(ContentDetailsDialogComponent,
+      { data: item.item.id, width: '980px', height: '700px' }
     );
   }
 
@@ -63,6 +64,14 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
 
+  }
+
+  public expand(): void {
+    if (this.expandedContent) {
+      this.expandedContent = false;
+    } else {
+      this.expandedContent = true;
+    }
   }
 
   public selectionChange(items: string[]): void {
@@ -83,7 +92,7 @@ export class ContentsPickerComponent implements OnInit, OnDestroy {
     this.contentBrowser.cancel();
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

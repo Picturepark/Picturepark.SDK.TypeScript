@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   ObjectAggregationResult, AggregatorBase, ShareService, ShareAggregationRequest
@@ -11,7 +11,10 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 @Component({
   selector: 'pp-share-aggregation-list',
   templateUrl: './share-aggregation-list.component.html',
-  styleUrls: ['./share-aggregation-list.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/aggregation-list/aggregation-list.component.scss',
+    './share-aggregation-list.component.scss'
+  ],
 })
 export class ShareAggregationListComponent extends AggregationListComponent {
   constructor(private shareService: ShareService) {
@@ -23,7 +26,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
       this.isLoading.next(true);
       const request = new ShareAggregationRequest({
         aggregators: this.aggregators,
-        searchString: this.query,
+        searchString: this.searchString,
         aggregationFilters: this.aggregationFilters
       });
 
@@ -35,7 +38,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
 
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ShareAggregationRequest({
-      searchString: searchString,
+      searchString: this.searchString,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters
     });

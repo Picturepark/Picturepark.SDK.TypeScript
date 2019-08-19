@@ -64,6 +64,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     const translations = await this.translationService.getOutputFormatTranslations();
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
+
     selection.getFileFormats().forEach(fileFormat => {
       const fileFormatOutputs = selection.getOutputs(fileFormat);
       const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
@@ -72,11 +73,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       }
 
       const fallbackOutputs = fileFormat.contents
-          .map(content => this.getOutput(
-              content,
-              fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
-          )
-          .filter(i => i);
+        .map(content => this.getOutput(
+            content,
+            fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
+        )
+        .filter(i => i);
 
       if (fallbackOutputs.length === 0) {
           return;

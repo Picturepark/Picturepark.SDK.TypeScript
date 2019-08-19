@@ -13,7 +13,10 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 @Component({
   selector: 'pp-list-item-aggregation-list',
   templateUrl: './list-item-aggregation-list.component.html',
-  styleUrls: ['./list-item-aggregation-list.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/aggregation-list/aggregation-list.component.scss',
+    './list-item-aggregation-list.component.scss'
+  ],
 })
 export class ListItemAggregationListComponent extends AggregationListComponent {
   @Input() schemaId: string;
@@ -28,7 +31,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
       const request = new ListItemAggregationRequest({
         schemaIds: [this.schemaId],
         aggregators: this.aggregators,
-        searchString: this.query,
+        searchString: this.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -44,7 +47,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null> => {
     const request = new ListItemAggregationRequest({
       schemaIds: [this.schemaId],
-      searchString: searchString,
+      searchString: this.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters,

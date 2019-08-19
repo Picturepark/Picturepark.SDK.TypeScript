@@ -92,7 +92,6 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Medium && this.thumbnailSize === ThumbnailSize.Large);
 
       if (updateImage) {
-
         this.isLoading = true;
         this.thumbnailUrl = null;
         this.loadItem.next();
@@ -102,6 +101,10 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
 
   public downloadItem() {
     this.contentDownloadDialogService.showDialog([this.itemModel.item]);
+  }
+
+  public updateUrl(event) {
+    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
   }
 
   public toggleInBasket() {

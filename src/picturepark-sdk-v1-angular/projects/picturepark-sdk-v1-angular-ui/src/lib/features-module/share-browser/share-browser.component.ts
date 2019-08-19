@@ -53,17 +53,23 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     this.isAscending = false;
 
     this.views = [{
-      name: 'ThumbnailMedium',
+      name: 'Small',
+      icon: 'collections',
+      type: 'thumbnailSmall',
+      thumbnailSize: ThumbnailSize.Small
+    }, {
+      name: 'Medium',
       icon: 'collections',
       type: 'thumbnailMedium',
       thumbnailSize: ThumbnailSize.Medium
     }, {
-      name: 'ThumbnailLarge',
+      name: 'Large',
       icon: 'collections',
       type: 'thumbnailLarge',
       thumbnailSize: ThumbnailSize.Large
     }];
-    this.activeView = this.views[0];
+
+    this.activeView = this.views[1];
   }
 
   onScroll(): void {
@@ -106,7 +112,6 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
   }
 
   previewItemEvent(item: ContentModel<Share>): void {
-    console.log(item);
     this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
   }
 

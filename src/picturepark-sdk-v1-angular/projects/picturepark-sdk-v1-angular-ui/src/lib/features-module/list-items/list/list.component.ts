@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 // ANGULAR CDK
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -13,10 +13,8 @@ import {
   AndFilter,
   FilterBase,
   OrFilter,
-  ProfileService,
   SchemaDetail,
   SchemaService,
-  UserRight
 } from '@picturepark/sdk-v1-angular';
 import * as lodash from 'lodash';
 
@@ -131,8 +129,15 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
+
     const flatten = lodash.chain(aggregationFilters).groupBy('aggregationName').toPairs().value();
-    const preparedFilters = flatten
+    const preparedFilters = flatten.map(array => {
+    const filtered = array[1].filter(aggregationFilter =>
+      aggregationFilter.filter).map(aggregationFilter =>
+        aggregationFilter.filter as FilterBase);
+
+    /*
+      const preparedFilters = flatten
       .map(array => {
         const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)
           .map(aggregationFilter => aggregationFilter.filter as FilterBase);
@@ -144,7 +149,13 @@ export class ListComponent implements OnInit, OnDestroy {
         }
       })
       .filter(value => value !== null);
-
+    */
+    switch (filtered.length) {
+      case 0: return null;
+      case 1: return filtered[0];
+      default: return new OrFilter({ filters: filtered });
+    }
+  }).filter(value => value !== null);
     switch (preparedFilters.length) {
       case 0: return null;
       case 1: return preparedFilters[0]!;

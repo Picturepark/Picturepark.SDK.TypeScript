@@ -19,23 +19,89 @@
     }
 
     #{ $self }__title {
-      background-color: #6f6f6f; color: #fff; color: #d8d8d8;
+      background-color: #6f6f6f;
+      color: #d8d8d8;
     }
 
   }
-
+  
   &--list-view {
-    flex-direction: row;
-    padding: 5px;
-    #{ $self }__image-slot {
-      flex-grow: 0;
-      flex-basis: 120px;
+    display: -webkit-inline-box;
+
+    #{ $self }__image {
+      max-height: unset;
+      height: unset;
+      width: 100%;
     }
+
+    #{ $self }__image-slot {
+      width: 120px;
+      overflow: hidden;
+      margin: 10px; 
+      border-top: 5px solid #d8d8d8;
+      border-bottom: 5px solid #d8d8d8;
+    }
+    
     #{ $self }__title {
       flex-grow: 1;
+      margin: 10px;
+      background-color: transparent !important;
+      width: 50%;
+      &__title-content {
+        color: #2f2f2f;
+      }
     }
+    
     #{ $self }__actions {
       align-self: flex-end;
+    }
+
+    #{ $self }__list-view-actions {
+      
+      position: absolute;
+      right: 30px;
+      top: 35px;
+      ul { 
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+        li {
+          float: left;
+          color: #727272;
+          margin: 0px 0px 0px 15px;
+          display: none;
+          button {
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 2px;
+            mat-icon {
+              font-size: 21px;
+            }
+            .clear { display: none; }
+            &:hover {
+              mat-icon { 
+                color: #2f2f2f;
+                
+              }
+            }
+          }
+          &.in-basket {
+            display: inherit;
+            button {
+              background-color: #2f2f2f;
+              color: #39acaa;
+              &:hover {
+                .remove { display: none; }
+                .clear { display: inherit; }
+                mat-icon { 
+                  color: red;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 
@@ -48,41 +114,51 @@
     #{ $self }__basket-icon {
       visibility: initial;
     }
+    #{ $self }__list-view-actions {
+      ul {
+        li {
+          display: inherit;
+          
+        }
+      }
+    }
   }
 
   &__title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 13px;
     margin: 0px;
     line-height: 28px;
-    padding: 0px 5px; 
     color: #727272;
+    padding: 0px 5px;
+
+    &__title-content {
+      display: contents;
+    }
   }
   
   &__actions {
     visibility: hidden;
     position: absolute;
-    display: flex;
-    justify-content: space-around;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    // TODO: theme color;
-    background: rgba(0,0,0,.4);
-    height: 100%;
+    top: 0px;
+    right: 0px;
+    width: 100%;
     ul {
       position: absolute;
       list-style: none;
-      top: 0px;
-      right: 10px;
+      right: 4px;
+      top: 4px;
       margin: 0px;
       padding: 0px;
       li {
         float: left;
+        line-height: 20px;
+        text-align: center;
         button {
           width: 24px;
+          height: 24px;
+          line-height: 14px;
         }
         .material-icons {
           font-size: 15px;
@@ -95,10 +171,10 @@
 
   &__thumbnail-overlay {
     position: absolute;
+    left: 10px;
     bottom: 5px;
     font-size: 10px;
     color: white;
     z-index: 100;
-    left: 5px;
   }
 }

@@ -12,7 +12,10 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 @Component({
   selector: 'pp-content-aggregation-list',
   templateUrl: './content-aggregation-list.component.html',
-  styleUrls: ['./content-aggregation-list.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/aggregation-list/aggregation-list.component.scss',
+    './content-aggregation-list.component.scss'
+  ],
 })
 export class ContentAggregationListComponent extends AggregationListComponent {
   @Input()
@@ -28,7 +31,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
       const request = new ContentAggregationRequest({
         aggregators: this.aggregators,
         channelId: this.channelId,
-        searchString: this.query,
+        searchString: this.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
@@ -44,7 +47,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ContentAggregationRequest({
       channelId: this.channelId,
-      searchString: searchString,
+      searchString: this.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters,

@@ -1,16 +1,22 @@
-import { OnInit, Input, Component } from '@angular/core';
-import {
-    ContentService, ContentType, ContentDownloadLinkCreateRequest, ContentDownloadRequestItem, ContentDetail
-} from '@picturepark/sdk-v1-angular';
+import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+// LIBRARIES
+import {
+  ContentService, ContentType, ContentDownloadLinkCreateRequest,
+  ContentDownloadRequestItem, ContentDetail
+} from '@picturepark/sdk-v1-angular';
+
+// COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 @Component({
     selector: 'pp-content-image-preview',
-    template: `<img [src]="thumbnailUrlSafe" (click)="showFullscreen()" />`,
-    styles: ['img { cursor: pointer; }']
+    templateUrl: './content-image-preview.component.html',
+    styleUrls: ['./content-image-preview.component.scss']
   })
-  export class ContentImagePreviewComponent extends BaseComponent implements OnInit {
+  export class ContentImagePreviewComponent extends BaseComponent implements OnChanges {
+
     thumbnailUrl: string;
     thumbnailUrlSafe: SafeUrl;
 
@@ -19,22 +25,34 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
     @Input() public width?: number;
     @Input() public height?: number;
 
-    constructor(
-        private contentService: ContentService,
-        private sanitizer: DomSanitizer) {
-            super();
-        }
+    isLoading = true;
 
-    ngOnInit(): void {
+    constructor(
+      private contentService: ContentService,
+      private sanitizer: DomSanitizer) {
+      super();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+      if (changes.content && changes.content.currentValue) {
+
+        this.content = changes.content.currentValue;
+
         const downloadThumbnailSubscription = this.contentService.download(
-            this.content.id, this.outputId, this.width || 800, this.height || 650, null
-        )
-        .subscribe(response => {
+          this.content.id, this.outputId, this.width || 800, this.height || 650, null
+        ).subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+          this.isLoading = false;
         });
 
-      this.subscription.add(downloadThumbnailSubscription);
+        this.subscription.add(downloadThumbnailSubscription);
+
+      }
+    }
+
+    updateUrl(event) {
+      this.thumbnailUrlSafe = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
     }
 
     showFullscreen() {
@@ -98,9 +116,8 @@ interface IShareItem {
     previewUrl: string;
     originalUrl: string;
     originalFileExtension: string;
-
     detail: {
-        width: number;
-        height: number;
+      width: number;
+      height: number;
     };
 }

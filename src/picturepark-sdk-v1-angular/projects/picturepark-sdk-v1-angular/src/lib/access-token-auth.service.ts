@@ -2,7 +2,8 @@ import { Injectable, Inject, Optional } from '@angular/core';
 
 import { PICTUREPARK_CONFIGURATION } from './base.service';
 import { PictureparkConfiguration } from './configuration';
-import { AuthService, PICTUREPARK_API_URL } from './api-services';
+import { PICTUREPARK_API_URL } from './api-services';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccessTokenAuthService extends AuthService {

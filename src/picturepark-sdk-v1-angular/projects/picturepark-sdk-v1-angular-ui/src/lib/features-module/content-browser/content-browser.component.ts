@@ -1,6 +1,4 @@
-import {
-  Component, Input, OnChanges, SimpleChanges, Injector
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -12,7 +10,7 @@ import {
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import {
   ShareContentDialogComponent
-} from '../dialog/components/share-content-dialog/share-content-dialog.component';
+} from '../../features-module/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
@@ -151,7 +149,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
-      autoFocus: false
+      autoFocus: false,
+      width: '640px'
     });
 
     const instance = dialogRef.componentInstance;
