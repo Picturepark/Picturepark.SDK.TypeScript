@@ -116,7 +116,7 @@ export let TRANSLATIONS = {
     },
     Details: {
       en: 'Details',
-      de: 'Download'
+      de: 'Details'
     },
     ItemsLength: {
       en: '{0} contents',

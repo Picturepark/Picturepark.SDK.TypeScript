@@ -65,7 +65,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
-    @Output() public previewItemChange = new EventEmitter<TEntity>();
+    @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
     @Input() public searchString = '';
     @Input() public filter: FilterBase | null = null;
@@ -226,7 +226,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
     }
 
-    public previewItem(item: TEntity): void {
+    public previewItem(item: ContentModel<TEntity>): void {
         this.previewItemChange.emit(item);
     }
 
