@@ -8,6 +8,10 @@
   flex: 1;
 }
 
+.navbar {
+  border-bottom: 1px solid lightgray;
+}
+
 .content-picker-content {
     display: flex;
     height: calc(100vh - 64px);
