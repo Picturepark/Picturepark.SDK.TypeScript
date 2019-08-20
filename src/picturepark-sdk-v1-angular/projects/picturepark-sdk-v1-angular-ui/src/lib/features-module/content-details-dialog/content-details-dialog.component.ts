@@ -1,17 +1,16 @@
-import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
+import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  ContentDetail,
+  ContentResolveBehavior,
+  ContentService,
+  SchemaDetail,
+  SchemaService,
+} from '@picturepark/sdk-v1-angular';
 
-// LIBRARIES
-import { ContentDetail, ContentResolveBehavior, SchemaDetail, ContentService, SchemaService } from '@picturepark/sdk-v1-angular';
-
-// COMPONENTS
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
-
-// SERVICES
-import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
-
-// PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
+import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -42,6 +41,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       ContentResolveBehavior.Metadata,
       ContentResolveBehavior.LinkedListItems,
       ContentResolveBehavior.InnerDisplayValueName,
+      ContentResolveBehavior.InnerDisplayValueList,
       ContentResolveBehavior.OuterDisplayValueName,
       ContentResolveBehavior.OuterDisplayValueDetail,
       ContentResolveBehavior.Outputs
@@ -54,7 +54,5 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     });
 
     this.subscription.add(contentGetSubscription);
-
   }
-
 }

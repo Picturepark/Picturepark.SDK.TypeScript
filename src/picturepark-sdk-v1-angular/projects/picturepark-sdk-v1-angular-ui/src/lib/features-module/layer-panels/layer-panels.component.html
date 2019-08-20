@@ -1,22 +1,10 @@
 <mat-card class="custom-shadow" *ngFor="let layer of layers">
   <mat-card-title>
-    {{layer.layer}}
+    {{layer.names | pptranslate}}
   </mat-card-title>
   <mat-card-content>
-    <table>
-      <tr *ngFor="let item of layer.items">
-          <td class="label">{{item.field}}</td>
-          <td *ngIf="item.value">
-            {{item.value}}
-          </td>
-          <td *ngIf="item.values">
-              <span *ngFor="let value of item.values; let last = last;">
-                <a href="javascript:" (click)="showItem(value, $event)"> {{value.value}}</a>
-                <span *ngIf="!last">, </span>
-              </span>
-            </td>
-        </tr>
-    </table>
+    <div *ngFor="let field of layer.fields;" class="fields">
+      <pp-layer-fields [field]="field"></pp-layer-fields>
+    </div>
   </mat-card-content>
 </mat-card>
-

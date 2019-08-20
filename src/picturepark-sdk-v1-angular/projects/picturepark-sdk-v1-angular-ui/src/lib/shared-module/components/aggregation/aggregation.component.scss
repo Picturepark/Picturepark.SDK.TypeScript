@@ -1,5 +1,10 @@
 .aggregation {
 
+  .mat-expansion-panel-header .mat-expansion-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 24px;
+  }
     .mat-expansion-panel-body {
       padding: 0 !important;
     }
@@ -80,5 +85,4 @@
       right: 5px;
       top: -19px;  
     }
-
   }

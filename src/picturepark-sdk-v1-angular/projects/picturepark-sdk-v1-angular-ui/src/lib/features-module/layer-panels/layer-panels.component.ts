@@ -1,13 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { ContentDetail, SchemaDetail, SchemaService } from '@picturepark/sdk-v1-angular';
+import { take } from 'rxjs/operators';
 
-// LIBRARIES
-import {
-  SchemaDetail, ContentDetail, FieldMultiTagbox, FieldSingleTagbox, FieldString, FieldTranslatedString, FieldBoolean
-} from '@picturepark/sdk-v1-angular';
-
-// COMPONENTS
-import { FieldDetailInfoDialogComponent } from './components/field-detail-info-dialog/field-detail-info-dialog.component';
+import { Layer } from './models/layer';
+import { LayerFieldService } from './services/layer-field.service';
 
 @Component({
   selector: 'pp-layer-panels',
@@ -15,98 +11,59 @@ import { FieldDetailInfoDialogComponent } from './components/field-detail-info-d
   styleUrls: ['./layer-panels.component.scss']
 })
 export class LayerPanelsComponent implements OnInit {
-
   @Input()
   public schemas: SchemaDetail[];
 
   @Input()
   public content: ContentDetail;
 
-  public layers: {
-    layer: string;
-    items: {
-      field: string;
-      value?: string;
-      values?: {
-        value: string,
-        tooltip: string
-      }[]
-    }[]
-  }[];
+  public layers: Layer[] = [];
+  private allSchemas: SchemaDetail[];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private schemaService: SchemaService,
+    private layerFieldService: LayerFieldService) { }
 
   ngOnInit() {
+    this.schemaService.getManyReferenced([this.content.contentSchemaId])
+      .pipe(take(1))
+      .subscribe(schemaDetails => {
 
-    this.layers = [];
-    const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
+        this.allSchemas = [...this.schemas, ...schemaDetails];
 
-    // tslint:disable-next-line
-    contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
-
-      if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
-        return;
-      }
-
-      // tslint:disable-next-line
-      const schema = this.schemas.find(i => i.id === layerSchemaId);
-      if (schema) {
-        const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
-
-        const layer: { layer: any, items: any[] } = {
-          layer: schema.names && schema.names['x-default'],
-          items: []
-        };
+        const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
 
         // tslint:disable-next-line
-        schema.fields && schema.fields.forEach(field => {
-          if (schemaMetadata[field.id]) {
-            let value = '';
-            let values: any[] = [];
-            const fieldValue = schemaMetadata[field.id];
+        contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
+          if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
+            return;
+          }
 
-            switch (field.constructor) {
-              case FieldMultiTagbox:
-                values = fieldValue.map(i => {
-                  return { value: i._displayValues.name, tooltip: i._displayValues.thumbnail };
-                });
-                break;
-              case FieldSingleTagbox:
-                values = [{
-                  value: fieldValue._displayValues.name,
-                  tooltip: fieldValue._displayValues.thumbnail
-                }];
-                break;
-              case FieldBoolean:
-                value = fieldValue ? 'Yes' : 'No';
-                break;
-              case FieldString:
-                value = fieldValue;
-                break;
-              case FieldTranslatedString:
-                value = fieldValue['x-default'];
-                break;
-            }
+          // tslint:disable-next-line
+          const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
 
-            layer.items.push({
-              field: field.names && field.names['x-default'],
-              value: value,
-              values: values
+          if (schema) {
+            const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+
+            const layer: Layer = {
+              names: schema.names,
+              fields: []
+            };
+
+            // tslint:disable-next-line
+            schema.fields && schema.fields.forEach(schemaField => {
+              if (schemaMetadata[schemaField.id]) {
+                const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
+
+                if (layerField) {
+                  layer.fields.push(layerField);
+                }
+              }
             });
+
+            this.layers.push(layer);
           }
         });
-        this.layers.push(layer);
-      }
-    });
-  }
-
-  showItem(item: any, event: any) {
-    let dialogRef: MatDialogRef<FieldDetailInfoDialogComponent>;
-    dialogRef = this.dialog.open(FieldDetailInfoDialogComponent, {
-      width: '450px'
-    });
-    dialogRef.componentInstance.title = item.value;
-    dialogRef.componentInstance.message = item.tooltip;
+      });
   }
 
   toLowerCamel(value: string): string {
