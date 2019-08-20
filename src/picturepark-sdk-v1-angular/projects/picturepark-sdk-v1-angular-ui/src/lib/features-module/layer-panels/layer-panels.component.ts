@@ -1,21 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  ContentDetail,
-  FieldMultiFieldset,
-  FieldMultiRelation,
-  FieldMultiTagbox,
-  FieldSingleFieldset,
-  FieldSingleRelation,
-  FieldSingleTagbox,
-  SchemaDetail,
-} from '@picturepark/sdk-v1-angular';
-import { of } from 'rxjs';
+import { ContentDetail, SchemaDetail, SchemaService } from '@picturepark/sdk-v1-angular';
+import { combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { Layer } from './models/layer';
-import { ReferencedSchemas } from './models/referenced-schemas';
 import { LayerFieldService } from './services/layer-field.service';
-import { ReferencedSchemaService } from './services/referenced-schema.service';
 
 @Component({
   selector: 'pp-layer-panels',
@@ -32,38 +21,16 @@ export class LayerPanelsComponent implements OnInit {
   public layers: Layer[] = [];
   private allSchemas: SchemaDetail[];
 
-  constructor(private referencedSchemaService: ReferencedSchemaService,
+  constructor(private schemaService: SchemaService,
     private layerFieldService: LayerFieldService) { }
 
   ngOnInit() {
-    const referencedTypes = [
-      FieldSingleFieldset,
-      FieldMultiFieldset,
-      FieldSingleRelation,
-      FieldMultiRelation,
-      FieldSingleTagbox,
-      FieldMultiTagbox];
-
-    const schemaIds = new Set<string>();
-
-    this.schemas.forEach(s => {
-      if (s && s.fields) {
-        s.fields.filter(f => referencedTypes.some(t => t === f.constructor)).
-          forEach((tg: (FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox | FieldMultiFieldset)) =>
-            schemaIds.add(tg.schemaId));
-      }
-    });
-
-    const referencedSchemas = schemaIds.size ?
-      this.referencedSchemaService.getReferencedSchemas(of(new ReferencedSchemas([...schemaIds], [])), referencedTypes)
-      : of(new ReferencedSchemas([], []));
-
-    referencedSchemas.pipe(
-      take(1),
-      map(r => r.schemaDetails))
+    combineLatest([this.schemaService.get(this.content.contentSchemaId), this.schemaService.getManyReferenced([this.content.contentSchemaId])])
+      .pipe(map(([schema, schemaDetails]) => [schema, ...schemaDetails]),
+        take(1))
       .subscribe(schemaDetails => {
 
-        this.allSchemas = [...this.schemas, ...schemaDetails];
+        this.allSchemas = schemaDetails;
 
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
 

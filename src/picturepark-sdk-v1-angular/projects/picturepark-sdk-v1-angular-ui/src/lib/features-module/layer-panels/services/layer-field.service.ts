@@ -42,7 +42,7 @@ export class LayerFieldService {
 
   public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField | null {
     const fieldValue = schemaMetadata[field.id];
-    let layerField: LayerField | null = new LayerField(field);
+    let layerField: LayerField | null = new LayerField(field, fieldValue);
 
     switch (field.constructor) {
       case FieldMultiTagbox:
@@ -64,7 +64,7 @@ export class LayerFieldService {
       case FieldSingleFieldset:
         const referencedToSingleFieldset: SchemaDetail | undefined = allSchemas.find(i => i.id === (field as FieldSingleFieldset).schemaId);
 
-        const layerFieldSingleFieldset = new LayerField(field);
+        const layerFieldSingleFieldset = new LayerField(field, fieldValue);
         if (referencedToSingleFieldset && referencedToSingleFieldset.fields) {
           referencedToSingleFieldset.fields.forEach(rf => {
             if (fieldValue[rf.id]) {
@@ -75,7 +75,6 @@ export class LayerFieldService {
             }
           });
         }
-        layerField.title = fieldValue._displayValues.list;
         layerField.fieldsetFields = [layerFieldSingleFieldset];
         break;
 
@@ -83,8 +82,7 @@ export class LayerFieldService {
         const referencedToMultiFieldset: SchemaDetail | undefined = allSchemas.find(i => i.id === (field as FieldMultiFieldset).schemaId);
 
         layerField.fieldsetFields = fieldValue.map((value: any) => {
-          const lf = new LayerField(field);
-          lf.title = value._displayValues.list;
+          const lf = new LayerField(field, value);
           if (referencedToMultiFieldset && referencedToMultiFieldset.fields) {
             referencedToMultiFieldset.fields.forEach(rf => {
               if (value[rf.id]) {

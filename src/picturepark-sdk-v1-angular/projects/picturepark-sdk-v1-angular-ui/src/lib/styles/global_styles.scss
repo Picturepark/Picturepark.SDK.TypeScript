@@ -52,11 +52,7 @@
 .mat-expansion-panel,
 .mat-expansion-panel-header.mat-expanded,
 .mat-expansion-panel-header.mat-expanded:hover { background: mat-color($picturepark-app-primary, light-background) !important; }
-.mat-expansion-panel-header .mat-expansion-indicator {
-  position: absolute;
-  bottom: 2px;
-  right: 24px;
-}
+
 .mat-expansion-panel-header .mat-selection-list {
   &::focus {
     outline: -webkit-focus-ring-color auto 0px;
