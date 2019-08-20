@@ -1,8 +1,5 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
-
-// COMPONENTS
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'pp-item-tool-bar',
@@ -13,14 +10,13 @@ export class ItemToolBarComponent implements OnInit {
 
   @Input() toolBarIcon = 'code';
   @Input() toolBarOptions: any[] = [];
-  @Output() toolBarOutPutEvent = new EventEmitter();
 
   constructor(
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) { }
 
-  fireAction(action: string): void {
-    this.toolBarOutPutEvent.emit(action);
+  fireAction(button: any): void {
+    button.action();
   }
 
   ngOnInit() {}
