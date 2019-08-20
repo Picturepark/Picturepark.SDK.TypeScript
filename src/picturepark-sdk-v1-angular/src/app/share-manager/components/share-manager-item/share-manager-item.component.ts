@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient } from '@picturepark/sdk-v1-angular';
+import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient, ShareDeleteManyRequest, ShareDetail } from '@picturepark/sdk-v1-angular';
+import { ContentDownloadDialogService } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -24,21 +25,25 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   userId: string | undefined;
   subject: string;
   accessOriginal: string;
+  share: ShareDetail;
 
   isLoading = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private shareService: ShareService
+    private shareService: ShareService,
+    private contentDownloadService: ContentDownloadDialogService,
+    private router: Router
   ) {
 
-    // TOOL BAR OPTIONS DEFINITION
     this.toolBarOptions = [{
       name: 'Download all contents',
       icon: 'file_download',
-      action: 'download'
+      action: () => {
+        this.contentDownloadService.showDialog(this.items);
+      }
     },
-    {
+    /*{
       name: 'Share all contents',
       icon: 'share',
       action: 'share'
@@ -49,18 +54,29 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     },
     {
       name: 'Expire',
-      icon: 'schedule'
-    },
+      icon: 'schedule',
+      action: () => {
+        this.share.expirationDate = new Date();
+      }
+    },*/
     {
       name: 'Delete',
-      icon: 'delete'
+      icon: 'delete',
+      action: () => {
+        // TODO: Add confirm dialog
+        this.shareService.deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
+        .subscribe(i => {
+          this.router.navigate(['./share-manager']);
+        });
+      }
     }];
 
   }
 
   // GET SHARE INFO
-  getShareInfo(shareId: string): void {
+  loadShare(shareId: string): void {
     this.shareService.get(shareId).subscribe(data => {
+      this.share = data;
 
       this.items = data.contentSelections;
       this.creationDate = data.audit.creationDate;
@@ -84,7 +100,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
     // ROUTE SUBSCRIBER
     const activatedRoute = this.activatedRoute.params.subscribe(params => {
-      this.getShareInfo(params.shareId);
+      this.loadShare(params.shareId);
     });
 
     // ADD TO SUBSCRIBERS

@@ -39,9 +39,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
         this.content = changes.content.currentValue;
 
         // Implement fallback
-        const output = this.content.outputs!.find(i =>
-          i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
-        );
+        const output = this.content.outputs!.find(i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed);
 
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
         const request = output ?
