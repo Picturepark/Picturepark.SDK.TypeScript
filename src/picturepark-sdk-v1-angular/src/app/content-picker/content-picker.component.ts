@@ -88,7 +88,6 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  // CLEAR SELECTION
   cancel(): void {
     this.contentBrowser.cancel();
   }

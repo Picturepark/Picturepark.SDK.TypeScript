@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     if (!this.authService.isAuthenticated) {
-      this.authService.login(location.pathname);
+      const path = location.pathname.replace('/elements/', '/');
+      this.authService.login(path);
     }
   }
 
