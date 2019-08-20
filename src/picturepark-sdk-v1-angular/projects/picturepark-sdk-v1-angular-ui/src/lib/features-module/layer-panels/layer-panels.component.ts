@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContentDetail, SchemaDetail, SchemaService } from '@picturepark/sdk-v1-angular';
-import { combineLatest } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { Layer } from './models/layer';
 import { LayerFieldService } from './services/layer-field.service';
@@ -25,12 +24,11 @@ export class LayerPanelsComponent implements OnInit {
     private layerFieldService: LayerFieldService) { }
 
   ngOnInit() {
-    combineLatest([this.schemaService.get(this.content.contentSchemaId), this.schemaService.getManyReferenced([this.content.contentSchemaId])])
-      .pipe(map(([schema, schemaDetails]) => [schema, ...schemaDetails]),
-        take(1))
+    this.schemaService.getManyReferenced([this.content.contentSchemaId])
+      .pipe(take(1))
       .subscribe(schemaDetails => {
 
-        this.allSchemas = schemaDetails;
+        this.allSchemas = [...this.schemas, ...schemaDetails];
 
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
 
