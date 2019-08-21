@@ -1,0 +1,16 @@
+.content-image-preview-container {
+  .loader {
+    text-align: center;
+    mat-spinner {
+      position: relative;
+      top: 40px;
+      margin: 0 auto;
+    }
+  }
+
+  .content-image-preview-content {
+    img {
+      cursor: pointer;
+    }
+  }
+}

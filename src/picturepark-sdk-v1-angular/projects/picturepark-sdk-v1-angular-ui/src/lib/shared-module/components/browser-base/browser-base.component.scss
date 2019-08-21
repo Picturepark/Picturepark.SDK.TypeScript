@@ -1,0 +1,85 @@
+.browser {
+  $self: &;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  &__header {
+    & mat-toolbar {
+      height: 57px; border-bottom: 1px solid #d8d8d8;
+    }
+    mat-progress-bar {
+      position: absolute;
+      top: 57px;
+      z-index: 10;
+    }
+  }
+  &__divider {
+    margin: 0 8px;
+  }
+  &__spacer {
+    flex-grow: 1;
+  }
+  &__items-count {
+    align-self: center;
+  }
+  &__items {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: calc(100% - 107px);
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+    background-color: #eeeeee;
+    grid-gap: 25px;
+    #{ $self }__item-container {
+      height: 120px;
+    }
+
+
+    &--list {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 100px;
+      grid-gap: 10px;
+      #{ $self }__item-container {
+        width: 70%;
+        margin: 0 auto;
+        border-bottom: 1px solid #d8d8d8;
+        
+      }
+    }
+    &--large {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(280px, 1fr));
+      grid-gap: 25px;
+      #{ $self }__item-container {
+        height: 280px;
+      }
+    }
+    &--medium {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(180px, 1fr));
+      grid-gap: 45px 25px;
+      #{ $self }__item-container {
+        height: 200px;
+      }
+    } // image sizes: 120px, 200px, 320px
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+
+  }
+  &__item-container {
+    position: relative;
+  }
+
+  &__empty-result {
+    margin: 20px;
+  }
+}

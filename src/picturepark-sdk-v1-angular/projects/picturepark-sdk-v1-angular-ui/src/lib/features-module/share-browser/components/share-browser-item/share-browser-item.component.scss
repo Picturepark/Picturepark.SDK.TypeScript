@@ -1,0 +1,75 @@
+@import '~@angular/material/theming';
+.browser-item {
+  $self: &;
+
+  &__title {
+    i { position: relative; top: 3px; margin: 0px 3px 0px 0px; }
+  }
+
+  &__image-slot {
+    flex-grow: 1;
+    position: relative;
+  }
+  &__image-virtual-item-container {
+    display: block;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: rgb(170, 170, 170);
+    overflow: hidden;
+  }
+  &__image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+  }
+
+  &__extra-thumbnails {
+    width: 50%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    overflow: hidden;
+    background-color: #dcdcdc;
+    .thumbnail {
+      height: 50%;
+      img {
+        height: 100%;
+        width: auto;
+        position: relative;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    }
+  }
+
+  &__items-num-container {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    color: white;
+    font-size: 10px;
+  }
+
+  &__image {
+    max-height: 100%;
+    height: 100%;
+    &.extra-thumbnail {
+      position: relative;
+      right: 25%;
+    }
+  }
+
+}

@@ -1,25 +1,32 @@
-import {
-  ContentItemSelectionService,
-  BasketService
-} from '@picturepark/sdk-v1-angular-ui';
-import { DetailsDialogComponent } from './../details-dialog/details-dialog.component';
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { AggregationResult, AuthService, Channel, FilterBase } from '@picturepark/sdk-v1-angular';
-import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 import { MatDialog } from '@angular/material/dialog';
-import { EmbedService } from '../embed.service';
 import { Subscription } from 'rxjs';
+
+// LIBRARIES
+import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
+import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
+
+// COMPONENTS
+import { ContentBrowserComponent, ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
+
+// SERVICES
+import { EmbedService } from './embed.service';
+import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/models/content-model';
 
 @Component({
   templateUrl: './content-picker.component.html',
   styleUrls: ['./content-picker.component.scss']
 })
 export class ContentPickerComponent implements OnInit, OnDestroy {
+
+  @ViewChild('contentBrowser', { static: true }) contentBrowser: ContentBrowserComponent;
+
+  public expandedContent = false;
+
   public basketItemsCount = 0;
 
-  public selectedItems: string[] = [];
+  public selectedItems: ContentModel<Content>[] = [];
 
   public searchText = '';
   public selectedChannel: Channel | null = null;
@@ -40,38 +47,36 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
-    private contentItemSelectionService: ContentItemSelectionService,
-    @Inject(AuthService) public authService: OidcAuthService) {
+    public contentItemSelectionService: ContentItemSelectionService<Content>
+  ) {}
+
+  public openDetails(item: ContentModel<Content>) {
+    this.dialog.open(ContentDetailsDialogComponent,
+      { data: item.item.id, width: '980px', height: '700px' }
+    );
+  }
+
+  public ngOnInit() {
 
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
 
-    const itemsSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => this.selectedItems = items);
-    this.subscription.add(itemsSubscription);
-  }
-
-  public openDetails(itemId: string) {
-    this.dialog.open(DetailsDialogComponent, { data: itemId });
-  }
-
-
-  public onWindowUnload = () => {
-    // What is this?
-    if (this.authService.isAuthenticated && !this.messagePosted && window.opener) {
-      window.opener.postMessage('undefined', '*');
-    }
-  }
-
-  public ngOnInit() {
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
 
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/content-picker?postUrl=' + encodeURI(this.postUrl));
-    }
+  }
 
-    window.addEventListener('unload', this.onWindowUnload, false);
+  public expand(): void {
+    if (this.expandedContent) {
+      this.expandedContent = false;
+    } else {
+      this.expandedContent = true;
+    }
+  }
+
+  public selectionChange(items: ContentModel<Content>[]): void {
+    this.selectedItems = items;
   }
 
   public async embed() {
@@ -83,13 +88,14 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public cancel() {
-    window.close();
+  cancel(): void {
+    this.contentBrowser.cancel();
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
+
 }

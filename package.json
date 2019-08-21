@@ -7,7 +7,7 @@
     "build:widgets": "call \"build/05_RebuildWidgetsBundle.bat\"",
     "build:ng": "call \"build/06_BuildProduction.bat\"",
     "docs": "call \"build/07_BuildDocs.bat\"",
-    "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng && npm run docs",
+    "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng",
     "start:fetch": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090",
     "start:pickers": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-pickers/\" -p 8090",
     "start:widgets": "start \"\" http://localhost:8090/samples && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090",
@@ -17,12 +17,14 @@
   "devDependencies": {
     "http-server": "^0.11.1",
     "marked": "^0.3.19",
-    "nswag": "12.0.20",
+    "nswag": "13.0.4",
     "typedoc": "0.13.0",
     "typescript": "^3.2.2",
     "typescript-bundle": "0.8.7",
     "uglify-js": "3.0.28",
     "watch": "^1.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ts-md5": "^1.2.4"
+  }
 }

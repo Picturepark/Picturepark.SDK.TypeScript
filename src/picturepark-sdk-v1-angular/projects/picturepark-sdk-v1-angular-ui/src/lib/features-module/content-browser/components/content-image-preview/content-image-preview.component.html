@@ -1,0 +1,8 @@
+<div class="content-image-preview-container">
+    <div class="content-image-preview-content" *ngIf="!isLoading">
+        <img [src]="thumbnailUrlSafe" (click)="showFullscreen()" style="width:100%" (error)="updateUrl($event)" *ngIf="thumbnailUrlSafe"/>
+    </div>
+    <div class="loader" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

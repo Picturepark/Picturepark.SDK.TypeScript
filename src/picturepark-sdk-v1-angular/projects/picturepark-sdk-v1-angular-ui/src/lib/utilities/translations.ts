@@ -1,5 +1,4 @@
 export let TRANSLATIONS = {
- 
   Basket: {
     RemoveItem: {
       en: 'Remove',
@@ -13,9 +12,16 @@ export let TRANSLATIONS = {
       en: 'Clear',
       de: 'Leeren'
     },
+    ClearBasket2: {
+      en: 'Clear basket',
+      de: 'Leeren warenkorb'
+    },
     EmptyBasket: {
       en: 'Basket is empty.',
       de: 'Warenkorb ist leer.'
+    },
+    Share: {
+      en: 'Share items'
     }
   },
   ChannelPicker: {
@@ -25,6 +31,9 @@ export let TRANSLATIONS = {
     }
   },
   ContentAggregationList: {
+    FiltersLabel: {
+      en: 'Filters'
+    },
     ClearFilters: {
       en: 'Clear filters',
       de: 'Filter entfernen'
@@ -56,6 +65,10 @@ export let TRANSLATIONS = {
     ClearAllFilters: {
       en: 'Clear all filters',
       de: 'Alle Filter entfernen'
+    },
+    NoFiltersApplied: {
+      en: 'No filters configured',
+      de: 'Keine Filter konfiguriert'
     }
   },
   ContentBrowser: {
@@ -82,7 +95,9 @@ export let TRANSLATIONS = {
     SelectMenu: {
       en: 'Select',
       de: 'Selektieren'
-
+    },
+    ShareImages: {
+      en: 'Share'
     },
     SelectFirstItems: {
       en: 'Select first {0}',
@@ -96,9 +111,16 @@ export let TRANSLATIONS = {
       en: 'Preview',
       de: 'Vorschau'
     },
+    More: {
+      en: 'More',
+    },
     Download: {
       en: 'Download',
       de: 'Download'
+    },
+    Details: {
+      en: 'Details',
+      de: 'Details'
     },
     ItemsLength: {
       en: '{0} contents',
@@ -107,30 +129,6 @@ export let TRANSLATIONS = {
     SortingMenu: {
       en: 'Sort',
       de: 'Sortieren'
-    },
-    SortingAscending: {
-      en: 'Ascending',
-      de: 'Aufsteigend'
-    },
-    SortingDescending: {
-      en: 'Descending',
-      de: 'Absteigend'
-    },
-    SortingByRelevance: {
-      en: 'Relevance',
-      de: 'Relevanz'
-    },
-    SortingByName: {
-      en: 'File name',
-      de: 'Dateiname'
-    },
-    SortingByDateCreated: {
-      en: 'Date created',
-      de: 'Erstellungsdatum'
-    },
-    SortingByDateModified: {
-      en: 'Date modified',
-      de: 'Modifikationsdatum'
     },
     ViewTypeMenu: {
       en: 'View type',
@@ -159,6 +157,32 @@ export let TRANSLATIONS = {
     NoItemsActionSearchString: {
       en: 'Change your search string',
       de: 'Ändern Sie Ihren Suchbegriff'
+    }
+  },
+  SortMenu: {
+    Ascending: {
+      en: 'Ascending',
+      de: 'Aufsteigend'
+    },
+    Descending: {
+      en: 'Descending',
+      de: 'Absteigend'
+    },
+    Relevance: {
+      en: 'Relevance',
+      de: 'Relevanz'
+    },
+    FileName: {
+      en: 'File name',
+      de: 'Dateiname'
+    },
+    CreationDate: {
+      en: 'Date created',
+      de: 'Erstellungsdatum'
+    },
+    ModificationDate: {
+      en: 'Date modified',
+      de: 'Modifikationsdatum'
     }
   },
   ContentPicker: {
@@ -217,6 +241,14 @@ export let TRANSLATIONS = {
       de: 'Grösse'
     },
   },
+  ListBrowser: {
+    ListItemsLowercase: {
+      en: 'list items'
+    },
+    ItemsWereNotFound: {
+      en: 'Items were not found'
+    }
+  },
   Login: {
     LabelUsername: {
       en: 'Username',
@@ -258,12 +290,145 @@ export let TRANSLATIONS = {
       en: 'Search',
       de: 'Suchen'
     }
+  },
+  ContentDownloadDialog: {
+    AudioMetadata: {
+      en: 'Audio',
+      de: 'Audio'
+    },
+    ImageMetadata: {
+      en: 'Images',
+      de: 'Bilder'
+    },
+    FileMetadata: {
+      en: 'Other',
+      de: 'Andere'
+    },
+    VideoMetadata: {
+      en: 'Videos',
+      de: 'Videos'
+    },
+    DocumentMetadata: {
+      en: 'Documents',
+      de: 'Dokumente'
+    },
+    ContentItem: {
+      en: 'Virtual content',
+      de: 'Virtueller content'
+    },
+    FileSize: {
+      en: 'Download size: ~'
+    },
+    Title: {
+      en: 'Download'
+    },
+    Advanced: {
+      en: 'Show more formats'
+    },
+    Simple: {
+      en: 'Show less formats'
+    },
+    Download: {
+      en: 'Download'
+    },
+    Cancel: {
+      en: 'Cancel'
+    },
+    NoAccess: {
+      en: 'No access to any format'
+    }
+  },
+  SchemaBrowser: {
+    Ascending: {
+      en: 'Ascending'
+    },
+    Descending: {
+      en: 'Descending'
+    },
+    Relevance: {
+      en: 'Relevance'
+    },
+    Title: {
+      en: 'Title'
+    },
+    DateCreated: {
+      en: 'Date Created'
+    },
+    DateModified: {
+      en: 'Date Created'
+    },
+    SchemasLowercase: {
+      en: 'schema'
+    },
+    ItemsWereNotFound: {
+      en: 'Items were not found'
+    },
+    FieldsLowercase: {
+      en: 'fields'
+    },
+    ShowItemList: {
+      en: 'Show item list'
+    }
+  },
+  ShareContentDialog: {
+    Clear: {
+      en: 'Clear'
+    },
+    CreateShare: {
+      en: 'Create Share'
+    },
+    General: {
+      en: 'General'
+    },
+    Items: {
+      en: 'Items'
+    },
+    ItemsMore: {
+      en: '{0} (and {1} items more)'
+    },
+    ShareName: {
+      en: 'Share name'
+    },
+    RemoveItem: {
+      en: 'Remove item'
+    },
+    ShareContent: {
+      en: 'Share'
+    },
+    CloseDialog: {
+      en: 'Close'
+    },
+    CancelShare: {
+      en: 'Cancel'
+    },
+    Recipients: {
+      en: 'Recipients'
+    },
+    ExpireDate: {
+      en: 'Expire Date'
+    },
+    AddShareNameError: {
+      en: 'Please, add a share name'
+    },
+    ShareNameTooLongError: {
+      en: 'Sorry, your share name is too long'
+    },
+    ShareNameTooShortError: {
+      en: 'Sorry, your share name is too short'
+    },
+    SuccessNotification: {
+      en: 'Your content was shared correctly!'
+    },
+    ErrorNotification: {
+      en: 'There was an error sharing your content, please try again'
+    }
   }
 };
 
 const fallbackLanguage = 'en';
 
 export function translate(key: any, locale: string) {
+
   const language = locale ? locale.split('-')[0].toLowerCase() : '';
   let translations: any = TRANSLATIONS;
 

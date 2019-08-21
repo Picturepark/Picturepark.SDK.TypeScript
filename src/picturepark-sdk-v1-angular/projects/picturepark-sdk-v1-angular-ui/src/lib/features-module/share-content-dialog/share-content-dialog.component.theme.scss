@@ -1,0 +1,47 @@
+@import '~@angular/material/theming';
+
+// SHARE CONTENT DIALOG
+$pp-share-content-dialog: (
+  input-focus-border-color: #444,
+  contrast: ()
+);
+
+@mixin pp-share-content-dialog-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+
+  .share-content-dialog-container {
+    ul {
+      color: mat-color($primary, light-font) !important;
+      font-size: mat-font-size($custom-typography, display-1) !important;
+      li { 
+        input {
+          font-size: mat-font-size($custom-typography, display-1) !important;
+          color: mat-color($primary, dark-font) !important;
+          &:focus { border: 1px solid mat-color($pp-share-content-dialog, input-focus-border-color) !important; }
+        }
+      }
+    }
+    #share-name.error-active { border: 1px solid mat-color($warn) !important; }
+    .share-name-error { 
+      color: mat-color($warn) !important; font-size: mat-font-size($custom-typography, caption) !important;
+    }
+    .share-content-confirmation-container {
+      .share-content-confirmation { 
+        border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
+        .user-info-container { 
+          ul { 
+            li { 
+                mat-icon { 
+                  font-size: mat-font-size($custom-typography, subheading-2) !important;
+                  color:  mat-color($primary, light-font) !important;
+                }
+                a { color:  mat-color($primary, light-font) !important; }
+            }
+          }
+        }
+      }
+    }
+  }
+}

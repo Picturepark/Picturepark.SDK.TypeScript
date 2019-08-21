@@ -1,11 +1,17 @@
 {
   "name": "@picturepark/sdk-v1-angular-ui",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
-    "@picturepark/sdk-v1-angular": "^1.2.2",
+    "@picturepark/sdk-v1-angular": "^1.3.0",
     "@angular/cdk": "^8.0.0",
     "@angular/material": "^8.0.0"
-  }
+  },
+  "dependencies": {
+    "lazy-get-decorator": "^2.2.0",
+    "moment": "^2.24.0",
+    "ts-md5": "^1.2.4"
+  },
+  "sideEffects": true
 }

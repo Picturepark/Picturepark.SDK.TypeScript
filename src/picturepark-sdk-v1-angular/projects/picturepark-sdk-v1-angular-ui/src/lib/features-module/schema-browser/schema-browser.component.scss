@@ -1,0 +1,37 @@
+.content-browser {
+    overflow: auto;
+    position: relative;
+  
+    &__header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+  
+    &__toolbar {
+      display: flex;
+      width: 100%;
+    }
+  
+    &__divider {
+      margin: 0 8px;
+    }
+  
+    &__spacer {
+      flex-grow: 1;
+    }
+  
+    &__items-count {
+      align-self: center;
+    }
+  
+    &__items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      padding: 25px 10px 20px 15px;
+    }
+  
+    &__empty-result {
+      margin: 20px;
+    }
+  }

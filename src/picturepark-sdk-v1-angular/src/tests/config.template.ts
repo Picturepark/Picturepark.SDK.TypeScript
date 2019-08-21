@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -7,7 +8,6 @@ import {
   AuthService,
   AccessTokenAuthService
 } from '@picturepark/sdk-v1-angular';
-import { HttpClientModule } from '@angular/common/http';
 
 export const testUrl = '{Server}';
 export const testAccessToken = '{AccessToken}';

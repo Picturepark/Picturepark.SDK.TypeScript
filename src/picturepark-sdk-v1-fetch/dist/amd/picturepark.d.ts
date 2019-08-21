@@ -3,7 +3,7 @@
         private pictureparkApiUrl;
         private customerAlias?;
         constructor(pictureparkApiUrl: string, customerAlias?: string);
-        getBaseUrl(defaultUrl: string): string;
+        getBaseUrl(defaultUrl: string, requestedUrl?: string): string;
         transformHttpRequestOptions(options: RequestInit): Promise<RequestInit>;
     }
     export class PictureparkClientBase {
@@ -59,6 +59,27 @@
          */
         getDetails(processId: string): Promise<BusinessProcessDetails>;
         protected processGetDetails(response: Response): Promise<BusinessProcessDetails>;
+    }
+    export class BusinessRuleClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get the current business rule configuration
+         * @return BusinessRuleConfiguration
+         */
+        getConfiguration(): Promise<BusinessRuleConfiguration>;
+        protected processGetConfiguration(response: Response): Promise<BusinessRuleConfiguration>;
+        /**
+         * Updates the business rule configuration.
+         * @param request Request containing the new configuration.
+         * @return Business process
+         */
+        updateConfiguration(request: BusinessRuleConfigurationUpdateRequest): Promise<BusinessProcess>;
+        protected processUpdateConfiguration(response: Response): Promise<BusinessProcess>;
     }
     export class ChannelClient extends PictureparkClientBase {
         private http;
@@ -116,8 +137,8 @@
          * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
          * @return Content detail
          */
-        get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail | null>;
-        protected processGet(response: Response): Promise<ContentDetail | null>;
+        get(contentId: string, resolveBehaviors?: ContentResolveBehavior[] | null | undefined): Promise<ContentDetail>;
+        protected processGet(response: Response): Promise<ContentDetail>;
         /**
          * Delete content
          * @param contentId The ID of the content to delete.
@@ -721,16 +742,16 @@
          * @param id The output format ID.
          * @return Output format
          */
-        get(id: string): Promise<OutputFormat>;
-        protected processGet(response: Response): Promise<OutputFormat>;
+        get(id: string): Promise<OutputFormatDetail>;
+        protected processGet(response: Response): Promise<OutputFormatDetail>;
         /**
          * Update output format
          * @param id ID of output format to update
          * @param request The request containing information needed to update the output format.
          * @return Updated output format
          */
-        update(id: string, request: OutputFormatEditable): Promise<OutputFormat>;
-        protected processUpdate(response: Response): Promise<OutputFormat>;
+        update(id: string, request: OutputFormatEditable): Promise<OutputFormatDetail>;
+        protected processUpdate(response: Response): Promise<OutputFormatDetail>;
         /**
          * Delete output format
          * @param id ID of the output format that should be deleted.
@@ -743,15 +764,15 @@
          * @param request The request containing information needed to create new output format.
          * @return Output format
          */
-        create(request: OutputFormat): Promise<OutputFormat>;
-        protected processCreate(response: Response): Promise<OutputFormat>;
+        create(request: OutputFormat): Promise<OutputFormatDetail>;
+        protected processCreate(response: Response): Promise<OutputFormatDetail>;
         /**
          * Get multiple output formats
          * @param ids (optional) Output format IDs to get information about. If this is omitted, all output formats in the system will be returned.
          * @return Output formats
          */
-        getMany(ids?: string[] | null | undefined): Promise<OutputFormat[]>;
-        protected processGetMany(response: Response): Promise<OutputFormat[]>;
+        getMany(ids?: string[] | null | undefined): Promise<OutputFormatDetail[]>;
+        protected processGetMany(response: Response): Promise<OutputFormatDetail[]>;
         /**
          * Create multiple output formats
          * @param request The request containing information needed to create new output formats.
@@ -886,6 +907,14 @@
         getReferenced(schemaId: string): Promise<SchemaDetail[]>;
         protected processGetReferenced(response: Response): Promise<SchemaDetail[]>;
         /**
+         * Transfer ownership
+         * @param schemaId The schema ID.
+         * @param request Request detailing which user to transfer to.
+         * @return OK
+         */
+        transferOwnership(schemaId: string, request: SchemaOwnershipTransferRequest): Promise<void>;
+        protected processTransferOwnership(response: Response): Promise<void>;
+        /**
          * Gets all schemas referenced by the schemas specified in
          * @param ids (optional) The schema IDs.
          * @return Referenced schema details
@@ -899,6 +928,13 @@
          */
         createMany(schemas: SchemaCreateManyRequest): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Transfer ownership of multiple schemas
+         * @param request Schema ownership transfer many request.
+         * @return Business process
+         */
+        transferOwnershipMany(request: SchemaOwnershipTransferManyRequest): Promise<BusinessProcess>;
+        protected processTransferOwnershipMany(response: Response): Promise<BusinessProcess>;
     }
     export class SchemaPermissionSetClient extends PictureparkClientBase {
         private http;
@@ -1199,11 +1235,11 @@
          * @param totalSize Total size in bytes of the uploading file.
          * @param totalChunks Total chunks of the uploading file.
          * @param transferId ID of transfer.
-         * @param identifier Identifier of file.
+         * @param requestId Identifier of file.
          * @param formFile (optional) Gets or sets the form file.
          * @return OK
          */
-        uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, identifier: string, formFile?: FileParameter | null | undefined): Promise<void>;
+        uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
     }
     export class UserClient extends PictureparkClientBase {
@@ -1328,22 +1364,22 @@
          * @param ids User role IDs to get information about.
          * @return List of user roles
          */
-        getMany(ids: string[] | null): Promise<UserRole[]>;
-        protected processGetMany(response: Response): Promise<UserRole[]>;
+        getMany(ids: string[] | null): Promise<UserRoleDetail[]>;
+        protected processGetMany(response: Response): Promise<UserRoleDetail[]>;
         /**
          * Create user role
          * @param request User role creation request.
          * @return Newly created user role
          */
-        create(request: UserRoleCreateRequest): Promise<UserRole>;
-        protected processCreate(response: Response): Promise<UserRole>;
+        create(request: UserRoleCreateRequest): Promise<UserRoleDetail>;
+        protected processCreate(response: Response): Promise<UserRoleDetail>;
         /**
          * Get user role
          * @param userRoleId The user role ID
          * @return User role or null if not found
          */
-        get(userRoleId: string): Promise<UserRole>;
-        protected processGet(response: Response): Promise<UserRole>;
+        get(userRoleId: string): Promise<UserRoleDetail>;
+        protected processGet(response: Response): Promise<UserRoleDetail>;
         /**
          * Search user roles
          * @param searchRequest User role search request.
@@ -1357,8 +1393,8 @@
          * @param request User role update request.
          * @return Updated user role
          */
-        update(id: string, request: UserRoleEditable): Promise<UserRole>;
-        protected processUpdate(response: Response): Promise<UserRole>;
+        update(id: string, request: UserRoleEditable): Promise<UserRoleDetail>;
+        protected processUpdate(response: Response): Promise<UserRoleDetail>;
         /**
          * Delete user role
          * @param id ID of user role to delete
@@ -1529,6 +1565,8 @@
     }
     export interface UnauthorizedException extends PictureparkBusinessException {
     }
+    export interface UserUnlockDisallowedException extends PictureparkValidationException {
+    }
     export interface RenderingException extends PictureparkBusinessException {
     }
     export interface ServiceProviderDeleteException extends PictureparkException {
@@ -1648,7 +1686,6 @@
         argumentValue?: string | undefined;
     }
     export interface UnknownException extends PictureparkBusinessException {
-        exceptionDetail?: string | undefined;
     }
     export interface OwnerTokenInUseException extends PictureparkValidationException {
         ownerTokenUserId?: string | undefined;
@@ -1987,8 +2024,11 @@
         exceptions?: ReferenceUpdateException[] | undefined;
     }
     export interface ReferenceUpdateException extends PictureparkBusinessException {
+        /** This is the source of the reference. */
         referenceItemId?: string | undefined;
+        /** This is the DocType of the source of the reference. */
         referenceType?: string | undefined;
+        /** These exceptions describe why the source metadata item could not be updated. */
         exceptions?: PictureparkException[] | undefined;
     }
     export interface DuplicatedItemAssignedException extends PictureparkValidationException {
@@ -2218,6 +2258,10 @@
         schemaId?: string | undefined;
         fieldId?: string | undefined;
     }
+    export interface SchemaFieldNotRequirableException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        schemaId?: string | undefined;
+    }
     export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
         numberOfReferences: number;
         numberOfShares: number;
@@ -2310,6 +2354,11 @@
         schemaId?: string | undefined;
         fieldType?: string | undefined;
     }
+    export interface SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+        displayPatternType: DisplayPatternType;
+        supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+    }
     export interface SnapshotTimeoutException extends PictureparkTimeoutException {
     }
     export interface SnapshotFailedException extends PictureparkBusinessException {
@@ -2362,6 +2411,68 @@
         customerId?: string | undefined;
     }
     export interface CustomerAliasHeaderMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleActionInvalidDocumentTypeException extends PictureparkValidationException {
+        allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
+    }
+    export enum BusinessRuleTriggerDocType {
+        Content
+    }
+    export interface BusinessRuleActionInvalidExecutionScopeException extends PictureparkValidationException {
+        allowedScopes?: BusinessRuleExecutionScope[] | undefined;
+    }
+    export enum BusinessRuleExecutionScope {
+        MainDoc,
+        SearchDoc
+    }
+    export interface BusinessRuleActionsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleConditionMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleConditionsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleConfigurationValidationException extends PictureparkValidationException {
+        innerExceptions?: PictureparkValidationException[] | undefined;
+    }
+    export interface BusinessRuleSchemaIdInvalidException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface BusinessRulePermissionSetIdInvalidException extends PictureparkValidationException {
+        permissionSetId?: string | undefined;
+    }
+    export interface BusinessRuleRuleIdDuplicationException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleRuleIdMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleTriggerPointMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleValidationException extends PictureparkValidationException {
+        ruleId?: string | undefined;
+        innerExceptions?: PictureparkValidationException[] | undefined;
+    }
+    export interface BusinessRuleConditionInvalidTriggerPointDocumentTypeException extends PictureparkValidationException {
+        allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
+    }
+    export interface BusinessRuleRegularExpressionInvalidException extends PictureparkValidationException {
+        regex?: string | undefined;
+    }
+    export interface BusinessRuleConditionInvalidTriggerPointActionException extends PictureparkValidationException {
+        allowedActions?: BusinessRuleTriggerAction[] | undefined;
+    }
+    export enum BusinessRuleTriggerAction {
+        Create,
+        Update,
+        FileReplacement
+    }
+    export interface BusinessRuleRefIdsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRulePathInvalidException extends PictureparkValidationException {
+        path?: string | undefined;
+    }
+    export interface BusinessRuleFieldIdInvalidException extends PictureparkValidationException {
+        fieldId?: string | undefined;
+    }
+    export interface BusinessRuleContentPermissionSetIdsMissingException extends PictureparkValidationException {
     }
     /** Search request to search for business processes */
     export interface BusinessProcessSearchRequest {
@@ -2527,7 +2638,8 @@
         DropInvalidCharactersOnFailure,
         WildcardOnSingleTerm,
         SimplifiedSearch,
-        WildcardOnEveryTerm
+        WildcardOnEveryTerm,
+        SimplifiedSearchOr
     }
     /** Result from waiting for life cycle(s) on a business process */
     export interface BusinessProcessWaitForLifeCycleResult {
@@ -2575,6 +2687,8 @@
         version: number;
         /** If the operation did not succeeded, this contains error information. */
         error?: ErrorResponse | undefined;
+        /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+        requestId?: string | undefined;
     }
     /** Business process detailed information regarding Schema / ListItems import operation */
     export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
@@ -2648,6 +2762,187 @@
         succeeded: boolean;
         /** If the operation did not succeeded, this contains error related information. */
         error?: ErrorResponse | undefined;
+    }
+    /** Represents the business rule configuration. */
+    export interface BusinessRuleConfiguration {
+        /** Disables the rule completely. */
+        disableRuleEngine: boolean;
+        /** Rules */
+        rules?: BusinessRule[] | undefined;
+    }
+    /** A business rule */
+    export interface BusinessRule {
+        /** User defined ID of the rule. */
+        id?: string | undefined;
+        /** Trigger point. */
+        triggerPoint?: BusinessRuleTriggerPoint | undefined;
+        /** Enable. */
+        isEnabled: boolean;
+        /** Language specific rule names. */
+        names?: TranslatedStringDictionary | undefined;
+        /** Language specific rule description. */
+        description?: TranslatedStringDictionary | undefined;
+    }
+    /** Represents a trigger point for a business rule */
+    export interface BusinessRuleTriggerPoint {
+        /** Execution scope. */
+        executionScope: BusinessRuleExecutionScope;
+        /** Document type. */
+        documentType: BusinessRuleTriggerDocType;
+        /** Action performed. */
+        action: BusinessRuleTriggerAction;
+    }
+    /** A business rule configurable by specific actions and conditions */
+    export interface BusinessRuleConfigurable extends BusinessRule {
+        /** The condition that makes this rule trigger. */
+        condition?: BusinessRuleCondition | undefined;
+        /** The actions that are performed when this rule triggers. */
+        actions?: BusinessRuleAction[] | undefined;
+    }
+    /** Conditions on which a business rule is executed */
+    export interface BusinessRuleCondition {
+    }
+    /** Links multiple conditions with a boolean operator */
+    export interface BooleanCondition extends BusinessRuleCondition {
+        /** The conditions. */
+        conditions?: BusinessRuleCondition[] | undefined;
+    }
+    /** Links conditions with AND */
+    export interface AndCondition extends BooleanCondition {
+    }
+    /** Links conditions with OR */
+    export interface OrCondition extends BooleanCondition {
+    }
+    /** Matches when a layer was assigned */
+    export interface LayerAssignedCondition extends BusinessRuleCondition {
+        /** Layer id to match on. */
+        layerId?: string | undefined;
+    }
+    /** Matches when a layer was unassigned */
+    export interface LayerUnassignedCondition extends BusinessRuleCondition {
+        /** Layer id to match on. */
+        layerId?: string | undefined;
+    }
+    /** Matches when a permission set was assigned */
+    export interface ContentPermissionSetAssignedCondition extends BusinessRuleCondition {
+        /** Permission set id to match on. */
+        permissionSetId?: string | undefined;
+    }
+    /** Matches when a permission set was unassigned */
+    export interface ContentPermissionSetUnassignedCondition extends BusinessRuleCondition {
+        /** Permission set id to match on. */
+        permissionSetId?: string | undefined;
+    }
+    /** Matches when a field matching the field path string (JSON path) changes to the expected value. */
+    export interface FieldValueChangedCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+        /** Expected value for the field to have to satisfy the condition */
+        expectedValue?: any | undefined;
+    }
+    /** Matches when a field matching the field path string (JSON Path) changes and matches the given regular expression. */
+    export interface MatchRegexCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+        /** Regular expression */
+        regex?: string | undefined;
+    }
+    /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
+    export interface TagboxItemAssignedCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+        /** Ref Id of the list item that was assigned in the tagbox */
+        refId?: string | undefined;
+    }
+    /** Matches when a tag in a tagbox matching the field path string (JSON path) is removed. */
+    export interface TagboxItemUnassignedCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+        /** Ref Id of the list item that was unassigned from the tagbox */
+        refId?: string | undefined;
+    }
+    /** Matches when the content schema of a metadata item equals the one set in the condition. */
+    export interface ContentSchemaCondition extends BusinessRuleCondition {
+        /** Content schema id to match on. */
+        schemaId?: string | undefined;
+    }
+    /** Action to be performed by a business rule */
+    export interface BusinessRuleAction {
+    }
+    /** Assigns a layer, adding the default values to the data dictionary */
+    export interface AssignLayerAction extends BusinessRuleAction {
+        /** The ID of the layer. */
+        layerId?: string | undefined;
+        /** A dictionary containing default values (used for example to populate required fields). */
+        defaultValues?: DataDictionary | undefined;
+    }
+    export interface DataDictionary {
+        [key: string]: any;
+    }
+    /** Removes a layer */
+    export interface UnassignLayerAction extends BusinessRuleAction {
+        /** The ID of the layer. */
+        layerId?: string | undefined;
+    }
+    /** Assign a value to all fields matching the FieldPath (JSON path). */
+    export interface AssignValueAction extends BusinessRuleAction {
+        /** Path to the object the value should be inserted in. */
+        path?: string | undefined;
+        /** ID of the field, the value should be inserted in. */
+        fieldId?: string | undefined;
+        /** Value to assign. */
+        value?: any | undefined;
+        /** Indicates whether existing values should be replaced.
+    Note: for multi fieldsets and relations, this setting controls, if the value is added
+    to the already existing values or if the existing values shall be overwritten. */
+        replace: boolean;
+    }
+    /** Assigns one or multiple tag box items to the multi tagbox identified by the path (JSON path). */
+    export interface AssignTagboxItemsAction extends BusinessRuleAction {
+        /** Path to the object the tagbox is contained in. */
+        path?: string | undefined;
+        /** ID of the tagbox field. */
+        fieldId?: string | undefined;
+        /** List of refIds of the items that should be assigned. */
+        refIds?: string[] | undefined;
+        /** Indicates whether all the already assigned tags get replaced by the set specified in the action.
+    If false, the not already assigned tags get added, the rest is left as is. */
+        replace: boolean;
+    }
+    /** Removes one or multiple tag box items from the multi tagbox identified by the path (JSON path). */
+    export interface UnassignTagboxItemsAction extends BusinessRuleAction {
+        /** Path to the object the tagbox is contained in. */
+        path?: string | undefined;
+        /** ID of the tagbox field. */
+        fieldId?: string | undefined;
+        /** List of refIds of the items that should be removed. */
+        refIds?: string[] | undefined;
+    }
+    /** Assigns one or more permission sets to a content. */
+    export interface AssignContentPermissionSetsAction extends BusinessRuleAction {
+        /** IDs of the permission sets to assign. */
+        permissionSetIds?: string[] | undefined;
+        /** Indicates whether the already assigned permissions should be replaced or merged. */
+        replace: boolean;
+    }
+    /** Removes one or more permission sets from a content. */
+    export interface UnassignContentPermissionSetsAction extends BusinessRuleAction {
+        /** IDs of the permission sets to unassign. */
+        permissionSetIds?: string[] | undefined;
+    }
+    export interface ProduceMessageAction extends BusinessRuleAction {
+    }
+    /** A business rule expressed as a script */
+    export interface BusinessRuleScript extends BusinessRule {
+        /** Script */
+        script?: string | undefined;
+    }
+    /** Update request for changing business rule configuration */
+    export interface BusinessRuleConfigurationUpdateRequest {
+        /** Disables the rule engine completely. */
+        disableRuleEngine: boolean;
+        /** Rules */
+        rules?: BusinessRule[] | undefined;
     }
     export interface Channel {
         /** ID of channel. */
@@ -2837,7 +3132,7 @@
     /** A content detail. */
     export interface ContentDetail {
         /** Audit data with information regarding document creation and modification. */
-        audit?: UserAudit | undefined;
+        audit?: UserAuditDetail | undefined;
         /** The content data */
         content: any;
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
@@ -2866,11 +3161,29 @@
         /** List of content rights the user has on this content */
         contentRights?: ContentRight[] | undefined;
     }
+    /** Audit information */
+    export interface UserAuditDetail {
+        /** The date on which the document was created. */
+        creationDate: Date;
+        /** The last date on which the document was modified. */
+        modificationDate: Date;
+        /** ID of the user who created the document. */
+        createdByUser?: User | undefined;
+        /** ID of the last user who modified the document. */
+        modifiedByUser?: User | undefined;
+    }
+    export interface User {
+        /** User's Picturepark ID. */
+        id?: string | undefined;
+        /** User's first name. */
+        firstName?: string | undefined;
+        /** User's last name. */
+        lastName?: string | undefined;
+        /** Email address of the user (doubles as username). */
+        emailAddress: string;
+    }
     export interface DisplayValueDictionary {
         [key: string]: string | any;
-    }
-    export interface DataDictionary {
-        [key: string]: any;
     }
     /** Output */
     export interface Output {
@@ -2961,16 +3274,6 @@
     /** Output detail */
     export interface OutputDetail extends Output {
     }
-    export interface User {
-        /** User's Picturepark ID. */
-        id?: string | undefined;
-        /** User's first name. */
-        firstName?: string | undefined;
-        /** User's last name. */
-        lastName?: string | undefined;
-        /** Email address of the user (doubles as username). */
-        emailAddress: string;
-    }
     /** Lifecycle */
     export enum LifeCycle {
         Draft,
@@ -2988,7 +3291,11 @@
         InnerDisplayValueDetail,
         InnerDisplayValueName,
         Owner,
-        Permissions
+        Permissions,
+        OuterDisplayValueThumbnail,
+        OuterDisplayValueList,
+        OuterDisplayValueDetail,
+        OuterDisplayValueName
     }
     export interface BaseResultOfContent {
         totalResults: number;
@@ -3281,6 +3588,10 @@
         metadata?: DataDictionary | undefined;
         /** An optional id list of content permission sets.  */
         contentPermissionSetIds?: string[] | undefined;
+        /** Optional client reference for this request.
+    Will be returned back in response to make easier for clients to match request items with the respective results.
+    It is not persisted anywhere and it is ignored in single operations. */
+        requestId?: string | undefined;
     }
     /** A request structure for creating multiple content documents. */
     export interface ContentCreateManyRequest {
@@ -3491,6 +3802,7 @@
         userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
         ownerTokenId: string;
+        audit?: UserAuditDetail | undefined;
     }
     /** Detail of a content permission set */
     export interface ContentPermissionSetDetail extends PermissionSetDetailOfContentRight {
@@ -3515,6 +3827,7 @@
         userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
+        requestId?: string | undefined;
     }
     export interface ContentPermissionSetCreateRequest extends PermissionSetCreateRequestOfContentRight {
     }
@@ -3530,7 +3843,6 @@
         names?: TranslatedStringDictionary | undefined;
         userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
-        exclusive: boolean;
     }
     /** Request to update a content permission set */
     export interface ContentPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfContentRight {
@@ -3556,6 +3868,8 @@
         succeeded: boolean;
         /** Returned status code. */
         status: number;
+        /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+        requestId?: string | undefined;
     }
     export interface ContentPermissionSetCreateManyRequest {
         items?: ContentPermissionSetCreateRequest[] | undefined;
@@ -3603,7 +3917,8 @@
     export interface PermissionSet {
         /** The permission set ID. */
         id: string;
-        /** When true this permission set will derogate all other configured permission sets. */
+        /** When true this permission set will derogate all other configured permission sets.
+    Cannot be changed after creation. */
         exclusive: boolean;
         /** Language specific permission set names. */
         names?: TranslatedStringDictionary | undefined;
@@ -3764,7 +4079,7 @@
         /** The list item id. */
         id?: string | undefined;
         /** Audit data with information regarding document creation and modification. */
-        audit?: UserAudit | undefined;
+        audit?: UserAuditDetail | undefined;
     }
     export enum ListItemResolveBehavior {
         Content,
@@ -3772,7 +4087,11 @@
         InnerDisplayValueThumbnail,
         InnerDisplayValueList,
         InnerDisplayValueDetail,
-        InnerDisplayValueName
+        InnerDisplayValueName,
+        OuterDisplayValueThumbnail,
+        OuterDisplayValueList,
+        OuterDisplayValueDetail,
+        OuterDisplayValueName
     }
     export interface BaseResultOfListItem {
         totalResults: number;
@@ -3814,22 +4133,18 @@
         includeAllSchemaChildren: boolean;
         /** Limits the search among the list items of the provided schemas. */
         schemaIds?: string[] | undefined;
-        /** Limits the display values included in the search response. Defaults to all display values. */
-        displayPatternIds?: string[] | undefined;
         /** Limits the search to the list items that have or not have broken references. By default it includes both. */
         brokenDependenciesFilter: BrokenDependenciesFilter;
-        /** Defines the display values included in the search response for the referenced fields. Defaults to no display value. */
-        referencedFieldsDisplayPatternIds?: string[] | undefined;
         /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
     If not specified, all metadata languages defined in the system are used. */
         searchLanguages?: string[] | undefined;
-        /** When set to true the content data is included in the result items. */
-        includeContentData: boolean;
         /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
     Warning! It severely affects performance. */
         debugMode: boolean;
         /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
+        /** List of enums that control which parts of the list item are resolved and returned. */
+        resolveBehaviors?: ListItemResolveBehavior[] | undefined;
     }
     /** Request to aggregate list items */
     export interface ListItemAggregationRequest {
@@ -3863,8 +4178,10 @@
         content?: any | undefined;
         /** The id of the schema with schema type list. */
         contentSchemaId?: string | undefined;
-        /** The list item id. When not provided a Guid is generated. */
-        listItemId?: string | undefined;
+        /** Optional client reference for this request.
+    Will be returned back in response to make easier for clients to match request items with the respective results.
+    It is not persisted anywhere and it is ignored in single operations. */
+        requestId?: string | undefined;
     }
     /** A request structure for creating multiple list items. */
     export interface ListItemCreateManyRequest {
@@ -4094,6 +4411,14 @@
         Content,
         ListItem
     }
+    export interface BusinessRuleFiredEvent extends ApplicationEvent {
+        details?: BusinessRuleFiredEventDetail[] | undefined;
+    }
+    export interface BusinessRuleFiredEventDetail {
+        documentId?: string | undefined;
+        documentType?: string | undefined;
+        ruleIds?: string[] | undefined;
+    }
     export interface ConsoleMessage extends Message {
         command?: string | undefined;
         arguments?: TupleOfStringAndString[] | undefined;
@@ -4207,6 +4532,11 @@
         dataExtraction: boolean;
         /** Temporary outputs will not be backed up. */
         temporary: boolean;
+    }
+    /** Represents an output format. */
+    export interface OutputFormatDetail extends OutputFormat {
+        /** Audit information. */
+        audit?: UserAuditDetail | undefined;
     }
     export interface SourceOutputFormats {
         image?: string | undefined;
@@ -4551,7 +4881,7 @@
         /** The complete list of all descendant schema IDs. */
         descendantSchemaIds?: string[] | undefined;
         /** Audit information. */
-        audit?: UserAudit | undefined;
+        audit?: UserAuditDetail | undefined;
         /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
         searchFieldCount?: SearchFieldCount | undefined;
     }
@@ -4645,6 +4975,11 @@
         /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
         boost: number;
     }
+    /** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the DataDictionary of the field itself. */
+    export interface FieldTrigger extends FieldBase {
+        /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
+        boost: number;
+    }
     /** The field used to store a long value */
     export interface FieldLong extends FieldBase {
         /** The long pattern structure. */
@@ -4711,6 +5046,9 @@
         filter?: FilterBase | undefined;
         /** Json serialized template used for creating new list item (no logic is implemented in backend). */
         listItemCreateTemplate?: string | undefined;
+        /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+    The information is only consumed by the client application. No actual logic is implemented in the backend. */
+        viewModeDisplayPatternType: DisplayPatternType;
     }
     /** The field used to store multiple tagboxes */
     export interface FieldMultiTagbox extends FieldBase {
@@ -4726,6 +5064,9 @@
         filter?: FilterBase | undefined;
         /** Json serialized template used for creating new list item (no logic is implemented in backend). */
         listItemCreateTemplate?: string | undefined;
+        /** Defines the display pattern type to be used (Name or List only) when showing a tagbox item in view mode. Defaults to "Name".
+    The information is only consumed by the client application. No actual logic is implemented in the backend. */
+        viewModeDisplayPatternType: DisplayPatternType;
     }
     /** The field used to store a string value */
     export interface FieldString extends FieldBase {
@@ -5025,6 +5366,10 @@
     has to be unique across the schema hierarchy. */
         schemaId?: string | undefined;
     }
+    export interface SchemaOwnershipTransferRequest {
+        /** The id of the user to whom the schema has to be transfered to. */
+        transferUserId?: string | undefined;
+    }
     /** Result of a schema create operation */
     export interface SchemaCreateResult {
         /** The details of the created schema. */
@@ -5108,6 +5453,12 @@
     /** Result of a schema delete operation */
     export interface SchemaDeleteResult {
     }
+    export interface SchemaOwnershipTransferManyRequest {
+        /** The schema ids. */
+        schemaIds?: string[] | undefined;
+        /** The id of user to whom the schemas have to be transfered to. */
+        transferUserId?: string | undefined;
+    }
     export interface PermissionSetDetailOfMetadataRight {
         id: string;
         names?: TranslatedStringDictionary | undefined;
@@ -5115,6 +5466,7 @@
         userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
         ownerTokenId: string;
+        audit?: UserAuditDetail | undefined;
     }
     /** Detail of a schema permission set */
     export interface SchemaPermissionSetDetail extends PermissionSetDetailOfMetadataRight {
@@ -5129,6 +5481,7 @@
         userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
+        requestId?: string | undefined;
     }
     export interface SchemaPermissionSetCreateRequest extends PermissionSetCreateRequestOfMetadataRight {
     }
@@ -5140,7 +5493,6 @@
         names?: TranslatedStringDictionary | undefined;
         userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
-        exclusive: boolean;
     }
     /** Request to update a schema permission set */
     export interface SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfMetadataRight {
@@ -5240,7 +5592,7 @@
         /** Contains language specific display values, rendered according to the content schema's display pattern configuration. */
         displayValues: DisplayValueDictionary;
         /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
-        iconUrl: string;
+        iconUrl?: string | undefined;
     }
     /** Base of shared output */
     export interface ShareOutputBase {
@@ -5540,8 +5892,10 @@
     }
     /** Represents the base class for transfer items. */
     export interface TransferFile {
+        /** Replaced in favor of RequestId. Client generated identifier of the item. */
+        identifier?: string | undefined;
         /** Client generated identifier of the item. */
-        identifier: string;
+        requestId?: string | undefined;
     }
     /** Represents a file being uploaded in a transfer. */
     export interface TransferUploadFile extends TransferFile {
@@ -5559,8 +5913,10 @@
         id: string;
         /** Name of file transfer. */
         name: string;
+        /** Replaced in favor of RequestId. Client provided identifier. */
+        identifier?: string | undefined;
         /** Client provided identifier. */
-        identifier: string;
+        requestId: string;
         /** ID of transfer. */
         transferId: string;
         /** State of file transfer. */
@@ -5796,6 +6152,8 @@
         isSupportUser: boolean;
         /** Read-only users can't be removed from the system, e.g. service user. */
         isReadOnly: boolean;
+        /** Audit information. */
+        audit?: UserAuditDetail | undefined;
     }
     export interface OwnerToken {
         /** The ownertoken id. */
@@ -5908,6 +6266,11 @@
         /** User ID of user who will take over the ownership of the content currently owned by the deleted user. */
         ownerTokenTransferUserId?: string | undefined;
     }
+    /** Represents a user role, which associates users with user rights. */
+    export interface UserRoleDetail extends UserRole {
+        /** Audit information. */
+        audit?: UserAuditDetail | undefined;
+    }
     export interface BaseResultOfUserRole {
         totalResults: number;
         results: UserRole[];
@@ -5944,6 +6307,10 @@
     }
     /** Holds information needed for user role creation. */
     export interface UserRoleCreateRequest extends UserRoleEditable {
+        /** Optional client reference for this request.
+    Will be returned back in response to make easier for clients to match request items with the respective results.
+    It is not persisted anywhere and it is ignored in single operations. */
+        requestId?: string | undefined;
     }
     /** Holds information needed to create multiple user roles. */
     export interface UserRoleCreateManyRequest {

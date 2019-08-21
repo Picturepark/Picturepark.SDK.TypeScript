@@ -1,0 +1,40 @@
+@import '~@angular/material/theming';
+
+// BROWSER TOOLBAR CONTAINER
+$pp-item-tool-bar: (
+    contrast: ()
+);
+
+@mixin pp-item-tool-bar-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    .tool-bar-container {
+        background: mat-color($primary, dark-background) !important;
+        .to-top {
+            background-color: mat-color($primary, white-background) !important;
+            color: mat-color($primary, button) !important;
+        }
+        ul {
+            li { 
+                .to-top {
+                    background: mat-color($primary, white-background) !important;
+                }
+                button {
+                    &:hover {
+                        i { color: mat-color($primary, white-font) !important; }
+                    }
+                    i { 
+                        color: mat-color($primary, button) !important;
+                        font-size: mat-font-size($custom-typography, headline) !important;
+                    }
+                    span { 
+                        font-size: mat-font-size($custom-typography, button) !important;
+                        background-color: mat-color($primary, dark-background) !important;
+                        color: mat-color($primary, white-font) !important;
+                    }
+                }
+            }
+        }
+    }
+}

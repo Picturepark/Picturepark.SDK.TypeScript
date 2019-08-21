@@ -1,0 +1,34 @@
+<div class="list-container">
+  <div class="list-content" *ngIf="schema | async as schemaDetail">
+    <pp-list-browser 
+      [schema]="schemaDetail"
+      [searchString]="searchQuery | async"
+      [filter]="filter | async"
+      [deselectAll]="deselectAll"
+      [enableSelection]="true"
+      [selectedItemIds]="selectedItems"
+      (selectedItemsChange)="selectedItemsChange($event)">
+    </pp-list-browser>
+  </div>
+  <div class="list-filters">
+    <mat-tab-group class="content-panel">
+      <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
+        <div class="nofilters" *ngIf="aggregations.length === 0 ; else listItemFilter">
+          <p>
+            <span>{{ 'ContentAggregationList.NoFiltersApplied' | pptranslate}}</span>
+          </p>
+        </div>
+        <ng-template #listItemFilter>
+          <pp-list-item-aggregation-list 
+            [schemaId]="schemaId"
+            [aggregators]="aggregations"
+            [aggregationFilters]="aggregationFilters"
+            (aggregationFiltersChange)="changeAggregationFilters($event)"
+            [searchString]="searchQuery | async"
+            (filterChange)="filter.next($event)">
+          </pp-list-item-aggregation-list>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

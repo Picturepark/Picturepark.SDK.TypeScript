@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+
+@mixin pp-aggregation-theme($theme) {
+
+  $primary: map-get($theme, primary);
+
+  .aggregation {
+    .mat-expansion-panel-header {
+      font-size: mat-font-size($custom-typography, display-1) !important;
+    }
+    
+    .mat-list-base {
+      .mat-list-item, .mat-list-option, .mat-subheader {
+        font-size: mat-font-size($custom-typography, display-1) !important;
+      }
+    }
+    
+    .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
+      .mat-pseudo-checkbox {
+        border: 1px solid mat-color($primary, button) !important;
+      }
+    }
+
+    .expand-filters {
+      button {
+        color: mat-color($primary, base) !important;
+      }
+    }
+
+  }
+
+}

@@ -1,0 +1,10 @@
+<mat-card class="custom-shadow" *ngFor="let layer of layers">
+  <mat-card-title>
+    {{layer.names | pptranslate}}
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngFor="let field of layer.fields;" class="fields">
+      <pp-layer-fields [field]="field"></pp-layer-fields>
+    </div>
+  </mat-card-content>
+</mat-card>

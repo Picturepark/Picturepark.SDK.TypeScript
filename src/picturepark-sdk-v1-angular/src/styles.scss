@@ -1,31 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~normalize.css";
+// LIBRARY GLOBAL STYLES (keep on top)
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/styles_lib.scss';
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
+
+// CUSTOM THEME
 @import "theme.scss";
-@include mat-core();
+
 @include angular-material-theme($picturepark-app-theme);
+@include picturepark-theme($picturepark-app-theme);
 
-body {
-  font-family: Roboto;
-}
-
-.filters .mat-tab-label {
-  height: 64px;
-}
-
-.form {
-  background: rgba(0,0,0,.24) !important;
-}
-.form:focus-within {
-  background: rgba(0,0,0,.14) !important;
-}
-
-.mat-expansion-panel-body,
-.mat-expansion-panel,
-.mat-expansion-panel-header.mat-expanded,
-.mat-expansion-panel-header.mat-expanded:hover {
-  background: whitesmoke !important;
-}
-
-.content-browser__header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
-}
+// GLOBAL STYLES (keep at bottom)
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';

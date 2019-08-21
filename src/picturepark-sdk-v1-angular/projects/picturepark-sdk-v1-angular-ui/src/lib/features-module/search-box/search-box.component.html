@@ -1,0 +1,9 @@
+<form class="form" autocomplete="off">
+  <button mat-icon-button (click)="search()">
+    <mat-icon aria-label="Search">search</mat-icon>
+  </button>
+  <input [placeholder]="'SearchBox.Search' | pptranslate" [(ngModel)]="searchString" name="search" (keyup.enter)="search()" />
+  <button mat-icon-button (click)="clear()">
+    <mat-icon aria-label="Clear">clear</mat-icon>
+  </button>
+</form>

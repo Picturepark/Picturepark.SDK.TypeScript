@@ -1,0 +1,52 @@
+.basket {
+  height: 100%;
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    .clear-basket {
+      width: 100%;
+      font-size: 14px;
+      line-height: 42px;
+      span { float: left; }
+      button { float: right;}
+    }
+  }
+  &__items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    padding: 20px;
+    grid-gap: 20px;
+  }
+  &__item-container {
+    position: relative;
+    content: "";
+    display: inline-block;
+    height: 0;
+    padding-bottom: 100%;
+  }
+  &__item {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  &__empty {
+    padding: 20px;
+    color: #444;
+    font-weight: 500;
+  }
+  .mat-toolbar {
+    background: #eee;
+    padding: 0 20px;
+    border-bottom: 1px solid #d8d8d8;
+    button {
+      mat-icon {
+        font-size: 21px;
+        color: #727272;
+      }
+    }
+  }
+}
