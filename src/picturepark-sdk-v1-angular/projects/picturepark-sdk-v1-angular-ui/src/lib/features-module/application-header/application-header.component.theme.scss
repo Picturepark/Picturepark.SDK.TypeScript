@@ -16,7 +16,7 @@ $pp-application-header: (
 
         .title-container {
             color: mat-color($primary, dark-font);
-            border-right: 1px solid mat-contrast($primary, light-background);
+            // border-right: 1px solid mat-contrast($primary, light-background);
         }
 
         .search-container {
