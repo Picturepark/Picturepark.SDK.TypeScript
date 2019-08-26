@@ -65,6 +65,10 @@ export let TRANSLATIONS = {
     ClearAllFilters: {
       en: 'Clear all filters',
       de: 'Alle Filter entfernen'
+    },
+    NoFiltersApplied: {
+      en: 'No filters configured',
+      de: 'Keine Filter konfiguriert'
     }
   },
   ContentBrowser: {
@@ -116,7 +120,7 @@ export let TRANSLATIONS = {
     },
     Details: {
       en: 'Details',
-      de: 'Download'
+      de: 'Details'
     },
     ItemsLength: {
       en: '{0} contents',

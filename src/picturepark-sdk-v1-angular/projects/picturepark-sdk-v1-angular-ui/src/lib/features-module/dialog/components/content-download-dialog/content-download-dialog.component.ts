@@ -14,6 +14,7 @@ import { OutputSelection } from './components/output-selection';
 
 // SERVICES
 import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
+import { groupBy } from '../../../../utilities/helper';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -83,7 +84,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
           return;
       }
 
-      const grouped = this.groupBy(fallbackOutputs, i => i.outputFormatId);
+      const grouped = groupBy(fallbackOutputs, i => i.outputFormatId);
       fileFormatOutputs.forEach(output => {
           const fallback = grouped.get(output.id);
           if (!fallback) {
@@ -131,21 +132,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     } else {
       this.fileSize = 0;
     }
-  }
-
-  // GROUP BY CATEGORIES
-  public groupBy<T, K>(list: T[], getKey: (item: T) => K): Map<K, T[]> {
-    const map = new Map<K, T[]>();
-    list.forEach((item) => {
-        const key = getKey(item);
-        const collection = map.get(key);
-        if (!collection) {
-            map.set(key, [item]);
-        } else {
-            collection.push(item);
-        }
-    });
-    return map;
   }
 
   // GET OUTPUT

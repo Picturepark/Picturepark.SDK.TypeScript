@@ -4,7 +4,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 // LIBRARIES
 import {
   ContentService, ContentType, ContentDownloadLinkCreateRequest,
-  ContentDownloadRequestItem, ContentDetail
+  ContentDownloadRequestItem, ContentDetail, OutputRenderingState, ThumbnailSize
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -38,9 +38,15 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
         this.content = changes.content.currentValue;
 
-        const downloadThumbnailSubscription = this.contentService.download(
-          this.content.id, this.outputId, this.width || 800, this.height || 650, null
-        ).subscribe(response => {
+        // Implement fallback
+        const output = this.content.outputs!.find(i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed);
+
+        // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
+        const request = output ?
+          this.contentService.download(this.content.id, output.outputFormatId, this.width || 800, this.height || 650, null) :
+          this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
+
+        const downloadThumbnailSubscription = request.subscribe(response => {
           this.thumbnailUrl = URL.createObjectURL(response!.data!);
           this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
           this.isLoading = false;

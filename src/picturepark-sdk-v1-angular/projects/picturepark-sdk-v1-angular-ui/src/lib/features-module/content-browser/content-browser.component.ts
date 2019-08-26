@@ -137,7 +137,10 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   public previewSelectedItem(): void {
-    this.previewItem(this.selectedItems[0]);
+    const content = this.items.find(i => i.item === this.selectedItems[0]);
+    if (content) {
+      this.previewItem(content);
+    }
   }
 
   public trackByThumbnailSize(index: number, thumbnailSize: string): string {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -16,7 +16,7 @@ import {
   SchemaDetail,
   SchemaService,
 } from '@picturepark/sdk-v1-angular';
-import * as lodash from 'lodash';
+import { groupBy } from '../../../utilities/helper';
 
 @Component({
   selector: 'pp-list',
@@ -27,6 +27,8 @@ import * as lodash from 'lodash';
 export class ListComponent implements OnInit, OnDestroy {
 
   @Input() activeSchema: Subject<SchemaDetail | null>;
+  @Output() queryChange = new EventEmitter<Params>();
+
   public mobileQuery: MediaQueryList;
   public aggregationFilters: AggregationFilter[] = [];
   public searchQuery: Observable<string>;
@@ -62,11 +64,11 @@ export class ListComponent implements OnInit, OnDestroy {
       map(q => q.get('listsearch')), distinctUntilChanged(), tap(() => this.deselectSelectedItems()),
       map((query) => query || ''));
 
-    // tslint:disable-next-line: deprecation
-    const listSubscription = combineLatest(
+    const listSubscription = combineLatest([
       this.schema,
       this.route.paramMap,
-      this.route.queryParamMap).pipe(take(1)).subscribe(
+      this.route.queryParamMap
+    ]).pipe(take(1)).subscribe(
         ([schemaDetail, paramMap, queryParamMap]) => {
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
@@ -125,42 +127,29 @@ export class ListComponent implements OnInit, OnDestroy {
       delete query['filter'];
     }
 
-  //  this.router.navigate([this.schemaId], { relativeTo: this.route });
+    this.queryChange.emit(query);
   }
 
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
 
-    const flatten = lodash.chain(aggregationFilters).groupBy('aggregationName').toPairs().value();
-    const preparedFilters = flatten.map(array => {
+    const flatten = groupBy(aggregationFilters, i => i.aggregationName);
+    const preparedFilters = Array.from(flatten).map(array => {
     const filtered = array[1].filter(aggregationFilter =>
       aggregationFilter.filter).map(aggregationFilter =>
         aggregationFilter.filter as FilterBase);
-
-    /*
-      const preparedFilters = flatten
-      .map(array => {
-        const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)
-          .map(aggregationFilter => aggregationFilter.filter as FilterBase);
 
         switch (filtered.length) {
           case 0: return null;
           case 1: return filtered[0];
           default: return new OrFilter({ filters: filtered });
         }
-      })
-      .filter(value => value !== null);
-    */
-    switch (filtered.length) {
-      case 0: return null;
-      case 1: return filtered[0];
-      default: return new OrFilter({ filters: filtered });
-    }
-  }).filter(value => value !== null);
-    switch (preparedFilters.length) {
-      case 0: return null;
-      case 1: return preparedFilters[0]!;
-      default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
-    }
+      }).filter(value => value !== null);
+
+      switch (preparedFilters.length) {
+        case 0: return null;
+        case 1: return preparedFilters[0]!;
+        default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
+      }
   }
 
   private deselectSelectedItems() {
