@@ -23,7 +23,6 @@ import {
   SchemaDetail,
 } from '@picturepark/sdk-v1-angular';
 
-import * as lodash from 'lodash';
 import * as moment_ from 'moment';
 const moment = moment_;
 
@@ -125,15 +124,13 @@ export class MetaDataPreviewService {
 
       } else if (fieldType === FieldGeoPoint
         || fieldType === FieldDictionary) {
-        fields[fieldId] = lodash.values(value).join(', ');
+        fields[fieldId] = value ? (value.lat + ', ' + value.lon) : '';
 
       } else if (fieldType === FieldDictionaryArray) {
 
         fields[fieldId] = value.map((v: any) => {
-          const test = lodash.values(v).join(', ');
-          console.log(test);
+          return v.join(', ');
         }).join(', ');
-
         console.log(fields[fieldId]);
 
       } else if (fieldType === FieldDateTimeArray) {

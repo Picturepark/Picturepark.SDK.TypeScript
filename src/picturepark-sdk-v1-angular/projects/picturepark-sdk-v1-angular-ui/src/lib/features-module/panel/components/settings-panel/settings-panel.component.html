@@ -2,7 +2,9 @@
   <div class="panel-header">
     <h3>{{ title }}</h3>
     <div class="panel-buttons">
+      <!--
       <button mat-button class="square">Edit</button>
+      -->
     </div>
   </div>
   <div class="panel-content">
@@ -15,8 +17,8 @@
     <ul class="settings-info">
       <li>{{ subject }}</li>
       <li>{{ accessOriginal }}</li>
-      <li>{{ creationDate | date: 'yyyy-MM-dd' }}</li>
-      <li>{{ modificationDate | date: 'yyyy-MM-dd' }}</li>
+      <li>{{ creationDate | date: 'yyyy-MM-dd': undefined: 'en-US' }}</li> <!-- TODO: Add support for more locales -->
+      <li>{{ modificationDate | date: 'yyyy-MM-dd': undefined: 'en-US' }}</li>
     </ul>
   </div>
 </div>

@@ -1,16 +1,11 @@
 import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-
 // LIBRARIES
-import {
-  SchemaDetail, SchemaService, AuthService,
-
-} from '@picturepark/sdk-v1-angular';
+import { SchemaDetail, AuthService } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
-
 
 @Component({
   selector: 'app-list-item-browser',
@@ -25,20 +20,15 @@ export class ListItemBrowserComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     @Inject(AuthService) public authService: OidcAuthService
   ) {}
 
   ngOnInit() {
 
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/list-item-picker');
-    }
-
-    // tslint:disable-next-line: deprecation
-    const listSubscription = combineLatest(this.schema, this.route.paramMap, this.route.queryParamMap)
+    const listSubscription = combineLatest([this.schema, this.route.paramMap, this.route.queryParamMap])
       .pipe(take(1))
       .subscribe(([schemaDetail]) => {
-
         this.activeSchema.next(schemaDetail);
       });
 
@@ -50,6 +40,10 @@ export class ListItemBrowserComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  updateUrl(params: Params): void {
+    this.router.navigate([], { queryParams: params, relativeTo: this.route });
   }
 
 }
