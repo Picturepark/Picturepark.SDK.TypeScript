@@ -45,3 +45,4 @@ export { TranslationService } from './lib/shared-module/services/translations/tr
 export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
 export { ContentDownloadDialogService } from
     './lib/features-module/dialog/components/content-download-dialog/content-download-dialog.service';
+export { DialogService } from './lib/features-module/dialog/dialog.service';
