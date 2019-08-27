@@ -70,7 +70,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
           options: { okText: 'OK', cancelText: 'Cancel' }
         })
         .afterClosed().subscribe(result => {
-          console.log(result);
           if (result) {
             this.shareService.deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
             .subscribe(i => {
