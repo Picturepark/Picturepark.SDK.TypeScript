@@ -22,9 +22,13 @@ export class ApplicationMenuComponent implements OnInit {
     link: 'collections'
   }, */
   {
-    name: 'Shares',
+    name: 'Share manager',
     icon: 'share',
     link: 'share-manager'
+  }, {
+    name: 'Share viewer',
+    icon: 'share',
+    link: 'share-viewer'
   }, /*
   {
     name: 'Transfers',

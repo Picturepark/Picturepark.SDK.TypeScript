@@ -1,0 +1,21 @@
+<pp-application-header [title]="'Share viewer'"></pp-application-header>
+
+<div class="share-viewer-item-container">
+    <div class="share-viewer-item-content-container">
+        <pp-search-box [searchString]="searchString" (searchStringChange)="update($event)">
+        </pp-search-box>
+
+        <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
+
+        <pp-items-panel
+            *ngIf="shareDetail"
+            [title]="'Items'"
+            [items]="shareDetail.contentSelections"
+            [creationDate]="shareDetail.audit.creationDate"
+            [modificationDate]="shareDetail.audit.modificationDate"
+            (showDetail)="showDetail($event)">
+        </pp-items-panel>
+
+        <pp-owner-panel [title]="'Owner'" [userId]="shareDetail.audit.createdByUser" id="owner" *ngIf="shareDetail"></pp-owner-panel>
+    </div>
+</div>

@@ -24,6 +24,10 @@ const routes: Routes = [
   {
     path: 'share-manager',
     loadChildren: () => import('./share-manager/share-manager.module').then(m => m.ShareManagerModule)
+  },
+  {
+    path: 'share-viewer',
+    loadChildren: () => import('./share-viewer/share-viewer.module').then(m => m.ShareViewerModule)
   }
 ];
 

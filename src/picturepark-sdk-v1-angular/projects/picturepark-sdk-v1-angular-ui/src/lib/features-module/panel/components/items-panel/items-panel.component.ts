@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 // LIBRARIES
-import { ShareContentDetail } from '@picturepark/sdk-v1-angular';
+import { ShareContentDetail, Output as ContentOutput } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { PanelBaseComponent } from '../panel-base/panel-base.component';
@@ -17,6 +17,8 @@ export class ItemsPanelComponent extends PanelBaseComponent implements OnInit, O
   @Input() creationDate: Date;
   @Input() modificationDate: Date;
 
+  @Output() showDetail: EventEmitter<ShareContentDetail> = new EventEmitter();
+
   // VARS
   loader = false;
 
@@ -26,7 +28,7 @@ export class ItemsPanelComponent extends PanelBaseComponent implements OnInit, O
 
   // OPEN IN NEW WINDOW
   openInNewWindow(item: ShareContentDetail): void {
-
+    this.showDetail.emit(item);
   }
 
   // DELETE ITEM

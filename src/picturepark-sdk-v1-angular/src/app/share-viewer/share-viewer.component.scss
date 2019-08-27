@@ -1,0 +1,17 @@
+.share-viewer-item-container {
+    position: relative; background-color: rgb(238,238,238); height: calc(100vh - 64px); display: flex; overflow-y: scroll; overflow-x: hidden;
+    .share-viewer-item-loader {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 3px;
+        width: 100%;
+        z-index: 10;
+    }   
+    .share-viewer-item-menu-container {
+        width: 20%; float: left;
+    }
+    .share-viewer-item-content-container {
+        width: 50%; float: left; margin: 0 auto;
+    }
+}
