@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient, ShareDeleteManyRequest, ShareDetail } from '@picturepark/sdk-v1-angular';
-import { ContentDownloadDialogService, DialogService } from '@picturepark/sdk-v1-angular-ui';
+import { ContentDownloadDialogService, DialogService, TranslationService } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -34,6 +34,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     private shareService: ShareService,
     private contentDownloadService: ContentDownloadDialogService,
     private dialogService: DialogService,
+    private translationService: TranslationService,
     private router: Router
   ) {
 
@@ -65,9 +66,12 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       icon: 'delete',
       action: () => {
         this.dialogService.confirm({
-          title: 'Delete share',
-          message: 'Are you sure',
-          options: { okText: 'OK', cancelText: 'Cancel' }
+          title: this.translationService.translate('ShareManager.DeleteShare'),
+          message: this.translationService.translate('ShareManager.ConfirmDelete'),
+          options: {
+            okText: this.translationService.translate('ShareManager.Delete'),
+            cancelText: this.translationService.translate('ShareManager.Cancel')
+          }
         })
         .afterClosed().subscribe(result => {
           if (result) {
