@@ -141,14 +141,17 @@
   &__actions {
     visibility: hidden;
     position: absolute;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 0;
+    height: 100%;
     top: 0px;
     right: 0px;
     width: 100%;
     ul {
       position: absolute;
       list-style: none;
-      right: 4px;
-      top: 4px;
+      right: 8px;
+      top: 8px;
       margin: 0px;
       padding: 0px;
       li {
