@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 // LIBRARIES
-import { ShareContentDetail, Output as ContentOutput } from '@picturepark/sdk-v1-angular';
+import { ShareContentDetail, Output as ContentOutput, ShareDetail } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { PanelBaseComponent } from '../panel-base/panel-base.component';
@@ -16,6 +16,7 @@ export class ItemsPanelComponent extends PanelBaseComponent implements OnInit, O
   @Input() items: ShareContentDetail[];
   @Input() creationDate: Date;
   @Input() modificationDate: Date;
+  @Input() shareDetail: ShareDetail;
 
   @Output() showDetail: EventEmitter<ShareContentDetail> = new EventEmitter();
 

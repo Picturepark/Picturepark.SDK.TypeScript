@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
-import { Content, ContentService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { Content, ContentService, ThumbnailSize, ShareDetail, ShareService } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { PanelBaseComponent } from '../../../panel-base/panel-base.component';
@@ -19,12 +19,14 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
   downloadThumbnailSubscription: Subscription;
 
   @Input() item: Content;
+  @Input() share: ShareDetail;
 
   // VARS
   public imageUrl: SafeUrl;
 
   constructor(
     private contentService: ContentService,
+    private shareService: ShareService,
     private sanitizer: DomSanitizer
   ) {
     super();
@@ -33,17 +35,26 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
   ngOnInit() {
 
     // SUBSCRIBERS
-    this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.item.id, ThumbnailSize.Small, null, null
-    ).subscribe(result => {
-      if (result !== null) {
-        this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
+    if (!this.share) {
+      this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
+        this.item.id, ThumbnailSize.Small, null, null
+      ).subscribe(result => {
+        if (result !== null) {
+          this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
+        }
+      });
+
+      // UNSUBSCRIBE
+      this.subscription.add(this.downloadThumbnailSubscription);
+    } else {
+      const content = this.share.contentSelections.find(i => i.id === this.item.id);
+      if (!content) {
+        return;
       }
-    });
 
-    // UNSUBSCRIBE
-    this.subscription.add(this.downloadThumbnailSubscription);
-
+      const output = content.outputs.find(i => i.outputFormatId === 'ThumbnailMedium');
+      this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output!.viewUrl!);
+    }
   }
 
 }

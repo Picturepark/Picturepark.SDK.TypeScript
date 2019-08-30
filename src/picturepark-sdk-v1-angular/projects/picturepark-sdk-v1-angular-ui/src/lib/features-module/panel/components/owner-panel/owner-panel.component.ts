@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 // LIBRARIES
-import { UserService, UserDetail } from '@picturepark/sdk-v1-angular';
+import { UserService, UserDetail, ShareUser } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { PanelBaseComponent } from '../panel-base/panel-base.component';
@@ -14,10 +14,11 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
 export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
 
   @Input() userId: string;
+  @Input() shareUser: ShareUser;
 
   // VARS
-  user: UserDetail;
   userAvatar: string;
+  user: UserDetail;
 
   constructor(
     private userService: UserService
@@ -27,12 +28,13 @@ export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
 
   ngOnInit() {
 
-    // USER SUBSCRIBER
+    if (this.user) {
+      return;
+    }
+
     const userSubscriber = this.userService.get(this.userId).subscribe(data => {
       this.user = data;
     });
-
-    // ADD SUBSCRIBERS
     this.subscription.add(userSubscriber);
 
   }
