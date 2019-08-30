@@ -85,7 +85,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   public loadMore(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    const fetchDataSubscription = this.fetchSearchData(this.searchString, this.expandedAggregator).subscribe(result => {
+    const fetchDataSubscription = this.fetchSearchData(this.searchString, this.aggregator).subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
     this.subscription.add(fetchDataSubscription);
@@ -94,7 +94,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   public loadLess(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    const fetchDataSubscription = this.fetchSearchData(this.searchString, this.expandedAggregator).subscribe(result => {
+    const fetchDataSubscription = this.fetchSearchData(this.searchString, this.aggregator).subscribe(result => {
       this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
     });
     this.subscription.add(fetchDataSubscription);
