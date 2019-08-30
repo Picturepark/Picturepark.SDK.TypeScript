@@ -16,10 +16,12 @@ export class AppComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      const path = location.pathname.replace('/elements/', '/');
-      this.authService.login(path + location.search);
-    }
+    setTimeout(() => {
+      if (!this.authService.isAuthenticated) {
+        const path = location.pathname.replace('/elements/', '/');
+        this.authService.login(path + location.search);
+      }
+    }, 5000);
   }
 
 }
