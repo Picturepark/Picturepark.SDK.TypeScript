@@ -117,7 +117,7 @@ export class MetaDataPreviewService {
       } else if (fieldType === FieldDate
         || fieldType === FieldDateTime) {
         const format = (field as FieldDate).format || (fieldType === FieldDate ? 'LL' : 'LLL');
-        fields[fieldId] = value ? moment.utc(value).format(format) : '';
+        fields[fieldId] = value ? moment(value).format(format) : '';
 
       } else if (fieldType === FieldTranslatedString) {
         fields[fieldId] = this.localizationService.localize(value, customerInfo);
