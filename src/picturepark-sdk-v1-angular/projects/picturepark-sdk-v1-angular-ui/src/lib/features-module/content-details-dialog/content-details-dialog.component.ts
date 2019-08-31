@@ -12,6 +12,7 @@ import {
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -28,7 +29,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   constructor(
     private contentService: ContentService,
-    @Inject(MAT_DIALOG_DATA) public data: { id: string; shareContent: ShareContentDetail },
+    @Inject(MAT_DIALOG_DATA) public data: ContentDetailDialogOptions,
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
