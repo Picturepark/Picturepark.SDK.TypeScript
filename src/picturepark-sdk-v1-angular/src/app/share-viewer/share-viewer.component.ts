@@ -30,14 +30,12 @@ export class ShareViewerComponent implements OnChanges {
     this.shareService.getShareJson(searchString).subscribe(i => {
       this.shareDetail = ShareDetail.fromJS(i);
       this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
-      console.log(this.shareDetail);
     });
   }
 
   showDetail(item: ShareContentDetail): void {
-    console.log(item);
     this.dialog.open(ContentDetailsDialogComponent,
-      { data: item.id, width: '980px', height: '700px' }
+      { data: { id: item.id, shareContent: item}, width: '980px', height: '700px' }
     );
   }
 }

@@ -4,7 +4,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 // LIBRARIES
 import {
   ContentService, ContentType, ContentDownloadLinkCreateRequest,
-  ContentDownloadRequestItem, ContentDetail, OutputRenderingState, ThumbnailSize
+  ContentDownloadRequestItem, ContentDetail, OutputRenderingState, ThumbnailSize, ShareContentDetail
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -24,6 +24,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
     @Input() public outputId = 'Preview';
     @Input() public width?: number;
     @Input() public height?: number;
+    @Input() public shareContent?: ShareContentDetail;
 
     isLoading = true;
 
@@ -40,6 +41,13 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
         // Implement fallback
         const output = this.content.outputs!.find(i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed);
+
+        if (this.shareContent) {
+          const shareOutput = this.shareContent.outputs!.find(i => i.outputFormatId === this.outputId);
+          this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(shareOutput!.viewUrl!);
+          this.isLoading = false;
+          return;
+        }
 
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
         const request = output ?

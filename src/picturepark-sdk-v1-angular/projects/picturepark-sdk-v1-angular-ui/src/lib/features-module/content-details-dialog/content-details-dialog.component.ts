@@ -6,6 +6,7 @@ import {
   ContentService,
   SchemaDetail,
   SchemaService,
+  ShareContentDetail,
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
@@ -27,7 +28,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   constructor(
     private contentService: ContentService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { id: string; shareContent: ShareContentDetail },
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
@@ -35,7 +36,14 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   ) {
     super(data, dialogRef, injector);
 
-    this.contentId = data;
+    const shareContent = this.data.shareContent;
+    if (shareContent) {
+      this.liquidRenderingService.renderNestedDisplayValues(shareContent);
+      this.content = shareContent as any;
+      return;
+    }
+
+    this.contentId = data.id;
     const contentGetSubscription = this.contentService.get(this.contentId, [
       ContentResolveBehavior.Content,
       ContentResolveBehavior.Metadata,
@@ -49,10 +57,14 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       await this.liquidRenderingService.renderNestedDisplayValues(content);
       if (content) {
         this.content = content;
-        this.schemas = await this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).toPromise();
       }
     });
 
     this.subscription.add(contentGetSubscription);
+
+    this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).subscribe(schemas => {
+      this.schemas = schemas;
+    });
+
   }
 }
