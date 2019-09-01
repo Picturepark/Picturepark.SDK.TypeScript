@@ -1,0 +1,41 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to your shares.
+  </h1>
+</div>
+<h2>Here are some links to help you start: </h2>
+
+<div class="share-viewer-item-container">
+  <div class="share-viewer-item-content-container">
+      <br />
+      <pp-search-box [searchString]="searchString" (searchStringChange)="update($event)">
+      </pp-search-box>
+      <br />
+
+      <pp-settings-panel
+          *ngIf="shareDetail"
+          [title]="'Settings'"
+          [subject]="shareDetail.name"
+          [accessOriginal]="shareDetail.outputAccess === 'Full'"
+          [creationDate]="shareDetail.audit.creationDate"
+          [modificationDate]="shareDetail.audit.modificationDate">
+      </pp-settings-panel>
+
+      <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
+
+      <pp-items-panel
+          *ngIf="shareDetail"
+          [title]="'Items'"
+          [items]="shareDetail.contentSelections"
+          [shareDetail]="shareDetail"
+          [creationDate]="shareDetail.audit.creationDate"
+          [modificationDate]="shareDetail.audit.modificationDate"
+          (showDetail)="showDetail($event)">
+      </pp-items-panel>
+
+      <pp-owner-panel [title]="'Sender'" [shareUser]="shareDetail.creator" [userId]="shareDetail.audit.createdByUser" id="owner" *ngIf="shareDetail"></pp-owner-panel>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
