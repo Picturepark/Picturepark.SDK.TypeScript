@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { ShareDetailComponent } from './share-detail/share-detail.component';
 
-
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: ':token',
+    component: ShareDetailComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

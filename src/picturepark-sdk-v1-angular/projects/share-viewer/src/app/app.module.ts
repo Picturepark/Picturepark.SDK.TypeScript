@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserToolbarModule, PanelModule, SearchBoxModule, ContentDetailsDialogModule, SharedModule } from '@picturepark/sdk-v1-angular-ui';
+import { SearchBoxModule, SharedModule } from '@picturepark/sdk-v1-angular-ui';
 import { AuthService, AccessTokenAuthService, PICTUREPARK_CONFIGURATION, PictureparkAccessTokenAuthConfiguration } from '@picturepark/sdk-v1-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShareDetailModule } from './share-detail/share-detail.module';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ContentDetailsDialogModule,
+    ShareDetailModule,
     HttpClientModule,
 
     // Picturepark
-    BrowserToolbarModule,
-    PanelModule,
     SearchBoxModule,
     SharedModule.forRoot()
   ],

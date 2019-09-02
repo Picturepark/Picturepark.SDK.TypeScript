@@ -1,0 +1,22 @@
+<pp-settings-panel
+    *ngIf="shareDetail"
+    [title]="'Settings'"
+    [subject]="shareDetail.name"
+    [accessOriginal]="shareDetail.outputAccess === 'Full'"
+    [creationDate]="shareDetail.audit.creationDate"
+    [modificationDate]="shareDetail.audit.modificationDate">
+</pp-settings-panel>
+
+<pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
+
+<pp-items-panel
+    *ngIf="shareDetail"
+    [title]="'Items'"
+    [items]="shareDetail.contentSelections"
+    [shareDetail]="shareDetail"
+    [creationDate]="shareDetail.audit.creationDate"
+    [modificationDate]="shareDetail.audit.modificationDate"
+    (showDetail)="showDetail($event)">
+</pp-items-panel>
+
+<pp-owner-panel [title]="'Sender'" [shareUser]="shareDetail.creator" [userId]="shareDetail.audit.createdByUser" id="owner" *ngIf="shareDetail"></pp-owner-panel>
