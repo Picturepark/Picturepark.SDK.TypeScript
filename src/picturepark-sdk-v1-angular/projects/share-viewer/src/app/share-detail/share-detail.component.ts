@@ -43,7 +43,7 @@ export class ShareDetailComponent implements OnInit {
 
   showDetail(item: ShareContentDetail): void {
     this.dialog.open(ContentDetailsDialogComponent,
-      { data: { id: item.id, shareContent: item}, width: '980px', height: '700px' }
+      { data: { id: item.id, shareContent: item, shareDetail: this.shareDetail}, width: '980px', height: '700px' }
     );
   }
 }

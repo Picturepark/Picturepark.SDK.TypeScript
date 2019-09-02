@@ -13,6 +13,7 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
+import { FullscreenService } from './fullscreen.service';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -33,7 +34,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
-    private schemaService: SchemaService,
+    private schemaService: SchemaService
   ) {
     super(data, dialogRef, injector);
 
