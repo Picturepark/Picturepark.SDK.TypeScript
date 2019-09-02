@@ -1,3 +1,7 @@
+<div class="share-manager-item-loader">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+</div>
+
 <pp-settings-panel
     *ngIf="shareDetail"
     [title]="'Settings'"

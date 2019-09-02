@@ -1,8 +1,8 @@
-import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ShareDetail, IMailRecipient, ShareService, ShareDataBasic, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-share-detail',
@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ShareDetailComponent implements OnInit {
   public shareDetail: ShareDetail;
   public mailRecipients: IMailRecipient[];
+  public isLoading = false;
 
   constructor(
     private shareService: ShareService,
@@ -32,9 +33,11 @@ export class ShareDetailComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     this.shareService.getShareJson(searchString).subscribe(i => {
       this.shareDetail = ShareDetail.fromJS(i);
       this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
+      this.isLoading = false;
     });
   }
 
