@@ -1,21 +1,19 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 // LIBRARIES
-import { ShareContentDetail, Output as ContentOutput, ShareDetail } from '@picturepark/sdk-v1-angular';
+import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
+import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
 
 // COMPONENTS
-import { PanelBaseComponent } from '../panel-base/panel-base.component';
 
 @Component({
-  selector: 'pp-items-panel',
-  templateUrl: './items-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './items-panel.component.scss']
+  selector: 'pp-share-items-panel',
+  templateUrl: './share-items-panel.component.html',
+  styleUrls: ['../panel/components/panel-base/panel-base.component.scss', './share-items-panel.component.scss']
 })
-export class ItemsPanelComponent extends PanelBaseComponent implements OnInit, OnChanges {
+export class ShareItemsPanelComponent extends PanelBaseComponent implements OnInit, OnChanges {
 
   @Input() items: ShareContentDetail[];
-  @Input() creationDate: Date;
-  @Input() modificationDate: Date;
   @Input() shareDetail: ShareDetail;
 
   @Output() showDetail: EventEmitter<ShareContentDetail> = new EventEmitter();
@@ -44,13 +42,10 @@ export class ItemsPanelComponent extends PanelBaseComponent implements OnInit, O
   ngOnChanges(changes: SimpleChanges) {
 
     this.items = changes.items && changes.items.currentValue;
-    this.creationDate = changes.creationDate && changes.creationDate.currentValue;
-    this.modificationDate = changes.modificationDate && changes.modificationDate.currentValue;
 
-    if (this.items && this.creationDate && this.modificationDate) {
+    if (this.items) {
       this.loader = false;
     }
-
   }
 
 }

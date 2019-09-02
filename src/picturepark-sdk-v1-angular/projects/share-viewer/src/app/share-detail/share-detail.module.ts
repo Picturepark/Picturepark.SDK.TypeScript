@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShareDetailComponent } from './share-detail.component';
 import { ContentDetailsDialogModule, PanelModule, BrowserToolbarModule } from '@picturepark/sdk-v1-angular-ui';
 import { MatProgressBarModule } from '@angular/material';
+import { ShareItemsPanelModule } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/share-items-panel/share-items-panel.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { MatProgressBarModule } from '@angular/material';
     ContentDetailsDialogModule,
     BrowserToolbarModule,
     PanelModule,
+    ShareItemsPanelModule,
     MatProgressBarModule
   ],
   exports: [

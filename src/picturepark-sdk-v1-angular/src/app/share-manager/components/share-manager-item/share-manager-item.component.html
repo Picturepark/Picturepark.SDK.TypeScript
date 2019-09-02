@@ -13,12 +13,10 @@
         [modificationDate]="modificationDate">
       </pp-settings-panel>
       <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
-      <pp-items-panel
+      <pp-share-items-panel
         [title]="'Items'"
-        [items]="items"
-        [creationDate]="creationDate"
-        [modificationDate]="modificationDate">
-      </pp-items-panel>
+        [items]="items">
+      </pp-share-items-panel>
       <pp-owner-panel [title]="'Owner'" [userId]="userId" id="owner" *ngIf="userId"></pp-owner-panel>
   </div>
   <div class="background-image" *ngIf="isLoading">

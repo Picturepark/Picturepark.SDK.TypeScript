@@ -17,8 +17,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   susbcription = new Subscription();
 
   // VARS
-  creationDate: Date;
-  modificationDate: Date;
   items: ShareContentDetail[] = [];
   mailRecipients: IMailRecipient[] = [];
   toolBarOptions: any[];
@@ -92,8 +90,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       this.share = data;
 
       this.items = data.contentSelections;
-      this.creationDate = data.audit.creationDate;
-      this.modificationDate = data.audit.modificationDate;
       this.userId = data.audit.createdByUser;
 
       const shareDataBasic = <IShareDataBasic | undefined>data.data;
@@ -102,7 +98,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
       this.subject = data.name;
       this.accessOriginal = data.outputAccess;
-      this.creationDate = data.audit.creationDate;
 
       setTimeout(() => { this.isLoading = false; }, 0);
 

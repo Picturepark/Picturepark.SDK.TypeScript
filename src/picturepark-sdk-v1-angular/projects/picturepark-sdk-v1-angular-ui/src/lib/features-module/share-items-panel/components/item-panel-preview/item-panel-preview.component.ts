@@ -1,12 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-// LIBRARIES
 import { Content, ContentService, ThumbnailSize, ShareDetail, ShareService } from '@picturepark/sdk-v1-angular';
-
-// COMPONENTS
-import { PanelBaseComponent } from '../../../panel-base/panel-base.component';
+import { PanelBaseComponent } from '../../../panel/components/panel-base/panel-base.component';
 
 @Component({
   selector: 'pp-item-panel-preview',

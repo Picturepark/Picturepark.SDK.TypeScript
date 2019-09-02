@@ -25,6 +25,7 @@ import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
 import { ShareContentDialogModule } from './share-content-dialog/share-content-dialog.module';
 import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
+import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.module';
 
 @NgModule({
   declarations: [],
@@ -52,6 +53,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     PanelModule,
     SharePreviewModule,
     ItemToolBarModule,
+    ShareItemsPanelModule
   ],
   exports: [
     ApplicationMenuModule,
@@ -76,6 +78,7 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     PanelModule,
     SharePreviewModule,
     ItemToolBarModule,
+    ShareItemsPanelModule
   ]
 })
 export class FeaturesModule { }
