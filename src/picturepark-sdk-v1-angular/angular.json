@@ -349,24 +349,11 @@
           "options": {
             "tsConfig": [
               "projects/share-viewer/tsconfig.app.json",
-              "projects/share-viewer/tsconfig.spec.json",
-              "projects/share-viewer/e2e/tsconfig.json"
+              "projects/share-viewer/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/share-viewer/e2e/protractor.conf.js",
-            "devServerTarget": "share-viewer:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "share-viewer:serve:production"
-            }
           }
         }
       }

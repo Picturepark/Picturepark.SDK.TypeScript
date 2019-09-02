@@ -41,6 +41,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     if (shareContent) {
       this.liquidRenderingService.renderNestedDisplayValues(shareContent);
       this.content = shareContent as any;
+      this.loadSchemas();
       return;
     }
 
@@ -59,13 +60,16 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       if (content) {
         this.content = content;
       }
+      this.loadSchemas();
     });
 
     this.subscription.add(contentGetSubscription);
 
+  }
+
+  loadSchemas(): void {
     this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).subscribe(schemas => {
       this.schemas = schemas;
     });
-
   }
 }

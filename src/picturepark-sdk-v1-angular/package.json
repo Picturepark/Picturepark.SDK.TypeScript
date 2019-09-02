@@ -16,7 +16,8 @@
     "test-nowatch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/picturepark-sdk-v1-angular-app/stats-es2015.json"
+    "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/picturepark-sdk-v1-angular-app/stats-es2015.json",
+    "bundle-report-share-viewer": "ng build --prod --project share-viewer --stats-json && webpack-bundle-analyzer dist/share-viewer/stats-es2015.json --port 8889"
   },
   "private": true,
   "dependencies": {
