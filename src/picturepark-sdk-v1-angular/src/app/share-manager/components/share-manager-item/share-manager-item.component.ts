@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient, ShareDeleteManyRequest, ShareDetail } from '@picturepark/sdk-v1-angular';
-import { ContentDownloadDialogService, DialogService, TranslationService } from '@picturepark/sdk-v1-angular-ui';
+import { ContentDownloadDialogService, DialogService, TranslationService, ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -32,6 +33,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     private shareService: ShareService,
     private contentDownloadService: ContentDownloadDialogService,
     private dialogService: DialogService,
+    private dialog: MatDialog,
     private translationService: TranslationService,
     private router: Router
   ) {
@@ -102,6 +104,12 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       setTimeout(() => { this.isLoading = false; }, 0);
 
     });
+  }
+
+  showDetail(item: ShareContentDetail): void {
+    this.dialog.open(ContentDetailsDialogComponent,
+      { data: { id: item.id, shareContent: item, shareDetail: this.share}, width: '980px', height: '700px' }
+    );
   }
 
   ngOnInit() {

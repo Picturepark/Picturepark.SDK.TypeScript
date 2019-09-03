@@ -8,13 +8,14 @@
         [title]="'Settings'"
         [subject]="subject"
         [accessOriginal]="accessOriginal"
-        [creationDate]="creationDate"
-        [modificationDate]="modificationDate">
+        [creationDate]="share.audit.creationDate"
+        [modificationDate]="share.audit.modificationDate">
       </pp-settings-panel>
       <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
       <pp-share-items-panel
         [title]="'Items'"
-        [items]="items">
+        [items]="items"
+        (showDetail)="showDetail($event)">
       </pp-share-items-panel>
       <pp-owner-panel [title]="'Owner'" [userId]="userId" id="owner" *ngIf="userId"></pp-owner-panel>
   </div>

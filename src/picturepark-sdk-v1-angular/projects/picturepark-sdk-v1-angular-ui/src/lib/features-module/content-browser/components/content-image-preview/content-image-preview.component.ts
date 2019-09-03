@@ -48,9 +48,11 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
         if (this.shareContent) {
           const shareOutput = this.shareContent.outputs!.find(i => i.outputFormatId === this.outputId);
-          this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(shareOutput!.viewUrl!);
-          this.isLoading = false;
-          return;
+          if (shareOutput!.viewUrl!) {
+            this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(shareOutput!.viewUrl!);
+            this.isLoading = false;
+            return;
+          }
         }
 
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
