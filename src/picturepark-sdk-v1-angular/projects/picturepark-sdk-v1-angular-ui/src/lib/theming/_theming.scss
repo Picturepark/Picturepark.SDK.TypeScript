@@ -23,7 +23,6 @@
 @import '../features-module/share-browser/components/share-browser-item/share-browser-item.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-dialog-item/share-content-dialog-item.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-recipients-input/share-content-recipients-input.component.theme.scss';
-@import '../features-module/share-preview/share-preview.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
@@ -48,5 +47,4 @@
     @include pp-share-content-dialog-item-theme($theme);
     @include pp-share-content-recipients-input-theme($theme);
     @include pp-panel-base-theme($theme);
-    @include pp-share-preview-theme($theme);
 }
