@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { stringify } from 'querystring';
 import { ShareOutputBase } from '@picturepark/sdk-v1-angular';
-import { ShareDetail } from '@picturepark/sdk-v1-angular';
 
 function log(message: string) {
     if (console) {
@@ -15,77 +13,8 @@ function log(message: string) {
 export class FullscreenService {
   loading = false;
   scriptsPath = undefined;
-  pictureparkShareCache: {[index: string]: ShareDetail}[] = {} as any;
 
   private loadedPlayers: any[] = [];
-
-  showPrevious(token: string, elementId: string) {
-    const share = this.pictureparkShareCache[token];
-    const gallery = this.getGallery(elementId)!;
-
-    if (share.player) {
-      share.player.stop();
-    }
-
-    let newIndex = gallery.index - 1;
-    if (newIndex < 0) {
-      newIndex = gallery.children.length - 1;
-    }
-
-    this.showGalleryItem(gallery, newIndex);
-  }
-
-  showNext(token: string, elementId: string) {
-    const share = this.pictureparkShareCache[token];
-    const gallery = this.getGallery(elementId)!;
-
-    if (share.player) {
-      share.player.stop();
-    }
-
-    let newIndex = gallery.index + 1;
-    if (newIndex === gallery.children.length) {
-      newIndex = 0;
-    }
-
-    this.showGalleryItem(gallery, newIndex);
-  }
-
-  private showGalleryItem(gallery: any, newIndex: number) {
-    if (gallery.index !== newIndex) {
-      gallery.children[gallery.index].element.style.display = 'none';
-      gallery.children[newIndex].element.style.display = '';
-    }
-  }
-
-  private getGallery(elementId: string) {
-    const children: {index: number, visible: Boolean, element: HTMLDivElement}[] = [];
-    let visibleIndex = -1;
-
-    const element = document.getElementById(elementId);
-    if (element) {
-      for (let i = 0; i < element.children.length; i++) {
-        const child = element.children[i] as HTMLDivElement;
-        const isVisible = child.style.display !== 'none';
-        children.push({ index: i, visible: isVisible, element: child });
-        if (isVisible) {
-          visibleIndex = i;
-        }
-      }
-      return { children: children, index: visibleIndex };
-    } else {
-      // no website gallery found (e.g. not available in the gallery template)
-      return null;
-    }
-  }
-
-  showDetail(token: string, shareItemId: string, widgetId: string) {
-    if (this.loading) { return; }
-    this.loading = true;
-
-    const share = this.pictureparkShareCache[token];
-    this.showDetailById(shareItemId, share.items, widgetId);
-  }
 
   showDetailById(shareItemId: string, shareItems: IShareItem[], widgetId?: string) {
     const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
@@ -199,20 +128,20 @@ export class FullscreenService {
     iframeElement.src = this.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + item.pdfUrl;
 
     const savedOverflow = document.body.style.overflow;
+    const closeCallback = () => {
+        document.body.removeChild(iframeElement);
+        document.body.style.overflow = savedOverflow;
+        // tslint:disable-next-line: no-use-before-declare
+        document.removeEventListener('keydown', keydownCallback, true);
+    };
+
     const keydownCallback = (e: KeyboardEvent) => {
       // tslint:disable-next-line: deprecation
       const event = e || <KeyboardEvent>window.event;
       const isEscape = 'key' in event ? (event.key === 'Escape' || event.key === 'Esc') : ((<any>event).keyCode === 27);
       if (isEscape) {
-        // tslint:disable-next-line: no-use-before-declare
         closeCallback();
       }
-    };
-
-    const closeCallback = () => {
-      document.body.removeChild(iframeElement);
-      document.body.style.overflow = savedOverflow;
-      document.removeEventListener('keydown', keydownCallback, true);
     };
 
     let pdfLoaded = false;
