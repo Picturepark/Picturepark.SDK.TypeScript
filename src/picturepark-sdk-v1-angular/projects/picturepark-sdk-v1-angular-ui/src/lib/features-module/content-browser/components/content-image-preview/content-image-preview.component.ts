@@ -73,7 +73,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
       this.thumbnailUrlSafe = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
     }
 
-    showFullscreen(shareToken?: string) {
+    showFullscreen() {
         const isPdf = this.content.contentType === ContentType.InterchangeDocument;
         const isAudio = this.content.contentType === ContentType.Audio;
         const isVideo = this.content.contentType === ContentType.Video;
@@ -81,22 +81,22 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
         const isMovie = isAudio || isVideo;
         const isImage = !isMovie && !isPdf;
 
-        const previewOutput =
-          isPdf ? this.content.outputs!.filter(o => o.outputFormatId === 'Original')[0] :
-            isAudio ? this.content.outputs!.filter(o => o.outputFormatId === 'AudioSmall')[0] :
-              isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
-                this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
-
-        const request = new ContentDownloadLinkCreateRequest({
-          contents: [
-            new ContentDownloadRequestItem({
-              contentId: this.content.id,
-              outputFormatId: previewOutput.outputFormatId
-            })
-          ]
-        });
-
         if (!this.shareContent) {
+          const previewOutput =
+            isPdf ? this.content.outputs!.filter(o => o.outputFormatId === 'Original')[0] :
+              isAudio ? this.content.outputs!.filter(o => o.outputFormatId === 'AudioSmall')[0] :
+                isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
+                  this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
+
+          const request = new ContentDownloadLinkCreateRequest({
+            contents: [
+              new ContentDownloadRequestItem({
+                contentId: this.content.id,
+                outputFormatId: previewOutput.outputFormatId
+              })
+            ]
+          });
+
           const linkSubscription = this.contentService.createDownloadLink(request).subscribe(response => {
             const item: IShareItem = {
               id: this.content.id!,
@@ -142,7 +142,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
                   viewUrl: o.viewUrl,
                   downloadUrl: o.downloadUrl,
                   detail: o.detail
-                }
+                };
               });
               const previewOutput = outputs.find(o => o.outputFormatId === 'Preview');
 
@@ -179,8 +179,8 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
             })
           };
 
-            this.fullscreenService.showDetailById(share.items.find(i => i.id === this.content.id).id, share.items);
-        }
-
+          this.fullscreenService.showDetailById(share.items.find(i => i.id === this.content.id).id, share.items);
       }
+
+    }
 }

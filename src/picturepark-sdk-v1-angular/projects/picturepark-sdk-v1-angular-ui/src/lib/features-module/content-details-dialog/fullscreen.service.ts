@@ -127,10 +127,10 @@ export class FullscreenService {
           if (player) {
             this.disposeVideoPlayer(player);
           }
-          return this.renderVideoPlayer(element, item, width, height).then((player) => {
-            playerInfo.player = player;
+          return this.renderVideoPlayer(element, item, width, height).then((renderedPlayer) => {
+            playerInfo.player = renderedPlayer;
             log('Picturepark Widgets > Reloaded videojs player: ' + element.id);
-            return player;
+            return renderedPlayer;
           });
         } else {
           log('Picturepark Widgets > Reused videojs player: ' + element.id);
@@ -200,9 +200,11 @@ export class FullscreenService {
 
     const savedOverflow = document.body.style.overflow;
     const keydownCallback = (e: KeyboardEvent) => {
+      // tslint:disable-next-line: deprecation
       const event = e || <KeyboardEvent>window.event;
       const isEscape = 'key' in event ? (event.key === 'Escape' || event.key === 'Esc') : ((<any>event).keyCode === 27);
       if (isEscape) {
+        // tslint:disable-next-line: no-use-before-declare
         closeCallback();
       }
     };
