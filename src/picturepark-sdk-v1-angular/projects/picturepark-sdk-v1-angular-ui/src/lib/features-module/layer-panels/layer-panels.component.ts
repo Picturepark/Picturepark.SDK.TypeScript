@@ -34,10 +34,8 @@ export class LayerPanelsComponent implements OnInit {
         this.allSchemas = [...this.schemas, ...schemaDetails];
 
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
+        if (!contentSchema) { return; }
 
-        if (!contentSchema) {
-          return;
-        }
         const schemas = this.showContentSchema ? [this.content.contentSchemaId] : [];
         if (contentSchema.layerSchemaIds) {
           schemas.push(...contentSchema.layerSchemaIds);
@@ -45,33 +43,32 @@ export class LayerPanelsComponent implements OnInit {
 
         schemas.forEach(layerSchemaId => {
           const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
+          if (!schema) { return; }
 
-          if (schema) {
-            const schemaMetadata = schema.id === this.content.contentSchemaId ?
-              this.content.content :
-              this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+          const schemaMetadata = schema.id === this.content.contentSchemaId ?
+            this.content.content :
+            this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
 
-            if (!schemaMetadata || !schema.fields) {
-              return;
-            }
-
-            const layer: Layer = {
-              names: schema.names,
-              fields: []
-            };
-
-            schema.fields.forEach(schemaField => {
-              if (schemaMetadata[schemaField.id]) {
-                const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
-
-                if (layerField) {
-                  layer.fields.push(layerField);
-                }
-              }
-            });
-
-            this.layers.push(layer);
+          if (!schemaMetadata || !schema.fields) {
+            return;
           }
+
+          const layer: Layer = {
+            names: schema.names,
+            fields: []
+          };
+
+          schema.fields.forEach(schemaField => {
+            if (schemaMetadata[schemaField.id]) {
+              const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
+
+              if (layerField) {
+                layer.fields.push(layerField);
+              }
+            }
+          });
+
+          this.layers.push(layer);
         });
       });
   }
