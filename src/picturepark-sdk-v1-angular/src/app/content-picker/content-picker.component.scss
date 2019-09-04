@@ -9,7 +9,12 @@
 }
 
 .navbar {
+  height: 64px;
   border-bottom: 1px solid lightgray;
+}
+
+::ng-deep .channel-picker-container > button {
+  width: 100%;
 }
 
 .content-picker-content {
@@ -52,7 +57,7 @@
           }
         }
       }
-    }
+   }
 
     .filters {
       position: relative;
