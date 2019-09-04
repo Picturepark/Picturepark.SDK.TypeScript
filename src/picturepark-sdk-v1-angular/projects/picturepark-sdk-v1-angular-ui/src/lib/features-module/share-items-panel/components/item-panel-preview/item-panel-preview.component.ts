@@ -49,7 +49,11 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
       }
 
       const output = content.outputs.find(i => i.outputFormatId === 'ThumbnailMedium');
-      this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output!.viewUrl!);
+      if (output) {
+        this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output!.viewUrl!);
+      } else {
+        this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(content.iconUrl!);
+      }
     }
   }
 
