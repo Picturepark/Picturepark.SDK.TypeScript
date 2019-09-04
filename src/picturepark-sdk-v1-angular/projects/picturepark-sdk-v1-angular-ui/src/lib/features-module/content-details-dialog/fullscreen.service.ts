@@ -12,7 +12,7 @@ function log(message: string) {
   })
 export class FullscreenService {
   loading = false;
-  scriptsPath = undefined;
+  scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
 
   private loadedPlayers: any[] = [];
 
@@ -125,7 +125,7 @@ export class FullscreenService {
     iframeElement.style.top = '0';
     iframeElement.style.width = '100%';
     iframeElement.style.height = '100%';
-    iframeElement.src = this.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + item.pdfUrl;
+    iframeElement.src = this.scriptsPath + 'pdfjs/web/viewer.html?file=' + item.pdfUrl;
 
     const savedOverflow = document.body.style.overflow;
     const closeCallback = () => {
@@ -175,7 +175,7 @@ export class FullscreenService {
         } else if (i.isPdf) {
           return {
             html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-              'src="' + this.scriptsPath + 'pdfjs-dist/web/viewer.html?file=' + i.pdfUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
+              'src="' + this.scriptsPath + 'pdfjs/web/viewer.html?file=' + i.pdfUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
             origin: i.originalUrl
           };
         } else if (i.isMovie) {
@@ -305,8 +305,7 @@ export class FullscreenService {
     if (element) {
       return element;
     } else {
-      // tslint:disable-next-line: prefer-const
-      let markup = `
+      const markup = `
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="pswp__bg"></div>
             <div class="pswp__scroll-wrap">

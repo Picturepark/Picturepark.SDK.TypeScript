@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Content, ContentService, ThumbnailSize, ShareDetail, ShareService } from '@picturepark/sdk-v1-angular';
+import { Content, ContentService, ThumbnailSize, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../../../panel/components/panel-base/panel-base.component';
 
 @Component({
@@ -22,7 +22,6 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
 
   constructor(
     private contentService: ContentService,
-    private shareService: ShareService,
     private sanitizer: DomSanitizer
   ) {
     super();
