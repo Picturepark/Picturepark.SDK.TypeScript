@@ -32,7 +32,6 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
     constructor(
       private contentService: ContentService,
-      private shareService: ShareService,
       private sanitizer: DomSanitizer,
       private fullscreenService: FullscreenService) {
       super();
@@ -43,38 +42,39 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
         this.content = changes.content.currentValue;
 
-        // Implement fallback
-        const output = this.content.outputs!.find(i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed);
-
         if (this.shareContent) {
           const shareOutput = this.shareContent.outputs!.find(i => i.outputFormatId === this.outputId);
           if (shareOutput && shareOutput.viewUrl) {
-            this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(shareOutput.viewUrl);
-          } else {
-              this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.shareContent.iconUrl!);
+            this.setPreviewUrl(shareOutput.viewUrl);
+            return;
+          } else if (this.shareContent.iconUrl) {
+            this.setPreviewUrl(this.shareContent.iconUrl);
+            return;
           }
-          this.isLoading = false;
-          return;
         }
 
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
+        const output = this.content.outputs!.find(i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed);
         const request = output ?
           this.contentService.download(this.content.id, output.outputFormatId, this.width || 800, this.height || 650, null) :
           this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
-        const downloadThumbnailSubscription = request.subscribe(response => {
-          this.thumbnailUrl = URL.createObjectURL(response!.data!);
-          this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
-          this.isLoading = false;
+        const downloadPreviewSubscription = request.subscribe(response => {
+          this.setPreviewUrl(URL.createObjectURL(response.data));
         });
 
-        this.subscription.add(downloadThumbnailSubscription);
-
+        this.subscription.add(downloadPreviewSubscription);
       }
     }
 
     updateUrl(event) {
       this.thumbnailUrlSafe = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+    }
+
+    private setPreviewUrl(url: string): void {
+      this.thumbnailUrl = url;
+      this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+      this.isLoading = false;
     }
 
     showFullscreen() {

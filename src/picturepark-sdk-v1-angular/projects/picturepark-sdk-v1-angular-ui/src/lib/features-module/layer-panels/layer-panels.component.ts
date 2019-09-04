@@ -32,8 +32,12 @@ export class LayerPanelsComponent implements OnInit {
 
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
 
-        // tslint:disable-next-line
-        contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
+        if (!contentSchema || !contentSchema.layerSchemaIds) {
+          return;
+        }
+
+
+        contentSchema.layerSchemaIds.forEach(layerSchemaId => {
           if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
             return;
           }
@@ -43,6 +47,9 @@ export class LayerPanelsComponent implements OnInit {
 
           if (schema) {
             const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+            if (!schemaMetadata) {
+              return;
+            }
 
             const layer: Layer = {
               names: schema.names,
