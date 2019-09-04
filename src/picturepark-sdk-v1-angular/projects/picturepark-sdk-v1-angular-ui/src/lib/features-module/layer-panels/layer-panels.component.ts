@@ -17,6 +17,9 @@ export class LayerPanelsComponent implements OnInit {
   @Input()
   public content: ContentDetail;
 
+  @Input()
+  public showContentSchema = false;
+
   public layers: Layer[] = [];
   private allSchemas: SchemaDetail[];
 
@@ -32,22 +35,23 @@ export class LayerPanelsComponent implements OnInit {
 
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
 
-        if (!contentSchema || !contentSchema.layerSchemaIds) {
+        if (!contentSchema) {
           return;
         }
+        const schemas = this.showContentSchema ? [this.content.contentSchemaId] : [];
+        if (contentSchema.layerSchemaIds) {
+          schemas.push(...contentSchema.layerSchemaIds);
+        }
 
-
-        contentSchema.layerSchemaIds.forEach(layerSchemaId => {
-          if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
-            return;
-          }
-
-          // tslint:disable-next-line
+        schemas.forEach(layerSchemaId => {
           const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
 
           if (schema) {
-            const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
-            if (!schemaMetadata) {
+            const schemaMetadata = schema.id === this.content.contentSchemaId ?
+              this.content.content :
+              this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+
+            if (!schemaMetadata || !schema.fields) {
               return;
             }
 
@@ -56,8 +60,7 @@ export class LayerPanelsComponent implements OnInit {
               fields: []
             };
 
-            // tslint:disable-next-line
-            schema.fields && schema.fields.forEach(schemaField => {
+            schema.fields.forEach(schemaField => {
               if (schemaMetadata[schemaField.id]) {
                 const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
 
