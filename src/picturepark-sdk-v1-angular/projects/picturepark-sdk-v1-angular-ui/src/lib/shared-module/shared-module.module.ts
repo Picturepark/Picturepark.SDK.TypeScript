@@ -14,7 +14,7 @@ import { NotificationService } from './services/notification/notification.servic
 import { TranslationService } from './services/translations/translation.service';
 
 // PIPES
-import { AvatarPipe } from './pipes/avatar.pipe';
+import { AvatarPipe, AvatarHashedPipe } from './pipes/avatar.pipe';
 import { FileSizePipe } from './pipes/filesize.pipe';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { LazyLoadDirective } from './directives/lazy-load.directive';
@@ -26,6 +26,7 @@ import { AggregationComponent } from './components/aggregation/aggregation.compo
     AggregationComponent,
     // PIPES
     AvatarPipe,
+    AvatarHashedPipe,
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective,
@@ -44,6 +45,7 @@ import { AggregationComponent } from './components/aggregation/aggregation.compo
     AggregationComponent,
     // PIPES
     AvatarPipe,
+    AvatarHashedPipe,
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective

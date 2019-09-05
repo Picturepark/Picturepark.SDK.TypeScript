@@ -1,0 +1,11 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="share-viewer-item-container">
+  <div class="share-viewer-item-content-container">
+      <br />
+      <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)">
+      </pp-search-box>
+      <br />
+
+      <router-outlet></router-outlet>
+  </div>
+</div>
