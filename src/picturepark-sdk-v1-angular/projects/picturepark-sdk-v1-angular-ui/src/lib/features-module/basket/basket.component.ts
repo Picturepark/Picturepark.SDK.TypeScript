@@ -1,22 +1,25 @@
-import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
-
-// LIBRARIES
 import {
-  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
-  ContentSearchType, TermsFilter, fetchAll, ISearchResult, Content } from '@picturepark/sdk-v1-angular';
-import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
-
-// COMPONENTS
-import { BaseComponent } from '../../shared-module/components/base.component';
-import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
-import {
-  ShareContentDialogComponent
-} from '../../features-module/share-content-dialog/share-content-dialog.component';
-
-// SERVICES
-import { BasketService } from '../../shared-module/services/basket/basket.service';
+  BrokenDependenciesFilter,
+  Content,
+  ContentSearchRequest,
+  ContentSearchType,
+  ContentService,
+  fetchAll,
+  ISearchResult,
+  LifeCycleFilter,
+  TermsFilter,
+} from '@picturepark/sdk-v1-angular';
 import { Observable } from 'rxjs';
+
+import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
+import { ShareContentDialogComponent } from '../../features-module/share-content-dialog/share-content-dialog.component';
+import { BaseComponent } from '../../shared-module/components/base.component';
+import { BasketService } from '../../shared-module/services/basket/basket.service';
+import {
+  ContentDownloadDialogComponent,
+} from '../dialog/components/content-download-dialog/content-download-dialog.component';
 
 @Component({
   selector: 'pp-basket',
@@ -37,13 +40,11 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private contentService: ContentService,
     private basketService: BasketService,
     public dialog: MatDialog,
-    ) {
-
+  ) {
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((items) => this.basketItems = items);
     this.subscription.add(basketSubscription);
-
   }
 
   public previewItem(itemId: string): void {
@@ -53,7 +54,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public downloadItems(): void {
 
     const contentSearch = this.fetch().subscribe(data => {
-      contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
         data: data.results,
@@ -62,12 +62,12 @@ export class BasketComponent extends BaseComponent implements OnInit {
       dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
     });
 
+    this.subscription.add(contentSearch);
   }
 
   public openShareContentDialog(): void {
 
     const contentSearch = this.fetch().subscribe(data => {
-      contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ShareContentDialogComponent, {
         data: data.results,
@@ -76,6 +76,8 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
       dialogRef.componentInstance.title = 'Basket.Share';
     });
+
+    this.subscription.add(contentSearch);
   }
 
   public clearBasket(): void {
@@ -103,5 +105,4 @@ export class BasketComponent extends BaseComponent implements OnInit {
       })
     }));
   }
-
 }

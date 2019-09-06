@@ -1,24 +1,34 @@
 .dialog-container {
-    position: relative;
-    mat-dialog-content { padding: 24px; }
-    button.option { margin: 0px 24px 0px 24px; }
+  position: relative;
+  .dialog-content {
+    padding: 15px;
+  }
+  mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      margin: 5px;
+    }
+  }
 }
 
 fieldset {
-    border: 1px solid lightgray;
-    margin-bottom: 10px;
+  border: 1px solid lightgray;
+  margin-bottom: 10px;
 }
 
 legend {
-    padding-left: 2px;
-    padding-right: 2px;
-}
-
-.filesize {
-    margin-bottom: 4px;
-    padding-bottom: 8px;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+@media (max-width: 600px) {
+  .show-more {
+    width: 100%;
+  }
 }
