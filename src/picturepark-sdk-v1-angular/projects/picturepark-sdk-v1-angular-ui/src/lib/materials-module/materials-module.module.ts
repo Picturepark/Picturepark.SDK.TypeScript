@@ -63,7 +63,7 @@ const modules = [
   CdkTableModule,
   LayoutModule,
   ScrollingModule];
-  
+
 @NgModule({
   declarations: [],
   imports: [

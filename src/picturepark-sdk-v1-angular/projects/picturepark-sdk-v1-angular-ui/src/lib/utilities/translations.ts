@@ -217,10 +217,10 @@ export let TRANSLATIONS = {
     TextSelectedMultiple: {
       en: 'You have selected {0} items.',
       de: 'Sie haben {0} Items ausgewählt.'
-    },        
+    },
     SelectedItem: {
       en: '1 item'
-    },    
+    },
     SelectedItems: {
       en: '{0} items'
     },
