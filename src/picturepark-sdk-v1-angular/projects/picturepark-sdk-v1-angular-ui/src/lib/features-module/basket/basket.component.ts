@@ -37,11 +37,13 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private contentService: ContentService,
     private basketService: BasketService,
     public dialog: MatDialog,
-  ) {
+    ) {
+
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe((items) => this.basketItems = items);
     this.subscription.add(basketSubscription);
+
   }
 
   public previewItem(itemId: string): void {
@@ -51,6 +53,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public downloadItems(): void {
 
     const contentSearch = this.fetch().subscribe(data => {
+      contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
         data: data.results,
@@ -59,12 +62,12 @@ export class BasketComponent extends BaseComponent implements OnInit {
       dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
     });
 
-    this.subscription.add(contentSearch);
   }
 
   public openShareContentDialog(): void {
 
     const contentSearch = this.fetch().subscribe(data => {
+      contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ShareContentDialogComponent, {
         data: data.results,
@@ -73,8 +76,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
       dialogRef.componentInstance.title = 'Basket.Share';
     });
-
-    this.subscription.add(contentSearch);
   }
 
   public clearBasket(): void {
@@ -102,4 +103,5 @@ export class BasketComponent extends BaseComponent implements OnInit {
       })
     }));
   }
+
 }

@@ -25,7 +25,7 @@
   </div>
   
   <mat-dialog-actions align="end">
-    <button mat-button class="option show-more" (click)="toggleAdvanced()" *ngIf="enableAdvanced">
+    <button mat-button class="option" (click)="toggleAdvanced()" *ngIf="enableAdvanced">
       <span *ngIf="!advancedMode">{{ 'ContentDownloadDialog.Advanced' | pptranslate }}</span>
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
