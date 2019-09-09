@@ -6,7 +6,7 @@
     </button>
   </mat-toolbar>
   <mat-toolbar class="navbar" color="primary" *ngIf="!mobileQuery.matches">
-    <pp-channel-picker [(channel)]="selectedChannel" (channelChange)="changeChannel($event)"></pp-channel-picker>
+    <pp-channel-picker [channel]="selectedChannel" (channelChange)="changeChannel($event)"></pp-channel-picker>
 
     <span class="spacer"></span>
 
@@ -28,7 +28,7 @@
             (searchStringChange)="changeSearchQuery($event)"></pp-search-box>
         </mat-toolbar-row>
 
-        <mat-tab-group>
+        <mat-tab-group class="right-panel">
           <mat-tab label="Filters">
             <pp-content-aggregation-list [searchString]="searchText" [channelId]="selectedChannel?.id"
               [aggregators]="selectedChannel?.aggregations" (filterChange)="selectedFilter = $event">
