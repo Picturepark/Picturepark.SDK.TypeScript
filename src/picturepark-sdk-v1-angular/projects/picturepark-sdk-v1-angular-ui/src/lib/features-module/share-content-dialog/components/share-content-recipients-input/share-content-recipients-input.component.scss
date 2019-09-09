@@ -30,6 +30,6 @@ input {
 }
 
 .chip-input-error { 
-    position: absolute; top: 16px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px;
+    top: 16px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px;
     &.active { top: 46px; }
 }
