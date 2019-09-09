@@ -15,12 +15,6 @@
 
             }
         }
-        
-        @media (max-width: 600px) { 
-            li.label-content , li.input-content {
-                width: 100%;
-            }
-        }
 
         .label-content {
             width: 20%;
@@ -74,5 +68,17 @@
             }
             &:last-child { border-bottom: 0px; }
         }
+    }
+}
+
+@media (max-width: 600px) { 
+    .dialog-container ul {
+        li.label-content, li.input-content {
+        width: 100%;
+        }
+    }            
+
+    .mat-dialog-content { 
+        padding: 5px;
     }
 }

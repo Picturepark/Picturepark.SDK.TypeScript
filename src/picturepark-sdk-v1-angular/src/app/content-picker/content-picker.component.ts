@@ -1,13 +1,19 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AggregationResult, Channel, Content, FilterBase } from '@picturepark/sdk-v1-angular';
-import { BasketService, ContentDetailsDialogComponent, ContentItemSelectionService } from '@picturepark/sdk-v1-angular-ui';
-import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/models/content-model';
+import { MatDialog } from '@angular/material/dialog';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 
+// LIBRARIES
+import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
+import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
+
+// COMPONENTS
+import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
+
+// SERVICES
 import { EmbedService } from './embed.service';
+import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/models/content-model';
 
 @Component({
   templateUrl: './content-picker.component.html',

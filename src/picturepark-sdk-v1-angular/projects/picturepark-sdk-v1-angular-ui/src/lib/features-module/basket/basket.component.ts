@@ -1,25 +1,22 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import {
-  BrokenDependenciesFilter,
-  Content,
-  ContentSearchRequest,
-  ContentSearchType,
-  ContentService,
-  fetchAll,
-  ISearchResult,
-  LifeCycleFilter,
-  TermsFilter,
-} from '@picturepark/sdk-v1-angular';
-import { Observable } from 'rxjs';
 
-import { ConfigActions, PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration } from '../../configuration';
-import { ShareContentDialogComponent } from '../../features-module/share-content-dialog/share-content-dialog.component';
-import { BaseComponent } from '../../shared-module/components/base.component';
-import { BasketService } from '../../shared-module/services/basket/basket.service';
+// LIBRARIES
 import {
-  ContentDownloadDialogComponent,
-} from '../dialog/components/content-download-dialog/content-download-dialog.component';
+  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
+  ContentSearchType, TermsFilter, fetchAll, ISearchResult, Content } from '@picturepark/sdk-v1-angular';
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
+
+// COMPONENTS
+import { BaseComponent } from '../../shared-module/components/base.component';
+import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
+import {
+  ShareContentDialogComponent
+} from '../../features-module/share-content-dialog/share-content-dialog.component';
+
+// SERVICES
+import { BasketService } from '../../shared-module/services/basket/basket.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-basket',
