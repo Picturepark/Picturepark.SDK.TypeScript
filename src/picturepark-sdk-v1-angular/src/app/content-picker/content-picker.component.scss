@@ -21,6 +21,10 @@
   width: 100%;
 }
 
+.mat-drawer-content {
+  overflow: unset;
+}
+
 .content-picker-content {
     display: flex;
     height: calc(100vh - 64px);
