@@ -1,5 +1,5 @@
 .dialog-container {
-    position: relative;
+    position: relative; min-width: 500px;
     ul {
         list-style: none; color: #727272; font-size: 13px; min-height: 35px; padding: 0px 15px;
         li { 
@@ -72,9 +72,12 @@
 }
 
 @media (max-width: 600px) { 
-    .dialog-container ul {
-        li.label-content, li.input-content {
-        width: 100%;
+    .dialog-container {
+        min-width: unset;
+        ul {
+            li.label-content, li.input-content {
+                width: 100%;
+            } 
         }
     }            
 
