@@ -3,13 +3,26 @@
   flex-direction: column;
 }
 
+.right-panel {
+  height: 100%;
+}
+
 .spacer {
   display: flex;
   flex: 1;
 }
 
 .navbar {
+  height: 64px;
   border-bottom: 1px solid lightgray;
+}
+
+::ng-deep .channel-picker-container > button {
+  width: 100%;
+}
+
+.mat-drawer-content {
+  overflow: unset;
 }
 
 .content-picker-content {
@@ -31,12 +44,11 @@
 
     .content {
       position: relative;
-      width: 82%;
       transition: 500ms;
       .expand-browser {
         position: absolute;
         height: 56px;
-        width: 56px;
+        width: 46px;
         text-align: center;
         z-index: 100;
         cursor: pointer;
@@ -52,17 +64,15 @@
           }
         }
       }
-    }
+   }
 
     .filters {
       position: relative;
       left: 0%;
-      width: 18%;
       transition: 500ms;
       overflow: hidden;
-      border-left: 1px solid #d8d8d8;
   
-      mat-tab-group {
+      &.mat-tab-group {
         position: absolute;
         left: 0px;
         height: 100%;
@@ -70,13 +80,14 @@
         min-width: 280px;
       }
   
-      .expand {
+      &.expand {
         position: relative;
         height: 56px;
         width: 46px;
         text-align: center;
         z-index: 100;
         float: right;
+        border-left: 1px solid #d8d8d8;
         cursor: pointer;
         i {
           line-height: 56px;
