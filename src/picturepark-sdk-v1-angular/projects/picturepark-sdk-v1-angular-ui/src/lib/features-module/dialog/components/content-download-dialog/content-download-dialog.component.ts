@@ -14,7 +14,7 @@ import { OutputSelection } from './components/output-selection';
 
 // SERVICES
 import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
-import { groupBy } from '../../../../utilities/helper';
+import { groupBy, flatMap } from '../../../../utilities/helper';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -68,7 +68,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     selection.getFileFormats().forEach(fileFormat => {
       const fileFormatOutputs = selection.getOutputs(fileFormat);
-      const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
+      const fileFormatContents = flatMap(fileFormatOutputs, i => i.values);
       if (fileFormat.contents.length === 0) {
           return;
       }

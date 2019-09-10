@@ -25,6 +25,7 @@ export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
+export { SearchSuggestBoxModule } from './lib/features-module/search-suggest-box/search-suggest-box.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
