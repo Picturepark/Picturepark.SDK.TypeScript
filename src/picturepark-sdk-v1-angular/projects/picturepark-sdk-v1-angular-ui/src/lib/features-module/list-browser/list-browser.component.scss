@@ -1,60 +1,18 @@
-.content-browser-container {
+.content-browser {
   height: 100%;
   position: relative;
 
-  .content-browser-toolbar-container {
-    height: 56px;
-    background-color: #eee;
-    border-bottom: 1px solid blue;
-    overflow: hidden;
+  &__header {
+    border-bottom: 1px solid #d8d8d8;
+    top: 0;
+    left: 0;
+    z-index: 2;
     mat-toolbar {
       height: 56px;
     }
     .mat-toolbar {
       background: #eee;
     }
-  }
-
-  .table-container {
-    height: calc(100% - 54px);
-    overflow-y: scroll;
-    overflow-x: auto;
-    position: relative;
-    z-index: 10;
-
-    table {
-      width: 100%;
-      mat-checkbox {
-        position: relative; left: 7px;
-      }
-    }
-    .mat-cell, .mat-header-cell {
-      padding: 10px 10px 10px 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 350px;
-    }
-    .mat-row:hover {
-      background-color: lightgray;
-    }
-
-    &::-webkit-scrollbar {
-      width: 10px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: darkgrey;
-      outline: 1px solid slategrey;
-    }
-
-  }
-
-  &__header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 2;
   }
 
   &__toolbar {
@@ -83,14 +41,43 @@
     display: flex;
 
     mat-icon {
-      color: #aaaaaa
+      color: #aaaaaa;
     }
   }
 
+  .table-container {
+    height: calc(100% - 54px);
+    overflow-y: scroll;
+    overflow-x: auto;
+    position: relative;
+    z-index: 10;
+
+    table {
+      width: 100%;
+      mat-checkbox {
+        position: relative;
+        left: 7px;
+      }
+    }
+    .mat-cell,
+    .mat-header-cell {
+      padding: 10px 10px 10px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 350px;
+    }
+    .mat-row:hover {
+      background-color: lightgray;
+    }
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+  }
 }
-  
-
-
-
-
-
