@@ -38,7 +38,10 @@ import { lowerFirst } from '../../utilities/helper';
 @Component({
   selector: 'pp-list-browser',
   templateUrl: './list-browser.component.html',
-  styleUrls: ['./list-browser.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './list-browser.component.scss',
+    './list-browser.component.theme.scss'],
   providers: [ TranslatePipe ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

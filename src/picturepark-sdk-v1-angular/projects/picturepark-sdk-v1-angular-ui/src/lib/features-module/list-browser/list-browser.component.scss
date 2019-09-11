@@ -1,83 +1,51 @@
-.content-browser {
-  height: 100%;
-  position: relative;
-
+.browser {
   &__header {
-    border-bottom: 1px solid #d8d8d8;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    mat-toolbar {
-      height: 56px;
-    }
-    .mat-toolbar {
-      background: #eee;
-    }
-  }
-
-  &__toolbar {
-    display: flex;
-    width: 100%;
-  }
-
-  &__divider {
-    margin: 0 8px;
-  }
-
-  &__spacer {
-    display: flex;
-    flex-grow: 1;
-  }
-
-  &__items-count {
-    align-self: center;
-  }
-
-  &__empty-result {
-    margin: 20px;
-  }
-
-  .icons {
-    display: flex;
-
-    mat-icon {
-      color: #aaaaaa;
-    }
-  }
-
-  .table-container {
-    height: calc(100% - 54px);
-    overflow-y: scroll;
-    overflow-x: auto;
-    position: relative;
-    z-index: 10;
-
-    table {
-      width: 100%;
-      mat-checkbox {
-        position: relative;
-        left: 7px;
+    button {
+      &:hover {
+        mat-icon {
+          color: #2f2f2f;
+        }
+      }
+      mat-icon {
+        font-size: 18px;
+        color: #727272;
       }
     }
-    .mat-cell,
-    .mat-header-cell {
-      padding: 10px 10px 10px 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 350px;
-    }
-    .mat-row:hover {
-      background-color: lightgray;
-    }
+  }
+}
 
-    &::-webkit-scrollbar {
-      width: 10px;
-    }
+.table-container {
+  height: calc(100% - 54px);
+  overflow-y: scroll;
+  overflow-x: auto;
+  position: relative;
+  z-index: 10;
 
-    &::-webkit-scrollbar-thumb {
-      background-color: darkgrey;
-      outline: 1px solid slategrey;
+  table {
+    width: 100%;
+    mat-checkbox {
+      position: relative;
+      left: 7px;
     }
+  }
+  .mat-cell,
+  .mat-header-cell {
+    padding: 10px 10px 10px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px;
+  }
+  .mat-row:hover {
+    background-color: lightgray;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
   }
 }
