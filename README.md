@@ -43,6 +43,15 @@ Contains widgets to embed Picturepark content into other websites.
     - picturepark-sdk-v1-fetch
     - picturepark-sdk-v1-pickers
 
+## Compatibility matrix
+
+| SDK version | Picturepark CP version |
+| ----------- | ---------------------- |
+| `1.0.x`     | `10.0.x`               |
+| `1.1.x`     | `10.1.x`               |
+| `1.2.x`     | `10.2.x`               |
+| `1.3.x`     | `10.3.x`               |	
+	
 ## SDK Development
 
 Links: 
