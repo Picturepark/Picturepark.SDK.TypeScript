@@ -65,18 +65,18 @@ All required services are now registered in the Angular's dependency injection c
 
 ```typescript
 import { Component, AfterViewInit } from '@angular/core';
-import { PublicAccessClient } from '@picturepark/sdk-v1-angular';
+import { ShareService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements AfterViewInit {
-  constructor(public publicAccessClient: PublicAccessClient) {
+  constructor(public shareService: ShareService) {
   }
 
   ngAfterViewInit() {
-    this.publicAccessClient.getShare("myShareToken").subscribe(share => {
+    this.shareService.getShareJson("myShareToken").subscribe(share => {
       alert(JSON.stringify(share));
     });
   }
