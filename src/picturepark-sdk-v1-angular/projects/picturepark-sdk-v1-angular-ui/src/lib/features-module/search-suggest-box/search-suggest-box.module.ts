@@ -5,20 +5,18 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
-import { SearchSuggestBoxComponent, HighlightPipe } from './search-suggest-box.component';
+import { SearchSuggestBoxComponent } from './search-suggest-box.component';
 
 @NgModule({
   declarations: [
-    SearchSuggestBoxComponent,
-    HighlightPipe
+    SearchSuggestBoxComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
   ],
   exports: [
-    SearchSuggestBoxComponent,
-    HighlightPipe
+    SearchSuggestBoxComponent
   ]
 })
 export class SearchSuggestBoxModule { }

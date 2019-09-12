@@ -10,7 +10,7 @@
 
     <span class="spacer"></span>
 
-    <pp-search-suggest-box [searchString]="searchText" (searchStringChange)="changeSearchQuery($event)" *ngIf="selectedChannel" [aggregations]="selectedChannel?.aggregations">
+    <pp-search-suggest-box [searchString]="searchText" (searchStringChange)="changeSearchQuery($event)" *ngIf="selectedChannel" [aggregations]="selectedChannel?.aggregations" [aggregate]="aggregate">
     </pp-search-suggest-box>
   </mat-toolbar>
 

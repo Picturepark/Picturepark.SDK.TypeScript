@@ -1,13 +1,14 @@
 import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit } from '@angular/core';
 
 // LIBRARIES
-import { ContentSearchResult, Channel, ContentService, ContentAggregationRequest, LifeCycleFilter, ContentSearchType,
-  BrokenDependenciesFilter, AggregatorBase, TermsAggregator, AggregationFilter, AggregationResult, AggregationResultItem
+import {
+  ContentSearchResult, AggregatorBase, TermsAggregator, AggregationFilter, AggregationResult, AggregationResultItem, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
 import { flatMap } from '../../utilities/helper';
-import { FormArray, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-search-suggest-box',
@@ -16,7 +17,7 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 })
 export class SearchSuggestBoxComponent implements OnChanges, OnInit {
 
-  constructor(private contentService: ContentService, private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) {
 
     this.form = this.formBuilder.group({
       suggestBox: new FormControl('')
@@ -28,6 +29,9 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
   public result: ContentSearchResult | null = null;
   public suggestAutocomplete: AggregationResultItem[];
   form: FormGroup;
+
+  @Input()
+  aggregate: (aggregations: AggregatorBase[]) => Observable<ObjectAggregationResult>;
 
   @Input()
   public aggregations: AggregatorBase[];
@@ -57,12 +61,7 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
             aggs.push(aggregation);
           }
         });
-        return this.contentService.aggregate(new ContentAggregationRequest({
-          aggregators: aggs,
-          lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-          searchType: ContentSearchType.Metadata,
-          brokenDependenciesFilter: BrokenDependenciesFilter.All
-        })).pipe(
+        return this.aggregate(aggs).pipe(
           finalize(() => this.isLoading = false),
         );
       })
@@ -121,23 +120,5 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
     }
 
     return aggregationResult;
-  }
-}
-
-
-
-import { PipeTransform, Pipe } from '@angular/core';
-
-@Pipe({ name: 'highlight' })
-export class HighlightPipe implements PipeTransform {
-  transform(text: string, search): string {
-    const pattern = search
-      .replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
-      .split(' ')
-      .filter(t => t.length > 0)
-      .join('|');
-    const regex = new RegExp(pattern, 'gi');
-
-    return search ? text.replace(regex, match => `<b>${match}</b>`) : text;
   }
 }
