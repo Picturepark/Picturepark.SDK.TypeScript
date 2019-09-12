@@ -5,7 +5,10 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest, LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter } from '@picturepark/sdk-v1-angular';
+import {
+  AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest,
+  LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter
+} from '@picturepark/sdk-v1-angular';
 import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
@@ -61,6 +64,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
     this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+    // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this.mobileQueryListener);
 
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
@@ -106,6 +110,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 }

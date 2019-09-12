@@ -1,5 +1,4 @@
 import { PipeTransform, Pipe } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Pipe({ name: 'highlight' })
 export class HighlightPipe implements PipeTransform {
