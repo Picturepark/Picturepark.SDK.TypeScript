@@ -16,14 +16,14 @@
             (sharedContentForm.controls['share_name'].hasError('required') || 
             sharedContentForm.controls['share_name'].errors?.maxlength ||
             sharedContentForm.controls['share_name'].errors?.minlength) 
-          }" autocomplete="pp-share-name">
-          <div class="share-name-error" [ngClass]="{active: sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].hasError('required') }">
+          }" autocomplete="pp-share-name ">
+          <div class="share-name-error active" *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].hasError('required')">
             {{ 'ShareContentDialog.AddShareNameError' | pptranslate }}
           </div>
-          <div class="share-name-error" [ngClass]="{active: sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.maxlength }">
+          <div class="share-name-error active" *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.maxlength">
             {{ 'ShareContentDialog.ShareNameTooLongError' | pptranslate }}
           </div>
-          <div class="share-name-error" [ngClass]="{active: sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.minlength }">
+          <div class="share-name-error active" *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.minlength">
             {{ 'ShareContentDialog.ShareNameTooShortError' | pptranslate }}
           </div>
         </li>

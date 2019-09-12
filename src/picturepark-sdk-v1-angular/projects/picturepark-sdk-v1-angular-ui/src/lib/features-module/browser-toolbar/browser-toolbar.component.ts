@@ -13,6 +13,11 @@ import { BaseComponent } from '../../shared-module/components/base.component';
   styleUrls: ['./browser-toolbar.component.scss']
 })
 export class BrowserToolbarComponent extends BaseComponent implements OnInit {
+  @Input()
+  selectionEnabled = true;
+
+  @Input()
+  sortingEnabled = true;
 
   @Input()
   entityName: string;

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 // LIBRARIES
 import {
   ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut,
-  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest
+  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -164,7 +164,16 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
-    this.fetchOutputs();
+    if (this.data.length === 1) {
+      const detailSubscription = this.contentService.get(this.data[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
+        await this.getSelection(content.outputs!, this.data);
+        this.update();
+        this.loader = false;
+      });
+      this.subscription.add(detailSubscription);
+    } else {
+      this.fetchOutputs();
+    }
   }
 
   private fetchOutputs(): void {

@@ -17,6 +17,9 @@ export class LayerPanelsComponent implements OnInit {
   @Input()
   public content: ContentDetail;
 
+  @Input()
+  public showContentSchema = false;
+
   public layers: Layer[] = [];
   private allSchemas: SchemaDetail[];
 
@@ -31,37 +34,41 @@ export class LayerPanelsComponent implements OnInit {
         this.allSchemas = [...this.schemas, ...schemaDetails];
 
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
+        if (!contentSchema) { return; }
 
-        // tslint:disable-next-line
-        contentSchema && contentSchema.layerSchemaIds && contentSchema.layerSchemaIds.forEach(layerSchemaId => {
-          if (this.content.layerSchemaIds.indexOf(layerSchemaId) === -1) {
+        const schemas = this.showContentSchema ? [this.content.contentSchemaId] : [];
+        if (contentSchema.layerSchemaIds) {
+          schemas.push(...contentSchema.layerSchemaIds);
+        }
+
+        schemas.forEach(layerSchemaId => {
+          const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
+          if (!schema) { return; }
+
+          const schemaMetadata = schema.id === this.content.contentSchemaId ?
+            this.content.content :
+            this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+
+          if (!schemaMetadata || !schema.fields) {
             return;
           }
 
-          // tslint:disable-next-line
-          const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
+          const layer: Layer = {
+            names: schema.names,
+            fields: []
+          };
 
-          if (schema) {
-            const schemaMetadata = this.content && this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+          schema.fields.forEach(schemaField => {
+            if (schemaMetadata[schemaField.id]) {
+              const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
 
-            const layer: Layer = {
-              names: schema.names,
-              fields: []
-            };
-
-            // tslint:disable-next-line
-            schema.fields && schema.fields.forEach(schemaField => {
-              if (schemaMetadata[schemaField.id]) {
-                const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
-
-                if (layerField) {
-                  layer.fields.push(layerField);
-                }
+              if (layerField) {
+                layer.fields.push(layerField);
               }
-            });
+            }
+          });
 
-            this.layers.push(layer);
-          }
+          this.layers.push(layer);
         });
       });
   }

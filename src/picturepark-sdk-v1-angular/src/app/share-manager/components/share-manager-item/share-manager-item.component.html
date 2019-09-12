@@ -3,22 +3,20 @@
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
   <div class="share-manager-item-content-container" *ngIf="!isLoading">
-      <pp-share-preview [item]="items[0]" *ngIf="items.length === 1"></pp-share-preview>
       <pp-item-tool-bar [toolBarOptions]="toolBarOptions" toolBarIcon="share"></pp-item-tool-bar>
       <pp-settings-panel
         [title]="'Settings'"
         [subject]="subject"
         [accessOriginal]="accessOriginal"
-        [creationDate]="creationDate"
-        [modificationDate]="modificationDate">
+        [creationDate]="share.audit.creationDate"
+        [modificationDate]="share.audit.modificationDate">
       </pp-settings-panel>
       <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
-      <pp-items-panel
+      <pp-share-items-panel
         [title]="'Items'"
         [items]="items"
-        [creationDate]="creationDate"
-        [modificationDate]="modificationDate">
-      </pp-items-panel>
+        (showDetail)="showDetail($event)">
+      </pp-share-items-panel>
       <pp-owner-panel [title]="'Owner'" [userId]="userId" id="owner" *ngIf="userId"></pp-owner-panel>
   </div>
   <div class="background-image" *ngIf="isLoading">

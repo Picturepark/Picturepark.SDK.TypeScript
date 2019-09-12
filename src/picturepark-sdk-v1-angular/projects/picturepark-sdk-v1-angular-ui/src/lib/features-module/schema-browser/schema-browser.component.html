@@ -1,6 +1,6 @@
 <div class="content-browser">
   <div class="content-browser__header">
-    <pp-browser-toolbar [browser]="self" entityName="schemas"></pp-browser-toolbar>
+    <pp-browser-toolbar [browser]="self" entityName="schemas" [selectionEnabled]="false"></pp-browser-toolbar>
   </div>
   <div *ngIf="totalResults !== 0" class="content-browser__items" cdkScrollable>
     <div class="content-browser__item-container" *ngFor="let schema of items; let i = index; trackBy: trackByItem">

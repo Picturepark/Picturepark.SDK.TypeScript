@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
@@ -8,7 +9,7 @@ import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sd
 import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
-import { ContentBrowserComponent, ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
+import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from './embed.service';
@@ -19,11 +20,6 @@ import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/sha
   styleUrls: ['./content-picker.component.scss']
 })
 export class ContentPickerComponent implements OnInit, OnDestroy {
-
-  @ViewChild('contentBrowser', { static: true }) contentBrowser: ContentBrowserComponent;
-
-  public expandedContent = false;
-
   public basketItemsCount = 0;
 
   public selectedItems: ContentModel<Content>[] = [];
@@ -39,7 +35,9 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   public loading = false;
   public messagePosted = false;
   public postUrl = '';
+  public mobileQuery: MediaQueryList;
 
+  private mobileQueryListener: () => void;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -47,31 +45,28 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
-    public contentItemSelectionService: ContentItemSelectionService<Content>
-  ) {}
+    public contentItemSelectionService: ContentItemSelectionService<Content>,
+    private media: MediaMatcher,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
+  }
 
   public openDetails(item: ContentModel<Content>) {
     this.dialog.open(ContentDetailsDialogComponent,
-      { data: item.item.id, width: '980px', height: '700px' }
+      { data: { id: item.item.id }, width: '980px', height: '700px' }
     );
   }
 
   public ngOnInit() {
+    this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
+    this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this.mobileQueryListener);
 
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
 
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
-    }
-
-  }
-
-  public expand(): void {
-    if (this.expandedContent) {
-      this.expandedContent = false;
-    } else {
-      this.expandedContent = true;
     }
   }
 
@@ -88,14 +83,18 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  cancel(): void {
-    this.contentBrowser.cancel();
+  public changeSearchQuery(query: string) {
+    this.searchText = query;
+  }
+
+  public changeChannel(channel: Channel) {
+    this.selectedChannel = channel;
   }
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.mobileQuery.removeListener(this.mobileQueryListener);
   }
-
 }
