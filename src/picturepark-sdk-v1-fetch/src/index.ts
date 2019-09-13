@@ -459,6 +459,416 @@ export class BusinessProcessClient extends PictureparkClientBase {
         }
         return Promise.resolve<BusinessProcessDetails>(<any>null);
     }
+
+    /**
+     * Get business process
+     * @param processId The business process id.
+     * @return BusinessProcess
+     */
+    get(processId: string): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Create business process
+     * @param request The business process create request.
+     * @return BusinessProcess
+     */
+    create(request: BusinessProcessCreateRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreate(_response);
+        });
+    }
+
+    protected processCreate(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Change business process state
+     * @param processId The business process id.
+     * @param request The business process state change request.
+     * @return BusinessProcess
+     */
+    changeState(processId: string, request: BusinessProcessStateChangeRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/state";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processChangeState(_response);
+        });
+    }
+
+    protected processChangeState(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <BusinessProcessNotExternalException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result403);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update business process notification
+     * @param processId The business process id.
+     * @param request The business process notification update request.
+     */
+    updateNotification(processId: string, request: BusinessProcessNotificationUpdateRequest): Promise<void> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/notification";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateNotification(_response);
+        });
+    }
+
+    protected processUpdateNotification(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <BusinessProcessNotExternalException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result403);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * Cancel business process
+     * @param processId The business process id.
+     */
+    cancel(processId: string): Promise<void> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/cancel";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCancel(_response);
+        });
+    }
+
+    protected processCancel(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
 }
 
 export class BusinessRuleClient extends PictureparkClientBase {
@@ -6895,9 +7305,9 @@ export class OutputFormatClient extends PictureparkClientBase {
      * Update output format
      * @param id ID of output format to update
      * @param request The request containing information needed to update the output format.
-     * @return Updated output format
+     * @return Business process
      */
-    update(id: string, request: OutputFormatEditable): Promise<OutputFormatDetail> {
+    update(id: string, request: OutputFormatEditable): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -6922,13 +7332,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processUpdate(response: Response): Promise<OutputFormatDetail> {
+    protected processUpdate(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <OutputFormatDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -6972,15 +7382,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OutputFormatDetail>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Delete output format
      * @param id ID of the output format that should be deleted.
-     * @return OK
+     * @return Business process
      */
-    delete(id: string): Promise<void> {
+    delete(id: string): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -6990,6 +7400,7 @@ export class OutputFormatClient extends PictureparkClientBase {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "application/json"
             }
         };
 
@@ -7000,12 +7411,14 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processDelete(response: Response): Promise<void> {
+    protected processDelete(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7048,15 +7461,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Create output format
      * @param request The request containing information needed to create new output format.
-     * @return Output format
+     * @return Business process
      */
-    create(request: OutputFormat): Promise<OutputFormatDetail> {
+    create(request: OutputFormat): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7078,13 +7491,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processCreate(response: Response): Promise<OutputFormatDetail> {
+    protected processCreate(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <OutputFormatDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7128,7 +7541,7 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OutputFormatDetail>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
@@ -7212,9 +7625,9 @@ export class OutputFormatClient extends PictureparkClientBase {
     /**
      * Create multiple output formats
      * @param request The request containing information needed to create new output formats.
-     * @return Bulk response with information about created output formats
+     * @return Business process
      */
-    createMany(request: OutputFormatCreateManyRequest): Promise<BulkResponse> {
+    createMany(request: OutputFormatCreateManyRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7236,13 +7649,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processCreateMany(response: Response): Promise<BulkResponse> {
+    protected processCreateMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BulkResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7286,15 +7699,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BulkResponse>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Update multiple output formats
      * @param request The request containing information needed to update the output format.
-     * @return Bulk response with information about updated output formats
+     * @return Business process
      */
-    updateMany(request: OutputFormatUpdateManyRequest): Promise<BulkResponse> {
+    updateMany(request: OutputFormatUpdateManyRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7316,13 +7729,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processUpdateMany(response: Response): Promise<BulkResponse> {
+    protected processUpdateMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BulkResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7366,15 +7779,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BulkResponse>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Delete multiple output formats
      * @param request The request with output formats IDs to delete.
-     * @return Bulk response with information about success or failure
+     * @return Business process
      */
-    deleteMany(request: OutputFormatDeleteManyRequest): Promise<BulkResponse> {
+    deleteMany(request: OutputFormatDeleteManyRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7396,13 +7809,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processDeleteMany(response: Response): Promise<BulkResponse> {
+    protected processDeleteMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BulkResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7446,7 +7859,7 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BulkResponse>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 }
 
@@ -13950,6 +14363,9 @@ export interface UnableToCreateOrModifyStaticOutputFormatException extends Pictu
 export interface NotSupportedFileMappingException extends PictureparkValidationException {
 }
 
+export interface NotSupportedFileMappingForDynamicFormatException extends NotSupportedFileMappingException {
+}
+
 export interface NotSupportedFileExtensionException extends PictureparkValidationException {
 }
 
@@ -14036,6 +14452,9 @@ export interface InvalidValueFormatException extends PictureparkValidationExcept
 
 export interface ItemIdDuplicatedException extends PictureparkValidationException {
     id?: string | undefined;
+}
+
+export interface RequestSizeLimitExceededException extends PictureparkValidationException {
 }
 
 export interface CustomerViolationException extends PictureparkException {
@@ -14168,36 +14587,6 @@ export interface ObjectStoreException extends PictureparkBusinessException {
 
 export interface QueryException extends PictureparkBusinessException {
     debugInformation?: string | undefined;
-    serverError?: StorageServerError | undefined;
-}
-
-export interface StorageServerError {
-    error?: StorageError | undefined;
-    status: number;
-}
-
-export interface StorageError {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-    rootCause?: StorageRootCause[] | undefined;
-    causedBy?: StorageCausedBy | undefined;
-}
-
-export interface StorageRootCause {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-}
-
-export interface StorageCausedBy {
-    reason?: string | undefined;
-    type?: string | undefined;
-    innerCausedBy?: StorageCausedBy | undefined;
 }
 
 export interface PermissionOwnershipTransferException extends PictureparkValidationException {
@@ -14225,6 +14614,7 @@ export enum UserRight {
     ManageDocumentHistory = <any>"ManageDocumentHistory",
     ManageAllShares = <any>"ManageAllShares",
     ManageOutputFormats = <any>"ManageOutputFormats",
+    ManageBusinessProcesses = <any>"ManageBusinessProcesses",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -14671,6 +15061,9 @@ export interface SchemaNotFoundException extends PictureparkNotFoundException {
     schemaId?: string | undefined;
 }
 
+export interface SchemaCountLimitReachedException extends PictureparkBusinessException {
+}
+
 export interface SystemSchemaInvalidModificationException extends PictureparkValidationException {
     schemaId?: string | undefined;
 }
@@ -14820,6 +15213,14 @@ export interface BusinessProcessDefinitionNotFoundException extends PictureparkN
 
 export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
     processDefinitionIds?: string[] | undefined;
+}
+
+export interface BusinessProcessNotExternalException extends PictureparkForbiddenException {
+    businessProcessId?: string | undefined;
+}
+
+export interface BusinessProcessCancellationNotSupportedException extends PictureparkValidationException {
+    businessProcessId?: string | undefined;
 }
 
 export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
@@ -15007,6 +15408,80 @@ export interface BusinessRuleFieldIdInvalidException extends PictureparkValidati
 }
 
 export interface BusinessRuleContentPermissionSetIdsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleFieldPathInvalidException extends PictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export interface BusinessRulePolygonInvalidException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleArrayIndexInvalidException extends PictureparkValidationException {
+    index?: string | undefined;
+}
+
+export interface BusinessRuleDictionaryKeyInvalidException extends PictureparkValidationException {
+    key?: string | undefined;
+}
+
+export interface BusinessRuleProjectionTransformationsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleInvalidVariableNameException extends PictureparkValidationException {
+    name?: string | undefined;
+}
+
+export interface BusinessRuleTransformationGroupTransformationsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleTransformationGroupInputsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleNamedCacheNameInvalidException extends PictureparkValidationException {
+    cacheName?: string | undefined;
+}
+
+export interface BusinessRuleNGramTransformationSizeInvalidException extends PictureparkValidationException {
+    size: number;
+    minSize: number;
+    maxSize: number;
+}
+
+export interface BusinessRuleNGramTransformationMinWordLengthInvalidException extends PictureparkValidationException {
+    minWordLength: number;
+}
+
+export interface BusinessRuleNGramTransformationMaxWordLengthInvalidException extends PictureparkValidationException {
+    maxWordLength: number;
+}
+
+export interface NamedCacheConfigurationException extends PictureparkValidationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+}
+
+export interface NamedCacheNameMissingException extends PictureparkValidationException {
+}
+
+export interface NamedCacheNameDuplicationException extends PictureparkValidationException {
+    name?: string | undefined;
+}
+
+export interface ListItemNamedCacheSchemaIdInvalidException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface ListItemNamedCacheKeyFieldsInvalidException extends PictureparkValidationException {
+}
+
+export interface SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface NoTagsFoundException extends PictureparkBusinessException {
+}
+
+export interface OutputNotAvailableException extends PictureparkBusinessException {
 }
 
 /** Search request to search for business processes */
@@ -15337,12 +15812,61 @@ export interface ContentImportResult {
     error?: ErrorResponse | undefined;
 }
 
+/** Create request to create a BusinessProcess. */
+export interface BusinessProcessCreateRequest {
+    /** Indicates if the system starting the business process supports cancellation. */
+    supportsCancellation: boolean;
+    /** Notification data to send to the user when creating the business process.
+Set to null to not create a notification. */
+    notification?: BusinessProcessNotificationUpdate | undefined;
+    /** Initial state of the business process. */
+    initialState: string;
+}
+
+/** Notification update for a business process. */
+export interface BusinessProcessNotificationUpdate {
+    /** The title the message that is shown to the user should have. */
+    title: TranslatedStringDictionary;
+    /** The message shown to the user. */
+    message: TranslatedStringDictionary;
+    /** An optional navigation link that allows the user to jump to a page giving more information
+about the process. */
+    navigationLink?: string | undefined;
+    /** The event type of the notification. */
+    eventType: NotificationEventType;
+}
+
+export enum NotificationEventType {
+    Pending = <any>"Pending",
+    InProgress = <any>"InProgress",
+    Success = <any>"Success",
+    Error = <any>"Error",
+    Warning = <any>"Warning",
+    Information = <any>"Information",
+}
+
+/** Transitions the business process to a new state and/or life cycle. */
+export interface BusinessProcessStateChangeRequest {
+    /** The new state of the business process. */
+    state: string;
+    /** The new life cycle of the business process. */
+    lifeCycle: BusinessProcessLifeCycle;
+    /** An optional notification update to be posted together with the transition. */
+    notification?: BusinessProcessNotificationUpdate | undefined;
+}
+
+/** Updates the notification of a business process without changing the state or the life cycle. */
+export interface BusinessProcessNotificationUpdateRequest extends BusinessProcessNotificationUpdate {
+}
+
 /** Represents the business rule configuration. */
 export interface BusinessRuleConfiguration {
     /** Disables the rule completely. */
     disableRuleEngine: boolean;
     /** Rules */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 }
 
 /** A business rule */
@@ -15373,6 +15897,8 @@ export interface BusinessRuleTriggerPoint {
 export interface BusinessRuleConfigurable extends BusinessRule {
     /** The condition that makes this rule trigger. */
     condition?: BusinessRuleCondition | undefined;
+    /** Optional transformations to apply. */
+    transformationGroups?: BusinessRuleTransformationGroup[] | undefined;
     /** The actions that are performed when this rule triggers. */
     actions?: BusinessRuleAction[] | undefined;
 }
@@ -15433,6 +15959,8 @@ export interface MatchRegexCondition extends BusinessRuleCondition {
     fieldPath?: string | undefined;
     /** Regular expression */
     regex?: string | undefined;
+    /** Optional variable name to store the matched regex groups in */
+    storeIn?: string | undefined;
 }
 
 /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
@@ -15455,6 +15983,125 @@ export interface TagboxItemUnassignedCondition extends BusinessRuleCondition {
 export interface ContentSchemaCondition extends BusinessRuleCondition {
     /** Content schema id to match on. */
     schemaId?: string | undefined;
+}
+
+export interface NumberCompareCondition extends BusinessRuleCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** Mode to use for comparison. */
+    mode: BusinessRuleNumberCompareConditionMode;
+    /** Value to compare to. */
+    value: number;
+}
+
+export enum BusinessRuleNumberCompareConditionMode {
+    LessThan = <any>"LessThan",
+    LessThanEqual = <any>"LessThanEqual",
+    Equal = <any>"Equal",
+    GreaterThanEqual = <any>"GreaterThanEqual",
+    GreaterThan = <any>"GreaterThan",
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is newly assigned. */
+export interface ContentRelationItemAssignedCondition extends BusinessRuleCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is removed. */
+export interface ContentRelationItemUnassignedCondition extends BusinessRuleCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches when the geo point from the field specified by the field path is inside the specified polygon. */
+export interface GeoPointWithinPolygonCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+    /** List of points that form the polygon for the geo fence.
+Must include at least 3 points. */
+    polygon?: LatLon[] | undefined;
+}
+
+/** Stores a coordinate */
+export interface LatLon {
+    /** Latitude */
+    lat: number;
+    /** Longitude */
+    lon: number;
+}
+
+/** Matches whenever the assigned content permission sets changed. */
+export interface ContentPermissionSetsChangedCondition extends BusinessRuleCondition {
+}
+
+/** Matches whenever the assigned content(s) in a relationship field changed. */
+export interface ContentRelationItemsChangedCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches whenever the assigned layers of a content changed. */
+export interface LayersChangedCondition extends BusinessRuleCondition {
+}
+
+/** Matches whenever the assigned item(s) in a tagbox changed. */
+export interface TagboxItemsChangedCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Business rule transformation group: A group of transformations to run for the specified inputs */
+export interface BusinessRuleTransformationGroup {
+    /** The inputs of the transformation group. */
+    inputs?: string[] | undefined;
+    /** A list of transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+    /** Variable name where the final result should be stored in. */
+    storeIn?: string | undefined;
+}
+
+/** Business rule transformation */
+export interface BusinessRuleTransformation {
+}
+
+/** Takes an item from a dictionary by its key. */
+export interface TakeDictionaryValueTransformation extends BusinessRuleTransformation {
+    /** Key of the item. */
+    key?: string | undefined;
+}
+
+/** Takes an item from an array by its index. */
+export interface TakeArrayValueTransformation extends BusinessRuleTransformation {
+    /** Index of the item. */
+    index?: string | undefined;
+}
+
+/** Joins the input by a configurable separator */
+export interface JoinByTransformation extends BusinessRuleTransformation {
+    /** Separator to use. */
+    separator?: string | undefined;
+}
+
+/** Uses a named cache to lookup a value. */
+export interface LookupCacheTransformation extends BusinessRuleTransformation {
+    /** Name of the cache to use. */
+    namedCache?: string | undefined;
+}
+
+/** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
+export interface NGramTransformation extends BusinessRuleTransformation {
+    /** Maximum size of n-grams to produce.
+Settings this to 3 will produce unigrams, bigrams, trigrams. */
+    size: number;
+    /** Minimum length of a word to be considered. */
+    minWordLength: number;
+    /** Maximum length of a word to be considered. */
+    maxWordLength?: number | undefined;
 }
 
 /** Action to be performed by a business rule */
@@ -15501,7 +16148,7 @@ export interface AssignTagboxItemsAction extends BusinessRuleAction {
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be assigned. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
     /** Indicates whether all the already assigned tags get replaced by the set specified in the action.
 If false, the not already assigned tags get added, the rest is left as is. */
     replace: boolean;
@@ -15514,13 +16161,13 @@ export interface UnassignTagboxItemsAction extends BusinessRuleAction {
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be removed. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
 }
 
 /** Assigns one or more permission sets to a content. */
 export interface AssignContentPermissionSetsAction extends BusinessRuleAction {
     /** IDs of the permission sets to assign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
     /** Indicates whether the already assigned permissions should be replaced or merged. */
     replace: boolean;
 }
@@ -15528,10 +16175,21 @@ export interface AssignContentPermissionSetsAction extends BusinessRuleAction {
 /** Removes one or more permission sets from a content. */
 export interface UnassignContentPermissionSetsAction extends BusinessRuleAction {
     /** IDs of the permission sets to unassign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
 }
 
 export interface ProduceMessageAction extends BusinessRuleAction {
+}
+
+/** Assigns a set of list item ids to all multi tag boxes in a layer where the filter defined on the tagbox does allow assignment of the ID. */
+export interface AssignTagboxItemsInLayerAction extends BusinessRuleAction {
+    /** Named cache to use for lookup, should be of type SchemaTagboxFilterLookupNamedCacheConfiguration */
+    namedCache?: string | undefined;
+    /** List of refIds of the items that should be assigned. */
+    refIds?: any | undefined;
+    /** Indicates where the assignment should be additive to the already assigned tags
+or if existing tags should be replaced. */
+    replace: boolean;
 }
 
 /** A business rule expressed as a script */
@@ -15540,12 +16198,40 @@ export interface BusinessRuleScript extends BusinessRule {
     script?: string | undefined;
 }
 
+/** Named cache configuration */
+export interface NamedCacheConfigurationBase {
+    /** Name of named cache. */
+    name?: string | undefined;
+    /** Indicates if the lookup should be cache sensitive. */
+    caseSensitive: boolean;
+}
+
+/** List item named cache */
+export interface ListItemNamedCacheConfiguration extends NamedCacheConfigurationBase {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** List of IDs of fields to use as a composite key */
+    keyFields?: string[] | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren: boolean;
+}
+
+/** Creates a cache for all multi tag boxes in a schema Lookup key is then in the format [ fieldId, refId ], returns the refId if matched by the filter */
+export interface SchemaTagboxFilterLookupNamedCacheConfiguration extends NamedCacheConfigurationBase {
+    /** The layer id. */
+    schemaId?: string | undefined;
+}
+
 /** Update request for changing business rule configuration */
 export interface BusinessRuleConfigurationUpdateRequest {
     /** Disables the rule engine completely. */
     disableRuleEngine: boolean;
-    /** Rules */
+    /** Rules. */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 }
 
 export interface Channel {
@@ -15805,6 +16491,8 @@ export interface User {
     lastName?: string | undefined;
     /** Email address of the user (doubles as username). */
     emailAddress: string;
+    /** Marks a user that was deleted from the system. */
+    isDeleted: boolean;
 }
 
 export interface DisplayValueDictionary {
@@ -15814,8 +16502,8 @@ export interface DisplayValueDictionary {
 
 /** Output */
 export interface Output {
-    /** The ID of the output. */
-    id: string;
+    /** The ID of the output. Can be null for dynamic outputs which are not rendered yet. */
+    id?: string | undefined;
     /** The ID of the output format this output represents. */
     outputFormatId: string;
     /** The ID of the content for which this output has been created. */
@@ -15830,6 +16518,8 @@ export interface Output {
     attemptsLeft: number;
     /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
     fileVersion: number;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
 }
 
 export enum OutputRenderingState {
@@ -17197,6 +17887,10 @@ export interface BusinessRuleFiredEventDetail {
     ruleIds?: string[] | undefined;
 }
 
+export interface BusinessProcessCancellationRequestedEvent extends ApplicationEvent {
+    businessProcessId?: string | undefined;
+}
+
 export interface ConsoleMessage extends Message {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -18244,7 +18938,7 @@ has to be unique across the schema hierarchy. */
 }
 
 export interface SchemaOwnershipTransferRequest {
-    /** The id of the user to whom the schema has to be transfered to. */
+    /** The id of the user to whom the schema has to be transferred to. */
     transferUserId?: string | undefined;
 }
 
@@ -18340,7 +19034,7 @@ export interface SchemaDeleteResult {
 export interface SchemaOwnershipTransferManyRequest {
     /** The schema ids. */
     schemaIds?: string[] | undefined;
-    /** The id of user to whom the schemas have to be transfered to. */
+    /** The id of user to whom the schemas have to be transferred to. */
     transferUserId?: string | undefined;
 }
 

@@ -2,7 +2,7 @@
 <div class="share-viewer-item-container">
   <div class="share-viewer-item-content-container">
       <br />
-      <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)">
+      <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)" *ngIf="showSearchBox">
       </pp-search-box>
       <br />
 

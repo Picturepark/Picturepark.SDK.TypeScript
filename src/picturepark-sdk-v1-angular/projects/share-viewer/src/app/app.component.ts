@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ShareDetail, IMailRecipient } from '@picturepark/sdk-v1-angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ export class AppComponent {
   public searchString: string;
   public shareDetail: ShareDetail;
   public mailRecipients: IMailRecipient[];
+  public showSearchBox = !environment.production;
 
   constructor(
     private route: ActivatedRoute,

@@ -535,6 +535,511 @@ export class BusinessProcessService extends PictureparkServiceBase {
         }
         return _observableOf<BusinessProcessDetails>(<any>null);
     }
+
+    /**
+     * Get business process
+     * @param processId The business process id.
+     * @return BusinessProcess
+     */
+    get(processId: string): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Create business process
+     * @param request The business process create request.
+     * @return BusinessProcess
+     */
+    create(request: BusinessProcessCreateRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Change business process state
+     * @param processId The business process id.
+     * @param request The business process state change request.
+     * @return BusinessProcess
+     */
+    changeState(processId: string, request: BusinessProcessStateChangeRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/state";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processChangeState(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processChangeState(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processChangeState(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = BusinessProcessNotExternalException.fromJS(resultData403);
+            return throwException("A server error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update business process notification
+     * @param processId The business process id.
+     * @param request The business process notification update request.
+     */
+    updateNotification(processId: string, request: BusinessProcessNotificationUpdateRequest): Observable<void> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/notification";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateNotification(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateNotification(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateNotification(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = BusinessProcessNotExternalException.fromJS(resultData403);
+            return throwException("A server error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Cancel business process
+     * @param processId The business process id.
+     */
+    cancel(processId: string): Observable<void> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/cancel";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCancel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCancel(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCancel(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable({
@@ -8480,9 +8985,9 @@ export class OutputFormatService extends PictureparkServiceBase {
      * Update output format
      * @param id ID of output format to update
      * @param request The request containing information needed to update the output format.
-     * @return Updated output format
+     * @return Business process
      */
-    update(id: string, request: OutputFormatEditable): Observable<OutputFormatDetail> {
+    update(id: string, request: OutputFormatEditable): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -8510,14 +9015,14 @@ export class OutputFormatService extends PictureparkServiceBase {
                 try {
                     return this.processUpdate(<any>response_);
                 } catch (e) {
-                    return <Observable<OutputFormatDetail>><any>_observableThrow(e);
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OutputFormatDetail>><any>_observableThrow(response_);
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
         }));
     }
 
-    protected processUpdate(response: HttpResponseBase): Observable<OutputFormatDetail> {
+    protected processUpdate(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8528,7 +9033,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = OutputFormatDetail.fromJS(resultData200);
+            result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -8576,15 +9081,15 @@ export class OutputFormatService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OutputFormatDetail>(<any>null);
+        return _observableOf<BusinessProcess>(<any>null);
     }
 
     /**
      * Delete output format
      * @param id ID of the output format that should be deleted.
-     * @return OK
+     * @return Business process
      */
-    delete(id: string): Observable<void> {
+    delete(id: string): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -8595,6 +9100,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "application/json"
             })
         };
 
@@ -8607,14 +9113,14 @@ export class OutputFormatService extends PictureparkServiceBase {
                 try {
                     return this.processDelete(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
         }));
     }
 
-    protected processDelete(response: HttpResponseBase): Observable<void> {
+    protected processDelete(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8623,7 +9129,10 @@ export class OutputFormatService extends PictureparkServiceBase {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -8670,15 +9179,15 @@ export class OutputFormatService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<BusinessProcess>(<any>null);
     }
 
     /**
      * Create output format
      * @param request The request containing information needed to create new output format.
-     * @return Output format
+     * @return Business process
      */
-    create(request: OutputFormat): Observable<OutputFormatDetail> {
+    create(request: OutputFormat): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8703,14 +9212,14 @@ export class OutputFormatService extends PictureparkServiceBase {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<OutputFormatDetail>><any>_observableThrow(e);
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OutputFormatDetail>><any>_observableThrow(response_);
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<OutputFormatDetail> {
+    protected processCreate(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8721,7 +9230,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = OutputFormatDetail.fromJS(resultData200);
+            result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -8769,7 +9278,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OutputFormatDetail>(<any>null);
+        return _observableOf<BusinessProcess>(<any>null);
     }
 
     /**
@@ -8876,9 +9385,9 @@ export class OutputFormatService extends PictureparkServiceBase {
     /**
      * Create multiple output formats
      * @param request The request containing information needed to create new output formats.
-     * @return Bulk response with information about created output formats
+     * @return Business process
      */
-    createMany(request: OutputFormatCreateManyRequest): Observable<BulkResponse> {
+    createMany(request: OutputFormatCreateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8903,14 +9412,14 @@ export class OutputFormatService extends PictureparkServiceBase {
                 try {
                     return this.processCreateMany(<any>response_);
                 } catch (e) {
-                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BulkResponse>><any>_observableThrow(response_);
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateMany(response: HttpResponseBase): Observable<BulkResponse> {
+    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8921,7 +9430,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BulkResponse.fromJS(resultData200);
+            result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -8969,15 +9478,15 @@ export class OutputFormatService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BulkResponse>(<any>null);
+        return _observableOf<BusinessProcess>(<any>null);
     }
 
     /**
      * Update multiple output formats
      * @param request The request containing information needed to update the output format.
-     * @return Bulk response with information about updated output formats
+     * @return Business process
      */
-    updateMany(request: OutputFormatUpdateManyRequest): Observable<BulkResponse> {
+    updateMany(request: OutputFormatUpdateManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9002,14 +9511,14 @@ export class OutputFormatService extends PictureparkServiceBase {
                 try {
                     return this.processUpdateMany(<any>response_);
                 } catch (e) {
-                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BulkResponse>><any>_observableThrow(response_);
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
         }));
     }
 
-    protected processUpdateMany(response: HttpResponseBase): Observable<BulkResponse> {
+    protected processUpdateMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -9020,7 +9529,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BulkResponse.fromJS(resultData200);
+            result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -9068,15 +9577,15 @@ export class OutputFormatService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BulkResponse>(<any>null);
+        return _observableOf<BusinessProcess>(<any>null);
     }
 
     /**
      * Delete multiple output formats
      * @param request The request with output formats IDs to delete.
-     * @return Bulk response with information about success or failure
+     * @return Business process
      */
-    deleteMany(request: OutputFormatDeleteManyRequest): Observable<BulkResponse> {
+    deleteMany(request: OutputFormatDeleteManyRequest): Observable<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9101,14 +9610,14 @@ export class OutputFormatService extends PictureparkServiceBase {
                 try {
                     return this.processDeleteMany(<any>response_);
                 } catch (e) {
-                    return <Observable<BulkResponse>><any>_observableThrow(e);
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BulkResponse>><any>_observableThrow(response_);
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
         }));
     }
 
-    protected processDeleteMany(response: HttpResponseBase): Observable<BulkResponse> {
+    protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -9119,7 +9628,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BulkResponse.fromJS(resultData200);
+            result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 500) {
@@ -9167,7 +9676,7 @@ export class OutputFormatService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BulkResponse>(<any>null);
+        return _observableOf<BusinessProcess>(<any>null);
     }
 }
 
@@ -17600,6 +18109,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "NotSupportedFileMappingForDynamicFormatException") {
+            let result = new NotSupportedFileMappingForDynamicFormatException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NotSupportedFileExtensionException") {
             let result = new NotSupportedFileExtensionException();
             result.init(data);
@@ -17707,6 +18221,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "ItemIdDuplicatedException") {
             let result = new ItemIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RequestSizeLimitExceededException") {
+            let result = new RequestSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -18270,6 +18789,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaCountLimitReachedException") {
+            let result = new SchemaCountLimitReachedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SystemSchemaInvalidModificationException") {
             let result = new SystemSchemaInvalidModificationException();
             result.init(data);
@@ -18372,6 +18896,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessDefinitionCreateException") {
             let result = new BusinessProcessDefinitionCreateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessNotExternalException") {
+            let result = new BusinessProcessNotExternalException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
+            let result = new BusinessProcessCancellationNotSupportedException();
             result.init(data);
             return result;
         }
@@ -18580,6 +19114,106 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleFieldPathInvalidException") {
+            let result = new BusinessRuleFieldPathInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRulePolygonInvalidException") {
+            let result = new BusinessRulePolygonInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleArrayIndexInvalidException") {
+            let result = new BusinessRuleArrayIndexInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleDictionaryKeyInvalidException") {
+            let result = new BusinessRuleDictionaryKeyInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleProjectionTransformationsMissingException") {
+            let result = new BusinessRuleProjectionTransformationsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleInvalidVariableNameException") {
+            let result = new BusinessRuleInvalidVariableNameException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTransformationGroupTransformationsMissingException") {
+            let result = new BusinessRuleTransformationGroupTransformationsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTransformationGroupInputsMissingException") {
+            let result = new BusinessRuleTransformationGroupInputsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNamedCacheNameInvalidException") {
+            let result = new BusinessRuleNamedCacheNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationSizeInvalidException") {
+            let result = new BusinessRuleNGramTransformationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationMinWordLengthInvalidException") {
+            let result = new BusinessRuleNGramTransformationMinWordLengthInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationMaxWordLengthInvalidException") {
+            let result = new BusinessRuleNGramTransformationMaxWordLengthInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheConfigurationException") {
+            let result = new NamedCacheConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheNameMissingException") {
+            let result = new NamedCacheNameMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheNameDuplicationException") {
+            let result = new NamedCacheNameDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListItemNamedCacheSchemaIdInvalidException") {
+            let result = new ListItemNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListItemNamedCacheKeyFieldsInvalidException") {
+            let result = new ListItemNamedCacheKeyFieldsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException") {
+            let result = new SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NoTagsFoundException") {
+            let result = new NoTagsFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputNotAvailableException") {
+            let result = new OutputNotAvailableException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkException();
         result.init(data);
         return result;
@@ -18775,6 +19409,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "NotSupportedFileMappingForDynamicFormatException") {
+            let result = new NotSupportedFileMappingForDynamicFormatException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NotSupportedFileExtensionException") {
             let result = new NotSupportedFileExtensionException();
             result.init(data);
@@ -18882,6 +19521,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "ItemIdDuplicatedException") {
             let result = new ItemIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RequestSizeLimitExceededException") {
+            let result = new RequestSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -19390,6 +20034,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaCountLimitReachedException") {
+            let result = new SchemaCountLimitReachedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SystemSchemaInvalidModificationException") {
             let result = new SystemSchemaInvalidModificationException();
             result.init(data);
@@ -19492,6 +20141,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessDefinitionCreateException") {
             let result = new BusinessProcessDefinitionCreateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessNotExternalException") {
+            let result = new BusinessProcessNotExternalException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
+            let result = new BusinessProcessCancellationNotSupportedException();
             result.init(data);
             return result;
         }
@@ -19690,6 +20349,106 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleFieldPathInvalidException") {
+            let result = new BusinessRuleFieldPathInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRulePolygonInvalidException") {
+            let result = new BusinessRulePolygonInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleArrayIndexInvalidException") {
+            let result = new BusinessRuleArrayIndexInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleDictionaryKeyInvalidException") {
+            let result = new BusinessRuleDictionaryKeyInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleProjectionTransformationsMissingException") {
+            let result = new BusinessRuleProjectionTransformationsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleInvalidVariableNameException") {
+            let result = new BusinessRuleInvalidVariableNameException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTransformationGroupTransformationsMissingException") {
+            let result = new BusinessRuleTransformationGroupTransformationsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTransformationGroupInputsMissingException") {
+            let result = new BusinessRuleTransformationGroupInputsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNamedCacheNameInvalidException") {
+            let result = new BusinessRuleNamedCacheNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationSizeInvalidException") {
+            let result = new BusinessRuleNGramTransformationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationMinWordLengthInvalidException") {
+            let result = new BusinessRuleNGramTransformationMinWordLengthInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationMaxWordLengthInvalidException") {
+            let result = new BusinessRuleNGramTransformationMaxWordLengthInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheConfigurationException") {
+            let result = new NamedCacheConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheNameMissingException") {
+            let result = new NamedCacheNameMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheNameDuplicationException") {
+            let result = new NamedCacheNameDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListItemNamedCacheSchemaIdInvalidException") {
+            let result = new ListItemNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListItemNamedCacheKeyFieldsInvalidException") {
+            let result = new ListItemNamedCacheKeyFieldsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException") {
+            let result = new SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NoTagsFoundException") {
+            let result = new NoTagsFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputNotAvailableException") {
+            let result = new OutputNotAvailableException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -19769,6 +20528,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "NotSupportedFileMappingForDynamicFormatException") {
+            let result = new NotSupportedFileMappingForDynamicFormatException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NotSupportedFileExtensionException") {
             let result = new NotSupportedFileExtensionException();
             result.init(data);
@@ -19831,6 +20595,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "ItemIdDuplicatedException") {
             let result = new ItemIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RequestSizeLimitExceededException") {
+            let result = new RequestSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -20259,6 +21028,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
+            let result = new BusinessProcessCancellationNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldImportMismatchException") {
             let result = new SchemaFieldImportMismatchException();
             result.init(data);
@@ -20434,6 +21208,96 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleFieldPathInvalidException") {
+            let result = new BusinessRuleFieldPathInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRulePolygonInvalidException") {
+            let result = new BusinessRulePolygonInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleArrayIndexInvalidException") {
+            let result = new BusinessRuleArrayIndexInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleDictionaryKeyInvalidException") {
+            let result = new BusinessRuleDictionaryKeyInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleProjectionTransformationsMissingException") {
+            let result = new BusinessRuleProjectionTransformationsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleInvalidVariableNameException") {
+            let result = new BusinessRuleInvalidVariableNameException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTransformationGroupTransformationsMissingException") {
+            let result = new BusinessRuleTransformationGroupTransformationsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleTransformationGroupInputsMissingException") {
+            let result = new BusinessRuleTransformationGroupInputsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNamedCacheNameInvalidException") {
+            let result = new BusinessRuleNamedCacheNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationSizeInvalidException") {
+            let result = new BusinessRuleNGramTransformationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationMinWordLengthInvalidException") {
+            let result = new BusinessRuleNGramTransformationMinWordLengthInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNGramTransformationMaxWordLengthInvalidException") {
+            let result = new BusinessRuleNGramTransformationMaxWordLengthInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheConfigurationException") {
+            let result = new NamedCacheConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheNameMissingException") {
+            let result = new NamedCacheNameMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NamedCacheNameDuplicationException") {
+            let result = new NamedCacheNameDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListItemNamedCacheSchemaIdInvalidException") {
+            let result = new ListItemNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ListItemNamedCacheKeyFieldsInvalidException") {
+            let result = new ListItemNamedCacheKeyFieldsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException") {
+            let result = new SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkValidationException();
         result.init(data);
         return result;
@@ -20566,6 +21430,11 @@ export class PictureparkForbiddenException extends PictureparkBusinessException 
         }
         if (data["kind"] === "TermsOfServiceConsentRequiredException") {
             let result = new TermsOfServiceConsentRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessNotExternalException") {
+            let result = new BusinessProcessNotExternalException();
             result.init(data);
             return result;
         }
@@ -21703,6 +22572,11 @@ export class NotSupportedFileMappingException extends PictureparkValidationExcep
 
     static fromJS(data: any): NotSupportedFileMappingException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotSupportedFileMappingForDynamicFormatException") {
+            let result = new NotSupportedFileMappingForDynamicFormatException();
+            result.init(data);
+            return result;
+        }
         let result = new NotSupportedFileMappingException();
         result.init(data);
         return result;
@@ -21716,6 +22590,34 @@ export class NotSupportedFileMappingException extends PictureparkValidationExcep
 }
 
 export interface INotSupportedFileMappingException extends IPictureparkValidationException {
+}
+
+export class NotSupportedFileMappingForDynamicFormatException extends NotSupportedFileMappingException implements INotSupportedFileMappingForDynamicFormatException {
+
+    constructor(data?: INotSupportedFileMappingForDynamicFormatException) {
+        super(data);
+        this._discriminator = "NotSupportedFileMappingForDynamicFormatException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): NotSupportedFileMappingForDynamicFormatException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotSupportedFileMappingForDynamicFormatException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotSupportedFileMappingForDynamicFormatException extends INotSupportedFileMappingException {
 }
 
 export class NotSupportedFileExtensionException extends PictureparkValidationException implements INotSupportedFileExtensionException {
@@ -22449,6 +23351,34 @@ export class ItemIdDuplicatedException extends PictureparkValidationException im
 
 export interface IItemIdDuplicatedException extends IPictureparkValidationException {
     id?: string | undefined;
+}
+
+export class RequestSizeLimitExceededException extends PictureparkValidationException implements IRequestSizeLimitExceededException {
+
+    constructor(data?: IRequestSizeLimitExceededException) {
+        super(data);
+        this._discriminator = "RequestSizeLimitExceededException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): RequestSizeLimitExceededException {
+        data = typeof data === 'object' ? data : {};
+        let result = new RequestSizeLimitExceededException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IRequestSizeLimitExceededException extends IPictureparkValidationException {
 }
 
 export class CustomerViolationException extends PictureparkException implements ICustomerViolationException {
@@ -23481,13 +24411,9 @@ export interface IObjectStoreException extends IPictureparkBusinessException {
 
 export class QueryException extends PictureparkBusinessException implements IQueryException {
     debugInformation?: string | undefined;
-    serverError?: StorageServerError | undefined;
 
     constructor(data?: IQueryException) {
         super(data);
-        if (data) {
-            this.serverError = data.serverError && !(<any>data.serverError).toJSON ? new StorageServerError(data.serverError) : <StorageServerError>this.serverError; 
-        }
         this._discriminator = "QueryException";
     }
 
@@ -23495,7 +24421,6 @@ export class QueryException extends PictureparkBusinessException implements IQue
         super.init(data);
         if (data) {
             this.debugInformation = data["debugInformation"];
-            this.serverError = data["serverError"] ? StorageServerError.fromJS(data["serverError"]) : <any>undefined;
         }
     }
 
@@ -23509,7 +24434,6 @@ export class QueryException extends PictureparkBusinessException implements IQue
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["debugInformation"] = this.debugInformation;
-        data["serverError"] = this.serverError ? this.serverError.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -23517,221 +24441,6 @@ export class QueryException extends PictureparkBusinessException implements IQue
 
 export interface IQueryException extends IPictureparkBusinessException {
     debugInformation?: string | undefined;
-    serverError?: IStorageServerError | undefined;
-}
-
-export class StorageServerError implements IStorageServerError {
-    error?: StorageError | undefined;
-    status!: number;
-
-    constructor(data?: IStorageServerError) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.error = data.error && !(<any>data.error).toJSON ? new StorageError(data.error) : <StorageError>this.error; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.error = data["error"] ? StorageError.fromJS(data["error"]) : <any>undefined;
-            this.status = data["status"];
-        }
-    }
-
-    static fromJS(data: any): StorageServerError {
-        data = typeof data === 'object' ? data : {};
-        let result = new StorageServerError();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        data["status"] = this.status;
-        return data; 
-    }
-}
-
-export interface IStorageServerError {
-    error?: IStorageError | undefined;
-    status: number;
-}
-
-export class StorageError implements IStorageError {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-    rootCause?: StorageRootCause[] | undefined;
-    causedBy?: StorageCausedBy | undefined;
-
-    constructor(data?: IStorageError) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.rootCause) {
-                this.rootCause = [];
-                for (let i = 0; i < data.rootCause.length; i++) {
-                    let item = data.rootCause[i];
-                    this.rootCause[i] = item && !(<any>item).toJSON ? new StorageRootCause(item) : <StorageRootCause>item;
-                }
-            }
-            this.causedBy = data.causedBy && !(<any>data.causedBy).toJSON ? new StorageCausedBy(data.causedBy) : <StorageCausedBy>this.causedBy; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.index = data["index"];
-            this.reason = data["reason"];
-            this.resourceId = data["resourceId"];
-            this.resourceType = data["resourceType"];
-            this.type = data["type"];
-            if (Array.isArray(data["rootCause"])) {
-                this.rootCause = [] as any;
-                for (let item of data["rootCause"])
-                    this.rootCause!.push(StorageRootCause.fromJS(item));
-            }
-            this.causedBy = data["causedBy"] ? StorageCausedBy.fromJS(data["causedBy"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): StorageError {
-        data = typeof data === 'object' ? data : {};
-        let result = new StorageError();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["index"] = this.index;
-        data["reason"] = this.reason;
-        data["resourceId"] = this.resourceId;
-        data["resourceType"] = this.resourceType;
-        data["type"] = this.type;
-        if (Array.isArray(this.rootCause)) {
-            data["rootCause"] = [];
-            for (let item of this.rootCause)
-                data["rootCause"].push(item.toJSON());
-        }
-        data["causedBy"] = this.causedBy ? this.causedBy.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IStorageError {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-    rootCause?: IStorageRootCause[] | undefined;
-    causedBy?: IStorageCausedBy | undefined;
-}
-
-export class StorageRootCause implements IStorageRootCause {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-
-    constructor(data?: IStorageRootCause) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.index = data["index"];
-            this.reason = data["reason"];
-            this.resourceId = data["resourceId"];
-            this.resourceType = data["resourceType"];
-            this.type = data["type"];
-        }
-    }
-
-    static fromJS(data: any): StorageRootCause {
-        data = typeof data === 'object' ? data : {};
-        let result = new StorageRootCause();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["index"] = this.index;
-        data["reason"] = this.reason;
-        data["resourceId"] = this.resourceId;
-        data["resourceType"] = this.resourceType;
-        data["type"] = this.type;
-        return data; 
-    }
-}
-
-export interface IStorageRootCause {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-}
-
-export class StorageCausedBy implements IStorageCausedBy {
-    reason?: string | undefined;
-    type?: string | undefined;
-    innerCausedBy?: StorageCausedBy | undefined;
-
-    constructor(data?: IStorageCausedBy) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.innerCausedBy = data.innerCausedBy && !(<any>data.innerCausedBy).toJSON ? new StorageCausedBy(data.innerCausedBy) : <StorageCausedBy>this.innerCausedBy; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.reason = data["reason"];
-            this.type = data["type"];
-            this.innerCausedBy = data["innerCausedBy"] ? StorageCausedBy.fromJS(data["innerCausedBy"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): StorageCausedBy {
-        data = typeof data === 'object' ? data : {};
-        let result = new StorageCausedBy();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["reason"] = this.reason;
-        data["type"] = this.type;
-        data["innerCausedBy"] = this.innerCausedBy ? this.innerCausedBy.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IStorageCausedBy {
-    reason?: string | undefined;
-    type?: string | undefined;
-    innerCausedBy?: IStorageCausedBy | undefined;
 }
 
 export class PermissionOwnershipTransferException extends PictureparkValidationException implements IPermissionOwnershipTransferException {
@@ -23792,6 +24501,7 @@ export enum UserRight {
     ManageDocumentHistory = "ManageDocumentHistory",
     ManageAllShares = "ManageAllShares",
     ManageOutputFormats = "ManageOutputFormats",
+    ManageBusinessProcesses = "ManageBusinessProcesses",
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -27088,6 +27798,34 @@ export interface ISchemaNotFoundException extends IPictureparkNotFoundException 
     schemaId?: string | undefined;
 }
 
+export class SchemaCountLimitReachedException extends PictureparkBusinessException implements ISchemaCountLimitReachedException {
+
+    constructor(data?: ISchemaCountLimitReachedException) {
+        super(data);
+        this._discriminator = "SchemaCountLimitReachedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): SchemaCountLimitReachedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaCountLimitReachedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaCountLimitReachedException extends IPictureparkBusinessException {
+}
+
 export class SystemSchemaInvalidModificationException extends PictureparkValidationException implements ISystemSchemaInvalidModificationException {
     schemaId?: string | undefined;
 
@@ -28035,6 +28773,74 @@ export class BusinessProcessDefinitionCreateException extends PictureparkBusines
 
 export interface IBusinessProcessDefinitionCreateException extends IPictureparkBusinessException {
     processDefinitionIds?: string[] | undefined;
+}
+
+export class BusinessProcessNotExternalException extends PictureparkForbiddenException implements IBusinessProcessNotExternalException {
+    businessProcessId?: string | undefined;
+
+    constructor(data?: IBusinessProcessNotExternalException) {
+        super(data);
+        this._discriminator = "BusinessProcessNotExternalException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.businessProcessId = data["businessProcessId"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessNotExternalException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessNotExternalException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessNotExternalException extends IPictureparkForbiddenException {
+    businessProcessId?: string | undefined;
+}
+
+export class BusinessProcessCancellationNotSupportedException extends PictureparkValidationException implements IBusinessProcessCancellationNotSupportedException {
+    businessProcessId?: string | undefined;
+
+    constructor(data?: IBusinessProcessCancellationNotSupportedException) {
+        super(data);
+        this._discriminator = "BusinessProcessCancellationNotSupportedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.businessProcessId = data["businessProcessId"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessCancellationNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessCancellationNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessCancellationNotSupportedException extends IPictureparkValidationException {
+    businessProcessId?: string | undefined;
 }
 
 export class SchemaFieldImportMismatchException extends PictureparkValidationException implements ISchemaFieldImportMismatchException {
@@ -29493,6 +30299,654 @@ export class BusinessRuleContentPermissionSetIdsMissingException extends Picture
 }
 
 export interface IBusinessRuleContentPermissionSetIdsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleFieldPathInvalidException extends PictureparkValidationException implements IBusinessRuleFieldPathInvalidException {
+    fieldPath?: string | undefined;
+
+    constructor(data?: IBusinessRuleFieldPathInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleFieldPathInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldPath = data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleFieldPathInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleFieldPathInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleFieldPathInvalidException extends IPictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export class BusinessRulePolygonInvalidException extends PictureparkValidationException implements IBusinessRulePolygonInvalidException {
+
+    constructor(data?: IBusinessRulePolygonInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRulePolygonInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRulePolygonInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRulePolygonInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRulePolygonInvalidException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleArrayIndexInvalidException extends PictureparkValidationException implements IBusinessRuleArrayIndexInvalidException {
+    index?: string | undefined;
+
+    constructor(data?: IBusinessRuleArrayIndexInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleArrayIndexInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.index = data["index"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleArrayIndexInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleArrayIndexInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["index"] = this.index;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleArrayIndexInvalidException extends IPictureparkValidationException {
+    index?: string | undefined;
+}
+
+export class BusinessRuleDictionaryKeyInvalidException extends PictureparkValidationException implements IBusinessRuleDictionaryKeyInvalidException {
+    key?: string | undefined;
+
+    constructor(data?: IBusinessRuleDictionaryKeyInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleDictionaryKeyInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.key = data["key"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleDictionaryKeyInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleDictionaryKeyInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleDictionaryKeyInvalidException extends IPictureparkValidationException {
+    key?: string | undefined;
+}
+
+export class BusinessRuleProjectionTransformationsMissingException extends PictureparkValidationException implements IBusinessRuleProjectionTransformationsMissingException {
+
+    constructor(data?: IBusinessRuleProjectionTransformationsMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleProjectionTransformationsMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleProjectionTransformationsMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleProjectionTransformationsMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleProjectionTransformationsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleInvalidVariableNameException extends PictureparkValidationException implements IBusinessRuleInvalidVariableNameException {
+    name?: string | undefined;
+
+    constructor(data?: IBusinessRuleInvalidVariableNameException) {
+        super(data);
+        this._discriminator = "BusinessRuleInvalidVariableNameException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.name = data["name"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleInvalidVariableNameException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleInvalidVariableNameException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleInvalidVariableNameException extends IPictureparkValidationException {
+    name?: string | undefined;
+}
+
+export class BusinessRuleTransformationGroupTransformationsMissingException extends PictureparkValidationException implements IBusinessRuleTransformationGroupTransformationsMissingException {
+
+    constructor(data?: IBusinessRuleTransformationGroupTransformationsMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleTransformationGroupTransformationsMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleTransformationGroupTransformationsMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleTransformationGroupTransformationsMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleTransformationGroupTransformationsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleTransformationGroupInputsMissingException extends PictureparkValidationException implements IBusinessRuleTransformationGroupInputsMissingException {
+
+    constructor(data?: IBusinessRuleTransformationGroupInputsMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleTransformationGroupInputsMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessRuleTransformationGroupInputsMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleTransformationGroupInputsMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleTransformationGroupInputsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleNamedCacheNameInvalidException extends PictureparkValidationException implements IBusinessRuleNamedCacheNameInvalidException {
+    cacheName?: string | undefined;
+
+    constructor(data?: IBusinessRuleNamedCacheNameInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleNamedCacheNameInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.cacheName = data["cacheName"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleNamedCacheNameInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNamedCacheNameInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["cacheName"] = this.cacheName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleNamedCacheNameInvalidException extends IPictureparkValidationException {
+    cacheName?: string | undefined;
+}
+
+export class BusinessRuleNGramTransformationSizeInvalidException extends PictureparkValidationException implements IBusinessRuleNGramTransformationSizeInvalidException {
+    size!: number;
+    minSize!: number;
+    maxSize!: number;
+
+    constructor(data?: IBusinessRuleNGramTransformationSizeInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleNGramTransformationSizeInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.size = data["size"];
+            this.minSize = data["minSize"];
+            this.maxSize = data["maxSize"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleNGramTransformationSizeInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNGramTransformationSizeInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["size"] = this.size;
+        data["minSize"] = this.minSize;
+        data["maxSize"] = this.maxSize;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleNGramTransformationSizeInvalidException extends IPictureparkValidationException {
+    size: number;
+    minSize: number;
+    maxSize: number;
+}
+
+export class BusinessRuleNGramTransformationMinWordLengthInvalidException extends PictureparkValidationException implements IBusinessRuleNGramTransformationMinWordLengthInvalidException {
+    minWordLength!: number;
+
+    constructor(data?: IBusinessRuleNGramTransformationMinWordLengthInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleNGramTransformationMinWordLengthInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.minWordLength = data["minWordLength"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleNGramTransformationMinWordLengthInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNGramTransformationMinWordLengthInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["minWordLength"] = this.minWordLength;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleNGramTransformationMinWordLengthInvalidException extends IPictureparkValidationException {
+    minWordLength: number;
+}
+
+export class BusinessRuleNGramTransformationMaxWordLengthInvalidException extends PictureparkValidationException implements IBusinessRuleNGramTransformationMaxWordLengthInvalidException {
+    maxWordLength!: number;
+
+    constructor(data?: IBusinessRuleNGramTransformationMaxWordLengthInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleNGramTransformationMaxWordLengthInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.maxWordLength = data["maxWordLength"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleNGramTransformationMaxWordLengthInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNGramTransformationMaxWordLengthInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxWordLength"] = this.maxWordLength;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleNGramTransformationMaxWordLengthInvalidException extends IPictureparkValidationException {
+    maxWordLength: number;
+}
+
+export class NamedCacheConfigurationException extends PictureparkValidationException implements INamedCacheConfigurationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+
+    constructor(data?: INamedCacheConfigurationException) {
+        super(data);
+        this._discriminator = "NamedCacheConfigurationException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["innerExceptions"])) {
+                this.innerExceptions = [] as any;
+                for (let item of data["innerExceptions"])
+                    this.innerExceptions!.push(PictureparkValidationException.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): NamedCacheConfigurationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NamedCacheConfigurationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.innerExceptions)) {
+            data["innerExceptions"] = [];
+            for (let item of this.innerExceptions)
+                data["innerExceptions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INamedCacheConfigurationException extends IPictureparkValidationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+}
+
+export class NamedCacheNameMissingException extends PictureparkValidationException implements INamedCacheNameMissingException {
+
+    constructor(data?: INamedCacheNameMissingException) {
+        super(data);
+        this._discriminator = "NamedCacheNameMissingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): NamedCacheNameMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NamedCacheNameMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INamedCacheNameMissingException extends IPictureparkValidationException {
+}
+
+export class NamedCacheNameDuplicationException extends PictureparkValidationException implements INamedCacheNameDuplicationException {
+    name?: string | undefined;
+
+    constructor(data?: INamedCacheNameDuplicationException) {
+        super(data);
+        this._discriminator = "NamedCacheNameDuplicationException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.name = data["name"];
+        }
+    }
+
+    static fromJS(data: any): NamedCacheNameDuplicationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NamedCacheNameDuplicationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INamedCacheNameDuplicationException extends IPictureparkValidationException {
+    name?: string | undefined;
+}
+
+export class ListItemNamedCacheSchemaIdInvalidException extends PictureparkValidationException implements IListItemNamedCacheSchemaIdInvalidException {
+    schemaId?: string | undefined;
+
+    constructor(data?: IListItemNamedCacheSchemaIdInvalidException) {
+        super(data);
+        this._discriminator = "ListItemNamedCacheSchemaIdInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): ListItemNamedCacheSchemaIdInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemNamedCacheSchemaIdInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IListItemNamedCacheSchemaIdInvalidException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export class ListItemNamedCacheKeyFieldsInvalidException extends PictureparkValidationException implements IListItemNamedCacheKeyFieldsInvalidException {
+
+    constructor(data?: IListItemNamedCacheKeyFieldsInvalidException) {
+        super(data);
+        this._discriminator = "ListItemNamedCacheKeyFieldsInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ListItemNamedCacheKeyFieldsInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemNamedCacheKeyFieldsInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IListItemNamedCacheKeyFieldsInvalidException extends IPictureparkValidationException {
+}
+
+export class SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException extends PictureparkValidationException implements ISchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException {
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException) {
+        super(data);
+        this._discriminator = "SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export class NoTagsFoundException extends PictureparkBusinessException implements INoTagsFoundException {
+
+    constructor(data?: INoTagsFoundException) {
+        super(data);
+        this._discriminator = "NoTagsFoundException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): NoTagsFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NoTagsFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INoTagsFoundException extends IPictureparkBusinessException {
+}
+
+export class OutputNotAvailableException extends PictureparkBusinessException implements IOutputNotAvailableException {
+
+    constructor(data?: IOutputNotAvailableException) {
+        super(data);
+        this._discriminator = "OutputNotAvailableException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): OutputNotAvailableException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputNotAvailableException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputNotAvailableException extends IPictureparkBusinessException {
 }
 
 /** Search request to search for business processes */
@@ -31525,12 +32979,226 @@ export interface IContentImportResult {
     error?: IErrorResponse | undefined;
 }
 
+/** Create request to create a BusinessProcess. */
+export class BusinessProcessCreateRequest implements IBusinessProcessCreateRequest {
+    /** Indicates if the system starting the business process supports cancellation. */
+    supportsCancellation!: boolean;
+    /** Notification data to send to the user when creating the business process.
+Set to null to not create a notification. */
+    notification?: BusinessProcessNotificationUpdate | undefined;
+    /** Initial state of the business process. */
+    initialState!: string;
+
+    constructor(data?: IBusinessProcessCreateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.notification = data.notification && !(<any>data.notification).toJSON ? new BusinessProcessNotificationUpdate(data.notification) : <BusinessProcessNotificationUpdate>this.notification; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.supportsCancellation = data["supportsCancellation"];
+            this.notification = data["notification"] ? BusinessProcessNotificationUpdate.fromJS(data["notification"]) : <any>undefined;
+            this.initialState = data["initialState"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["supportsCancellation"] = this.supportsCancellation;
+        data["notification"] = this.notification ? this.notification.toJSON() : <any>undefined;
+        data["initialState"] = this.initialState;
+        return data; 
+    }
+}
+
+/** Create request to create a BusinessProcess. */
+export interface IBusinessProcessCreateRequest {
+    /** Indicates if the system starting the business process supports cancellation. */
+    supportsCancellation: boolean;
+    /** Notification data to send to the user when creating the business process.
+Set to null to not create a notification. */
+    notification?: IBusinessProcessNotificationUpdate | undefined;
+    /** Initial state of the business process. */
+    initialState: string;
+}
+
+/** Notification update for a business process. */
+export class BusinessProcessNotificationUpdate implements IBusinessProcessNotificationUpdate {
+    /** The title the message that is shown to the user should have. */
+    title!: TranslatedStringDictionary;
+    /** The message shown to the user. */
+    message!: TranslatedStringDictionary;
+    /** An optional navigation link that allows the user to jump to a page giving more information
+about the process. */
+    navigationLink?: string | undefined;
+    /** The event type of the notification. */
+    eventType!: NotificationEventType;
+
+    constructor(data?: IBusinessProcessNotificationUpdate) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.title = data.title && !(<any>data.title).toJSON ? new TranslatedStringDictionary(data.title) : <TranslatedStringDictionary>this.title; 
+            this.message = data.message && !(<any>data.message).toJSON ? new TranslatedStringDictionary(data.message) : <TranslatedStringDictionary>this.message; 
+        }
+        if (!data) {
+            this.title = new TranslatedStringDictionary();
+            this.message = new TranslatedStringDictionary();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"] ? TranslatedStringDictionary.fromJS(data["title"]) : new TranslatedStringDictionary();
+            this.message = data["message"] ? TranslatedStringDictionary.fromJS(data["message"]) : new TranslatedStringDictionary();
+            this.navigationLink = data["navigationLink"];
+            this.eventType = data["eventType"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessNotificationUpdate {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessNotificationUpdate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title ? this.title.toJSON() : <any>undefined;
+        data["message"] = this.message ? this.message.toJSON() : <any>undefined;
+        data["navigationLink"] = this.navigationLink;
+        data["eventType"] = this.eventType;
+        return data; 
+    }
+}
+
+/** Notification update for a business process. */
+export interface IBusinessProcessNotificationUpdate {
+    /** The title the message that is shown to the user should have. */
+    title: ITranslatedStringDictionary;
+    /** The message shown to the user. */
+    message: ITranslatedStringDictionary;
+    /** An optional navigation link that allows the user to jump to a page giving more information
+about the process. */
+    navigationLink?: string | undefined;
+    /** The event type of the notification. */
+    eventType: NotificationEventType;
+}
+
+export enum NotificationEventType {
+    Pending = "Pending",
+    InProgress = "InProgress",
+    Success = "Success",
+    Error = "Error",
+    Warning = "Warning",
+    Information = "Information",
+}
+
+/** Transitions the business process to a new state and/or life cycle. */
+export class BusinessProcessStateChangeRequest implements IBusinessProcessStateChangeRequest {
+    /** The new state of the business process. */
+    state!: string;
+    /** The new life cycle of the business process. */
+    lifeCycle!: BusinessProcessLifeCycle;
+    /** An optional notification update to be posted together with the transition. */
+    notification?: BusinessProcessNotificationUpdate | undefined;
+
+    constructor(data?: IBusinessProcessStateChangeRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.notification = data.notification && !(<any>data.notification).toJSON ? new BusinessProcessNotificationUpdate(data.notification) : <BusinessProcessNotificationUpdate>this.notification; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.state = data["state"];
+            this.lifeCycle = data["lifeCycle"];
+            this.notification = data["notification"] ? BusinessProcessNotificationUpdate.fromJS(data["notification"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessStateChangeRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessStateChangeRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["state"] = this.state;
+        data["lifeCycle"] = this.lifeCycle;
+        data["notification"] = this.notification ? this.notification.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Transitions the business process to a new state and/or life cycle. */
+export interface IBusinessProcessStateChangeRequest {
+    /** The new state of the business process. */
+    state: string;
+    /** The new life cycle of the business process. */
+    lifeCycle: BusinessProcessLifeCycle;
+    /** An optional notification update to be posted together with the transition. */
+    notification?: IBusinessProcessNotificationUpdate | undefined;
+}
+
+/** Updates the notification of a business process without changing the state or the life cycle. */
+export class BusinessProcessNotificationUpdateRequest extends BusinessProcessNotificationUpdate implements IBusinessProcessNotificationUpdateRequest {
+
+    constructor(data?: IBusinessProcessNotificationUpdateRequest) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): BusinessProcessNotificationUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessNotificationUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Updates the notification of a business process without changing the state or the life cycle. */
+export interface IBusinessProcessNotificationUpdateRequest extends IBusinessProcessNotificationUpdate {
+}
+
 /** Represents the business rule configuration. */
 export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
     /** Disables the rule completely. */
     disableRuleEngine!: boolean;
     /** Rules */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 
     constructor(data?: IBusinessRuleConfiguration) {
         if (data) {
@@ -31548,6 +33216,11 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
                 this.rules = [] as any;
                 for (let item of data["rules"])
                     this.rules!.push(BusinessRule.fromJS(item));
+            }
+            if (Array.isArray(data["caches"])) {
+                this.caches = [] as any;
+                for (let item of data["caches"])
+                    this.caches!.push(NamedCacheConfigurationBase.fromJS(item));
             }
         }
     }
@@ -31567,6 +33240,11 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
             for (let item of this.rules)
                 data["rules"].push(item.toJSON());
         }
+        if (Array.isArray(this.caches)) {
+            data["caches"] = [];
+            for (let item of this.caches)
+                data["caches"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -31577,6 +33255,8 @@ export interface IBusinessRuleConfiguration {
     disableRuleEngine: boolean;
     /** Rules */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 }
 
 /** A business rule */
@@ -31714,11 +33394,22 @@ export interface IBusinessRuleTriggerPoint {
 export class BusinessRuleConfigurable extends BusinessRule implements IBusinessRuleConfigurable {
     /** The condition that makes this rule trigger. */
     condition?: BusinessRuleCondition | undefined;
+    /** Optional transformations to apply. */
+    transformationGroups?: BusinessRuleTransformationGroup[] | undefined;
     /** The actions that are performed when this rule triggers. */
     actions?: BusinessRuleAction[] | undefined;
 
     constructor(data?: IBusinessRuleConfigurable) {
         super(data);
+        if (data) {
+            if (data.transformationGroups) {
+                this.transformationGroups = [];
+                for (let i = 0; i < data.transformationGroups.length; i++) {
+                    let item = data.transformationGroups[i];
+                    this.transformationGroups[i] = item && !(<any>item).toJSON ? new BusinessRuleTransformationGroup(item) : <BusinessRuleTransformationGroup>item;
+                }
+            }
+        }
         this._discriminator = "BusinessRuleConfigurable";
     }
 
@@ -31726,6 +33417,11 @@ export class BusinessRuleConfigurable extends BusinessRule implements IBusinessR
         super.init(data);
         if (data) {
             this.condition = data["condition"] ? BusinessRuleCondition.fromJS(data["condition"]) : <any>undefined;
+            if (Array.isArray(data["transformationGroups"])) {
+                this.transformationGroups = [] as any;
+                for (let item of data["transformationGroups"])
+                    this.transformationGroups!.push(BusinessRuleTransformationGroup.fromJS(item));
+            }
             if (Array.isArray(data["actions"])) {
                 this.actions = [] as any;
                 for (let item of data["actions"])
@@ -31744,6 +33440,11 @@ export class BusinessRuleConfigurable extends BusinessRule implements IBusinessR
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["condition"] = this.condition ? this.condition.toJSON() : <any>undefined;
+        if (Array.isArray(this.transformationGroups)) {
+            data["transformationGroups"] = [];
+            for (let item of this.transformationGroups)
+                data["transformationGroups"].push(item.toJSON());
+        }
         if (Array.isArray(this.actions)) {
             data["actions"] = [];
             for (let item of this.actions)
@@ -31758,6 +33459,8 @@ export class BusinessRuleConfigurable extends BusinessRule implements IBusinessR
 export interface IBusinessRuleConfigurable extends IBusinessRule {
     /** The condition that makes this rule trigger. */
     condition?: BusinessRuleCondition | undefined;
+    /** Optional transformations to apply. */
+    transformationGroups?: IBusinessRuleTransformationGroup[] | undefined;
     /** The actions that are performed when this rule triggers. */
     actions?: BusinessRuleAction[] | undefined;
 }
@@ -31837,6 +33540,46 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
         }
         if (data["kind"] === "ContentSchemaCondition") {
             let result = new ContentSchemaCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NumberCompareCondition") {
+            let result = new NumberCompareCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentRelationItemAssignedCondition") {
+            let result = new ContentRelationItemAssignedCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentRelationItemUnassignedCondition") {
+            let result = new ContentRelationItemUnassignedCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "GeoPointWithinPolygonCondition") {
+            let result = new GeoPointWithinPolygonCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentPermissionSetsChangedCondition") {
+            let result = new ContentPermissionSetsChangedCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentRelationItemsChangedCondition") {
+            let result = new ContentRelationItemsChangedCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayersChangedCondition") {
+            let result = new LayersChangedCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TagboxItemsChangedCondition") {
+            let result = new TagboxItemsChangedCondition();
             result.init(data);
             return result;
         }
@@ -32170,6 +33913,8 @@ export class MatchRegexCondition extends BusinessRuleCondition implements IMatch
     fieldPath?: string | undefined;
     /** Regular expression */
     regex?: string | undefined;
+    /** Optional variable name to store the matched regex groups in */
+    storeIn?: string | undefined;
 
     constructor(data?: IMatchRegexCondition) {
         super(data);
@@ -32181,6 +33926,7 @@ export class MatchRegexCondition extends BusinessRuleCondition implements IMatch
         if (data) {
             this.fieldPath = data["fieldPath"];
             this.regex = data["regex"];
+            this.storeIn = data["storeIn"];
         }
     }
 
@@ -32195,6 +33941,7 @@ export class MatchRegexCondition extends BusinessRuleCondition implements IMatch
         data = typeof data === 'object' ? data : {};
         data["fieldPath"] = this.fieldPath;
         data["regex"] = this.regex;
+        data["storeIn"] = this.storeIn;
         super.toJSON(data);
         return data; 
     }
@@ -32206,6 +33953,8 @@ export interface IMatchRegexCondition extends IBusinessRuleCondition {
     fieldPath?: string | undefined;
     /** Regular expression */
     regex?: string | undefined;
+    /** Optional variable name to store the matched regex groups in */
+    storeIn?: string | undefined;
 }
 
 /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
@@ -32334,6 +34083,726 @@ export interface IContentSchemaCondition extends IBusinessRuleCondition {
     schemaId?: string | undefined;
 }
 
+export class NumberCompareCondition extends BusinessRuleCondition implements INumberCompareCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** Mode to use for comparison. */
+    mode!: BusinessRuleNumberCompareConditionMode;
+    /** Value to compare to. */
+    value!: number;
+
+    constructor(data?: INumberCompareCondition) {
+        super(data);
+        this._discriminator = "NumberCompareCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldPath = data["fieldPath"];
+            this.mode = data["mode"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): NumberCompareCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new NumberCompareCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        data["mode"] = this.mode;
+        data["value"] = this.value;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INumberCompareCondition extends IBusinessRuleCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** Mode to use for comparison. */
+    mode: BusinessRuleNumberCompareConditionMode;
+    /** Value to compare to. */
+    value: number;
+}
+
+export enum BusinessRuleNumberCompareConditionMode {
+    LessThan = "LessThan",
+    LessThanEqual = "LessThanEqual",
+    Equal = "Equal",
+    GreaterThanEqual = "GreaterThanEqual",
+    GreaterThan = "GreaterThan",
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is newly assigned. */
+export class ContentRelationItemAssignedCondition extends BusinessRuleCondition implements IContentRelationItemAssignedCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+
+    constructor(data?: IContentRelationItemAssignedCondition) {
+        super(data);
+        this._discriminator = "ContentRelationItemAssignedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentId = data["contentId"];
+            this.fieldPath = data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): ContentRelationItemAssignedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRelationItemAssignedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is newly assigned. */
+export interface IContentRelationItemAssignedCondition extends IBusinessRuleCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is removed. */
+export class ContentRelationItemUnassignedCondition extends BusinessRuleCondition implements IContentRelationItemUnassignedCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+
+    constructor(data?: IContentRelationItemUnassignedCondition) {
+        super(data);
+        this._discriminator = "ContentRelationItemUnassignedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentId = data["contentId"];
+            this.fieldPath = data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): ContentRelationItemUnassignedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRelationItemUnassignedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is removed. */
+export interface IContentRelationItemUnassignedCondition extends IBusinessRuleCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches when the geo point from the field specified by the field path is inside the specified polygon. */
+export class GeoPointWithinPolygonCondition extends BusinessRuleCondition implements IGeoPointWithinPolygonCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+    /** List of points that form the polygon for the geo fence.
+Must include at least 3 points. */
+    polygon?: LatLon[] | undefined;
+
+    constructor(data?: IGeoPointWithinPolygonCondition) {
+        super(data);
+        if (data) {
+            if (data.polygon) {
+                this.polygon = [];
+                for (let i = 0; i < data.polygon.length; i++) {
+                    let item = data.polygon[i];
+                    this.polygon[i] = item && !(<any>item).toJSON ? new LatLon(item) : <LatLon>item;
+                }
+            }
+        }
+        this._discriminator = "GeoPointWithinPolygonCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldPath = data["fieldPath"];
+            if (Array.isArray(data["polygon"])) {
+                this.polygon = [] as any;
+                for (let item of data["polygon"])
+                    this.polygon!.push(LatLon.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GeoPointWithinPolygonCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeoPointWithinPolygonCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        if (Array.isArray(this.polygon)) {
+            data["polygon"] = [];
+            for (let item of this.polygon)
+                data["polygon"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches when the geo point from the field specified by the field path is inside the specified polygon. */
+export interface IGeoPointWithinPolygonCondition extends IBusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+    /** List of points that form the polygon for the geo fence.
+Must include at least 3 points. */
+    polygon?: ILatLon[] | undefined;
+}
+
+/** Stores a coordinate */
+export class LatLon implements ILatLon {
+    /** Latitude */
+    lat!: number;
+    /** Longitude */
+    lon!: number;
+
+    constructor(data?: ILatLon) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lat = data["lat"];
+            this.lon = data["lon"];
+        }
+    }
+
+    static fromJS(data: any): LatLon {
+        data = typeof data === 'object' ? data : {};
+        let result = new LatLon();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lat"] = this.lat;
+        data["lon"] = this.lon;
+        return data; 
+    }
+}
+
+/** Stores a coordinate */
+export interface ILatLon {
+    /** Latitude */
+    lat: number;
+    /** Longitude */
+    lon: number;
+}
+
+/** Matches whenever the assigned content permission sets changed. */
+export class ContentPermissionSetsChangedCondition extends BusinessRuleCondition implements IContentPermissionSetsChangedCondition {
+
+    constructor(data?: IContentPermissionSetsChangedCondition) {
+        super(data);
+        this._discriminator = "ContentPermissionSetsChangedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ContentPermissionSetsChangedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPermissionSetsChangedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches whenever the assigned content permission sets changed. */
+export interface IContentPermissionSetsChangedCondition extends IBusinessRuleCondition {
+}
+
+/** Matches whenever the assigned content(s) in a relationship field changed. */
+export class ContentRelationItemsChangedCondition extends BusinessRuleCondition implements IContentRelationItemsChangedCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+
+    constructor(data?: IContentRelationItemsChangedCondition) {
+        super(data);
+        this._discriminator = "ContentRelationItemsChangedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldPath = data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): ContentRelationItemsChangedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRelationItemsChangedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches whenever the assigned content(s) in a relationship field changed. */
+export interface IContentRelationItemsChangedCondition extends IBusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches whenever the assigned layers of a content changed. */
+export class LayersChangedCondition extends BusinessRuleCondition implements ILayersChangedCondition {
+
+    constructor(data?: ILayersChangedCondition) {
+        super(data);
+        this._discriminator = "LayersChangedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): LayersChangedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new LayersChangedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches whenever the assigned layers of a content changed. */
+export interface ILayersChangedCondition extends IBusinessRuleCondition {
+}
+
+/** Matches whenever the assigned item(s) in a tagbox changed. */
+export class TagboxItemsChangedCondition extends BusinessRuleCondition implements ITagboxItemsChangedCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+
+    constructor(data?: ITagboxItemsChangedCondition) {
+        super(data);
+        this._discriminator = "TagboxItemsChangedCondition";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fieldPath = data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): TagboxItemsChangedCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new TagboxItemsChangedCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches whenever the assigned item(s) in a tagbox changed. */
+export interface ITagboxItemsChangedCondition extends IBusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Business rule transformation group: A group of transformations to run for the specified inputs */
+export class BusinessRuleTransformationGroup implements IBusinessRuleTransformationGroup {
+    /** The inputs of the transformation group. */
+    inputs?: string[] | undefined;
+    /** A list of transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+    /** Variable name where the final result should be stored in. */
+    storeIn?: string | undefined;
+
+    constructor(data?: IBusinessRuleTransformationGroup) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["inputs"])) {
+                this.inputs = [] as any;
+                for (let item of data["inputs"])
+                    this.inputs!.push(item);
+            }
+            if (Array.isArray(data["transformations"])) {
+                this.transformations = [] as any;
+                for (let item of data["transformations"])
+                    this.transformations!.push(BusinessRuleTransformation.fromJS(item));
+            }
+            this.storeIn = data["storeIn"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleTransformationGroup {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleTransformationGroup();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.inputs)) {
+            data["inputs"] = [];
+            for (let item of this.inputs)
+                data["inputs"].push(item);
+        }
+        if (Array.isArray(this.transformations)) {
+            data["transformations"] = [];
+            for (let item of this.transformations)
+                data["transformations"].push(item.toJSON());
+        }
+        data["storeIn"] = this.storeIn;
+        return data; 
+    }
+}
+
+/** Business rule transformation group: A group of transformations to run for the specified inputs */
+export interface IBusinessRuleTransformationGroup {
+    /** The inputs of the transformation group. */
+    inputs?: string[] | undefined;
+    /** A list of transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+    /** Variable name where the final result should be stored in. */
+    storeIn?: string | undefined;
+}
+
+/** Business rule transformation */
+export abstract class BusinessRuleTransformation implements IBusinessRuleTransformation {
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessRuleTransformation) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "BusinessRuleTransformation";
+    }
+
+    init(data?: any) {
+    }
+
+    static fromJS(data: any): BusinessRuleTransformation {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "TakeDictionaryValueTransformation") {
+            let result = new TakeDictionaryValueTransformation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TakeArrayValueTransformation") {
+            let result = new TakeArrayValueTransformation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "JoinByTransformation") {
+            let result = new JoinByTransformation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LookupCacheTransformation") {
+            let result = new LookupCacheTransformation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NGramTransformation") {
+            let result = new NGramTransformation();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BusinessRuleTransformation' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** Business rule transformation */
+export interface IBusinessRuleTransformation {
+}
+
+/** Takes an item from a dictionary by its key. */
+export class TakeDictionaryValueTransformation extends BusinessRuleTransformation implements ITakeDictionaryValueTransformation {
+    /** Key of the item. */
+    key?: string | undefined;
+
+    constructor(data?: ITakeDictionaryValueTransformation) {
+        super(data);
+        this._discriminator = "TakeDictionaryValueTransformation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.key = data["key"];
+        }
+    }
+
+    static fromJS(data: any): TakeDictionaryValueTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new TakeDictionaryValueTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Takes an item from a dictionary by its key. */
+export interface ITakeDictionaryValueTransformation extends IBusinessRuleTransformation {
+    /** Key of the item. */
+    key?: string | undefined;
+}
+
+/** Takes an item from an array by its index. */
+export class TakeArrayValueTransformation extends BusinessRuleTransformation implements ITakeArrayValueTransformation {
+    /** Index of the item. */
+    index?: string | undefined;
+
+    constructor(data?: ITakeArrayValueTransformation) {
+        super(data);
+        this._discriminator = "TakeArrayValueTransformation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.index = data["index"];
+        }
+    }
+
+    static fromJS(data: any): TakeArrayValueTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new TakeArrayValueTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["index"] = this.index;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Takes an item from an array by its index. */
+export interface ITakeArrayValueTransformation extends IBusinessRuleTransformation {
+    /** Index of the item. */
+    index?: string | undefined;
+}
+
+/** Joins the input by a configurable separator */
+export class JoinByTransformation extends BusinessRuleTransformation implements IJoinByTransformation {
+    /** Separator to use. */
+    separator?: string | undefined;
+
+    constructor(data?: IJoinByTransformation) {
+        super(data);
+        this._discriminator = "JoinByTransformation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.separator = data["separator"];
+        }
+    }
+
+    static fromJS(data: any): JoinByTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new JoinByTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["separator"] = this.separator;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Joins the input by a configurable separator */
+export interface IJoinByTransformation extends IBusinessRuleTransformation {
+    /** Separator to use. */
+    separator?: string | undefined;
+}
+
+/** Uses a named cache to lookup a value. */
+export class LookupCacheTransformation extends BusinessRuleTransformation implements ILookupCacheTransformation {
+    /** Name of the cache to use. */
+    namedCache?: string | undefined;
+
+    constructor(data?: ILookupCacheTransformation) {
+        super(data);
+        this._discriminator = "LookupCacheTransformation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.namedCache = data["namedCache"];
+        }
+    }
+
+    static fromJS(data: any): LookupCacheTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new LookupCacheTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["namedCache"] = this.namedCache;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Uses a named cache to lookup a value. */
+export interface ILookupCacheTransformation extends IBusinessRuleTransformation {
+    /** Name of the cache to use. */
+    namedCache?: string | undefined;
+}
+
+/** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
+export class NGramTransformation extends BusinessRuleTransformation implements INGramTransformation {
+    /** Maximum size of n-grams to produce.
+Settings this to 3 will produce unigrams, bigrams, trigrams. */
+    size!: number;
+    /** Minimum length of a word to be considered. */
+    minWordLength!: number;
+    /** Maximum length of a word to be considered. */
+    maxWordLength?: number | undefined;
+
+    constructor(data?: INGramTransformation) {
+        super(data);
+        this._discriminator = "NGramTransformation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.size = data["size"];
+            this.minWordLength = data["minWordLength"];
+            this.maxWordLength = data["maxWordLength"];
+        }
+    }
+
+    static fromJS(data: any): NGramTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new NGramTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["size"] = this.size;
+        data["minWordLength"] = this.minWordLength;
+        data["maxWordLength"] = this.maxWordLength;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
+export interface INGramTransformation extends IBusinessRuleTransformation {
+    /** Maximum size of n-grams to produce.
+Settings this to 3 will produce unigrams, bigrams, trigrams. */
+    size: number;
+    /** Minimum length of a word to be considered. */
+    minWordLength: number;
+    /** Maximum length of a word to be considered. */
+    maxWordLength?: number | undefined;
+}
+
 /** Action to be performed by a business rule */
 export abstract class BusinessRuleAction implements IBusinessRuleAction {
 
@@ -32391,6 +34860,11 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
         }
         if (data["kind"] === "ProduceMessageAction") {
             let result = new ProduceMessageAction();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AssignTagboxItemsInLayerAction") {
+            let result = new AssignTagboxItemsInLayerAction();
             result.init(data);
             return result;
         }
@@ -32604,7 +35078,7 @@ export class AssignTagboxItemsAction extends BusinessRuleAction implements IAssi
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be assigned. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
     /** Indicates whether all the already assigned tags get replaced by the set specified in the action.
 If false, the not already assigned tags get added, the rest is left as is. */
     replace!: boolean;
@@ -32619,11 +35093,7 @@ If false, the not already assigned tags get added, the rest is left as is. */
         if (data) {
             this.path = data["path"];
             this.fieldId = data["fieldId"];
-            if (Array.isArray(data["refIds"])) {
-                this.refIds = [] as any;
-                for (let item of data["refIds"])
-                    this.refIds!.push(item);
-            }
+            this.refIds = data["refIds"];
             this.replace = data["replace"];
         }
     }
@@ -32639,11 +35109,7 @@ If false, the not already assigned tags get added, the rest is left as is. */
         data = typeof data === 'object' ? data : {};
         data["path"] = this.path;
         data["fieldId"] = this.fieldId;
-        if (Array.isArray(this.refIds)) {
-            data["refIds"] = [];
-            for (let item of this.refIds)
-                data["refIds"].push(item);
-        }
+        data["refIds"] = this.refIds;
         data["replace"] = this.replace;
         super.toJSON(data);
         return data; 
@@ -32657,7 +35123,7 @@ export interface IAssignTagboxItemsAction extends IBusinessRuleAction {
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be assigned. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
     /** Indicates whether all the already assigned tags get replaced by the set specified in the action.
 If false, the not already assigned tags get added, the rest is left as is. */
     replace: boolean;
@@ -32670,7 +35136,7 @@ export class UnassignTagboxItemsAction extends BusinessRuleAction implements IUn
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be removed. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
 
     constructor(data?: IUnassignTagboxItemsAction) {
         super(data);
@@ -32682,11 +35148,7 @@ export class UnassignTagboxItemsAction extends BusinessRuleAction implements IUn
         if (data) {
             this.path = data["path"];
             this.fieldId = data["fieldId"];
-            if (Array.isArray(data["refIds"])) {
-                this.refIds = [] as any;
-                for (let item of data["refIds"])
-                    this.refIds!.push(item);
-            }
+            this.refIds = data["refIds"];
         }
     }
 
@@ -32701,11 +35163,7 @@ export class UnassignTagboxItemsAction extends BusinessRuleAction implements IUn
         data = typeof data === 'object' ? data : {};
         data["path"] = this.path;
         data["fieldId"] = this.fieldId;
-        if (Array.isArray(this.refIds)) {
-            data["refIds"] = [];
-            for (let item of this.refIds)
-                data["refIds"].push(item);
-        }
+        data["refIds"] = this.refIds;
         super.toJSON(data);
         return data; 
     }
@@ -32718,13 +35176,13 @@ export interface IUnassignTagboxItemsAction extends IBusinessRuleAction {
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be removed. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
 }
 
 /** Assigns one or more permission sets to a content. */
 export class AssignContentPermissionSetsAction extends BusinessRuleAction implements IAssignContentPermissionSetsAction {
     /** IDs of the permission sets to assign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
     /** Indicates whether the already assigned permissions should be replaced or merged. */
     replace!: boolean;
 
@@ -32736,11 +35194,7 @@ export class AssignContentPermissionSetsAction extends BusinessRuleAction implem
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (Array.isArray(data["permissionSetIds"])) {
-                this.permissionSetIds = [] as any;
-                for (let item of data["permissionSetIds"])
-                    this.permissionSetIds!.push(item);
-            }
+            this.permissionSetIds = data["permissionSetIds"];
             this.replace = data["replace"];
         }
     }
@@ -32754,11 +35208,7 @@ export class AssignContentPermissionSetsAction extends BusinessRuleAction implem
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.permissionSetIds)) {
-            data["permissionSetIds"] = [];
-            for (let item of this.permissionSetIds)
-                data["permissionSetIds"].push(item);
-        }
+        data["permissionSetIds"] = this.permissionSetIds;
         data["replace"] = this.replace;
         super.toJSON(data);
         return data; 
@@ -32768,7 +35218,7 @@ export class AssignContentPermissionSetsAction extends BusinessRuleAction implem
 /** Assigns one or more permission sets to a content. */
 export interface IAssignContentPermissionSetsAction extends IBusinessRuleAction {
     /** IDs of the permission sets to assign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
     /** Indicates whether the already assigned permissions should be replaced or merged. */
     replace: boolean;
 }
@@ -32776,7 +35226,7 @@ export interface IAssignContentPermissionSetsAction extends IBusinessRuleAction 
 /** Removes one or more permission sets from a content. */
 export class UnassignContentPermissionSetsAction extends BusinessRuleAction implements IUnassignContentPermissionSetsAction {
     /** IDs of the permission sets to unassign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
 
     constructor(data?: IUnassignContentPermissionSetsAction) {
         super(data);
@@ -32786,11 +35236,7 @@ export class UnassignContentPermissionSetsAction extends BusinessRuleAction impl
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (Array.isArray(data["permissionSetIds"])) {
-                this.permissionSetIds = [] as any;
-                for (let item of data["permissionSetIds"])
-                    this.permissionSetIds!.push(item);
-            }
+            this.permissionSetIds = data["permissionSetIds"];
         }
     }
 
@@ -32803,11 +35249,7 @@ export class UnassignContentPermissionSetsAction extends BusinessRuleAction impl
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.permissionSetIds)) {
-            data["permissionSetIds"] = [];
-            for (let item of this.permissionSetIds)
-                data["permissionSetIds"].push(item);
-        }
+        data["permissionSetIds"] = this.permissionSetIds;
         super.toJSON(data);
         return data; 
     }
@@ -32816,7 +35258,7 @@ export class UnassignContentPermissionSetsAction extends BusinessRuleAction impl
 /** Removes one or more permission sets from a content. */
 export interface IUnassignContentPermissionSetsAction extends IBusinessRuleAction {
     /** IDs of the permission sets to unassign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
 }
 
 export class ProduceMessageAction extends BusinessRuleAction implements IProduceMessageAction {
@@ -32845,6 +35287,58 @@ export class ProduceMessageAction extends BusinessRuleAction implements IProduce
 }
 
 export interface IProduceMessageAction extends IBusinessRuleAction {
+}
+
+/** Assigns a set of list item ids to all multi tag boxes in a layer where the filter defined on the tagbox does allow assignment of the ID. */
+export class AssignTagboxItemsInLayerAction extends BusinessRuleAction implements IAssignTagboxItemsInLayerAction {
+    /** Named cache to use for lookup, should be of type SchemaTagboxFilterLookupNamedCacheConfiguration */
+    namedCache?: string | undefined;
+    /** List of refIds of the items that should be assigned. */
+    refIds?: any | undefined;
+    /** Indicates where the assignment should be additive to the already assigned tags
+or if existing tags should be replaced. */
+    replace!: boolean;
+
+    constructor(data?: IAssignTagboxItemsInLayerAction) {
+        super(data);
+        this._discriminator = "AssignTagboxItemsInLayerAction";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.namedCache = data["namedCache"];
+            this.refIds = data["refIds"];
+            this.replace = data["replace"];
+        }
+    }
+
+    static fromJS(data: any): AssignTagboxItemsInLayerAction {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssignTagboxItemsInLayerAction();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["namedCache"] = this.namedCache;
+        data["refIds"] = this.refIds;
+        data["replace"] = this.replace;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Assigns a set of list item ids to all multi tag boxes in a layer where the filter defined on the tagbox does allow assignment of the ID. */
+export interface IAssignTagboxItemsInLayerAction extends IBusinessRuleAction {
+    /** Named cache to use for lookup, should be of type SchemaTagboxFilterLookupNamedCacheConfiguration */
+    namedCache?: string | undefined;
+    /** List of refIds of the items that should be assigned. */
+    refIds?: any | undefined;
+    /** Indicates where the assignment should be additive to the already assigned tags
+or if existing tags should be replaced. */
+    replace: boolean;
 }
 
 /** A business rule expressed as a script */
@@ -32885,12 +35379,174 @@ export interface IBusinessRuleScript extends IBusinessRule {
     script?: string | undefined;
 }
 
+/** Named cache configuration */
+export abstract class NamedCacheConfigurationBase implements INamedCacheConfigurationBase {
+    /** Name of named cache. */
+    name?: string | undefined;
+    /** Indicates if the lookup should be cache sensitive. */
+    caseSensitive!: boolean;
+
+    protected _discriminator: string;
+
+    constructor(data?: INamedCacheConfigurationBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "NamedCacheConfigurationBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.caseSensitive = data["caseSensitive"];
+        }
+    }
+
+    static fromJS(data: any): NamedCacheConfigurationBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ListItemNamedCacheConfiguration") {
+            let result = new ListItemNamedCacheConfiguration();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaTagboxFilterLookupNamedCacheConfiguration") {
+            let result = new SchemaTagboxFilterLookupNamedCacheConfiguration();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NamedCacheConfigurationBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["name"] = this.name;
+        data["caseSensitive"] = this.caseSensitive;
+        return data; 
+    }
+}
+
+/** Named cache configuration */
+export interface INamedCacheConfigurationBase {
+    /** Name of named cache. */
+    name?: string | undefined;
+    /** Indicates if the lookup should be cache sensitive. */
+    caseSensitive: boolean;
+}
+
+/** List item named cache */
+export class ListItemNamedCacheConfiguration extends NamedCacheConfigurationBase implements IListItemNamedCacheConfiguration {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** List of IDs of fields to use as a composite key */
+    keyFields?: string[] | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren!: boolean;
+
+    constructor(data?: IListItemNamedCacheConfiguration) {
+        super(data);
+        this._discriminator = "ListItemNamedCacheConfiguration";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            if (Array.isArray(data["keyFields"])) {
+                this.keyFields = [] as any;
+                for (let item of data["keyFields"])
+                    this.keyFields!.push(item);
+            }
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
+        }
+    }
+
+    static fromJS(data: any): ListItemNamedCacheConfiguration {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemNamedCacheConfiguration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        if (Array.isArray(this.keyFields)) {
+            data["keyFields"] = [];
+            for (let item of this.keyFields)
+                data["keyFields"].push(item);
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** List item named cache */
+export interface IListItemNamedCacheConfiguration extends INamedCacheConfigurationBase {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** List of IDs of fields to use as a composite key */
+    keyFields?: string[] | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren: boolean;
+}
+
+/** Creates a cache for all multi tag boxes in a schema Lookup key is then in the format [ fieldId, refId ], returns the refId if matched by the filter */
+export class SchemaTagboxFilterLookupNamedCacheConfiguration extends NamedCacheConfigurationBase implements ISchemaTagboxFilterLookupNamedCacheConfiguration {
+    /** The layer id. */
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaTagboxFilterLookupNamedCacheConfiguration) {
+        super(data);
+        this._discriminator = "SchemaTagboxFilterLookupNamedCacheConfiguration";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaTagboxFilterLookupNamedCacheConfiguration {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaTagboxFilterLookupNamedCacheConfiguration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Creates a cache for all multi tag boxes in a schema Lookup key is then in the format [ fieldId, refId ], returns the refId if matched by the filter */
+export interface ISchemaTagboxFilterLookupNamedCacheConfiguration extends INamedCacheConfigurationBase {
+    /** The layer id. */
+    schemaId?: string | undefined;
+}
+
 /** Update request for changing business rule configuration */
 export class BusinessRuleConfigurationUpdateRequest implements IBusinessRuleConfigurationUpdateRequest {
     /** Disables the rule engine completely. */
     disableRuleEngine!: boolean;
-    /** Rules */
+    /** Rules. */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 
     constructor(data?: IBusinessRuleConfigurationUpdateRequest) {
         if (data) {
@@ -32908,6 +35564,11 @@ export class BusinessRuleConfigurationUpdateRequest implements IBusinessRuleConf
                 this.rules = [] as any;
                 for (let item of data["rules"])
                     this.rules!.push(BusinessRule.fromJS(item));
+            }
+            if (Array.isArray(data["caches"])) {
+                this.caches = [] as any;
+                for (let item of data["caches"])
+                    this.caches!.push(NamedCacheConfigurationBase.fromJS(item));
             }
         }
     }
@@ -32927,6 +35588,11 @@ export class BusinessRuleConfigurationUpdateRequest implements IBusinessRuleConf
             for (let item of this.rules)
                 data["rules"].push(item.toJSON());
         }
+        if (Array.isArray(this.caches)) {
+            data["caches"] = [];
+            for (let item of this.caches)
+                data["caches"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -32935,8 +35601,10 @@ export class BusinessRuleConfigurationUpdateRequest implements IBusinessRuleConf
 export interface IBusinessRuleConfigurationUpdateRequest {
     /** Disables the rule engine completely. */
     disableRuleEngine: boolean;
-    /** Rules */
+    /** Rules. */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 }
 
 export class Channel implements IChannel {
@@ -34372,6 +37040,8 @@ export class User implements IUser {
     lastName?: string | undefined;
     /** Email address of the user (doubles as username). */
     emailAddress!: string;
+    /** Marks a user that was deleted from the system. */
+    isDeleted!: boolean;
 
     constructor(data?: IUser) {
         if (data) {
@@ -34388,6 +37058,7 @@ export class User implements IUser {
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
             this.emailAddress = data["emailAddress"];
+            this.isDeleted = data["isDeleted"];
         }
     }
 
@@ -34404,6 +37075,7 @@ export class User implements IUser {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["emailAddress"] = this.emailAddress;
+        data["isDeleted"] = this.isDeleted;
         return data; 
     }
 }
@@ -34417,6 +37089,8 @@ export interface IUser {
     lastName?: string | undefined;
     /** Email address of the user (doubles as username). */
     emailAddress: string;
+    /** Marks a user that was deleted from the system. */
+    isDeleted: boolean;
 }
 
 export class DisplayValueDictionary implements IDisplayValueDictionary {
@@ -34465,8 +37139,8 @@ export interface IDisplayValueDictionary {
 
 /** Output */
 export class Output implements IOutput {
-    /** The ID of the output. */
-    id!: string;
+    /** The ID of the output. Can be null for dynamic outputs which are not rendered yet. */
+    id?: string | undefined;
     /** The ID of the output format this output represents. */
     outputFormatId!: string;
     /** The ID of the content for which this output has been created. */
@@ -34481,6 +37155,8 @@ export class Output implements IOutput {
     attemptsLeft!: number;
     /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
     fileVersion!: number;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering!: boolean;
 
     protected _discriminator: string;
 
@@ -34504,6 +37180,7 @@ export class Output implements IOutput {
             this.backupTimestamp = data["backupTimestamp"] ? new Date(data["backupTimestamp"].toString()) : <any>undefined;
             this.attemptsLeft = data["attemptsLeft"];
             this.fileVersion = data["fileVersion"];
+            this.dynamicRendering = data["dynamicRendering"];
         }
     }
 
@@ -34530,14 +37207,15 @@ export class Output implements IOutput {
         data["backupTimestamp"] = this.backupTimestamp ? this.backupTimestamp.toISOString() : <any>undefined;
         data["attemptsLeft"] = this.attemptsLeft;
         data["fileVersion"] = this.fileVersion;
+        data["dynamicRendering"] = this.dynamicRendering;
         return data; 
     }
 }
 
 /** Output */
 export interface IOutput {
-    /** The ID of the output. */
-    id: string;
+    /** The ID of the output. Can be null for dynamic outputs which are not rendered yet. */
+    id?: string | undefined;
     /** The ID of the output format this output represents. */
     outputFormatId: string;
     /** The ID of the content for which this output has been created. */
@@ -34552,6 +37230,8 @@ export interface IOutput {
     attemptsLeft: number;
     /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
     fileVersion: number;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
 }
 
 export enum OutputRenderingState {
@@ -41953,6 +44633,11 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessProcessCancellationRequestedEvent") {
+            let result = new BusinessProcessCancellationRequestedEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -42669,6 +45354,40 @@ export interface IBusinessRuleFiredEventDetail {
     documentId?: string | undefined;
     documentType?: string | undefined;
     ruleIds?: string[] | undefined;
+}
+
+export class BusinessProcessCancellationRequestedEvent extends ApplicationEvent implements IBusinessProcessCancellationRequestedEvent {
+    businessProcessId?: string | undefined;
+
+    constructor(data?: IBusinessProcessCancellationRequestedEvent) {
+        super(data);
+        this._discriminator = "BusinessProcessCancellationRequestedEvent";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.businessProcessId = data["businessProcessId"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessCancellationRequestedEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessCancellationRequestedEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessCancellationRequestedEvent extends IApplicationEvent {
+    businessProcessId?: string | undefined;
 }
 
 export class ConsoleMessage extends Message implements IConsoleMessage {
@@ -48433,7 +51152,7 @@ has to be unique across the schema hierarchy. */
 }
 
 export class SchemaOwnershipTransferRequest implements ISchemaOwnershipTransferRequest {
-    /** The id of the user to whom the schema has to be transfered to. */
+    /** The id of the user to whom the schema has to be transferred to. */
     transferUserId?: string | undefined;
 
     constructor(data?: ISchemaOwnershipTransferRequest) {
@@ -48466,7 +51185,7 @@ export class SchemaOwnershipTransferRequest implements ISchemaOwnershipTransferR
 }
 
 export interface ISchemaOwnershipTransferRequest {
-    /** The id of the user to whom the schema has to be transfered to. */
+    /** The id of the user to whom the schema has to be transferred to. */
     transferUserId?: string | undefined;
 }
 
@@ -49052,7 +51771,7 @@ export interface ISchemaDeleteResult {
 export class SchemaOwnershipTransferManyRequest implements ISchemaOwnershipTransferManyRequest {
     /** The schema ids. */
     schemaIds?: string[] | undefined;
-    /** The id of user to whom the schemas have to be transfered to. */
+    /** The id of user to whom the schemas have to be transferred to. */
     transferUserId?: string | undefined;
 
     constructor(data?: ISchemaOwnershipTransferManyRequest) {
@@ -49097,7 +51816,7 @@ export class SchemaOwnershipTransferManyRequest implements ISchemaOwnershipTrans
 export interface ISchemaOwnershipTransferManyRequest {
     /** The schema ids. */
     schemaIds?: string[] | undefined;
-    /** The id of user to whom the schemas have to be transfered to. */
+    /** The id of user to whom the schemas have to be transferred to. */
     transferUserId?: string | undefined;
 }
 
