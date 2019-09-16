@@ -108,7 +108,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   showDetail(item: ShareContentDetail): void {
     this.dialog.open(ContentDetailsDialogComponent,
-      { data: { id: item.id, shareContent: item, shareDetail: this.share}, width: '980px', height: '700px' }
+      { data: { id: item.id, shareContent: item, shareDetail: this.share, showMetadata: true}, width: '980px', height: '700px' }
     );
   }
 

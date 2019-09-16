@@ -31,7 +31,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   // VARS
   public selection: OutputSelection;
-  public fileSize: number | undefined = 0;
+  public fileSize = 0;
   public enableAdvanced = false;
   public advancedMode = false;
   public filteredData: Content[];

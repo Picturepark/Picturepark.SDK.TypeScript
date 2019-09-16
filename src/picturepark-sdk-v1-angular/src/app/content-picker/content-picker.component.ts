@@ -57,7 +57,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
 
   public openDetails(item: ContentModel<Content>) {
     this.dialog.open(ContentDetailsDialogComponent,
-      { data: { id: item.item.id }, width: '980px', height: '700px' }
+      { data: { id: item.item.id, showMetadata: true }, width: '980px', height: '700px' }
     );
   }
 

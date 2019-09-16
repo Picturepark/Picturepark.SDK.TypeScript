@@ -20,11 +20,13 @@ import { TranslatePipe } from './pipes/translate.pipe';
 import { LazyLoadDirective } from './directives/lazy-load.directive';
 import { AggregationComponent } from './components/aggregation/aggregation.component';
 import { HighlightPipe } from './pipes/highlight.pipe';
+import { PanelComponent } from '../features-module/panel/components/panel/panel.component';
 
 @NgModule({
   declarations: [
     // COMPONENTS
     AggregationComponent,
+    PanelComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,
@@ -45,6 +47,7 @@ import { HighlightPipe } from './pipes/highlight.pipe';
     MaterialsModule,
     // COMPONENTS
     AggregationComponent,
+    PanelComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,
