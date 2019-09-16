@@ -15,6 +15,7 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
   downloadThumbnailSubscription: Subscription;
 
   @Input() item: Content;
+  @Input() size: ThumbnailSize = ThumbnailSize.Large;
   @Input() share: ShareDetail;
 
   // VARS
@@ -32,7 +33,7 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
     // SUBSCRIBERS
     if (!this.share) {
       this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-        this.item.id, ThumbnailSize.Small, null, null
+        this.item.id, this.size, null, null
       ).subscribe(result => {
         if (result !== null) {
           this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
@@ -47,7 +48,7 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
         return;
       }
 
-      const output = content.outputs.find(i => i.outputFormatId === 'ThumbnailMedium');
+      const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.size);
       if (output) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output!.viewUrl!);
       } else {

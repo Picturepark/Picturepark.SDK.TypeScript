@@ -1,8 +1,16 @@
 <pp-panel [title]="title">
-    <div pp-panel-content>
+    <div pp-panel-buttons>
+      <button mat-icon-button aria-label="List" *ngIf="view === 'list'" (click)="view = 'grid'">
+        <mat-icon>list</mat-icon>
+      </button>
+      <button mat-icon-button aria-label="Thumbnails" *ngIf="view === 'grid'" (click)="view = 'list'">
+          <mat-icon>grid_on</mat-icon>
+        </button>
+      </div>
+    <div pp-panel-content [ngClass]="[view]">
       <div class="item" *ngFor="let item of items">
         <div class="thumbnail">
-          <pp-item-panel-preview [item]="item" [share]="shareDetail"></pp-item-panel-preview>
+          <pp-item-panel-preview [item]="item" [share]="shareDetail" (click)="openInNewWindow(item)"></pp-item-panel-preview>
         </div>
         <div class="item-info">
           <ul>
