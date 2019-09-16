@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatTabChangeEvent } from '@angular/material';
 import {
   ContentDetail,
   ContentResolveBehavior,
@@ -42,7 +42,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     if (shareContent) {
       this.liquidRenderingService.renderNestedDisplayValues(shareContent);
       this.content = shareContent as any;
-      this.loadSchemas();
       return;
     }
 
@@ -61,7 +60,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       if (content) {
         this.content = content;
       }
-      this.loadSchemas();
     });
 
     this.subscription.add(contentGetSubscription);
@@ -72,5 +70,12 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).subscribe(schemas => {
       this.schemas = schemas;
     });
+  }
+
+  tabChange(event: MatTabChangeEvent): void {
+    // Load schemas if we change to metadata tab
+    if (event.index === 1 && !this.schemas) {
+      this.loadSchemas();
+    }
   }
 }

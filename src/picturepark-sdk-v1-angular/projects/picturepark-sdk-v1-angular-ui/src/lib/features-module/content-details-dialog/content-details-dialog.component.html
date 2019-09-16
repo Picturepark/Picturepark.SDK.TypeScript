@@ -6,30 +6,34 @@
   </h3>
   <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
-      <mat-tab-group>
+      <mat-tab-group (selectedTabChange)="tabChange($event)">
         <mat-tab label="Overview">
-          <div class="overview-wrap">
-            <div class="content-preview">
-              <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [shareContent]="data.shareContent" width="700" height="600"></pp-content-image-preview>
+          <ng-template matTabContent>
+            <div class="overview-wrap">
+              <div class="content-preview">
+                <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [shareContent]="data.shareContent" width="700" height="600"></pp-content-image-preview>
+              </div>
+              <div class="content-info">
+                <ul>
+                  <li class="inner" [innerHTML]="(content!.displayValues)!['detail']"></li>
+                </ul>
+                <ul>
+                  <li>{{ "ContentPickerDetails.LabelFileExtension" | pptranslate }}<span>{{ content.content.fileExtension }}</span></li>
+                  <li>{{ "ContentPickerDetails.LabelFileSize" | pptranslate }}<span>{{ content.content.fileSizeInBytes | filesize }}</span></li>
+                </ul>
+                <ul *ngIf="content.content.kind === 'ImageMetadata'">
+                  <li>{{ "ContentPickerDetails.LabelSize" | pptranslate }}<span>{{ content.content.width }}px x {{ content.content.height }}px</span></li>
+                </ul>
+              </div>
             </div>
-            <div class="content-info">
-              <ul>
-                <li class="inner" [innerHTML]="(content!.displayValues)!['detail']"></li>
-              </ul>
-              <ul>
-                <li>{{ "ContentPickerDetails.LabelFileExtension" | pptranslate }}<span>{{ content.content.fileExtension }}</span></li>
-                <li>{{ "ContentPickerDetails.LabelFileSize" | pptranslate }}<span>{{ content.content.fileSizeInBytes | filesize }}</span></li>
-              </ul>
-              <ul *ngIf="content.content.kind === 'ImageMetadata'">
-                <li>{{ "ContentPickerDetails.LabelSize" | pptranslate }}<span>{{ content.content.width }}px x {{ content.content.height }}px</span></li>
-              </ul>
-            </div>
-          </div>
+          </ng-template>
         </mat-tab>
         <mat-tab label="Metadata">
-          <div class="metadata-wrap">
-            <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas" [showContentSchema]="true"></pp-layer-panels>
-          </div>
+          <ng-template matTabContent>
+            <div class="metadata-wrap">
+              <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas" [showContentSchema]="true"></pp-layer-panels>
+            </div>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </mat-dialog-content>
