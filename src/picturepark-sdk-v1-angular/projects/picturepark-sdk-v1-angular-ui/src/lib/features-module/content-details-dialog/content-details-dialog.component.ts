@@ -5,15 +5,13 @@ import {
   ContentResolveBehavior,
   ContentService,
   SchemaDetail,
-  SchemaService,
-  ShareContentDetail,
+  SchemaService
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
-import { FullscreenService } from './fullscreen.service';
 
 @Component({
   selector: 'pp-content-details-dialog',

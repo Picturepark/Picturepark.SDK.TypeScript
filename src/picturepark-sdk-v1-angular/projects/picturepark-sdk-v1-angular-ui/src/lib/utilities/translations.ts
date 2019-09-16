@@ -325,6 +325,9 @@ export let TRANSLATIONS = {
     FileSize: {
       en: 'Download size: ~'
     },
+    FileSizeDynamicOutputs: {
+      en: 'Download size (without dynamic formats): ~'
+    },
     Title: {
       en: 'Download'
     },
