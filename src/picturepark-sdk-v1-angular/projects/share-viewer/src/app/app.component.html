@@ -2,9 +2,11 @@
 <div class="share-viewer-item-container">
   <div class="share-viewer-item-content-container">
       <br />
-      <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)">
-      </pp-search-box>
-      <br />
+      <div *ngIf="showSearchBox">
+        <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)">
+        </pp-search-box>
+        <br />
+      </div>
 
       <router-outlet></router-outlet>
   </div>

@@ -19,17 +19,21 @@ import { FileSizePipe } from './pipes/filesize.pipe';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { LazyLoadDirective } from './directives/lazy-load.directive';
 import { AggregationComponent } from './components/aggregation/aggregation.component';
+import { HighlightPipe } from './pipes/highlight.pipe';
+import { PanelComponent } from '../features-module/panel/components/panel/panel.component';
 
 @NgModule({
   declarations: [
     // COMPONENTS
     AggregationComponent,
+    PanelComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective,
+    HighlightPipe
   ],
   imports: [
     CommonModule,
@@ -43,12 +47,14 @@ import { AggregationComponent } from './components/aggregation/aggregation.compo
     MaterialsModule,
     // COMPONENTS
     AggregationComponent,
+    PanelComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,
     FileSizePipe,
     TranslatePipe,
-    LazyLoadDirective
+    LazyLoadDirective,
+    HighlightPipe
   ],
 })
 export class SharedModule {

@@ -9,10 +9,11 @@ import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.co
 @Component({
   selector: 'pp-share-items-panel',
   templateUrl: './share-items-panel.component.html',
-  styleUrls: ['../panel/components/panel-base/panel-base.component.scss', './share-items-panel.component.scss']
+  styleUrls: ['./share-items-panel.component.scss']
 })
 export class ShareItemsPanelComponent extends PanelBaseComponent implements OnInit, OnChanges {
 
+  @Input() view: 'grid' | 'list' = 'grid';
   @Input() items: ShareContentDetail[];
   @Input() shareDetail: ShareDetail;
 

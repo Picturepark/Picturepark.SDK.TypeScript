@@ -8,6 +8,25 @@ import { AuthService, AccessTokenAuthService, PICTUREPARK_CONFIGURATION, Picture
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
+import { environment } from '../environments/environment';
+
+export function PictureparkConfigurationFactory() {
+  if (!environment.production) {
+    return <PictureparkAccessTokenAuthConfiguration>{
+      apiServer: 'http://localhost:8085',
+      customerAlias: 'bro',
+      accessToken: ''
+    };
+  }
+
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return <PictureparkAccessTokenAuthConfiguration>{
+    apiServer: appRootTag.getAttribute('picturepark-api-server'),
+    customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
+    accessToken: ''
+  };
+}
+
 
 @NgModule({
   declarations: [
@@ -26,13 +45,7 @@ import { ShareDetailModule } from './share-detail/share-detail.module';
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
-    {
-      provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkAccessTokenAuthConfiguration>{
-        apiServer: 'https://api.08.qa-picturepark.com',
-        customerAlias: 'localtest',
-        accessToken: ''
-      }
-    }
+    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory }
   ],
   bootstrap: [AppComponent]
 })

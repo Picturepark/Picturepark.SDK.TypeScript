@@ -24,7 +24,16 @@ body {
         width: 20%; float: left;
     }
     .share-viewer-item-content-container {
-        width: 50%; float: left; margin: 0 auto;
+        width: 50%;
+        float: left;
+        margin: 0 auto;
+
+        @media (max-width: 1060px) {
+            width: 80%;
+        }
+        @media (max-width: 535px) {
+            width: 95%;
+        }
     }
     .background-image {
         position: relative; top: 50%; margin: 0 auto; height: 200px;

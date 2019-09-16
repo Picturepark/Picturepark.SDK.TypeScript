@@ -13,17 +13,22 @@ $pp-panel-base: (
     .panel-container { 
         background-color: mat-color($primary, white-background) !important;
         .panel-header {
-            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
+            border-bottom-color: mat-contrast($primary, dialog-background);
             h3 { 
-                color: mat-color($pp-panel-base, title-color) !important;
+                color: mat-color($pp-panel-base, title-color);
             }
             .panel-buttons {
-                & button { 
-                    color: mat-color($primary, base); border: 2px solid mat-color($primary, white-background) !important;
+                & button {
+                    color: mat-color($primary, icon-selected-color);
+                    mat-icon {
+                        color: mat-color($primary, light-font);
+                    }
+
+                    border-color: mat-color($primary, white-background);
                     &:hover { 
-                        background-color: mat-color($primary, white-background) !important;
-                        border: 2px solid mat-color($primary, base) !important;
-                        box-shadow: 0 0 3px mat-color($primary, base) !important;
+                        background-color: mat-color($primary, white-background);
+                        border-color: mat-color($primary, base);
+                        box-shadow: 0 0 3px mat-color($primary, base);
                     }
                     &.square { border: 2px solid mat-color($primary, base) !important; }
                 }

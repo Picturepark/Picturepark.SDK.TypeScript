@@ -4,4 +4,5 @@ export interface ContentDetailDialogOptions {
     id: string;
     shareContent: ShareContentDetail;
     shareDetail: ShareDetail;
+    showMetadata: boolean;
 }

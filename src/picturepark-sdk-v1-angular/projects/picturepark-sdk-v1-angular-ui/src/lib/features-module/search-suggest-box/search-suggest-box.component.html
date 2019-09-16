@@ -1,0 +1,35 @@
+<form class="form" autocomplete="off" [formGroup]="form" autocomplete="false">
+  <button mat-icon-button (click)="search()">
+    <mat-icon aria-label="Search">search</mat-icon>
+  </button>
+
+  <mat-chip-list #chipList aria-label="Share name">
+    <!--
+    <mat-chip *ngFor="let recipient of recipients" [selectable]="selectable" [removable]="removable" (removed)="remove(recipient)">
+      {{recipient}} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    -->
+    <input [placeholder]="'SearchBox.Search' | pptranslate" 
+          [matChipInputFor]="chipList"
+          (matChipInputTokenEnd)="add($event)"
+          (keyup.enter)="search()"
+          [matAutocomplete]="auto"
+          formControlName="suggestBox">
+  </mat-chip-list>
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+    <mat-option *ngIf="isLoading" class="is-loading">
+      <mat-spinner></mat-spinner>
+    </mat-option>
+    <ng-container *ngIf="!isLoading">
+      <mat-option *ngFor="let suggest of suggestAutocomplete" [value]="suggest">
+        <span [innerHTML]="suggest.name | highlight: this.searchString"></span>
+        <span> ({{suggest.count}})</span>
+      </mat-option>
+    </ng-container>
+  </mat-autocomplete>    
+
+  <button mat-icon-button (click)="clear()">
+    <mat-icon aria-label="Clear">clear</mat-icon>
+  </button>
+</form>
