@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 // LIBRARIES
 import {
   ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut,
-  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior, ContentDetail
+  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior, ContentDetail, IShareOutputBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -58,7 +58,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   ) {
     super(data, dialogRef, injector);
 
-    // DISPLAY LOADER
     this.loader = true;
   }
 
@@ -101,29 +100,36 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.noOutputs = outputs.length === 0;
   }
 
-  // DOWNLOAD SELECTED CONTENT
   public download(): void {
+    const data = this.selection.getSelectedOutputs();
+
+    // Single share download
+    if (data.length === 1) {
+      const shareOutput = (data[0] as IShareOutputBase);
+      if (shareOutput.downloadUrl) {
+        window.location.replace(shareOutput.downloadUrl);
+        this.dialogRef.close(true);
+        return;
+      }
+    }
 
     const request = new ContentDownloadLinkCreateRequest({
-      contents: this.selection.getSelectedOutputs().map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }))
+      contents: data.map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }))
     });
-    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(data => {
+    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(download => {
       linkSubscription.unsubscribe();
-      if (data.downloadUrl) {
-          window.location.replace(data.downloadUrl);
+      if (download.downloadUrl) {
+          window.location.replace(download.downloadUrl);
           this.dialogRef.close(true);
       }
     });
-
   }
 
-  // TOGGLE ADVANCED
   public toggleAdvanced(): void {
     this.selection.toggleThumbnails();
     this.update();
   }
 
-  // UPDATE
   public update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
