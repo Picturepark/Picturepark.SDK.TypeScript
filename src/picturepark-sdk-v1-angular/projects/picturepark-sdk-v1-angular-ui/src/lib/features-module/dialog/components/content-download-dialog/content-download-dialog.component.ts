@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 // LIBRARIES
 import {
   ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut,
-  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior
+  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior, ContentDetail
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -158,7 +158,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     return output!;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     super.ngOnInit();
 
@@ -167,15 +167,32 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
     if (this.data.length === 1) {
+      const detail = (this.data[0] as ContentDetail);
+      if (detail.outputs) {
+        this.setSelection(detail.outputs!);
+        return;
+      }
+
       const detailSubscription = this.contentService.get(this.data[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
-        await this.getSelection(content.outputs!, this.data);
-        this.update();
-        this.loader = false;
+        this.setSelection(content.outputs!);
       });
       this.subscription.add(detailSubscription);
     } else {
+      const detail = (this.data[0] as ContentDetail);
+      if (detail.outputs) {
+        const outputs = flatMap(this.data, content => (content as ContentDetail).outputs!);
+        this.setSelection(outputs);
+        return;
+      }
+
       this.fetchOutputs();
     }
+  }
+
+  private async setSelection(outputs: IOutPut[]): Promise<void> {
+    await this.getSelection(outputs, this.data);
+    this.update();
+    this.loader = false;
   }
 
   private fetchOutputs(): void {

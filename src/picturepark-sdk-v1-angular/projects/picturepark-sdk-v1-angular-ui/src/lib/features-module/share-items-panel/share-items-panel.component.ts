@@ -3,6 +3,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 // LIBRARIES
 import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
+import { ContentDownloadDialogService } from '../dialog/components/content-download-dialog/content-download-dialog.service';
 
 // COMPONENTS
 
@@ -22,7 +23,7 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   // VARS
   loader = false;
 
-  constructor() {
+  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {
     super();
   }
 
@@ -34,6 +35,11 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   // DELETE ITEM
   deleteItem(item: ShareContentDetail): void {
 
+  }
+
+  public downloadItem(item: ShareContentDetail) {
+    console.log(item);
+    this.contentDownloadDialogService.showDialog([item]);
   }
 
   ngOnInit() {
