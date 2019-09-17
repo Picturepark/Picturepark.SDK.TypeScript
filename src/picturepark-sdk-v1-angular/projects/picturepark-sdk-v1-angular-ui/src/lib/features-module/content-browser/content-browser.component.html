@@ -32,7 +32,7 @@
         [isListView]="activeView.type === 'list'" 
         (previewItemChange)="previewItem($event)"
         (press)="itemClicked($event,i)" 
-        (tap)="previewItem(itemModel)">
+        (tap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)">
         </pp-content-browser-item>
       </ng-container>
 
