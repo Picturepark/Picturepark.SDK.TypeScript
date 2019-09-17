@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 // LIBRARIES
 import {
@@ -31,6 +32,7 @@ import { ContentDownloadDialogService } from '../dialog/components/content-downl
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
+  public mobileQuery: MediaQueryList;
 
   @Input()
   public channel: Channel | null = null;
@@ -39,11 +41,11 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private basketService: BasketService,
     private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
+    private media: MediaMatcher,
     injector: Injector
   ) {
-
     super('ContentBrowserComponent', injector);
-
+    this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
   }
 
   async init(): Promise<void> {
