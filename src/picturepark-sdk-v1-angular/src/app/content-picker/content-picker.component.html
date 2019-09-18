@@ -1,11 +1,11 @@
 <div class="wrap">
-  <mat-toolbar class="navbar" color="primary" *ngIf="mobileQuery.matches">
+  <mat-toolbar class="navbar" color="primary" *ngIf="deviceBreakpoint">
     <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="basketItemsCount"
       [matBadgeHidden]="basketItemsCount<1">
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
-  <mat-toolbar class="navbar" color="primary" *ngIf="!mobileQuery.matches">
+  <mat-toolbar class="navbar" color="primary" *ngIf="!deviceBreakpoint">
     <pp-channel-picker [channel]="selectedChannel" (channelChange)="changeChannel($event)"></pp-channel-picker>
 
     <span class="spacer"></span>
@@ -16,14 +16,14 @@
 
   <div class="content-picker-content">
     <mat-sidenav-container style="width:100%">
-      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" disableClose="true" position="end"
-        [fixedInViewport]="mobileQuery.matches ? false : true" fixedTopGap="64"
-        [opened]="mobileQuery.matches ? false : true" style="width: 375px;">
-        <mat-toolbar-row *ngIf="mobileQuery.matches">
+      <mat-sidenav #snav [mode]="deviceBreakpoint ? 'over' : 'side'" disableClose="true" position="end"
+        [fixedInViewport]="deviceBreakpoint ? false : true" fixedTopGap="64"
+        [opened]="deviceBreakpoint ? false : true" style="width: 375px;">
+        <mat-toolbar-row *ngIf="deviceBreakpoint">
           <pp-channel-picker style="width: 100%" [channel]="selectedChannel" (channelChange)="changeChannel($event)">
           </pp-channel-picker>
         </mat-toolbar-row>
-        <mat-toolbar-row *ngIf="mobileQuery.matches">
+        <mat-toolbar-row *ngIf="deviceBreakpoint">
           <pp-search-box style="width: 100%; font-size: 16px;" [searchString]="searchText"
             (searchStringChange)="changeSearchQuery($event)"></pp-search-box>
         </mat-toolbar-row>
@@ -41,7 +41,7 @@
             <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
           </mat-tab>
         </mat-tab-group>
-        <div class="expand filters" (click)="snav.toggle()" *ngIf="snav.opened && !mobileQuery.matches">
+        <div class="expand filters" (click)="snav.toggle()" *ngIf="snav.opened && !deviceBreakpoint">
           <i class="material-icons">keyboard_arrow_right</i>
         </div>
       </mat-sidenav>
@@ -50,7 +50,7 @@
           [searchString]="searchText" (previewItemChange)="openDetails($event)"
           (selectedItemsChange)="selectionChange($event)">
         </pp-content-browser>
-        <div class="expand-browser" *ngIf="!snav.opened && !mobileQuery.matches" (click)="snav.toggle()">
+        <div class="expand-browser" *ngIf="!snav.opened && !deviceBreakpoint" (click)="snav.toggle()">
           <i class="material-icons">keyboard_arrow_left</i>
         </div>
       </mat-sidenav-content>
@@ -58,7 +58,7 @@
 
     <div class="footer" [ngClass]="{ active: selectedItems.length > 0 }">
       <div class="mat-typography title">
-        <ng-container *ngIf="mobileQuery.matches; else noMobile">
+        <ng-container *ngIf="deviceBreakpoint; else noMobile">
           <ng-container *ngIf="selectedItems.length === 1">
             {{'ContentPicker.SelectedItem' | pptranslate: selectedItems.length }}
           </ng-container>

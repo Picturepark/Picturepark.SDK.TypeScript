@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 // LIBRARIES
 import {
@@ -32,20 +32,21 @@ import { ContentDownloadDialogService } from '../dialog/components/content-downl
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-  public mobileQuery: MediaQueryList;
-
   @Input()
   public channel: Channel | null = null;
+
+  public get deviceBreakpoint(): boolean {
+    return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
+  }
 
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private media: MediaMatcher,
+    private breakpointObserver: BreakpointObserver,
     injector: Injector
   ) {
     super('ContentBrowserComponent', injector);
-    this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
   }
 
   async init(): Promise<void> {
