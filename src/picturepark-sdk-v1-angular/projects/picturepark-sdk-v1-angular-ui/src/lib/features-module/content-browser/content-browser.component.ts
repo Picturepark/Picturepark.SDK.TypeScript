@@ -163,7 +163,10 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
-    this.contentDownloadDialogService.showDialog(this.items.filter(i => i.isSelected).map(i => i.item));
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: this.items.filter(i => i.isSelected).map(i => i.item)
+    });
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME

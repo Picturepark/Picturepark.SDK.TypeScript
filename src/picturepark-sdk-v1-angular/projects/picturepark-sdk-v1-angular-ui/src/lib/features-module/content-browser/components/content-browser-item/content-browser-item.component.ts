@@ -100,7 +100,10 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   public downloadItem() {
-    this.contentDownloadDialogService.showDialog([this.itemModel.item]);
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: [this.itemModel.item]
+    });
   }
 
   public updateUrl(event) {

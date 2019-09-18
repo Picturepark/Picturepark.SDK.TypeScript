@@ -15,6 +15,7 @@ import { OutputSelection } from './components/output-selection';
 // SERVICES
 import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
 import { groupBy, flatMap } from '../../../../utilities/helper';
+import { ContentDownloadDialogOptions } from './content-download-dialog.interfaces';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -48,7 +49,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   ];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Content[],
+    @Inject(MAT_DIALOG_DATA) public data: ContentDownloadDialogOptions,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     private outputService: OutputService,
@@ -166,9 +167,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
-    if (this.data.length === 1) {
-      const detailSubscription = this.contentService.get(this.data[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
-        await this.getSelection(content.outputs!, this.data);
+    if (this.data.contents.length === 1) {
+      const detailSubscription = this.contentService.get(this.data.contents[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
+        await this.getSelection(content.outputs!, this.data.contents);
         this.update();
         this.loader = false;
       });
@@ -180,11 +181,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   private fetchOutputs(): void {
       const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
-          contentIds: this.data.map(i => i.id),
+          contentIds: this.data.contents.map(i => i.id),
           renderingStates: [ OutputRenderingState.Completed ],
           limit: 1000
       })).subscribe(async outputs => {
-        await this.getSelection(outputs.results, this.data);
+        await this.getSelection(outputs.results, this.data.contents);
         this.update();
         this.loader = false;
       });
