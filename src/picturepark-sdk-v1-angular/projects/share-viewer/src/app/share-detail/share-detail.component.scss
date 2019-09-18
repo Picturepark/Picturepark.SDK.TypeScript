@@ -1,0 +1,32 @@
+.settings {
+    ul { 
+        list-style: none;
+        padding: 0px;
+        float: left;
+
+        li {
+            font-weight: 400;
+            font-size: 13px;
+            color: #727272;
+            line-height: 38px;
+        }
+
+        &.settings-menu {
+            width: 30%;
+        }
+
+        &.settings-info {
+            width: 70%;
+        }
+    }
+
+    .description {
+        padding-top: 10px;
+        white-space: pre-wrap;
+        font-size: 13px;
+    }
+
+    .expiration {
+        color: red;
+    }
+}

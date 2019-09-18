@@ -5,7 +5,10 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { AggregationResult, Channel, FilterBase, Content } from '@picturepark/sdk-v1-angular';
+import {
+  AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest,
+  LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter
+} from '@picturepark/sdk-v1-angular';
 import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
@@ -45,6 +48,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
+    private contentService: ContentService,
     public contentItemSelectionService: ContentItemSelectionService<Content>,
     private media: MediaMatcher,
     private changeDetectorRef: ChangeDetectorRef
@@ -53,13 +57,14 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
 
   public openDetails(item: ContentModel<Content>) {
     this.dialog.open(ContentDetailsDialogComponent,
-      { data: { id: item.item.id }, width: '980px', height: '700px' }
+      { data: { id: item.item.id, showMetadata: true }, width: '980px', height: '700px' }
     );
   }
 
   public ngOnInit() {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
     this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+    // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this.mobileQueryListener);
 
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
@@ -91,10 +96,21 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     this.selectedChannel = channel;
   }
 
+  public aggregate = (aggregators: AggregatorBase[]) => {
+    return this.contentService.aggregate(new ContentAggregationRequest({
+      aggregators: aggregators,
+      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+      searchType: ContentSearchType.Metadata,
+      brokenDependenciesFilter: BrokenDependenciesFilter.All,
+      filter: this.selectedFilter ? this.selectedFilter : undefined
+    }));
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 }

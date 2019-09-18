@@ -1,29 +1,28 @@
-<div class="panel-container">
-  <div class="panel-header">
-    <h3>{{ title }}</h3>
-    <div class="panel-buttons">
-      <!--
-      <button mat-button class="square">Add content</button>
-      <button mat-button>Reorder</button>
-      -->
-    </div>
+<pp-panel [title]="title">
+    <div pp-panel-buttons>
+      <button mat-icon-button aria-label="List" *ngIf="view === 'list'" (click)="view = 'grid'">
+        <mat-icon>list</mat-icon>
+      </button>
+      <button mat-icon-button aria-label="Thumbnails" *ngIf="view === 'grid'" (click)="view = 'list'">
+          <mat-icon>grid_on</mat-icon>
+        </button>
+      </div>
+    <div pp-panel-content [ngClass]="[view]">
+      <div class="item" *ngFor="let item of items">
+        <div class="thumbnail">
+          <pp-item-panel-preview [item]="item" [share]="shareDetail" (click)="openInNewWindow(item)"></pp-item-panel-preview>
+        </div>
+        <div class="item-info">
+          <ul>
+            <li class="title" [innerHTML]="item.displayValues['name']"></li>
+            <li [innerHTML]="item.displayValues['list']"></li>
+          </ul>
+        </div>
+        <div class="item-funcs">
+          <ul>
+            <li><i class="material-icons" (click)="openInNewWindow(item)">open_in_new</i></li>
+          </ul>
+        </div>
+      </div>
   </div>
-  <div class="panel-content">
-    <div class="item" *ngFor="let item of items">
-      <div class="thumbnail">
-        <pp-item-panel-preview [item]="item" [share]="shareDetail"></pp-item-panel-preview>
-      </div>
-      <div class="item-info">
-        <ul>
-          <li class="title" [innerHTML]="item.displayValues['name']"></li>
-          <li [innerHTML]="item.displayValues['list']"></li>
-        </ul>
-      </div>
-      <div class="item-funcs">
-        <ul>
-          <li><i class="material-icons" (click)="openInNewWindow(item)">open_in_new</i></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+</pp-panel>

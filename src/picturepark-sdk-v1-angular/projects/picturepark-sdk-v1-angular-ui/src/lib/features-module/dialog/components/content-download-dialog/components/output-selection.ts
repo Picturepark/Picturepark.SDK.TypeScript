@@ -3,6 +3,7 @@ import { Content, Output, ContentType } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
 import { TranslationService, IOutputFormatTranslations } from '../../../../../shared-module/services/translations/translation.service';
+import { flatMap } from '../../../../../utilities/helper';
 
 export interface IOutputPerOutputFormatSelection {
     id: string;
@@ -91,7 +92,7 @@ export class OutputSelection {
 
     public getSelectedOutputs(): Output[] {
         const selectedOutputs = this.getAllOutputs();
-        const outputs = this.flatMap(selectedOutputs.filter(i => i.selected), i => i.values).map(i => i.output);
+        const outputs = flatMap(selectedOutputs.filter(i => i.selected), i => i.values).map(i => i.output);
         return outputs;
     }
 
@@ -101,12 +102,8 @@ export class OutputSelection {
         thumbnails.forEach(i => i.hidden = !hasHidden);
     }
 
-    public flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
-        return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]> []);
-    }
-
     private getAllOutputs(): IOutputPerOutputFormatSelection[] {
-        return this.flatMap(this.getFileFormats().map(fileFormat => this.getOutputs(fileFormat)), i => i);
+        return flatMap(this.getFileFormats().map(fileFormat => this.getOutputs(fileFormat)), i => i);
     }
 
     private getThumbnailOutputs(): IOutputPerOutputFormatSelection[] {

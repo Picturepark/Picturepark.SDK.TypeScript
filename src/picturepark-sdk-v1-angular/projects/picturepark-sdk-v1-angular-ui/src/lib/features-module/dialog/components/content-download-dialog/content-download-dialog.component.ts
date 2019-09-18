@@ -14,7 +14,7 @@ import { OutputSelection } from './components/output-selection';
 
 // SERVICES
 import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
-import { groupBy } from '../../../../utilities/helper';
+import { groupBy, flatMap } from '../../../../utilities/helper';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -36,6 +36,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public advancedMode = false;
   public filteredData: Content[];
   public noOutputs = false;
+  public hasDynamicOutputs = false;
 
   public loader = false;
 
@@ -68,7 +69,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     selection.getFileFormats().forEach(fileFormat => {
       const fileFormatOutputs = selection.getOutputs(fileFormat);
-      const fileFormatContents = selection.flatMap(fileFormatOutputs, i => i.values);
+      const fileFormatContents = flatMap(fileFormatOutputs, i => i.values);
       if (fileFormat.contents.length === 0) {
           return;
       }
@@ -127,8 +128,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
     const outputs = this.selection.getSelectedOutputs();
+    this.hasDynamicOutputs = outputs.some(i => i.dynamicRendering && !i.detail!.fileSizeInBytes);
     if (outputs.length > 0) {
-      this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes!).reduce((total, value) => total + value );
+      this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes || 0).reduce((total, value) => total + value );
     } else {
       this.fileSize = 0;
     }
