@@ -31,6 +31,7 @@ export { ShareAggregationListModule } from './lib/features-module/share-aggregat
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
 export { ShareContentDialogModule } from './lib/features-module/share-content-dialog/share-content-dialog.module';
+export { ContentDownloadDialogModule } from './lib/features-module/content-download-dialog/content-download-dialog.module';
 
 // COMPONENTS
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
@@ -44,5 +45,5 @@ export { BasketService } from './lib/shared-module/services/basket/basket.servic
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
 export { ContentDownloadDialogService } from
-    './lib/features-module/dialog/components/content-download-dialog/content-download-dialog.service';
+    './lib/features-module/content-download-dialog/content-download-dialog.service';
 export { DialogService } from './lib/features-module/dialog/dialog.service';

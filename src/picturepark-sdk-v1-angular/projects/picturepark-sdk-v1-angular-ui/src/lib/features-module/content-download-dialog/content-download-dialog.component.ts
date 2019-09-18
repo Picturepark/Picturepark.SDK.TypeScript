@@ -9,17 +9,18 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
-import { OutputSelection } from './components/output-selection';
+import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { OutputSelection, IOutputPerOutputFormatSelection, IOutputPerSchemaSelection } from './components/output-selection';
 
 // SERVICES
-import { TranslationService } from '../../../../shared-module/services/translations/translation.service';
-import { groupBy, flatMap } from '../../../../utilities/helper';
+import { TranslationService } from '../../shared-module/services/translations/translation.service';
+import { groupBy, flatMap } from '../../utilities/helper';
+import { ContentDownloadDialogOptions } from './content-download-dialog.interfaces';
 
 @Component({
   selector: 'pp-content-download-dialog',
   templateUrl: './content-download-dialog.component.html',
-  styleUrls: ['../dialog-base/dialog-base.component.scss', './content-download-dialog.component.scss']
+  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './content-download-dialog.component.scss']
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
 
@@ -48,7 +49,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   ];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Content[],
+    @Inject(MAT_DIALOG_DATA) public data: ContentDownloadDialogOptions,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     private outputService: OutputService,
@@ -130,6 +131,12 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.update();
   }
 
+  public radioChange(output: IOutputPerOutputFormatSelection, fileType: IOutputPerSchemaSelection): void {
+    this.selection.getOutputs(fileType).forEach(i => i.selected = false);
+    output.selected = true;
+    this.update();
+  }
+
   public update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
@@ -172,21 +179,21 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
-    if (this.data.length === 1) {
-      const detail = (this.data[0] as ContentDetail);
+    if (this.data.contents.length === 1) {
+      const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
         this.setSelection(detail.outputs!);
         return;
       }
 
-      const detailSubscription = this.contentService.get(this.data[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
+      const detailSubscription = this.contentService.get(this.data.contents[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
         this.setSelection(content.outputs!);
       });
       this.subscription.add(detailSubscription);
     } else {
-      const detail = (this.data[0] as ContentDetail);
+      const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
-        const outputs = flatMap(this.data, content => (content as ContentDetail).outputs!);
+        const outputs = flatMap(this.data.contents, content => (content as ContentDetail).outputs!);
         this.setSelection(outputs);
         return;
       }
@@ -196,18 +203,18 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private async setSelection(outputs: IOutPut[]): Promise<void> {
-    await this.getSelection(outputs, this.data);
+    await this.getSelection(outputs, this.data.contents);
     this.update();
     this.loader = false;
   }
 
   private fetchOutputs(): void {
       const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
-          contentIds: this.data.map(i => i.id),
+          contentIds: this.data.contents.map(i => i.id),
           renderingStates: [ OutputRenderingState.Completed ],
           limit: 1000
       })).subscribe(async outputs => {
-        await this.getSelection(outputs.results, this.data);
+        await this.getSelection(outputs.results, this.data.contents);
         this.update();
         this.loader = false;
       });

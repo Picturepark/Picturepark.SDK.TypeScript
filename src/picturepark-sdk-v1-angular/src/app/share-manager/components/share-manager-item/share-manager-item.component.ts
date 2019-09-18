@@ -42,7 +42,10 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       name: 'Download all contents',
       icon: 'file_download',
       action: () => {
-        this.contentDownloadService.showDialog(this.items);
+        this.contentDownloadService.showDialog({
+          mode: 'single',
+          contents: this.items
+        });
       }
     },
     /*{

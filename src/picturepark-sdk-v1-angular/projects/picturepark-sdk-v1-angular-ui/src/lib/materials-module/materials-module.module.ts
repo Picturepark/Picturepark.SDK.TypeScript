@@ -29,6 +29,7 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatRadioModule,
 } from '@angular/material';
 
 const modules = [
@@ -59,6 +60,7 @@ const modules = [
   MatTooltipModule,
   MatCheckboxModule,
   MatSidenavModule,
+  MatRadioModule,
   // CDK
   CdkTableModule,
   LayoutModule,

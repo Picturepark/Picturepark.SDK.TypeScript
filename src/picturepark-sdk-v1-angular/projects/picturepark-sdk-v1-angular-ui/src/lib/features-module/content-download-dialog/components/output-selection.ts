@@ -2,8 +2,8 @@
 import { Content, Output, ContentType } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
-import { TranslationService, IOutputFormatTranslations } from '../../../../../shared-module/services/translations/translation.service';
-import { flatMap } from '../../../../../utilities/helper';
+import { TranslationService, IOutputFormatTranslations } from '../../../shared-module/services/translations/translation.service';
+import { flatMap } from '../../../utilities/helper';
 
 export interface IOutputPerOutputFormatSelection {
     id: string;

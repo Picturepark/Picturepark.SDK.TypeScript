@@ -3,7 +3,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 // LIBRARIES
 import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
-import { ContentDownloadDialogService } from '../dialog/components/content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 // COMPONENTS
 
@@ -39,7 +39,10 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
 
   public downloadItem(item: ShareContentDetail) {
     console.log(item);
-    this.contentDownloadDialogService.showDialog([item]);
+    this.contentDownloadDialogService.showDialog({
+      mode: 'single',
+      contents: [item]
+    });
   }
 
   ngOnInit() {

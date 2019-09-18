@@ -9,6 +9,7 @@ import { ShareItemsPanelComponent } from '../share-items-panel/share-items-panel
 import { ItemPanelPreviewComponent } from '../share-items-panel/components/item-panel-preview/item-panel-preview.component';
 import { ContentBrowserModule } from '../content-browser/content-browser.module';
 import { DialogModule } from '../dialog/dialog.module';
+import { ContentDownloadDialogModule } from '../content-download-dialog/content-download-dialog.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { DialogModule } from '../dialog/dialog.module';
     CommonModule,
     SharedModule,
     ContentBrowserModule,
-    DialogModule
+    DialogModule,
+    ContentDownloadDialogModule
   ],
   exports: [
     ShareItemsPanelComponent,
