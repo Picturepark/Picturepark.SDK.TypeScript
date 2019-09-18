@@ -9,14 +9,13 @@ import {
   AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest,
   LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter
 } from '@picturepark/sdk-v1-angular';
-import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
+import { ContentItemSelectionService, BasketService, ContentModel } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
 import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from './embed.service';
-import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/models/content-model';
 
 @Component({
   templateUrl: './content-picker.component.html',
