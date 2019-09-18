@@ -38,7 +38,6 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   }
 
   public downloadItem(item: ShareContentDetail) {
-    console.log(item);
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [item]
