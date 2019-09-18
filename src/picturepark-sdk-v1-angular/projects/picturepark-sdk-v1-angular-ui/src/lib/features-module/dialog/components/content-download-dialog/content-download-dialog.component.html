@@ -15,7 +15,11 @@
       </div>
     </form>
     <div *ngIf="noOutputs">{{ 'ContentDownloadDialog.NoAccess' | pptranslate }}</div>
-    <div class="filesize" *ngIf="fileSize" align="end">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}{{ fileSize | filesize }}</div>
+    <div class="filesize" *ngIf="fileSize || hasDynamicOutputs" align="end">
+        <span *ngIf="!hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}</span>
+        <span *ngIf="hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSizeDynamicOutputs' | pptranslate }}</span>
+        {{ fileSize | filesize }}
+    </div>
   </mat-dialog-content>
 
   <div class="loader-container" #loaderContainer [ngClass]="{ active: loader }">
@@ -31,6 +35,6 @@
     </button>
     <span class="spacer"></span>
     <button class="cancel" mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
-    <button class="active" *ngIf="!noOutputs" (click)="download()" [disabled]="fileSize === 0">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
+    <button class="active" *ngIf="!noOutputs" (click)="download()" [disabled]="fileSize === 0 && !hasDynamicOutputs">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
   </mat-dialog-actions>
 </div>

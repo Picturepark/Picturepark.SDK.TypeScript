@@ -2,14 +2,26 @@
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 </div>
 
-<pp-settings-panel
+<pp-panel
     *ngIf="shareDetail"
-    [title]="'Settings'"
-    [subject]="shareDetail.name"
-    [accessOriginal]="shareDetail.outputAccess === 'Full'"
-    [creationDate]="shareDetail.audit.creationDate"
-    [modificationDate]="shareDetail.audit.modificationDate">
-</pp-settings-panel>
+    class="settings"
+    [title]="shareDetail.name">
+    <div pp-panel-content>
+        <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description">
+        </div>
+
+        <ul class="settings-menu">
+            <li>Creation date</li>
+            <li *ngIf="shareDetail.expirationDate">Expiration date</li>
+            <li>Creator</li>
+        </ul>
+        <ul class="settings-info">
+            <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd hh:mm': undefined: 'en-US' }}</li> <!-- TODO: Add support for more locales -->
+            <li *ngIf="shareDetail.expirationDate" class="expiration">{{ shareDetail.expirationDate | date: 'yyyy-MM-dd hh:mm': undefined: 'en-US' }}</li>
+            <li>{{ shareDetail.creator.displayName }}</li>
+        </ul>
+    </div>
+</pp-panel>
 
 <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
 

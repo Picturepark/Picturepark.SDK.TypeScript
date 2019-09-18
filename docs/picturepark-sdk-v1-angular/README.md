@@ -35,7 +35,9 @@ Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app 
 ```typescript
 import { 
   PICTUREPARK_CONFIGURATION, 
-  PictureparkConfiguration 
+  PictureparkConfiguration,
+  AuthService,
+  AccessTokenAuthService
 } 
 from '@picturepark/sdk-v1-angular';
 
@@ -47,10 +49,12 @@ from '@picturepark/sdk-v1-angular';
     ...
   ],
   providers: [
+    { provide: AuthService, useClass: AccessTokenAuthService },
     {
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
-        apiServer: 'https://devnext-api.preview-picturepark.com',
-        customerAlias: 'dev'
+        apiServer: 'tbd',
+        customerAlias: 'tbd',
+        accessToken: 'tbd'
       }
     }
   ],

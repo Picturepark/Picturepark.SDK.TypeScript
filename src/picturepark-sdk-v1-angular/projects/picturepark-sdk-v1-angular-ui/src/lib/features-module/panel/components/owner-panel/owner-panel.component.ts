@@ -28,7 +28,7 @@ export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.user) {
+    if (this.shareUser) {
       return;
     }
 

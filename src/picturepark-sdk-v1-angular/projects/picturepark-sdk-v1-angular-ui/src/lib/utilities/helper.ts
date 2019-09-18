@@ -19,3 +19,7 @@ export function groupBy<T, K>(list: T[], getKey: (item: T) => K): Map<K, T[]> {
     });
     return map;
 }
+
+export function flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
+    return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]> []);
+}

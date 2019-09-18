@@ -9,6 +9,8 @@
     "start-share-viewer": "ng serve share-viewer --port 4400 -o",
     "build-libraries": "ng build picturepark-sdk-v1-angular && ng build picturepark-sdk-v1-angular-oidc && npm run build-ui && npm run build-css",
     "build": "npm run init && npm run lint && npm run build-libraries && ng build --prod",
+    "build-share-viewer": "ng build share-viewer --prod --output-hashing none",
+    "build-app": "ng build --prod --output-hashing none",
     "build-ui": "ng build picturepark-sdk-v1-angular-ui && npm run build-ui-theme",
     "build-ui-theme": "scss-bundle -c projects/picturepark-sdk-v1-angular-ui/scss-bundle.config.json",
     "build-css": "cpx \"./projects/picturepark-sdk-v1-angular-ui/src/lib/styles/*\" \"./dist/picturepark-sdk-v1-angular-ui/lib/styles/\"",

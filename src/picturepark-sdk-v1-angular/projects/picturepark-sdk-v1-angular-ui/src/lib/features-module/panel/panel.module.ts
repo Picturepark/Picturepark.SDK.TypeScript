@@ -8,6 +8,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
 import { OwnerPanelComponent } from './components/owner-panel/owner-panel.component';
 import { MailRecipientsPanelComponent } from './components/mail-recipients-panel/mail-recipients-panel.component';
+import { PanelComponent } from './components/panel/panel.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { MailRecipientsPanelComponent } from './components/mail-recipients-panel
   exports: [
     MailRecipientsPanelComponent,
     OwnerPanelComponent,
-    SettingsPanelComponent,
+    SettingsPanelComponent
   ]
 })
 export class PanelModule { }

@@ -1,36 +1,69 @@
-.panel-container {
-    position: relative;
-    .panel-content {
-        .item {
-            &:hover {
-                .item-funcs {
-                    display: inherit;
-                }
+pp-item-panel-preview {
+    cursor: pointer;
+}
+
+.list {
+    padding: 20px 0;
+
+    > .item {
+        padding-top: 4px;
+        border-bottom: 1px solid rgba(0,0,0,.12);
+        overflow: hidden;
+        
+        & ul { 
+            list-style: none;
+            padding-left: 8px;
+    
+            li {
+                color: #727272;
+                font-size: 13px;
+                line-height: 21px;
             }
-            border-bottom: 1px solid rgba(0,0,0,.12); overflow: hidden;
-            & ul { 
-                list-style: none; padding: 0px; margin: 20px 0px;
-                li { color: #727272; font-size: 13px; line-height: 21px;}
-                .title {
-                    color: #2f2f2f; font-size: 14px;
-                }
+            .title {
+                color: #2f2f2f;
+                font-size: 14px;
             }
-            .thumbnail {
-                float: left; width: 20%;
-            }
-            .item-info {
-                float: left; width: 60%; position: relative; top: 15px;
-            }
+        }
+
+        &:hover {
             .item-funcs {
-                float: left; width: 20%; display: none;
-                & ul {
-                    position: relative; top: 35px; float: right;
-                    & li {
-                        float: left; margin: 0px; width: 50px;
-                        & i { font-size: 21px; cursor: pointer; }
-                    }
+                display: inherit;
+            }
+        }
+        .thumbnail {
+            float: left;
+            width: 20%;
+        }
+        .item-info {
+            float: left;
+            width: 60%;
+        }
+        .item-funcs {
+            float: left; width: 20%; display: none;
+            & ul {
+                position: relative; top: 35px; float: right;
+                & li {
+                    float: left; margin: 0px; width: 50px;
+                    & i { font-size: 21px; cursor: pointer; }
                 }
             }
+        }
+    }
+}
+
+.grid {
+    padding: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+    grid-gap: 20px;
+
+    > .item {
+        .item-info {
+            display: none;
+        }
+        .item-funcs {
+            display: none;
         }
     }
 }

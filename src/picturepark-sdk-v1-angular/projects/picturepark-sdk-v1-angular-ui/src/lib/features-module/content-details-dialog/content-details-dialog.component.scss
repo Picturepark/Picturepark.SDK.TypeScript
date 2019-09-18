@@ -16,14 +16,21 @@
             }
     
             .content-preview {
-                width: 50%;
+                width: 60%;
                 float: left;
                 padding: 24px;
-
+                @media (max-width: 535px) {
+                    width: 100%;
+                    padding: 0;
+                }
             }    
             .content-info {
                 float: left;
-                width: 40%;
+                width: 30%;
+
+                @media (max-width: 535px) {
+                    width: 100%;
+                }
 
                 .inner { font-weight: 500; }
                 ul {
