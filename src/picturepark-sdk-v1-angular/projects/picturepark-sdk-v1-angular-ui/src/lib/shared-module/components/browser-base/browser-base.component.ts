@@ -195,7 +195,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public itemClicked($event: MouseEvent, index: number): void {
         const itemModel = this.items[index];
 
-        if ($event.ctrlKey) {
+        if ($event.ctrlKey || $event.type === 'tap') {
             this.lastSelectedIndex = index;
 
             if (itemModel.isSelected === true) {
