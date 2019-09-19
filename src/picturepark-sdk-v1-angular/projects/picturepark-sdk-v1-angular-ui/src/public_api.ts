@@ -34,6 +34,8 @@ export { ShareContentDialogModule } from './lib/features-module/share-content-di
 
 // COMPONENTS
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
+export { ListBrowserComponent } from './lib/features-module/list-browser/list-browser.component';
+
 export {
     ContentDetailsDialogComponent
 } from './lib/features-module/content-details-dialog/content-details-dialog.component';

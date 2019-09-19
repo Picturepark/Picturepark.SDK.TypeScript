@@ -42,14 +42,13 @@ import { lowerFirst } from '../../utilities/helper';
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './list-browser.component.scss',
     './list-browser.component.theme.scss'],
-  providers: [ TranslatePipe ],
+  providers: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit, OnChanges {
   @Input() schema: SchemaDetail;
   @Input() selectedItemIds: string[] | any;
   @Input() enableSelection: boolean;
-  @Input() deselectAll: Observable<boolean>;
   @Input() sortInfo: SortInfo[];
 
   public tableItems: any[] = [];
@@ -74,16 +73,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   async init(): Promise<void> {
     this.scrollDebounceTime = 100;
     this.customerInfo = await this.infoService.getInfo().toPromise();
-
-    if (this.deselectAll) {
-      const deselectAllSubscription = this.deselectAll.subscribe(() => {
-        this.selection.clear();
-        this.selectedItemsChange.emit(this.selection.selected);
-        this.cdr.detectChanges();
-      });
-
-      this.subscription.add(deselectAllSubscription);
-    }
 
     // need to show column names
     this.displayedColumnNames = this.schema.fields!.map(field => {
@@ -153,7 +142,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   prepareData(items: ContentModel<ListItem>[]): void {
-    const metadataItems = items.map(m => Object.assign(m.item.content, { id: m.item.id }));
+    const metadataItems = items.map(m => m.item.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
@@ -167,6 +156,12 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public update(): void {
     this.tableItems = [];
     super.update();
+  }
+
+  public deselectAll() {
+    this.selection.clear();
+    this.selectedItemsChange.emit(this.selection.selected);
+    this.cdr.detectChanges();
   }
 
   sortData(sort: Sort) {
