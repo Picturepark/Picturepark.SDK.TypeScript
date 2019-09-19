@@ -52,6 +52,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
     this.schema = <Observable<SchemaDetail>>this.route.paramMap.pipe(flatMap((paramMap) => {
@@ -133,22 +134,22 @@ export class ListComponent implements OnInit, OnDestroy {
 
     const flatten = groupBy(aggregationFilters, i => i.aggregationName);
     const preparedFilters = Array.from(flatten).map(array => {
-      const filtered = array[1].filter(aggregationFilter =>
-        aggregationFilter.filter).map(aggregationFilter =>
-          aggregationFilter.filter as FilterBase);
+    const filtered = array[1].filter(aggregationFilter =>
+      aggregationFilter.filter).map(aggregationFilter =>
+        aggregationFilter.filter as FilterBase);
 
-      switch (filtered.length) {
+        switch (filtered.length) {
+          case 0: return null;
+          case 1: return filtered[0];
+          default: return new OrFilter({ filters: filtered });
+        }
+      }).filter(value => value !== null);
+
+      switch (preparedFilters.length) {
         case 0: return null;
-        case 1: return filtered[0];
-        default: return new OrFilter({ filters: filtered });
+        case 1: return preparedFilters[0]!;
+        default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
       }
-    }).filter(value => value !== null);
-
-    switch (preparedFilters.length) {
-      case 0: return null;
-      case 1: return preparedFilters[0]!;
-      default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
-    }
   }
 
   private deselectSelectedItems() {
