@@ -6,7 +6,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, ThumbnailSize } from '@picturepark/sdk-v1-angular';
@@ -61,6 +61,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public activeView: IBrowserView;
     public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
 
+    public get deviceBreakpoint(): boolean {
+        return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
+    }
+
     protected scrollDebounceTime = 0;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
@@ -80,7 +84,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
-    constructor(protected componentName: string, protected injector: Injector) {
+    constructor(protected componentName: string,
+        protected injector: Injector,
+        protected breakpointObserver: BreakpointObserver, ) {
         super();
 
         this.self = this;

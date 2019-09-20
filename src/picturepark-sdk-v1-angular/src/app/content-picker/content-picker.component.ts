@@ -62,7 +62,6 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // tslint:disable-next-line: deprecation
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
 
@@ -106,6 +105,5 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    // tslint:disable-next-line: deprecation
   }
 }

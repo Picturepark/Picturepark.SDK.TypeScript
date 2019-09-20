@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 // LIBRARIES
 import {
@@ -35,18 +35,14 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   @Input()
   public channel: Channel | null = null;
 
-  public get deviceBreakpoint(): boolean {
-    return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
-  }
-
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private breakpointObserver: BreakpointObserver,
+    breakpointObserver: BreakpointObserver,
     injector: Injector
   ) {
-    super('ContentBrowserComponent', injector);
+    super('ContentBrowserComponent', injector, breakpointObserver);
   }
 
   async init(): Promise<void> {
