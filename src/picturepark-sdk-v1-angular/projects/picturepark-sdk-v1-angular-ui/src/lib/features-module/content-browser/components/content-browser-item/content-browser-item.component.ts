@@ -9,7 +9,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
-import { ContentDownloadDialogService } from '../../../dialog/components/content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../../../content-download-dialog/content-download-dialog.service';
 
 // INTERFACES
 import { switchMap } from 'rxjs/operators';
@@ -100,7 +100,10 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   public downloadItem() {
-    this.contentDownloadDialogService.showDialog([this.itemModel.item]);
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: [this.itemModel.item]
+    });
   }
 
   public updateUrl(event) {
