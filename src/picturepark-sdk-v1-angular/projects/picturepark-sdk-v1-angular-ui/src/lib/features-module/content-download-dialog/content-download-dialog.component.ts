@@ -182,19 +182,19 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (this.data.contents.length === 1) {
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
-        this.setSelection(detail.outputs!);
+        await this.setSelection(detail.outputs!);
         return;
       }
 
       const detailSubscription = this.contentService.get(this.data.contents[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
-        this.setSelection(content.outputs!);
+        await this.setSelection(content.outputs!);
       });
       this.subscription.add(detailSubscription);
     } else {
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
         const outputs = flatMap(this.data.contents, content => (content as ContentDetail).outputs!);
-        this.setSelection(outputs);
+        await this.setSelection(outputs);
         return;
       }
 
