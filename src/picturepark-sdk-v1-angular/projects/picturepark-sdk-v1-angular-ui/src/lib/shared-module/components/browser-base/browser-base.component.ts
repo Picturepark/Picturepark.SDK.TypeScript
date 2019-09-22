@@ -44,6 +44,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     protected get dialog(): MatDialog {
         return this.injector.get(MatDialog);
     }
+    @LazyGetter()
+    protected get breakpointObserver(): BreakpointObserver {
+        return this.injector.get(BreakpointObserver);
+    }
 
     public self: BaseBrowserComponent<TEntity>;
 
@@ -85,8 +89,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
-        protected injector: Injector,
-        protected breakpointObserver: BreakpointObserver, ) {
+        protected injector: Injector) {
         super();
 
         this.self = this;

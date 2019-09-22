@@ -39,10 +39,9 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private basketService: BasketService,
     private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    breakpointObserver: BreakpointObserver,
     injector: Injector
   ) {
-    super('ContentBrowserComponent', injector, breakpointObserver);
+    super('ContentBrowserComponent', injector);
   }
 
   async init(): Promise<void> {
