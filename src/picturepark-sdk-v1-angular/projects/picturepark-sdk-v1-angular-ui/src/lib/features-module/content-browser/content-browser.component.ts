@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 // LIBRARIES
 import {
@@ -31,7 +32,6 @@ import { ContentDownloadDialogService } from '../content-download-dialog/content
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-
   @Input()
   public channel: Channel | null = null;
 
@@ -41,9 +41,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
-
     super('ContentBrowserComponent', injector);
-
   }
 
   async init(): Promise<void> {
