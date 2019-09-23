@@ -76,7 +76,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     if (changes['itemModel'] && changes['itemModel'].firstChange) {
       if (this.itemModel.item.contentSchemaId && this.nonVirtualContentSchemasIds.indexOf(this.itemModel.item.contentSchemaId) === -1) {
         if (this.itemModel.item.displayValues && this.itemModel.item.displayValues['thumbnail']) {
-          this.virtualItemHtml = this.sanitizer.bypassSecurityTrustHtml(this.itemModel.item.displayValues['thumbnail']);
+          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.itemModel.item.displayValues['thumbnail']);
         }
       }
     }
