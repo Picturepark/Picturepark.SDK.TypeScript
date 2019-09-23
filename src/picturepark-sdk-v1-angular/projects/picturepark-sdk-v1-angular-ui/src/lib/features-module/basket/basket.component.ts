@@ -9,7 +9,7 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
+import { ContentDownloadDialogComponent } from '../content-download-dialog/content-download-dialog.component';
 import {
   ShareContentDialogComponent
 } from '../../features-module/share-content-dialog/share-content-dialog.component';

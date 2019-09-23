@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContentDownloadDialogComponent } from './content-download-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Content } from '@picturepark/sdk-v1-angular';
+import { ContentDownloadDialogOptions } from './content-download-dialog.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +11,9 @@ export class ContentDownloadDialogService {
 
   }
 
-  showDialog(items: Content[]): MatDialogRef<ContentDownloadDialogComponent, any> {
+  showDialog(options: ContentDownloadDialogOptions): MatDialogRef<ContentDownloadDialogComponent, any> {
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-        data: items,
+        data: options,
         autoFocus: false
       });
 

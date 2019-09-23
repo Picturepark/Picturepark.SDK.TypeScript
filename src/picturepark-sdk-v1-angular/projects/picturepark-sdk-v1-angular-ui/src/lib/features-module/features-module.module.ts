@@ -25,6 +25,7 @@ import { ShareBrowserModule } from './share-browser/share-browser.module';
 import { ShareContentDialogModule } from './share-content-dialog/share-content-dialog.module';
 import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
 import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.module';
+import { ContentDownloadDialogModule } from './content-download-dialog/content-download-dialog.module';
 
 @NgModule({
   declarations: [],
@@ -51,7 +52,8 @@ import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.mod
     ShareContentDialogModule,
     PanelModule,
     ItemToolBarModule,
-    ShareItemsPanelModule
+    ShareItemsPanelModule,
+    ContentDownloadDialogModule
   ],
   exports: [
     ApplicationMenuModule,
@@ -75,7 +77,8 @@ import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.mod
     ShareContentDialogModule,
     PanelModule,
     ItemToolBarModule,
-    ShareItemsPanelModule
+    ShareItemsPanelModule,
+    ContentDownloadDialogModule
   ]
 })
 export class FeaturesModule { }

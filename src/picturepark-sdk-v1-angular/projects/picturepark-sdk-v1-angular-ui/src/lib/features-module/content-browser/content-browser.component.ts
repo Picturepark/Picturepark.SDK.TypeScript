@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 // LIBRARIES
 import {
@@ -17,7 +18,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 
 // INTERFACES
 import { Observable } from 'rxjs';
-import { ContentDownloadDialogService } from '../dialog/components/content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -31,7 +32,6 @@ import { ContentDownloadDialogService } from '../dialog/components/content-downl
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-
   @Input()
   public channel: Channel | null = null;
 
@@ -41,9 +41,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
-
     super('ContentBrowserComponent', injector);
-
   }
 
   async init(): Promise<void> {
@@ -163,7 +161,10 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
-    this.contentDownloadDialogService.showDialog(this.items.filter(i => i.isSelected).map(i => i.item));
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: this.items.filter(i => i.isSelected).map(i => i.item)
+    });
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME

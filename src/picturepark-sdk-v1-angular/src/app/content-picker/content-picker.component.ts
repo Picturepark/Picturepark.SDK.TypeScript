@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
@@ -9,14 +9,13 @@ import {
   AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest,
   LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter
 } from '@picturepark/sdk-v1-angular';
-import { ContentItemSelectionService, BasketService } from '@picturepark/sdk-v1-angular-ui';
+import { ContentItemSelectionService, BasketService, ContentModel } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
 import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from './embed.service';
-import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/models/content-model';
 
 @Component({
   templateUrl: './content-picker.component.html',
@@ -38,10 +37,12 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   public loading = false;
   public messagePosted = false;
   public postUrl = '';
-  public mobileQuery: MediaQueryList;
 
-  private mobileQueryListener: () => void;
   private subscription: Subscription = new Subscription();
+
+  public get deviceBreakpoint(): boolean {
+    return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -50,10 +51,8 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private basketService: BasketService,
     private contentService: ContentService,
     public contentItemSelectionService: ContentItemSelectionService<Content>,
-    private media: MediaMatcher,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-  }
+    public breakpointObserver: BreakpointObserver
+  ) { }
 
   public openDetails(item: ContentModel<Content>) {
     this.dialog.open(ContentDetailsDialogComponent,
@@ -62,11 +61,6 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-    this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
-    // tslint:disable-next-line: deprecation
-    this.mobileQuery.addListener(this.mobileQueryListener);
-
     const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
     this.subscription.add(basketSubscription);
 
@@ -110,7 +104,5 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    // tslint:disable-next-line: deprecation
-    this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 }
