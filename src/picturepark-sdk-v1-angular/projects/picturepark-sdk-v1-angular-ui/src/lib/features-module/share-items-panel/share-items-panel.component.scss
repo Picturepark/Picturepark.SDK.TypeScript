@@ -39,6 +39,7 @@ pp-item-panel-preview {
         }
 
         .thumbnail {
+            padding: 4px;
             float: left;
             width: 200px;
             height: 200px;
@@ -47,6 +48,7 @@ pp-item-panel-preview {
         .item-info {
             float: left;
             flex: 1;
+            cursor: pointer;
         }
         .item-funcs {
             width: 100px;
@@ -74,6 +76,8 @@ pp-item-panel-preview {
     > .item {
         height: 200px;
         background-color: #eeeeee; // TODO: Move to theme
+        padding: 4px;
+        border-radius: 4px;
 
         .thumbnail {
             height: 100%;

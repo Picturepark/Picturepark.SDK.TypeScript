@@ -7,7 +7,19 @@
         background-color: #f8f8f8;
 
         mat-dialog-content {
+            position: relative;
 
+            .action-buttons {
+                position: absolute;
+                right: 20px;
+                top: 0;
+                z-index: 100;
+                width: 200px;
+                text-align: right;
+                padding: 8px;
+                padding-right: 20px;
+            }
+            
             .mat-tab-header {
                 height: 56px;
                 background: #eeeeee;

@@ -45,6 +45,7 @@ export class ShareDetailComponent implements OnInit {
     this.dialog.open(ContentDetailsDialogComponent,
       {
         data: { id: item.id, shareContent: item, shareDetail: this.shareDetail, showMetadata: false},
+        autoFocus: false,
         width: '980px',
         height: '700px',
         maxWidth: '95vw'

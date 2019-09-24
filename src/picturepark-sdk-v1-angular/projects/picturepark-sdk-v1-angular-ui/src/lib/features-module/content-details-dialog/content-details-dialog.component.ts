@@ -12,6 +12,7 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
+import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -32,7 +33,8 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
-    private schemaService: SchemaService
+    private schemaService: SchemaService,
+    private contentDownloadDialogService: ContentDownloadDialogService
   ) {
     super(data, dialogRef, injector);
 
@@ -75,5 +77,12 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     if (event.index === 1 && !this.schemas) {
       this.loadSchemas();
     }
+  }
+
+  public downloadItem() {
+    this.contentDownloadDialogService.showDialog({
+      mode: 'single',
+      contents: [this.content as any]
+    });
   }
 }
