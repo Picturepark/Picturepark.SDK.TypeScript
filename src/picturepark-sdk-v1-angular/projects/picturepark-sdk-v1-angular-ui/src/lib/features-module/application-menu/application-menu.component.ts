@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'pp-application-menu',
@@ -10,6 +11,7 @@ export class ApplicationMenuComponent implements OnInit {
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
 
   labelName: string | undefined;
+  isLightMode: boolean = true;
 
   menuOptions: any[] = [{
     name: 'Search',
@@ -66,6 +68,7 @@ export class ApplicationMenuComponent implements OnInit {
   animateLogoState = false;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
   ) {}
 
@@ -102,6 +105,20 @@ export class ApplicationMenuComponent implements OnInit {
     this.labelName = undefined;
   }
 
-  ngOnInit() {}
+  onThemeChange() {
+    this.isLightMode = !this.isLightMode;
+    this.applyTheme();
+  }
 
+  private applyTheme() {
+    if (this.isLightMode) {
+      this.document.body.classList.remove('dark-theme');
+    } else {
+      this.document.body.classList.add('dark-theme');
+    }
+  }
+
+  ngOnInit() {
+    this.applyTheme();
+  }
 }

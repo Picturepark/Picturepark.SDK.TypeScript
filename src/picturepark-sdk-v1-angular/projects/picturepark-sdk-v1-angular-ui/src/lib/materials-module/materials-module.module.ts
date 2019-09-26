@@ -3,6 +3,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
 import { NgModule } from '@angular/core';
 import {
+  MatSlideToggleModule,
   MatAutocompleteModule,
   MatBadgeModule,
   MatButtonModule,
@@ -33,6 +34,7 @@ import {
 } from '@angular/material';
 
 const modules = [
+  MatSlideToggleModule,
   MatChipsModule,
   MatMenuModule,
   MatDatepickerModule,

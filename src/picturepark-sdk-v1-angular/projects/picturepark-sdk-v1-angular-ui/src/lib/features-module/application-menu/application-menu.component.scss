@@ -102,3 +102,11 @@ span.label {
     border-radius: 4px; padding: 5px 6px; opacity: 0.9; z-index: 100; display: none;
     &.active{ display: inherit; }
 }
+
+.theme-selector {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+}

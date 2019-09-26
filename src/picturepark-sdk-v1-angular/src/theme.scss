@@ -87,3 +87,7 @@ $picturepark-app-primary: mat-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn: mat-palette($mat-red);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
+
+.dark-theme {
+
+}

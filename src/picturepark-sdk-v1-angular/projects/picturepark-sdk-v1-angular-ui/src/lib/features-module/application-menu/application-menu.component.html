@@ -26,5 +26,10 @@
       <i class="material-icons">{{ item.icon }}</i> <span>{{ item.name }}</span>
     </li>
   </ul>
-</div>
+    <div class="theme-selector">
+      <mat-slide-toggle (toggleChange)="onThemeChange()" matTooltip="{{ isLightMode ? 'Dark' : 'Light' }}"
+        [checked]="isLightMode">
+      </mat-slide-toggle>
+    </div>
+  </div>
 <span class="label" [ngClass]="{ active: labelName !== undefined }" #labelNameElement>{{ labelName }}</span>
