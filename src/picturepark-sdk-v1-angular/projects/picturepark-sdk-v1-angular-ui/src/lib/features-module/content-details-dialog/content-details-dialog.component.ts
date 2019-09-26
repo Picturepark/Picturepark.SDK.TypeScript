@@ -26,6 +26,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   contentId: string;
   schemas: SchemaDetail[];
+  playing = false;
 
   constructor(
     private contentService: ContentService,

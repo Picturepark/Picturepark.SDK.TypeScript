@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -28,13 +28,16 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
     @Input() public shareContent?: ShareContentDetail;
     @Input() public shareDetail?: ShareDetail;
 
+    @Output() public playChange = new EventEmitter<boolean>();
+
     isLoading = true;
     playing = false;
 
     constructor(
       private contentService: ContentService,
       private sanitizer: DomSanitizer,
-      private fullscreenService: FullscreenService) {
+      private fullscreenService: FullscreenService,
+      private cdr: ChangeDetectorRef) {
       super();
     }
 
@@ -128,9 +131,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
             };
 
             if (item.isMovie) {
-              const element = document.getElementsByClassName('content-image-preview-content')[0];
-              this.fullscreenService.renderVideoPlayer(element, item, item.detail.width, item.detail.height);
-              this.playing = true;
+              this.playMovie(true, item);
               return;
             }
             this.fullscreenService.showDetailById(item.id, [item]);
@@ -193,14 +194,21 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
           const item = share.items.find(i => i.id === this.content.id);
 
           if (item.isMovie) {
-            const element = document.getElementsByClassName('content-image-preview-content')[0];
-            this.fullscreenService.renderVideoPlayer(element, item, item.detail.width, item.detail.height);
-            this.playing = true;
+            this.playMovie(true, item);
             return;
           }
 
           this.fullscreenService.showDetailById(item.id, share.items);
       }
 
+    }
+
+    playMovie(playing: boolean, item: IShareItem): void {
+      this.playing = playing;
+      this.playChange.emit(playing);
+      this.cdr.detectChanges();
+
+      const element = document.getElementsByClassName('video-player')[0];
+      this.fullscreenService.renderVideoPlayer(element, item, item.detail.width, item.detail.height);
     }
 }

@@ -1,5 +1,6 @@
 .dialog-container {
     height: 100%;
+    
     .dialog-content {
         overflow: hidden;
         margin: 0px -24px;
@@ -20,6 +21,25 @@
                 padding-right: 20px;
             }
             
+            .overview-wrap {
+                display: flex;
+                flex-direction: row;
+                padding: 2px;
+                overflow: hidden;
+                height: 99%;
+                overflow: auto;
+
+                &::-webkit-scrollbar {
+                    width: 10px;
+                }
+                
+                &::-webkit-scrollbar-thumb {
+                    background-color: darkgrey;
+                    outline: 1px solid slategrey;
+                }
+              
+            }
+
             .mat-tab-header {
                 height: 56px;
                 background: #eeeeee;
@@ -28,8 +48,7 @@
             }
     
             .content-preview {
-                width: 60%;
-                float: left;
+                flex: 60;
                 padding: 24px;
                 @media (max-width: 535px) {
                     width: 100%;
@@ -38,7 +57,7 @@
             }    
             .content-info {
                 float: left;
-                width: 30%;
+                flex: 30;
 
                 @media (max-width: 535px) {
                     width: 100%;
