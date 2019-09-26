@@ -9,9 +9,10 @@ import { DOCUMENT } from '@angular/common';
 export class ApplicationMenuComponent implements OnInit {
 
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
+  private localStorageThemeKey = 'isLightTheme';
 
   labelName: string | undefined;
-  isLightMode: boolean = true;
+  isLightTheme: boolean;
 
   menuOptions: any[] = [{
     name: 'Search',
@@ -106,12 +107,13 @@ export class ApplicationMenuComponent implements OnInit {
   }
 
   onThemeChange() {
-    this.isLightMode = !this.isLightMode;
+    this.isLightTheme = !this.isLightTheme;
+    localStorage.setItem(this.localStorageThemeKey, `${this.isLightTheme}`);
     this.applyTheme();
   }
 
   private applyTheme() {
-    if (this.isLightMode) {
+    if (this.isLightTheme) {
       this.document.body.classList.remove('dark-theme');
     } else {
       this.document.body.classList.add('dark-theme');
@@ -119,6 +121,7 @@ export class ApplicationMenuComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLightTheme = localStorage.getItem(this.localStorageThemeKey) === 'true';
     this.applyTheme();
   }
 }

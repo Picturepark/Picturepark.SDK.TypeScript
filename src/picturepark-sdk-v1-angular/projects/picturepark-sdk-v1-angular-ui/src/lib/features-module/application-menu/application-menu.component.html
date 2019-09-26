@@ -27,9 +27,9 @@
     </li>
   </ul>
     <div class="theme-selector">
-      <mat-slide-toggle (toggleChange)="onThemeChange()" matTooltip="{{ isLightMode ? 'Light' : 'Dark'}}"
-        [checked]="isLightMode">
-        <ng-container *ngIf="menuState">{{isLightMode ? 'Light theme' : 'Dark theme'}}</ng-container>
+      <mat-slide-toggle (toggleChange)="onThemeChange()" matTooltip="{{ isLightTheme ? 'Light' : 'Dark'}}"
+        [checked]="isLightTheme">
+        <ng-container *ngIf="menuState">{{isLightTheme ? 'Light theme' : 'Dark theme'}}</ng-container>
       </mat-slide-toggle>
     </div>
   </div>
