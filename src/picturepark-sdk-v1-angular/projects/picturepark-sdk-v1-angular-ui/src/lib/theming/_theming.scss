@@ -48,3 +48,28 @@
     @include pp-share-content-recipients-input-theme($theme);
     @include pp-panel-base-theme($theme);
 }
+
+// LOAD THEME COMPONENTS WITH CUSTOM DARK THEME
+@mixin picturepark-theme-dark($theme) {
+    @include pp-aggregation-theme($theme);
+    @include pp-application-header-theme($theme);
+    @include pp-application-menu-theme($theme);
+    @include pp-basket-theme($theme);
+    @include pp-basket-item-theme($theme);
+    @include pp-browser-base-theme($theme);
+    @include pp-browser-item-base-theme($theme);
+    @include pp-browser-toolbar-theme($theme);
+    @include pp-content-aggregation-list-theme($theme);
+    @include pp-content-browser-theme($theme);
+    @include pp-content-browser-item-theme($theme);
+    @include pp-channel-picker-theme($theme);
+    @include pp-dialog-base-theme($theme);
+    @include pp-list-browser-theme($theme);
+    @include pp-item-tool-bar-theme($theme);
+    @include pp-share-content-dialog-theme($theme);
+    @include pp-share-aggregation-list-theme($theme);
+    @include pp-share-browser-item-theme($theme);
+    @include pp-share-content-dialog-item-theme($theme);
+    @include pp-share-content-recipients-input-theme($theme);
+    @include pp-panel-base-theme($theme);
+}

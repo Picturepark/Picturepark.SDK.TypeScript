@@ -8,5 +8,9 @@
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
+.dark-theme{
+    @include picturepark-theme-dark($picturepark-app-theme-dark);
+}
+
 // GLOBAL STYLES (keep at bottom)
 @import '../../picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
