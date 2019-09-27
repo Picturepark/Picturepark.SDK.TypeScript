@@ -341,15 +341,20 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * Wait for completion
      * @param processId The business process id.
      * @param timeout (optional) The timeout to wait for completion.
+     * @param waitForContinuationCompletion (optional) Waits for the completion of the continuation business process (if existing, recursively). Default to true.
      * @return BusinessProcessWaitResult
      */
-    waitForCompletion(processId: string, timeout: string | null | undefined): Observable<BusinessProcessWaitForLifeCycleResult> {
+    waitForCompletion(processId: string, timeout: string | null | undefined, waitForContinuationCompletion: boolean | undefined): Observable<BusinessProcessWaitForLifeCycleResult> {
         let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/waitCompletion?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
         url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitForContinuationCompletion === null)
+            throw new Error("The parameter 'waitForContinuationCompletion' cannot be null.");
+        else if (waitForContinuationCompletion !== undefined)
+            url_ += "waitForContinuationCompletion=" + encodeURIComponent("" + waitForContinuationCompletion) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1878,9 +1883,11 @@ export class ContentService extends PictureparkServiceBase {
      * @param forceReferenceRemoval (optional) A value indicating whether references to the content should be removed.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    delete(contentId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
+    delete(contentId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1889,6 +1896,10 @@ export class ContentService extends PictureparkServiceBase {
             url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2085,10 +2096,12 @@ export class ContentService extends PictureparkServiceBase {
      * @param allowMissingDependencies (optional) Allows creating contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @param contentCreateRequest Content create request.
      * @return The content details
      */
-    create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
+    create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents?";
         if (resolveBehaviors !== undefined)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
@@ -2098,6 +2111,10 @@ export class ContentService extends PictureparkServiceBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentCreateRequest);
@@ -3318,9 +3335,11 @@ export class ContentService extends PictureparkServiceBase {
      * @param allowMissingDependencies (optional) Allows restoring contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    restore(contentId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
+    restore(contentId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/restore?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -3331,6 +3350,10 @@ export class ContentService extends PictureparkServiceBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3624,10 +3647,12 @@ export class ContentService extends PictureparkServiceBase {
      * @param allowMissingDependencies (optional) Allows storing references to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @param updateRequest Content metadata update request.
      * @return Content detail
      */
-    updateMetadata(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
+    updateMetadata(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/metadata?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -3640,6 +3665,10 @@ export class ContentService extends PictureparkServiceBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -3738,10 +3767,12 @@ export class ContentService extends PictureparkServiceBase {
      * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @param updateRequest Content permissions update request.
      * @return Content detail
      */
-    updatePermissions(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
+    updatePermissions(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/permissions?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -3750,6 +3781,10 @@ export class ContentService extends PictureparkServiceBase {
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -4045,16 +4080,22 @@ export class ContentService extends PictureparkServiceBase {
      * @param contentId The content ID.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @param updateRequest Content ownership transfer request.
      * @return Ok
      */
-    transferOwnership(contentId: string, timeout: string | null | undefined, updateRequest: ContentOwnershipTransferRequest): Observable<void> {
+    transferOwnership(contentId: string, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, updateRequest: ContentOwnershipTransferRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/ownership?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -6726,10 +6767,12 @@ export class ListItemService extends PictureparkServiceBase {
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @param updateRequest The list item update request.
      * @return List item detail
      */
-    update(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, updateRequest: ListItemUpdateRequest): Observable<ListItemDetail> {
+    update(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, updateRequest: ListItemUpdateRequest): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -6742,6 +6785,10 @@ export class ListItemService extends PictureparkServiceBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -6840,9 +6887,11 @@ export class ListItemService extends PictureparkServiceBase {
      * @param forceReferenceRemoval (optional) A value indicating whether references to the list item should be removed.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    delete(listItemId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined): Observable<void> {
+    delete(listItemId: string, forceReferenceRemoval: boolean | null | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -6851,6 +6900,10 @@ export class ListItemService extends PictureparkServiceBase {
             url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7047,10 +7100,12 @@ export class ListItemService extends PictureparkServiceBase {
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @param listItemCreateRequest List item create request.
      * @return List item detail
      */
-    create(resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, listItemCreateRequest: ListItemCreateRequest): Observable<ListItemDetail> {
+    create(resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, listItemCreateRequest: ListItemCreateRequest): Observable<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems?";
         if (resolveBehaviors !== undefined)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
@@ -7060,6 +7115,10 @@ export class ListItemService extends PictureparkServiceBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(listItemCreateRequest);
@@ -7752,9 +7811,11 @@ export class ListItemService extends PictureparkServiceBase {
      * @param allowMissingDependencies (optional) Allows restoring list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    restore(listItemId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined): Observable<void> {
+    restore(listItemId: string, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/restore?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -7765,6 +7826,10 @@ export class ListItemService extends PictureparkServiceBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17618,6 +17683,8 @@ export class BusinessProcess implements IBusinessProcess {
     currentState?: string | undefined;
     /** Timestamp when the business process last reported progress. */
     lastReportedProgress?: Date | undefined;
+    /** Id of the business process that will be automatically started after the completion of the current one, if any. */
+    continuationBusinessProcessId?: string | undefined;
 
     protected _discriminator: string;
 
@@ -17657,6 +17724,7 @@ export class BusinessProcess implements IBusinessProcess {
             }
             this.currentState = data["currentState"];
             this.lastReportedProgress = data["lastReportedProgress"] ? new Date(data["lastReportedProgress"].toString()) : <any>undefined;
+            this.continuationBusinessProcessId = data["continuationBusinessProcessId"];
         }
     }
 
@@ -17692,6 +17760,7 @@ export class BusinessProcess implements IBusinessProcess {
         }
         data["currentState"] = this.currentState;
         data["lastReportedProgress"] = this.lastReportedProgress ? this.lastReportedProgress.toISOString() : <any>undefined;
+        data["continuationBusinessProcessId"] = this.continuationBusinessProcessId;
         return data; 
     }
 }
@@ -17724,6 +17793,8 @@ export interface IBusinessProcess {
     currentState?: string | undefined;
     /** Timestamp when the business process last reported progress. */
     lastReportedProgress?: Date | undefined;
+    /** Id of the business process that will be automatically started after the completion of the current one, if any. */
+    continuationBusinessProcessId?: string | undefined;
 }
 
 /** Scope of the business process */
@@ -18906,6 +18977,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
             let result = new BusinessProcessCancellationNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessContinuationException") {
+            let result = new BusinessProcessContinuationException();
             result.init(data);
             return result;
         }
@@ -20151,6 +20227,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
             let result = new BusinessProcessCancellationNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessContinuationException") {
+            let result = new BusinessProcessContinuationException();
             result.init(data);
             return result;
         }
@@ -28841,6 +28922,48 @@ export class BusinessProcessCancellationNotSupportedException extends Picturepar
 
 export interface IBusinessProcessCancellationNotSupportedException extends IPictureparkValidationException {
     businessProcessId?: string | undefined;
+}
+
+export class BusinessProcessContinuationException extends PictureparkBusinessException implements IBusinessProcessContinuationException {
+    continuationBusinessProcessId?: string | undefined;
+    precedingBusinessProcessId?: string | undefined;
+    precedingBusinessProcessException?: PictureparkException | undefined;
+
+    constructor(data?: IBusinessProcessContinuationException) {
+        super(data);
+        this._discriminator = "BusinessProcessContinuationException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.continuationBusinessProcessId = data["continuationBusinessProcessId"];
+            this.precedingBusinessProcessId = data["precedingBusinessProcessId"];
+            this.precedingBusinessProcessException = data["precedingBusinessProcessException"] ? PictureparkException.fromJS(data["precedingBusinessProcessException"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessContinuationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessContinuationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["continuationBusinessProcessId"] = this.continuationBusinessProcessId;
+        data["precedingBusinessProcessId"] = this.precedingBusinessProcessId;
+        data["precedingBusinessProcessException"] = this.precedingBusinessProcessException ? this.precedingBusinessProcessException.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessContinuationException extends IPictureparkBusinessException {
+    continuationBusinessProcessId?: string | undefined;
+    precedingBusinessProcessId?: string | undefined;
+    precedingBusinessProcessException?: PictureparkException | undefined;
 }
 
 export class SchemaFieldImportMismatchException extends PictureparkValidationException implements ISchemaFieldImportMismatchException {
@@ -52842,6 +52965,8 @@ export abstract class ShareOutputBase implements IShareOutputBase {
     downloadUrl?: string | undefined;
     /** Output details. */
     detail?: OutputDataBase | undefined;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering!: boolean;
 
     protected _discriminator: string;
 
@@ -52862,6 +52987,7 @@ export abstract class ShareOutputBase implements IShareOutputBase {
             this.viewUrl = data["viewUrl"];
             this.downloadUrl = data["downloadUrl"];
             this.detail = data["detail"] ? OutputDataBase.fromJS(data["detail"]) : <any>undefined;
+            this.dynamicRendering = data["dynamicRendering"];
         }
     }
 
@@ -52888,6 +53014,7 @@ export abstract class ShareOutputBase implements IShareOutputBase {
         data["viewUrl"] = this.viewUrl;
         data["downloadUrl"] = this.downloadUrl;
         data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
+        data["dynamicRendering"] = this.dynamicRendering;
         return data; 
     }
 }
@@ -52904,6 +53031,8 @@ export interface IShareOutputBase {
     downloadUrl?: string | undefined;
     /** Output details. */
     detail?: OutputDataBase | undefined;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
 }
 
 /** Shared output for basic share */

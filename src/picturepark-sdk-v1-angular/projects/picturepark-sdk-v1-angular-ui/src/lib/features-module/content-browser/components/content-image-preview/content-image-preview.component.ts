@@ -1,10 +1,10 @@
-import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
 import {
   ContentService, ContentType, ContentDownloadLinkCreateRequest,
-  ContentDownloadRequestItem, ContentDetail, OutputRenderingState, ThumbnailSize, ShareContentDetail, ShareService, ShareDetail
+  ContentDownloadRequestItem, ContentDetail, OutputRenderingState, ThumbnailSize, ShareContentDetail, ShareDetail
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -28,12 +28,16 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
     @Input() public shareContent?: ShareContentDetail;
     @Input() public shareDetail?: ShareDetail;
 
+    @Output() public playChange = new EventEmitter<boolean>();
+
     isLoading = true;
+    playing = false;
 
     constructor(
       private contentService: ContentService,
       private sanitizer: DomSanitizer,
-      private fullscreenService: FullscreenService) {
+      private fullscreenService: FullscreenService,
+      private cdr: ChangeDetectorRef) {
       super();
     }
 
@@ -110,9 +114,9 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
               isMovie: isMovie,
               isAudio: isAudio,
               isBinary: false,
-              videoUrl: '',
-              audioUrl: '',
-              pdfUrl: '',
+              videoUrl: isMovie ? response.downloadUrl : '',
+              audioUrl: isAudio ? response.downloadUrl : '',
+              pdfUrl: isPdf ? response.downloadUrl : '',
 
               displayValues: {},
               previewUrl: isImage ? response.downloadUrl! : this.thumbnailUrl,
@@ -126,6 +130,10 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
               }
             };
 
+            if (item.isMovie) {
+              this.playMovie(true, item);
+              return;
+            }
             this.fullscreenService.showDetailById(item.id, [item]);
           });
           this.subscription.add(linkSubscription);
@@ -163,7 +171,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
                 isAudio: s.contentSchemaId === 'AudioMetadata',
                 isImage: s.contentSchemaId === 'ImageMetadata',
                 isPdf: pdfOutput !== undefined,
-                isBinary: s.contentType !== 'ContentItem' as any,
+                isBinary: s.contentType !== ContentType.ContentItem,
 
                 previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput &&
                             s.contentSchemaId === 'ImageMetadata' ? originalOutput.viewUrl : s.iconUrl,
@@ -183,8 +191,24 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
             })
           };
 
-          this.fullscreenService.showDetailById(share.items.find(i => i.id === this.content.id).id, share.items);
+          const item = share.items.find(i => i.id === this.content.id);
+
+          if (item.isMovie) {
+            this.playMovie(true, item);
+            return;
+          }
+
+          this.fullscreenService.showDetailById(item.id, share.items);
       }
 
+    }
+
+    playMovie(playing: boolean, item: IShareItem): void {
+      this.playing = playing;
+      this.playChange.emit(playing);
+      this.cdr.detectChanges();
+
+      const element = document.getElementsByClassName('video-player')[0];
+      this.fullscreenService.renderVideoPlayer(element, item, item.detail.width, item.detail.height);
     }
 }

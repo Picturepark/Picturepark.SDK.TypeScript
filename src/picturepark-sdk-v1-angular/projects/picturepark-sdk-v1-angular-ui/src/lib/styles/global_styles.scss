@@ -76,8 +76,13 @@
 pp-aggregation-item .mat-expansion-panel { border-radius: 0px; }
 
 // CONTENT DETAILS DIALOG
-pp-content-details-dialog .mat-tab-body .mat-tab-body-content { overflow-x: hidden; overflow-y: auto; }
-pp-content-details-dialog .dialog-content .mat-tab-labels .mat-tab-label { height: 54px; }
+pp-content-details-dialog {
+  .mat-tab-body .mat-tab-body-content { overflow-x: hidden; overflow-y: auto; }
+  .mat-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
+    flex: 1 1 100%;
+  }
+  .dialog-content .mat-tab-labels .mat-tab-label { height: 54px; }
+}
 
 // SHARE CONTENT DIALOG
 pp-share-content-dialog .mat-tab-header { height: 56px; }
