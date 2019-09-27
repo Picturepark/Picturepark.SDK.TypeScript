@@ -150,8 +150,8 @@ export class FullscreenService {
       photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
         return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
-      },
-        photoSwipe.init();
+      };
+      photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
         const gallery = galleryElementId ? this.getGallery(galleryElementId) : undefined;
         if (gallery) {
@@ -162,25 +162,37 @@ export class FullscreenService {
       const resizeCallbacks = [];
       const loadedPlayers: any[] = [];
 
+      const cleanupPlayers = () => {
+        // stop and destroy existing players
+        loadedPlayers.forEach((loadedPlayer, index) => {
+          try {
+            loadedPlayer.destroy();
+            loadedPlayers.splice(index, 1);
+          } catch (ex) {
+            console.log(ex);
+          }
+        });
+      };
+
       if (shareItems.filter(i => i.isMovie || i.isAudio || i.isPdf).length > 0) {
         const updatePlayers = async () => {
-          if (shareItems.filter(i => i.isMovie || i.isAudio).length > 0) {
+          cleanupPlayers();
+
+          const item = shareItems[photoSwipe.getCurrentIndex()];
+          if (item.isMovie || item.isAudio) {
             await this.loadVideoPlayerLibraries();
-              for (const item of shareItems.filter(i => i.isMovie || i.isAudio)) {
-                const elementId = 'vjsplayer_' + item.id;
-                const element = document.getElementById(elementId);
-                if (element) {
-                    console.log(element);
-                    const player = await this.renderVideoPlayer(element, item, window.innerWidth, window.innerHeight);
-                    if (player) {
-                      loadedPlayers.push(player);
-                    }
+            const elementId = 'vjsplayer_' + item.id;
+            const element = document.getElementById(elementId);
+            if (element) {
+                const player = await this.renderVideoPlayer(element, item, window.innerWidth, window.innerHeight);
+                if (player) {
+                  loadedPlayers.push(player);
                 }
             }
           }
 
           // Handle pdfjs iframe close event
-          for (const i of shareItems.filter(item => item.isPdf)) {
+          for (const i of shareItems.filter(s => s.isPdf)) {
             const elementId = 'pdfjs_' + i.id;
             const element: any = document.getElementById(elementId);
             if (element) {
@@ -195,9 +207,6 @@ export class FullscreenService {
 
         photoSwipe.listen('afterChange', () => {
           updatePlayers();
-          photoSwipe.listen('beforeChange', () => {
-            updatePlayers();
-          });
         });
 
         updatePlayers();
@@ -205,9 +214,7 @@ export class FullscreenService {
 
       return new Promise((resolve) => {
         photoSwipe.listen('close', () => {
-          for (const player of loadedPlayers) {
-            player.destroy();
-          }
+          cleanupPlayers();
           for (const resizeCallback of resizeCallbacks) {
             window.removeEventListener('resize', resizeCallback, false);
           }
