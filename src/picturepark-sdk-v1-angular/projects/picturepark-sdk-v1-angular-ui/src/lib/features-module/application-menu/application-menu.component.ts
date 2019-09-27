@@ -69,7 +69,6 @@ export class ApplicationMenuComponent implements OnInit {
   animateLogoState = false;
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
   ) {}
 
@@ -114,9 +113,9 @@ export class ApplicationMenuComponent implements OnInit {
 
   private applyTheme() {
     if (this.isLightTheme) {
-      this.document.body.classList.remove('dark-theme');
+      document.body.classList.remove('dark-theme');
     } else {
-      this.document.body.classList.add('dark-theme');
+      document.body.classList.add('dark-theme');
     }
   }
 
