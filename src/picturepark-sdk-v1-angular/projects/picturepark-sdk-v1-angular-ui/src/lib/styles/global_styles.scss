@@ -23,7 +23,6 @@
 
 .mat-tab-header { 
   height: 56px; 
-  border-bottom: 1px solid;
 }
 
 .filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
@@ -34,14 +33,6 @@
   padding: 0px;
   min-width: 100px;
   mat-ink-bar { width: 28%; }
-}
-
-.aggregation-filter {
-  pp-aggregation-item:last-child {
-      mat-expansion-panel {
-        border-bottom: 1px solid;
-      }
-  }
 }
 
 // APP ROOT CONTAINER

@@ -34,10 +34,10 @@
 
   pp-aggregation-item {
     mat-expansion-panel {
-        border-top-color: mat-color($primary, light-background);
+        border-top: 1px solid mat-color($primary, light-border);
         mat-expansion-panel-header {
             .mat-content {
-                border-bottom-color: mat-color($primary, light-background);        
+                border-bottom: 1px solid mat-color($primary, light-border);;        
             }
             mat-panel-title {
                 &.mat-expansion-panel-header-title {

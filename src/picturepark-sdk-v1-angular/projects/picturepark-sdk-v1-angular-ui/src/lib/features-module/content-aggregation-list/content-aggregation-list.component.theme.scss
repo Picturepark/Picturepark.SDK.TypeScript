@@ -22,9 +22,8 @@ $pp-content-aggregation-list: (
     }
     
     mat-accordion {
-      border-top-color: mat-color($primary, light-background);
-      border-bottom-color: mat-color($primary, light-background);
-    }  
+      border-top: 1px solid mat-color($primary, light-border);
+      border-bottom: 1px solid mat-color($primary, light-border);
+    }
   }
-
 }

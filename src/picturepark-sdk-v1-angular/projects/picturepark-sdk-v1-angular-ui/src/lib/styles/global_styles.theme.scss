@@ -55,7 +55,7 @@
 
   .mat-tab-header {
     background: mat-color($primary, light-background);
-    border-bottom-color: mat-color($primary, light-background);
+    border-bottom: 1px solid mat-color($primary, light-border);
   }
 
   .filters mat-tab-header .mat-tab-label-content {
@@ -65,7 +65,7 @@
   .aggregation-filter {
     pp-aggregation-item:last-child {
       mat-expansion-panel {
-        border-bottom-color: mat-color($primary, light-background);
+        border-bottom: 1px solid mat-color($primary, light-border);
       }
     }
   }
