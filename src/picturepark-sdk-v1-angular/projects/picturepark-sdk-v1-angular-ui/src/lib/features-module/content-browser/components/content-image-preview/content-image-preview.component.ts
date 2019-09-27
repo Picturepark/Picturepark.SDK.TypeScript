@@ -86,7 +86,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
         const isAudio = this.content.contentType === ContentType.Audio;
         const isVideo = this.content.contentType === ContentType.Video;
 
-        const isMovie = isAudio || isVideo;
+        const isMovie = isVideo;
         const isImage = !isMovie && !isPdf;
 
         if (!this.shareContent) {
@@ -130,8 +130,8 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
               }
             };
 
-            if (item.isMovie) {
-              this.playMovie(true, item);
+            if (item.isMovie || item.isAudio) {
+              this.playMedia(true, item);
               return;
             }
             this.fullscreenService.showDetailById(item.id, [item]);
@@ -185,7 +185,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
                   s.outputs.find(i => i.outputFormatId === 'VideoLarge') ? s.outputs!.find(i => i.outputFormatId! === 'VideoLarge')!.downloadUrl :
                   s.outputs.find(i => i.outputFormatId === 'VideoSmall') ? s.outputs!.find(i => i.outputFormatId! === 'VideoSmall')!.downloadUrl : null,
                 audioUrl:
-                  s.outputs.find(i => i.outputFormatId === 'AudioSmall') ? s.outputs!.find(i => i.outputFormatId! === 'AudioSmall')!.downloadUrl : null,
+                  s.outputs.find(i => i.outputFormatId === 'AudioSmall') ? s.outputs!.find(i => i.outputFormatId! === 'AudioSmall')!.viewUrl : null,
                 outputs: outputs
               };
             })
@@ -193,8 +193,8 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
           const item = share.items.find(i => i.id === this.content.id);
 
-          if (item.isMovie) {
-            this.playMovie(true, item);
+          if (item.isMovie || item.isAudio) {
+            this.playMedia(true, item);
             return;
           }
 
@@ -203,7 +203,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
     }
 
-    playMovie(playing: boolean, item: IShareItem): void {
+    playMedia(playing: boolean, item: IShareItem): void {
       this.playing = playing;
       this.playChange.emit(playing);
       this.cdr.detectChanges();
