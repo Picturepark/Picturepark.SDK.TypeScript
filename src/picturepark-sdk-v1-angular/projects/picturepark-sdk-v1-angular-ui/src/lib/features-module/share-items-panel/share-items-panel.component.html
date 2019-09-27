@@ -12,7 +12,7 @@
         <div class="thumbnail">
           <pp-item-panel-preview [item]="item" [share]="shareDetail" (click)="openInNewWindow(item)"></pp-item-panel-preview>
         </div>
-        <div class="item-info">
+        <div class="item-info" (click)="openInNewWindow(item)">
           <ul>
             <li class="title" [innerHTML]="item.displayValues['name']"></li>
             <li [innerHTML]="item.displayValues['list']"></li>

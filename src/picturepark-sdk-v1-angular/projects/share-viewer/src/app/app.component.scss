@@ -24,12 +24,13 @@ body {
         width: 20%; float: left;
     }
     .share-viewer-item-content-container {
-        width: 50%;
+        width: 60%;
+
         float: left;
         margin: 0 auto;
 
         @media (max-width: 1060px) {
-            width: 80%;
+            width: 90%;
         }
         @media (max-width: 535px) {
             width: 95%;

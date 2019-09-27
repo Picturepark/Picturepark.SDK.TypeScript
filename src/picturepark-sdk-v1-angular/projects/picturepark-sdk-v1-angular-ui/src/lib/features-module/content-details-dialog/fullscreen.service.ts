@@ -14,8 +14,6 @@ export class FullscreenService {
   loading = false;
   scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
 
-  private loadedPlayers: any[] = [];
-
   showDetailById(shareItemId: string, shareItems: IShareItem[], widgetId?: string) {
     const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
     if (shareItem.isPdf && shareItems.length === 1) {
@@ -31,90 +29,33 @@ export class FullscreenService {
     }
   }
 
-  disposeVideoPlayer(player: any) {
-    const existingPlayer = this.loadedPlayers.filter(p => p.element === player.id_)[0];
-    if (existingPlayer) {
-      log('Picturepark Widgets > Disposed videojs player');
-      try {
-        player.dispose();
-      } catch {
-
-      }
-      this.loadedPlayers = this.loadedPlayers
-        .filter(p => p.player !== player);
-    } else {
-      log('Picturepark Widgets > Player could not be disposed' + player);
-    }
-  }
-
-  renderVideoPlayerIfNeeded(item: { previewUrl: string, originalUrl: string }, el: any, width: any, height: any) {
-    let playerInfo = this.loadedPlayers.filter(p => p.element === el.id)[0];
-    if (playerInfo) {
-      return playerInfo.promise.then(player => {
-        const element = document.getElementById(playerInfo.element)!;
-          if (!element || !element.tagName || element.tagName.toLowerCase() === 'video' || element.tagName.toLowerCase() === 'audio') {
-          if (player) {
-            this.disposeVideoPlayer(player);
-          }
-          return this.renderVideoPlayer(element, item, width, height).then((renderedPlayer) => {
-            playerInfo.player = renderedPlayer;
-            log('Picturepark Widgets > Reloaded videojs player: ' + element.id);
-            return renderedPlayer;
-          });
-        } else {
-          log('Picturepark Widgets > Reused videojs player: ' + element.id);
-          return player;
+  async renderVideoPlayer(element: Element, item, width, height) {
+    const IndigoPlayer = await this.loadVideoPlayerLibraries();
+    const player = IndigoPlayer.init(element, {
+      autoplay: true,
+      aspectRatio: width / height,
+      ui: {
+        image: item.previewUrl
+      },
+      sources: [
+        {
+          type: item.isMovie ? 'mp4' : 'mp3',
+          src: item.isMovie ? item.videoUrl : item.audioUrl
         }
-      });
-    }
-
-    this.loadedPlayers = this.loadedPlayers.filter(p => p.element !== el.id_);
-
-    playerInfo = {
-      element: el.id,
-      promise: this.renderVideoPlayer(el, item, width, height).then(player => {
-        log('Picturepark Widgets > Created videojs player: ' + el.id);
-        return player;
-      })
-    };
-
-    this.loadedPlayers.push(playerInfo);
-    return playerInfo.promise;
-  }
-
-  renderVideoPlayer(element, item, width, height) {
-    return this.loadVideoPlayerLibraries().then((videojs) => {
-      return new Promise<any>((resolve) => {
-        const player = videojs(element, {
-          autoplay: false,
-          controls: true,
-          poster: item.previewUrl,
-          width: width,
-          height: height,
-          preload: 'auto'
-        }, () => {
-          resolve(player);
-        });
-
-          player.src({
-              type: item.isMovie ? 'video/mp4' : 'audio/mp3',
-              src: item.isMovie ? item.videoUrl : item.audioUrl
-          });
-        return player;
-      });
+      ]
     });
+    return player;
   }
 
   loadVideoPlayerLibraries() {
-    if ((<any>window).videojs) {
-      return Promise.resolve((<any>window).videojs);
+    if ((<any>window).IndigoPlayer) {
+      return Promise.resolve((<any>window).IndigoPlayer);
     }
 
     return Promise.all([
-      this.loadCss('https://vjs.zencdn.net/7.0.3/video-js.css'),
-      this.loadScript('https://vjs.zencdn.net/7.0.3/video.js', 'videojs')
-    ]).then(([_, videojs]) => {
-      return videojs;
+      this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer')
+    ]).then(([IndigoPlayer]) => {
+      return IndigoPlayer;
     });
   }
 
@@ -180,7 +121,7 @@ export class FullscreenService {
           };
         } else if (i.isMovie) {
           return {
-            html: '<video class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></video>',
+            html: '<div id="vjsplayer_' + i.id + '"></div>',
             origin: i.originalUrl
           };
         } else if (i.isAudio) {
@@ -209,8 +150,8 @@ export class FullscreenService {
       photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
         return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
-      },
-        photoSwipe.init();
+      };
+      photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
         const gallery = galleryElementId ? this.getGallery(galleryElementId) : undefined;
         if (gallery) {
@@ -221,26 +162,37 @@ export class FullscreenService {
       const resizeCallbacks = [];
       const loadedPlayers: any[] = [];
 
+      const cleanupPlayers = () => {
+        // stop and destroy existing players
+        loadedPlayers.forEach((loadedPlayer, index) => {
+          try {
+            loadedPlayer.destroy();
+            loadedPlayers.splice(index, 1);
+          } catch (ex) {
+            console.log(ex);
+          }
+        });
+      };
+
       if (shareItems.filter(i => i.isMovie || i.isAudio || i.isPdf).length > 0) {
-        const updatePlayers = () => {
-          if (shareItems.filter(i => i.isMovie || i.isAudio).length > 0) {
-            this.loadVideoPlayerLibraries().then(() => {
-              for (const item of shareItems.filter(i => i.isMovie || i.isAudio)) {
-                const elementId = 'vjsplayer_' + item.id;
-                const element = document.getElementById(elementId);
-                if (element) {
-                    this.renderVideoPlayerIfNeeded(item, element, window.innerWidth, window.innerHeight).then(player => {
-                    if (player) {
-                      loadedPlayers.push(player);
-                    }
-                  });
+        const updatePlayers = async () => {
+          cleanupPlayers();
+
+          const item = shareItems[photoSwipe.getCurrentIndex()];
+          if (item.isMovie || item.isAudio) {
+            await this.loadVideoPlayerLibraries();
+            const elementId = 'vjsplayer_' + item.id;
+            const element = document.getElementById(elementId);
+            if (element) {
+                const player = await this.renderVideoPlayer(element, item, window.innerWidth, window.innerHeight);
+                if (player) {
+                  loadedPlayers.push(player);
                 }
-              }
-            });
+            }
           }
 
           // Handle pdfjs iframe close event
-          for (const i of shareItems.filter(item => item.isPdf)) {
+          for (const i of shareItems.filter(s => s.isPdf)) {
             const elementId = 'pdfjs_' + i.id;
             const element: any = document.getElementById(elementId);
             if (element) {
@@ -255,9 +207,6 @@ export class FullscreenService {
 
         photoSwipe.listen('afterChange', () => {
           updatePlayers();
-          photoSwipe.listen('beforeChange', () => {
-            updatePlayers();
-          });
         });
 
         updatePlayers();
@@ -265,9 +214,7 @@ export class FullscreenService {
 
       return new Promise((resolve) => {
         photoSwipe.listen('close', () => {
-          for (const player of loadedPlayers) {
-            this.disposeVideoPlayer(player);
-          }
+          cleanupPlayers();
           for (const resizeCallback of resizeCallbacks) {
             window.removeEventListener('resize', resizeCallback, false);
           }
