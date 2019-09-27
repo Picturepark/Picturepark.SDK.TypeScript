@@ -1,5 +1,5 @@
 .application-menu-container {
-    position: relative; background-color: rgb(68,68,68); height: 100vh; width: 64px;
+    position: relative; height: 100vh; width: 64px;
     float: left; transition: 300ms; overflow: hidden; z-index: 100; 
     box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
     &.active {
@@ -22,7 +22,6 @@
         border-bottom-width: 1px;
         position: relative;
         &.active {
-            background-color: #2f2f2f;
             & svg#graphic {
                 top: 11px;
             }
@@ -46,26 +45,18 @@
             &:focus {
                 outline: -webkit-focus-ring-color auto 0px;
             }
-            & path {
-                fill: #fff;
-            }
         }
         .back {
             display: none;
             position: relative;
             cursor: pointer;
-            color: #727272;
             width: 22px;
             height: 22px;
             border-radius: 4px;
             top: 22px;
             right: 16px;
             float: right;
-            &:hover {
-                color: #eee; background-color: rgba(114,114,114,0.2);
-            }
             & i {
-                font-size: 13px;
                 position: absolute;
                 left: 10px;
                 top: 4px;
@@ -98,7 +89,7 @@
     }
 }
 span.label { 
-    position: fixed; font-size: 12px; background-color: #565656; color: #eeeeee; white-space: nowrap;
+    position: fixed; font-size: 12px; white-space: nowrap;
     border-radius: 4px; padding: 5px 6px; opacity: 0.9; z-index: 100; display: none;
     &.active{ display: inherit; }
 }
