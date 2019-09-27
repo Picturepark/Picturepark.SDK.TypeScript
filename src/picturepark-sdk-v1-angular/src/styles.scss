@@ -9,7 +9,7 @@
 @include picturepark-theme($picturepark-app-theme);
 
 .dark-theme{
-    @include picturepark-theme-dark($picturepark-app-theme-dark);
+    @include picturepark-theme($picturepark-app-theme-dark);
 }
 
 // GLOBAL STYLES (keep at bottom)
