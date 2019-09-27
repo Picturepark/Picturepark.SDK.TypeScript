@@ -6,23 +6,21 @@
   </h3>
   <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
+      <div class="action-buttons">
+          <button mat-icon-button aria-label="Download">
+            <mat-icon (click)="downloadItem()">get_app</mat-icon>
+          </button>
+      </div>
       <mat-tab-group (selectedTabChange)="tabChange($event)">
         <mat-tab label="Overview">
           <ng-template matTabContent>
             <div class="overview-wrap">
               <div class="content-preview">
-                <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [shareContent]="data.shareContent" width="700" height="600"></pp-content-image-preview>
+                <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [shareContent]="data.shareContent" width="700" height="600" (playChange)="playing = $event"></pp-content-image-preview>
               </div>
-              <div class="content-info">
+              <div class="content-info" *ngIf="!playing">
                 <ul>
                   <li class="inner" [innerHTML]="(content!.displayValues)!['detail']"></li>
-                </ul>
-                <ul>
-                  <li>{{ "ContentPickerDetails.LabelFileExtension" | pptranslate }}<span>{{ content.content.fileExtension }}</span></li>
-                  <li>{{ "ContentPickerDetails.LabelFileSize" | pptranslate }}<span>{{ content.content.fileSizeInBytes | filesize }}</span></li>
-                </ul>
-                <ul *ngIf="content.content.kind === 'ImageMetadata'">
-                  <li>{{ "ContentPickerDetails.LabelSize" | pptranslate }}<span>{{ content.content.width }}px x {{ content.content.height }}px</span></li>
                 </ul>
               </div>
             </div>

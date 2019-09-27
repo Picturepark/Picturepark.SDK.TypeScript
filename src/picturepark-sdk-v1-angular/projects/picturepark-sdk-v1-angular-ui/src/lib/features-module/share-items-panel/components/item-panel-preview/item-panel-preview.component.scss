@@ -1,14 +1,15 @@
 .item-panel-preview-container {
+    height: 100%;
+    width: 100%;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
     .loader { height: 100px; }
     & img { 
         background-color: #eee;
         max-width: 100%;
-        height: auto;
-
-        & svg {
-            background-color: green;
-            width: 100%;
-            max-height: 220px;
-        }
+        max-height: 100%;
     }
 }

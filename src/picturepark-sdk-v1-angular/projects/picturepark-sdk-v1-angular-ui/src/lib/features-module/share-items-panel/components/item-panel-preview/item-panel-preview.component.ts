@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SecurityContext } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Content, ContentService, ThumbnailSize, ShareDetail } from '@picturepark/sdk-v1-angular';
+import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
+import { Content, ContentService, ThumbnailSize, ShareDetail, ContentType } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../../../panel/components/panel-base/panel-base.component';
 
 @Component({
@@ -20,6 +20,7 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
 
   // VARS
   public imageUrl: SafeUrl;
+  public virtualItemHtml: SafeHtml | null = null;
 
   constructor(
     private contentService: ContentService,
@@ -29,6 +30,11 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
   }
 
   ngOnInit() {
+    // Handle virtual content
+    if (this.item.contentType === ContentType.ContentItem) {
+      this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+      return;
+    }
 
     // SUBSCRIBERS
     if (!this.share) {
