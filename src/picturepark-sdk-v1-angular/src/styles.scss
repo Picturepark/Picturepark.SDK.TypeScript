@@ -14,3 +14,14 @@
 
 // GLOBAL STYLES (keep at bottom)
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
+
+
+// define classes for current application in case of dark theme
+.dark-theme {
+    div.wrap {
+      .mat-toolbar {
+        background-color: #444;
+        color: white;
+      }
+    }
+  }
