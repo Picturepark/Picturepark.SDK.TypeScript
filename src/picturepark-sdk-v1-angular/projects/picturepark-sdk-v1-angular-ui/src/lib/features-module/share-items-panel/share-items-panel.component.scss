@@ -6,9 +6,14 @@ pp-item-panel-preview {
     padding: 20px 0;
 
     > .item {
-        padding-top: 4px;
+        padding-top: 0px;
         border-bottom: 1px solid rgba(0,0,0,.12);
         overflow: hidden;
+        display: flex;
+
+        &:hover {
+            background-color: #eeeeee; // TODO: Move to theme
+        }
         
         & ul { 
             list-style: none;
@@ -27,24 +32,33 @@ pp-item-panel-preview {
 
         &:hover {
             .item-funcs {
-                display: inherit;
+                & ul {
+                    display: inherit;
+                }
             }
         }
 
         .thumbnail {
+            padding: 4px;
             float: left;
-            width: 20%;
+            width: 200px;
+            height: 200px;
+            background-color: #eeeeee; // TODO: Move to theme
         }
         .item-info {
             float: left;
-            width: 60%;
+            flex: 1;
+            cursor: pointer;
         }
         .item-funcs {
-            float: left; width: 20%; display: none;
+            width: 100px;
             & ul {
-                position: relative; top: 35px; float: right;
+                display: none;
+                position: relative; top: 15px; float: right;
                 & li {
-                    float: left; margin: 0px; width: 50px;
+                    float: left;
+                    margin: 0px;
+                    width: 40px;
                     & i { font-size: 21px; cursor: pointer; }
                 }
             }
@@ -60,6 +74,15 @@ pp-item-panel-preview {
     grid-gap: 20px;
 
     > .item {
+        height: 200px;
+        background-color: #eeeeee; // TODO: Move to theme
+        padding: 4px;
+        border-radius: 4px;
+
+        .thumbnail {
+            height: 100%;
+        }
+
         .item-info {
             display: none;
         }
