@@ -1,12 +1,12 @@
 pp-aggregation-item {
     mat-expansion-panel {
-        border-top: 1px solid #d8d8d8;
+        border-top: 1px solid;
         border-radius: 0px !important;
         mat-expansion-panel-header {
             line-height: 56px;
             transition: 300ms;
             .mat-content {
-                border-bottom: 1px solid #d8d8d8;
+                border-bottom: 1px solid;
                 position: relative;
             }
             mat-panel-title {
@@ -14,9 +14,6 @@ pp-aggregation-item {
                 font-size: 13px;
                 text-overflow: ellipsis;
                 overflow: hidden;
-                &.mat-expansion-panel-header-title {
-                    color: #727272;
-                }
                 button {
                     position: absolute !important;
                     top: 8px;
@@ -25,9 +22,6 @@ pp-aggregation-item {
                         font-size: 21px !important;
                     }
                 }
-            }
-            &:hover {
-                background-color: #d8d8d8;
             }
         }
         mat-progress-bar {
@@ -43,7 +37,6 @@ pp-aggregation-item {
     }
     mat-form-field.search { 
         display: flex; 
-        background-color: white; 
         margin: 20px; 
         border-radius: 2px; 
         margin: 20px 20px 10px 20px;
@@ -52,7 +45,6 @@ pp-aggregation-item {
             left: 8px;
             top: 8px;
             font-size: 21px;
-            color: #727272;
         }
         .mat-form-field-wrapper {
             width: 100%; padding: 0px;

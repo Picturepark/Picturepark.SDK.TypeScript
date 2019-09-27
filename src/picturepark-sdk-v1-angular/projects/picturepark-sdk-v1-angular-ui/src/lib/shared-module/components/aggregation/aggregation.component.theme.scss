@@ -5,13 +5,17 @@
   $primary: map-get($theme, primary);
 
   .aggregation {
+    &__option-title {
+      color: mat-color($primary, light-font);
+    }
+
     .mat-expansion-panel-header {
-      font-size: mat-font-size($custom-typography, display-1) !important;
+      font-size: mat-font-size($custom-typography, display-1);
     }
     
     .mat-list-base {
       .mat-list-item, .mat-list-option, .mat-subheader {
-        font-size: mat-font-size($custom-typography, display-1) !important;
+        font-size: mat-font-size($custom-typography, display-1);
       }
     }
     
@@ -26,7 +30,30 @@
         color: mat-color($primary, base) !important;
       }
     }
-
   }
 
+  pp-aggregation-item {
+    mat-expansion-panel {
+        border-top-color: mat-color($primary, light-background);
+        mat-expansion-panel-header {
+            .mat-content {
+                border-bottom-color: mat-color($primary, light-background);        
+            }
+            mat-panel-title {
+                &.mat-expansion-panel-header-title {
+                    color: mat-color($primary, dark-font);
+                }
+            }
+            &:hover {
+                background-color:  mat-color($primary, light-background);
+            }
+        }
+    }
+    mat-form-field.search { 
+        background-color: mat-color($primary, white-background); 
+        .search-icon {
+            color: mat-color($primary, dark-background);
+        }
+    }
+}
 }
