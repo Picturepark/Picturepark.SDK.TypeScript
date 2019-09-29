@@ -30,7 +30,7 @@
       <mat-tab-group (selectedTabChange)="tabChange($event)">
         <mat-tab label="{{'ContentDetailsDialog.Overview' | pptranslate}}">
           <ng-template matTabContent>
-            <div class="overview-wrap">
+            <div class="overview-wrap" *ngIf="content">
               <div class="content-preview">
                 <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [shareContent]="data.shareContent" width="700" height="600" (playChange)="playing = $event"></pp-content-image-preview>
               </div>
@@ -44,7 +44,7 @@
         </mat-tab>
         <mat-tab label="Metadata" *ngIf="data.showMetadata">
           <ng-template matTabContent>
-            <div class="metadata-wrap">
+            <div class="metadata-wrap" *ngIf="content">
               <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas" [showContentSchema]="true"></pp-layer-panels>
             </div>
           </ng-template>

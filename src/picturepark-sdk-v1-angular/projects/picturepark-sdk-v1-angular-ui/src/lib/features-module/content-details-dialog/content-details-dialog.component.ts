@@ -45,24 +45,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       return;
     }
 
-    this.contentId = data.id;
-    const contentGetSubscription = this.contentService.get(this.contentId, [
-      ContentResolveBehavior.Content,
-      ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.LinkedListItems,
-      ContentResolveBehavior.InnerDisplayValueName,
-      ContentResolveBehavior.InnerDisplayValueList,
-      ContentResolveBehavior.OuterDisplayValueName,
-      ContentResolveBehavior.OuterDisplayValueDetail,
-      ContentResolveBehavior.Outputs
-    ]).subscribe(async content => {
-      await this.liquidRenderingService.renderNestedDisplayValues(content);
-      if (content) {
-        this.content = content;
-      }
-    });
-
-    this.subscription.add(contentGetSubscription);
+    this.loadContent(data.id);
   }
 
   loadSchemas(): void {
@@ -86,16 +69,42 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   public async next(): Promise<void> {
-    this.content = null as any;
-    setTimeout(() => {
-      this.content = this.data.next() as any;
-    });
+    this.setContent(this.data.next() as any);
   }
 
   public async previous(): Promise<void> {
+      this.setContent(this.data.previous() as any);
+  }
+
+  setContent(detail: ContentDetail | string) {
     this.content = null as any;
     setTimeout(() => {
-      this.content = this.data.previous() as any;
+      if (typeof detail === 'string') {
+        this.loadContent(detail);
+      } else {
+        this.content = detail;
+      }
     });
+  }
+
+  loadContent(id: string) {
+    this.contentId = id;
+    const contentGetSubscription = this.contentService.get(this.contentId, [
+      ContentResolveBehavior.Content,
+      ContentResolveBehavior.Metadata,
+      ContentResolveBehavior.LinkedListItems,
+      ContentResolveBehavior.InnerDisplayValueName,
+      ContentResolveBehavior.InnerDisplayValueList,
+      ContentResolveBehavior.OuterDisplayValueName,
+      ContentResolveBehavior.OuterDisplayValueDetail,
+      ContentResolveBehavior.Outputs
+    ]).subscribe(async content => {
+      await this.liquidRenderingService.renderNestedDisplayValues(content);
+      if (content) {
+        this.content = content;
+      }
+    });
+
+    this.subscription.add(contentGetSubscription);
   }
 }
