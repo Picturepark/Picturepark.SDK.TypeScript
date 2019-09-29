@@ -41,7 +41,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
     const shareContent = this.data.shareContent;
     if (shareContent) {
-      this.liquidRenderingService.renderNestedDisplayValues(shareContent);
       this.content = shareContent as any;
       return;
     }
@@ -64,7 +63,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     });
 
     this.subscription.add(contentGetSubscription);
-
   }
 
   loadSchemas(): void {
@@ -84,6 +82,20 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [this.content as any]
+    });
+  }
+
+  public async next(): Promise<void> {
+    this.content = null as any;
+    setTimeout(() => {
+      this.content = this.data.next() as any;
+    });
+  }
+
+  public async previous(): Promise<void> {
+    this.content = null as any;
+    setTimeout(() => {
+      this.content = this.data.previous() as any;
     });
   }
 }

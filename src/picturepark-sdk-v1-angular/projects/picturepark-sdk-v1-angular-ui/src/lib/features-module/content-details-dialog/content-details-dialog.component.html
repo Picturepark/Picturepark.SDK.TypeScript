@@ -7,10 +7,25 @@
   <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
       <div class="action-buttons">
+        <div>
           <button mat-stroked-button aria-label="Download" (click)="downloadItem()">
             <mat-icon>get_app</mat-icon>
             {{'ContentDetailsDialog.Download' | pptranslate}}
           </button>
+        </div>
+        <div>
+          <mat-divider [vertical]="true"></mat-divider>
+        </div>
+        <div>
+          <button mat-stroked-button aria-label="previous" [disabled]="!data.hasPrevious()" *ngIf="data.previous" (click)="previous()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button mat-stroked-button aria-label="next" [disabled]="!data.hasNext()" *ngIf="data.next" (click)="next()">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+        </div>
       </div>
       <mat-tab-group (selectedTabChange)="tabChange($event)">
         <mat-tab label="{{'ContentDetailsDialog.Overview' | pptranslate}}">

@@ -45,6 +45,9 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
       if (changes.content && changes.content.currentValue) {
 
         this.content = changes.content.currentValue;
+        if (this.content instanceof ShareContentDetail) {
+          this.shareContent = this.content;
+        }
 
         if (this.shareContent) {
           const shareOutput = this.shareContent.outputs!.find(i => i.outputFormatId === this.outputId);
