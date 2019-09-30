@@ -17,12 +17,12 @@
           <mat-divider [vertical]="true"></mat-divider>
         </div>
         <div>
-          <button mat-stroked-button aria-label="previous" [disabled]="!data.hasPrevious()" *ngIf="data.previous" (click)="previous()">
+          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()" *ngIf="data.previous" (click)="previous()">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>
         <div>
-          <button mat-stroked-button aria-label="next" [disabled]="!data.hasNext()" *ngIf="data.next" (click)="next()">
+          <button mat-stroked-button aria-label="next" class="navigation" [disabled]="!data.hasNext()" *ngIf="data.next" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
         </div>
