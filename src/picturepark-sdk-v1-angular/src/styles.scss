@@ -9,6 +9,7 @@
 @include picturepark-theme($picturepark-app-theme);
 
 .dark-theme{
+    @include angular-material-theme($picturepark-app-theme-dark);
     @include picturepark-theme($picturepark-app-theme-dark);
 }
 

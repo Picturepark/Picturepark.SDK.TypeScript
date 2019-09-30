@@ -9,27 +9,27 @@ $pp-dialog-base: (
 
     $primary: map-get($theme, primary);
 
-    .dialog {
+    .dialog, .dialog-container {
         h3 { 
-            color: mat-color($primary, dark-font) !important; 
-            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important; 
-            mat-icon { color: mat-color($primary, light-font) !important; }
+            color: mat-color($primary, dark-font); 
+            border-bottom: 1px solid mat-contrast($primary, dialog-background); 
+            mat-icon { color: mat-color($primary, light-font); }
         }
     
-        mat-dialog-content { background-color: mat-color($primary, dialog-background) !important; }
+        mat-dialog-content { background-color: mat-color($primary, dialog-background); }
     
         .loader-container { 
-            background-color: mat-color($primary, dialog-background) !important; 
+            background-color: mat-color($primary, dialog-background); 
         }
     
         mat-dialog-actions { 
-            border-top: 1px solid mat-contrast($primary, dialog-background) !important; 
-            background-color: mat-color($primary, white-background) !important;
+            border-top: 1px solid mat-contrast($primary, dialog-background); 
+            background-color: mat-color($primary, white-background);
             button { 
-                color: mat-color($primary, white-font) !important; background: mat-color($primary, button) !important;
-                &.active { background-color: mat-color($primary, base) !important; }
-                &.option { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; border: 1px solid mat-color($primary, button) !important; }
-                &.cancel { background-color: mat-color($primary, white-background) !important; color: mat-color($primary, button) !important; }
+                color: mat-color($primary, white-font); background: mat-color($primary, button);
+                &.active { background-color: mat-color($primary, base); }
+                &.option { background-color: mat-color($primary, white-background); color: mat-color($primary, button); border: 1px solid mat-color($primary, button); }
+                &.cancel { background-color: mat-color($primary, white-background); color: mat-color($primary, button); }
             }
         }
     }
