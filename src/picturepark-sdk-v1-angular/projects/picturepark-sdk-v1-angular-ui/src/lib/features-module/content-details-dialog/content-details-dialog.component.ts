@@ -78,6 +78,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   setContent(detail: ContentDetail | string) {
     this.content = null as any;
+    this.playing = false;
     setTimeout(() => {
       if (typeof detail === 'string') {
         this.loadContent(detail);
