@@ -11,15 +11,19 @@ $pp-content-aggregation-list: (
 
   .aggregation-filter {
     &__loading-spinner {
-      background: rgba(mat-color($primary, shadow-color), 0.288) !important;
+      background: rgba(mat-color($primary, shadow-color), 0.288);
     }
     
     .filters {
       &__active-filters {
-        font-size: mat-font-size($custom-typography, body-1) !important;
-        background-color: mat-color($primary, light-background) !important;
+        font-size: mat-font-size($custom-typography, body-1);
+        background-color: mat-color($primary, light-background);
       }
     }
+    
+    mat-accordion {
+      border-top: 1px solid mat-color($primary, light-border);
+      border-bottom: 1px solid mat-color($primary, light-border);
+    }
   }
-
 }
