@@ -5,4 +5,8 @@ export interface ContentDetailDialogOptions {
     shareContent: ShareContentDetail;
     shareDetail: ShareDetail;
     showMetadata: boolean;
+    hasNext(): boolean;
+    next(): ShareContentDetail | string;
+    hasPrevious(): boolean;
+    previous(): ShareContentDetail | string;
 }

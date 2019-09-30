@@ -431,6 +431,16 @@ export let TRANSLATIONS = {
     ErrorNotification: {
       en: 'There was an error sharing your content, please try again'
     }
+  },
+  ContentDetailsDialog: {
+    Download: {
+      en: 'Download',
+      de: 'Herunterladen'
+    },
+    Overview: {
+      en: 'Overview',
+      de: 'Übersicht'
+    }
   }
 };
 

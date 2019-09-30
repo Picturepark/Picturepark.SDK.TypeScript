@@ -41,30 +41,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
     const shareContent = this.data.shareContent;
     if (shareContent) {
-      this.liquidRenderingService.renderNestedDisplayValues(shareContent);
       this.content = shareContent as any;
       return;
     }
 
-    this.contentId = data.id;
-    const contentGetSubscription = this.contentService.get(this.contentId, [
-      ContentResolveBehavior.Content,
-      ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.LinkedListItems,
-      ContentResolveBehavior.InnerDisplayValueName,
-      ContentResolveBehavior.InnerDisplayValueList,
-      ContentResolveBehavior.OuterDisplayValueName,
-      ContentResolveBehavior.OuterDisplayValueDetail,
-      ContentResolveBehavior.Outputs
-    ]).subscribe(async content => {
-      await this.liquidRenderingService.renderNestedDisplayValues(content);
-      if (content) {
-        this.content = content;
-      }
-    });
-
-    this.subscription.add(contentGetSubscription);
-
+    this.loadContent(data.id);
   }
 
   loadSchemas(): void {
@@ -85,5 +66,46 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       mode: 'single',
       contents: [this.content as any]
     });
+  }
+
+  public async next(): Promise<void> {
+    this.setContent(this.data.next() as any);
+  }
+
+  public async previous(): Promise<void> {
+      this.setContent(this.data.previous() as any);
+  }
+
+  setContent(detail: ContentDetail | string) {
+    this.content = null as any;
+    this.playing = false;
+    setTimeout(() => {
+      if (typeof detail === 'string') {
+        this.loadContent(detail);
+      } else {
+        this.content = detail;
+      }
+    });
+  }
+
+  loadContent(id: string) {
+    this.contentId = id;
+    const contentGetSubscription = this.contentService.get(this.contentId, [
+      ContentResolveBehavior.Content,
+      ContentResolveBehavior.Metadata,
+      ContentResolveBehavior.LinkedListItems,
+      ContentResolveBehavior.InnerDisplayValueName,
+      ContentResolveBehavior.InnerDisplayValueList,
+      ContentResolveBehavior.OuterDisplayValueName,
+      ContentResolveBehavior.OuterDisplayValueDetail,
+      ContentResolveBehavior.Outputs
+    ]).subscribe(async content => {
+      await this.liquidRenderingService.renderNestedDisplayValues(content);
+      if (content) {
+        this.content = content;
+      }
+    });
+
+    this.subscription.add(contentGetSubscription);
   }
 }

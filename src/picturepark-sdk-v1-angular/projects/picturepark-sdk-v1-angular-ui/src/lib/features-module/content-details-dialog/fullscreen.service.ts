@@ -14,7 +14,7 @@ export class FullscreenService {
   loading = false;
   scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
 
-  showDetailById(shareItemId: string, shareItems: IShareItem[], widgetId?: string) {
+  showDetailById(shareItemId: string, shareItems: IShareItem[]) {
     const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
     if (shareItem.isPdf && shareItems.length === 1) {
       this.showPdfJsItem(shareItem);
@@ -22,7 +22,7 @@ export class FullscreenService {
     } else {
       const savedOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      this.showPhotoSwipeItem(shareItem, shareItems, widgetId ? 'gallery_' + widgetId : undefined).then(() => {
+      this.showPhotoSwipeItem(shareItem, shareItems).then(() => {
         this.loading = false;
         document.body.style.overflow = savedOverflow;
       });
@@ -33,13 +33,13 @@ export class FullscreenService {
     const IndigoPlayer = await this.loadVideoPlayerLibraries();
     const player = IndigoPlayer.init(element, {
       autoplay: true,
-      aspectRatio: width / height,
+      aspectRatio: width && height ? (width / height) : (16 / 9),
       ui: {
         image: item.previewUrl
       },
       sources: [
         {
-          type: item.isMovie ? 'mp4' : 'mp3',
+          type: item.isMovie ? 'mp4' : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
           src: item.isMovie ? item.videoUrl : item.audioUrl
         }
       ]
@@ -99,7 +99,7 @@ export class FullscreenService {
     document.body.appendChild(iframeElement);
   }
 
-  showPhotoSwipeItem(shareItem: IShareItem, shareItems: IShareItem[], galleryElementId?: string) {
+  showPhotoSwipeItem(shareItem: IShareItem, shareItems: IShareItem[]) {
     return this.loadPhotoSwipe().then(result => {
       if (!shareItems) {
         shareItems = [shareItem];
@@ -126,7 +126,7 @@ export class FullscreenService {
           };
         } else if (i.isAudio) {
           return {
-            html: '<audio class="video-js vjs-big-play-centered" id="vjsplayer_' + i.id + '"></audio>',
+            html: '<div id="vjsplayer_' + i.id + '"></div>',
             origin: i.originalUrl
           };
         } else if (!i.isBinary) {
@@ -153,10 +153,7 @@ export class FullscreenService {
       };
       photoSwipe.init();
       photoSwipe.listen('afterChange', function () {
-        const gallery = galleryElementId ? this.getGallery(galleryElementId) : undefined;
-        if (gallery) {
-            this.showGalleryItem(gallery, photoSwipe.getCurrentIndex());
-        }
+        // TODO: Emit event
       });
 
       const resizeCallbacks = [];
