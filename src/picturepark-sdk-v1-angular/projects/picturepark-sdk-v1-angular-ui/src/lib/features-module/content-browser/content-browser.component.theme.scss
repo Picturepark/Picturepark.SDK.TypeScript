@@ -10,12 +10,12 @@
             button {
                 &:hover {
                     mat-icon {
-                        color: mat-color($primary, icon-selected-color) !important;
+                        color: mat-color($primary, icon-selected-color);
                     }
                 }
                 mat-icon { 
-                    font-size: mat-font-size($custom-typography, display-3) !important; 
-                    color: mat-color($primary, light-font) !important;
+                    font-size: mat-font-size($custom-typography, display-3); 
+                    color: mat-color($primary, light-font);
                 }
             }
         }   

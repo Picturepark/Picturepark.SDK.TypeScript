@@ -6,7 +6,7 @@
 
     .browser {
         &__items {
-            background-color: mat-color($primary, light-background) !important;
+            background-color: mat-color($primary, light-background);
             
             &::-webkit-scrollbar-thumb {
                 background-color: mat-contrast($primary, light-background) !important;
