@@ -5,7 +5,7 @@
   position: relative;
   &__header {
     & mat-toolbar {
-      height: 57px; border-bottom: 1px solid #d8d8d8;
+      height: 57px;
     }
     mat-progress-bar {
       position: absolute;
@@ -22,11 +22,6 @@
   &__items-count {
     align-self: center;
   }
-  &__schema-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    padding: 25px 10px 20px 15px;
-  }
   &__items {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -39,8 +34,6 @@
     #{ $self }__item-container {
       height: 120px;
     }
-
-
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;

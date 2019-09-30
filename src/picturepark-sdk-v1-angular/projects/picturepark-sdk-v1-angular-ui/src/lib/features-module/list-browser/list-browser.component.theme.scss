@@ -15,17 +15,34 @@ $pp-list-browser: (
       button {
         &:hover {
           mat-icon {
-            color: mat-color($primary, icon-selected-color) !important;
+            color: mat-color($primary, icon-selected-color);
           }
         }
         mat-icon {
-          font-size: mat-font-size($custom-typography, display-3) !important;
-          color: mat-color($primary, light-font) !important;
+          font-size: mat-font-size($custom-typography, display-3);
+          color: mat-color($primary, light-font);
         }
       }
     }
   }
   .table-container {
+    background: mat-color($primary, white-background);
+
+    .mat-header-cell,
+    .mat-cell,
+    .mat-footer-cell {
+      color: mat-color($primary, light-font);
+      background: mat-color($primary, white-background);
+    }
+
+    tr.selected {
+      .mat-header-cell,
+      .mat-cell,
+      .mat-footer-cell {
+        background: mat-color($primary, light-background);
+      }
+    }
+
     &::-webkit-scrollbar-thumb {
       background-color: mat-contrast($primary, light-background) !important;
       outline: 1px solid mat-contrast($primary, light-background) !important;

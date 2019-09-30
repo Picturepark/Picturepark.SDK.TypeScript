@@ -31,7 +31,7 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"
-        [style.background]="selection.isSelected(row) ? 'lightgray' : ''"></tr>
+        [ngClass]="{'selected': selection.isSelected(row)}"></tr>
     </table>
   </div>
   <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
