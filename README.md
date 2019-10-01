@@ -37,7 +37,7 @@ Contains widgets to embed Picturepark content into other websites.
 
 ## Samples
 
-- [picturepark-sdk-v1-sample-angular7](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular7)
+- [picturepark-sdk-v1-sample-angular8](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular8)
     - picturepark-sdk-v1-angular
 - [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)
     - picturepark-sdk-v1-fetch
