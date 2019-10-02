@@ -20,6 +20,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
     thumbnailUrl: string;
     thumbnailUrlSafe: SafeUrl;
+    pdfUrl: SafeUrl;
 
     @Input() public content: ContentDetail;
     @Input() public outputId = 'Preview';
@@ -85,7 +86,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
     }
 
     showFullscreen() {
-        const isPdf = this.content.contentType === ContentType.InterchangeDocument;
+        let isPdf = this.content.contentType === ContentType.InterchangeDocument;
         const isAudio = this.content.contentType === ContentType.Audio;
         const isVideo = this.content.contentType === ContentType.Video;
 
@@ -93,11 +94,16 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
         const isImage = !isMovie && !isPdf;
 
         if (!this.shareContent) {
+          const outputs = this.content.outputs!;
+
+          const pdfOutput = outputs.find(i => i.outputFormatId === 'Pdf');
+          isPdf = pdfOutput !== undefined;
+
           const previewOutput =
-            isPdf ? this.content.outputs!.filter(o => o.outputFormatId === 'Original')[0] :
-              isAudio ? this.content.outputs!.filter(o => o.outputFormatId === 'AudioSmall')[0] :
-                isVideo ? this.content.outputs!.filter(o => o.outputFormatId === 'VideoSmall')[0] :
-                  this.content.outputs!.filter(o => o.outputFormatId === 'Preview')[0];
+            isPdf ? outputs.filter(o => o.outputFormatId === 'Pdf')[0] :
+              isAudio ? outputs.filter(o => o.outputFormatId === 'AudioSmall')[0] :
+                isVideo ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0] :
+                  outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
           const request = new ContentDownloadLinkCreateRequest({
             contents: [
@@ -137,6 +143,12 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
               this.playMedia(true, item);
               return;
             }
+
+            if (item.isPdf) {
+              this.showPdf(item);
+              return;
+            }
+
             this.fullscreenService.showDetailById(item.id, [item]);
           });
           this.subscription.add(linkSubscription);
@@ -201,9 +213,20 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
             return;
           }
 
+          if (item.isPdf) {
+            this.showPdf(item);
+            return;
+          }
+
           this.fullscreenService.showDetailById(item.id, share.items);
       }
 
+    }
+
+    showPdf(item: IShareItem): void {
+      this.playChange.emit(true);
+      const url = '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' + item.pdfUrl + '&closeButton=false';
+      this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
     playMedia(playing: boolean, item: IShareItem): void {
