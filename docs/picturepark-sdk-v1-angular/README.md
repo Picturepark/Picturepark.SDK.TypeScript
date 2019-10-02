@@ -158,4 +158,4 @@ The `picturepark-customer-id` can be retrieved by navigating to "Settings" > "Sy
 
 ## Samples
 
-- [picturepark-sdk-v1-sample-angular7](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular7)
+- [picturepark-sdk-v1-sample-angular8](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular8)
